@@ -2,8 +2,8 @@
 My Shelfie Simulator (Final Project of Ingegneria di Software)
 
 Ding
-mail
-cod.PErsona
+jialiang.ding@mail.polimi.it
+10708445
 
 mona
 email
