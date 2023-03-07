@@ -8,14 +8,14 @@
 
 | Functionality   |                             State                             |
 | :---------------| :-----------------------------------------------------------: |
-| Basic rules     |
-| Socket          |
-| GUI             |
-| CLI             |
-| Multiple games  |
-| Persistence     |
+| Basic rules     |:red_circle:
+| Socket          |:red_circle:
+| GUI             |:red_circle:
+| CLI             |:red_circle:
+| Multiple games  |:red_circle:
+| Persistence     |:red_circle:
 | Characters?
-| 4 Players game  |
+| 4 Players game  |:red_circle:
 
 ## Test Coverage
 
