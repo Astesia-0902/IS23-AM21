@@ -11,7 +11,7 @@
 | Basic rules                   |:red_circle:
 | Socket                        |:red_circle:
 | GUI                           |:red_circle:
-| CLI                           |:red_circle:
+| TUI                           |:red_circle:
 | Multiple games                |:red_circle:
 | Persistence                   |:red_circle:
 | Resilience to disconnections  |:red_circle:
