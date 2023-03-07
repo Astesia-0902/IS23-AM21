@@ -2,6 +2,7 @@
 My Shelfie Simulator (Final Project of Ingegneria di Software)
 
 10708445 Jialiang Ding  ([@Astesia](https://github.com/Astesia-0902))
+<br>
 jialiang.ding@mail.polimi.it
 
 10752734 Simona Cai ([@SimonaCai](https://github.com/SimonaCai))  
