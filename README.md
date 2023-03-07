@@ -9,9 +9,9 @@ mona
 email
 Cod.Persona
 
-ken
-email
-Cod.Persona
+Ken
+ken.chen@mail.polimi.it
+10699404
 
 yang
 email
