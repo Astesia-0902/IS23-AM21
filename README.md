@@ -4,7 +4,7 @@ My Shelfie Simulator (Final Project of Ingegneria di Software)
 10708445 Jialiang Ding  
 jialiang.ding@mail.polimi.it
 
-10752734 Simona Cai  
+10752734 Simona Cai (@SimonaCai)  
 simona.cai@mail.polimi.it
 
 Cod Pers Ken Chen  
