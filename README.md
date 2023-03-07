@@ -1,18 +1,14 @@
 # IS23-AM21
 My Shelfie Simulator (Final Project of Ingegneria di Software)
 
-Ding
+10708445 Jialiang Ding  
 jialiang.ding@mail.polimi.it
-10708445
 
-mona
-email
-Cod.Persona
+10752734 Simona Cai  
+simona.cai@mail.polimi.it
 
-Ken
+Cod Pers Ken Chen  
 ken.chen@mail.polimi.it
-Cod Pers
 
-yang
+cod.Persona Yang Hao Mao  
 email
-cod.Persona
