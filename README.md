@@ -11,7 +11,7 @@ Cod.Persona
 
 Ken
 ken.chen@mail.polimi.it
-10699404
+Cod Pers
 
 yang
 email
