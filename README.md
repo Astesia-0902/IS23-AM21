@@ -8,7 +8,7 @@ jialiang.ding@mail.polimi.it
 10752734 Simona Cai ([@SimonaCai](https://github.com/SimonaCai))  
 simona.cai@mail.polimi.it
 
-Cod Pers Ken Chen  
+10699404 Ken Chen  
 ken.chen@mail.polimi.it
 
 cod.Persona Yang Hao Mao  
