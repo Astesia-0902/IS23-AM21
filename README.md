@@ -1,7 +1,7 @@
 # Prova Finale Ingegneria del Software 2023
 ## IS23-AM21
 
-- ###   10708445 Jialiang Ding<br>jialiang.ding@mail.polimi.it
+- ###   10708445 Jialiang Ding([@Astesia](https://github.com/Astesia-0902))<br>jialiang.ding@mail.polimi.it
 - ###   10752734 Simona Cai ([@SimonaCai](https://github.com/SimonaCai))<br>simona.cai@mail.polimi.it
 - ###   10699404 Ken Chen [@KenChen](https://github.com/KenChen00) <br>ken.chen@mail.polimi.it
 - ###   10705881 Yang Hao Mao ([@Yang Hao Mao](https://github.com/Leomyh))<br>yanghao.mao@mail.polimi.it
