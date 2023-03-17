@@ -22,7 +22,7 @@ public class Match {
         bag = new Bag();
     }
 
-    public void initializeMatch(int playerCount){
+    public void initializeMatch(int playerNum){
 
     }
 }
