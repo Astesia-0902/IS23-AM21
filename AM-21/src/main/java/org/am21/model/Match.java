@@ -16,8 +16,8 @@ public class Match {
     public Bag bag;
 
     public Match(){
-        playerManager = new PlayerManager();
-        playerManager.matchInstance = this;
+        playerManager = new PlayerManager(this);
+
         livingRoomBoard = new LivingRoomBoard();
         bag = new Bag();
     }
