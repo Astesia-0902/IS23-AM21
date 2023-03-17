@@ -12,21 +12,17 @@ import java.util.List;
 public class Player {
     private final String name;
     public int playerScore;
-    //Pubblico dato che il punteggio puo essere visto da tutti durante la partita
+    //A player score is visible by all during a game
     public Shelf myShelf;
     private final PersonalGoalCard myPersonalGoal;
     private boolean isChairMan;
-
     public int playerSeat;
-    //posto del player(per ordine antiorario dei turni)
+    //player seat number used to determine playing order (counterclockwise)
 
     public List<ItemTileCard> playerHand;
-    //per memorizzare le carte(1-3) selezionate dal player
+    //memorize 1 to 3 cards selected by player during a turn
 
-
-
-
-
+    
 
     public Player(String name,int seat, PersonalGoalCard playerPersonalGoal) {
         myShelf = new Shelf();  //eventualmente associare un id della shelf
@@ -34,15 +30,14 @@ public class Player {
         this.myPersonalGoal = playerPersonalGoal;
         this.playerSeat = seat;
         this.playerHand = new ArrayList<>();
-        this.isChairMan = false; //default, se cambia verrà deciso all'inizio del match
+        this.isChairMan = false; //default, it may change at the beginning of the game
         this.playerScore = 0;
     }
-    //Costruttore per inizializzare il player con i suoi dati
+    //Constructor for player's data initialization
 
     public String getName() {
         return name;
     }
-
 
     public int getPlayerScore(){
         return playerScore;
@@ -56,21 +51,20 @@ public class Player {
         return myPersonalGoal;
     }
 
-
-    public void gainScoringToken(ScoringTokenCard score){
-        this.playerScore = score.getScoreValue();
+    public void getScoringToken(ScoringTokenCard score){
+        this.playerScore += score.getScoreValue();
     }
-    //Player get ScoringToken
+    //Player obtain scoringToken => add points
 
     public void addGoalPoints(PersonalGoalCard myGoal){
         this.playerScore += myGoal.calculatePoints(myGoal.tilesMatches);
     }
-    //Player riceve punti dal Personal Goal Card
+    //Player receive points from PersonalGoal
 
     public void setAsChairMan(){
         this.isChairMan = true;
     }
-    //metodo per impostare il player come chairman(primo ad iniziare)
+    //Setting first player to start
 
     public List<List<ItemTileCard>> getBookShelf(){
         return myShelf.bookshelfGrid();
@@ -101,12 +95,12 @@ public class Player {
         playerHand.add(item);
 
     }
-    //aggiungo Item alla mano del player
+    //add Item to Player's Hand
 
     public void removeItemFromHand(ItemTileCard item){
         playerHand.remove(item);
     }
-    //rimuovo item dalla mano del player
+    //remove Item from Player's Hand
 
     public void changeHandOrder(int pos1,int pos2){
         // Ordine crescente (la prima carta è index-0 e l'ultima è potenzialmente index-2)
