@@ -1,7 +1,7 @@
 package org.am21.model;
 
 import org.am21.model.items.Card.ItemTileCard;
-import org.am21.model.items.Card.PersonalGoalCard;
+import org.am21.model.items.Card.PersonalGoalCardNew;
 import org.am21.model.items.Card.ScoringTokenCard;
 import org.am21.model.items.Shelf;
 
@@ -16,7 +16,7 @@ public class Player {
      */
     public int playerScore;
     public Shelf myShelf;
-    private final PersonalGoalCard myPersonalGoal;
+    private final PersonalGoalCardNew myPersonalGoal;
     private boolean isChairMan;
     /**
      * player seat number used to determine playing order (counterclockwise)
@@ -31,12 +31,12 @@ public class Player {
     /**
      * Constructor for player's data initialization
      */
-    public Player(String name,int seat, PersonalGoalCard playerPersonalGoal) {
+    public Player(String name,int seat, PersonalGoalCardNew playerPersonalGoal) {
         myShelf = new Shelf();  //eventualmente associare un id della shelf
         this.name = name;
         this.myPersonalGoal = playerPersonalGoal;
         this.playerSeat = seat;
-        this.playerHand = new ArrayList<>();
+        this.playerHand = new ArrayList<ItemTileCard>();
         this.isChairMan = false; /**default, it may change at the beginning of the game*/
         this.playerScore = 0;
     }
@@ -53,7 +53,7 @@ public class Player {
         return isChairMan;
     }
 
-    public PersonalGoalCard getMyPersonalGoal() {
+    public PersonalGoalCardNew getMyPersonalGoal() {
         return myPersonalGoal;
     }
 
@@ -67,7 +67,7 @@ public class Player {
     /**
      * Player receive points from PersonalGoal
      */
-    public void addGoalPoints(PersonalGoalCard myGoal){
+    public void addGoalPoints(PersonalGoalCardNew myGoal){
         this.playerScore += myGoal.calculatePoints(myGoal.tilesMatches);
     }
 
