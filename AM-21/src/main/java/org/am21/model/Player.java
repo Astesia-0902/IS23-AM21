@@ -124,7 +124,7 @@ public class Player {
     }
 
     /**
-     * 
+     *
      *     Cambio ordine delle carte selezionate
      *     !!!!Rivedere il sistema di controllo dei valori che siano inferiori al numero di carte selezionate
      *
