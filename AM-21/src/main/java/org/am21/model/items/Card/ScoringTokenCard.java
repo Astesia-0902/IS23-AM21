@@ -11,8 +11,8 @@ public class ScoringTokenCard extends Card {
 //    }
 
 
-    public ScoringTokenCard(String name, Integer x, Integer y, Integer width, Integer height, int scoreValue) {
-        super(name, x, y, width, height);
+    public ScoringTokenCard(String name,Integer width, Integer height, int scoreValue) {
+        super(name, width, height);
         this.scoreValue = scoreValue;
     }
     public int getScoreValue() {

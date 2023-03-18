@@ -1,10 +1,10 @@
 package org.am21.model.items;
 
-import org.am21.model.items.Card.Card;
+import org.am21.model.items.Card.ItemTileCard;
 
 public class Cell {
     private Integer state = 0;          // 0: without cards, 1: with cards
-    private Card card;
+    private ItemTileCard itemTileCard;
 
     public Integer getState() {
         return state;
@@ -14,11 +14,11 @@ public class Cell {
         this.state = state;
     }
 
-    public Card getCard() {
-        return card;
+    public ItemTileCard getItemTileCard() {
+        return itemTileCard;
     }
 
-    public void setCard(Card card) {
-        this.card = card;
+    public void setItemTileCard(ItemTileCard itemTileCard) {
+        this.itemTileCard = itemTileCard;
     }
 }

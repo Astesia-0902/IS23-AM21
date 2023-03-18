@@ -5,62 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="890a3c05-2f79-4b69-a2fb-f88aec838ba3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Books1.1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Books1.1_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Books1.2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Books1.2_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Books1.3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Books1.3_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Cats1.1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Cats1.1_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Cats1.2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Cats1.2_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Cats1.3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Cats1.3_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Frames1.1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Frames1.1_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Frames1.2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Frames1.2_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Frames1.3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Frames1.3_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Games1.1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Games1.1_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Games1.2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Games1.2_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Games1.3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Games1.3_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Piante1.3_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Plants1.1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Plants1.1_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Plants1.2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Plants1.2_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Plants1.3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Trophies1.1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Trophies1.1_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Trophies1.2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Trophies1.2_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Trophies1.3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Trophies1.3_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Cell.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/test/TestRender1.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/IS23-AM21.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/AM21.iml" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/AM21.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/InputManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/InputManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/ServerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/ServerMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/PlayerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/PlayerManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Card/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Card/Card.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Card/ItemTileCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Card/ItemTileCard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Card/PersonalGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Card/PersonalGoalCard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Card/ScoringTokenCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Card/ScoringTokenCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Cell.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Cell.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/LivingRoomBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/LivingRoomBoard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/test/TestRender1.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/test/TestRender1.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,6 +34,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -95,22 +54,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "create.test.in.the.same.root": "true",
-    "jdk.selected.JAVA_MODULE": "openjdk-19",
-    "last_opened_file_path": "D:/xmry/IS23-AM21/AM-21/src/main/java/org/am21/test",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "editor.preferences.tabs"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;create.test.in.the.same.root&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;openjdk-19&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/xmry/IS23-AM21&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.tabs&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="TestRender1" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.am21.test.TestRender1" />
@@ -145,6 +103,10 @@
       <workItem from="1679128093114" duration="11953000" />
       <workItem from="1679155054643" duration="923000" />
       <workItem from="1679155990175" duration="515000" />
+      <workItem from="1679156563667" duration="100000" />
+      <workItem from="1679156869056" duration="15000" />
+      <workItem from="1679156914178" duration="882000" />
+      <workItem from="1679157813505" duration="4028000" />
     </task>
     <servers />
   </component>
