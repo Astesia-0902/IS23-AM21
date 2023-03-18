@@ -17,7 +17,7 @@ public class PlayerManager {
         this.numPlayers = 0;
         this.currentPlayer = null;
         this.firstCompletedPlayer = null;
-        this.players = new ArrayList<>();
+        this.players = new ArrayList<Player>();
 
     }
 

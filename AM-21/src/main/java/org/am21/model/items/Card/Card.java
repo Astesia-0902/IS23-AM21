@@ -4,17 +4,8 @@ import java.awt.*;
 public abstract class Card extends Component {
     private String name;
 
-    private final Integer x;
-    private final Integer y;
-    private final Integer width;
-    private final Integer height;
-
-    public Card(String name, Integer width, Integer height) {
+    public Card(String name) {
         this.name = name;
-        this.x = 0;
-        this.y = 0;
-        this.width = width;
-        this.height = height;
     }
 
     @Override

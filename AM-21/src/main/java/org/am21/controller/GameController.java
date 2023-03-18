@@ -7,6 +7,8 @@ import java.rmi.RemoteException;
 public class GameController {
     public Match matchInstance;
     public InputManager inputManager;
+    public float waitTime;
+    private float timer;
 
     GameController() throws RemoteException {
         matchInstance = new Match();
@@ -26,6 +28,9 @@ public class GameController {
 
     public void initializePlayers(int playerNum) {
 
+    }
+
+    private void timerLoop() {
     }
 
     public void distributeCards() {

@@ -13,6 +13,7 @@ public class Match {
     public PlayerManager playerManager;
     public GameController gameController;
     public LivingRoomBoard livingRoomBoard;
+    public boolean endGameToken;
     public Bag bag;
 
     public Match(){
@@ -24,4 +25,9 @@ public class Match {
     public void initializeMatch(int playerNum){
 
     }
+
+    public void drawCard(){
+    }
+
+    
 }

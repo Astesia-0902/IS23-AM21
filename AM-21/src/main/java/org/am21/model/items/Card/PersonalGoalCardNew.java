@@ -6,8 +6,8 @@ public class PersonalGoalCardNew extends Card{
     public int currentScore;
     public boolean isAchieved;
 
-    public PersonalGoalCardNew(String name, Integer width, Integer height) {
-        super(name, width, height);
+    public PersonalGoalCardNew(String name) {
+        super(name);
     }
 
     public boolean checkGoal(Shelf shelf){
