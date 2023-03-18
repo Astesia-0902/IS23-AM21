@@ -1,6 +1,5 @@
 package org.am21.model.items;
 
-import org.am21.model.items.Card.Card;
 import org.am21.model.items.Card.ItemTileCard;
 
 public class LivingRoomBoard {
@@ -20,24 +19,35 @@ public class LivingRoomBoard {
         this.size = 0;
     }
 
+    // 为了测试...      --Simona
+    public void showCells(){
+        for (int row = 0; row < cells.length; row++) {
+            for (int col = 0; col < cells[row].length; col++) {
+                ItemTileCard itemTileCard1 = cells[row][col].getItemTileCard();
+                System.out.print(itemTileCard1.getName()+"\t");
+            }
+            System.out.println();
+        }
+    }
+
     // 创建个房间...     --Simona
     public static LivingRoomBoard livingRoomBoardBuild(){
         LivingRoomBoard livingRoomBoard = new LivingRoomBoard();
-        Card[] cards = ItemTileCard.buildCards();               // Create 132 random cards
+        ItemTileCard[] itemTileCards = ItemTileCard.buildCards();        // Create 132 random cards
 
-        Cell[][] cells = livingRoomBoard.getCells();     // Create a matrix of 11*12
+        Cell[][] cells = livingRoomBoard.getCells();                    // Create a matrix of 11*12
         int index = 0;
         for (int row = 0; row < cells.length; row++) {
             for (int col = 0; col < cells[row].length; col++) {
-                Card card1 = cards[index++];    // Recording each card
+                ItemTileCard itemTileCard1 = itemTileCards[index++];    // Recording each card
 
                 Cell cell = new Cell();
-                cell.setState(1);               // State = 1 means there are cards here
-                cell.setCard(card1);            // Adding card to cell
+                cell.setState(1);                                       // State = 1 means there are cards here
+                cell.setItemTileCard(itemTileCard1);                    // Adding card to cell
 
-                card1.setCell(cell);            // For better subsequent removal of cards from the screen
+                itemTileCard1.setCell(cell);                            // For better subsequent removal of cards from the screen
 
-                cells[row][col] = cell;         // Adding cell to matrix
+                cells[row][col] = cell;                                 // Adding cell to matrix
             }
         }
 

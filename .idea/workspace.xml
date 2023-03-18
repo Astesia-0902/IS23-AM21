@@ -4,64 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="890a3c05-2f79-4b69-a2fb-f88aec838ba3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Books1.1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Books1.1_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Books1.2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Books1.2_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Books1.3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Books1.3_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Cats1.1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Cats1.1_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Cats1.2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Cats1.2_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Cats1.3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Cats1.3_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Frames1.1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Frames1.1_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Frames1.2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Frames1.2_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Frames1.3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Frames1.3_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Games1.1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Games1.1_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Games1.2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Games1.2_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Games1.3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Games1.3_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Piante1.3_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Plants1.1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Plants1.1_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Plants1.2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Plants1.2_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Plants1.3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Trophies1.1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Trophies1.1_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Trophies1.2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Trophies1.2_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Trophies1.3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/Trophies1.3_ns.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Cell.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/test/TestRender1.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/IS23-AM21.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/AM21.iml" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/AM21.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Card/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Card/Card.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Card/ItemTileCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Card/ItemTileCard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Card/PersonalGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Card/PersonalGoalCard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Card/ScoringTokenCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Card/ScoringTokenCard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/LivingRoomBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/LivingRoomBoard.java" afterDir="false" />
-    </list>
+    <list default="true" id="88ff5c35-d0c5-4b09-85bd-36de7c9eef19" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -91,6 +34,7 @@
     <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2N8NkRcQqLuiZ7gBqKVCJpwU9d1" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -103,7 +47,8 @@
     "WebServerToolWindowFactoryState": "false",
     "create.test.in.the.same.root": "true",
     "jdk.selected.JAVA_MODULE": "openjdk-19",
-    "last_opened_file_path": "D:/xmry/IS23-AM21/AM-21/src/main/java/org/am21/test",
+    "last_opened_file_path": "D:/xmry/IS23-AM21",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
@@ -145,6 +90,7 @@
       <workItem from="1679128093114" duration="11953000" />
       <workItem from="1679155054643" duration="923000" />
       <workItem from="1679155990175" duration="515000" />
+      <workItem from="1679159171575" duration="73000" />
     </task>
     <servers />
   </component>
