@@ -22,7 +22,7 @@ public class Player {
     public List<ItemTileCard> playerHand;
     //memorize 1 to 3 cards selected by player during a turn
 
-    
+
 
     public Player(String name,int seat, PersonalGoalCard playerPersonalGoal) {
         myShelf = new Shelf();  //eventualmente associare un id della shelf
