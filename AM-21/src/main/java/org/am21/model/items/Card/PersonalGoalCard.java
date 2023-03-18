@@ -15,5 +15,4 @@ public abstract class PersonalGoalCard extends Card{
         return 1;
     }   //temporaneo(Ken)
 
-    //mi serviva un valore da personal goal(Ken)
 }

@@ -7,7 +7,6 @@ public class ScoringTokenCard extends Card {
     public ScoringTokenCard(int value){
         this.scoreValue = value;
     }
-
     public int getScoreValue() {
         return scoreValue;
     }

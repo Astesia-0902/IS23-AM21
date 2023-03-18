@@ -16,8 +16,7 @@ public class Match {
     public Bag bag;
 
     public Match(){
-        playerManager = new PlayerManager(this);    //edit(ken)
-
+        playerManager = new PlayerManager(this);
         livingRoomBoard = new LivingRoomBoard();
         bag = new Bag();
     }
