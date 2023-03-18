@@ -15,7 +15,6 @@ public class ScoringTokenCard extends Card {
         super(name, x, y, width, height);
         this.scoreValue = scoreValue;
     }
-
     public int getScoreValue() {
         return scoreValue;
 //=======
