@@ -1,14 +1,11 @@
 package org.am21.model.items.Card;
-
-import org.am21.model.items.Cell;
-
 import java.util.*;
 
 public class ItemTileCard extends Card {
     private boolean isNonSelectable;
 
-    public ItemTileCard(String name) {
-        super(name);
+    public ItemTileCard(String nameCard) {
+        super(nameCard);
         this.isNonSelectable = false;
     }
 
@@ -30,7 +27,7 @@ public class ItemTileCard extends Card {
         return tileNames[randomIndex];
     }
 
-    public static ItemTileCard[] buildCards(){
+    public static ItemTileCard[] buildItemTileCards(){
         ItemTileCard[] itemTileCards = new ItemTileCard[132];
 
         for (int i = 0; i < itemTileCards.length; i++) {

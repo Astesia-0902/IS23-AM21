@@ -1,25 +1,31 @@
 package org.am21.model.items.Card;
 
 public class ScoringTokenCard extends Card {
-//<<<<<<< Updated upstream
+    private ScoringToken scoringToken;
 
-    private int scoreValue;
-
-
-//    public ScoringTokenCard(int value){
-//        this.scoreValue = value;
-//    }
-
-
-    public ScoringTokenCard(String name,Integer width, Integer height, int scoreValue) {
-        super(name, width, height);
-        this.scoreValue = scoreValue;
+    public ScoringTokenCard(ScoringToken scoringToken) {
+        super(scoringToken.name());
+        this.scoringToken = scoringToken;
     }
+
     public int getScoreValue() {
-        return scoreValue;
-//=======
-//    public ScoringTokenCard(int id) {
-//        super(id);
-//>>>>>>> Stashed changes
+        return scoringToken.getScoringTokenValue();
+    }
+}
+
+enum ScoringToken{
+    scoring_8(8),
+    scoring_6(6),
+    scoring_4(4),
+    scoring_2(2);
+
+    private final int scoringTokenValue;
+
+    ScoringToken(int scoringTokenValue) {
+        this.scoringTokenValue = scoringTokenValue;
+    }
+
+    public int getScoringTokenValue() {
+        return scoringTokenValue;
     }
 }
