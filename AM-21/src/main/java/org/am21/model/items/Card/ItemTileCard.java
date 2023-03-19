@@ -12,7 +12,7 @@ public class ItemTileCard extends Card {
     public static Random random = new Random();
 //    public static double num = random.nextDouble(1.3) - 1.1;
 
-    public static String[] tileNames = {
+    public static String[] tileNamesWithNum = {
             ItemType.Cats.name()+"1.1",ItemType.Cats.name()+"1.2",ItemType.Cats.name()+"1.3",
             ItemType.Books.name()+"1.1",ItemType.Books.name()+"1.2",ItemType.Books.name()+"1.3",
             ItemType.Games.name()+"1.1",ItemType.Games.name()+"1.2",ItemType.Games.name()+"1.3",
@@ -22,16 +22,16 @@ public class ItemTileCard extends Card {
     };
 
     // getTileNames: Get a random card name for each call
-    public static String getTileNames() {
-        int randomIndex = random.nextInt(tileNames.length);
-        return tileNames[randomIndex];
+    public static String getRandomTileNames() {
+        int randomIndex = random.nextInt(tileNamesWithNum.length);
+        return tileNamesWithNum[randomIndex];
     }
 
     public static ItemTileCard[] buildItemTileCards(){
         ItemTileCard[] itemTileCards = new ItemTileCard[132];
 
         for (int i = 0; i < itemTileCards.length; i++) {
-            String randomTileName = getTileNames();
+            String randomTileName = getRandomTileNames();
 
             ItemTileCard itemTileCard = new ItemTileCard(randomTileName);
             itemTileCards[i] = itemTileCard;
@@ -58,5 +58,5 @@ enum ItemType {
     Games,
     Frames,
     Trophies,
-    Plants,
+    Plants;
 }

@@ -1,7 +1,7 @@
 package org.am21.model.items.Card;
 
 public class ScoringTokenCard extends Card {
-    private ScoringToken scoringToken;
+    private final ScoringToken scoringToken;
 
     public ScoringTokenCard(ScoringToken scoringToken) {
         super(scoringToken.name());

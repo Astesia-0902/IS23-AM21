@@ -5,18 +5,16 @@ import org.am21.model.items.Card.ItemTileCard;
 
 import java.util.ArrayList;
 
-public class Shelf {
-    private int rowNum = 6;
-    private int colNum = 5;
-    private Cell[][] cells;
-    private int maxCard;
+public class Shelf extends Grid {
+//    private int rowNum = 6;
+//    private int colNum = 5;
+//    private Cell[][] cells;
+//    private int maxCard;
     public Player player;
-
     public ArrayList<ArrayList<ItemTileCard>> bookshelfGrid;
 
-    public Shelf(){
-        this.maxCard=rowNum*colNum;
-        this.cells= new Cell[rowNum][colNum];
+    public Shelf() {
+        super(6, 5);
         this.bookshelfGrid=new ArrayList<ArrayList<ItemTileCard>>();
     }
 
@@ -24,10 +22,6 @@ public class Shelf {
         //my shelf item matrix
         Shelf myPersonalShelf= new Shelf();
         //Cell[][] cells = Shelf.Cells();
-        return null;
-    }
-
-    private static Cell[][] getCells() {
         return null;
     }
 
