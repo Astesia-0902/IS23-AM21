@@ -12,11 +12,11 @@ public class Shelf {
     private int maxCardAvailable;
 
     //state of col available (default true)
-    private boolean col1;
-    private boolean col2;
-    private boolean col3;
-    private boolean col4;
-    private boolean col5;
+    public boolean col1;
+    public boolean col2;
+    public boolean col3;
+    public boolean col4;
+    public boolean col5;
     public Player player;
 
     public ArrayList<ArrayList<ItemTileCard>> bookshelfGrid;
@@ -32,11 +32,7 @@ public class Shelf {
         this.bookshelfGrid=new ArrayList<ArrayList<ItemTileCard>>();
     }
 
-    public Shelf myShelf(){
-        //my shelf item matrix
-        Shelf myPersonalShelf= new Shelf();
-        return null;
-    }
+
 
     public int getColNum(){
         return colNum;
@@ -48,10 +44,10 @@ public class Shelf {
         return null;
     }
 
-    public void setCard(ItemTileCard n1, ItemTileCard n2, ItemTileCard n3){
+    public void pushCard(ItemTileCard n, int colNum){
         //selected the n° column to fill card
         //put card into shelf from playerhand
-
+        this.bookshelfGrid.get(colNum).add(n);
     }
 
 

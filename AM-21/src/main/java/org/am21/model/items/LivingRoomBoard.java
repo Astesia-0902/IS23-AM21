@@ -10,6 +10,10 @@ public class LivingRoomBoard extends Grid{
         this.size = 0;
     }
 
+    /**
+     * assigned size of cell according the number of player
+    **/
+
     public Integer getSize() {
         return size;
     }
@@ -17,5 +21,7 @@ public class LivingRoomBoard extends Grid{
     public void setSize(Integer size) {
         this.size = size;
     }
+
+    /**ask bag to fill the cell**/
 }
 

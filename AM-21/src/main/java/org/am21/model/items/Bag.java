@@ -2,22 +2,41 @@ package org.am21.model.items;
 
 import org.am21.model.items.Card.ItemTileCard;
 
+import java.util.ArrayList;
+
 public class Bag {
     private int itemNum; //initial is 132 item
-    //private Collection<ItemTileCard> itemCollection;
+
+    private ArrayList<ItemTileCard> itemCollection;
     public int requestNum;
     public Bag(){
         this.itemNum = 132;
-        //this.itemCollection = new ItemTileCard();
+        this.itemCollection = new ArrayList<ItemTileCard> ();
+        /** fill the item initialy **/
     }
 
-    public int getRequestNum(){
-        return requestNum;
+    public void addItem() {
+        /**once a game (132 item)**/
+        this.itemNum = 132;
+
+    }
+    public void setRequestNum(int requestNum){
+        this.requestNum = requestNum;
     }
 
-    public void drawItem(){
-        this.itemNum -= requestNum;
-        //pick the different card by ItemTileCard
+    public boolean drawItem(){
+        /**pick the different card by ItemTileCard**/
+        if(itemNum>=requestNum) {
+            this.itemNum -= requestNum;
+
+            return true;
+
+        }
+        else
+        {
+            return false;
+        }
+
     }
 }
 
