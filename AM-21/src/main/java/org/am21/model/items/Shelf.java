@@ -5,12 +5,7 @@ import org.am21.model.items.Card.ItemTileCard;
 
 import java.util.ArrayList;
 
-public class Shelf {
-    private int rowNum = 6;
-    private int colNum = 5;
-    private Cell[][] cells;
-    private int maxCardAvailable;
-
+public class Shelf extends Grid {
     //state of col available (default true)
     public boolean col1;
     public boolean col2;
@@ -22,26 +17,13 @@ public class Shelf {
     public ArrayList<ArrayList<ItemTileCard>> bookshelfGrid;
 
     public Shelf(){
-        this.maxCardAvailable=rowNum*colNum;
+        super(6, 5);
         this.col1 = true;
         this.col2 = true;
         this.col3 = true;
         this.col4 = true;
         this.col5 = true;
-        this.cells= new Cell[rowNum][colNum];
         this.bookshelfGrid=new ArrayList<ArrayList<ItemTileCard>>();
-    }
-
-
-
-    public int getColNum(){
-        return colNum;
-    }
-
-
-    private static Cell[][] getCells() {
-
-        return null;
     }
 
     public void pushCard(ItemTileCard n, int colNum){
@@ -52,7 +34,6 @@ public class Shelf {
 
 
     public int slotAvailable(int colNum) {
-
         this.colNum-=colNum;
         return this.colNum;
     }

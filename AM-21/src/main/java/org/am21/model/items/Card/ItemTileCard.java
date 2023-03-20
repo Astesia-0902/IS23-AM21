@@ -58,5 +58,5 @@ enum ItemType {
     Games,
     Frames,
     Trophies,
-    Plants;
+    Plants
 }

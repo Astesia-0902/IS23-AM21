@@ -3,7 +3,7 @@ package org.am21.model.items;
 import org.am21.model.items.Card.ItemTileCard;
 
 public class LivingRoomBoard extends Grid{
-    private Integer size;               // The number of cards required varies according to the number of players
+    private int size;               // The number of cards required varies according to the number of players
 
     public LivingRoomBoard(int rowNum, int colNum) {
         super(rowNum, colNum);
@@ -14,11 +14,11 @@ public class LivingRoomBoard extends Grid{
      * assigned size of cell according the number of player
     **/
 
-    public Integer getSize() {
+    public int getSize() {
         return size;
     }
 
-    public void setSize(Integer size) {
+    public void setSize(int size) {
         this.size = size;
     }
 

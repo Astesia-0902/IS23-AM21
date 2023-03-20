@@ -30,12 +30,12 @@ public class PersonalGoalCard extends Card {
                 // param1 : row of player's bookshelf
                 // param2 : column of player's bookshelf
                 // param3 : index of tileNames
-                // Cats(0),
-                // Books(1),
-                // Games(2),
-                // Frames(3),
-                // Trophies(4),
-                // Plants(5);
+                // Cats(0)
+                // Books(1)
+                // Games(2)
+                // Frames(3)
+                // Trophies(4)
+                // Plants(5)
                 values = new int[][]{{0, 0, 5}, {0, 2, 3}, {1, 4, 0}, {2, 3, 1}, {3, 1, 2}, {5, 3, 4}};
                 break;
             case "PERSONAL_GOALs2":
@@ -77,7 +77,7 @@ public class PersonalGoalCard extends Card {
             int col = values[i][1];
             int val = values[i][2];
 
-            if(player.myShelf.getItemName(row, col) == tileNames[val]){
+            if(player.myShelf.getItemName(row, col).equals(tileNames[val])){
                 count++;
             }
         }
