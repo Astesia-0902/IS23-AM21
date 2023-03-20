@@ -5,7 +5,7 @@ import org.am21.model.Player;
 public class PersonalGoalCard extends Card {
     private final Player player;
     public int currentScore;
-    public boolean isAchieved;      // ???
+
     public static String[] tileNames = {
             ItemType.Cats.name(), ItemType.Books.name(),
             ItemType.Games.name(), ItemType.Frames.name(),
@@ -18,7 +18,6 @@ public class PersonalGoalCard extends Card {
         super(nameCard);
         this.player = player;
         this.currentScore = 0;
-        this.isAchieved = false;
     }
 
     // return the number of completed goals
@@ -106,19 +105,8 @@ public class PersonalGoalCard extends Card {
                 break;
             case 6:
                 currentScore = 12;
-                setAchieved(true);
                 break;
         }
         return currentScore;
-    }
-
-    public int tilesMatches; //temporaneo(Ken)
-
-    public void setTilesMatches(int tilesMatches) {
-        this.tilesMatches = tilesMatches;
-    }   //temporaneo(Ken)
-
-    public void setAchieved(boolean achieved) {
-        isAchieved = achieved;
     }
 }
