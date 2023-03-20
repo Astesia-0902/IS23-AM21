@@ -1,26 +1,28 @@
 package org.am21.model;
 
+import org.am21.controller.PlayerController;
 import org.am21.model.items.Card.ItemTileCard;
 import org.am21.model.items.Card.PersonalGoalCard;
 import org.am21.model.items.Card.ScoringTokenCard;
 import org.am21.model.items.Shelf;
 import org.am21.model.PlayerHand;
+import org.am21.model.user.UserProfile;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class Player {
-    private final String name;
+    public UserProfile user;
+    private final String nickname;
     /**
      * A player score is visible by all during a game
      */
     public int playerScore;
     public Shelf myShelf;
     private final PersonalGoalCard myPersonalGoal;
-    public boolean isChairMan;
     /**
-     * player seat number used to determine playing order (counterclockwise)
+     * player seat number used to determine playing order 1-4 (counterclockwise)
      */
     public int playerSeat;
     /**
@@ -28,23 +30,26 @@ public class Player {
      */
     public PlayerHand playerHand;
 
+    public PlayerController controller;
+
 
     /**
      * Constructor for player's data initialization
+     * -Eventually add a Shelf ID
      */
-    public Player(String name,int seat, PersonalGoalCard playerPersonalGoal) {
-        myShelf = new Shelf();  //eventualmente associare un id della shelf
+    public Player(UserProfile user,String nickname,int seat, PersonalGoalCard playerPersonalGoal) {
+        this.user= user;
+        myShelf = new Shelf();
         myShelf.player = this;
-        this.name = name;
+        this.nickname = nickname;
         this.myPersonalGoal = playerPersonalGoal;
         this.playerSeat = seat;
         this.playerHand = new PlayerHand(this);
-        this.isChairMan = false; /*default, it may change at the beginning of the game*/
         this.playerScore = 0;
     }
 
     public String getName() {
-        return name;
+        return nickname;
     }
 
     public int getPlayerScore(){
@@ -55,54 +60,12 @@ public class Player {
         return myPersonalGoal;
     }
 
-    /**
-     * Player obtain scoringToken => add points
-     */
-    public void getScoringToken(ScoringTokenCard score){
-        this.playerScore += score.getScoreValue();
-    }
-
-    /**
-     * Player receive points from PersonalGoal
-     */
-    public void addGoalPoints(PersonalGoalCard myGoal){
-        this.playerScore += myGoal.calculatePoints(myGoal.tilesMatches);
-    }
-
-    /**
-     * Setting first player to start
-     */
-    public void setAsChairMan(){
-        this.isChairMan = true;
+    public Shelf getMyShelf(){
+        return myShelf;
     }
 
 
-    public List<List<ItemTileCard>> getBookShelf(){
-        return null;
-        /**ritorna la lista degli elem della bookshelf del player(non realizzato)*/
 
-    }
-
-    /**
-     * restituisce false se l'inserimento in una colonna è fallito, causato da mancanza di slot
-     */
-    public boolean insertTiles(int colNum,int numTiles){
-
-        if(numTiles>0 && numTiles<4 && myShelf.slotAvailable(colNum)>=numTiles){
-            /**Se num di slot disponibili nella colonna colNum è >= dei Tiles da inserire allora ok*/
-            /*for(int i=0;i<numTiles;i++){
-                playerHand.get(i).addItemToShelf(colNum);
-                playerHand.remove(i);   //???(Ken)
-            }*/
-
-
-            //
-            return true;
-        }else{
-            return false;
-        }
-
-    }
 
     /**
      * add Item to Player's Hand

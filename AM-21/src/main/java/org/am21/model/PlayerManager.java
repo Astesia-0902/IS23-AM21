@@ -6,23 +6,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerManager {
-    private final Match matchInstance;
+    private final Match match;
     public List<Player> players;
-    private Player firstCompletedPlayer;
-    private Player currentPlayer;
+    private Player firstToComplete;
+    public Player playerTurn;
     private int numPlayers;
+    public Player chairman;
 
-    public PlayerManager(Match matchInstance){
-        this.matchInstance = matchInstance;
+    public int maxSeats;
+
+    public PlayerManager(Match match){
+        this.match = match;
         this.numPlayers = 0;
-        this.currentPlayer = null;
-        this.firstCompletedPlayer = null;
+        this.playerTurn = null;
+        this.firstToComplete = null;
         this.players = new ArrayList<Player>();
+        this.maxSeats = maxSeats;
 
     }
 
-    public Match getMatchInstance() {
-        return matchInstance;
+    public Match getMatch() {
+        return match;
     }
 
     public int getNumPlayers() {
@@ -41,19 +45,21 @@ public class PlayerManager {
         players.remove(player);
     }
 
-    public void setFirstCompletedPlayer(Player player){
-        firstCompletedPlayer = player;
+    public void setFirstToCompleter(Player player){
+        firstToComplete = player;
     }
 
     public Player getFirstCompletedPlayer() {
-        return firstCompletedPlayer;
+        return firstToComplete;
     }
 
-    public Player getCurrentPlayer() {
-        return currentPlayer;
+    public Player getPlayerTurner() {
+        return playerTurn;
     }
 
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
+    public void setPlayerTurn(Player nextPlayer) {
+        this.playerTurn = nextPlayer;
     }
+
+    public Player getChairman(){ return chairman;}
 }
