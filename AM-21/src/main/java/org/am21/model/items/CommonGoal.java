@@ -12,4 +12,8 @@ public class CommonGoal extends Goal {
     public void setScoringTokenCard(ScoringTokenCard scoringTokenCard) {
         this.scoringTokenCard = scoringTokenCard;
     }
+
+    public boolean checkGoal(Shelf shelf) {
+        return false;
+    }
 }

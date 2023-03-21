@@ -1,14 +1,15 @@
 package org.am21.model.items.Card.CommonGoals;
 
-import org.am21.model.items.Card.CommonGoalCard;
+import org.am21.model.items.CommonGoal;
 import org.am21.model.items.Shelf;
 
-public class CommonGoalx4Group extends CommonGoalCard {
+public class CommonGoalx4Group extends CommonGoal {
     /**
      * Scan the shelf to find 3 groups of 4 tiles of the same color
      * @param shelf
      * @return
      */
+    @Override
     public boolean checkGoal(Shelf shelf) {
         boolean[][] visited = new boolean[6][5];
         int count = 0;
