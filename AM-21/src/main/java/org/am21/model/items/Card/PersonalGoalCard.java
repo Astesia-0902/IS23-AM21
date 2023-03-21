@@ -2,14 +2,21 @@ package org.am21.model.items.Card;
 
 import org.am21.model.Player;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class PersonalGoalCard extends Card {
     private final Player player;
-    public int currentScore;
+    private int currentScore;
 
-    public static String[] tileNames = {
-            ItemType.Cats.name(), ItemType.Books.name(),
-            ItemType.Games.name(), ItemType.Frames.name(),
-            ItemType.Trophies.name(), ItemType.Plants.name()};
+    private final static List<String> tileNames = new ArrayList<>();
+    static {
+            Collections.addAll(tileNames,
+                    ItemType.Cats.name(), ItemType.Books.name(),
+                    ItemType.Games.name(), ItemType.Frames.name(),
+                    ItemType.Trophies.name(), ItemType.Plants.name());
+    }
 
     public static int[][] values;
 
@@ -77,7 +84,7 @@ public class PersonalGoalCard extends Card {
             int val = values[i][2];
 
             // Compare the items on the player's bookshelf(row, col) with the items required by Personal Goal
-            if(player.myShelf.getItemName(row, col).equals(tileNames[val])){
+            if(player.myShelf.getItemName(row, col).equals(tileNames.get(val))){
                 count++;
             }
         }
