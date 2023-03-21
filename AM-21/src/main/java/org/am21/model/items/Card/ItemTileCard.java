@@ -4,39 +4,23 @@ import java.util.*;
 public class ItemTileCard extends Card {
     private boolean isNonSelectable;
 
+    private final static List<String> itemTileCards = new ArrayList<>();
+    static {
+        Collections.addAll(itemTileCards,ItemType.Cats.name()+"1.1",ItemType.Cats.name()+"1.2",ItemType.Cats.name()+"1.3",
+                ItemType.Books.name()+"1.1",ItemType.Books.name()+"1.2",ItemType.Books.name()+"1.3",
+                ItemType.Games.name()+"1.1",ItemType.Games.name()+"1.2",ItemType.Games.name()+"1.3",
+                ItemType.Frames.name()+"1.1",ItemType.Frames.name()+"1.2",ItemType.Frames.name()+"1.3",
+                ItemType.Trophies.name()+"1.1",ItemType.Trophies.name()+"1.2",ItemType.Trophies.name()+"1.3",
+                ItemType.Plants.name()+"1.1",ItemType.Plants.name()+"1.2",ItemType.Plants.name()+"1.3");
+    }
+
     public ItemTileCard(String nameCard) {
         super(nameCard);
         this.isNonSelectable = false;
     }
 
-    public static Random random = new Random();
-//    public static double num = random.nextDouble(1.3) - 1.1;
-
-    public static String[] tileNamesWithNum = {
-            ItemType.Cats.name()+"1.1",ItemType.Cats.name()+"1.2",ItemType.Cats.name()+"1.3",
-            ItemType.Books.name()+"1.1",ItemType.Books.name()+"1.2",ItemType.Books.name()+"1.3",
-            ItemType.Games.name()+"1.1",ItemType.Games.name()+"1.2",ItemType.Games.name()+"1.3",
-            ItemType.Frames.name()+"1.1",ItemType.Frames.name()+"1.2",ItemType.Frames.name()+"1.3",
-            ItemType.Trophies.name()+"1.1",ItemType.Trophies.name()+"1.2",ItemType.Trophies.name()+"1.3",
-            ItemType.Plants.name()+"1.1",ItemType.Plants.name()+"1.2",ItemType.Plants.name()+"1.3"
-    };
-
-    // getTileNames: Get a random card name for each call
-    public static String getRandomTileNames() {
-        int randomIndex = random.nextInt(tileNamesWithNum.length);
-        return tileNamesWithNum[randomIndex];
-    }
-
-    public static ItemTileCard[] buildItemTileCards(){
-        ItemTileCard[] itemTileCards = new ItemTileCard[132];
-
-        for (int i = 0; i < itemTileCards.length; i++) {
-            String randomTileName = getRandomTileNames();
-
-            ItemTileCard itemTileCard = new ItemTileCard(randomTileName);
-            itemTileCards[i] = itemTileCard;
-        }
-
+    public static List<String> buildItemTileCards(){
+        Collections.shuffle(itemTileCards);
         return itemTileCards;
     }
 
@@ -46,9 +30,6 @@ public class ItemTileCard extends Card {
 
     public void setNonSelectable(boolean nonSelectable) {
         isNonSelectable = nonSelectable;
-    }
-
-    public void addItemToShelf(int colNum) {
     }
 }
 
