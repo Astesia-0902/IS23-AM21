@@ -1,7 +1,5 @@
 package org.am21.model;
 
-import org.am21.controller.GameController;
-
 import java.util.ArrayList;
 import java.util.List;
 

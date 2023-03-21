@@ -1,7 +1,6 @@
 package org.am21.controller;
 
 import org.am21.model.GameManager;
-import org.am21.model.Match;
 
 import java.rmi.RemoteException;
 
