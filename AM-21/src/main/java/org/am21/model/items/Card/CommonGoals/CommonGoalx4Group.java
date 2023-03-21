@@ -31,6 +31,7 @@ public class CommonGoalx4Group extends CommonGoal {
                 }
             }
         }
+        return false;
     }
 
     private boolean process(Shelf shelf, int i, int j, boolean[][] visited) {
