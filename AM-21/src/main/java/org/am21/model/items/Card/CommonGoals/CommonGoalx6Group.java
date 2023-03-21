@@ -4,7 +4,7 @@ import org.am21.model.items.Card.CommonGoalCard;
 import org.am21.model.items.Shelf;
 
 
-public class CommonGoalx6 extends CommonGoalCard {
+public class CommonGoalx6Group extends CommonGoalCard {
     /**
      * Scan the shelf to find 6 groups of 2 tiles of the same color
      * @param shelf

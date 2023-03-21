@@ -1,7 +1,6 @@
 package org.am21.model;
 
 import org.am21.controller.GameController;
-import org.am21.model.*;
 import org.am21.model.items.*;
 import org.am21.model.items.Card.*;
 

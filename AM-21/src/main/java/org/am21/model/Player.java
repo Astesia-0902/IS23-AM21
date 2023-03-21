@@ -3,13 +3,8 @@ package org.am21.model;
 import org.am21.controller.PlayerController;
 import org.am21.model.items.Card.ItemTileCard;
 import org.am21.model.items.Card.PersonalGoalCard;
-import org.am21.model.items.Card.ScoringTokenCard;
 import org.am21.model.items.Shelf;
-import org.am21.model.PlayerHand;
 import org.am21.model.user.UserProfile;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class Player {

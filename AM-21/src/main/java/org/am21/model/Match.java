@@ -5,7 +5,6 @@ import org.am21.model.items.Bag;
 import org.am21.model.items.Card.ScoringTokenCard;
 import org.am21.model.items.CommonGoal;
 import org.am21.model.items.LivingRoomBoard;
-import org.am21.model.*;
 
 import java.util.List;
 
