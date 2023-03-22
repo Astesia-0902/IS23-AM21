@@ -33,6 +33,44 @@ public class CommonGoalStairs {
     }
 
     public boolean checkGoal(Shelf shelf) {
+        int [] vectRow = {0,0,0,0,0};
+        for(int x=0;x<5;x++)
+        {
+            for (int y = 0; y < 6; y++) {
+                if (shelf.getItemName(y, x) != null)
+                    vectRow[x]++;
+            }
+        }
+        int fRow=vectRow[0]; /**  count the number of the row which has the item */
+
+        if(fRow==6||fRow==5) /** control descending*/
+        {
+            for(int i=0;i<5;i++)
+            {
+                if(vectRow[i]==fRow)
+                {
+                    fRow--;
+                    if(i==4)
+                        return true;
+                }
+                else
+                    return false;
+            }
+        }
+        else if(fRow==1 || fRow==2) /** control ascending*/
+        {
+            for(int i=0;i<5;i++)
+            {
+                if(vectRow[i]==fRow)
+                {
+                    fRow++;
+                    if(i==4)
+                        return true;
+                }
+                else
+                    return false;
+            }
+        }
         return false;
     }
 }

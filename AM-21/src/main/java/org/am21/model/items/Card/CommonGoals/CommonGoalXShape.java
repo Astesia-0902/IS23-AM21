@@ -33,6 +33,7 @@ public class CommonGoalXShape {
     }
 
     public boolean checkGoal(Shelf shelf) {
+
         return false;
     }
 }
