@@ -18,6 +18,8 @@ public class Match {
     public Bag bag;
     public GamePhases gamePhase;
 
+    public Player currentPlayer;
+
 
     public Match(int maxSeats){
         playerManager = new PlayerManager(this);

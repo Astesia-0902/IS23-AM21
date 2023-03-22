@@ -10,6 +10,16 @@ import org.am21.model.user.UserProfile;
 public class Player {
     public UserProfile user;
     private final String nickname;
+
+    private String host;
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
     /**
      * A player score is visible by all during a game
      */
