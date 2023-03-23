@@ -12,6 +12,9 @@ public class CommonGoalDiagonal extends CommonGoal {
          * @return
          */
 
+        // The game can only be composed of the following lists::
+        //  (0,0), (1,1), (2,2), (3,3), (4,4)
+        //  (1,0), (2,1), (3,2), (4,3), (5,4)
         for (int row = 0; row < 2; row++) {
             String tile = shelf.getItemName(row, 0);
             if (tile != null && tile.equals(shelf.getItemName(row+1, 1))

@@ -27,7 +27,7 @@ public class CommonGoal8Tiles extends CommonGoal {
                 countTiles.put(tile, countTiles.getOrDefault(tile, 0) + 1);
 
                 // If one of the Tiles has 8 of the same type, then it returns true
-                if (countTiles.get(tile) == 8 ){
+                if (countTiles.get(tile) >= 8 ){
                     return true;
                 }
             }

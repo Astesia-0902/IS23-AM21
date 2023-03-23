@@ -34,10 +34,13 @@ public class CommonGoal2Columns extends CommonGoal {
             // If so, increment countGroup
             if (countTiles.keySet().size() == 6){
                 countGroup++;
+                if (countGroup >=2){
+                    return true;
+                }
             }
         }
 
         //
-        return (countGroup >= 2);
+        return false;
     }
 }
