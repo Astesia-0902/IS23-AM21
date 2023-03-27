@@ -1,12 +1,18 @@
 package org.am21.model.items.Card.CommonGoals;
 
+import org.am21.model.Player;
 import org.am21.model.items.CommonGoal;
 import org.am21.model.items.Shelf;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CommonGoal8Tiles extends CommonGoal {
+    public CommonGoal8Tiles(List<Player> achievedPlayers) {
+        super(9, achievedPlayers);
+    }
+
     @Override
     public boolean checkGoal(Shelf shelf) {
         /**

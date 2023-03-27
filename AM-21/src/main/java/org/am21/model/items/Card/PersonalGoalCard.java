@@ -30,7 +30,6 @@ public class PersonalGoalCard extends Card {
     // return the number of completed goals
     public int checkGoal(){
         switch (this.player.getMyPersonalGoal().getNameCard()){
-
             case "PERSONAL_GOALs":
                 // values :
                 // param1 : row of player's bookshelf

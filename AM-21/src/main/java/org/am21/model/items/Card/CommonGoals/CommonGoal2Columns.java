@@ -1,12 +1,18 @@
 package org.am21.model.items.Card.CommonGoals;
 
+import org.am21.model.Player;
 import org.am21.model.items.CommonGoal;
 import org.am21.model.items.Shelf;
 
 import java.util.HashMap;
+import java.util.List;
 
 // Check if there are two columns with 6 different types of tiles
 public class CommonGoal2Columns extends CommonGoal {
+    public CommonGoal2Columns(List<Player> achievedPlayers) {
+        super(2, achievedPlayers);
+    }
+
     @Override
     public boolean checkGoal(Shelf shelf) {
         /**

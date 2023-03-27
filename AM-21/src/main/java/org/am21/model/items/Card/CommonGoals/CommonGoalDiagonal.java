@@ -1,9 +1,16 @@
 package org.am21.model.items.Card.CommonGoals;
 
+import org.am21.model.Player;
 import org.am21.model.items.CommonGoal;
 import org.am21.model.items.Shelf;
 
+import java.util.List;
+
 public class CommonGoalDiagonal extends CommonGoal {
+    public CommonGoalDiagonal(List<Player> achievedPlayers) {
+        super(11, achievedPlayers);
+    }
+
     @Override
     public boolean checkGoal(Shelf shelf) {
         /**
