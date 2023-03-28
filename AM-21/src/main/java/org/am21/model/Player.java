@@ -4,12 +4,13 @@ import org.am21.controller.PlayerController;
 import org.am21.model.items.Card.ItemTileCard;
 import org.am21.model.items.Card.PersonalGoalCard;
 import org.am21.model.items.Shelf;
-import org.am21.model.user.UserProfile;
+import org.am21.model.UserStatus;
 
 
 public class Player {
-    public UserProfile user;
+
     private final String nickname;
+    public UserStatus status;
 
     private String host;
     public String getHost() {
@@ -42,8 +43,7 @@ public class Player {
      * Constructor for player's data initialization
      * -Eventually add a Shelf ID
      */
-    public Player(UserProfile user,String nickname,int seat, PersonalGoalCard playerPersonalGoal) {
-        this.user= user;
+    public Player(String nickname,int seat, PersonalGoalCard playerPersonalGoal) {
         myShelf = new Shelf();
         myShelf.player = this;
         this.nickname = nickname;
@@ -73,6 +73,7 @@ public class Player {
 
 
     /**
+     * !!!Remember to move this to PlayerController
      * add Item to Player's Hand
      * @param item
      */
@@ -82,6 +83,7 @@ public class Player {
     }
 
     /**
+     *  !!!Remember to move this to PlayerController
      * remove Item from Player's Hand
      * @param item
      */
@@ -90,7 +92,7 @@ public class Player {
     }
 
     /**
-     * 
+     * * !!!Remember to move this to PlayerController
      *     Cambio ordine delle carte selezionate
      *     !!!!Rivedere il sistema di controllo dei valori che siano inferiori al numero di carte selezionate
      *
