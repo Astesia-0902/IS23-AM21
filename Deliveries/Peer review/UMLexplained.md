@@ -1,6 +1,6 @@
-#
-UML AM21
-===
+# UML AM21
+
+---
 
 **[Model]**  
  
@@ -11,7 +11,7 @@ UML AM21
 ```Match```
 > bla
 
----
+#
 
 
 ####  Items {
@@ -21,7 +21,7 @@ UML AM21
 
 &nbsp; \* ```Bag```
 > note
-
+#
  
  
 
