@@ -7,7 +7,7 @@ import org.am21.model.items.Shelf;
 
 import java.util.List;
 
-public class CommonGoalStairs {
+public class CommonGoalStairs extends CommonGoal {
     private int id;
     public List<ScoringTokenCard> tokenStack;
 
