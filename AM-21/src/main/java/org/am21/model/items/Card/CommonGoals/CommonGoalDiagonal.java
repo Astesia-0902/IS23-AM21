@@ -7,6 +7,7 @@ import org.am21.model.items.Shelf;
 import java.util.List;
 
 public class CommonGoalDiagonal extends CommonGoal {
+    private static final int rowNum = 2;
     public CommonGoalDiagonal(List<Player> achievedPlayers) {
         super(11, achievedPlayers);
     }
@@ -22,7 +23,7 @@ public class CommonGoalDiagonal extends CommonGoal {
         // The game can only be composed of the following lists::
         //  (0,0), (1,1), (2,2), (3,3), (4,4)
         //  (1,0), (2,1), (3,2), (4,3), (5,4)
-        for (int row = 0; row < 2; row++) {
+        for (int row = 0; row < rowNum; row++) {
             String tile = shelf.getItemName(row, 0);
             if (tile != null && tile.equals(shelf.getItemName(row+1, 1))
                     && tile.equals(shelf.getItemName(row+2,2))

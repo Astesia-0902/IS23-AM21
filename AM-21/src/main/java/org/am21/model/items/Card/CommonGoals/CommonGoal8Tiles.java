@@ -9,6 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 public class CommonGoal8Tiles extends CommonGoal {
+    private static final int rowNum = 6;
+    private static final int colNum = 5;
+    private static final int numSame = 8;
+
     public CommonGoal8Tiles(List<Player> achievedPlayers) {
         super(9, achievedPlayers);
     }
@@ -24,8 +28,8 @@ public class CommonGoal8Tiles extends CommonGoal {
 
         // Create a counter
         Map<String, Integer> countTiles = new HashMap<>();
-        for (int row = 0; row < 6; row++) {
-            for (int col = 0; col < 5; col++) {
+        for (int row = 0; row < rowNum; row++) {
+            for (int col = 0; col < colNum; col++) {
                 String tile = shelf.getItemName(row, col);
 
                 // If the counter for tileType already exists in countTiles, the current value
@@ -33,7 +37,7 @@ public class CommonGoal8Tiles extends CommonGoal {
                 countTiles.put(tile, countTiles.getOrDefault(tile, 0) + 1);
 
                 // If one of the Tiles has 8 of the same type, then it returns true
-                if (countTiles.get(tile) >= 8 ){
+                if (countTiles.get(tile) >= numSame ){
                     return true;
                 }
             }

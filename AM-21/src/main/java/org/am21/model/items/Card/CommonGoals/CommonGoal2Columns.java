@@ -7,8 +7,15 @@ import org.am21.model.items.Shelf;
 import java.util.HashMap;
 import java.util.List;
 
+
 // Check if there are two columns with 6 different types of tiles
 public class CommonGoal2Columns extends CommonGoal {
+    private static final int rowNum = 6;
+    private static final int colNum = 5;
+    private static final int numDiff = 6;
+    private static final int numGroup = 2;
+
+
     public CommonGoal2Columns(List<Player> achievedPlayers) {
         super(2, achievedPlayers);
     }
@@ -24,11 +31,11 @@ public class CommonGoal2Columns extends CommonGoal {
         // Count the number of occurrences of each type of tile in each column
         int countGroup = 0;
 
-        for (int col = 0; col < 5; col++) {
+        for (int col = 0; col < colNum; col++) {
             // Create a counter for each column
             HashMap<String, Integer> countTiles = new HashMap<>();
 
-            for (int row = 0; row < 6; row++) {
+            for (int row = 0; row < rowNum; row++) {
                 String tileType = shelf.getItemName(row,col);
 
                 // If the counter for tileType already exists in countTiles, the current value
@@ -38,9 +45,9 @@ public class CommonGoal2Columns extends CommonGoal {
 
             // Check if there is a column with 6 different types of tiles
             // If so, increment countGroup
-            if (countTiles.keySet().size() == 6){
+            if (countTiles.keySet().size() == numDiff){
                 countGroup++;
-                if (countGroup >=2){
+                if (countGroup >= numGroup){
                     return true;
                 }
             }
