@@ -7,15 +7,14 @@ import java.util.*;
 public class PersonalGoalCard extends Card {
     private final Player player;
 
-    // HashMap :
-    // param1 : row of player's bookshelf
-    // param2 : column of player's bookshelf
-    // param3 : index of tileNames:
-    // Cats(0), Books(1), Games(2), Frames(3), Trophies(4), Plants(5)
     private final static HashMap<String, int[][]> personalGoal = new HashMap<>();
     private final static List<String> tileNames = new ArrayList<>();
     private final static HashMap<Integer, Integer> currentScore = new HashMap<>();
     static {
+        // param1 : row of player's bookshelf
+        // param2 : column of player's bookshelf
+        // param3 : index of tileNames: Cats(0), Books(1), Games(2), Frames(3), Trophies(4), Plants(5)
+
         personalGoal.put("PERSONAL_GOALs", new int[][]{{0, 0, 5}, {0, 2, 3}, {1, 4, 0}, {2, 3, 1}, {3, 1, 2}, {5, 3, 4}});
         personalGoal.put("PERSONAL_GOALs2", new int[][]{{1, 1, 5}, {2, 0, 0}, {2, 2, 2}, {3, 4, 1}, {4, 3, 4}, {5, 4, 3}});
         personalGoal.put("PERSONAL_GOALs3", new int[][]{{1, 0, 3}, {1, 3, 2}, {2, 2, 5}, {3, 1, 0}, {3, 4, 4}, {5, 0, 1}});
