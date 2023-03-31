@@ -5,19 +5,17 @@ import java.util.List;
 
 public class PlayerManager {
     private final Match match;
-    public List<Player> players;
+    public static List<Player> players;
     private Player firstToComplete;
     private int numPlayers;
     public Player chairman;
 
-    public int maxSeats;
 
     public PlayerManager(Match match){
         this.match = match;
         this.numPlayers = 0;
         this.firstToComplete = null;
         this.players = new ArrayList<Player>();
-        this.maxSeats = maxSeats;
 
     }
 

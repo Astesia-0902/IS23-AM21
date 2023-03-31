@@ -15,9 +15,10 @@ public class Bag {
         /** fill the item initialy **/
     }
 
-    public void addItem() {
-        /**once a game (132 item)**/
-        this.itemNum = 132;
+    public void addItem(int requestNum){
+        this.itemNum = requestNum;
+        //pick the Item sequencialy by the another class
+        //this.itemCollection
 
     }
     public void setRequestNum(int requestNum){
@@ -28,14 +29,10 @@ public class Bag {
         /**pick the different card by ItemTileCard**/
         if(itemNum>=requestNum) {
             this.itemNum -= requestNum;
-
             return true;
-
         }
         else
-        {
             return false;
-        }
 
     }
 }

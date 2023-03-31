@@ -13,8 +13,8 @@ public class Shelf extends Grid {
     public boolean col4;
     public boolean col5;
     public Player player;
-
-    public ArrayList<ArrayList<ItemTileCard>> bookshelfGrid;
+    public Grid playerShelf;
+    //public ArrayList<ArrayList<ItemTileCard>> bookshelfGrid;
 
     public Shelf(){
         super(6, 5);
@@ -23,13 +23,19 @@ public class Shelf extends Grid {
         this.col3 = true;
         this.col4 = true;
         this.col5 = true;
-        this.bookshelfGrid=new ArrayList<ArrayList<ItemTileCard>>();
+        //this.bookshelfGrid = new ArrayList<ArrayList<ItemTileCard>>();
+        this.playerShelf = new Grid(6,5) {};
     }
 
     public void pushCard(ItemTileCard n, int colNum){
         //selected the n° column to fill card
         //put card into shelf from playerhand
-        this.bookshelfGrid.get(colNum).add(n);
+        //this.bookshelfGrid.get(colNum).add(n);
+        for(int i=0;i<6;i++){
+            //if Grid availible fill in
+
+        }
+
     }
 
 
@@ -37,5 +43,7 @@ public class Shelf extends Grid {
         this.colNum-=colNum;
         return this.colNum;
     }
+
+    //adjacent same item check ? common goal?
 }
 

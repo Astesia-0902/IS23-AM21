@@ -1,5 +1,10 @@
 package org.am21.model.items;
 
+import org.am21.model.items.Card.ItemTileCard;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Grid {
     protected int rowNum;
     protected int colNum;
@@ -17,11 +22,15 @@ public abstract class Grid {
         return cells;
     }
 
-    public void setCells(int rowNum, int colNum, Cell value) {
+    public void setCells(int rowNum, int colNum, Cell value){
         this.cells[rowNum][colNum] = value;
     }
 
     public String getItemName(int rowNum,int colNum){
         return cells[rowNum][colNum].getItemTileCard().getNameCard();
+    }
+
+    public int getCapacity() {
+        return capacity;
     }
 }

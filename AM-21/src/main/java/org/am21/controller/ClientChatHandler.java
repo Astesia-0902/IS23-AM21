@@ -4,7 +4,6 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class ClientChatHandler extends UnicastRemoteObject implements IClientHandler {
-    public GameController gameController;
     /**
      * Creates and exports a new UnicastRemoteObject object using an
      * anonymous port.

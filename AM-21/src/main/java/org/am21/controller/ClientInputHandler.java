@@ -1,6 +1,8 @@
 package org.am21.controller;
 
+import org.am21.model.GameManager;
 import org.am21.model.GamePhases;
+import org.am21.model.PlayerManager;
 import org.am21.model.items.Card.ItemTileCard;
 
 import java.rmi.RemoteException;
@@ -8,8 +10,11 @@ import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class ClientInputHandler extends UnicastRemoteObject implements IClientHandler {
-    public GameController gameController;
+    public String userName;
+    public String userHost;
     private int createMatchRequestCount = 0;
+    public PlayerController playerController;
+    public ClientChatHandler clientChatHandler;
 
     /**
      * Creates and exports a new UnicastRemoteObject object using an
@@ -19,6 +24,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientHa
      * @since JDK1.1
      */
     protected ClientInputHandler() throws RemoteException {
+        clientChatHandler = new ClientChatHandler();
     }
 //        Get the IP address of the client
 //        System.out.println("Hello, I am " + getClientHost() + ":" + getClientPort());
@@ -26,51 +32,67 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientHa
     //TODO:When the command is not from the current player, the command should be ignored.
     private boolean checkPlayerActionPhase() throws ServerNotActiveException {
         String userHost = getClientHost();
-        return gameController.playerMatchMap.containsKey(userHost) &&
-                userHost.equals(gameController.gameManager.matchList.
-                        get(gameController.playerMatchMap.get(userHost)).currentPlayer.getHost());
+        return GameManager.playerMatchMap.containsKey(userHost) &&
+                userHost.equals(GameManager.matchList.
+                        get(GameManager.playerMatchMap.get(userHost)).currentPlayer.getHost());
     }
 
     public void logIn(String username) throws RemoteException, ServerNotActiveException {
-        String userHost = getClientHost();
-        //TODO:Insert the player into the player list
+        userHost = getClientHost();
+        this.userName = username;
+        playerController = new PlayerController(username);
+        //TODO:the same username is not allowed to log in
+        if(!PlayerManager.players.contains(playerController.player)) {
+            PlayerManager.players.add(playerController.player);
+        }
     }
 
-    public void createMatch() throws RemoteException, ServerNotActiveException {
-        if (gameController.playerMatchMap.containsKey(getClientHost()) && createMatchRequestCount == 0) {
+    public void createMatch(int playerNum) throws RemoteException, ServerNotActiveException {
+        if (GameManager.playerMatchMap.containsKey(getClientHost()) && createMatchRequestCount == 0) {
             System.out.println("Message from the server: the player already exists in a match. " +
                     "Create a new match will cause the player leave the current match." +
                     "Do you want to continue?");
             createMatchRequestCount = 1;
-        } else if (gameController.playerMatchMap.containsKey(getClientHost()) && createMatchRequestCount == 1) {
+        } else if (GameManager.playerMatchMap.containsKey(getClientHost()) && createMatchRequestCount == 1) {
             createMatchRequestCount = 0;
-            //TODO:player create a new match
+            GameManager.createMatch(playerNum,playerController);
             //TODO:player leave the current match
-        } else if (!gameController.playerMatchMap.containsKey(getClientHost())) {
-            //TODO:player create a new match
+        } else if (!GameManager.playerMatchMap.containsKey(getClientHost())) {
+            GameManager.createMatch(playerNum,playerController);
         }
     }
 
     public void joinGame(int matchID) throws RemoteException, ServerNotActiveException {
-        if(gameController.gameManager.matchList.get(matchID) == null) {
+        if(GameManager.matchList.get(matchID) == null) {
             System.out.println("Message from the server: the indicate match not exists.");
             return;
         }
 
-        if (gameController.gameManager.matchList.get(matchID).gamePhase == GamePhases.GameOnGoing) {
-            if (!gameController.playerMatchMap.containsKey(getClientHost())) {
+        if (GameManager.matchList.get(matchID).gamePhase == GamePhases.GameOnGoing) {
+            if (!GameManager.playerMatchMap.containsKey(userName)) {
                 System.out.println("Message from the server: the player not exists in any match.");
             } else {
-                //TODO:player join an ongoing match
+                if(!GameManager.matchList.get(matchID).addPlayer(playerController.player)){
+                    System.out.println("Message from the server: the match is full.");
+                }
             }
             //if the match is not started, the player join the match
-        } else if (gameController.gameManager.matchList.get(matchID).gamePhase == GamePhases.StartGame) {
-            //TODO:player join the match not started
+        } else if (GameManager.matchList.get(matchID).gamePhase == GamePhases.StartGame) {
+            if(!GameManager.matchList.get(matchID).addPlayer(playerController.player)){
+                System.out.println("Message from the server: the match is full.");
+            }
         }
     }
 
-    public void selectCard(int x, int y, int dir, int num) throws ServerNotActiveException {
+//    public void startMatch(){
+//        if(GameManager.playerMatchMap.containsKey(playerController.player.getName())){
+//            GameManager.matchList.get(GameManager.playerMatchMap.get(playerController.player.getName())).matchStart();
+//        }
+//    }
+
+    public void selectCard(int row, int col) throws ServerNotActiveException {
         if (!checkPlayerActionPhase()) return;
+        playerController.selectCard(row,col);
     }
 
     public boolean insertTiles(int colNum, int numTiles) throws ServerNotActiveException {

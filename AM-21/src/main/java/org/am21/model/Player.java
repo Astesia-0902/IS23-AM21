@@ -9,6 +9,7 @@ import org.am21.model.items.Shelf;
 public class Player {
 
     private String nickname;
+
     public UserStatus status;
 
     private String host;
@@ -79,7 +80,9 @@ public class Player {
     public Shelf getMyShelf(){
         return myShelf;
     }
-
+    public Match getMatch(){
+        return match;
+    }
 
 
 

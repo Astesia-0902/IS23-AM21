@@ -6,17 +6,13 @@ import org.am21.model.items.Card.PersonalGoalCard;
 
 public class PlayerController {
     public Player player;
-    public GameManager gameManager;
-
 
     /**
      * PlayerController constructor is initialized by GameController, when ClientInputHandler login.
      *
      */
-    public PlayerController(String nickname,GameManager gameManager){
+    public PlayerController(String nickname){
         this.player = new Player(nickname);
-        this.gameManager = gameManager;
-
     }
 
     /**
@@ -56,11 +52,13 @@ public class PlayerController {
      * @return
      */
     public boolean selectCard(int r,int c){
-        if(player.myManager.getMatch().turnPhase!=TurnPhases.Selection)
+        if(player.getMatch().turnPhase!=TurnPhases.Selection)
             return false;
-        if(player.myManager.getMatch().livingRoomBoard.isSelectable(r,c)==true){
-            for(int i=1;i<player.hand.getNumCards();i++){
-
+        if(player.getMatch().livingRoomBoard.isSelectable(r,c)==true){
+            for(int i=1;i<=player.hand.getNumCards();i++){
+                if(player.getMatch().livingRoomBoard.isOrthogonal(r,c,player,i)==false){
+                    return false;
+                }
 
             }
 

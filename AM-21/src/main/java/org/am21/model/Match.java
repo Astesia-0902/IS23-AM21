@@ -5,8 +5,10 @@ import org.am21.model.items.Bag;
 import org.am21.model.items.Card.ScoringTokenCard;
 import org.am21.model.items.CommonGoal;
 import org.am21.model.items.LivingRoomBoard;
+import org.am21.util.CardUtil;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Match {
@@ -19,31 +21,61 @@ public class Match {
     public Bag bag;
     public GamePhases gamePhase;
     public TurnPhases turnPhase;
-
     public Player currentPlayer;
+    public List<Player> playerList;
+    public int maxSeats;
 
-
-    public Match(int maxSeats){
+    public Match(int maxSeats) {
+        this.maxSeats = maxSeats;
         playerManager = new PlayerManager(this);
-        livingRoomBoard = new LivingRoomBoard(5,6,maxSeats,this);
+        livingRoomBoard = new LivingRoomBoard(5, 6, maxSeats, this);
         bag = new Bag();
+        playerList = new ArrayList<Player>(maxSeats);
+        gamePhase = GamePhases.StartGame;
     }
 
-    public void initializeMatch(int playerNum){}
+    public boolean addPlayer(Player player) {
+        if (playerList.size() < maxSeats) {
+            playerList.add(player);
+            player.match = this;
+            GameManager.playerMatchMap.put(player.getName(), matchID);
 
-    public void drawCard(){
-    }
+            if(playerList.size() == maxSeats) {
+                matchStart();
+            }
 
-    public void nextTurn(){}
-
-    public void giveToken(Player player, ScoringTokenCard scoringToken){}
-
-    public boolean isEndGame(){
+            return true;
+        }
         return false;
     }
 
-    public void checkLastRound(){}
+    public void matchStart() {
+        gamePhase = GamePhases.GameOnGoing;
+        turnPhase = TurnPhases.Selection;
+        for (Player player : playerList) {
+            GameManager.playerMatchMap.put(player.getName(), matchID);
+        }
+        currentPlayer = playerList.get((int) (Math.random() * maxSeats) - 1);
+
+        //TODO:distribute cards to all players
+        //CardUtil.buildItemTileCard();
+    }
+
+    public void drawCard() {
+    }
+
+    public void nextTurn() {
+    }
+
+    public void giveToken(Player player, ScoringTokenCard scoringToken) {
+    }
+
+    public boolean isEndGame() {
+        return false;
+    }
+
+    public void checkLastRound() {
+    }
 
 
-    
 }
