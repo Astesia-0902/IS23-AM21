@@ -4,7 +4,7 @@ import org.am21.model.items.Card.ItemTileCard;
 
 public class Cell {
     private boolean state = false;
-    private ItemTileCard itemTileCard;
+    private ItemTileCard itemTileCard = null;
 
     public boolean isState() {
         return state;

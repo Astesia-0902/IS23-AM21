@@ -6,6 +6,7 @@ import org.am21.model.items.Card.ScoringTokenCard;
 import org.am21.model.items.CommonGoal;
 import org.am21.model.items.LivingRoomBoard;
 
+
 import java.util.List;
 
 public class Match {
@@ -17,13 +18,14 @@ public class Match {
     public LivingRoomBoard livingRoomBoard;
     public Bag bag;
     public GamePhases gamePhase;
+    public TurnPhases turnPhase;
 
     public Player currentPlayer;
 
 
     public Match(int maxSeats){
         playerManager = new PlayerManager(this);
-        livingRoomBoard = new LivingRoomBoard(5,6);
+        livingRoomBoard = new LivingRoomBoard(5,6,maxSeats,this);
         bag = new Bag();
     }
 

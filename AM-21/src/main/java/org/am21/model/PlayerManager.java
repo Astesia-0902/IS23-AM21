@@ -7,7 +7,6 @@ public class PlayerManager {
     private final Match match;
     public List<Player> players;
     private Player firstToComplete;
-    public Player playerTurn;
     private int numPlayers;
     public Player chairman;
 
@@ -16,7 +15,6 @@ public class PlayerManager {
     public PlayerManager(Match match){
         this.match = match;
         this.numPlayers = 0;
-        this.playerTurn = null;
         this.firstToComplete = null;
         this.players = new ArrayList<Player>();
         this.maxSeats = maxSeats;
@@ -50,14 +48,6 @@ public class PlayerManager {
     public Player getFirstCompletedPlayer() {
         return firstToComplete;
     }
-
-    public Player getPlayerTurner() {
-        return playerTurn;
-    }
-
-    public void setPlayerTurn(Player nextPlayer) {
-        this.playerTurn = nextPlayer;
-    }
-
+    
     public Player getChairman(){ return chairman;}
 }
