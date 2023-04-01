@@ -196,15 +196,18 @@ public class LivingRoomBoard extends Grid{
     public boolean isSingle(){
         /** if all the adjacent cell (center up, center down, center left, center right )is null then turn true*/
         /** exclude the dark cell*/
+        return false;
 
     }
 
     /**ask bag to fill the cell ?? **/
 
-    public boolean requestBag(
-            if(gameBoard.)
+    public Bag requestBag(){
 
+        return null;
     }
+
+
 
 }
 
