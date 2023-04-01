@@ -8,8 +8,7 @@ import org.am21.model.items.LivingRoomBoard;
 import java.util.List;
 
 public class GridUtil {
-    public static LivingRoomBoard buildLivingRoomBoard(int rowNum, int colNum, int numPlayer, Match match, List<ItemTileCard> itemTileCards){
-        LivingRoomBoard livingRoomBoard = new LivingRoomBoard(rowNum, colNum, numPlayer, match);
+    public static LivingRoomBoard buildLivingRoomBoard(LivingRoomBoard livingRoomBoard, Match match, List<ItemTileCard> itemTileCards){
         Cell[][] cells = livingRoomBoard.getCells();
         int index = 0;
 
