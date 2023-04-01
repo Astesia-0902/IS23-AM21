@@ -23,8 +23,8 @@ public class CardUtil {
                 ItemType.Plants.name()+"1.1",ItemType.Plants.name()+"1.2",ItemType.Plants.name()+"1.3");
     }
 
-    public static List<ItemTileCard> buildItemTileCard(int capacity){
-        List<ItemTileCard> itemTileCards = new ArrayList<ItemTileCard>(capacity);
+    public static List<ItemTileCard> buildItemTileCard(){
+        List<ItemTileCard> itemTileCards = new ArrayList<ItemTileCard>();
         for (String itemTileName : itemTileNames) {
             for (int j = 0; j < numCards; j++) {
                 ItemTileCard itemTileCard = new ItemTileCard(itemTileName);

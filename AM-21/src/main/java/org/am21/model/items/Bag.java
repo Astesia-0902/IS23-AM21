@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Bag {
     private int itemNum; //initial is 132 item
-    private List<ItemTileCard> itemCollection;
+    private final List<ItemTileCard> itemCollection;
     public int requestNum;
     private final static HashMap<Integer, Integer> request = new HashMap<>();
     static {
@@ -19,11 +19,11 @@ public class Bag {
 
     public Bag(){
         this.itemNum = 132;
-        this.itemCollection = CardUtil.buildItemTileCard(itemNum);
+        this.itemCollection = CardUtil.buildItemTileCard();
         /** fill the item initialy **/
     }
 
-    public List<ItemTileCard> getItemCollection(int playerNum) {
+    public List<ItemTileCard> getItemCollection() {
         return itemCollection;
     }
 
