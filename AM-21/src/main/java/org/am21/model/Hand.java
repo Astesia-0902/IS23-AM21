@@ -30,7 +30,11 @@ public class Hand {
         return slot.get(n).item;
     }
 
-
+    /**
+     * Insert the item in the slot-n.
+     * @param item
+     * @param n
+     */
     public void setSlot(ItemTileCard item,int n) {
         this.slot.get(n).item = item;
     }

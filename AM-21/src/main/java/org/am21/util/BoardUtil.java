@@ -1,6 +1,5 @@
 package org.am21.util;
 
-import org.am21.model.Match;
 import org.am21.model.items.Bag;
 import org.am21.model.items.Card.ItemTileCard;
 import org.am21.model.items.Cell;
@@ -8,7 +7,7 @@ import org.am21.model.items.LivingRoomBoard;
 
 import java.util.List;
 
-public class GridUtil {
+public class BoardUtil {
     /**
      * LivingRoom builder is going to fill the board's Cells for the first time.
      * @param board
@@ -130,36 +129,28 @@ public class GridUtil {
         return board;
     }
 
-
+    /**
+     * This method will be called by the Bag when the cards needed to refill the board are enough
+     * The pre-condition is LivingBoard.isSingle() is true (every card in the board is isolated)
+     * The method-chain is initiliazed by Match
+     * @param board
+     * @param bag
+     */
     public static void refillBoard(LivingRoomBoard board, Bag bag){
         Cell[][] cells = board.getCells();
 
-            for (int i = 0; i < cells.length; i++) {
-                for (int j = 0; j < cells[i].length; j++) {
-                    Cell cell = new Cell();
-                    if (cells[i][j].isDark()==false && board.) {
-                        //Cella si puo riemipire
-
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[i].length; j++) {
+                Cell cell = new Cell();
+                if (cells[i][j].isDark()==false && !board.isTaken(i,j)) {
+                    if(bag.getItemCollection().size()>0) {
+                        //Cell can be filled
+                        bag.getItemCollection().get(0);
+                        bag.getItemCollection().remove(0);
                     }
-                    else{
-                        //Cella non puo essere riempita
-                        continue;
-                    }
-
                 }
             }
-
-
-
-
-
-
-
-
-
-
-
-
+        }
 
     }
 }

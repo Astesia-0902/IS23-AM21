@@ -32,6 +32,12 @@ public class GameManager {
     }
 
     public static void createMatch(int playerNum, PlayerController playerController) {
+
+        if(playerNum < 2 || playerNum > 4){
+            System.out.println("Exceeded players number limit. Try again.");
+            return;
+        }
+
         Match match = new Match(playerNum);
         match.matchID = matchList.indexOf(match);
         matchList.add(match);

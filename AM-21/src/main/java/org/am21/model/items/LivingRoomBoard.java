@@ -2,32 +2,39 @@ package org.am21.model.items;
 
 import org.am21.model.Hand;
 import org.am21.model.Match;
-import org.am21.model.Player;
 import org.am21.model.items.Card.ItemTileCard;
+import org.am21.util.BoardUtil;
 import org.am21.util.Coordinates;
-import org.am21.util.GridUtil;
 
 import java.util.List;
 
 public class LivingRoomBoard extends Grid{
+
+    /** The number of required cards depends on the number of players */
     private int numPlayer;
-    /** The number of cards required varies according to the number of players matrix 9*9*/
-    public LivingRoomBoard gameBoard;
 
     public Match match;
 
+    /**
+     * Construction of the LivingRoom:
+     * - initialize cells of the grid
+     * - set number of Players
+     * - building the Board with all the item
+     * @param rowNum
+     * @param colNum
+     * @param numPlayer
+     * @param match
+     */
     public LivingRoomBoard(int rowNum, int colNum, int numPlayer,Match match) {
         super(rowNum, colNum);
         this.numPlayer = numPlayer;
         this.match = match;
-        this.gameBoard = new LivingRoomBoard(9,9, numPlayer, match){};
-        //default grid 9*9 all null
+        BoardUtil.buildLivingRoom(this,match.bag.getItemCollection());
     }
 
     /**
-     * assigned size of cell according the number of player
+     * Setting the size of the grid according to the number of player
     **/
-
     public int getSize() {
         if(numPlayer == 2)
             return 29;
@@ -36,87 +43,6 @@ public class LivingRoomBoard extends Grid{
         else
             return 45;
     }
-
-    public void setSize() {
-//
-//        if (getSize() == 29) {
-//            /**
-//             *8: [][][][][][][][][]
-//             *7: [][][][*][*][][][][]
-//             *6: [][][][*][*][*][][][]
-//             *5: [][][*][*][*][*][*][*][]
-//             *4: [][*][*][*][*][*][*][*][]
-//             *3: [][*][*][*][*][*][*][][]
-//             *2: [][][][*][*][*][][][]
-//             *1: [][][][][*][*][][][]
-//             *0: [][][][][][][][][]
-//             * */
-//            gameBoard = GridUtil.buildLivingRoomBoard(this.rowNum,this.colNum,this.numPlayer, this.match);
-//
-//            }
-//        } else if (getSize() == 37) {
-//            /**
-//             *8: [][][][+][][][][][]
-//             *7: [][][][*][*][][][][]
-//             *6: [][][+][*][*][*][+][][]
-//             *5: [][][*][*][*][*][*][*][+]
-//             *4: [][*][*][*][*][*][*][*][]
-//             *3: [+][*][*][*][*][*][*][][]
-//             *2: [][][+][*][*][*][+][][]
-//             *1: [][][][][*][*][][][]
-//             *0: [][][][][][+][][][]
-//             * */
-//            for (int i = 0; i < 9; i++) {
-//                for (int j = 0; j < 9; j++) {
-//                    if ((i == 0) && (j != 5) ||
-//                            (i == 1) && ((j == 0) || (j == 1) || (j == 2) || (j == 3) || (j == 6) || (j == 7) || (j == 8)) ||
-//                            (i == 2) && ((j == 0) || (j == 1) || (j == 7) || (j == 8)) ||
-//                            (i == 3) && ((j == 7) || (j == 8)) ||
-//                            (i == 4) && ((j == 0) || (j == 8)) ||
-//                            (i == 5) && ((j == 0) || (j == 1)) ||
-//                            (i == 6) && ((j == 0) || (j == 1) || (j == 7) || (j == 8)) ||
-//                            (i == 7) && ((j == 0) || (j == 1) || (j == 2) || (j == 5) || (j == 6) || (j == 7) || (j == 8)) ||
-//                            (i == 8) && (j != 3))
-//                        gameBoard.setCells(i, j, null);
-//                    //else random card fill
-//                }
-//
-//            }
-//        }
-//
-//
-//        if (getSize() == 45) {
-//            /**
-//             *8: [][][][*][+][][][][]
-//             *7: [][][][*][*][+][][][]
-//             *6: [][][*][*][*][*][*][][]
-//             *5: [][+][*][*][*][*][*][*][*]
-//             *4: [+][*][*][*][*][*][*][*][+]
-//             *3: [*][*][*][*][*][*][*][+][]
-//             *2: [][][*][*][*][*][*][][]
-//             *1: [][][][+][*][*][][][]
-//             *0: [][][][][+][*][][][]
-//             * */
-//            for (int i = 0; i < 9; i++) {
-//                for (int j = 0; j < 9; j++) {
-//                    if ((i == 0) && ((j == 0) || (j == 1) || (j == 2) || (j == 3) || (j == 6) || (j == 7) || (j == 8)) ||
-//                            (i == 1) && ((j == 0)||(j == 1)||(j == 2)||(j == 6)||(j == 7)||(j == 8)) ||
-//                            (i == 2) && ((j == 0) || (j == 1) || (j == 7) || (j == 8)) ||
-//                            (i == 3) && (j == 8)||
-//                            (i == 5) && (j == 0)||
-//                            (i == 6) && ((j == 0) || (j == 1) || (j == 7) || (j == 8)) ||
-//                            (i == 7) && ((j == 0)||(j == 1)||(j == 2) || (j == 6) || (j == 7) || (j == 8)) ||
-//                            (i == 8) && ((j == 0) || (j == 1) || (j == 2) || (j == 5) || (j == 6) || (j == 7) || (j == 8)))
-//                        gameBoard.setCells(i, j, null);
-//                    //else random card fill
-//                }
-//
-//            }
-//        }
-
-    }
-
-
 
     /**
      * Verify cell occupancy
@@ -170,22 +96,24 @@ public class LivingRoomBoard extends Grid{
     public boolean isOrthogonal(int r, int c, Hand pHand, int distance){
 
         List<Coordinates> tmp = pHand.getSlot();
-        // distance = 1
 
-        if(r - tmp.get(distance).x == -1 && c - tmp.get(distance).y == 0){
-            //Allora la carta si trova sopra(north)
+        if(r - tmp.get(distance).x == -distance && c - tmp.get(distance).y == 0){
+            /**then the card is founded in up(north)*/
             return true;
 
-        }else if()
+        }else if(r- tmp.get(distance).x == 0 && c- tmp.get(distance).y == distance){
+            //Allora la carta si trova a destra(east)
+            return true;
 
-
-
-
-
-
-
-
-        return false;
+        }else if(r-tmp.get(distance).x == distance && c-tmp.get(distance).y ==0){
+            //Allora la carta si trova sotto(south)
+            return true;
+        }else if(r-tmp.get(distance).x == 0 && c-tmp.get(distance).y== -distance){
+            //Allora la carta si trova a sinistra(west)
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**
@@ -196,15 +124,32 @@ public class LivingRoomBoard extends Grid{
      */
     public ItemTileCard getItem(int r,int c){
         return getCells()[r][c].getItemTileCard();
-
     }
 
-    /** need to fill by bag*/
+    /**
+     * Checking if all the item in grid is isolated.
+     * @return if true, the Board needs to be refilled
+     */
     public boolean isSingle(){
-        /** if all the adjacent cell (center up, center down, center left, center right )is null then turn true*/
-        /** exclude the dark cell*/
-        return false;
-
+        /** register all adjacent state of single cell
+         * (if all center up, center down, center left, center right is null or dark then return true)
+         * */
+        for(int row=0; row<9; row++)
+        {
+            for(int col=0;col<9;col++)
+            {
+               if(this.getItemName(row, col)!=null && this.getCells()[row][col].isDark()==false)
+               {
+                   String left = this.getItemName(row, col-1);
+                   String right = this.getItemName(row, col+1);
+                   String up = this.getItemName(row+1, col);
+                   String down = this.getItemName(row-1, col);
+                   if(left!=null|| right!=null|| up!=null|| down!=null)
+                       return false;
+               }
+            }
+        }
+        return true;
     }
 
     /**ask bag to fill the cell ?? **/
@@ -213,8 +158,5 @@ public class LivingRoomBoard extends Grid{
 
         return null;
     }
-
-
-
 }
 

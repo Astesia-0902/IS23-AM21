@@ -28,8 +28,8 @@ public class Match {
     public Match(int maxSeats) {
         this.maxSeats = maxSeats;
         playerManager = new PlayerManager(this);
-        livingRoomBoard = new LivingRoomBoard(5, 6, maxSeats, this);
-        bag = new Bag();
+        bag = new Bag(this);
+        livingRoomBoard = new LivingRoomBoard(9, 9, maxSeats, this);
         playerList = new ArrayList<Player>(maxSeats);
         gamePhase = GamePhases.StartGame;
     }
@@ -75,6 +75,26 @@ public class Match {
     }
 
     public void checkLastRound() {
+    }
+
+    /**
+     * This method is called at end of a player's turn
+     *
+     * It needs to check if the board has all the item isolated
+     * @return
+     */
+    public void endTurnActions(){
+
+        //TODO: I dunno, we will figure it out.
+
+
+
+        if(livingRoomBoard.isSingle()){
+            //Refill board
+            bag.refillRequest();
+        }
+
+
     }
 
 

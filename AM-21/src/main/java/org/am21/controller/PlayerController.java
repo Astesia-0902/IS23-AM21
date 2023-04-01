@@ -3,6 +3,8 @@ package org.am21.controller;
 import org.am21.model.*;
 import org.am21.model.items.Card.ItemTileCard;
 import org.am21.model.items.Card.PersonalGoalCard;
+import org.am21.model.items.LivingRoomBoard;
+import org.am21.util.Coordinates;
 
 public class PlayerController {
     public Player player;
@@ -54,27 +56,33 @@ public class PlayerController {
     public boolean selectCard(int r,int c){
         if(player.getMatch().turnPhase!=TurnPhases.Selection)
             return false;
-        if(player.getMatch().livingRoomBoard.isSelectable(r,c)==true){
+
+        LivingRoomBoard tmpBoard = player.getMatch().livingRoomBoard;
+
+        if(tmpBoard.isSelectable(r,c)==true){
             for(int i=1;i<=player.hand.getNumCards();i++){
-                if(player.getMatch().livingRoomBoard.isOrthogonal(r,c,player.hand,i)==false){
+                if(tmpBoard.isOrthogonal(r,c,player.hand,i)==false){
                     return false;
                 }
-
             }
-
-
             //inserisco item nel primo slot disponibile della mano
-            player.hand.setSlot(player.myManager.getMatch().livingRoomBoard.getItem(r,c),
+            player.hand.setSlot(tmpBoard.getItem(r,c),
                     player.hand.getNumCards());
+
             player.hand.setNumCards(player.hand.getNumCards()+1);
+            //Cancello l'item dalla board
             return true;
         }else{
             return false;
         }
-
     }
 
-    public void putDownCard(){
+    /**
+     * Selecting a card in player hand, it will put it back to his original position
+     * @param slotNum
+     */
+    public void putDownCard(int slotNum){
+
 
     }
 

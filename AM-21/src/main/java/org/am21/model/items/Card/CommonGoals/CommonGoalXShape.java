@@ -38,11 +38,11 @@ public class CommonGoalXShape extends CommonGoal {
             for(int col=1;col<4;col++)
             {
                 String center = shelf.getItemName(row, col);
-                String LeftDown = shelf.getItemName(row-1, col-1);
-                String RightDown = shelf.getItemName(row-1, col+1);
-                String LeftUp = shelf.getItemName(row+1, col-1);
-                String RightUp = shelf.getItemName(row+1, col+1);
-                if(center!=null && center.equals(LeftDown) && center.equals(RightDown) && center.equals(LeftUp) && center.equals(RightUp))
+                String leftDown = shelf.getItemName(row-1, col-1);
+                String rightDown = shelf.getItemName(row-1, col+1);
+                String leftUp = shelf.getItemName(row+1, col-1);
+                String rightUp = shelf.getItemName(row+1, col+1);
+                if(center!=null && center.equals(leftDown) && center.equals(rightDown) && center.equals(leftUp) && center.equals(rightUp))
                     return true;
             }
         }
