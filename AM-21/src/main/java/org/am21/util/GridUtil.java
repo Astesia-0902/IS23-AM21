@@ -8,10 +8,8 @@ import org.am21.model.items.LivingRoomBoard;
 import java.util.List;
 
 public class GridUtil {
-    public static LivingRoomBoard buildLivingRoomBoard(int rowNum, int colNum, int numPlayer, Match match){
+    public static LivingRoomBoard buildLivingRoomBoard(int rowNum, int colNum, int numPlayer, Match match, List<ItemTileCard> itemTileCards){
         LivingRoomBoard livingRoomBoard = new LivingRoomBoard(rowNum, colNum, numPlayer, match);
-
-        List<ItemTileCard> itemTileCards = CardUtil.buildItemTileCard(livingRoomBoard.getCapacity());
         Cell[][] cells = livingRoomBoard.getCells();
         int index = 0;
 
@@ -40,10 +38,11 @@ public class GridUtil {
                         cell.setDark(true);
                     }
                     else{
-                        ItemTileCard itemTileCard = itemTileCards.get(index++);
-                        cell.setState(true);
-                        cell.setItemTileCard(itemTileCard);
-                        cells[i][j] = cell;
+                        if (cell.getItemTileCard() == null) {
+                            ItemTileCard itemTileCard = itemTileCards.get(index++);
+                            cell.setItemTileCard(itemTileCard);
+                            cells[i][j] = cell;
+                        }
                     }
 
                 }
@@ -76,10 +75,11 @@ public class GridUtil {
                         cell.setDark(true);
                     }
                     else {
-                        ItemTileCard itemTileCard = itemTileCards.get(index++);
-                        cell.setState(true);
-                        cell.setItemTileCard(itemTileCard);
-                        cells[i][j] = cell;
+                        if (cell.getItemTileCard() == null) {
+                            ItemTileCard itemTileCard = itemTileCards.get(index++);
+                            cell.setItemTileCard(itemTileCard);
+                            cells[i][j] = cell;
+                        }
                     }
                 }
             }
@@ -110,10 +110,11 @@ public class GridUtil {
                         cell.setDark(true);
                     }
                     else{
-                        ItemTileCard itemTileCard = itemTileCards.get(index++);
-                        cell.setState(true);
-                        cell.setItemTileCard(itemTileCard);
-                        cells[i][j] = cell;
+                        if (cell.getItemTileCard() == null) {
+                            ItemTileCard itemTileCard = itemTileCards.get(index++);
+                            cell.setItemTileCard(itemTileCard);
+                            cells[i][j] = cell;
+                        }
                     }
                 }
             }

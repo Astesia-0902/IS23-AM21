@@ -1,14 +1,9 @@
 package org.am21.model.items;
 
-import org.am21.model.items.Card.ItemTileCard;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public abstract class Grid {
-    protected int rowNum;
-    protected int colNum;
-    protected int capacity;
+    public int rowNum;
+    public int colNum;
+    public int capacity;
     private Cell[][] cells;
 
     public Grid(int rowNum, int colNum) {

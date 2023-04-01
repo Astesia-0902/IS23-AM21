@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 public class CommonGoal8Tiles extends CommonGoal {
-    private static final int rowNum = 6;
-    private static final int colNum = 5;
+    private static final int rowNumShelf = 6;
+    private static final int colNumShelf = 5;
     private static final int numSame = 8;
 
     public CommonGoal8Tiles(List<Player> achievedPlayers) {
@@ -28,8 +28,8 @@ public class CommonGoal8Tiles extends CommonGoal {
 
         // Create a counter
         Map<String, Integer> countTiles = new HashMap<>();
-        for (int row = 0; row < rowNum; row++) {
-            for (int col = 0; col < colNum; col++) {
+        for (int row = 0; row < rowNumShelf; row++) {
+            for (int col = 0; col < colNumShelf; col++) {
                 String tile = shelf.getItemName(row, col);
 
                 // If the counter for tileType already exists in countTiles, the current value

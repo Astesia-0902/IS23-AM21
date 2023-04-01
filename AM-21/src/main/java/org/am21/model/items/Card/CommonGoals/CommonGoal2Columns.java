@@ -10,8 +10,8 @@ import java.util.List;
 
 // Check if there are two columns with 6 different types of tiles
 public class CommonGoal2Columns extends CommonGoal {
-    private static final int rowNum = 6;
-    private static final int colNum = 5;
+    private static final int rowNumShelf = 6;
+    private static final int colNumShelf = 5;
     private static final int numDiff = 6;
     private static final int numGroup = 2;
 
@@ -31,11 +31,11 @@ public class CommonGoal2Columns extends CommonGoal {
         // Count the number of occurrences of each type of tile in each column
         int countGroup = 0;
 
-        for (int col = 0; col < colNum; col++) {
+        for (int col = 0; col < colNumShelf; col++) {
             // Create a counter for each column
             HashMap<String, Integer> countTiles = new HashMap<>();
 
-            for (int row = 0; row < rowNum; row++) {
+            for (int row = 0; row < rowNumShelf; row++) {
                 String tileType = shelf.getItemName(row,col);
 
                 // If the counter for tileType already exists in countTiles, the current value
@@ -53,7 +53,6 @@ public class CommonGoal2Columns extends CommonGoal {
             }
         }
 
-        //
         return false;
     }
 }

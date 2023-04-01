@@ -1,18 +1,36 @@
 package org.am21.model.items;
 
 import org.am21.model.items.Card.ItemTileCard;
+import org.am21.util.CardUtil;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class Bag {
     private int itemNum; //initial is 132 item
-
-    private ArrayList<ItemTileCard> itemCollection;
+    private List<ItemTileCard> itemCollection;
     public int requestNum;
+    private final static HashMap<Integer, Integer> request = new HashMap<>();
+    static {
+        request.put(2,29);
+        request.put(3,37);
+        request.put(4,45);
+    }
+
     public Bag(){
         this.itemNum = 132;
-        this.itemCollection = new ArrayList<ItemTileCard> ();
+        this.itemCollection = CardUtil.buildItemTileCard(itemNum);
         /** fill the item initialy **/
+    }
+
+    public List<ItemTileCard> getItemCollection(int playerNum) {
+        return itemCollection;
+    }
+
+    public void setItemCollection(int playerNum) {
+        for (int i = 0; i < request.get(playerNum); i++) {
+            itemCollection.remove(i);
+        }
     }
 
     public void addItem(int requestNum){
