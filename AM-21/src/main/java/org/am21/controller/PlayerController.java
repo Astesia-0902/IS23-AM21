@@ -56,7 +56,7 @@ public class PlayerController {
             return false;
         if(player.getMatch().livingRoomBoard.isSelectable(r,c)==true){
             for(int i=1;i<=player.hand.getNumCards();i++){
-                if(player.getMatch().livingRoomBoard.isOrthogonal(r,c,player,i)==false){
+                if(player.getMatch().livingRoomBoard.isOrthogonal(r,c,player.hand,i)==false){
                     return false;
                 }
 

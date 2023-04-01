@@ -1,5 +1,6 @@
 package org.am21.model.items;
 
+import org.am21.model.Hand;
 import org.am21.model.Match;
 import org.am21.model.Player;
 import org.am21.model.items.Card.ItemTileCard;
@@ -162,14 +163,20 @@ public class LivingRoomBoard extends Grid{
      * According to distance
      * @param r
      * @param c
-     * @param player
+     * @param pHand
      * @param distance
      * @return
      */
-    public boolean isOrthogonal(int r, int c, Player player, int distance){
+    public boolean isOrthogonal(int r, int c, Hand pHand, int distance){
 
-        List<Coordinates> tmp = player.hand.getSlot();
+        List<Coordinates> tmp = pHand.getSlot();
+        // distance = 1
 
+        if(r - tmp.get(distance).x == -1 && c - tmp.get(distance).y == 0){
+            //Allora la carta si trova sopra(north)
+            return true;
+
+        }else if()
 
 
 

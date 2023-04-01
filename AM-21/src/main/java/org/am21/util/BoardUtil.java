@@ -1,6 +1,7 @@
 package org.am21.util;
 
 import org.am21.model.Match;
+import org.am21.model.items.Bag;
 import org.am21.model.items.Card.ItemTileCard;
 import org.am21.model.items.Cell;
 import org.am21.model.items.LivingRoomBoard;
@@ -8,11 +9,18 @@ import org.am21.model.items.LivingRoomBoard;
 import java.util.List;
 
 public class GridUtil {
-    public static LivingRoomBoard buildLivingRoomBoard(LivingRoomBoard livingRoomBoard, List<ItemTileCard> itemTileCards){
-        Cell[][] cells = livingRoomBoard.getCells();
+    /**
+     * LivingRoom builder is going to fill the board's Cells for the first time.
+     * @param board
+     * @param itemTileCards
+     *
+     * @return
+     */
+    public static LivingRoomBoard buildLivingRoom(LivingRoomBoard board, List<ItemTileCard> itemTileCards){
+        Cell[][] cells = board.getCells();
         int index = 0;
 
-        if (livingRoomBoard.getSize() == 29) {
+        if (board.getSize() == 29) {
                         /**
              *8: [][][][][][][][][]
              *7: [][][][*][*][][][][]
@@ -46,7 +54,7 @@ public class GridUtil {
 
                 }
             }
-        } else if (livingRoomBoard.getSize() == 37) {
+        } else if (board.getSize() == 37) {
                         /**
              *8: [][][][+][][][][][]
              *7: [][][][*][*][][][][]
@@ -82,7 +90,7 @@ public class GridUtil {
                     }
                 }
             }
-        } else if (livingRoomBoard.getSize() == 45) {
+        } else if (board.getSize() == 45) {
                         /**
              *8: [][][][*][+][][][][]
              *7: [][][][*][*][+][][][]
@@ -119,6 +127,39 @@ public class GridUtil {
             }
         }
 
-        return livingRoomBoard;
+        return board;
+    }
+
+
+    public static void refillBoard(LivingRoomBoard board, Bag bag){
+        Cell[][] cells = board.getCells();
+
+            for (int i = 0; i < cells.length; i++) {
+                for (int j = 0; j < cells[i].length; j++) {
+                    Cell cell = new Cell();
+                    if (cells[i][j].isDark()==false && board.) {
+                        //Cella si puo riemipire
+
+                    }
+                    else{
+                        //Cella non puo essere riempita
+                        continue;
+                    }
+
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }
