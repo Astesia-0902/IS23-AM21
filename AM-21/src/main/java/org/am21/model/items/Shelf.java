@@ -6,7 +6,7 @@ import org.am21.model.items.Card.ItemTileCard;
 import java.util.ArrayList;
 
 public class Shelf extends Grid {
-    //state of col available (default true)
+    /**state of col available (default true)*/
     public boolean col1;
     public boolean col2;
     public boolean col3;
@@ -27,21 +27,34 @@ public class Shelf extends Grid {
         this.playerShelf = new Grid(6,5) {};
     }
 
-    public void pushCard(ItemTileCard n, int colNum){
-        //selected the n° column to fill card
-        //put card into shelf from playerhand
-        //this.bookshelfGrid.get(colNum).add(n);
-        for(int i=0;i<6;i++){
-            //if Grid availible fill in
+    /**selected the number of column to fill card*/
+    public void pushCard(Cell item, int colNum){
 
+        //this.bookshelfGrid.get(colNum).add(n);
+        /**rolling the first row available*/
+        for(int i=0;i<6;i++){
+            /**if cell available fill in*/
+            if (playerShelf.getItemName(i,colNum)==null) {
+                playerShelf.setCells(i,colNum,item);
+            }
         }
 
     }
 
-
-    public int slotAvailable(int colNum) {
-        this.colNum-=colNum;
-        return this.colNum;
+    /**number of slot available*/
+    public int slotAvailable() {
+        int colNum=0;
+        if(col1)
+            colNum++;
+        if(col2)
+            colNum++;
+        if(col3)
+            colNum++;
+        if(col4)
+            colNum++;
+        if(col5)
+            colNum++;
+        return colNum;
     }
 
     //adjacent same item check ? common goal?

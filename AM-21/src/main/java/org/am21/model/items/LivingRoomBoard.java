@@ -192,7 +192,14 @@ public class LivingRoomBoard extends Grid{
 
     }
 
-    /**ask bag to fill the cell**/
+    /** need to fill by bag*/
+    public boolean isSingle(){
+        /** if all the adjacent cell (center up, center down, center left, center right )is null then turn true*/
+        /** exclude the dark cell*/
+
+    }
+
+    /**ask bag to fill the cell ?? **/
 
     public boolean requestBag(
             if(gameBoard.)

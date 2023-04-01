@@ -82,17 +82,17 @@ public class PlayerController {
     /**
      * Command for insertion of Items in a specific column, selected by the player.
      * This command will activate when player has to choose in which column put the item.
-     * @param colNum
+     *
      * @param numTiles
      * @return
      */
-    public boolean insertTiles(int colNum,int numTiles){
+    public boolean insertTiles(int numTiles){
 
 
 
 
 
-        if(numTiles>0 && numTiles<4 && player.myShelf.slotAvailable(colNum)>=numTiles){
+        if(numTiles>0 && numTiles<4 && player.myShelf.slotAvailable()>=numTiles){
             /**
              * Se num di slot disponibili nella colonna colNum è >= dei Tiles da inserire allora ok
              *  for(int i=0;i<numTiles;i++){
