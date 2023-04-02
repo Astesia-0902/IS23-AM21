@@ -7,7 +7,7 @@ public class PlayerManager {
     public static List<Player> players;
 
     public PlayerManager(){
-        players = new ArrayList<>();
+        players = new ArrayList<Player>();
     }
 
     public int getNumPlayers() {

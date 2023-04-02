@@ -2,7 +2,9 @@ package org.am21.model;
 
 import org.am21.controller.GameController;
 import org.am21.model.items.Bag;
+import org.am21.model.items.Card.ItemTileCard;
 import org.am21.model.items.Card.ScoringTokenCard;
+import org.am21.model.items.Cell;
 import org.am21.model.items.CommonGoal;
 import org.am21.model.items.LivingRoomBoard;
 
@@ -14,10 +16,10 @@ public class Match {
     public int matchID;
     public List<CommonGoal> commonGoals;
     public boolean endGameToken;
-    public PlayerManager playerManager;
     public GameController gameController;
     public LivingRoomBoard livingRoomBoard;
     public Bag bag;
+    public int bagIndex;
     public GamePhases gamePhase;
     public TurnPhases turnPhase;
     public Player currentPlayer;
@@ -29,11 +31,10 @@ public class Match {
 
     public Match(int maxSeats) {
         this.maxSeats = maxSeats;
-        bag = new Bag(this);
         livingRoomBoard = new LivingRoomBoard(9, 9, maxSeats, this);
         playerList = new ArrayList<Player>(maxSeats);
         gamePhase = GamePhases.StartGame;
-        commonGoals = new ArrayList<>(2);
+        commonGoals = new ArrayList<CommonGoal>(2);
     }
 
     public boolean addPlayer(Player player) {
@@ -58,9 +59,24 @@ public class Match {
             GameManager.playerMatchMap.put(player.getName(), matchID);
         }
         currentPlayer = playerList.get((int) (Math.random() * maxSeats) - 1);
-
+        bag = new Bag(this);
+        bag.setItemCollection(maxSeats);
+        fillBoard();
         //TODO:distribute cards to all players
         //CardUtil.buildItemTileCard();
+    }
+
+    private void fillBoard() {
+        List<ItemTileCard> itemTileCards = bag.getItemCollection();
+        for (Cell[] cells : livingRoomBoard.getCells()) {
+            for (Cell cell : cells) {
+                if (cell.isDark() || cell.getItemTileCard() != null) {
+                    continue;
+                }
+                cell.setItemTileCard(itemTileCards.get(bagIndex));
+                bagIndex++;
+            }
+        }
     }
 
     public void drawCard() {
