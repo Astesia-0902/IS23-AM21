@@ -3,10 +3,12 @@ package org.am21.model;
 import org.am21.controller.GameController;
 import org.am21.model.items.Bag;
 import org.am21.model.items.Card.ItemTileCard;
+import org.am21.model.items.Card.PersonalGoalCard;
 import org.am21.model.items.Card.ScoringTokenCard;
 import org.am21.model.items.Cell;
 import org.am21.model.items.CommonGoal;
 import org.am21.model.items.LivingRoomBoard;
+import org.am21.utilities.CardUtil;
 import org.am21.utilities.CommonGoalUtil;
 import org.am21.utilities.MyTimer;
 
@@ -62,22 +64,35 @@ public class Match {
     }
 
     public void matchStart() {
-        gamePhase = GamePhases.GameOnGoing;
-        turnPhase = TurnPhases.Selection;
+        //Determine the first player
+        chairman = playerList.get((int) (Math.random() * maxSeats));
+        System.out.println(chairman.getName() + " get the Chair!");
+        currentPlayer = chairman;
+
+        //Distribution of personal goals
+        List<PersonalGoalCard> personalGoalCards = CardUtil.buildPersonalGoalCard(maxSeats);
+        for (int i = 0; i < maxSeats; i++) {
+            playerList.get(i).setOwnGoal(personalGoalCards.get(i));
+            personalGoalCards.get(i).setPlayer(playerList.get(i));
+        }
+
+        //Determine the common goals
         commonGoals = CommonGoalUtil.getCommonGoals();
         for (Player player : playerList) {
             GameManager.playerMatchMap.put(player.getName(), matchID);
         }
-        chairman = playerList.get((int) (Math.random() * maxSeats));
-        System.out.println(chairman.getName() + " get the Chair!");
-        currentPlayer = chairman;
+
+        //Initialization of the board
         bag = new Bag(this);
         bag.setItemCollection(maxSeats);
         livingRoomBoard = new LivingRoomBoard(9, 9, maxSeats, this);
-        timer = new MyTimer();
-        //TODO:distribute cards (goals) to all players
 
+        //Start the timer
+        timer = new MyTimer();
         timer.startTimer(60,this);
+
+        //Initialize the game phase
+        gamePhase = GamePhases.GameOnGoing;
         changeTurnPhase(TurnPhases.Selection);
     }
 
