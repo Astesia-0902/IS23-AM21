@@ -14,7 +14,7 @@ public class CardUtil {
     /**
      * This block generate the list of all the item's name
      */
-    private final static List<String> itemTileNames = new ArrayList<String>();
+    private final static List<String> itemTileNames = new ArrayList<>();
     static {
         Collections.addAll(itemTileNames, ItemType.__Cats__.name()+"1.1",ItemType.__Cats__.name()+"1.2",ItemType.__Cats__.name()+"1.3",
                 ItemType._Books__.name()+"1.1",ItemType._Books__.name()+"1.2",ItemType._Books__.name()+"1.3",
@@ -29,7 +29,7 @@ public class CardUtil {
      * @return The list of ItemTileCards
      */
     public static List<ItemTileCard> buildItemTileCard(){
-        List<ItemTileCard> itemTileCards = new ArrayList<ItemTileCard>();
+        List<ItemTileCard> itemTileCards = new ArrayList<>();
         for (String itemTileName : itemTileNames) {
             for (int j = 0; j < numCards; j++) {
                 ItemTileCard itemTileCard = new ItemTileCard(itemTileName);
@@ -54,10 +54,14 @@ public class CardUtil {
     // ----------------------------------- PERSONAL GOAL --------------------------------------------------------
     public static Random randomPersonalGoal = new Random();
     public static int numPersonalGoal;
+    public static Set<Integer> usedNumbers = new HashSet<>();
     public static List<PersonalGoalCard> buildPersonalGoalCard(int numPlayer){
-        List<PersonalGoalCard> personalGoalCards = new ArrayList<PersonalGoalCard>();
+        List<PersonalGoalCard> personalGoalCards = new ArrayList<>();
         for (int i = 0; i < numPlayer; i++) {
-            numPersonalGoal = randomPersonalGoal.nextInt(12)-1;
+            do {
+                numPersonalGoal = randomPersonalGoal.nextInt(12) - 1;
+            } while (usedNumbers.contains(numPersonalGoal));
+            usedNumbers.add(numPersonalGoal);
             personalGoalCards.add(new PersonalGoalCard("PERSONAL_GOALs" + numPersonalGoal, null));
         }
 
