@@ -29,20 +29,69 @@ public class Shelf extends Grid {
 
     public Player player;
 
+    public List<Integer> slotCol;
 
-    public Shelf(){
-        super(6, 5);
+    private final static int row = 6 ;
+    private final static int column = 5;
+
+
+
+    public Shelf(Player player){
+        super(row, column);
+        this.player = player;
         this.slotCol1 = 6;
         this.slotCol2 = 6;
         this.slotCol3 = 6;
         this.slotCol4 = 6;
         this.slotCol5 = 6;
+        this.slotCol = new ArrayList<>();
+        for(int i=0;i<colNum;i++){
+            slotCol.add(row);
+        }
+        this.initiateShelfGrid(row,column);
+        System.out.println(player.getName()+"'s Shelf created.");
 
+    }
+
+    public boolean initiateShelfGrid(int r,int c){
+        for(int i=0; i<r;i++){
+            for(int j=0;j<c;j++){
+                this.getCellGrid()[i][j] = new Cell();
+            }
+        }
+
+        return false;
+    }
+    @Override
+    public Cell[][] getCellGrid() {
+        return super.getCellGrid();
+    }
+
+    @Override
+    public void setCell(int rowNum, int colNum, Cell value) {
+        super.setCell(rowNum, colNum, value);
+    }
+
+    @Override
+    public ItemTileCard getCellItem(int r, int c) {
+        return super.getCellItem(r, c);
+    }
+
+    @Override
+    public void insertInCell(int r, int c, ItemTileCard item) {
+        super.insertInCell(r, c, item);
+    }
+
+    @Override
+    public String getItemName(int rowNum, int colNum) {
+        return super.getItemName(rowNum, colNum);
     }
 
     /**number of slot available*/
     public int slotTotAvailable() {
+
         return this.slotCol1+this.slotCol2+this.slotCol3+this.slotCol4+this.slotCol5;
+
     }
     public int getCol1(){return this.slotCol1;}
     public int getCol2(){return this.slotCol2;}
@@ -119,6 +168,17 @@ public class Shelf extends Grid {
                 break;
         }
     }
+
+    /**
+     * Insert an itemCard in the column
+     * @param item
+     * @param col
+     */
+    public void insertCard2(ItemTileCard item,int col){
+        this.insertInCell(slotCol.get(col)-1,col,item);
+        this.slotCol.set(col,slotCol.get(col)-1);
+    }
+
 
     /**adjacent same item check */
     public int colorsPoints(){

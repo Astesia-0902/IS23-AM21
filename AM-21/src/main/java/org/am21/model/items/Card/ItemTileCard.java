@@ -8,6 +8,10 @@ public class ItemTileCard extends Card {
         super(nameCard);
         this.isNonSelectable = false;
     }
+    @Override
+    public String getNameCard() {
+        return super.getNameCard();
+    }
 
     public boolean getNonSelectable() {
         return isNonSelectable;

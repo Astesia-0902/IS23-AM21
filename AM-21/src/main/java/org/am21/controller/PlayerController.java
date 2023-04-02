@@ -11,8 +11,6 @@ public class PlayerController {
     public Player player;
     public Hand hand;
 
-
-
     /**
      * PlayerController constructor is initialized by GameController, when ClientInputHandler login.
      * It will create the player and add his reference
@@ -141,7 +139,7 @@ public class PlayerController {
      * Item in hand will be removed from Board through slot iteration.
      */
     public void moveAllToHand(){
-        if(player.getMatch().turnPhase != TurnPhases.Insertion){
+        if(player.getMatch().turnPhase == TurnPhases.Insertion){
             for(Coordinates card: hand.getSlot()){
                 player.match.livingRoomBoard.insertInCell(card.x,card.y,null);
             }
@@ -155,9 +153,22 @@ public class PlayerController {
      * @return
      */
     public boolean tryToInsert(int col){
+        if(player.match.turnPhase == TurnPhases.Insertion){
+            //chiedi se c'è abbastanza spazio nella colonna
 
+            if(player.myShelf.slotCol.get(col)<hand.getSlot().size()){
+                System.out.println("Not enough space");
+                return false;
+            }else{
+                for(int i=hand.getSlot().size(),s=0;i>0;i--,s++){
 
-
+                    player.myShelf.insertCard2(hand.getSlot().get(s).item,col);
+                    System.out.println("Insert...");
+                }
+                hand.clearHand();
+                return true;
+            }
+        }
         return false;
     }
 
@@ -166,7 +177,11 @@ public class PlayerController {
      * This method will call another one in Hand to swap the position of two cards
      */
     public void changeHandOrder(int pos1,int pos2){
-        hand.changeOrder(pos1,pos2);
+        if(hand.getSlot().size()>=2){
+            hand.changeOrder(pos1,pos2);
+            System.out.println("Ordine Cambiato");
+        }
+
     }
 
 }

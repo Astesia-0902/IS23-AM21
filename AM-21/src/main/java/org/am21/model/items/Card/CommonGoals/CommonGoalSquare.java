@@ -4,6 +4,9 @@ import org.am21.model.items.CommonGoal;
 import org.am21.model.items.Shelf;
 
 public class CommonGoalSquare extends CommonGoal {
+    public CommonGoalSquare(String name) {
+        super(name);
+    }
 
     /**
      * Scan the shelf to find 2 groups of 4 tiles of the same color

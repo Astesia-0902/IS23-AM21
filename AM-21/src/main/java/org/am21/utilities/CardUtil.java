@@ -64,7 +64,7 @@ public class CardUtil {
             usedNumbers.add(numPersonalGoal);
             personalGoalCards.add(new PersonalGoalCard("PERSONAL_GOALs" + numPersonalGoal, null));
         }
-
+        System.out.println(personalGoalCards.size()+" PersonalGoal generated");
         return personalGoalCards;
     }
 

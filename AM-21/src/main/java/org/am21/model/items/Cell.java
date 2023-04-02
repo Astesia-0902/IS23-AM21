@@ -9,8 +9,6 @@ public class Cell {
     private boolean dark = false;
     private ItemTileCard item = null;
 
-
-
     public boolean isDark() {
 
         return dark;

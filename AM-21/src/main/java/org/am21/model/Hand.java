@@ -107,7 +107,9 @@ public class Hand {
      * @param pos2
      */
     public void changeOrder(int pos1,int pos2){
+
         Collections.swap(slot,pos1,pos2);
+
     }
 
 

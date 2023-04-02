@@ -2,16 +2,14 @@ package org.am21.model;
 
 import org.am21.controller.GameController;
 import org.am21.model.items.Bag;
-import org.am21.model.items.Card.ItemTileCard;
 import org.am21.model.items.Card.PersonalGoalCard;
 import org.am21.model.items.Card.ScoringTokenCard;
-import org.am21.model.items.Cell;
 import org.am21.model.items.CommonGoal;
 import org.am21.model.items.LivingRoomBoard;
+import org.am21.model.items.Shelf;
 import org.am21.utilities.CardUtil;
 import org.am21.utilities.CommonGoalUtil;
 import org.am21.utilities.MyTimer;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +50,8 @@ public class Match {
             playerList.add(player);
             player.match = this;
             player.createHand();
+            player.myShelf = new Shelf(player);
+
             GameManager.playerMatchMap.put(player.getName(), matchID);
 
             if (playerList.size() == maxSeats) {
@@ -64,36 +64,41 @@ public class Match {
     }
 
     public void matchStart() {
-        //Determine the first player
-        chairman = playerList.get((int) (Math.random() * maxSeats));
-        System.out.println(chairman.getName() + " get the Chair!");
-        currentPlayer = chairman;
-
-        //Distribution of personal goals
-        List<PersonalGoalCard> personalGoalCards = CardUtil.buildPersonalGoalCard(maxSeats);
-        for (int i = 0; i < maxSeats; i++) {
-            playerList.get(i).setOwnGoal(personalGoalCards.get(i));
-            personalGoalCards.get(i).setPlayer(playerList.get(i));
+        if(playerList.size()<maxSeats) {
+            System.out.println("Not enough players to begin. Keep waiting...");
+            return;
         }
+            //Determine the first player
+            chairman = playerList.get((int) (Math.random() * maxSeats));
+            System.out.println(chairman.getName() + " get the Chair!");
+            currentPlayer = chairman;
 
-        //Determine the common goals
-        commonGoals = CommonGoalUtil.getCommonGoals();
-        for (Player player : playerList) {
-            GameManager.playerMatchMap.put(player.getName(), matchID);
-        }
+            //Distribution of personal goals
+            List<PersonalGoalCard> personalGoalCards = CardUtil.buildPersonalGoalCard(maxSeats);
+            for (int i = 0; i < maxSeats; i++) {
+                playerList.get(i).setOwnGoal(personalGoalCards.get(i));
+                personalGoalCards.get(i).setPlayer(playerList.get(i));
+            }
 
-        //Initialization of the board
-        bag = new Bag(this);
-        bag.setItemCollection(maxSeats);
-        livingRoomBoard = new LivingRoomBoard(9, 9, maxSeats, this);
+            //Determine the common goals
+            commonGoals = CommonGoalUtil.getCommonGoals();
+            for (Player player : playerList) {
+                GameManager.playerMatchMap.put(player.getName(), matchID);
+            }
 
-        //Start the timer
-        timer = new MyTimer();
-        timer.startTimer(60,this);
+            //Initialization of the board
+            bag = new Bag(this);
+            bag.setItemCollection(maxSeats);
+            livingRoomBoard = new LivingRoomBoard(9, 9, maxSeats, this);
 
-        //Initialize the game phase
-        gamePhase = GamePhases.GameOnGoing;
-        changeTurnPhase(TurnPhases.Selection);
+            //Start the timer
+            timer = new MyTimer();
+            timer.startTimer(60, this);
+
+            //Initialize the game phase
+            gamePhase = GamePhases.GameOnGoing;
+            changeTurnPhase(TurnPhases.Selection);
+
     }
 
 //    private void fillBoard() {
@@ -114,6 +119,7 @@ public class Match {
 
     public void nextTurn() {
         currentPlayer = playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats);
+        timer.stopTimer();
         timer.startTimer(60,this);
         changeTurnPhase(TurnPhases.Selection);
     }
@@ -157,7 +163,7 @@ public class Match {
      */
     public void changeTurnPhase(TurnPhases phase) {
         turnPhase = phase;
-        System.out.println("It's " + turnPhase);
+        System.out.println("It's " + turnPhase + " Phase");
     }
 
 

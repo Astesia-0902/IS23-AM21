@@ -1,6 +1,12 @@
 package org.am21.model.items;
 
-public abstract class Goal {
+import org.am21.model.items.Card.Card;
+
+public abstract class Goal extends Card {
     public int goalID;
     public int score;
+
+    public Goal(String nameCard) {
+        super(nameCard);
+    }
 }

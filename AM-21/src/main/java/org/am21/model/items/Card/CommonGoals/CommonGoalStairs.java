@@ -1,20 +1,17 @@
 package org.am21.model.items.Card.CommonGoals;
 
-import org.am21.model.Player;
-import org.am21.model.items.Card.ScoringTokenCard;
 import org.am21.model.items.CommonGoal;
 import org.am21.model.items.Shelf;
 
-import java.util.List;
-
 public class CommonGoalStairs extends CommonGoal {
-    private int id;
-    public List<ScoringTokenCard> tokenStack;
 
-    public List<Player> achievedPlayers;
 
+    public CommonGoalStairs(String name) {
+        super(name);
+    }
+/**
     public CommonGoalStairs(){
-        /**
+
          *
          * check in 2 mode:
          * 1. since the first column: record the number of item (5 o 6),
@@ -29,8 +26,9 @@ public class CommonGoalStairs extends CommonGoal {
          *      third mode:  1,2,3,4,5
          *      forth mode:  2,3,4,5,6
          *
-         * */
-    }
+         *
+    *}
+    */
 
     public boolean checkGoal(Shelf shelf) {
         int [] vectRow = {0,0,0,0,0};

@@ -35,6 +35,7 @@ public class Bag {
         //this.itemNum = 132;
         this.itemCollection = CardUtil.buildItemTileCard();
         /** fill the item initialy **/
+        System.out.println("Bag completely filled with "+ itemCollection.size());
     }
 
     /**

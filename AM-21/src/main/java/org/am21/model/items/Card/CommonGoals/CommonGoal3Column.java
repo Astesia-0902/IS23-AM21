@@ -1,21 +1,19 @@
 package org.am21.model.items.Card.CommonGoals;
 
-import org.am21.model.Player;
-import org.am21.model.items.Card.ScoringTokenCard;
+import org.am21.model.items.Card.ItemType;
+import org.am21.model.items.Cell;
 import org.am21.model.items.CommonGoal;
 import org.am21.model.items.Shelf;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CommonGoal3Column extends CommonGoal {
-    private int id;
-    public List<ScoringTokenCard> tokenStack;
-
-    public List<Player> achievedPlayers;
 
 
-
-    public CommonGoal3Column(){};
+    public CommonGoal3Column(String name) {
+        super(name);
+    }
 
     /**
      * Durante la fase del turno CheckingGoal, viene controllato la Shelf del Player
@@ -33,10 +31,28 @@ public class CommonGoal3Column extends CommonGoal {
      *
      *
      *
-     * @param shelf
+     * @param pShelf
      * @return
      */
-    public boolean checkGoal(Shelf shelf) {
+    @Override
+    public boolean checkGoal(Shelf pShelf) {
+        int win_col = 0;
+        Cell[][] tmpCell = pShelf.getCellGrid();
+        Set<ItemType> reg = new HashSet<>();
+        for(int j=0;j<5;j++){
+            for(int i=0;i<6;i++){
+                //Scorrimento in verticale
+                if(reg.contains(tmpCell[i][j].getItem().getNameCard())){
+
+                }
+
+
+
+            }
+        }
+
+
+
         return false;
     }
 }

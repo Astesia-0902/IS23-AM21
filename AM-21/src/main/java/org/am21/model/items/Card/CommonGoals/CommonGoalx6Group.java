@@ -5,6 +5,10 @@ import org.am21.model.items.Shelf;
 
 
 public class CommonGoalx6Group extends CommonGoal {
+    public CommonGoalx6Group(String name) {
+        super(name);
+    }
+
     /**
      * Scan the shelf to find 6 groups of 2 tiles of the same color
      * @param shelf

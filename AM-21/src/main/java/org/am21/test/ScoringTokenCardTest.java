@@ -1,6 +1,6 @@
 package org.am21.test;
 
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.Test;
 
 class ScoringTokenCardTest {
 
