@@ -15,11 +15,14 @@ public class Hand {
 
     /**
      * Number of cards in the hand (SelectionPhase)
-     * It is useful because the array has always 3 elements
+     * (became useless)
      */
     private int numCards;
     private ArrayList<Coordinates> slot;
 
+    public static ItemTileCard neutral_card = new ItemTileCard("none");
+
+    /**
     public Hand(Player player){
         this.player = player;
         this.numCards=0;
@@ -28,11 +31,41 @@ public class Hand {
         slot.add(new Coordinates(0,0));
         slot.add(new Coordinates(0,0));
 
+    }*/
+
+    public Hand(Player player){
+        this.player = player;
+        this.numCards=0;
+        this.slot = new ArrayList<>();
     }
 
     public ArrayList<Coordinates> getSlot() {
         return slot;
     }
+
+    /**
+     * Create a temporary Coordinates object for data setting.
+     * Then add it to the slot list.
+     * @param item
+     * @param r
+     * @param c
+     */
+    public void memCard(ItemTileCard item,int r, int c){
+        Coordinates tmp = new Coordinates(r,c);
+        tmp.item = item;
+        this.slot.add(tmp);
+    }
+
+    /**
+     * Clearing all items in slot list when the player trigger 'Deselection'
+     */
+    public void clearHand(){
+        this.slot.clear();
+    }
+
+
+
+
 
     /**
      * Insert the item in the slot-n.
@@ -45,18 +78,34 @@ public class Hand {
         this.slot.get(n).y = c;
     }
 
+    /**
+     * Reset slot when player unselect a card
+     * @param n
+     */
+    public void resetSlot(int n){
+        this.slot.get(n).item = neutral_card;
+        this.slot.get(n).x=-1;
+        this.slot.get(n).y=-1;
+    }
+
     public int getNumCards() {
         return numCards;
     }
 
     public void setNumCards(int numCards) {
-        if(numCards>=0 && numCards<=3) {
+        if (numCards >= 0 && numCards <= 3) {
             this.numCards = numCards;
-        }else{
+        } else {
             System.out.println("Try again");
         }
     }
 
+    /**
+     * function for order changing between 2 element in slot
+     * Used during Insertion Phase
+     * @param pos1
+     * @param pos2
+     */
     public void changeOrder(int pos1,int pos2){
         Collections.swap(slot,pos1,pos2);
     }

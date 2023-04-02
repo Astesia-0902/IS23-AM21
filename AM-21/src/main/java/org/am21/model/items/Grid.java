@@ -6,25 +6,30 @@ public abstract class Grid {
     public int rowNum;
     public int colNum;
     public int capacity;
-    private Cell[][] cells;
+    private Cell[][] cellGrid;
 
     public Grid(int rowNum, int colNum) {
         this.rowNum = rowNum;
         this.colNum = colNum;
         this.capacity = this.rowNum * this.colNum;
-        this.cells = new Cell[this.rowNum][this.colNum];
+        this.cellGrid = new Cell[this.rowNum][this.colNum];
     }
 
-    public Cell[][] getCells() {
-        return cells;
+    public Cell[][] getCellGrid() {
+        return cellGrid;
     }
 
     public void setCell(int rowNum, int colNum, Cell value){
-        this.cells[rowNum][colNum] = value;
+        this.cellGrid[rowNum][colNum] = value;
+    }
+
+    public ItemTileCard getCellItem(int r,int c){
+        return cellGrid[r][c].getItem();
     }
 
     public String getItemName(int rowNum,int colNum){
-        return cells[rowNum][colNum].getItemTileCard().getNameCard();
+
+        return cellGrid[rowNum][colNum].getItem().getNameCard();
     }
 
     public int getCapacity() {
@@ -32,7 +37,8 @@ public abstract class Grid {
     }
 
     public void insertInCell(int r, int c, ItemTileCard item){
-        cells[r][c].setItemTileCard(item);
+        if(!cellGrid[r][c].isDark())
+            cellGrid[r][c].setItem(item);
 
     }
 }

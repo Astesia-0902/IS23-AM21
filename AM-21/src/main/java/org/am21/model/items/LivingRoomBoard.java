@@ -6,12 +6,10 @@ import org.am21.model.items.Card.ItemTileCard;
 import org.am21.utilities.BoardUtil;
 import org.am21.utilities.Coordinates;
 
-import java.util.List;
-
 public class LivingRoomBoard extends Grid{
 
     /** The number of required cards depends on the number of players */
-    private int numPlayer;
+    private final int numPlayer;
 
     public Match match;
 
@@ -29,7 +27,7 @@ public class LivingRoomBoard extends Grid{
         super(rowNum, colNum);
         this.numPlayer = numPlayer;
         this.match = match;
-        if(BoardUtil.buildLivingRoom(this,match.bag.getItemCollection())==true){
+        if(BoardUtil.buildLivingRoom(this,match.bag.getItemCollection())){
             System.out.println("Living Room Successfully built");
         }
     }
@@ -46,23 +44,26 @@ public class LivingRoomBoard extends Grid{
             return 45;
     }
 
+    @Override
+    public void insertInCell(int r, int c, ItemTileCard item) {
+        super.insertInCell(r, c, item);
+    }
+
     /**
      * Verify cell occupancy
      * @param r
      * @param c
      * @return
      */
-    public boolean isTaken(int r, int c){
-        if(this.getCells()[r][c]==null){
-            System.out.println("Cell doesn't exist");
-            return false;
-        }
-        if(this.getCells()[r][c].getItemTileCard()!=null) {
-            return true;
-        } else return false;
+    public boolean isOccupied(int r, int c){
+
+        /*Cell (r,c) occupied*/
+        return this.getCellItem(r, c) != null;
     }
 
     /**
+     * Condition 1:
+     * Verify if the celle exists
      * Verify if the Item(r,c) is available to the player to pick.
      * To be available, it needs to have at least one side free and also,
      * if the player pick more items, they need to form a straight line
@@ -70,55 +71,75 @@ public class LivingRoomBoard extends Grid{
      * Checking four side of the item(r,c) if they are free
      *
      * Could be improved, maybe need to be more efficient
+     *
+     * It is different from isSingle
      * @param r
      * @param c
      * @return
      */
     public boolean isSelectable(int r,int c){
+        if(this.getCellGrid()[r][c]==null){
+            System.out.println("Cell doesn't exist");
+            return false;
+        }
+        if(this.getCellGrid()[r][c].isDark()){
+            System.out.println("Cell is dark");
+            return false;
+        }
 
-        if(r+1<rowNum && !isTaken(r+1,c)){
+        if(r+1<rowNum && !isOccupied(r+1,c)){
+            System.out.println("Cell selectable");
             return true;
-        }else if(r-1>=0 && !isTaken(r-1,c)) {
+        }else if(r-1>=0 && !isOccupied(r-1,c)) {
+            System.out.println("Cell selectable");
             return true;
-        }else if(c+1<colNum && !isTaken(r,c+1)){
+        }else if(c+1<colNum && !isOccupied(r,c+1)){
+            System.out.println("Cell selectable");
             return true;
-        }else if(c-1>=0 && !isTaken(r,c-1)){
+        }else if(c-1>=0 && !isOccupied(r,c-1)){
+            System.out.println("Cell selectable");
             return true;
         }else{
+            System.out.println("Cell not selectable");
             return false;
         }
     }
 
     /**
+     * Condition 2: depends on the others selected card
      * The selected tiles need to be on a Straight Line
-     * According to distance
+     * And the new card needs to be adjacent to one of the old cards
+     *
+     * La differenza delle coordinate lungo una direzione deve essere 0
+     * La differenza delle coordinate rimanente puo essere o 1 o 2
+     *
      * @param r
      * @param c
      * @param pHand
-     * @param distance
+     * @param
      * @return
      */
-    public boolean isOrthogonal(int r, int c, Hand pHand, int distance){
+    public boolean isOrthogonal(int r, int c, Hand pHand){
+        int a;
+        int b;
+        boolean check = true; // Se check resta true allora è ortogonale
+        for(Coordinates card: pHand.getSlot()) {
+            a = Math.abs(r - card.x);
+            b = Math.abs(c - card.y);
+            System.out.print("["+a+"]");
+            System.out.println("["+b+"]");
 
-        List<Coordinates> tmp = pHand.getSlot();
+            if(a==0 &&(b>0 && b<3)){
 
-        if(r - tmp.get(distance).x == -distance && c - tmp.get(distance).y == 0){
-            /**then the card is founded in up(north)*/
-            return true;
+            }else if(b==0 &&(a>0 && a<3)){
 
-        }else if(r- tmp.get(distance).x == 0 && c- tmp.get(distance).y == distance){
-            //Allora la carta si trova a destra(east)
-            return true;
+            }else{
+                check = false;
+            }
 
-        }else if(r-tmp.get(distance).x == distance && c-tmp.get(distance).y ==0){
-            //Allora la carta si trova sotto(south)
-            return true;
-        }else if(r-tmp.get(distance).x == 0 && c-tmp.get(distance).y== -distance){
-            //Allora la carta si trova a sinistra(west)
-            return true;
-        }else{
-            return false;
         }
+        return check;
+
     }
 
     /**
@@ -127,8 +148,8 @@ public class LivingRoomBoard extends Grid{
      * @param c
      * @return
      */
-    public ItemTileCard getItem(int r,int c){
-        return this.getCells()[r][c].getItemTileCard();
+    public ItemTileCard getItemInCell(int r, int c){
+        return this.getCellGrid()[r][c].getItem();
     }
 
     /**
@@ -143,7 +164,7 @@ public class LivingRoomBoard extends Grid{
         {
             for(int col=0;col<9;col++)
             {
-               if(this.getItemName(row, col)!=null && this.getCells()[row][col].isDark()==false)
+               if(this.getItemName(row, col)!=null && this.getCellGrid()[row][col].isDark()==false)
                {
                    String left = this.getItemName(row, col-1);
                    String right = this.getItemName(row, col+1);

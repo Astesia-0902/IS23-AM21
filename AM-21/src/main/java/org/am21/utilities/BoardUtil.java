@@ -16,7 +16,7 @@ public class BoardUtil {
      * @return
      */
     public static boolean buildLivingRoom(LivingRoomBoard board, List<ItemTileCard> itemTileCards){
-        Cell[][] cells = board.getCells();
+        Cell[][] cells = board.getCellGrid();
         int index = 0;
 
         if (board.getSize() == 29) {
@@ -42,11 +42,12 @@ public class BoardUtil {
                             (i == 7) && ((j == 1) || (j == 2) || (j == 5) || (j == 6) || (j == 7))) {
                        /** default prohibit during all time of the game (dark cell)*/
                         cell.setDark(true);
+                        cells[i][j] = cell;
                     }
                     else{
-                        if (cell.getItemTileCard() == null) {
+                        if (cell.getItem() == null) {
                             ItemTileCard itemTileCard = itemTileCards.get(index++);
-                            cell.setItemTileCard(itemTileCard);
+                            cell.setItem(itemTileCard);
                             cells[i][j] = cell;
                         }
                     }
@@ -79,11 +80,12 @@ public class BoardUtil {
                             (i == 8) && (j != 3)){
                         /** default prohibit during all time of the game (dark cell)*/
                         cell.setDark(true);
+                        cells[i][j] = cell;
                     }
                     else {
-                        if (cell.getItemTileCard() == null) {
+                        if (cell.getItem() == null) {
                             ItemTileCard itemTileCard = itemTileCards.get(index++);
-                            cell.setItemTileCard(itemTileCard);
+                            cell.setItem(itemTileCard);
                             cells[i][j] = cell;
                         }
                     }
@@ -117,9 +119,9 @@ public class BoardUtil {
                         cells[i][j] = cell;
                     }
                     else{
-                        if (cell.getItemTileCard() == null) {
+                        if (cell.getItem() == null) {
                             ItemTileCard itemTileCard = itemTileCards.get(index++);
-                            cell.setItemTileCard(itemTileCard);
+                            cell.setItem(itemTileCard);
                             cells[i][j] = cell;
                         }
                     }
@@ -140,12 +142,12 @@ public class BoardUtil {
      * @param bag
      */
     public static void refillBoard(LivingRoomBoard board, Bag bag){
-        Cell[][] cells = board.getCells();
+        Cell[][] cells = board.getCellGrid();
 
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
                 Cell cell = new Cell();
-                if (cells[i][j].isDark()==false && !board.isTaken(i,j)) {
+                if (cells[i][j].isDark()==false && !board.isOccupied(i,j)) {
                     if(bag.getItemCollection().size()>0) {
                         //Cell can be filled
                         bag.getItemCollection().get(0);

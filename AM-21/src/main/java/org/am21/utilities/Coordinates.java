@@ -11,6 +11,6 @@ public class Coordinates {
     public Coordinates(int r,int c){
         this.x = r;
         this.y = c;
-        this.item=null;
+        this.item= new ItemTileCard("none");
     }
 }

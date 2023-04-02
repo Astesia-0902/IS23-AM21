@@ -40,8 +40,9 @@ public class Player {
      * Creating a PlayerController for each player account.
      * MyManager will be assigned when the player join a match.
      */
-    public Player(String nickname) {
+    public Player(String nickname, PlayerController controller) {
         this.nickname = nickname;
+        this.controller = controller;
         this.status = UserStatus.Online;
         this.playerScore = 0;
         this.myPersonalGoal = null;
@@ -82,6 +83,17 @@ public class Player {
 
     public void setHand(Hand hand){
         this.hand = hand;
+    }
+
+    /**
+     * Creation of the Player's Hand when joinMatch
+     * Assign Hand reference to Player and PlayerController
+     * @return
+     */
+    public void createHand(){
+        this.hand = new Hand(this);
+        this.controller.hand = this.hand;
+        System.out.println(getName()+"'s Hand created and assigned.");
     }
 
 

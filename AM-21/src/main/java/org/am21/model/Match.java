@@ -31,16 +31,21 @@ public class Match {
 
     public Match(int maxSeats) {
         this.maxSeats = maxSeats;
-        livingRoomBoard = new LivingRoomBoard(9, 9, maxSeats, this);
         playerList = new ArrayList<Player>(maxSeats);
         gamePhase = GamePhases.StartGame;
         commonGoals = new ArrayList<CommonGoal>(2);
     }
 
+    /**
+     * Add player to this match
+     * @param player
+     * @return
+     */
     public boolean addPlayer(Player player) {
         if (playerList.size() < maxSeats) {
             playerList.add(player);
             player.match = this;
+            player.createHand();
             GameManager.playerMatchMap.put(player.getName(), matchID);
 
             if(playerList.size() == maxSeats) {
@@ -58,9 +63,12 @@ public class Match {
         for (Player player : playerList) {
             GameManager.playerMatchMap.put(player.getName(), matchID);
         }
-        currentPlayer = playerList.get((int) (Math.random() * maxSeats) - 1);
+        chairman = playerList.get((int) (Math.random() * maxSeats));
+        System.out.println(chairman.getName() + " get the Chair!");
+        currentPlayer = chairman;
         bag = new Bag(this);
         bag.setItemCollection(maxSeats);
+        livingRoomBoard = new LivingRoomBoard(9, 9, maxSeats, this);
         fillBoard();
         //TODO:distribute cards to all players
         //CardUtil.buildItemTileCard();
@@ -68,12 +76,12 @@ public class Match {
 
     private void fillBoard() {
         List<ItemTileCard> itemTileCards = bag.getItemCollection();
-        for (Cell[] cells : livingRoomBoard.getCells()) {
+        for (Cell[] cells : livingRoomBoard.getCellGrid()) {
             for (Cell cell : cells) {
-                if (cell.isDark() || cell.getItemTileCard() != null) {
+                if (cell.isDark() || cell.getItem() != null) {
                     continue;
                 }
-                cell.setItemTileCard(itemTileCards.get(bagIndex));
+                cell.setItem(itemTileCards.get(bagIndex));
                 bagIndex++;
             }
         }
@@ -113,6 +121,23 @@ public class Match {
         }
 
 
+    }
+
+    /**
+     *
+     * @return which TurnPhase is
+     */
+    public TurnPhases whichTurnPhase(){
+        return turnPhase;
+    }
+
+    /**
+     * Change TurnPhase
+     * @param phase
+     */
+    public void changeTurnPhase(TurnPhases phase){
+        turnPhase = phase;
+        System.out.println("It's " + turnPhase);
     }
 
 

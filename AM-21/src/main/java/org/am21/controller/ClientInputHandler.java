@@ -90,9 +90,9 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientHa
 //        }
 //    }
 
-    public void selectCard(int row, int col) throws ServerNotActiveException {
+    public void selectCell(int row, int col) throws ServerNotActiveException {
         if (!checkPlayerActionPhase()) return;
-        playerController.selectCard(row,col);
+        playerController.selectCell(row,col);
     }
 
     public boolean insertTiles(int colNum, int numTiles) throws ServerNotActiveException {

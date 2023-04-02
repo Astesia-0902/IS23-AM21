@@ -13,6 +13,9 @@ public class CardUtil {
     // Each colour has 7 cards (22/3 = 7), one of the colours has 8 cards.
     private final static int numCards = 7;
 
+    /**
+     * This block generate the list of all the item's name
+     */
     private final static List<String> itemTileNames = new ArrayList<String>();
     static {
         Collections.addAll(itemTileNames, ItemType.__Cats__.name()+"1.1",ItemType.__Cats__.name()+"1.2",ItemType.__Cats__.name()+"1.3",
@@ -23,6 +26,10 @@ public class CardUtil {
                 ItemType._Plants_.name()+"1.1",ItemType._Plants_.name()+"1.2",ItemType._Plants_.name()+"1.3");
     }
 
+    /**
+     * Function to assign each item's name to an ItemTileCard element
+     * @return The list of ItemTileCards
+     */
     public static List<ItemTileCard> buildItemTileCard(){
         List<ItemTileCard> itemTileCards = new ArrayList<ItemTileCard>();
         for (String itemTileName : itemTileNames) {
