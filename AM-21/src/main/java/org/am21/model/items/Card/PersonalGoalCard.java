@@ -5,7 +5,7 @@ import org.am21.model.Player;
 import java.util.*;
 
 public class PersonalGoalCard extends Card {
-    private final Player player;
+    private Player player;
 
     private final static HashMap<String, int[][]> personalGoal = new HashMap<>();
     private final static List<String> tileNames = new ArrayList<>();
@@ -15,7 +15,7 @@ public class PersonalGoalCard extends Card {
         // param2 : column of player's bookshelf
         // param3 : index of tileNames: Cats(0), Books(1), Games(2), Frames(3), Trophies(4), Plants(5)
 
-        personalGoal.put("PERSONAL_GOALs", new int[][]{{0, 0, 5}, {0, 2, 3}, {1, 4, 0}, {2, 3, 1}, {3, 1, 2}, {5, 3, 4}});
+        personalGoal.put("PERSONAL_GOALs1", new int[][]{{0, 0, 5}, {0, 2, 3}, {1, 4, 0}, {2, 3, 1}, {3, 1, 2}, {5, 3, 4}});
         personalGoal.put("PERSONAL_GOALs2", new int[][]{{1, 1, 5}, {2, 0, 0}, {2, 2, 2}, {3, 4, 1}, {4, 3, 4}, {5, 4, 3}});
         personalGoal.put("PERSONAL_GOALs3", new int[][]{{1, 0, 3}, {1, 3, 2}, {2, 2, 5}, {3, 1, 0}, {3, 4, 4}, {5, 0, 1}});
         personalGoal.put("PERSONAL_GOALs4", new int[][]{{0, 4, 2}, {2, 0, 4}, {2, 2, 3}, {3, 3, 5}, {4, 1, 1}, {4, 2, 0}});
@@ -70,5 +70,13 @@ public class PersonalGoalCard extends Card {
     public int calculatePoints() {
         int count = checkGoal();
         return currentScore.getOrDefault(count, 0);
+    }
+
+    public static int getPersonaGoalCardSize() {
+        return personalGoal.size();
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }

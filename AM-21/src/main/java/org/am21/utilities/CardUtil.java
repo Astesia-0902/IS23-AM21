@@ -1,14 +1,12 @@
 package org.am21.utilities;
 
-import org.am21.model.items.Card.ItemTileCard;
-import org.am21.model.items.Card.ItemType;
+import org.am21.model.items.Card.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class CardUtil {
+    // ----------------------------------- ITEM TILE --------------------------------------------------------
+
     // Each set has 22 cards and 3 colours.
     // Each colour has 7 cards (22/3 = 7), one of the colours has 8 cards.
     private final static int numCards = 7;
@@ -51,5 +49,51 @@ public class CardUtil {
 
         Collections.shuffle(itemTileCards);
         return itemTileCards;
+    }
+
+    // ----------------------------------- PERSONAL GOAL --------------------------------------------------------
+    public static Random randomPersonalGoal = new Random();
+    public static int numPersonalGoal;
+    public static List<PersonalGoalCard> buildPersonalGoalCard(int numPlayer){
+        List<PersonalGoalCard> personalGoalCards = new ArrayList<PersonalGoalCard>();
+        for (int i = 0; i < numPlayer; i++) {
+            numPersonalGoal = randomPersonalGoal.nextInt(12)-1;
+            PersonalGoalCard personalGoalCard = new PersonalGoalCard("PERSONAL_GOALs" + numPersonalGoal, null);
+        }
+
+        return personalGoalCards;
+    }
+
+    // ----------------------------------- SCORING TOKENS --------------------------------------------------------
+
+    private final static List<ScoringToken> scoringTokens = new ArrayList<>();
+
+    static {
+        Collections.addAll(scoringTokens,
+                ScoringToken.scoring_8,ScoringToken.scoring_6,
+                ScoringToken.scoring_4,ScoringToken.scoring_2);
+    }
+
+    // return a set of scoring token cards
+    public static List<ScoringTokenCard> buildScoringTokenCards(int numPlayer) {
+        List<ScoringTokenCard> scoringTokenCards = new ArrayList<>();
+
+        if (numPlayer == 4) {
+            for (int i = 0; i < scoringTokens.size(); i++) {
+                ScoringTokenCard scoringTokenCard = new ScoringTokenCard(scoringTokens.get(i));
+                scoringTokenCards.add(scoringTokenCard);
+            }
+        } else if (numPlayer == 3) {
+            for (int i = 0; i < scoringTokens.size() - 1; i++) {
+                ScoringTokenCard scoringTokenCard = new ScoringTokenCard(scoringTokens.get(i));
+                scoringTokenCards.add(scoringTokenCard);
+            }
+        } else if (numPlayer == 2) {
+            for (int i = 0; i < scoringTokens.size() - 1; i = i + 2) {
+                ScoringTokenCard scoringTokenCard = new ScoringTokenCard(scoringTokens.get(i));
+                scoringTokenCards.add(scoringTokenCard);
+            }
+        }
+        return scoringTokenCards;
     }
 }
