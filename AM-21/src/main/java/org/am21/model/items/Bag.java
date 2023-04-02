@@ -2,8 +2,8 @@ package org.am21.model.items;
 
 import org.am21.model.Match;
 import org.am21.model.items.Card.ItemTileCard;
-import org.am21.util.CardUtil;
-import org.am21.util.BoardUtil;
+import org.am21.utilities.CardUtil;
+import org.am21.utilities.BoardUtil;
 
 import java.util.HashMap;
 import java.util.List;

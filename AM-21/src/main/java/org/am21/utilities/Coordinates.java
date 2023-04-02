@@ -1,4 +1,4 @@
-package org.am21.util;
+package org.am21.utilities;
 
 import org.am21.model.items.Card.ItemTileCard;
 

@@ -1,5 +1,7 @@
 package org.am21.model.items;
 
+import org.am21.model.items.Card.ItemTileCard;
+
 public abstract class Grid {
     public int rowNum;
     public int colNum;
@@ -17,7 +19,7 @@ public abstract class Grid {
         return cells;
     }
 
-    public void setCells(int rowNum, int colNum, Cell value){
+    public void setCell(int rowNum, int colNum, Cell value){
         this.cells[rowNum][colNum] = value;
     }
 
@@ -27,5 +29,10 @@ public abstract class Grid {
 
     public int getCapacity() {
         return capacity;
+    }
+
+    public void insertInCell(int r, int c, ItemTileCard item){
+        cells[r][c].setItemTileCard(item);
+
     }
 }

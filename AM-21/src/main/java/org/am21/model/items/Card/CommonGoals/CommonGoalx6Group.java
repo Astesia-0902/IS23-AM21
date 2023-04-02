@@ -17,7 +17,7 @@ public class CommonGoalx6Group extends CommonGoal {
         for(int i = 0; i < 6; i++) {
             for(int j = 0; j < 5; j++) {
                 //Once we find a tile != 0 and not visited, we check if it's the upper left tile of a 1x2 group
-                if(shelf.playerShelf.getCells()[i][j] != null && !visited[i][j]) {
+                if(shelf.getCells()[i][j] != null && !visited[i][j]) {
                     boolean result = process(shelf,i,j,visited) && process(shelf,i+1,j,visited);
                     if(result) {
                         count++;
@@ -34,7 +34,7 @@ public class CommonGoalx6Group extends CommonGoal {
 
     private boolean process(Shelf shelf, int i, int j, boolean[][] visited) {
         //Check if the tile is in the shelf and not visited
-        if(i < 0 || i >= 6 || j < 0 || j >= 5 || visited[i][j] || shelf.playerShelf.getCells()[i][j] == null)
+        if(i < 0 || i >= 6 || j < 0 || j >= 5 || visited[i][j] || shelf.getCells()[i][j] == null)
             return false;
 
         //mark the tile as visited

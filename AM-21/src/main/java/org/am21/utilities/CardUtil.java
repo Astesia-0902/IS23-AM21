@@ -1,4 +1,4 @@
-package org.am21.util;
+package org.am21.utilities;
 
 import org.am21.model.items.Card.ItemTileCard;
 import org.am21.model.items.Card.ItemType;
@@ -15,12 +15,12 @@ public class CardUtil {
 
     private final static List<String> itemTileNames = new ArrayList<String>();
     static {
-        Collections.addAll(itemTileNames, ItemType.Cats.name()+"1.1",ItemType.Cats.name()+"1.2",ItemType.Cats.name()+"1.3",
-                ItemType.Books.name()+"1.1",ItemType.Books.name()+"1.2",ItemType.Books.name()+"1.3",
-                ItemType.Games.name()+"1.1",ItemType.Games.name()+"1.2",ItemType.Games.name()+"1.3",
-                ItemType.Frames.name()+"1.1",ItemType.Frames.name()+"1.2",ItemType.Frames.name()+"1.3",
+        Collections.addAll(itemTileNames, ItemType.__Cats__.name()+"1.1",ItemType.__Cats__.name()+"1.2",ItemType.__Cats__.name()+"1.3",
+                ItemType._Books__.name()+"1.1",ItemType._Books__.name()+"1.2",ItemType._Books__.name()+"1.3",
+                ItemType._Games__.name()+"1.1",ItemType._Games__.name()+"1.2",ItemType._Games__.name()+"1.3",
+                ItemType._Frames_.name()+"1.1",ItemType._Frames_.name()+"1.2",ItemType._Frames_.name()+"1.3",
                 ItemType.Trophies.name()+"1.1",ItemType.Trophies.name()+"1.2",ItemType.Trophies.name()+"1.3",
-                ItemType.Plants.name()+"1.1",ItemType.Plants.name()+"1.2",ItemType.Plants.name()+"1.3");
+                ItemType._Plants_.name()+"1.1",ItemType._Plants_.name()+"1.2",ItemType._Plants_.name()+"1.3");
     }
 
     public static List<ItemTileCard> buildItemTileCard(){
@@ -34,12 +34,12 @@ public class CardUtil {
 
         // Follows the physical game, adding the 22nd card of each set
         itemTileCards.addAll(Arrays.asList(
-                new ItemTileCard(ItemType.Cats.name()+"1.2"),
-                new ItemTileCard(ItemType.Books.name()+"1.3"),
-                new ItemTileCard(ItemType.Games.name()+"1.2"),
-                new ItemTileCard(ItemType.Frames.name()+"1.3"),
+                new ItemTileCard(ItemType.__Cats__.name()+"1.2"),
+                new ItemTileCard(ItemType._Books__.name()+"1.3"),
+                new ItemTileCard(ItemType._Games__.name()+"1.2"),
+                new ItemTileCard(ItemType._Frames_.name()+"1.3"),
                 new ItemTileCard(ItemType.Trophies.name()+"1.3"),
-                new ItemTileCard(ItemType.Plants.name()+"1.3")
+                new ItemTileCard(ItemType._Plants_.name()+"1.3")
         ));
 
         Collections.shuffle(itemTileCards);

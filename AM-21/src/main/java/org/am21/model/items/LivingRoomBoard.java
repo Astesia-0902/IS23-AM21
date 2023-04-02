@@ -3,8 +3,8 @@ package org.am21.model.items;
 import org.am21.model.Hand;
 import org.am21.model.Match;
 import org.am21.model.items.Card.ItemTileCard;
-import org.am21.util.BoardUtil;
-import org.am21.util.Coordinates;
+import org.am21.utilities.BoardUtil;
+import org.am21.utilities.Coordinates;
 
 import java.util.List;
 
@@ -29,7 +29,9 @@ public class LivingRoomBoard extends Grid{
         super(rowNum, colNum);
         this.numPlayer = numPlayer;
         this.match = match;
-        BoardUtil.buildLivingRoom(this,match.bag.getItemCollection());
+        if(BoardUtil.buildLivingRoom(this,match.bag.getItemCollection())==true){
+            System.out.println("Living Room Successfully built");
+        }
     }
 
     /**
@@ -51,10 +53,13 @@ public class LivingRoomBoard extends Grid{
      * @return
      */
     public boolean isTaken(int r, int c){
-        if(getCells()[r][c].getItemTileCard()!=null)
-            return true;
-        else
+        if(this.getCells()[r][c]==null){
+            System.out.println("Cell doesn't exist");
             return false;
+        }
+        if(this.getCells()[r][c].getItemTileCard()!=null) {
+            return true;
+        } else return false;
     }
 
     /**
@@ -123,7 +128,7 @@ public class LivingRoomBoard extends Grid{
      * @return
      */
     public ItemTileCard getItem(int r,int c){
-        return getCells()[r][c].getItemTileCard();
+        return this.getCells()[r][c].getItemTileCard();
     }
 
     /**
@@ -150,13 +155,6 @@ public class LivingRoomBoard extends Grid{
             }
         }
         return true;
-    }
-
-    /**ask bag to fill the cell ?? **/
-
-    public Bag requestBag(){
-
-        return null;
     }
 }
 

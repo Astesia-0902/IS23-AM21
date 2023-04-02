@@ -1,12 +1,21 @@
 package org.am21.model.items;
 
 import org.am21.model.Player;
-import org.am21.model.items.Card.ItemTileCard;
-import org.am21.util.Coordinates;
+import org.am21.utilities.Coordinates;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+
+/**
+ * Attributes needed:
+ * - Number of cells available for each column
+ * - Total number of cells available in the Shelf
+ * - Limit for insertion overall (it could be 3,2 or 1)
+ *
+ * Method needed:
+ * - Insertion of one item in a column(cells available in the column will decrease)
+ * -
+ */
 
 public class Shelf extends Grid {
     /**state of col available (default true)*/
@@ -15,9 +24,9 @@ public class Shelf extends Grid {
     public boolean col3;
     public boolean col4;
     public boolean col5;
+
     public Player player;
-    public Grid playerShelf;
-    //public ArrayList<ArrayList<ItemTileCard>> bookshelfGrid;
+
 
     public Shelf(){
         super(6, 5);
@@ -26,8 +35,7 @@ public class Shelf extends Grid {
         this.col3 = true;
         this.col4 = true;
         this.col5 = true;
-        //this.bookshelfGrid = new ArrayList<ArrayList<ItemTileCard>>();
-        this.playerShelf = new Grid(6,5) {};
+
     }
 
     /**selected the number of column to fill card*/
@@ -37,8 +45,8 @@ public class Shelf extends Grid {
         /**rolling the first row available*/
         for(int i=0;i<6;i++){
             /**if cell available fill in*/
-            if (playerShelf.getItemName(i,colNum)==null) {
-                playerShelf.setCells(i,colNum,item);
+            if (this.getItemName(i,colNum)==null) {
+                this.setCell(i,colNum,item);
             }
         }
 
@@ -70,28 +78,28 @@ public class Shelf extends Grid {
 
         for(int r=0;r<6;r++) {
             for(int c=0;c<5;c++) {
-                if(playerShelf.getItemName(r,c)!=null)
+                if(this.getItemName(r,c)!=null)
                 {
                     do {
                         reg_index++;
                         common.add(new Coordinates(r, c));
                         /** save the first not null item in String type*/
-                        String recentCard = playerShelf.getItemName(common.get(reg_index).x,common.get(reg_index).y);
+                        String recentCard = this.getItemName(common.get(reg_index).x,common.get(reg_index).y);
 
-                        if (playerShelf.getItemName(r, c + 1) != null && (recentCard == playerShelf.getItemName(r, c + 1))) {
+                        if (this.getItemName(r, c + 1) != null && (recentCard == this.getItemName(r, c + 1))) {
                             common.add(new Coordinates(r, c + 1));
                         }
-                        if (playerShelf.getItemName(r, c - 1) != null && (recentCard == playerShelf.getItemName(r, c - 1))) {
+                        if (this.getItemName(r, c - 1) != null && (recentCard == this.getItemName(r, c - 1))) {
                             common.add(new Coordinates(r, c - 1));
                         }
-                        if (playerShelf.getItemName(r + 1, c) != null && (recentCard == playerShelf.getItemName(r + 1, c))) {
+                        if (this.getItemName(r + 1, c) != null && (recentCard == this.getItemName(r + 1, c))) {
                             common.add(new Coordinates(r + 1, c));
                         }
-                        if (playerShelf.getItemName(r - 1, c) != null && (recentCard == playerShelf.getItemName(r - 1, c))) {
+                        if (this.getItemName(r - 1, c) != null && (recentCard == this.getItemName(r - 1, c))) {
                             common.add(new Coordinates(r - 1, c));
                         }
                         /** set the cell to null*/
-                        playerShelf.setCells(r, c, null);
+                        this.setCell(r, c, null);
                         /**now begin check the next element of list to recheck this procedure*/
 
 

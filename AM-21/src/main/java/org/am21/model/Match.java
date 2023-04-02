@@ -5,7 +5,6 @@ import org.am21.model.items.Bag;
 import org.am21.model.items.Card.ScoringTokenCard;
 import org.am21.model.items.CommonGoal;
 import org.am21.model.items.LivingRoomBoard;
-import org.am21.util.CardUtil;
 
 
 import java.util.ArrayList;
@@ -24,14 +23,17 @@ public class Match {
     public Player currentPlayer;
     public List<Player> playerList;
     public int maxSeats;
+    private Player firstToComplete;
+    private int numPlayers;
+    public Player chairman;
 
     public Match(int maxSeats) {
         this.maxSeats = maxSeats;
-        playerManager = new PlayerManager(this);
         bag = new Bag(this);
         livingRoomBoard = new LivingRoomBoard(9, 9, maxSeats, this);
         playerList = new ArrayList<Player>(maxSeats);
         gamePhase = GamePhases.StartGame;
+        commonGoals = new ArrayList<>(2);
     }
 
     public boolean addPlayer(Player player) {

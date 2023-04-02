@@ -29,9 +29,9 @@ public class PersonalGoalCard extends Card {
         personalGoal.put("PERSONAL_GOALs12", new int[][]{{0, 2, 1}, {1, 1, 5}, {2, 2, 3}, {3, 3, 4}, {4, 4, 2}, {5, 0, 0}});
 
         Collections.addAll(tileNames,
-                    ItemType.Cats.name(), ItemType.Books.name(),
-                    ItemType.Games.name(), ItemType.Frames.name(),
-                    ItemType.Trophies.name(), ItemType.Plants.name());
+                    ItemType.__Cats__.name(), ItemType._Books__.name(),
+                    ItemType._Games__.name(), ItemType._Frames_.name(),
+                    ItemType.Trophies.name(), ItemType._Plants_.name());
 
         currentScore.put(1,1);
         currentScore.put(2,2);

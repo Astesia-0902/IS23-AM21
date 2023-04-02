@@ -1,4 +1,4 @@
-package org.am21.util;
+package org.am21.utilities;
 
 import org.am21.model.items.Bag;
 import org.am21.model.items.Card.ItemTileCard;
@@ -15,7 +15,7 @@ public class BoardUtil {
      *
      * @return
      */
-    public static LivingRoomBoard buildLivingRoom(LivingRoomBoard board, List<ItemTileCard> itemTileCards){
+    public static boolean buildLivingRoom(LivingRoomBoard board, List<ItemTileCard> itemTileCards){
         Cell[][] cells = board.getCells();
         int index = 0;
 
@@ -114,6 +114,7 @@ public class BoardUtil {
                             (i == 8) && ((j == 0) || (j == 1) || (j == 2) || (j == 5) || (j == 6) || (j == 7) || (j == 8))){
                         /** default prohibit during all time of the game (dark cell)*/
                         cell.setDark(true);
+                        cells[i][j] = cell;
                     }
                     else{
                         if (cell.getItemTileCard() == null) {
@@ -124,9 +125,11 @@ public class BoardUtil {
                     }
                 }
             }
+        }else{
+            return false;
         }
 
-        return board;
+        return true;
     }
 
     /**

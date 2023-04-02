@@ -1,20 +1,25 @@
 package org.am21.controller;
 
-import org.am21.model.*;
-import org.am21.model.items.Card.ItemTileCard;
+import org.am21.model.Hand;
+import org.am21.model.Player;
+import org.am21.model.TurnPhases;
 import org.am21.model.items.Card.PersonalGoalCard;
 import org.am21.model.items.LivingRoomBoard;
-import org.am21.util.Coordinates;
 
 public class PlayerController {
     public Player player;
+    public Hand hand;
+
+
 
     /**
      * PlayerController constructor is initialized by GameController, when ClientInputHandler login.
      *
      */
     public PlayerController(String nickname){
+
         this.player = new Player(nickname);
+        this.hand = player.hand;
     }
 
     /**
@@ -31,95 +36,96 @@ public class PlayerController {
      * @return
      */
     public PersonalGoalCard viewMyGoal(){
+
         return player.getMyPersonalGoal();
     }
 
-    /**
-     * Command to request GameManager to join a Game,
-     * GameManger will add the player to an available Match or will create one if it doesn't exist.
-     */
-    public void requestJoinGame(){
-
-
-    }
 
     /**
      * During SelectionCards of TurnPhases, when the player click on an item,
-     * the command will put the item in the PlayerHand if is Selectable(at least one item adjacent)
+     * the command will memorize the item position and reference in the PlayerHand
+     * if is Selectable(at least one item adjacent)
      * and if is Orthogonal to the other selected cards
      *
-     * To revisit: too many recall to references...lel
+     * To revisit
+     * TODO: Condition: how many cards can i select in relation to how many free cells there are in Shelf
      * @param r
      * @param c
      * @return
      */
     public boolean selectCard(int r,int c){
-        if(player.getMatch().turnPhase!=TurnPhases.Selection)
-            return false;
-
-        LivingRoomBoard tmpBoard = player.getMatch().livingRoomBoard;
-
-        if(tmpBoard.isSelectable(r,c)==true){
-            for(int i=1;i<=player.hand.getNumCards();i++){
-                if(tmpBoard.isOrthogonal(r,c,player.hand,i)==false){
-                    return false;
-                }
+            if (player.getMatch().turnPhase != TurnPhases.Selection) {
+                System.out.println("Not Selection Time");
+                return false;
             }
-            //inserisco item nel primo slot disponibile della mano
-            player.hand.setSlot(tmpBoard.getItem(r,c),
-                    player.hand.getNumCards());
+            LivingRoomBoard tmpBoard = player.getMatch().livingRoomBoard;
 
-            player.hand.setNumCards(player.hand.getNumCards()+1);
-            //Cancello l'item dalla board
-            return true;
-        }else{
-            return false;
-        }
+            if (tmpBoard.isSelectable(r, c) == true) {
+                for (int i = 1; i <= hand.getNumCards(); i++) {
+                    if (tmpBoard.isOrthogonal(r, c, player.hand, i) == false) {
+                        System.out.println("Not Orthogonal");
+                        return false;
+                    }
+                }
+                /**salvo le coordinate e il riferimento dell'item nella hand*/
+                hand.setSlot(tmpBoard.getItem(r, c), hand.getNumCards(), r, c);
+                hand.setNumCards(hand.getNumCards() + 1);
+
+                return true;
+            } else {
+                System.out.println("Not Selectable");
+                return false;
+            }
     }
 
     /**
-     * Selecting a card in player hand, it will put it back to his original position
+     * During Selection Phase
+     * Selecting a card in player hand, it will put it back to his original position in the Board
      * @param slotNum
      */
-    public void putDownCard(int slotNum){
+    public void unselectCard(int slotNum){
+        if(player.match.turnPhase == TurnPhases.Selection) {
 
-
+            hand.setSlot(null, slotNum, -1, -1);
+            hand.setNumCards(hand.getNumCards() - 1);
+        }
     }
 
-
     /**
-     * Command for insertion of Items in a specific column, selected by the player.
-     * This command will activate when player has to choose in which column put the item.
-     *
-     * @param numTiles
-     * @return
+     * During Insertion Phase.
+     * Item removal from Board through slots iteration.
      */
-    public boolean insertTiles(int numTiles){
-
-
-
-
-
-        if(numTiles>0 && numTiles<4 && player.myShelf.slotAvailable()>=numTiles){
-            /**
-             * Se num di slot disponibili nella colonna colNum è >= dei Tiles da inserire allora ok
-             *  for(int i=0;i<numTiles;i++){
-             *      playerHand.get(i).addItemToShelf(colNum);
-             *      playerHand.remove(i);   //???(Ken)
-                }
-             */
-            return true;
-        }else{
-            return false;
+    public void moveAllToHand(){
+        if(player.getMatch().turnPhase != TurnPhases.Insertion){
+            int x=0;
+            int y=0;
+            for(int i=0;i<hand.getNumCards();i++){
+                x = hand.getSlot().get(i).x;
+                y = hand.getSlot().get(i).y;
+                player.match.livingRoomBoard.getCells()[x][y].setItemTileCard(null);
+            }
         }
 
     }
 
+    /**
+     * Request for the Shelf to insert all the selected cards in a column(col)
+     * @param col
+     * @return
+     */
+    public boolean tryToInsert(int col){
 
-    public void addItemToHand(ItemTileCard item){}
 
-    public void removeItemFromHand(ItemTileCard item){}
 
-    public void changeHandOrder(){}
+        return false;
+    }
+
+
+    /**
+     * This method will call another one in Hand to swap the position of two cards
+     */
+    public void changeHandOrder(int pos1,int pos2){
+        hand.changeOrder(pos1,pos2);
+    }
 
 }

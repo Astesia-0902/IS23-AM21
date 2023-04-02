@@ -1,7 +1,6 @@
 package org.am21.model;
 
 import org.am21.controller.PlayerController;
-import org.am21.model.items.Card.ItemTileCard;
 import org.am21.model.items.Card.PersonalGoalCard;
 import org.am21.model.items.Shelf;
 
@@ -31,8 +30,6 @@ public class Player {
 
     public PlayerController controller;
 
-    public PlayerManager myManager;
-
     public Match match;
 
 
@@ -51,7 +48,6 @@ public class Player {
         this.myShelf = null;
         this.hand = null;
         this.playerSeat = 0;
-        this.myManager = null;
         this.match = null;
     }
 
@@ -84,41 +80,9 @@ public class Player {
         return match;
     }
 
-
-
-    /**
-     * !!!Remember to move this to PlayerController
-     * add Item to Player's Hand
-     * @param item
-     */
-    public void addItemToHand(ItemTileCard item){
-        //playerHand.add(item);
-
+    public void setHand(Hand hand){
+        this.hand = hand;
     }
 
-    /**
-     *  !!!Remember to move this to PlayerController
-     * remove Item from Player's Hand
-     * @param item
-     */
-    public void removeItemFromHand(ItemTileCard item){
-        //playerHand.remove(item);
-    }
-
-    /**
-     * * !!!Remember to move this to PlayerController
-     *     Cambio ordine delle carte selezionate
-     *     !!!!Rivedere il sistema di controllo dei valori che siano inferiori al numero di carte selezionate
-     *
-     * @param pos1
-     * @param pos2
-     */
-    public void changeHandOrder(int pos1,int pos2){
-        /** Ordine crescente (la prima carta è index-0 e l'ultima è potenzialmente index-2)*/
-        //ItemTileCard tmp = playerHand.get(pos1);
-        //playerHand.set(pos1,playerHand.get(pos2));
-        //playerHand.set(pos2,tmp);
-
-    }
 
 }

@@ -12,7 +12,7 @@ public class Cell {
         this.dark = dark;
     }
     public ItemTileCard getItemTileCard() {
-        return itemTileCard;
+        return this.itemTileCard;
     }
 
     public void setItemTileCard(ItemTileCard itemTileCard) {

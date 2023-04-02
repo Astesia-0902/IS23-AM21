@@ -1,10 +1,10 @@
 package org.am21.model.items.Card;
 
 public enum ItemType {
-    Cats,
-    Books,
-    Games,
-    Frames,
+    __Cats__,
+    _Books__,
+    _Games__,
+    _Frames_,
     Trophies,
-    Plants
+    _Plants_
 }
