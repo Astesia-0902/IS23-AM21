@@ -16,9 +16,9 @@ public class CommonGoal2Columns extends CommonGoal {
     private static final int numGroup = 2;
 
 
-    public CommonGoal2Columns(List<Player> achievedPlayers) {
-        super(2, achievedPlayers);
-    }
+//    public CommonGoal2Columns(List<Player> achievedPlayers) {
+//        super(2, achievedPlayers);
+//    }
 
     @Override
     public boolean checkGoal(Shelf shelf) {

@@ -10,17 +10,17 @@ import java.util.List;
 public class BoardUtil {
     /**
      * LivingRoom builder is going to fill the board's Cells for the first time.
+     *
      * @param board
      * @param itemTileCards
-     *
      * @return
      */
-    public static boolean buildLivingRoom(LivingRoomBoard board, List<ItemTileCard> itemTileCards){
+    public static boolean buildLivingRoom(LivingRoomBoard board, List<ItemTileCard> itemTileCards) {
         Cell[][] cells = board.getCellGrid();
         int index = 0;
 
         if (board.getSize() == 29) {
-                        /**
+            /**
              *8: [][][][][][][][][]
              *7: [][][][*][*][][][][]
              *6: [][][][*][*][*][][][]
@@ -40,11 +40,10 @@ public class BoardUtil {
                             (i == 3) && (j == 7) ||
                             (i == 5) && (j == 1) ||
                             (i == 7) && ((j == 1) || (j == 2) || (j == 5) || (j == 6) || (j == 7))) {
-                       /** default prohibit during all time of the game (dark cell)*/
+                        /** default prohibit during all time of the game (dark cell)*/
                         cell.setDark(true);
                         cells[i][j] = cell;
-                    }
-                    else{
+                    } else {
                         if (cell.getItem() == null) {
                             ItemTileCard itemTileCard = itemTileCards.get(index++);
                             cell.setItem(itemTileCard);
@@ -55,7 +54,7 @@ public class BoardUtil {
                 }
             }
         } else if (board.getSize() == 37) {
-                        /**
+            /**
              *8: [][][][+][][][][][]
              *7: [][][][*][*][][][][]
              *6: [][][+][*][*][*][+][][]
@@ -77,12 +76,11 @@ public class BoardUtil {
                             (i == 5) && ((j == 0) || (j == 1)) ||
                             (i == 6) && ((j == 0) || (j == 1) || (j == 7) || (j == 8)) ||
                             (i == 7) && ((j == 0) || (j == 1) || (j == 2) || (j == 5) || (j == 6) || (j == 7) || (j == 8)) ||
-                            (i == 8) && (j != 3)){
+                            (i == 8) && (j != 3)) {
                         /** default prohibit during all time of the game (dark cell)*/
                         cell.setDark(true);
                         cells[i][j] = cell;
-                    }
-                    else {
+                    } else {
                         if (cell.getItem() == null) {
                             ItemTileCard itemTileCard = itemTileCards.get(index++);
                             cell.setItem(itemTileCard);
@@ -92,7 +90,7 @@ public class BoardUtil {
                 }
             }
         } else if (board.getSize() == 45) {
-                        /**
+            /**
              *8: [][][][*][+][][][][]
              *7: [][][][*][*][+][][][]
              *6: [][][*][*][*][*][*][][]
@@ -107,18 +105,17 @@ public class BoardUtil {
                 for (int j = 0; j < cells[i].length; j++) {
                     Cell cell = new Cell();
                     if ((i == 0) && ((j == 0) || (j == 1) || (j == 2) || (j == 3) || (j == 6) || (j == 7) || (j == 8)) ||
-                            (i == 1) && ((j == 0)||(j == 1)||(j == 2)||(j == 6)||(j == 7)||(j == 8)) ||
+                            (i == 1) && ((j == 0) || (j == 1) || (j == 2) || (j == 6) || (j == 7) || (j == 8)) ||
                             (i == 2) && ((j == 0) || (j == 1) || (j == 7) || (j == 8)) ||
-                            (i == 3) && (j == 8)||
-                            (i == 5) && (j == 0)||
+                            (i == 3) && (j == 8) ||
+                            (i == 5) && (j == 0) ||
                             (i == 6) && ((j == 0) || (j == 1) || (j == 7) || (j == 8)) ||
-                            (i == 7) && ((j == 0)||(j == 1)||(j == 2) || (j == 6) || (j == 7) || (j == 8)) ||
-                            (i == 8) && ((j == 0) || (j == 1) || (j == 2) || (j == 5) || (j == 6) || (j == 7) || (j == 8))){
+                            (i == 7) && ((j == 0) || (j == 1) || (j == 2) || (j == 6) || (j == 7) || (j == 8)) ||
+                            (i == 8) && ((j == 0) || (j == 1) || (j == 2) || (j == 5) || (j == 6) || (j == 7) || (j == 8))) {
                         /** default prohibit during all time of the game (dark cell)*/
                         cell.setDark(true);
                         cells[i][j] = cell;
-                    }
-                    else{
+                    } else {
                         if (cell.getItem() == null) {
                             ItemTileCard itemTileCard = itemTileCards.get(index++);
                             cell.setItem(itemTileCard);
@@ -127,7 +124,7 @@ public class BoardUtil {
                     }
                 }
             }
-        }else{
+        } else {
             return false;
         }
 
@@ -138,20 +135,21 @@ public class BoardUtil {
      * This method will be called by the Bag when the cards needed to refill the board are enough
      * The pre-condition is LivingBoard.isSingle() is true (every card in the board is isolated)
      * The method-chain is initiliazed by Match
+     *
      * @param board
      * @param bag
      */
-    public static void refillBoard(LivingRoomBoard board, Bag bag){
+    public static void refillBoard(LivingRoomBoard board, Bag bag) {
         Cell[][] cells = board.getCellGrid();
 
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
                 Cell cell = new Cell();
-                if (cells[i][j].isDark()==false && !board.isOccupied(i,j)) {
-                    if(bag.getItemCollection().size()>0) {
+                if (cells[i][j].isDark() == false && !board.isOccupied(i, j)) {
+                    if (bag.getItemCollection().size() > 0) {
                         //Cell can be filled
-                        bag.getItemCollection().get(0);
-                        bag.getItemCollection().remove(0);
+                        board.insertInCell(i, j, bag.getItemCollection().get(bag.bagIndex));
+                        bag.bagIndex++;
                     }
                 }
             }

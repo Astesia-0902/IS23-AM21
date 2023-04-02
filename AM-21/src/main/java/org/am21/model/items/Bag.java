@@ -12,6 +12,7 @@ public class Bag {
     public Match match;
 //    private int itemNum; //initial is 132 item
     private List<ItemTileCard> itemCollection;
+    public int bagIndex;
 
     /**
      * 'request' may not be needed

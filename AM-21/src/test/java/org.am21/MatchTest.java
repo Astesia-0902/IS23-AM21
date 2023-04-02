@@ -2,7 +2,7 @@ package org.am21;
 
 import org.am21.model.Match;
 import org.am21.model.items.LivingRoomBoard;
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.Test;
 
 class MatchTest {
     @Test

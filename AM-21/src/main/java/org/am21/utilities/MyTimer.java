@@ -1,5 +1,7 @@
 package org.am21.utilities;
 
+import org.am21.model.Match;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,7 +19,7 @@ public class MyTimer {
      * start timer at the beginning of each player's turn
      * @param waitTime
      */
-    public void startTimer(final int waitTime){
+    public void startTimer(final int waitTime, final Match match){
         final int[] count = {0};
         System.out.println("Timer started!");
         TimerTask task = new TimerTask() {
@@ -27,7 +29,7 @@ public class MyTimer {
                 if(count[0] >= waitTime){
                     System.out.println("Time's up!");
                     timer.cancel();
-                    //TODO: next player
+                    match.nextTurn();
                 }
             }
         };

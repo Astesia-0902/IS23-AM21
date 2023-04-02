@@ -7,6 +7,8 @@ import org.am21.model.items.Card.ScoringTokenCard;
 import org.am21.model.items.Cell;
 import org.am21.model.items.CommonGoal;
 import org.am21.model.items.LivingRoomBoard;
+import org.am21.utilities.CommonGoalUtil;
+import org.am21.utilities.MyTimer;
 
 
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ public class Match {
     private Player firstToComplete;
     private int numPlayers;
     public Player chairman;
+    public MyTimer timer;
 
     public Match(int maxSeats) {
         this.maxSeats = maxSeats;
@@ -38,6 +41,7 @@ public class Match {
 
     /**
      * Add player to this match
+     *
      * @param player
      * @return
      */
@@ -48,7 +52,7 @@ public class Match {
             player.createHand();
             GameManager.playerMatchMap.put(player.getName(), matchID);
 
-            if(playerList.size() == maxSeats) {
+            if (playerList.size() == maxSeats) {
                 matchStart();
             }
 
@@ -60,6 +64,7 @@ public class Match {
     public void matchStart() {
         gamePhase = GamePhases.GameOnGoing;
         turnPhase = TurnPhases.Selection;
+        commonGoals = CommonGoalUtil.getCommonGoals();
         for (Player player : playerList) {
             GameManager.playerMatchMap.put(player.getName(), matchID);
         }
@@ -69,28 +74,33 @@ public class Match {
         bag = new Bag(this);
         bag.setItemCollection(maxSeats);
         livingRoomBoard = new LivingRoomBoard(9, 9, maxSeats, this);
-        fillBoard();
-        //TODO:distribute cards to all players
-        //CardUtil.buildItemTileCard();
+        timer = new MyTimer();
+        //TODO:distribute cards (goals) to all players
+
+        timer.startTimer(60,this);
+        changeTurnPhase(TurnPhases.Selection);
     }
 
-    private void fillBoard() {
-        List<ItemTileCard> itemTileCards = bag.getItemCollection();
-        for (Cell[] cells : livingRoomBoard.getCellGrid()) {
-            for (Cell cell : cells) {
-                if (cell.isDark() || cell.getItem() != null) {
-                    continue;
-                }
-                cell.setItem(itemTileCards.get(bagIndex));
-                bagIndex++;
-            }
-        }
-    }
+//    private void fillBoard() {
+//        List<ItemTileCard> itemTileCards = bag.getItemCollection();
+//        for (Cell[] cells : livingRoomBoard.getCellGrid()) {
+//            for (Cell cell : cells) {
+//                if (cell.isDark() || cell.getItem() != null) {
+//                    continue;
+//                }
+//                cell.setItem(itemTileCards.get(bagIndex));
+//                bagIndex++;
+//            }
+//        }
+//    }
 
-    public void drawCard() {
-    }
+//    public void drawCard() {
+//    }
 
     public void nextTurn() {
+        currentPlayer = playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats);
+        timer.startTimer(60,this);
+        changeTurnPhase(TurnPhases.Selection);
     }
 
     public void giveToken(Player player, ScoringTokenCard scoringToken) {
@@ -105,37 +115,32 @@ public class Match {
 
     /**
      * This method is called at end of a player's turn
-     *
+     * <p>
      * It needs to check if the board has all the item isolated
+     *
      * @return
      */
-    public void endTurnActions(){
-
+    public void endTurnActions() {
         //TODO: I dunno, we will figure it out.
-
-
-
-        if(livingRoomBoard.isSingle()){
+        if (livingRoomBoard.isSingle()) {
             //Refill board
             bag.refillRequest();
         }
-
-
     }
 
     /**
-     *
      * @return which TurnPhase is
      */
-    public TurnPhases whichTurnPhase(){
+    public TurnPhases whichTurnPhase() {
         return turnPhase;
     }
 
     /**
      * Change TurnPhase
+     *
      * @param phase
      */
-    public void changeTurnPhase(TurnPhases phase){
+    public void changeTurnPhase(TurnPhases phase) {
         turnPhase = phase;
         System.out.println("It's " + turnPhase);
     }
