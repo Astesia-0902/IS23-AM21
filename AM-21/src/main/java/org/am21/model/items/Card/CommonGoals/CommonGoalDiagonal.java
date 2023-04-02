@@ -8,9 +8,9 @@ import java.util.List;
 
 public class CommonGoalDiagonal extends CommonGoal {
     private static final int rowNumShelf = 2;
-    public CommonGoalDiagonal(List<Player> achievedPlayers) {
-        super(11, achievedPlayers);
-    }
+//    public CommonGoalDiagonal(List<Player> achievedPlayers) {
+//        super(11, achievedPlayers);
+//    }
 
     @Override
     public boolean checkGoal(Shelf shelf) {
