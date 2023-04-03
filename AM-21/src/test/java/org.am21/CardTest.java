@@ -8,41 +8,46 @@ import org.am21.model.items.Shelf;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.am21.Gear.createPlayerController;
+import static org.am21.Gear.createMatch;
+import static org.am21.Printer.printPersonalGoals;
+import static org.am21.Printer.printThisBoard;
+
 class CardTest {
     @Test
     void testCard(){
-        Match match = MatchTest.createMatch(2);
+        Match match = createMatch(2);
 
-        PlayerController pCtrl1 = PlayerControllerTest.createPlayerController("Ambrogio");
+        PlayerController pCtrl1 = createPlayerController("Ambrogio");
         Player player1 = pCtrl1.player;
         match.addPlayer(player1);
-        PlayerControllerTest.printThisShelf(player1.myShelf);
+        Printer.printThisShelf(player1.shelf);
 
-        PlayerController pCtrl2 = PlayerControllerTest.createPlayerController("Ambra");
+        PlayerController pCtrl2 = createPlayerController("Ambra");
         Player player2 = pCtrl2.player;
         match.addPlayer(player2);
-        PlayerControllerTest.printThisShelf(player2.myShelf);
+        Printer.printThisShelf(player2.shelf);
         System.out.println("\n----------------------\n");
-        MatchTest.printPersonalGoals(match.playerList);
+        printPersonalGoals(match.playerList);
         System.out.println("\n----------------------\n");
         printPlayerPersonalGoal(player1.getMyPersonalGoal().getMyPersonalGoalShelf());
         printPlayerPersonalGoal(player2.getMyPersonalGoal().getMyPersonalGoalShelf());
         System.out.println("\n----------------------\n");
-        MatchTest.printThisBoard(match.livingRoomBoard);
+        printThisBoard(match.livingRoomBoard);
         System.out.println("\n----------------------\n");
         System.out.println("Match > PlayerTurn: "+ match.currentPlayer.getName());
         System.out.println("\n----------------------\n");
-        PlayerControllerTest.showHand(pCtrl1.hand);
+        Printer.showHand(pCtrl1.hand);
         pCtrl1.selectCell(1,4);
         pCtrl1.selectCell(1,5);
-        PlayerControllerTest.showHand(pCtrl1.hand);
+        Printer.showHand(pCtrl1.hand);
         pCtrl1.moveAllToHand();
 
         match.turnPhase = TurnPhases.Insertion;
         pCtrl1.tryToInsert(1);
-        PlayerControllerTest.printThisShelf(player1.myShelf);
+        Printer.printThisShelf(player1.shelf);
         System.out.println("\n----------------------\n");
-        MatchTest.printThisBoard(match.livingRoomBoard);
+        printThisBoard(match.livingRoomBoard);
         System.out.println("\n----------------------\n");
     }
 

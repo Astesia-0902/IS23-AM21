@@ -1,0 +1,137 @@
+package org.am21;
+
+import org.am21.controller.PlayerController;
+import org.am21.model.Match;
+import org.am21.model.Player;
+import org.am21.utilities.Coordinates;
+import org.junit.jupiter.api.DisplayName;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+public class Gear {
+    static int counter=0;
+    static List<Coordinates> posArr = new ArrayList<>();
+    static {
+        /*
+        for (int i = 0; i < 6; i++) {
+            posArr.add(new Coordinates(i, 4));
+            posArr.add(new Coordinates(4, i));
+        }
+        for (int i = 0; i < 6; i++) {
+            posArr.add(new Coordinates(i, 3));
+            posArr.add(new Coordinates(5, i));
+        }
+        */
+         posArr.addAll(Arrays.asList(new Coordinates(8,3),
+                 new Coordinates(8,4),
+                 new Coordinates(4,8),
+                 new Coordinates(5,8)));
+        Collections.shuffle(posArr);
+    }
+
+
+    @DisplayName("Match creation")
+    static Match createMatch(int numSeats){
+        System.out.println("Game > Creating new match...");
+        Match match = new Match(numSeats);
+        System.out.println("Match > Number of seats:" + match.maxSeats);
+        System.out.println("Game > Match created.");
+        return match;
+    }
+
+    @DisplayName("PlayerController creation")
+    static PlayerController createPlayerController(String name){
+        System.out.println("----------------------");
+        System.out.println("Game > Player account creation...");
+        PlayerController playerController = new PlayerController(name);
+        System.out.println("Game > Nickname: "+playerController.player.getName());
+        return playerController;
+    }
+
+    static void robotMoves(PlayerController pC, Player p){
+        if(pC.isMyTurn(p)) {
+            randomChoice(pC);
+            Printer.showHand(p.hand);
+            pC.moveAllToHand();
+            while(!pC.tryToInsert((int) (Math.random() * 5))){
+                System.out.println(p.getName()+" > Finding column...");
+            }
+
+        }
+
+    }
+
+    @DisplayName("Spacer")
+    static void spacer(){
+        System.out.println("-----------");
+    }
+
+
+    @DisplayName("Player choices")
+    static void randomChoice(PlayerController ctrl){
+        int a,b;
+        int count =0;
+        int fail=0;
+        Coordinates tmp;
+        System.out.println("--------");
+        do {
+            if(count==0){
+                a = (int) ((Math.random() * 9));
+                b = (int) ((Math.random() * 9));
+                if(ctrl.selectCell(a, b))
+                    count++;
+                else{
+                    fail++;
+                }
+                if(fail==5){
+                    for(Coordinates popo: posArr){
+
+                        if(ctrl.selectCell(popo.x,popo.y)){
+                            count++;
+                            counter++;
+                        }
+                        if(fail==10){
+                            count=10;
+                            break;
+                        }else{
+                            fail++;
+                        }
+                    }
+
+                }
+
+
+            }else {
+                do {
+                    a = ((int) (Math.random() * 3)) - 1;
+                    b = ((int) (Math.random() * 3)) - 1;
+                }while(a!=0 && b!=0);
+
+                System.out.print("Board > Selection difference: ");
+                System.out.print("["+a+"]");
+                System.out.println("["+b+"]");
+                tmp = ctrl.hand.getSlot().get((int) (Math.random() * (ctrl.hand.getSlot().size())));
+                a = a + tmp.x;
+                b = b + tmp.y;
+                if(a<0 || a>8 || b<0 || b>8){
+
+                }else{
+                    ctrl.selectCell(a, b);
+                    count++;
+                }
+
+            }
+        }while(count<10);
+
+        ctrl.callEndSelection();
+
+    }
+
+
+
+
+
+}

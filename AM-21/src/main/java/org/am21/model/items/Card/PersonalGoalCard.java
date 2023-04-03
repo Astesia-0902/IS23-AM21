@@ -61,7 +61,7 @@ public class PersonalGoalCard extends Card {
             int val = values[i][2];
 
             // Compare the items on the player's bookshelf(row, col) with the items required by Personal Goal
-            if(MyPersonalGoalShelf.player.myShelf.getItemName(row, col).substring(0, getNameCard().length()-3)
+            if(MyPersonalGoalShelf.player.shelf.getItemName(row, col).substring(0, getNameCard().length()-3)
                     .equals(tileNames.get(val).getNameCard())){
                 count++;
             }

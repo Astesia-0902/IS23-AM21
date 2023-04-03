@@ -6,6 +6,7 @@ import org.am21.model.TurnPhases;
 import org.am21.model.items.Card.PersonalGoalCard;
 import org.am21.model.items.LivingRoomBoard;
 import org.am21.utilities.Coordinates;
+import org.am21.utilities.TGear;
 
 public class PlayerController {
     public Player player;
@@ -47,10 +48,10 @@ public class PlayerController {
      * and if is Orthogonal to the other selected cards
      *
      * To revisit
-     * TODO: Condition: how many cards can i select in relation to how many free cells there are in Shelf
+     *
      * @param r
      * @param c
-     * @return
+     * @return false : Selection failed
      */
     public boolean selectCell(int r,int c){
         System.out.println(player.getName() + " > Select: [" + r + "][" + c + "]");
@@ -58,68 +59,71 @@ public class PlayerController {
         if(!isMyTurn(player)) {
             return false;
         }
-            if (player.getMatch().turnPhase != TurnPhases.Selection) {
-                System.out.println("Match > Not Selection Phase");
-                return false;
-            }
-            //TODO: verifica che ci sia abbastanza spazio nella shelf
-            //      il numero di carte selezionabili dipende da questo
+        if (player.getMatch().turnPhase != TurnPhases.Selection) {
+            System.out.println("Match > Not Selection Phase");
+            return false;
+        }
 
-            //TODO: se slot ha gia 3 elem, dico che la mano è piena, prova a deselezionare
-            if(hand.getSlot().size()==3){
-                System.out.println("Board[!] > Hand full. If you want right-click and unselect");
-                return false;
-            }
+        if(player.shelf.insertLimit == hand.getSlot().size()){
+            System.out.println("Shelf > Cannot pick more item");
+            System.out.println("Shelf > Hand["+hand.getSlot().size()+"]-Limit ["+player.shelf.insertLimit +"]");
+            return false;
+        }
 
-            LivingRoomBoard tmpBoard = player.getMatch().livingRoomBoard;
+        if(hand.getSlot().size()==3){
+            System.out.println("Board[!] > Hand full. If you want right-click and unselect");
+            return false;
+        }
 
-            //TODO: elimina getItemTileCard dall'if, quindi è necessario modificare la struttura della board,
-            //      dove le celle dark non contengono nessun oggetto Cell. La cella non deve esistere
-            if (tmpBoard.getCellGrid()[r][c].getItem() == null) {
-                System.out.println("Board[!] > Empty cell. Try again");
-                return false;
-            }
+        LivingRoomBoard tmpBoard = player.getMatch().livingRoomBoard;
 
-            if (tmpBoard.isSelectable(r, c) == true) {
-                /**If the cell is selectable then verify second condition*/
+        //TODO: elimina getItemTileCard dall'if, quindi è necessario modificare la struttura della board,
+        //      dove le celle dark non contengono nessun oggetto Cell. La cella non deve esistere
+        if (tmpBoard.getCellGrid()[r][c].getItem() == null) {
+            System.out.println("Board[!] > Empty cell. Try again");
+            return false;
+        }
 
-                if (hand.getSlot().size() == 0) {
+        if (tmpBoard.isSelectable(r, c) == true) {
+            System.out.println("Board > Cell selectable");
+            /**If the cell is selectable then verify second condition*/
 
-                    System.out.println("Board > Empty hand - No Orthogonality check");
+            if (hand.getSlot().size() == 0) {
 
-                } else {
-                    //Controllo se è già stato selezionato
-                    for (Coordinates tmp : hand.getSlot()) {
-                        if ((r == tmp.x) && (c == tmp.y)) {
-                            //Gia selezionato
-                            System.out.println("Board[!] > Already selected. Try again.");
-                            return false;
-                        }
-                    }
+                System.out.println("Board > Empty hand - No Orthogonality check");
 
-                    //Iteriamo slot
-                    //Condizione 2 (Ortogonalità):
-                    //NewSelected Cell need to be adjacent to the other in slot.
-                    //NewSelected Cell need to be in a straight line.
-                    /**Coordinates have been filtered,
-                     *  so they are valid for Orthogonality check*/
-                    if (tmpBoard.isOrthogonal(r, c, hand) == false) {
-                        System.out.println("Board > Not Orthogonal");
+            } else {
+                //Controllo se è già stato selezionato
+                for (Coordinates tmp : hand.getSlot()) {
+                    if ((r == tmp.x) && (c == tmp.y)) {
+                        //Gia selezionato
+                        System.out.println("Board[!] > Already selected. Try again.");
                         return false;
-                    } else {
-                        System.out.println("Board > Orthogonal");
                     }
                 }
-                /**salvo le coordinate e il riferimento dell'item nella hand*/
-                hand.memCard(tmpBoard.getItemInCell(r, c), r, c);
 
-                System.out.println("Match > Item selected: [" + tmpBoard.getItemInCell(r, c).getNameCard() + "]");
-                return true;
-            } else {
-                //Questo messaggio sara tolto e messo in ClientInputHandler o nelle funzioni dei test
-                System.out.println("Match > Selection Failed");
-                return false;
+                //Iteriamo slot
+                //Condizione 2 (Ortogonalità):
+                //NewSelected Cell need to be adjacent to the other in slot.
+                //NewSelected Cell need to be in a straight line.
+                /**Coordinates have been filtered,
+                 * *  so they are valid for Orthogonality check*/
+                if (tmpBoard.isOrthogonal(r, c, hand) == false) {
+                    System.out.println("Board > Not Orthogonal");
+                    return false;
+                } else {
+                    System.out.println("Board > Orthogonal");
+                }
             }
+            /**salvo le coordinate e il riferimento dell'item nella hand*/
+            hand.memCard(tmpBoard.getItemInCell(r, c), r, c);
+            System.out.println("Match > Item selected: [" + tmpBoard.getItemInCell(r, c).getNameCard() + "]");
+            return true;
+        } else {
+            //Questo messaggio sara tolto e messo in ClientInputHandler o nelle funzioni dei test
+            System.out.println("Match > Selection Failed");
+            return false;
+        }
     }
 
     /**
@@ -176,19 +180,27 @@ public class PlayerController {
             return false;
         }
         if(player.match.turnPhase == TurnPhases.Insertion){
-            //TODO: chiedi se c'è abbastanza spazio nella colonna
 
+            System.out.println(player.getName()+" > Column: ["+col+"]");
 
-            if(player.myShelf.slotCol.get(col)<hand.getSlot().size()){
+            if(player.shelf.slotCol.get(col)<hand.getSlot().size()){
                 System.out.println("Shelf[!] > Not enough space");
+                for(int x: player.shelf.slotCol){
+                    System.out.print("["+x+"]");
+                }
+                System.out.println("");
+                System.out.println("Shelf > Limit: ["+player.shelf.insertLimit +"]");
                 return false;
             }else{
                 for(int i=hand.getSlot().size(),s=0;i>0;i--,s++){
 
-                    player.myShelf.insertCard2(hand.getSlot().get(s).item,col);
+                    player.shelf.insertCard2(hand.getSlot().get(s).item,col);
                     System.out.println("Shelf > Insert...");
                 }
                 hand.clearHand();
+                player.shelf.elaborateLimit();
+                TGear.printThisShelf(player.shelf);
+                callEndInsertion();
                 return true;
             }
         }
@@ -210,12 +222,20 @@ public class PlayerController {
 
     }
 
-    public static boolean isMyTurn(Player player){
+    public boolean isMyTurn(Player player){
         if(player.match.currentPlayer != player) {
             System.out.println("Match > Not your turn, "+ player.getName());
             return false;
         }
         return true;
+    }
+
+    public void callEndInsertion(){
+        if(!isMyTurn(player)) {
+            return;
+        }
+        player.match.changeTurnPhase(TurnPhases.GoalChecking);
+        player.match.checkingGoals(player);
     }
 
 }

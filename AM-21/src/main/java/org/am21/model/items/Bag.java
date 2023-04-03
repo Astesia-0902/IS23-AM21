@@ -42,7 +42,7 @@ public class Bag {
      * This method return itemCollection reference
      * @return
      */
-    public List<ItemTileCard> getItemCollection() {
+    public List<ItemTileCard> getDeck() {
         return itemCollection;
     }
 
@@ -59,10 +59,14 @@ public class Bag {
      * @return true: if there are item added to the board.
      */
     public boolean refillRequest(){
-        if(itemCollection.size()==0){
+        if((this.itemCollection.size()-bagIndex)==0){
+            System.out.println("Bag > Bag empty. No more refill");
             return false;
         }else {
+            System.out.println("Bag > Accessing Bag...");
             BoardUtil.refillBoard(match.livingRoomBoard, this);
+            System.out.println("Bag > Refill completed");
+            System.out.println("Bag > Items remaining: "+ (this.itemCollection.size()-bagIndex));
             return true;
         }
     }

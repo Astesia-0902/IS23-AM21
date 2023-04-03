@@ -10,6 +10,7 @@ import org.am21.model.items.Shelf;
 import org.am21.utilities.CardUtil;
 import org.am21.utilities.CommonGoalUtil;
 import org.am21.utilities.MyTimer;
+import org.am21.utilities.TGear;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class Match {
     public GameController gameController;
     public LivingRoomBoard livingRoomBoard;
     public Bag bag;
-    public int bagIndex;
+    //public int bagIndex;
     public GamePhases gamePhase;
     public TurnPhases turnPhase;
     public Player currentPlayer;
@@ -35,7 +36,7 @@ public class Match {
     public Match(int maxSeats) {
         this.maxSeats = maxSeats;
         playerList = new ArrayList<Player>(maxSeats);
-        gamePhase = GamePhases.StartGame;
+        gamePhase = GamePhases.WaitingPlayers;
         commonGoals = new ArrayList<CommonGoal>(2);
     }
 
@@ -51,7 +52,7 @@ public class Match {
             System.out.println("Game > "+player.getName()+" added to the match");
             player.match = this;
             player.createHand();
-            player.myShelf = new Shelf(player);
+            player.shelf = new Shelf(player);
 
             GameManager.playerMatchMap.put(player.getName(), matchID);
 
@@ -69,6 +70,7 @@ public class Match {
             System.out.println("Game > Not enough players to begin. Keep waiting...");
             return;
         }
+        this.gamePhase=GamePhases.StartGame;
         System.out.println("-------------------------");
         System.out.println("Game > The match is starting!");
         System.out.println("Match[!] > Let's play!");
@@ -92,7 +94,7 @@ public class Match {
 
             //Initialization of the board
             bag = new Bag(this);
-            bag.setItemCollection(maxSeats);
+            //bag.setItemCollection(maxSeats);
             livingRoomBoard = new LivingRoomBoard(9, 9, maxSeats, this);
 
             //Start the timer
@@ -126,7 +128,7 @@ public class Match {
         System.out.println("Match > Player Turn: " + currentPlayer.getName());
 
         timer = new MyTimer();
-        timer.startTimer(60,this);
+        timer.startTimer(2,this);
 
         changeTurnPhase(TurnPhases.Selection);
     }
@@ -141,20 +143,7 @@ public class Match {
     public void checkLastRound() {
     }
 
-    /**
-     * This method is called at end of a player's turn
-     * <p>
-     * It needs to check if the board has all the item isolated
-     *
-     * @return
-     */
-    public void endTurnActions() {
-        //TODO: I dunno, we will figure it out.
-        if (livingRoomBoard.isSingle()) {
-            //Refill board
-            bag.refillRequest();
-        }
-    }
+
 
     /**
      * @return which TurnPhase is
@@ -170,8 +159,37 @@ public class Match {
      */
     public void changeTurnPhase(TurnPhases phase) {
         turnPhase = phase;
-        System.out.println("Match [!] > It's " + turnPhase + " Phase");
+        System.out.println("Match [!] > { " + turnPhase + " Phase }");
     }
 
 
+    public void checkingGoals(Player player) {
+        //Serie di comandi per controllare se il player ha completato dei goal
+
+
+        changeTurnPhase(TurnPhases.EndTurn);
+        this.callEndTurnRoutine();
+    }
+
+    private void callEndTurnRoutine() {
+        if(livingRoomBoard.checkBoard()){
+           System.out.println("Match > Board need refill");
+           TGear.printThisBoard(livingRoomBoard);
+           //refill
+            if(!this.bag.refillRequest()){
+                System.out.println("Match > Board not refilled");
+            }else{
+                TGear.printThisBoard(livingRoomBoard);
+            }
+        }
+        if(currentPlayer.shelf.getTotSlotAvail()==0 && gamePhase!=GamePhases.LastRound){
+            System.out.println("Match > Congratulations! "+currentPlayer.getName()+" has completed the shelf first");
+            System.out.println("Match > EndGame Token assigned");
+            gamePhase = GamePhases.LastRound;
+        }
+
+        this.nextTurn();
+
+
+    }
 }
