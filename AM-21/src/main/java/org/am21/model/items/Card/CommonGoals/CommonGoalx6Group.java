@@ -5,8 +5,8 @@ import org.am21.model.items.Shelf;
 
 
 public class CommonGoalx6Group extends CommonGoal {
-    public CommonGoalx6Group(String name) {
-        super(name);
+    public CommonGoalx6Group(String name, int numPlayer) {
+        super(name, numPlayer);
     }
 
     /**

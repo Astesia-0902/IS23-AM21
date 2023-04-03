@@ -6,8 +6,8 @@ import org.am21.model.items.Shelf;
 
 public class CommonGoalXShape extends CommonGoal {
 
-    public CommonGoalXShape(String name) {
-        super(name);
+    public CommonGoalXShape(String name, int numPlayer) {
+        super(name, numPlayer);
     }
 /**
     public CommonGoalXShape(){

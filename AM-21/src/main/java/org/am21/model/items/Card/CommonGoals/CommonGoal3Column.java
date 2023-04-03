@@ -11,10 +11,9 @@ import java.util.Set;
 public class CommonGoal3Column extends CommonGoal {
 
 
-    public CommonGoal3Column(String name) {
-        super(name);
+    public CommonGoal3Column(String name, int numPlayer) {
+        super(name, numPlayer);
     }
-
     /**
      * Durante la fase del turno CheckingGoal, viene controllato la Shelf del Player
      * per verificare se l'obiettivo è stato completato

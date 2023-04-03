@@ -9,8 +9,8 @@ public class CommonGoalDiagonal extends CommonGoal {
 //        super(11, achievedPlayers);
 //    }
 
-    public CommonGoalDiagonal(String name) {
-        super(name);
+    public CommonGoalDiagonal(String name, int numPlayer) {
+        super(name, numPlayer);
     }
 
     @Override

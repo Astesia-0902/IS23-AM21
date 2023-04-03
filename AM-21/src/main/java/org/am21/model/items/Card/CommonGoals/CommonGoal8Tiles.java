@@ -16,8 +16,8 @@ public class CommonGoal8Tiles extends CommonGoal {
 //    }
 
 
-    public CommonGoal8Tiles(String name) {
-        super(name);
+    public CommonGoal8Tiles(String name, int numPlayer) {
+        super(name, numPlayer);
     }
 
     @Override

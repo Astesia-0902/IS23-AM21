@@ -4,8 +4,8 @@ import org.am21.model.items.CommonGoal;
 import org.am21.model.items.Shelf;
 
 public class CommonGoalSquare extends CommonGoal {
-    public CommonGoalSquare(String name) {
-        super(name);
+    public CommonGoalSquare(String name, int numPlayer) {
+        super(name, numPlayer);
     }
 
     /**

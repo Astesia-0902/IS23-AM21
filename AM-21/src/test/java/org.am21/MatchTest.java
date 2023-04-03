@@ -14,17 +14,24 @@ import java.util.List;
 class MatchTest {
     @Test
     void run(){
-        Match match = createMatch(2);
+        Match match = createMatch(4);
         PlayerController pCtrl1 = PlayerControllerTest.createPlayerController("Ambrogio");
         Player player1 = pCtrl1.player;
         match.addPlayer(player1);
         PlayerController pCtrl2 = PlayerControllerTest.createPlayerController("Ambra");
         Player player2 = pCtrl2.player;
         match.addPlayer(player2);
+        PlayerController pCtrl3 = PlayerControllerTest.createPlayerController("Anna");
+        Player player3 = pCtrl3.player;
+        match.addPlayer(player3);
+        PlayerController pCtrl4 = PlayerControllerTest.createPlayerController("Andrea");
+        Player player4 = pCtrl4.player;
+        match.addPlayer(player4);
 
         printfThisBag(match.bag);
         printCommGoals(match.commonGoals);
         printPersonalGoals(match.playerList);
+        printScoringTokens(match.commonGoals);
     }
 
     @DisplayName("Match creation")
@@ -77,7 +84,7 @@ class MatchTest {
         System.out.println("Match > Bag:");
         for(int i= bag.bagIndex; i<bag.getItemCollection().size();i++){
             count++;
-            System.out.println("["+bag.getItemCollection().get(i).getNameCard()+"]");
+            System.out.print("["+bag.getItemCollection().get(i).getNameCard()+"]\t");
         }
         System.out.println(count);
 
@@ -96,6 +103,17 @@ class MatchTest {
         System.out.println("Match[Hide] > Personal:");
         for(Player x: pList){
             System.out.println("Match[Hide] > "+x.getName()+"'s goal is:"+x.getMyPersonalGoal().getNameCard());
+        }
+    }
+
+    @DisplayName("Print ScoringTokens")
+    static void printScoringTokens(List<CommonGoal> commonGoalList){
+        System.out.println("Match[Hide] > ScoringToken:");
+        for(CommonGoal x: commonGoalList){
+            System.out.println(x.getNameCard() + "ScoringTokens List: ");
+            for (int i = 0; i < x.tokenStack.size(); i++) {
+                System.out.println(x.tokenStack.get(i).getNameCard());
+            }
         }
     }
 

@@ -59,7 +59,7 @@ public class CardUtil {
         List<PersonalGoalCard> personalGoalCards = new ArrayList<>();
         for (int i = 0; i < numPlayer; i++) {
             do {
-                numPersonalGoal = randomPersonalGoal.nextInt(12) - 1;
+                numPersonalGoal = randomPersonalGoal.nextInt(12) + 1;
             } while (usedNumbers.contains(numPersonalGoal));
             usedNumbers.add(numPersonalGoal);
             personalGoalCards.add(new PersonalGoalCard("PERSONAL_GOALs" + numPersonalGoal, null));

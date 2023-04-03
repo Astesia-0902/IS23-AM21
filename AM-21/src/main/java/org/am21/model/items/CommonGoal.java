@@ -2,6 +2,7 @@ package org.am21.model.items;
 
 import org.am21.model.Player;
 import org.am21.model.items.Card.ScoringTokenCard;
+import org.am21.utilities.CardUtil;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ public abstract class CommonGoal extends Goal {
     private String name;
     public List<ScoringTokenCard> tokenStack;
     public List<Player> achievedPlayers;
+    public int index;
 
     /*
     public CommonGoal(int id, List<Player> achievedPlayers) {
@@ -19,8 +21,10 @@ public abstract class CommonGoal extends Goal {
         this.tokenStack = new ArrayList<>();
     }*/
 
-    public CommonGoal(String name){
+    public CommonGoal(String name, int numPlayer){
         super(name);
+        this.tokenStack = CardUtil.buildScoringTokenCards(numPlayer);
+        this.index = 0;
     }
 
     public boolean checkGoal(Shelf shelf) {
@@ -41,5 +45,13 @@ public abstract class CommonGoal extends Goal {
 
     public String getName(){
         return name;
+    }
+
+    public void setAchievedPlayers(Player player) {
+        this.achievedPlayers.add(player);
+        player.playerScore += this.tokenStack.get(index).getScoreValue();
+        this.tokenStack.remove(index);
+
+        index++;
     }
 }

@@ -13,8 +13,8 @@ public class CommonGoal2Columns extends CommonGoal {
     private static final int numDiff = 6;
     private static final int numGroup = 2;
 
-    public CommonGoal2Columns(String name) {
-        super(name);
+    public CommonGoal2Columns(String name, int numPlayer) {
+        super(name, numPlayer);
     }
 
     //    public CommonGoal2Columns(List<Player> achievedPlayers) {

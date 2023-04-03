@@ -85,7 +85,7 @@ public class Match {
             }
 
             //Determine the common goals
-            commonGoals = CommonGoalUtil.getCommonGoals();
+            commonGoals = CommonGoalUtil.getCommonGoals(maxSeats);
             for (Player player : playerList) {
                 GameManager.playerMatchMap.put(player.getName(), matchID);
             }
