@@ -48,6 +48,7 @@ public class Match {
     public boolean addPlayer(Player player) {
         if (playerList.size() < maxSeats) {
             playerList.add(player);
+            System.out.println("Game > "+player.getName()+" added to the match");
             player.match = this;
             player.createHand();
             player.myShelf = new Shelf(player);
@@ -65,12 +66,15 @@ public class Match {
 
     public void matchStart() {
         if(playerList.size()<maxSeats) {
-            System.out.println("Not enough players to begin. Keep waiting...");
+            System.out.println("Game > Not enough players to begin. Keep waiting...");
             return;
         }
+        System.out.println("-------------------------");
+        System.out.println("Game > The match is starting!");
+        System.out.println("Match[!] > Let's play!");
             //Determine the first player
             chairman = playerList.get((int) (Math.random() * maxSeats));
-            System.out.println(chairman.getName() + " get the Chair!");
+            System.out.println("Match > "+chairman.getName() + " get the Chair!");
             currentPlayer = chairman;
 
             //Distribution of personal goals
@@ -120,6 +124,7 @@ public class Match {
     public void nextTurn() {
         currentPlayer = playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats);
         timer.stopTimer();
+        System.out.println("Match > Player Turn: " + currentPlayer.getName());
         timer.startTimer(60,this);
         changeTurnPhase(TurnPhases.Selection);
     }
@@ -163,7 +168,7 @@ public class Match {
      */
     public void changeTurnPhase(TurnPhases phase) {
         turnPhase = phase;
-        System.out.println("It's " + turnPhase + " Phase");
+        System.out.println("Match [!] > It's " + turnPhase + " Phase");
     }
 
 

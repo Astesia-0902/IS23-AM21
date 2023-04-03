@@ -1,0 +1,384 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Shelf</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.model.items</a>
+</div>
+
+<h1>Coverage Summary for Class: Shelf (org.am21.model.items)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Shelf</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    22,7%
+  </span>
+  <span class="absValue">
+    (5/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    21,2%
+  </span>
+  <span class="absValue">
+    (21/99)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.model.items;
+&nbsp;
+&nbsp;import org.am21.model.Player;
+&nbsp;import org.am21.model.items.Card.ItemTileCard;
+&nbsp;import org.am21.utilities.Coordinates;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * Attributes needed:
+&nbsp; * - Number of cells available for each column              &lt;--check by method getSlotCol1,2,3,4,5
+&nbsp; * - Total number of cells available in the Shelf           &lt;--check by method slotTotAvailable
+&nbsp; * - Limit for insertion overall (it could be 3,2 or 1)  &lt;--check by method slotTotAvailable
+&nbsp; *
+&nbsp; * Method needed:
+&nbsp; * - Insertion of one item in a column(cells available in the column will decrease)  &lt;--check by method pushCard
+&nbsp; * -
+&nbsp; */
+&nbsp;
+&nbsp;public class Shelf extends Grid {
+&nbsp;    /**state of col available (default true)*/
+&nbsp;
+&nbsp;    public int slotCol1;
+&nbsp;    public int slotCol2;
+&nbsp;    public int slotCol3;
+&nbsp;    public int slotCol4;
+&nbsp;    public int slotCol5;
+&nbsp;
+&nbsp;    public Player player;
+&nbsp;    /**
+&nbsp;     * Each element show how many slots are still available in correspondent column
+&nbsp;     */
+&nbsp;    public List&lt;Integer&gt; slotCol;
+&nbsp;
+<b class="fc">&nbsp;    public int handLimit = 3;</b>
+&nbsp;    private final static int row = 6 ;
+&nbsp;    private final static int column = 5;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    public Shelf(Player player){
+<b class="fc">&nbsp;        super(row, column);</b>
+<b class="fc">&nbsp;        this.player = player;</b>
+<b class="fc">&nbsp;        this.slotCol1 = 6;</b>
+<b class="fc">&nbsp;        this.slotCol2 = 6;</b>
+<b class="fc">&nbsp;        this.slotCol3 = 6;</b>
+<b class="fc">&nbsp;        this.slotCol4 = 6;</b>
+<b class="fc">&nbsp;        this.slotCol5 = 6;</b>
+<b class="fc">&nbsp;        this.slotCol = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        for(int i=0;i&lt;colNum;i++){</b>
+<b class="fc">&nbsp;            slotCol.add(row);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        this.initiateShelfGrid(row,column);</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Match &gt; &quot;+player.getName()+&quot;&#39;s Shelf created.&quot;);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean initiateShelfGrid(int r,int c){
+<b class="fc">&nbsp;        for(int i=0; i&lt;r;i++){</b>
+<b class="fc">&nbsp;            for(int j=0;j&lt;c;j++){</b>
+<b class="fc">&nbsp;                this.getCellGrid()[i][j] = new Cell();</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Calculate the min Limit for hand Capacity
+&nbsp;     * Example: If there are only column with 2 slots available,
+&nbsp;     * then &#39;handLimit&#39; = 2
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    public static void elaborateLimit(Shelf shelf){
+<b class="nc">&nbsp;        int limit = shelf.handLimit;</b>
+<b class="nc">&nbsp;        int maxLimit = limit;</b>
+<b class="nc">&nbsp;        for(int j=0;j&lt;column;j++){</b>
+<b class="nc">&nbsp;            if(shelf.slotCol.get(j) &lt; shelf.handLimit){</b>
+&nbsp;
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Cell[][] getCellGrid() {
+<b class="fc">&nbsp;        return super.getCellGrid();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void setCell(int rowNum, int colNum, Cell value) {
+<b class="nc">&nbsp;        super.setCell(rowNum, colNum, value);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ItemTileCard getCellItem(int r, int c) {
+<b class="nc">&nbsp;        return super.getCellItem(r, c);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void insertInCell(int r, int c, ItemTileCard item) {
+<b class="fc">&nbsp;        super.insertInCell(r, c, item);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getItemName(int rowNum, int colNum) {
+<b class="nc">&nbsp;        return super.getItemName(rowNum, colNum);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**number of slot available*/
+&nbsp;    public int slotTotAvailable() {
+&nbsp;
+<b class="nc">&nbsp;        return this.slotCol1+this.slotCol2+this.slotCol3+this.slotCol4+this.slotCol5;</b>
+&nbsp;
+&nbsp;    }
+<b class="nc">&nbsp;    public int getCol1(){return this.slotCol1;}</b>
+<b class="nc">&nbsp;    public int getCol2(){return this.slotCol2;}</b>
+<b class="nc">&nbsp;    public int getCol3(){return this.slotCol3;}</b>
+<b class="nc">&nbsp;    public int getCol4(){return this.slotCol4;}</b>
+<b class="nc">&nbsp;    public int getCol5(){return this.slotCol5;}</b>
+<b class="nc">&nbsp;    private void setCol1(int numDec ){ this.slotCol1-=numDec;}</b>
+<b class="nc">&nbsp;    private void setCol2(int numDec ){ this.slotCol2-=numDec;}</b>
+<b class="nc">&nbsp;    private void setCol3(int numDec ){ this.slotCol3-=numDec;}</b>
+<b class="nc">&nbsp;    private void setCol4(int numDec ){ this.slotCol4-=numDec;}</b>
+<b class="nc">&nbsp;    private void setCol5(int numDec ){ this.slotCol5-=numDec;}</b>
+&nbsp;
+&nbsp;    public void insertCard(ItemTileCard item, int numCard,int numCol){
+&nbsp;        /** fill the first cell available*/
+<b class="nc">&nbsp;        switch (numCol) {</b>
+<b class="nc">&nbsp;            case 1: if(numCard&lt;=getCol1())</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        for (int i = 6 - getCol1(); numCard != 0; i++)</b>
+&nbsp;                        {
+<b class="nc">&nbsp;                            this.insertInCell(i, 1, item);</b>
+<b class="nc">&nbsp;                            numCard--;</b>
+&nbsp;                        }
+<b class="nc">&nbsp;                        setCol1(numCard);</b>
+&nbsp;                    }
+&nbsp;                    /** else return false */
+&nbsp;                    break;
+<b class="nc">&nbsp;            case 2: if(numCard&lt;=getCol2())</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        for (int i = 6 - getCol2(); numCard != 0; i++)</b>
+&nbsp;                        {
+<b class="nc">&nbsp;                            this.insertInCell(i, 2, item);</b>
+<b class="nc">&nbsp;                            numCard--;</b>
+&nbsp;                        }
+&nbsp;
+<b class="nc">&nbsp;                        setCol2(numCard);</b>
+&nbsp;                    }
+&nbsp;                /** else return false */
+&nbsp;                break;
+<b class="nc">&nbsp;            case 3: if(numCard&lt;=getCol3())</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        for (int i = 6 - getCol3(); numCard != 0; i++)</b>
+&nbsp;                        {
+<b class="nc">&nbsp;                            this.insertInCell(i, 3, item);</b>
+<b class="nc">&nbsp;                            numCard--;</b>
+&nbsp;                        }
+&nbsp;
+<b class="nc">&nbsp;                        setCol3(numCard);</b>
+&nbsp;                    }
+&nbsp;                /** else return false */
+&nbsp;                break;
+<b class="nc">&nbsp;            case 4: if(numCard&lt;=getCol4())</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        for (int i = 6 - getCol4(); numCard != 0; i++)</b>
+&nbsp;                        {
+<b class="nc">&nbsp;                            this.insertInCell(i, 4, item);</b>
+<b class="nc">&nbsp;                            numCard--;</b>
+&nbsp;                        }
+&nbsp;
+<b class="nc">&nbsp;                        setCol4(numCard);</b>
+&nbsp;                    }
+&nbsp;                /** else return false */
+&nbsp;                break;
+<b class="nc">&nbsp;            case 5: if(numCard&lt;=getCol5())</b>
+&nbsp;                    {
+<b class="nc">&nbsp;                        for (int i = 6 - getCol5(); numCard != 0; i++)</b>
+&nbsp;                        {
+<b class="nc">&nbsp;                            this.insertInCell(i, 5, item);</b>
+<b class="nc">&nbsp;                            numCard--;</b>
+&nbsp;                        }
+&nbsp;
+<b class="nc">&nbsp;                        setCol5(numCard);</b>
+&nbsp;                    }
+&nbsp;                /** else return false */
+&nbsp;                break;
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Insert an itemCard in the column
+&nbsp;     * @param item
+&nbsp;     * @param col
+&nbsp;     */
+&nbsp;    public void insertCard2(ItemTileCard item,int col){
+<b class="fc">&nbsp;        this.insertInCell(slotCol.get(col)-1,col,item);</b>
+<b class="fc">&nbsp;        this.slotCol.set(col,slotCol.get(col)-1);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**adjacent same item check */
+&nbsp;    public int colorsPoints(){
+&nbsp;
+<b class="nc">&nbsp;        List&lt;Coordinates&gt; common = new ArrayList&lt;Coordinates&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        int points=0;</b>
+<b class="nc">&nbsp;        int reg_index = -1;</b>
+&nbsp;
+<b class="nc">&nbsp;        for(int r=0;r&lt;6;r++) {</b>
+<b class="nc">&nbsp;            for(int c=0;c&lt;5;c++) {</b>
+<b class="nc">&nbsp;                if(this.getItemName(r,c)!=null)</b>
+&nbsp;                {
+&nbsp;                    do {
+<b class="nc">&nbsp;                        reg_index++;</b>
+<b class="nc">&nbsp;                        common.add(new Coordinates(r, c));</b>
+&nbsp;                        /** save the first not null item in String type*/
+<b class="nc">&nbsp;                        String recentCard = this.getItemName(common.get(reg_index).x,common.get(reg_index).y);</b>
+&nbsp;
+<b class="nc">&nbsp;                        if (this.getItemName(r, c + 1) != null &amp;&amp; (recentCard.equals(this.getItemName(r, c + 1)) )) {</b>
+<b class="nc">&nbsp;                            common.add(new Coordinates(r, c + 1));</b>
+&nbsp;                        }
+<b class="nc">&nbsp;                        if (this.getItemName(r, c - 1) != null &amp;&amp; (recentCard.equals(this.getItemName(r, c - 1)) )) {</b>
+<b class="nc">&nbsp;                            common.add(new Coordinates(r, c - 1));</b>
+&nbsp;                        }
+<b class="nc">&nbsp;                        if (this.getItemName(r + 1, c) != null &amp;&amp; (recentCard.equals(this.getItemName(r + 1, c)) )) {</b>
+<b class="nc">&nbsp;                            common.add(new Coordinates(r + 1, c));</b>
+&nbsp;                        }
+<b class="nc">&nbsp;                        if (this.getItemName(r - 1, c) != null &amp;&amp; (recentCard.equals(this.getItemName(r - 1, c)) )) {</b>
+<b class="nc">&nbsp;                            common.add(new Coordinates(r - 1, c));</b>
+&nbsp;                        }
+&nbsp;                        /** set the cell to null*/
+<b class="nc">&nbsp;                        this.setCell(r, c, null);</b>
+&nbsp;                        /**now begin check the next element of list to recheck this procedure*/
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;                    }while(common.size()&gt;reg_index+1);</b>
+&nbsp;
+&nbsp;                   /** Iterator &lt;Coordinates&gt; li = null;
+&nbsp;                    li = common.listIterator();
+&nbsp;                    if(li.hasNext()!=true){
+&nbsp;                        li.next();
+&nbsp;                    }*/
+&nbsp;
+&nbsp;                   /** count  all element of the list (check the duplicate)*/
+&nbsp;
+<b class="nc">&nbsp;                        for(int i=0; i&lt;common.size();i++)</b>
+&nbsp;                        {
+<b class="nc">&nbsp;                            for(int j=1;j&lt;common.size();j++) {</b>
+<b class="nc">&nbsp;                                if (common.get(i) == common.get(j))</b>
+&nbsp;                                {
+<b class="nc">&nbsp;                                    common.remove(j);</b>
+<b class="nc">&nbsp;                                    j--;</b>
+&nbsp;                                }
+&nbsp;                            }
+&nbsp;                        }
+&nbsp;
+<b class="nc">&nbsp;                        if(common.size()==3)</b>
+<b class="nc">&nbsp;                            points+=2;</b>
+<b class="nc">&nbsp;                        else if(common.size()==4)</b>
+<b class="nc">&nbsp;                            points+=3;</b>
+<b class="nc">&nbsp;                        else if(common.size()==5)</b>
+<b class="nc">&nbsp;                            points+=5;</b>
+<b class="nc">&nbsp;                        else if(common.size()&gt;=6)</b>
+<b class="nc">&nbsp;                            points+=8;</b>
+&nbsp;
+&nbsp;                }
+&nbsp;
+&nbsp;                /** clean the list*/
+<b class="nc">&nbsp;                common.clear();</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return points;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-03 09:33</div>
+</div>
+</body>
+</html>

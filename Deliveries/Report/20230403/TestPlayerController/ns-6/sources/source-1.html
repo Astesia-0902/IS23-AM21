@@ -1,0 +1,262 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > BoardUtil</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.utilities</a>
+</div>
+
+<h1>Coverage Summary for Class: BoardUtil (org.am21.utilities)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BoardUtil</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33,3%
+  </span>
+  <span class="absValue">
+    (1/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    34,8%
+  </span>
+  <span class="absValue">
+    (16/46)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.utilities;
+&nbsp;
+&nbsp;import org.am21.model.items.Bag;
+&nbsp;import org.am21.model.items.Card.ItemTileCard;
+&nbsp;import org.am21.model.items.Cell;
+&nbsp;import org.am21.model.items.LivingRoomBoard;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+<b class="nc">&nbsp;public class BoardUtil {</b>
+&nbsp;    /**
+&nbsp;     * LivingRoom builder is going to fill the board&#39;s Cells for the first time.
+&nbsp;     *
+&nbsp;     * @param board
+&nbsp;     * @param itemTileCards
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    public static boolean buildLivingRoom(LivingRoomBoard board, List&lt;ItemTileCard&gt; itemTileCards) {
+<b class="fc">&nbsp;        Cell[][] cells = board.getCellGrid();</b>
+<b class="fc">&nbsp;        int index = 0;</b>
+&nbsp;
+<b class="fc">&nbsp;        if (board.getSize() == 29) {</b>
+&nbsp;            /**
+&nbsp;             *8: [][][][][][][][][]
+&nbsp;             *7: [][][][*][*][][][][]
+&nbsp;             *6: [][][][*][*][*][][][]
+&nbsp;             *5: [][][*][*][*][*][*][*][]
+&nbsp;             *4: [][*][*][*][*][*][*][*][]
+&nbsp;             *3: [][*][*][*][*][*][*][][]
+&nbsp;             *2: [][][][*][*][*][][][]
+&nbsp;             *1: [][][][][*][*][][][]
+&nbsp;             *0: [][][][][][][][][]
+&nbsp;             * */
+<b class="nc">&nbsp;            for (int i = 0; i &lt; cells.length; i++) {</b>
+<b class="nc">&nbsp;                for (int j = 0; j &lt; cells[i].length; j++) {</b>
+<b class="nc">&nbsp;                    Cell cell = new Cell();</b>
+<b class="nc">&nbsp;                    if (i == 0 || i == 8 || j == 0 || j == 8 ||</b>
+&nbsp;                            (i == 1) &amp;&amp; ((j == 1) || (j == 2) || (j == 3) || (j == 6) || (j == 7)) ||
+&nbsp;                            ((i == 2) || (i == 6)) &amp;&amp; ((j == 1) || (j == 2) || (j == 6) || (j == 7)) ||
+&nbsp;                            (i == 3) &amp;&amp; (j == 7) ||
+&nbsp;                            (i == 5) &amp;&amp; (j == 1) ||
+&nbsp;                            (i == 7) &amp;&amp; ((j == 1) || (j == 2) || (j == 5) || (j == 6) || (j == 7))) {
+&nbsp;                        /** default prohibit during all time of the game (dark cell)*/
+<b class="nc">&nbsp;                        cell.setDark(true);</b>
+<b class="nc">&nbsp;                        cells[i][j] = cell;</b>
+&nbsp;                    } else {
+<b class="nc">&nbsp;                        if (cell.getItem() == null) {</b>
+<b class="nc">&nbsp;                            ItemTileCard itemTileCard = itemTileCards.get(index++);</b>
+<b class="nc">&nbsp;                            cell.setItem(itemTileCard);</b>
+<b class="nc">&nbsp;                            cells[i][j] = cell;</b>
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;        } else if (board.getSize() == 37) {</b>
+&nbsp;            /**
+&nbsp;             *8: [][][][+][][][][][]
+&nbsp;             *7: [][][][*][*][][][][]
+&nbsp;             *6: [][][+][*][*][*][+][][]
+&nbsp;             *5: [][][*][*][*][*][*][*][+]
+&nbsp;             *4: [][*][*][*][*][*][*][*][]
+&nbsp;             *3: [+][*][*][*][*][*][*][][]
+&nbsp;             *2: [][][+][*][*][*][+][][]
+&nbsp;             *1: [][][][][*][*][][][]
+&nbsp;             *0: [][][][][][+][][][]
+&nbsp;             * */
+<b class="nc">&nbsp;            for (int i = 0; i &lt; cells.length; i++) {</b>
+<b class="nc">&nbsp;                for (int j = 0; j &lt; cells[i].length; j++) {</b>
+<b class="nc">&nbsp;                    Cell cell = new Cell();</b>
+<b class="nc">&nbsp;                    if ((i == 0) &amp;&amp; (j != 5) ||</b>
+&nbsp;                            (i == 1) &amp;&amp; ((j == 0) || (j == 1) || (j == 2) || (j == 3) || (j == 6) || (j == 7) || (j == 8)) ||
+&nbsp;                            (i == 2) &amp;&amp; ((j == 0) || (j == 1) || (j == 7) || (j == 8)) ||
+&nbsp;                            (i == 3) &amp;&amp; ((j == 7) || (j == 8)) ||
+&nbsp;                            (i == 4) &amp;&amp; ((j == 0) || (j == 8)) ||
+&nbsp;                            (i == 5) &amp;&amp; ((j == 0) || (j == 1)) ||
+&nbsp;                            (i == 6) &amp;&amp; ((j == 0) || (j == 1) || (j == 7) || (j == 8)) ||
+&nbsp;                            (i == 7) &amp;&amp; ((j == 0) || (j == 1) || (j == 2) || (j == 5) || (j == 6) || (j == 7) || (j == 8)) ||
+&nbsp;                            (i == 8) &amp;&amp; (j != 3)) {
+&nbsp;                        /** default prohibit during all time of the game (dark cell)*/
+<b class="nc">&nbsp;                        cell.setDark(true);</b>
+<b class="nc">&nbsp;                        cells[i][j] = cell;</b>
+&nbsp;                    } else {
+<b class="nc">&nbsp;                        if (cell.getItem() == null) {</b>
+<b class="nc">&nbsp;                            ItemTileCard itemTileCard = itemTileCards.get(index++);</b>
+<b class="nc">&nbsp;                            cell.setItem(itemTileCard);</b>
+<b class="nc">&nbsp;                            cells[i][j] = cell;</b>
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;        } else if (board.getSize() == 45) {</b>
+&nbsp;            /**
+&nbsp;             *8: [][][][*][+][][][][]
+&nbsp;             *7: [][][][*][*][+][][][]
+&nbsp;             *6: [][][*][*][*][*][*][][]
+&nbsp;             *5: [][+][*][*][*][*][*][*][*]
+&nbsp;             *4: [+][*][*][*][*][*][*][*][+]
+&nbsp;             *3: [*][*][*][*][*][*][*][+][]
+&nbsp;             *2: [][][*][*][*][*][*][][]
+&nbsp;             *1: [][][][+][*][*][][][]
+&nbsp;             *0: [][][][][+][*][][][]
+&nbsp;             * */
+<b class="fc">&nbsp;            for (int i = 0; i &lt; cells.length; i++) {</b>
+<b class="fc">&nbsp;                for (int j = 0; j &lt; cells[i].length; j++) {</b>
+<b class="fc">&nbsp;                    Cell cell = new Cell();</b>
+<b class="fc">&nbsp;                    if ((i == 0) &amp;&amp; ((j == 0) || (j == 1) || (j == 2) || (j == 3) || (j == 6) || (j == 7) || (j == 8)) ||</b>
+&nbsp;                            (i == 1) &amp;&amp; ((j == 0) || (j == 1) || (j == 2) || (j == 6) || (j == 7) || (j == 8)) ||
+&nbsp;                            (i == 2) &amp;&amp; ((j == 0) || (j == 1) || (j == 7) || (j == 8)) ||
+&nbsp;                            (i == 3) &amp;&amp; (j == 8) ||
+&nbsp;                            (i == 5) &amp;&amp; (j == 0) ||
+&nbsp;                            (i == 6) &amp;&amp; ((j == 0) || (j == 1) || (j == 7) || (j == 8)) ||
+&nbsp;                            (i == 7) &amp;&amp; ((j == 0) || (j == 1) || (j == 2) || (j == 6) || (j == 7) || (j == 8)) ||
+&nbsp;                            (i == 8) &amp;&amp; ((j == 0) || (j == 1) || (j == 2) || (j == 5) || (j == 6) || (j == 7) || (j == 8))) {
+&nbsp;                        /** default prohibit during all time of the game (dark cell)*/
+<b class="fc">&nbsp;                        cell.setDark(true);</b>
+<b class="fc">&nbsp;                        cells[i][j] = cell;</b>
+&nbsp;                    } else {
+<b class="fc">&nbsp;                        if (cell.getItem() == null) {</b>
+<b class="fc">&nbsp;                            ItemTileCard itemTileCard = itemTileCards.get(index++);</b>
+<b class="fc">&nbsp;                            cell.setItem(itemTileCard);</b>
+<b class="fc">&nbsp;                            cells[i][j] = cell;</b>
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;        } else {
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method will be called by the Bag when the cards needed to refill the board are enough
+&nbsp;     * The pre-condition is LivingBoard.isSingle() is true (every card in the board is isolated)
+&nbsp;     * The method-chain is initiliazed by Match
+&nbsp;     *
+&nbsp;     * @param board
+&nbsp;     * @param bag
+&nbsp;     */
+&nbsp;    public static void refillBoard(LivingRoomBoard board, Bag bag) {
+<b class="nc">&nbsp;        Cell[][] cells = board.getCellGrid();</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; cells.length; i++) {</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; cells[i].length; j++) {</b>
+<b class="nc">&nbsp;                Cell cell = new Cell();</b>
+<b class="nc">&nbsp;                if (cells[i][j].isDark() == false &amp;&amp; !board.isOccupied(i, j)) {</b>
+<b class="nc">&nbsp;                    if (bag.getItemCollection().size() &gt; 0) {</b>
+&nbsp;                        //Cell can be filled
+<b class="nc">&nbsp;                        board.insertInCell(i, j, bag.getItemCollection().get(bag.bagIndex));</b>
+<b class="nc">&nbsp;                        bag.bagIndex++;</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-03 09:33</div>
+</div>
+</body>
+</html>

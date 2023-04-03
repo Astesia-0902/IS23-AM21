@@ -93,7 +93,7 @@ public class Player {
     public void createHand(){
         this.hand = new Hand(this);
         this.controller.hand = this.hand;
-        System.out.println(getName()+"'s Hand created and assigned.");
+        System.out.println("Match > "+getName()+"'s Hand created and assigned.");
     }
 
 

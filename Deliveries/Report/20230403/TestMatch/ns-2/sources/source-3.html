@@ -1,0 +1,219 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Hand</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Hand (org.am21.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Hand</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    20%
+  </span>
+  <span class="absValue">
+    (2/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    23,8%
+  </span>
+  <span class="absValue">
+    (5/21)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.model;
+&nbsp;
+&nbsp;import org.am21.model.items.Card.ItemTileCard;
+&nbsp;import org.am21.utilities.Coordinates;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;
+&nbsp;/**
+&nbsp; * PlayerHand class contains an array with 3 elements.
+&nbsp; * It is used to memorize temporarily the selected cards(1-3).
+&nbsp; */
+&nbsp;public class Hand {
+&nbsp;    public Player player;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Number of cards in the hand (SelectionPhase)
+&nbsp;     * (became useless)
+&nbsp;     */
+&nbsp;    private int numCards;
+&nbsp;    private ArrayList&lt;Coordinates&gt; slot;
+&nbsp;
+<b class="fc">&nbsp;    public static ItemTileCard neutral_card = new ItemTileCard(&quot;none&quot;);</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;    public Hand(Player player){
+&nbsp;        this.player = player;
+&nbsp;        this.numCards=0;
+&nbsp;        this.slot = new ArrayList&lt;&gt;(3);
+&nbsp;        slot.add(new Coordinates(0,0));
+&nbsp;        slot.add(new Coordinates(0,0));
+&nbsp;        slot.add(new Coordinates(0,0));
+&nbsp;
+&nbsp;    }*/
+&nbsp;
+<b class="fc">&nbsp;    public Hand(Player player){</b>
+<b class="fc">&nbsp;        this.player = player;</b>
+<b class="fc">&nbsp;        this.numCards=0;</b>
+<b class="fc">&nbsp;        this.slot = new ArrayList&lt;&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ArrayList&lt;Coordinates&gt; getSlot() {
+<b class="nc">&nbsp;        return slot;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create a temporary Coordinates object for data setting.
+&nbsp;     * Then add it to the slot list.
+&nbsp;     * @param item
+&nbsp;     * @param r
+&nbsp;     * @param c
+&nbsp;     */
+&nbsp;    public void memCard(ItemTileCard item,int r, int c){
+<b class="nc">&nbsp;        Coordinates tmp = new Coordinates(r,c);</b>
+<b class="nc">&nbsp;        tmp.item = item;</b>
+<b class="nc">&nbsp;        this.slot.add(tmp);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Clearing all items in slot list when the player trigger &#39;Deselection&#39;
+&nbsp;     */
+&nbsp;    public void clearHand(){
+<b class="nc">&nbsp;        this.slot.clear();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Insert the item in the slot-n.
+&nbsp;     * @param item
+&nbsp;     * @param n
+&nbsp;     */
+&nbsp;    public void setSlot(ItemTileCard item,int n,int r,int c) {
+<b class="nc">&nbsp;        this.slot.get(n).item = item;</b>
+<b class="nc">&nbsp;        this.slot.get(n).x = r;</b>
+<b class="nc">&nbsp;        this.slot.get(n).y = c;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Reset slot when player unselect a card
+&nbsp;     * @param n
+&nbsp;     */
+&nbsp;    public void resetSlot(int n){
+<b class="nc">&nbsp;        this.slot.get(n).item = neutral_card;</b>
+<b class="nc">&nbsp;        this.slot.get(n).x=-1;</b>
+<b class="nc">&nbsp;        this.slot.get(n).y=-1;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getNumCards() {
+<b class="nc">&nbsp;        return numCards;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setNumCards(int numCards) {
+<b class="nc">&nbsp;        if (numCards &gt;= 0 &amp;&amp; numCards &lt;= 3) {</b>
+<b class="nc">&nbsp;            this.numCards = numCards;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            System.out.println(&quot;Try again&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * function for order changing between 2 element in slot
+&nbsp;     * Used during Insertion Phase
+&nbsp;     * @param pos1
+&nbsp;     * @param pos2
+&nbsp;     */
+&nbsp;    public void changeOrder(int pos1,int pos2){
+&nbsp;
+<b class="nc">&nbsp;        Collections.swap(slot,pos1,pos2);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-03 09:40</div>
+</div>
+</body>
+</html>

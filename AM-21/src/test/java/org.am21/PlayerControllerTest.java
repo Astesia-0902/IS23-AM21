@@ -7,24 +7,25 @@ import org.am21.model.Player;
 import org.am21.model.TurnPhases;
 import org.am21.model.items.Shelf;
 import org.am21.utilities.Coordinates;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 
 class PlayerControllerTest {
 
 
-    @Test
+    @DisplayName("PlayerController creation")
     static PlayerController createPlayerController(String name){
         System.out.println("----------------------");
-        System.out.println("Player account creation...");
+        System.out.println("Game > Player account creation...");
         PlayerController playerController = new PlayerController(name);
-        System.out.println("Nickname: "+playerController.player.getName());
-        System.out.println("Score: " + playerController.player.playerScore);
+        System.out.println("Game > Nickname: "+playerController.player.getName());
         return playerController;
     }
-    @Test
+    @DisplayName("Printf Shelf")
     static void printThisShelf(Shelf shelf){
-        System.out.println("Shelf:");
+        System.out.println("Match > "+shelf.player.getName()+"'s Shelf:");
         for(int i=0;i<6;i++){
             for(int j=0;j<5;j++){
                 if(shelf.getCellGrid()[i][j].getItem()==null){
@@ -57,8 +58,7 @@ class PlayerControllerTest {
         printThisShelf(player3.myShelf);
 
         System.out.println("----------------------");
-        match.matchStart();
-        System.out.println("PlayerTurn: "+ match.currentPlayer.getName());
+        System.out.println("Match > PlayerTurn: "+ match.currentPlayer.getName());
 
         MatchTest.printThisBoard(match.livingRoomBoard);
 
@@ -88,10 +88,10 @@ class PlayerControllerTest {
 
     }
 
-    @Test
+    @DisplayName("Print Hand")
     static void showHand(Hand hand){
         System.out.println("--------");
-        System.out.println(hand.player.getName() + "'s Hand ["+ hand.getSlot().size()+"]:");
+        System.out.println("Match  > "+hand.player.getName() + "'s Hand ["+ hand.getSlot().size()+"]:");
         for(Coordinates x : hand.getSlot()) {
             if(x.item.getNameCard()!=null){
                 System.out.print("["+x.item.getNameCard()+"]");
@@ -102,10 +102,11 @@ class PlayerControllerTest {
 
     }
 
-    @Test
+    @DisplayName("Player choices")
     static void randomChoice(PlayerController ctrl){
         int a,b;
         int count =0;
+        int fail=0;
         Coordinates tmp;
         System.out.println("--------");
         do {
@@ -114,6 +115,11 @@ class PlayerControllerTest {
                 b = (int) ((Math.random() * 9)-1);
                 if(ctrl.selectCell(a, b))
                     count++;
+                else{
+                     fail++;
+                }
+                if(fail==20)
+                    count=10;
             }else {
                 a = (int) (Math.random() * 2);
                 b = (int) (Math.random() * 2);
@@ -128,29 +134,98 @@ class PlayerControllerTest {
         }while(count<10);
     }
 
-    @Test void randomSimulation(){
+    @Test
+    void randomSimulation(){
         Match match = MatchTest.createMatch(4);
         PlayerController pCtrl1 = PlayerControllerTest.createPlayerController("Ambrogio");
         Player player1 = pCtrl1.player;
         match.addPlayer(player1);
-        printThisShelf(player1.myShelf);
         PlayerController pCtrl2 = PlayerControllerTest.createPlayerController("Ambra");
         Player player2 = pCtrl2.player;
         match.addPlayer(player2);
-        printThisShelf(player2.myShelf);
         PlayerController pCtrl3 = PlayerControllerTest.createPlayerController("Zazà");
         Player player3 = pCtrl3.player;
         match.addPlayer(player3);
-        printThisShelf(player3.myShelf);
         PlayerController pCtrl4 = PlayerControllerTest.createPlayerController("Lupin");
         Player player4 = pCtrl4.player;
         match.addPlayer(player4);
-        printThisShelf(player4.myShelf);
 
 
         System.out.println("----------------------");
-        match.matchStart();
-        System.out.println("PlayerTurn: "+ match.currentPlayer.getName());
+        printThisShelf(player1.myShelf);
+        printThisShelf(player2.myShelf);
+        printThisShelf(player3.myShelf);
+        printThisShelf(player4.myShelf);
+        System.out.println("Match > PlayerTurn: "+ match.currentPlayer.getName());
+
+        MatchTest.printThisBoard(match.livingRoomBoard);
+
+        randomChoice(pCtrl1);
+
+        randomChoice(pCtrl2);
+
+        randomChoice(pCtrl3);
+
+        randomChoice(pCtrl4);
+
+        showHand(pCtrl1.hand);
+        pCtrl1.changeHandOrder(0,1);
+        showHand(pCtrl1.hand);
+        showHand(pCtrl2.hand);
+        showHand(pCtrl3.hand);
+        showHand(pCtrl4.hand);
+
+        pCtrl1.moveAllToHand();
+        pCtrl2.moveAllToHand();
+        pCtrl3.moveAllToHand();
+
+
+
+        MatchTest.printThisBoard(match.livingRoomBoard);
+
+        match.turnPhase = TurnPhases.Insertion;
+        pCtrl1.tryToInsert(1);
+        pCtrl2.tryToInsert(2);
+        pCtrl3.tryToInsert(3);
+        pCtrl4.tryToInsert(4);
+
+        printThisShelf(player1.myShelf);
+        printThisShelf(player2.myShelf);
+        printThisShelf(player3.myShelf);
+        printThisShelf(player4.myShelf);
+
+        showHand(pCtrl1.hand);
+        showHand(pCtrl2.hand);
+        showHand(pCtrl3.hand);
+        showHand(pCtrl4.hand);
+    }
+
+    /**
+     * Test failed during 4th test: do{}while(); loop in PersonalGoalBuild(CarUtil line 63)
+     */
+    @RepeatedTest(5)
+    void randomRobotMoves(){
+        Match match = MatchTest.createMatch(4);
+        PlayerController pCtrl1 = PlayerControllerTest.createPlayerController("Ambrogio");
+        Player player1 = pCtrl1.player;
+        match.addPlayer(player1);
+        PlayerController pCtrl2 = PlayerControllerTest.createPlayerController("Ambra");
+        Player player2 = pCtrl2.player;
+        match.addPlayer(player2);
+        PlayerController pCtrl3 = PlayerControllerTest.createPlayerController("Zazà");
+        Player player3 = pCtrl3.player;
+        match.addPlayer(player3);
+        PlayerController pCtrl4 = PlayerControllerTest.createPlayerController("Lupin");
+        Player player4 = pCtrl4.player;
+        match.addPlayer(player4);
+
+
+        System.out.println("----------------------");
+        printThisShelf(player1.myShelf);
+        printThisShelf(player2.myShelf);
+        printThisShelf(player3.myShelf);
+        printThisShelf(player4.myShelf);
+        System.out.println("Match > PlayerTurn: "+ match.currentPlayer.getName());
 
         MatchTest.printThisBoard(match.livingRoomBoard);
 

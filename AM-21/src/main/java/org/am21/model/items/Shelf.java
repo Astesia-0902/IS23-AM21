@@ -28,9 +28,12 @@ public class Shelf extends Grid {
     public int slotCol5;
 
     public Player player;
-
+    /**
+     * Each element show how many slots are still available in correspondent column
+     */
     public List<Integer> slotCol;
 
+    public int handLimit = 3;
     private final static int row = 6 ;
     private final static int column = 5;
 
@@ -49,7 +52,7 @@ public class Shelf extends Grid {
             slotCol.add(row);
         }
         this.initiateShelfGrid(row,column);
-        System.out.println(player.getName()+"'s Shelf created.");
+        System.out.println("Match > "+player.getName()+"'s Shelf created.");
 
     }
 
@@ -62,6 +65,25 @@ public class Shelf extends Grid {
 
         return false;
     }
+
+    /**
+     * Calculate the min Limit for hand Capacity
+     * Example: If there are only column with 2 slots available,
+     * then 'handLimit' = 2
+     * @return
+     */
+    public static void elaborateLimit(Shelf shelf){
+        int limit = shelf.handLimit;
+        int maxLimit = limit;
+        for(int j=0;j<column;j++){
+            if(shelf.slotCol.get(j) < shelf.handLimit){
+
+            }
+        }
+
+
+    }
+
     @Override
     public Cell[][] getCellGrid() {
         return super.getCellGrid();

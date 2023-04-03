@@ -21,13 +21,13 @@ public class MyTimer {
      */
     public void startTimer(final int waitTime, final Match match){
         final int[] count = {0};
-        System.out.println("Timer started!");
+        System.out.println("Match[!] > Timer started!");
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
                 count[0]++;
                 if(count[0] >= waitTime){
-                    System.out.println("Time's up!");
+                    System.out.println("Match[!] > Time's up!");
                     timer.cancel();
                     match.nextTurn();
                 }

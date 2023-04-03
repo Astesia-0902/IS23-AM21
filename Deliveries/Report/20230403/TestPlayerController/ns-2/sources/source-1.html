@@ -1,0 +1,151 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GameManager</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.model</a>
+</div>
+
+<h1>Coverage Summary for Class: GameManager (org.am21.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameManager</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33,3%
+  </span>
+  <span class="absValue">
+    (1/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    7,7%
+  </span>
+  <span class="absValue">
+    (1/13)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.model;
+&nbsp;
+&nbsp;import org.am21.controller.GameController;
+&nbsp;import org.am21.controller.PlayerController;
+&nbsp;import org.am21.model.items.*;
+&nbsp;import org.am21.model.items.Card.*;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public class GameManager {
+&nbsp;    //Key: player name, Value: match id
+<b class="fc">&nbsp;    public static HashMap&lt;String, Integer&gt; playerMatchMap = new HashMap&lt;String, Integer&gt;();</b>
+&nbsp;
+&nbsp;    public static List&lt;Match&gt; matchList;
+&nbsp;
+&nbsp;    public static List&lt;Goal&gt; goals;
+&nbsp;
+&nbsp;    public static List&lt;Card&gt; cards;
+&nbsp;
+&nbsp;    private float waitTime;
+&nbsp;
+&nbsp;    private float timer;
+&nbsp;
+<b class="nc">&nbsp;    public GameManager(GameController controller) {</b>
+<b class="nc">&nbsp;        this.matchList = new ArrayList&lt;Match&gt;();</b>
+<b class="nc">&nbsp;        this.goals = new ArrayList&lt;Goal&gt;();</b>
+<b class="nc">&nbsp;        this.cards = new ArrayList&lt;Card&gt;();</b>
+<b class="nc">&nbsp;        this.waitTime = 0;</b>
+<b class="nc">&nbsp;        this.timer = 0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void createMatch(int playerNum, PlayerController playerController) {
+&nbsp;
+<b class="nc">&nbsp;        if(playerNum &lt; 2 || playerNum &gt; 4){</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Exceeded players number limit. Try again.&quot;);</b>
+&nbsp;            return;
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        Match match = new Match(playerNum);</b>
+<b class="nc">&nbsp;        match.matchID = matchList.indexOf(match);</b>
+<b class="nc">&nbsp;        matchList.add(match);</b>
+<b class="nc">&nbsp;        match.addPlayer(playerController.player);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-03 09:33</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,213 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ClientInputHandler</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: ClientInputHandler (org.am21.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientInputHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/36)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.controller;
+&nbsp;
+&nbsp;import org.am21.model.GameManager;
+&nbsp;import org.am21.model.GamePhases;
+&nbsp;import org.am21.model.PlayerManager;
+&nbsp;import org.am21.model.items.Card.ItemTileCard;
+&nbsp;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.rmi.server.ServerNotActiveException;
+&nbsp;import java.rmi.server.UnicastRemoteObject;
+&nbsp;
+&nbsp;public class ClientInputHandler extends UnicastRemoteObject implements IClientHandler {
+&nbsp;    public String userName;
+&nbsp;    public String userHost;
+<b class="nc">&nbsp;    private int createMatchRequestCount = 0;</b>
+&nbsp;    public PlayerController playerController;
+&nbsp;    public ClientChatHandler clientChatHandler;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Creates and exports a new UnicastRemoteObject object using an
+&nbsp;     * anonymous port.
+&nbsp;     *
+&nbsp;     * @throws RemoteException if failed to export object
+&nbsp;     * @since JDK1.1
+&nbsp;     */
+<b class="nc">&nbsp;    protected ClientInputHandler() throws RemoteException {</b>
+<b class="nc">&nbsp;        clientChatHandler = new ClientChatHandler();</b>
+&nbsp;    }
+&nbsp;//        Get the IP address of the client
+&nbsp;//        System.out.println(&quot;Hello, I am &quot; + getClientHost() + &quot;:&quot; + getClientPort());
+&nbsp;
+&nbsp;    //TODO:When the command is not from the current player, the command should be ignored.
+&nbsp;    private boolean checkPlayerActionPhase() throws ServerNotActiveException {
+<b class="nc">&nbsp;        String userHost = getClientHost();</b>
+<b class="nc">&nbsp;        return GameManager.playerMatchMap.containsKey(userHost) &amp;&amp;</b>
+<b class="nc">&nbsp;                userHost.equals(GameManager.matchList.</b>
+<b class="nc">&nbsp;                        get(GameManager.playerMatchMap.get(userHost)).currentPlayer.getHost());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void logIn(String username) throws RemoteException, ServerNotActiveException {
+<b class="nc">&nbsp;        userHost = getClientHost();</b>
+<b class="nc">&nbsp;        this.userName = username;</b>
+<b class="nc">&nbsp;        playerController = new PlayerController(username);</b>
+&nbsp;        //TODO:the same username is not allowed to log in
+<b class="nc">&nbsp;        if(!PlayerManager.players.contains(playerController.player)) {</b>
+<b class="nc">&nbsp;            PlayerManager.players.add(playerController.player);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void createMatch(int playerNum) throws RemoteException, ServerNotActiveException {
+<b class="nc">&nbsp;        if (GameManager.playerMatchMap.containsKey(getClientHost()) &amp;&amp; createMatchRequestCount == 0) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Message from the server: the player already exists in a match. &quot; +</b>
+&nbsp;                    &quot;Create a new match will cause the player leave the current match.&quot; +
+&nbsp;                    &quot;Do you want to continue?&quot;);
+<b class="nc">&nbsp;            createMatchRequestCount = 1;</b>
+<b class="nc">&nbsp;        } else if (GameManager.playerMatchMap.containsKey(getClientHost()) &amp;&amp; createMatchRequestCount == 1) {</b>
+<b class="nc">&nbsp;            createMatchRequestCount = 0;</b>
+<b class="nc">&nbsp;            GameManager.createMatch(playerNum,playerController);</b>
+&nbsp;            //TODO:player leave the current match
+<b class="nc">&nbsp;        } else if (!GameManager.playerMatchMap.containsKey(getClientHost())) {</b>
+<b class="nc">&nbsp;            GameManager.createMatch(playerNum,playerController);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void joinGame(int matchID) throws RemoteException, ServerNotActiveException {
+<b class="nc">&nbsp;        if(GameManager.matchList.get(matchID) == null) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Message from the server: the indicate match not exists.&quot;);</b>
+&nbsp;            return;
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (GameManager.matchList.get(matchID).gamePhase == GamePhases.GameOnGoing) {</b>
+<b class="nc">&nbsp;            if (!GameManager.playerMatchMap.containsKey(userName)) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Message from the server: the player not exists in any match.&quot;);</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                if(!GameManager.matchList.get(matchID).addPlayer(playerController.player)){</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;Message from the server: the match is full.&quot;);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;            //if the match is not started, the player join the match
+<b class="nc">&nbsp;        } else if (GameManager.matchList.get(matchID).gamePhase == GamePhases.StartGame) {</b>
+<b class="nc">&nbsp;            if(!GameManager.matchList.get(matchID).addPlayer(playerController.player)){</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Message from the server: the match is full.&quot;);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;//    public void startMatch(){
+&nbsp;//        if(GameManager.playerMatchMap.containsKey(playerController.player.getName())){
+&nbsp;//            GameManager.matchList.get(GameManager.playerMatchMap.get(playerController.player.getName())).matchStart();
+&nbsp;//        }
+&nbsp;//    }
+&nbsp;
+&nbsp;    public void selectCell(int row, int col) throws ServerNotActiveException {
+<b class="nc">&nbsp;        if (!checkPlayerActionPhase()) return;</b>
+<b class="nc">&nbsp;        playerController.selectCell(row,col);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean insertTiles(int colNum, int numTiles) throws ServerNotActiveException {
+<b class="nc">&nbsp;        if (!checkPlayerActionPhase()) return false;</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void removeItemFromHand(ItemTileCard item) throws ServerNotActiveException {
+<b class="nc">&nbsp;        if (!checkPlayerActionPhase()) return;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void changeHandOrder() throws ServerNotActiveException {
+<b class="nc">&nbsp;        if (!checkPlayerActionPhase()) return;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-03 09:33</div>
+</div>
+</body>
+</html>
