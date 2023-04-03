@@ -34,8 +34,6 @@ public abstract class Grid {
 
     public void insertInCell(int r, int c, ItemTileCard item){
         if(cellGrid[r][c]!=null) {
-
-
             if (!cellGrid[r][c].isDark())
                 cellGrid[r][c].setItem(item);
         }

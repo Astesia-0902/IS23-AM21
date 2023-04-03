@@ -54,15 +54,16 @@ public class CardUtil {
     // ----------------------------------- PERSONAL GOAL --------------------------------------------------------
     public static Random randomPersonalGoal = new Random();
     public static int numPersonalGoal;
-    public static Set<Integer> usedNumbers = new HashSet<>();
+
     public static List<PersonalGoalCard> buildPersonalGoalCard(int numPlayer){
+        Set<Integer> usedNumbers = new HashSet<>();
         List<PersonalGoalCard> personalGoalCards = new ArrayList<>();
         for (int i = 0; i < numPlayer; i++) {
             do {
                 numPersonalGoal = randomPersonalGoal.nextInt(12) + 1;
             } while (usedNumbers.contains(numPersonalGoal));
             usedNumbers.add(numPersonalGoal);
-            personalGoalCards.add(new PersonalGoalCard("PERSONAL_GOALs" + numPersonalGoal, null));
+            personalGoalCards.add(new PersonalGoalCard("PERSONAL_GOALs" + numPersonalGoal));
         }
         System.out.println("Match > "+personalGoalCards.size()+" PersonalGoal generated");
         return personalGoalCards;
