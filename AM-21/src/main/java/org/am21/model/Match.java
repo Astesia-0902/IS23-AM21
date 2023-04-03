@@ -97,7 +97,7 @@ public class Match {
 
             //Start the timer
             timer = new MyTimer();
-            timer.startTimer(60, this);
+            timer.startTimer(5, this);
 
             //Initialize the game phase
             gamePhase = GamePhases.GameOnGoing;
@@ -123,9 +123,11 @@ public class Match {
 
     public void nextTurn() {
         currentPlayer = playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats);
-        timer.stopTimer();
         System.out.println("Match > Player Turn: " + currentPlayer.getName());
+
+        timer = new MyTimer();
         timer.startTimer(60,this);
+
         changeTurnPhase(TurnPhases.Selection);
     }
 

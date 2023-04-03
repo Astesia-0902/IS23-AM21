@@ -25,6 +25,10 @@ class MatchTest {
         printfThisBag(match.bag);
         printCommGoals(match.commonGoals);
         printPersonalGoals(match.playerList);
+
+//        while(true){
+//
+//        }
     }
 
     @DisplayName("Match creation")
