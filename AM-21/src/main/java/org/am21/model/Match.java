@@ -182,14 +182,27 @@ public class Match {
                 TGear.printThisBoard(livingRoomBoard);
             }
         }
+        if(gamePhase==GamePhases.LastRound){
+            if(playerList.get((playerList.indexOf(currentPlayer)+1)%maxSeats)==firstToComplete){
+                System.out.println("Match > GAME OVER");
+                endMatch();
+            }
+        }
         if(currentPlayer.shelf.getTotSlotAvail()==0 && gamePhase!=GamePhases.LastRound){
             System.out.println("Match > Congratulations! "+currentPlayer.getName()+" has completed the shelf first");
             System.out.println("Match > EndGame Token assigned");
+            firstToComplete=currentPlayer;
             gamePhase = GamePhases.LastRound;
         }
 
         this.nextTurn();
 
 
+    }
+
+    private void endMatch() {
+        System.out.println("Game > Room closed. See ya!");
+        TGear.viewStats(this,0);
+        System.exit(0);
     }
 }

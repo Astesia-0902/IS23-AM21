@@ -224,7 +224,7 @@ class PlayerTest {
         printPersonalGoals(m.playerList);
         spacer();
 
-        for(int t=0;t<20;t++){      //Number of round
+        for(int t=0;t<15;t++){      //Number of round
             System.out.println("Match > {[ Round number: "+ (t+1)+" ]}");
             robotMoves(pC1,p1);
             robotMoves(pC2,p2);

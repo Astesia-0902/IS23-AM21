@@ -1,0 +1,311 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Match</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Match (org.am21.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Match</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (8/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90,1%
+  </span>
+  <span class="absValue">
+    (64/71)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.model;
+&nbsp;
+&nbsp;import org.am21.controller.GameController;
+&nbsp;import org.am21.model.items.Bag;
+&nbsp;import org.am21.model.items.Card.PersonalGoalCard;
+&nbsp;import org.am21.model.items.Card.ScoringTokenCard;
+&nbsp;import org.am21.model.items.CommonGoal;
+&nbsp;import org.am21.model.items.LivingRoomBoard;
+&nbsp;import org.am21.model.items.Shelf;
+&nbsp;import org.am21.utilities.CardUtil;
+&nbsp;import org.am21.utilities.CommonGoalUtil;
+&nbsp;import org.am21.utilities.MyTimer;
+&nbsp;import org.am21.utilities.TGear;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public class Match {
+&nbsp;    public int matchID;
+&nbsp;    public List&lt;CommonGoal&gt; commonGoals;
+&nbsp;    public boolean endGameToken;
+&nbsp;    public GameController gameController;
+&nbsp;    public LivingRoomBoard livingRoomBoard;
+&nbsp;    public Bag bag;
+&nbsp;    //public int bagIndex;
+&nbsp;    public GamePhases gamePhase;
+&nbsp;    public TurnPhases turnPhase;
+&nbsp;    public Player currentPlayer;
+&nbsp;    public List&lt;Player&gt; playerList;
+&nbsp;    public int maxSeats;
+&nbsp;    private Player firstToComplete;
+&nbsp;    private int numPlayers;
+&nbsp;    public Player chairman;
+&nbsp;    public MyTimer timer;
+&nbsp;
+<b class="fc">&nbsp;    public Match(int maxSeats) {</b>
+<b class="fc">&nbsp;        this.maxSeats = maxSeats;</b>
+<b class="fc">&nbsp;        playerList = new ArrayList&lt;Player&gt;(maxSeats);</b>
+<b class="fc">&nbsp;        gamePhase = GamePhases.WaitingPlayers;</b>
+<b class="fc">&nbsp;        commonGoals = new ArrayList&lt;CommonGoal&gt;(2);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add player to this match
+&nbsp;     *
+&nbsp;     * @param player
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    public boolean addPlayer(Player player) {
+<b class="fc">&nbsp;        if (playerList.size() &lt; maxSeats) {</b>
+<b class="fc">&nbsp;            playerList.add(player);</b>
+<b class="fc">&nbsp;            System.out.println(&quot;Game &gt; &quot;+player.getName()+&quot; added to the match&quot;);</b>
+<b class="fc">&nbsp;            player.match = this;</b>
+<b class="fc">&nbsp;            player.createHand();</b>
+<b class="fc">&nbsp;            player.shelf = new Shelf(player);</b>
+&nbsp;
+<b class="fc">&nbsp;            GameManager.playerMatchMap.put(player.getName(), matchID);</b>
+&nbsp;
+<b class="fc">&nbsp;            if (playerList.size() == maxSeats) {</b>
+<b class="fc">&nbsp;                matchStart();</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void matchStart() {
+<b class="fc">&nbsp;        if(playerList.size()&lt;maxSeats) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Game &gt; Not enough players to begin. Keep waiting...&quot;);</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="fc">&nbsp;        this.gamePhase=GamePhases.StartGame;</b>
+<b class="fc">&nbsp;        System.out.println(&quot;-------------------------&quot;);</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Game &gt; The match is starting!&quot;);</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Match[!] &gt; Let&#39;s play!&quot;);</b>
+&nbsp;            //Determine the first player
+<b class="fc">&nbsp;            chairman = playerList.get((int) (Math.random() * maxSeats));</b>
+<b class="fc">&nbsp;            System.out.println(&quot;Match &gt; &quot;+chairman.getName() + &quot; get the Chair!&quot;);</b>
+<b class="fc">&nbsp;            currentPlayer = chairman;</b>
+&nbsp;
+&nbsp;            //Distribution of personal goals
+<b class="fc">&nbsp;            List&lt;PersonalGoalCard&gt; personalGoalCards = CardUtil.buildPersonalGoalCard(maxSeats);</b>
+<b class="fc">&nbsp;            for (int i = 0; i &lt; maxSeats; i++) {</b>
+<b class="fc">&nbsp;                playerList.get(i).setOwnGoal(personalGoalCards.get(i));</b>
+<b class="fc">&nbsp;                personalGoalCards.get(i).setPlayer(playerList.get(i));</b>
+&nbsp;            }
+&nbsp;
+&nbsp;            //Determine the common goals
+<b class="fc">&nbsp;            commonGoals = CommonGoalUtil.getCommonGoals(maxSeats);</b>
+<b class="fc">&nbsp;            for (Player player : playerList) {</b>
+<b class="fc">&nbsp;                GameManager.playerMatchMap.put(player.getName(), matchID);</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;
+&nbsp;            //Initialization of the board
+<b class="fc">&nbsp;            bag = new Bag(this);</b>
+&nbsp;            //bag.setItemCollection(maxSeats);
+<b class="fc">&nbsp;            livingRoomBoard = new LivingRoomBoard(9, 9, maxSeats, this);</b>
+&nbsp;
+&nbsp;            //Start the timer
+<b class="fc">&nbsp;            timer = new MyTimer();</b>
+<b class="fc">&nbsp;            timer.startTimer(5, this);</b>
+&nbsp;
+&nbsp;            //Initialize the game phase
+<b class="fc">&nbsp;            gamePhase = GamePhases.GameOnGoing;</b>
+<b class="fc">&nbsp;            changeTurnPhase(TurnPhases.Selection);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;//    private void fillBoard() {
+&nbsp;//        List&lt;ItemTileCard&gt; itemTileCards = bag.getItemCollection();
+&nbsp;//        for (Cell[] cells : livingRoomBoard.getCellGrid()) {
+&nbsp;//            for (Cell cell : cells) {
+&nbsp;//                if (cell.isDark() || cell.getItem() != null) {
+&nbsp;//                    continue;
+&nbsp;//                }
+&nbsp;//                cell.setItem(itemTileCards.get(bagIndex));
+&nbsp;//                bagIndex++;
+&nbsp;//            }
+&nbsp;//        }
+&nbsp;//    }
+&nbsp;
+&nbsp;//    public void drawCard() {
+&nbsp;//    }
+&nbsp;
+&nbsp;    public void nextTurn() {
+<b class="fc">&nbsp;        currentPlayer = playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats);</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Match &gt; Player Turn: &quot; + currentPlayer.getName());</b>
+&nbsp;
+<b class="fc">&nbsp;        timer = new MyTimer();</b>
+<b class="fc">&nbsp;        timer.startTimer(2,this);</b>
+&nbsp;
+<b class="fc">&nbsp;        changeTurnPhase(TurnPhases.Selection);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void giveToken(Player player, ScoringTokenCard scoringToken) {
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    public boolean isEndGame() {
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void checkLastRound() {
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return which TurnPhase is
+&nbsp;     */
+&nbsp;    public TurnPhases whichTurnPhase() {
+<b class="nc">&nbsp;        return turnPhase;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Change TurnPhase
+&nbsp;     *
+&nbsp;     * @param phase
+&nbsp;     */
+&nbsp;    public void changeTurnPhase(TurnPhases phase) {
+<b class="fc">&nbsp;        turnPhase = phase;</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Match [!] &gt; { &quot; + turnPhase + &quot; Phase }&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public void checkingGoals(Player player) {
+&nbsp;        //Serie di comandi per controllare se il player ha completato dei goal
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;        changeTurnPhase(TurnPhases.EndTurn);</b>
+<b class="fc">&nbsp;        this.callEndTurnRoutine();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void callEndTurnRoutine() {
+<b class="fc">&nbsp;        if(livingRoomBoard.checkBoard()){</b>
+<b class="fc">&nbsp;           System.out.println(&quot;Match &gt; Board need refill&quot;);</b>
+<b class="fc">&nbsp;           TGear.printThisBoard(livingRoomBoard);</b>
+&nbsp;           //refill
+<b class="fc">&nbsp;            if(!this.bag.refillRequest()){</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Match &gt; Board not refilled&quot;);</b>
+&nbsp;            }else{
+<b class="fc">&nbsp;                TGear.printThisBoard(livingRoomBoard);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        if(gamePhase==GamePhases.LastRound){</b>
+<b class="fc">&nbsp;            if(playerList.get((playerList.indexOf(currentPlayer)+1)%maxSeats)==firstToComplete){</b>
+<b class="fc">&nbsp;                System.out.println(&quot;Match &gt; GAME OVER&quot;);</b>
+<b class="fc">&nbsp;                endMatch();</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        if(currentPlayer.shelf.getTotSlotAvail()==0 &amp;&amp; gamePhase!=GamePhases.LastRound){</b>
+<b class="fc">&nbsp;            System.out.println(&quot;Match &gt; Congratulations! &quot;+currentPlayer.getName()+&quot; has completed the shelf first&quot;);</b>
+<b class="fc">&nbsp;            System.out.println(&quot;Match &gt; EndGame Token assigned&quot;);</b>
+<b class="fc">&nbsp;            firstToComplete=currentPlayer;</b>
+<b class="fc">&nbsp;            gamePhase = GamePhases.LastRound;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        this.nextTurn();</b>
+&nbsp;
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    private void endMatch() {
+<b class="fc">&nbsp;        System.out.println(&quot;Game &gt; Room closed. See ya!&quot;);</b>
+<b class="fc">&nbsp;        TGear.viewStats(this,0);</b>
+<b class="fc">&nbsp;        System.exit(0);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-04 01:43</div>
+</div>
+</body>
+</html>

@@ -1,5 +1,7 @@
 package org.am21.utilities;
 
+import org.am21.model.Match;
+import org.am21.model.Player;
 import org.am21.model.items.LivingRoomBoard;
 import org.am21.model.items.Shelf;
 
@@ -37,6 +39,32 @@ public class TGear {
             }
             System.out.println("");
         }
+
+    }
+
+    public static void spacer(){
+        System.out.println("-----------");
+    }
+    public static void viewStats(Match m, int nRound){
+        spacer();
+        System.out.println("Match[!][!] > Game Stats");
+        System.out.println("Num round: ["+nRound+"]");
+        System.out.println("Bag items: ["+(m.bag.getDeck().size()-m.bag.bagIndex)+"]");
+        System.out.println("Bag index: ["+m.bag.bagIndex+"]");
+        System.out.println("Shelf/Hand situation:" );
+        for(Player x: m.playerList){
+            System.out.print(x.getName()+"["+x.shelf.getTotSlotAvail() +"]--");
+            System.out.print("Limit:["+x.shelf.insertLimit +"]\n");
+            printThisShelf(x.shelf);
+        }
+        System.out.println();
+        printThisBoard(m.livingRoomBoard);
+        spacer();
+
+
+
+
+
 
     }
 }

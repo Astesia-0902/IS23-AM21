@@ -1,0 +1,175 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > MyTimer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.utilities</a>
+</div>
+
+<h1>Coverage Summary for Class: MyTimer (org.am21.utilities)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MyTimer</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (6/8)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">MyTimer$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (3/6)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    64,3%
+  </span>
+  <span class="absValue">
+    (9/14)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.utilities;
+&nbsp;
+&nbsp;import org.am21.model.Match;
+&nbsp;
+&nbsp;import java.util.Timer;
+&nbsp;import java.util.TimerTask;
+&nbsp;
+&nbsp;/**
+&nbsp; * Timer to count down the time for each player
+&nbsp; */
+&nbsp;public class MyTimer {
+&nbsp;    private Timer timer;
+&nbsp;
+<b class="fc">&nbsp;    public MyTimer() {</b>
+<b class="fc">&nbsp;        timer = new Timer();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * start timer at the beginning of each player&#39;s turn
+&nbsp;     * @param waitTime
+&nbsp;     */
+&nbsp;    public void startTimer(final int waitTime, final Match match){
+<b class="fc">&nbsp;        final int[] count = {0};</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Match[!] &gt; Timer started!&quot;);</b>
+<b class="fc">&nbsp;        TimerTask task = new TimerTask() {</b>
+&nbsp;            @Override
+&nbsp;            public void run() {
+<b class="fc">&nbsp;                count[0]++;</b>
+<b class="fc">&nbsp;                if(count[0] &gt;= waitTime){</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;Match[!] &gt; Time&#39;s up!&quot;);</b>
+<b class="nc">&nbsp;                    timer.cancel();</b>
+<b class="nc">&nbsp;                    match.nextTurn();</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        };
+<b class="fc">&nbsp;        timer.scheduleAtFixedRate(task,  0, 1000);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * stop timer when player finish his/her turn
+&nbsp;     */
+&nbsp;    public void stopTimer(){
+<b class="nc">&nbsp;        System.out.println(&quot;Timer stopped!&quot;);</b>
+<b class="nc">&nbsp;        timer.cancel();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-04 01:43</div>
+</div>
+</body>
+</html>
