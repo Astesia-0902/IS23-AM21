@@ -31,6 +31,10 @@ class MatchTest {
         printfThisBag(match.bag);
         printCommGoals(match.commonGoals);
         printPersonalGoals(match.playerList);
+
+//        while(true){
+//
+//        }
         printScoringTokens(match.commonGoals);
     }
 
