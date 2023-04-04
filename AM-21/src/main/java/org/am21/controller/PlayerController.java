@@ -35,7 +35,7 @@ public class PlayerController {
      * !Implementation incomplete due to Lack of View Component!
      * @return
      */
-    public PersonalGoalCard viewMyGoal(){
+    public PersonalGoalCard viewGoal(){
 
         return player.getMyPersonalGoal();
     }
@@ -178,6 +178,9 @@ public class PlayerController {
     public boolean tryToInsert(int col){
         if(!isMyTurn(player)) {
             return false;
+        }
+        if(player.shelf.getTotSlotAvail()==0){
+            player.match.nextTurn();
         }
         if(player.match.turnPhase == TurnPhases.Insertion){
 

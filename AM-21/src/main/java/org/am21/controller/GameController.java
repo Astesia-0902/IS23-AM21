@@ -1,4 +1,8 @@
 package org.am21.controller;
+
+import org.am21.model.GameManager;
+import org.am21.model.GamePhases;
+
 import java.rmi.RemoteException;
 
 public class GameController {
@@ -9,10 +13,8 @@ public class GameController {
     /**
      * Initialize the game.
      * Pay attention to the order of the initialization of instances to avoid potential null pointer exception.
-     *
-     * @param playerNum
      */
-    public void initializeGame(int playerNum) {
+    public void initializeGame() {
 
     }
 
@@ -21,17 +23,44 @@ public class GameController {
 
     }
 
-    public void distributeGoal() {
-    }
-
     public void endGame() {
     }
 
-    public void userJoin() {
+    public static void joinGame(int matchID, String userName, PlayerController playerController) {
+        if (GameManager.matchList.get(matchID) == null) {
+            System.out.println("Message from the server: the indicate match not exists.");
+            return;
+        }
+
+        if (GameManager.matchList.get(matchID).gamePhase == GamePhases.GameGoing) {
+            if (!GameManager.playerMatchMap.containsKey(userName)) {
+                System.out.println("Message from the server: the player not exists in any match.");
+            } else {
+                if (!GameManager.matchList.get(matchID).addPlayer(playerController.player)) {
+                    System.out.println("Message from the server: the match is full.");
+                }
+            }
+            //if the match is not started, the player join the match
+        } else if (GameManager.matchList.get(matchID).gamePhase == GamePhases.WaitingPlayers) {
+            if (!GameManager.matchList.get(matchID).addPlayer(playerController.player)) {
+                System.out.println("Message from the server: the match is full.");
+            }
+        }
     }
 
-    public void createMatch() {
-
+    public static void createMatch(String userName, Integer createMatchRequestCount, int playerNum, PlayerController playerController) {
+        if (GameManager.playerMatchMap.containsKey(userName) && createMatchRequestCount == 0) {
+            System.out.println("Message from the server: the player already exists in a match. " +
+                    "Create a new match will cause the player leave the current match." +
+                    "Do you want to continue?");
+            createMatchRequestCount = 1;
+        } else if (GameManager.playerMatchMap.containsKey(userName) && createMatchRequestCount == 1) {
+            createMatchRequestCount = 0;
+            GameManager.createMatch(playerNum, playerController);
+            //TODO:player leave the current match
+        } else if (!GameManager.playerMatchMap.containsKey(userName)) {
+            GameManager.createMatch(playerNum, playerController);
+        }
     }
 
 }

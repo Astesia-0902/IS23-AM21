@@ -4,6 +4,7 @@ import org.am21.controller.PlayerController;
 import org.am21.model.Match;
 import org.am21.model.Player;
 import org.am21.utilities.Coordinates;
+import org.am21.utilities.Mex;
 import org.junit.jupiter.api.DisplayName;
 
 import java.util.ArrayList;
@@ -72,6 +73,7 @@ public class Gear {
 
     @DisplayName("Player choices")
     static void randomChoice(PlayerController ctrl){
+        Mex state = Mex.Neutral;
         int a,b;
         int attempt =0;
         int fail=0;
@@ -81,15 +83,18 @@ public class Gear {
             if(attempt ==0){
                 a = (int) ((Math.random() * 9));
                 b = (int) ((Math.random() * 9));
-                if(ctrl.selectCell(a, b))
+                if(ctrl.selectCell(a, b)) {
                     attempt++;
-                else{
+                    state = Mex.Success;
+                    Mex.show(state);
+                }else{
                     fail++;
                 }
                 if(fail==5){
                     for(Coordinates popo: posArr){
 
                         if(ctrl.selectCell(popo.x,popo.y)){
+
                             attempt++;
                             counter_AI++;
                         }

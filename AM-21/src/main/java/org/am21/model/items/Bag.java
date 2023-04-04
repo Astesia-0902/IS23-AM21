@@ -46,12 +46,6 @@ public class Bag {
         return itemCollection;
     }
 
-    public void setItemCollection(int playerNum) {
-        for (int i = 0; i < request.get(playerNum); i++) {
-            itemCollection.remove(i);
-        }
-    }
-
     /**
      * Match call refillRequest when LivingRoomBoard.isSingle() is true.
      * This method will verify if there is any item in the Bag.

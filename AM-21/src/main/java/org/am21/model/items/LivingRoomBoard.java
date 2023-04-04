@@ -76,7 +76,6 @@ public class LivingRoomBoard extends Grid{
      * @return
      */
     public boolean isOccupied(int r, int c){
-
         /*Cell (r,c) occupied*/
         return this.getCellItem(r, c) != null;
     }
@@ -168,31 +167,6 @@ public class LivingRoomBoard extends Grid{
         return this.getCellGrid()[r][c].getItem();
     }
 
-    /**
-     * Checking if all the item in grid is isolated.
-     * @return if true, the Board needs to be refilled
-     */
-    public boolean isSingle(){
-        /** register all adjacent state of single cell
-         * (if all center up, center down, center left, center right is null or dark then return true)
-         * */
-        for(int row=0; row<9; row++)
-        {
-            for(int col=0;col<9;col++)
-            {
-               if(this.getItemName(row, col)!=null && this.getCellGrid()[row][col].isDark()==false)
-               {
-                   String left = this.getItemName(row, col-1);
-                   String right = this.getItemName(row, col+1);
-                   String up = this.getItemName(row+1, col);
-                   String down = this.getItemName(row-1, col);
-                   if(left!=null|| right!=null|| up!=null|| down!=null)
-                       return false;
-               }
-            }
-        }
-        return true;
-    }
 
     /**
      * Check if the item is isolated in the board

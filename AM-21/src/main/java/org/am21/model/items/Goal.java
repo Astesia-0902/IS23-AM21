@@ -6,6 +6,7 @@ public abstract class Goal extends Card {
     public int goalID;
     public int score;
 
+    public Goal(){}
     public Goal(String nameCard) {
         super(nameCard);
     }

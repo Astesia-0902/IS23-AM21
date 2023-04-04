@@ -49,7 +49,7 @@ public class Match {
     public boolean addPlayer(Player player) {
         if (playerList.size() < maxSeats) {
             playerList.add(player);
-            System.out.println("Game > "+player.getName()+" added to the match");
+            System.out.println("Game > " + player.getName() + " added to the match");
             player.match = this;
             player.createHand();
             player.shelf = new Shelf(player);
@@ -65,70 +65,66 @@ public class Match {
         return false;
     }
 
+    /**
+     * This should be just the initialization of the Match:
+     * Building board, Bag, cards, choosing chairman
+     * -> StartGame phase
+     * <p>
+     * At the end,it will call another method to start the first Round:
+     * Declare who is player turn
+     * And setting Turn Phase
+     */
+
     public void matchStart() {
-        if(playerList.size()<maxSeats) {
+        if (playerList.size() < maxSeats) {
             System.out.println("Game > Not enough players to begin. Keep waiting...");
             return;
         }
-        this.gamePhase=GamePhases.StartGame;
         System.out.println("-------------------------");
         System.out.println("Game > The match is starting!");
         System.out.println("Match[!] > Let's play!");
-            //Determine the first player
-            chairman = playerList.get((int) (Math.random() * maxSeats));
-            System.out.println("Match > "+chairman.getName() + " get the Chair!");
-            currentPlayer = chairman;
+        //Determine the first player
+        chairman = playerList.get((int) (Math.random() * maxSeats));
+        System.out.println("Match > " + chairman.getName() + " get the Chair!");
+        currentPlayer = chairman;
 
-            //Distribution of personal goals
-            List<PersonalGoalCard> personalGoalCards = CardUtil.buildPersonalGoalCard(maxSeats);
-            for (int i = 0; i < maxSeats; i++) {
-                playerList.get(i).setOwnGoal(personalGoalCards.get(i));
-                personalGoalCards.get(i).setPlayer(playerList.get(i));
-            }
+        //Distribution of personal goals
+        List<PersonalGoalCard> personalGoalCards = CardUtil.buildPersonalGoalCard(maxSeats);
+        for (int i = 0; i < maxSeats; i++) {
+            playerList.get(i).setOwnGoal(personalGoalCards.get(i));
+            personalGoalCards.get(i).setPlayer(playerList.get(i));
+        }
 
-            //Determine the common goals
-            commonGoals = CommonGoalUtil.getCommonGoals(maxSeats);
-            for (Player player : playerList) {
-                GameManager.playerMatchMap.put(player.getName(), matchID);
-            }
+        //Determine the common goals
+        commonGoals = CommonGoalUtil.getCommonGoals(maxSeats);
+        for (Player player : playerList) {
+            GameManager.playerMatchMap.put(player.getName(), matchID);
+        }
 
-            //Initialization of the board
-            bag = new Bag(this);
-            //bag.setItemCollection(maxSeats);
-            livingRoomBoard = new LivingRoomBoard(9, 9, maxSeats, this);
+        //Initialization of the board
+        bag = new Bag(this);
+        //bag.setItemCollection(maxSeats);
+        livingRoomBoard = new LivingRoomBoard(9, 9, maxSeats, this);
 
-            //Start the timer
-            timer = new MyTimer();
-            timer.startTimer(5, this);
-
-            //Initialize the game phase
-            gamePhase = GamePhases.GameOnGoing;
-            changeTurnPhase(TurnPhases.Selection);
-
+        startFirstRound();
     }
 
-//    private void fillBoard() {
-//        List<ItemTileCard> itemTileCards = bag.getItemCollection();
-//        for (Cell[] cells : livingRoomBoard.getCellGrid()) {
-//            for (Cell cell : cells) {
-//                if (cell.isDark() || cell.getItem() != null) {
-//                    continue;
-//                }
-//                cell.setItem(itemTileCards.get(bagIndex));
-//                bagIndex++;
-//            }
-//        }
-//    }
+    private void startFirstRound(){
+        //Initialize the game phase
+        gamePhase = GamePhases.GameGoing;
+        changeTurnPhase(TurnPhases.Selection);
 
-//    public void drawCard() {
-//    }
+        //Start the timer
+        timer = new MyTimer();
+        timer.startTimer(5, this);
+    }
 
     public void nextTurn() {
         currentPlayer = playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats);
         System.out.println("Match > Player Turn: " + currentPlayer.getName());
 
         timer = new MyTimer();
-        timer.startTimer(2,this);
+        timer.startTimer(2, this);
 
         changeTurnPhase(TurnPhases.Selection);
     }
@@ -174,26 +170,26 @@ public class Match {
     }
 
     private void callEndTurnRoutine() {
-        if(livingRoomBoard.checkBoard()){
-           System.out.println("Match > Board need refill");
-           TGear.printThisBoard(livingRoomBoard);
-           //refill
-            if(!this.bag.refillRequest()){
+        if (livingRoomBoard.checkBoard()) {
+            System.out.println("Match > Board need refill");
+            TGear.printThisBoard(livingRoomBoard);
+            //refill
+            if (!this.bag.refillRequest()) {
                 System.out.println("Match > Board not refilled");
-            }else{
+            } else {
                 TGear.printThisBoard(livingRoomBoard);
             }
         }
-        if(gamePhase==GamePhases.LastRound){
-            if(playerList.get((playerList.indexOf(currentPlayer)+1)%maxSeats)==firstToComplete){
+        if (gamePhase == GamePhases.LastRound) {
+            if (playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats) == firstToComplete) {
                 System.out.println("Match > GAME OVER");
                 endMatch();
             }
         }
-        if(currentPlayer.shelf.getTotSlotAvail()==0 && gamePhase!=GamePhases.LastRound){
-            System.out.println("Match > Congratulations! "+currentPlayer.getName()+" has completed the shelf first");
+        if (currentPlayer.shelf.getTotSlotAvail() == 0 && gamePhase != GamePhases.LastRound) {
+            System.out.println("Match > Congratulations! " + currentPlayer.getName() + " has completed the shelf first");
             System.out.println("Match > EndGame Token assigned");
-            firstToComplete=currentPlayer;
+            firstToComplete = currentPlayer;
             gamePhase = GamePhases.LastRound;
         }
 
@@ -204,7 +200,7 @@ public class Match {
 
     private void endMatch() {
         System.out.println("Game > Room closed. See ya!");
-        TGear.viewStats(this,-2);
-        System.exit(0);
+        TGear.viewStats(this, -2);
+        //System.exit(100);
     }
 }

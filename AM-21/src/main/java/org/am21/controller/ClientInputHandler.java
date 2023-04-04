@@ -1,7 +1,6 @@
 package org.am21.controller;
 
 import org.am21.model.GameManager;
-import org.am21.model.GamePhases;
 import org.am21.model.PlayerManager;
 import org.am21.model.items.Card.ItemTileCard;
 
@@ -12,7 +11,7 @@ import java.rmi.server.UnicastRemoteObject;
 public class ClientInputHandler extends UnicastRemoteObject implements IClientHandler {
     public String userName;
     public String userHost;
-    private int createMatchRequestCount = 0;
+    private Integer createMatchRequestCount = 0;
     public PlayerController playerController;
     public ClientChatHandler clientChatHandler;
 
@@ -42,46 +41,17 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientHa
         this.userName = username;
         playerController = new PlayerController(username);
         //TODO:the same username is not allowed to log in
-        if(!PlayerManager.players.contains(playerController.player)) {
+        if (!PlayerManager.players.contains(playerController.player)) {
             PlayerManager.players.add(playerController.player);
         }
     }
 
     public void createMatch(int playerNum) throws RemoteException, ServerNotActiveException {
-        if (GameManager.playerMatchMap.containsKey(getClientHost()) && createMatchRequestCount == 0) {
-            System.out.println("Message from the server: the player already exists in a match. " +
-                    "Create a new match will cause the player leave the current match." +
-                    "Do you want to continue?");
-            createMatchRequestCount = 1;
-        } else if (GameManager.playerMatchMap.containsKey(getClientHost()) && createMatchRequestCount == 1) {
-            createMatchRequestCount = 0;
-            GameManager.createMatch(playerNum,playerController);
-            //TODO:player leave the current match
-        } else if (!GameManager.playerMatchMap.containsKey(getClientHost())) {
-            GameManager.createMatch(playerNum,playerController);
-        }
+        GameController.createMatch(userName, createMatchRequestCount, playerNum, playerController);
     }
 
     public void joinGame(int matchID) throws RemoteException, ServerNotActiveException {
-        if(GameManager.matchList.get(matchID) == null) {
-            System.out.println("Message from the server: the indicate match not exists.");
-            return;
-        }
-
-        if (GameManager.matchList.get(matchID).gamePhase == GamePhases.GameOnGoing) {
-            if (!GameManager.playerMatchMap.containsKey(userName)) {
-                System.out.println("Message from the server: the player not exists in any match.");
-            } else {
-                if(!GameManager.matchList.get(matchID).addPlayer(playerController.player)){
-                    System.out.println("Message from the server: the match is full.");
-                }
-            }
-            //if the match is not started, the player join the match
-        } else if (GameManager.matchList.get(matchID).gamePhase == GamePhases.StartGame) {
-            if(!GameManager.matchList.get(matchID).addPlayer(playerController.player)){
-                System.out.println("Message from the server: the match is full.");
-            }
-        }
+        GameController.joinGame(matchID, userName, playerController);
     }
 
 //    public void startMatch(){
@@ -92,7 +62,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientHa
 
     public void selectCell(int row, int col) throws ServerNotActiveException {
         if (!checkPlayerActionPhase()) return;
-        playerController.selectCell(row,col);
+        playerController.selectCell(row, col);
     }
 
     public boolean insertTiles(int colNum, int numTiles) throws ServerNotActiveException {

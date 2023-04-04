@@ -13,4 +13,3 @@ public class ScoringTokenCard extends Card {
         return scoringToken.getScoringTokenValue();
     }
 }
-

@@ -4,8 +4,9 @@ import org.am21.model.items.CommonGoal;
 import org.am21.model.items.Shelf;
 
 public class CommonGoalx4Group extends CommonGoal {
-    public CommonGoalx4Group(String name, int numPlayer) {
-        super(name, numPlayer);
+    public CommonGoalx4Group(int numPlayer) {
+        super(numPlayer);
+        nameCard = "CommonGoalx4Group";
     }
 
     /**
