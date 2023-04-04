@@ -1,0 +1,200 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PersonalGoalCard</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.model.items.Card</a>
+</div>
+
+<h1>Coverage Summary for Class: PersonalGoalCard (org.am21.model.items.Card)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PersonalGoalCard</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    42,9%
+  </span>
+  <span class="absValue">
+    (3/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    57,4%
+  </span>
+  <span class="absValue">
+    (27/47)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.model.items.Card;
+&nbsp;
+&nbsp;import org.am21.model.Player;
+&nbsp;import org.am21.model.items.Shelf;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public class PersonalGoalCard extends Card {
+&nbsp;    private Shelf MyPersonalGoalShelf;
+<b class="fc">&nbsp;    private final static HashMap&lt;String, int[][]&gt; personalGoal = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;    private final static List&lt;ItemTileCard&gt; tileNames = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    private final static HashMap&lt;Integer, Integer&gt; currentScore = new HashMap&lt;&gt;();</b>
+&nbsp;    static {
+&nbsp;        // param1 : row of player&#39;s bookshelf
+&nbsp;        // param2 : column of player&#39;s bookshelf
+&nbsp;        // param3 : index of tileNames: Cats(0), Books(1), Games(2), Frames(3), Trophies(4), Plants(5)
+&nbsp;
+<b class="fc">&nbsp;        personalGoal.put(&quot;PERSONAL_GOALs1&quot;, new int[][]{{0, 0, 5}, {0, 2, 3}, {1, 4, 0}, {2, 3, 1}, {3, 1, 2}, {5, 3, 4}});</b>
+<b class="fc">&nbsp;        personalGoal.put(&quot;PERSONAL_GOALs2&quot;, new int[][]{{1, 1, 5}, {2, 0, 0}, {2, 2, 2}, {3, 4, 1}, {4, 3, 4}, {5, 4, 3}});</b>
+<b class="fc">&nbsp;        personalGoal.put(&quot;PERSONAL_GOALs3&quot;, new int[][]{{1, 0, 3}, {1, 3, 2}, {2, 2, 5}, {3, 1, 0}, {3, 4, 4}, {5, 0, 1}});</b>
+<b class="fc">&nbsp;        personalGoal.put(&quot;PERSONAL_GOALs4&quot;, new int[][]{{0, 4, 2}, {2, 0, 4}, {2, 2, 3}, {3, 3, 5}, {4, 1, 1}, {4, 2, 0}});</b>
+<b class="fc">&nbsp;        personalGoal.put(&quot;PERSONAL_GOALs5&quot;, new int[][]{{1, 1, 4}, {3, 1, 3}, {3, 2, 1}, {4, 4, 5}, {5, 0, 2}, {5, 3, 0}});</b>
+<b class="fc">&nbsp;        personalGoal.put(&quot;PERSONAL_GOALs6&quot;, new int[][]{{0, 2, 4}, {0, 4, 0}, {2, 3, 1}, {4, 1, 2}, {4, 3, 3}, {5, 0, 5}});</b>
+<b class="fc">&nbsp;        personalGoal.put(&quot;PERSONAL_GOALs7&quot;, new int[][]{{0, 0, 0}, {1, 3, 3}, {2, 1, 5}, {3, 0, 4}, {4, 4, 2}, {5, 2, 1}});</b>
+<b class="fc">&nbsp;        personalGoal.put(&quot;PERSONAL_GOALs8&quot;, new int[][]{{0, 4, 3}, {1, 1, 0}, {2, 2, 4}, {3, 0, 5}, {4, 3, 1}, {5, 3, 2}});</b>
+<b class="fc">&nbsp;        personalGoal.put(&quot;PERSONAL_GOALs9&quot;, new int[][]{{0, 0, 2}, {2, 2, 0}, {3, 4, 1}, {4, 1, 4}, {4, 4, 5}, {5, 0, 3}});</b>
+<b class="fc">&nbsp;        personalGoal.put(&quot;PERSONAL_GOALs10&quot;, new int[][]{{0, 4, 4}, {1, 1, 2}, {2, 0, 1}, {3, 3, 0}, {4, 1, 3}, {5, 3, 5}});</b>
+<b class="fc">&nbsp;        personalGoal.put(&quot;PERSONAL_GOALs11&quot;, new int[][]{{0, 2, 5}, {1, 1, 1}, {2, 0, 2}, {3, 2, 3}, {4, 4, 0}, {5, 3, 4}});</b>
+<b class="fc">&nbsp;        personalGoal.put(&quot;PERSONAL_GOALs12&quot;, new int[][]{{0, 2, 1}, {1, 1, 5}, {2, 2, 3}, {3, 3, 4}, {4, 4, 2}, {5, 0, 0}});</b>
+&nbsp;
+<b class="fc">&nbsp;        Collections.addAll(tileNames,</b>
+<b class="fc">&nbsp;                new ItemTileCard(ItemType.__Cats__.name()), new ItemTileCard(ItemType._Books__.name()),</b>
+<b class="fc">&nbsp;                new ItemTileCard(ItemType._Games__.name()), new ItemTileCard(ItemType._Frames_.name()),</b>
+<b class="fc">&nbsp;                new ItemTileCard(ItemType.Trophies.name()), new ItemTileCard(ItemType._Plants_.name()));</b>
+&nbsp;
+<b class="fc">&nbsp;        currentScore.put(1,1);</b>
+<b class="fc">&nbsp;        currentScore.put(2,2);</b>
+<b class="fc">&nbsp;        currentScore.put(3,4);</b>
+<b class="fc">&nbsp;        currentScore.put(4,6);</b>
+<b class="fc">&nbsp;        currentScore.put(5,9);</b>
+<b class="fc">&nbsp;        currentScore.put(6,12);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static int[][] values;
+&nbsp;
+&nbsp;
+&nbsp;    public PersonalGoalCard(String nameCard) {
+<b class="fc">&nbsp;        super(nameCard);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // return the number of completed goals
+&nbsp;    public int checkGoal(){
+<b class="nc">&nbsp;        int[][] values = personalGoal.get(MyPersonalGoalShelf.player.getMyPersonalGoal().getNameCard());</b>
+<b class="nc">&nbsp;        int count = 0;</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; values.length; i++) {</b>
+<b class="nc">&nbsp;            int row = values[i][0];</b>
+<b class="nc">&nbsp;            int col = values[i][1];</b>
+<b class="nc">&nbsp;            int val = values[i][2];</b>
+&nbsp;
+&nbsp;            // Compare the items on the player&#39;s bookshelf(row, col) with the items required by Personal Goal
+<b class="nc">&nbsp;            if(MyPersonalGoalShelf.player.shelf.getItemName(row, col).substring(0, getNameCard().length()-3)</b>
+<b class="nc">&nbsp;                    .equals(tileNames.get(val).getNameCard())){</b>
+<b class="nc">&nbsp;                count++;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return count;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // return the number of points the player has scored
+&nbsp;    public int calculatePoints() {
+<b class="nc">&nbsp;        int count = checkGoal();</b>
+<b class="nc">&nbsp;        return currentScore.getOrDefault(count, 0);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static int getPersonaGoalCardSize() {
+<b class="nc">&nbsp;        return personalGoal.size();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setPlayer(Player player) {
+<b class="fc">&nbsp;        this.MyPersonalGoalShelf = new Shelf(player);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Shelf getMyPersonalGoalShelf() {
+<b class="nc">&nbsp;        int[][] values = personalGoal.get(MyPersonalGoalShelf.player.getMyPersonalGoal().getNameCard());</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; values.length; i++) {</b>
+<b class="nc">&nbsp;            int row = values[i][0];</b>
+<b class="nc">&nbsp;            int col = values[i][1];</b>
+<b class="nc">&nbsp;            int val = values[i][2];</b>
+<b class="nc">&nbsp;            this.MyPersonalGoalShelf.insertInCell(row, col, tileNames.get(val));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return MyPersonalGoalShelf;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-04 01:43</div>
+</div>
+</body>
+</html>

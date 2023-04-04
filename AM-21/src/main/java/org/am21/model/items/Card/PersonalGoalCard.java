@@ -59,14 +59,14 @@ public class PersonalGoalCard extends Card {
             int row = values[i][0];
             int col = values[i][1];
             int val = values[i][2];
-            if (MyPersonalGoalShelf.player.myShelf.getItemName(row, col) != null){
-            System.out.println("Checking: " + MyPersonalGoalShelf.player.myShelf.
-                    getItemName(row, col).substring(0, MyPersonalGoalShelf.player.myShelf.getItemName(row, col).length() - 3));
+            if (MyPersonalGoalShelf.player.shelf.getItemName(row, col) != null){
+            System.out.println("Checking: " + MyPersonalGoalShelf.player.shelf.
+                    getItemName(row, col).substring(0, MyPersonalGoalShelf.player.shelf.getItemName(row, col).length() - 3));
         }
             // Compare the items on the player's bookshelf(row, col) with the items required by Personal Goal
-            if (MyPersonalGoalShelf.player.myShelf.getItemName(row, col) != null &&
-                    MyPersonalGoalShelf.player.myShelf.getItemName(row, col).substring(0,
-                            MyPersonalGoalShelf.player.myShelf.getItemName(row, col).length() - 3)
+            if (MyPersonalGoalShelf.player.shelf.getItemName(row, col) != null &&
+                    MyPersonalGoalShelf.player.shelf.getItemName(row, col).substring(0,
+                            MyPersonalGoalShelf.player.shelf.getItemName(row, col).length() - 3)
                             .equals(tileNames.get(val).getNameCard())) {
 
                 count++;

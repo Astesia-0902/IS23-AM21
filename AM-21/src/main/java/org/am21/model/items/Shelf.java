@@ -32,8 +32,7 @@ public class Shelf extends Grid {
      * Each element show how many slots are still available in correspondent column
      */
     public List<Integer> slotCol;
-
-    public int handLimit = 3;
+    public int insertLimit=3;
     private final static int row = 6 ;
     private final static int column = 5;
 
@@ -72,16 +71,26 @@ public class Shelf extends Grid {
      * then 'handLimit' = 2
      * @return
      */
-    public static void elaborateLimit(Shelf shelf){
-        int limit = shelf.handLimit;
-        int maxLimit = limit;
+    public void elaborateLimit(){
+        System.out.println("Shelf > Slot available each column");
+        for(int x: player.shelf.slotCol){
+            System.out.print("["+x+"]");
+        }
+        System.out.println("");
+        int max=0;
+        System.out.println("Shelf > Elaboration Limit...\n Max :"+max);
+        System.out.println("");
         for(int j=0;j<column;j++){
-            if(shelf.slotCol.get(j) < shelf.handLimit){
-
+            if(this.slotCol.get(j)>max){
+                max = this.slotCol.get(j);
             }
         }
-
-
+        if(max>=3){
+            this.insertLimit =3;
+        }else{
+            this.insertLimit =max;
+        }
+        System.out.println("Shelf > Limit:" + this.insertLimit);
     }
 
     @Override
@@ -109,11 +118,12 @@ public class Shelf extends Grid {
         return super.getItemName(rowNum, colNum);
     }
 
-    /**number of slot available*/
-    public int slotTotAvailable() {
-
-        return this.slotCol1+this.slotCol2+this.slotCol3+this.slotCol4+this.slotCol5;
-
+    /**number of slot available in total*/
+    public int getTotSlotAvail() {
+        int sum=0;
+        for(int x: this.slotCol)
+            sum = sum+x;
+        return sum;
     }
     public int getCol1(){return this.slotCol1;}
     public int getCol2(){return this.slotCol2;}
@@ -275,6 +285,8 @@ public class Shelf extends Grid {
         }
         return points;
     }
+
+
 
 
 }

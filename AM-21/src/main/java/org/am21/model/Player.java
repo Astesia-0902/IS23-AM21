@@ -17,7 +17,7 @@ public class Player {
      * A player score is visible by everyone during the game
      */
     public int playerScore;
-    public Shelf myShelf;
+    public Shelf shelf;
     private PersonalGoalCard myPersonalGoal;
     /**
      * player seat number used to determine playing order 1-4 (counterclockwise)
@@ -46,7 +46,7 @@ public class Player {
         this.status = UserStatus.Online;
         this.playerScore = 0;
         this.myPersonalGoal = null;
-        this.myShelf = null;
+        this.shelf = null;
         this.hand = null;
         this.playerSeat = 0;
         this.match = null;
@@ -74,8 +74,8 @@ public class Player {
     public void setOwnGoal(PersonalGoalCard goal){
         this.myPersonalGoal = goal;
     }
-    public Shelf getMyShelf(){
-        return myShelf;
+    public Shelf getShelf(){
+        return shelf;
     }
     public Match getMatch(){
         return match;

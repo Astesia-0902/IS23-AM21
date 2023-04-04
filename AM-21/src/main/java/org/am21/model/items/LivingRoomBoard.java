@@ -27,7 +27,7 @@ public class LivingRoomBoard extends Grid{
         super(rowNum, colNum);
         this.numPlayer = numPlayer;
         this.match = match;
-        if(BoardUtil.buildLivingRoom(this,match.bag.getItemCollection())){
+        if(BoardUtil.buildLivingRoom(this,match.bag.getDeck())){
             System.out.println("Match > Living Room Successfully built");
         }
     }
@@ -99,7 +99,7 @@ public class LivingRoomBoard extends Grid{
      */
     public boolean isSelectable(int r,int c){
         if(this.getCellGrid()[r][c]==null){
-            System.out.println("Board > Cell doesn't exist");
+            System.out.println("Board[!] > Out of boundaries: Cell doesn't exist. ");
             return false;
         }
         if(this.getCellGrid()[r][c].isDark()){
@@ -108,19 +108,14 @@ public class LivingRoomBoard extends Grid{
         }
 
         if(r+1<rowNum && !isOccupied(r+1,c)){
-            System.out.println("Board > Cell selectable");
             return true;
         }else if(r-1>=0 && !isOccupied(r-1,c)) {
-            System.out.println("Board > Cell selectable");
             return true;
         }else if(c+1<colNum && !isOccupied(r,c+1)){
-            System.out.println("Board > Cell selectable");
             return true;
         }else if(c-1>=0 && !isOccupied(r,c-1)){
-            System.out.println("Board > Cell selectable");
             return true;
         }else{
-            System.out.println("Board > Cell not selectable");
             return false;
         }
     }
@@ -146,7 +141,7 @@ public class LivingRoomBoard extends Grid{
         for(Coordinates card: pHand.getSlot()) {
             a = Math.abs(r - card.x);
             b = Math.abs(c - card.y);
-            System.out.print("Board > Coordinates differece: ");
+            System.out.print("Board > Coordinates difference: ");
             System.out.print("["+a+"]");
             System.out.println("["+b+"]");
 
@@ -198,5 +193,46 @@ public class LivingRoomBoard extends Grid{
         }
         return true;
     }
+
+    /**
+     * Check if the item is isolated in the board
+     * It means that there isn't any item adjacent.
+     * @return
+     */
+    public boolean isAlone(int r, int c){
+
+        if((r+1<9 && isOccupied(r+1,c))
+                ||(r-1>=0&&isOccupied(r-1,c))
+                ||(c+1<9&&isOccupied(r,c+1))
+                ||(c-1>=0&&isOccupied(r,c-1))){
+            return false;
+        }
+        return true;
+    }
+
+
+
+    /**
+     * Scan each cell of the board and verify if EVERY item is isolated
+     * @return true if ALL item are isolated
+     *          false: if at least one item is not isolated
+     */
+    public boolean checkBoard(){
+        Cell tmp;
+        for(int i=0;i<this.rowNum;i++){
+            for(int j=0;j<this.colNum;j++){
+                tmp = this.getCellGrid()[i][j];
+                if(!tmp.isDark() && tmp.getItem()!=null && !isAlone(i,j)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
+
+
+
 }
 
