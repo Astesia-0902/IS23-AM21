@@ -18,7 +18,7 @@ public class PersonalGoalCard extends Card {
         // param2 : column of player's bookshelf
         // param3 : index of tileNames: Cats(0), Books(1), Games(2), Frames(3), Trophies(4), Plants(5)
 
-        personalGoal.put("PERSONAL_GOALs1", new int[][]{{0, 0, 5}, {0, 2, 3}, {1, 4, 0}, {2, 3, 1}, {3, 1, 2}, {5, 3, 4}});
+        personalGoal.put("PERSONAL_GOALs1", new int[][]{{0, 0, 5}, {0, 2, 3}, {1, 4, 0}, {2, 3, 1}, {3, 1, 2}, {5, 2, 4}});
         personalGoal.put("PERSONAL_GOALs2", new int[][]{{1, 1, 5}, {2, 0, 0}, {2, 2, 2}, {3, 4, 1}, {4, 3, 4}, {5, 4, 3}});
         personalGoal.put("PERSONAL_GOALs3", new int[][]{{1, 0, 3}, {1, 3, 2}, {2, 2, 5}, {3, 1, 0}, {3, 4, 4}, {5, 0, 1}});
         personalGoal.put("PERSONAL_GOALs4", new int[][]{{0, 4, 2}, {2, 0, 4}, {2, 2, 3}, {3, 3, 5}, {4, 1, 1}, {4, 2, 0}});
@@ -26,7 +26,7 @@ public class PersonalGoalCard extends Card {
         personalGoal.put("PERSONAL_GOALs6", new int[][]{{0, 2, 4}, {0, 4, 0}, {2, 3, 1}, {4, 1, 2}, {4, 3, 3}, {5, 0, 5}});
         personalGoal.put("PERSONAL_GOALs7", new int[][]{{0, 0, 0}, {1, 3, 3}, {2, 1, 5}, {3, 0, 4}, {4, 4, 2}, {5, 2, 1}});
         personalGoal.put("PERSONAL_GOALs8", new int[][]{{0, 4, 3}, {1, 1, 0}, {2, 2, 4}, {3, 0, 5}, {4, 3, 1}, {5, 3, 2}});
-        personalGoal.put("PERSONAL_GOALs9", new int[][]{{0, 0, 2}, {2, 2, 0}, {3, 4, 1}, {4, 1, 4}, {4, 4, 5}, {5, 0, 3}});
+        personalGoal.put("PERSONAL_GOALs9", new int[][]{{0, 2, 2}, {2, 2, 0}, {3, 4, 1}, {4, 1, 4}, {4, 4, 5}, {5, 0, 3}});
         personalGoal.put("PERSONAL_GOALs10", new int[][]{{0, 4, 4}, {1, 1, 2}, {2, 0, 1}, {3, 3, 0}, {4, 1, 3}, {5, 3, 5}});
         personalGoal.put("PERSONAL_GOALs11", new int[][]{{0, 2, 5}, {1, 1, 1}, {2, 0, 2}, {3, 2, 3}, {4, 4, 0}, {5, 3, 4}});
         personalGoal.put("PERSONAL_GOALs12", new int[][]{{0, 2, 1}, {1, 1, 5}, {2, 2, 3}, {3, 3, 4}, {4, 4, 2}, {5, 0, 0}});
@@ -59,10 +59,16 @@ public class PersonalGoalCard extends Card {
             int row = values[i][0];
             int col = values[i][1];
             int val = values[i][2];
-
+            if (MyPersonalGoalShelf.player.myShelf.getItemName(row, col) != null){
+            System.out.println("Checking: " + MyPersonalGoalShelf.player.myShelf.
+                    getItemName(row, col).substring(0, MyPersonalGoalShelf.player.myShelf.getItemName(row, col).length() - 3));
+        }
             // Compare the items on the player's bookshelf(row, col) with the items required by Personal Goal
-            if(MyPersonalGoalShelf.player.myShelf.getItemName(row, col).substring(0, getNameCard().length()-3)
-                    .equals(tileNames.get(val).getNameCard())){
+            if (MyPersonalGoalShelf.player.myShelf.getItemName(row, col) != null &&
+                    MyPersonalGoalShelf.player.myShelf.getItemName(row, col).substring(0,
+                            MyPersonalGoalShelf.player.myShelf.getItemName(row, col).length() - 3)
+                            .equals(tileNames.get(val).getNameCard())) {
+
                 count++;
             }
         }

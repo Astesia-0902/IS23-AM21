@@ -44,6 +44,8 @@ class CardTest {
         System.out.println("\n----------------------\n");
         MatchTest.printThisBoard(match.livingRoomBoard);
         System.out.println("\n----------------------\n");
+        System.out.println("Personal goals completed: " + player1.getMyPersonalGoal().checkGoal());
+        System.out.println("Score obtained: " + player1.getMyPersonalGoal().calculatePoints());
     }
 
     @DisplayName("Printf Shelf")

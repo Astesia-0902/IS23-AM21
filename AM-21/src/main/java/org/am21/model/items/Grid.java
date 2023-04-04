@@ -28,8 +28,10 @@ public abstract class Grid {
     }
 
     public String getItemName(int rowNum,int colNum){
-
-        return cellGrid[rowNum][colNum].getItem().getNameCard();
+        if (cellGrid[rowNum][colNum].getItem()!= null) {
+            return cellGrid[rowNum][colNum].getItem().getNameCard();
+        }
+        return null;
     }
 
     public void insertInCell(int r, int c, ItemTileCard item){
