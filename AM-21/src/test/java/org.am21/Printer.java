@@ -83,7 +83,7 @@ public class Printer{
         for(CommonGoal x: commonGoalList){
             System.out.println(x.getNameCard() + "ScoringTokens List: ");
             for (int i = 0; i < x.tokenStack.size(); i++) {
-                System.out.println(x.tokenStack.get(i).getNameCard());
+                System.out.println(x.tokenStack.get(i));
             }
         }
     }

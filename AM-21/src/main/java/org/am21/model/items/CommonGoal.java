@@ -1,16 +1,13 @@
 package org.am21.model.items;
 
 import org.am21.model.Player;
-import org.am21.model.items.Card.ScoringTokenCard;
 import org.am21.utilities.CardUtil;
 
 import java.util.List;
 import java.util.Stack;
 
 public abstract class CommonGoal extends Goal {
-    private int id;
-    private String name;
-    public List<ScoringTokenCard> tokenStack;
+    public List<Integer> tokenStack;
     public List<Player> achievedPlayers;
     public int index;
     public Stack<Integer> scoreBox ;
@@ -22,11 +19,9 @@ public abstract class CommonGoal extends Goal {
         this.achievedPlayers = achievedPlayers;
         this.tokenStack = new ArrayList<>();
     }*/
-    public CommonGoal(){
-        super();
-    }
 
-    public CommonGoal(int numPlayer){
+    public CommonGoal(String nameCard,int numPlayer){
+        super(nameCard);
         this.tokenStack = CardUtil.buildScoringTokenCards(numPlayer);
         this.index = 0;
         this.scoreBox = new Stack<>();
@@ -45,17 +40,9 @@ public abstract class CommonGoal extends Goal {
         return false;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getName(){
-        return name;
-    }
-
     public void setAchievedPlayers(Player player) {
         this.achievedPlayers.add(player);
-        player.playerScore += this.tokenStack.get(index).getScoreValue();
+        player.playerScore += this.tokenStack.get(index);
         this.tokenStack.remove(index);
 
         index++;

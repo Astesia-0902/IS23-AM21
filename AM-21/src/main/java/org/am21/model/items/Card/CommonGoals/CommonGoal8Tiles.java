@@ -11,14 +11,8 @@ public class CommonGoal8Tiles extends CommonGoal {
     private static final int colNumShelf = 5;
     private static final int numSame = 8;
 
-//    public CommonGoal8Tiles(List<Player> achievedPlayers) {
-//        super(9, achievedPlayers);
-//    }
-
-
     public CommonGoal8Tiles(int numPlayer) {
-        super(numPlayer);
-        nameCard = "CommonGoal8Tiles";
+        super("CommonGoal8Tiles", numPlayer);
     }
 
     @Override

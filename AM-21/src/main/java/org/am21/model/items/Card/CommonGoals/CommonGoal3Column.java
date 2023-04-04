@@ -12,8 +12,7 @@ public class CommonGoal3Column extends CommonGoal {
 
 
     public CommonGoal3Column(int numPlayer) {
-        super(numPlayer);
-        nameCard = "CommonGoal3Column";
+        super("CommonGoal3Column",numPlayer);
     }
 
     /**

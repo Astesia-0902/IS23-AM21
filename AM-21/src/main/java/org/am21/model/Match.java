@@ -3,7 +3,7 @@ package org.am21.model;
 import org.am21.controller.GameController;
 import org.am21.model.items.Bag;
 import org.am21.model.items.Card.PersonalGoalCard;
-import org.am21.model.items.Card.ScoringTokenCard;
+//import org.am21.model.items.Card.ScoringTokenCard;
 import org.am21.model.items.CommonGoal;
 import org.am21.model.items.LivingRoomBoard;
 import org.am21.model.items.Shelf;
@@ -129,8 +129,8 @@ public class Match {
         changeTurnPhase(TurnPhases.Selection);
     }
 
-    public void giveToken(Player player, ScoringTokenCard scoringToken) {
-    }
+//    public void giveToken(Player player, ScoringTokenCard scoringToken) {
+//    }
 
     public boolean isEndGame() {
         return false;

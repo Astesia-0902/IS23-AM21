@@ -7,8 +7,7 @@ public class CommonGoalStairs extends CommonGoal {
 
 
     public CommonGoalStairs(int numPlayer) {
-        super(numPlayer);
-        nameCard = "CommonGoalStairs";
+        super("CommonGoalStairs",numPlayer);
     }
 /**
     public CommonGoalStairs(){

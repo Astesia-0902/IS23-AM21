@@ -83,31 +83,6 @@ public class Shelf extends Grid {
         System.out.println("Shelf > NewLimit:" + this.insertLimit);
     }
 
-    @Override
-    public Cell[][] getCellGrid() {
-        return super.getCellGrid();
-    }
-
-    @Override
-    public void setCell(int rowNum, int colNum, Cell value) {
-        super.setCell(rowNum, colNum, value);
-    }
-
-    @Override
-    public ItemTileCard getCellItem(int r, int c) {
-        return super.getCellItem(r, c);
-    }
-
-    @Override
-    public void insertInCell(int r, int c, ItemTileCard item) {
-        super.insertInCell(r, c, item);
-    }
-
-    @Override
-    public String getItemName(int rowNum, int colNum) {
-        return super.getItemName(rowNum, colNum);
-    }
-
     /**number of slot available in total*/
     public int getTotSlotAvail() {
         int sum=0;
@@ -203,9 +178,5 @@ public class Shelf extends Grid {
         }
         return points;
     }
-
-
-
-
 }
 

@@ -70,59 +70,15 @@ public class CardUtil {
     }
 
     // ----------------------------------- SCORING TOKENS --------------------------------------------------------
-
-    private final static List<ScoringToken> scoringTokens = new ArrayList<>();
+    private final static HashMap<Integer, Integer[]> scoringTokens = new HashMap<>();
 
     static {
-        Collections.addAll(scoringTokens,
-                ScoringToken.scoring_8,ScoringToken.scoring_6,
-                ScoringToken.scoring_4,ScoringToken.scoring_2);
+        scoringTokens.put(4, new Integer[]{8,6,4,2});
+        scoringTokens.put(3, new Integer[]{8,6,4});
+        scoringTokens.put(2, new Integer[]{8,4});
     }
-    // switch
     // return a set of scoring token cards
-    public static List<ScoringTokenCard> buildScoringTokenCards(int numPlayer) {
-        List<ScoringTokenCard> scoringTokenCards = new ArrayList<>();
-
-        /** if (numPlayer == 4) {
-         for (int i = 0; i < scoringTokens.size(); i++) {
-         ScoringTokenCard scoringTokenCard = new ScoringTokenCard(scoringTokens.get(i));
-         scoringTokenCards.add(scoringTokenCard);
-         }
-         } else if (numPlayer == 3) {
-         for (int i = 0; i < scoringTokens.size() - 1; i++) {
-         ScoringTokenCard scoringTokenCard = new ScoringTokenCard(scoringTokens.get(i));
-         scoringTokenCards.add(scoringTokenCard);
-         }
-         } else if (numPlayer == 2) {
-         for (int i = 0; i < scoringTokens.size() - 1; i = i + 2) {
-         ScoringTokenCard scoringTokenCard = new ScoringTokenCard(scoringTokens.get(i));
-         scoringTokenCards.add(scoringTokenCard);
-         }
-         }
-         return scoringTokenCards;*/
-
-        switch (numPlayer) {
-            case 2:
-                for (int i = 0; i < scoringTokens.size() - 1; i = i + 2) {
-                    ScoringTokenCard scoringTokenCard = new ScoringTokenCard(scoringTokens.get(i));
-                    scoringTokenCards.add(scoringTokenCard);
-                }
-                break;
-            case 3:
-                for (int i = 0; i < scoringTokens.size() - 1; i++) {
-                    ScoringTokenCard scoringTokenCard = new ScoringTokenCard(scoringTokens.get(i));
-                    scoringTokenCards.add(scoringTokenCard);
-                }
-                break;
-            case 4:
-                for (int i = 0; i < scoringTokens.size(); i++) {
-                    ScoringTokenCard scoringTokenCard = new ScoringTokenCard(scoringTokens.get(i));
-                    scoringTokenCards.add(scoringTokenCard);
-                }
-                break;
-        }
-        return scoringTokenCards;
+    public static List<Integer> buildScoringTokenCards(int numPlayer) {
+        return new ArrayList<>(List.of(scoringTokens.get(numPlayer)));
     }
-
-
 }

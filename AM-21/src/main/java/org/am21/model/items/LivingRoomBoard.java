@@ -32,26 +32,6 @@ public class LivingRoomBoard extends Grid{
         }
     }
 
-    @Override
-    public Cell[][] getCellGrid() {
-        return super.getCellGrid();
-    }
-
-    @Override
-    public void setCell(int rowNum, int colNum, Cell value) {
-        super.setCell(rowNum, colNum, value);
-    }
-
-    @Override
-    public ItemTileCard getCellItem(int r, int c) {
-        return super.getCellItem(r, c);
-    }
-
-    @Override
-    public String getItemName(int rowNum, int colNum) {
-        return super.getItemName(rowNum, colNum);
-    }
-
     /**
      * Setting the size of the grid according to the number of player
     **/
@@ -76,6 +56,7 @@ public class LivingRoomBoard extends Grid{
      * @return
      */
     public boolean isOccupied(int r, int c){
+
         /*Cell (r,c) occupied*/
         return this.getCellItem(r, c) != null;
     }
@@ -157,15 +138,6 @@ public class LivingRoomBoard extends Grid{
 
     }
 
-    /**
-     * Obtain Item's Reference
-     * @param r
-     * @param c
-     * @return
-     */
-    public ItemTileCard getItemInCell(int r, int c){
-        return this.getCellGrid()[r][c].getItem();
-    }
 
 
     /**
@@ -203,10 +175,5 @@ public class LivingRoomBoard extends Grid{
         }
         return true;
     }
-
-
-
-
-
 }
 

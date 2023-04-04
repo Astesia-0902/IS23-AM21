@@ -116,8 +116,8 @@ public class PlayerController {
                 }
             }
             /**salvo le coordinate e il riferimento dell'item nella hand*/
-            hand.memCard(tmpBoard.getItemInCell(r, c), r, c);
-            System.out.println("Match > Item selected: [" + tmpBoard.getItemInCell(r, c).getNameCard() + "]");
+            hand.memCard(tmpBoard.getCellItem(r, c), r, c);
+            System.out.println("Match > Item selected: [" + tmpBoard.getCellItem(r, c).getNameCard() + "]");
             return true;
         } else {
             //Questo messaggio sara tolto e messo in ClientInputHandler o nelle funzioni dei test

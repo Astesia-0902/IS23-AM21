@@ -6,8 +6,7 @@ import org.am21.model.items.Shelf;
 public class CommonGoalCorner extends CommonGoal{
 
     public CommonGoalCorner(int numPlayer) {
-        super(numPlayer);
-        nameCard = "CommonGoalCorner";
+        super("CommonGoalCorner",numPlayer);
     }
 
     /*

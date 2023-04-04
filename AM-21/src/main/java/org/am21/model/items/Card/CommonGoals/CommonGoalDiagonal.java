@@ -5,13 +5,9 @@ import org.am21.model.items.Shelf;
 
 public class CommonGoalDiagonal extends CommonGoal {
     private static final int rowNumShelf = 2;
-//    public CommonGoalDiagonal(List<Player> achievedPlayers) {
-//        super(11, achievedPlayers);
-//    }
 
     public CommonGoalDiagonal(int numPlayer) {
-        super(numPlayer);
-        nameCard = "CommonGoalDiagonal";
+        super("CommonGoalDiagonal",numPlayer);
     }
 
     @Override

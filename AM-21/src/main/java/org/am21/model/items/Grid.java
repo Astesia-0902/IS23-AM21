@@ -28,6 +28,12 @@ public abstract class Grid {
     }
 
     public String getItemName(int rowNum,int colNum){
+        /**
+         * Obtain Item's Reference
+         * @param rowNum
+         * @param colNum
+         * @return ItemName
+         */
         if (cellGrid[rowNum][colNum].getItem()!= null) {
             return cellGrid[rowNum][colNum].getItem().getNameCard();
         }
