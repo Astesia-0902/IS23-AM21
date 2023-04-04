@@ -8,6 +8,7 @@ import org.am21.model.items.CommonGoal;
 import org.am21.model.items.LivingRoomBoard;
 import org.am21.model.items.Shelf;
 import org.am21.utilities.Coordinates;
+import org.junit.jupiter.api.DisplayName;
 
 import java.util.List;
 
@@ -57,6 +58,23 @@ public class Printer{
         System.out.println("Match[Hide] > Personal:");
         for(Player x: pList){
             System.out.println("Match[Hide] > "+x.getName()+"'s goal is:"+x.getMyPersonalGoal().getNameCard());
+            printGoalShelf(x.getMyPersonalGoal().getGoalShelf());
+        }
+    }
+
+    @DisplayName("Printf GoalShelf")
+    static void printGoalShelf(Shelf shelf){
+        System.out.println("Match[Hide] > "+shelf.player.getName()+"'s PersonalGoal:");
+        for(int i=0;i<6;i++){
+            for(int j=0;j<5;j++){
+                if(shelf.getCellGrid()[i][j].getItem()==null){
+                    System.out.print("[______._]");
+                }else if(shelf.getCellGrid()[i][j].getItem()!=null){
+                    System.out.print("["+ shelf.getCellGrid()[i][j].getItem().getNameCard() +"]");
+                }
+
+            }
+            System.out.println("");
         }
     }
 
@@ -101,13 +119,15 @@ public class Printer{
     static void viewStats(Match m,int nRound){
         spacer();
         System.out.println("Match[!][!] > Game Stats");
-        System.out.println("Num round: ["+nRound+"]");
-        System.out.println("Num volte chiamata AI: ["+Gear.counter+"]");
+        System.out.println("Num round: ["+(nRound+1)+"]");
+        System.out.println("AI usage: ["+Gear.counter_AI +"]");
         System.out.println("Bag items: ["+(m.bag.getDeck().size()-m.bag.bagIndex)+"]");
         System.out.println("Bag index: ["+m.bag.bagIndex+"]");
-        System.out.println("Shelf/Hand situation:" );
+        System.out.println("Player/Shelf/Hand situation:" );
         for(Player x: m.playerList){
+
             System.out.print(x.getName()+"["+x.shelf.getTotSlotAvail() +"]--");
+            System.out.println("Number of clicks:["+x.tmp_clicks+"]");
             System.out.print("Limit:["+x.shelf.insertLimit +"]\n");
             printThisShelf(x.shelf);
         }
@@ -121,4 +141,5 @@ public class Printer{
 
 
     }
+
 }

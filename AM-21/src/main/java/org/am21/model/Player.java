@@ -7,6 +7,8 @@ import org.am21.model.items.Shelf;
 
 public class Player {
 
+    public int tmp_clicks=0;
+
     private String nickname;
 
     public UserStatus status;

@@ -15,6 +15,8 @@ import static org.am21.Printer.*;
 
 class PlayerTest {
     static int numMatch=0;
+    public static int t=0;
+    public static int maxRound=100;
 
     @DisplayName("Test1")
     @Test
@@ -224,20 +226,40 @@ class PlayerTest {
         printPersonalGoals(m.playerList);
         spacer();
 
-        for(int t=0;t<15;t++){      //Number of round
+        for(t=0; t<maxRound; t++){      //Number of round
             System.out.println("Match > {[ Round number: "+ (t+1)+" ]}");
-            robotMoves(pC1,p1);
-            robotMoves(pC2,p2);
-            robotMoves(pC3,p3);
-            robotMoves(pC4,p4);
+            if(m.currentPlayer==p1) {
+                robotMoves(pC1, p1);
+            }else if(m.currentPlayer==p2){
+                robotMoves(pC2, p2);
+            }else if(m.currentPlayer==p3){
+                robotMoves(pC3, p3);
+            }else if(m.currentPlayer==p4){
+                robotMoves(pC4, p4);
+            }
 
             Printer.viewStats(m,t);
+
         }
 
         printThisBoard(m.livingRoomBoard);
+        if(t==maxRound){
+            System.out.println("Match > Game ended without a winner");
+        }
 
 
 
+
+
+    }
+
+
+    /**
+     * Creazione di thread paralleli che emulano i movimenti del player
+     */
+    @DisplayName("Test 5")
+    @Test
+    void threadPlaying(){
 
 
 

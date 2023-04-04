@@ -48,13 +48,20 @@ public class TGear {
     public static void viewStats(Match m, int nRound){
         spacer();
         System.out.println("Match[!][!] > Game Stats");
-        System.out.println("Num round: ["+nRound+"]");
+        System.out.println("Num round: ["+(nRound+1)+"]");
+        System.out.println("Winner is: "+m.getFirstToComplete().getName());
         System.out.println("Bag items: ["+(m.bag.getDeck().size()-m.bag.bagIndex)+"]");
         System.out.println("Bag index: ["+m.bag.bagIndex+"]");
-        System.out.println("Shelf/Hand situation:" );
+        System.out.println("Player/Shelf/Hand situation:" );
         for(Player x: m.playerList){
+
             System.out.print(x.getName()+"["+x.shelf.getTotSlotAvail() +"]--");
+            System.out.println("Number of clicks:["+x.tmp_clicks+"]");
             System.out.print("Limit:["+x.shelf.insertLimit +"]\n");
+
+            System.out.println("Personal goals completed: " + x.getMyPersonalGoal().checkGoal());
+            System.out.println("Score obtained: " + x.getMyPersonalGoal().calculatePoints());
+
             printThisShelf(x.shelf);
         }
         System.out.println();

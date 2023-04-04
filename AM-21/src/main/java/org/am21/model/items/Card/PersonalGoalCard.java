@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class PersonalGoalCard extends Card {
-    private Shelf MyPersonalGoalShelf;
+    private Shelf GoalShelf;
     private final static HashMap<String, int[][]> personalGoal = new HashMap<>();
     private final static List<ItemTileCard> tileNames = new ArrayList<>();
     private final static HashMap<Integer, Integer> currentScore = new HashMap<>();
@@ -51,32 +51,39 @@ public class PersonalGoalCard extends Card {
         super(nameCard);
     }
 
-    // return the number of completed goals
-    public int checkGoal(){
-        int[][] values = personalGoal.get(MyPersonalGoalShelf.player.getMyPersonalGoal().getNameCard());
+    /**
+     * return the number of completed goals
+      */
+
+    public int checkGoal() {
+        System.out.println("Match > Checking PersonalGoal achievement: ");
+        int[][] values = personalGoal.get(GoalShelf.player.getMyPersonalGoal().getNameCard());
         int count = 0;
         for (int i = 0; i < values.length; i++) {
             int row = values[i][0];
             int col = values[i][1];
             int val = values[i][2];
-            if (MyPersonalGoalShelf.player.shelf.getItemName(row, col) != null){
-            System.out.println("Checking: " + MyPersonalGoalShelf.player.shelf.
-                    getItemName(row, col).substring(0, MyPersonalGoalShelf.player.shelf.getItemName(row, col).length() - 3));
-        }
-            // Compare the items on the player's bookshelf(row, col) with the items required by Personal Goal
-            if (MyPersonalGoalShelf.player.shelf.getItemName(row, col) != null &&
-                    MyPersonalGoalShelf.player.shelf.getItemName(row, col).substring(0,
-                            MyPersonalGoalShelf.player.shelf.getItemName(row, col).length() - 3)
-                            .equals(tileNames.get(val).getNameCard())) {
-
-                count++;
+            if (GoalShelf.player.shelf.getItemName(row, col) != null) {
+                System.out.println("Shelf > ["+row+ "]"+"["+col+ "]: " + GoalShelf.player.shelf.
+                        getItemName(row, col).substring(0, GoalShelf.player.shelf.getItemName(row, col).length() - 3));
             }
+            // Compare the items on the player's bookshelf(row, col) with the items required by Personal Goal
+
+            if (GoalShelf.player.shelf.getItemName(row, col) != null &&
+                    GoalShelf.player.shelf.getItemName(row, col).substring(0,
+                                    GoalShelf.player.shelf.getItemName(row, col).length() - 3)
+                            .equals(tileNames.get(val).getNameCard())) {
+                System.out.println("Match > +1 item matched!");
+                count++;
+
+            }
+
         }
         return count;
     }
 
     // return the number of points the player has scored
-    public int calculatePoints() {
+    public int calculatePoints(){
         int count = checkGoal();
         return currentScore.getOrDefault(count, 0);
     }
@@ -86,18 +93,18 @@ public class PersonalGoalCard extends Card {
     }
 
     public void setPlayer(Player player) {
-        this.MyPersonalGoalShelf = new Shelf(player);
+        this.GoalShelf = new Shelf(player);
     }
 
-    public Shelf getMyPersonalGoalShelf() {
-        int[][] values = personalGoal.get(MyPersonalGoalShelf.player.getMyPersonalGoal().getNameCard());
+    public Shelf getGoalShelf() {
+        int[][] values = personalGoal.get(GoalShelf.player.getMyPersonalGoal().getNameCard());
 
         for (int i = 0; i < values.length; i++) {
             int row = values[i][0];
             int col = values[i][1];
             int val = values[i][2];
-            this.MyPersonalGoalShelf.insertInCell(row, col, tileNames.get(val));
+            this.GoalShelf.insertInCell(row, col, tileNames.get(val));
         }
-        return MyPersonalGoalShelf;
+        return GoalShelf;
     }
 }

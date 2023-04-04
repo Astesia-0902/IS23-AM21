@@ -8,8 +8,8 @@ import org.am21.model.items.Shelf;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.am21.Gear.createPlayerController;
 import static org.am21.Gear.createMatch;
+import static org.am21.Gear.createPlayerController;
 import static org.am21.Printer.printPersonalGoals;
 import static org.am21.Printer.printThisBoard;
 
@@ -30,8 +30,8 @@ class CardTest {
         System.out.println("\n----------------------\n");
         printPersonalGoals(match.playerList);
         System.out.println("\n----------------------\n");
-        printPlayerPersonalGoal(player1.getMyPersonalGoal().getMyPersonalGoalShelf());
-        printPlayerPersonalGoal(player2.getMyPersonalGoal().getMyPersonalGoalShelf());
+        printPlayerPersonalGoal(player1.getMyPersonalGoal().getGoalShelf());
+        printPlayerPersonalGoal(player2.getMyPersonalGoal().getGoalShelf());
         System.out.println("\n----------------------\n");
         printThisBoard(match.livingRoomBoard);
         System.out.println("\n----------------------\n");

@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Gear {
-    static int counter=0;
+    static int counter_AI =0;
     static List<Coordinates> posArr = new ArrayList<>();
     static {
         /*
@@ -73,16 +73,16 @@ public class Gear {
     @DisplayName("Player choices")
     static void randomChoice(PlayerController ctrl){
         int a,b;
-        int count =0;
+        int attempt =0;
         int fail=0;
         Coordinates tmp;
         System.out.println("--------");
         do {
-            if(count==0){
+            if(attempt ==0){
                 a = (int) ((Math.random() * 9));
                 b = (int) ((Math.random() * 9));
                 if(ctrl.selectCell(a, b))
-                    count++;
+                    attempt++;
                 else{
                     fail++;
                 }
@@ -90,11 +90,11 @@ public class Gear {
                     for(Coordinates popo: posArr){
 
                         if(ctrl.selectCell(popo.x,popo.y)){
-                            count++;
-                            counter++;
+                            attempt++;
+                            counter_AI++;
                         }
                         if(fail==10){
-                            count=10;
+                            attempt =10;
                             break;
                         }else{
                             fail++;
@@ -120,12 +120,12 @@ public class Gear {
 
                 }else{
                     ctrl.selectCell(a, b);
-                    count++;
+                    attempt++;
                 }
 
             }
-        }while(count<10);
-
+        }while(attempt <10);
+        ctrl.player.tmp_clicks += attempt +fail;
         ctrl.callEndSelection();
 
     }

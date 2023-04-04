@@ -78,8 +78,8 @@ public class Shelf extends Grid {
         }
         System.out.println("");
         int max=0;
-        System.out.println("Shelf > Elaboration Limit...\n Max :"+max);
-        System.out.println("");
+        System.out.println("Shelf > Elaboration Limit... ");
+        System.out.println("OldLimit:"+this.insertLimit);
         for(int j=0;j<column;j++){
             if(this.slotCol.get(j)>max){
                 max = this.slotCol.get(j);
@@ -90,7 +90,7 @@ public class Shelf extends Grid {
         }else{
             this.insertLimit =max;
         }
-        System.out.println("Shelf > Limit:" + this.insertLimit);
+        System.out.println("Shelf > NewLimit:" + this.insertLimit);
     }
 
     @Override

@@ -143,7 +143,9 @@ public class Match {
     public void checkLastRound() {
     }
 
-
+    public Player getFirstToComplete() {
+        return firstToComplete;
+    }
 
     /**
      * @return which TurnPhase is
@@ -202,7 +204,7 @@ public class Match {
 
     private void endMatch() {
         System.out.println("Game > Room closed. See ya!");
-        TGear.viewStats(this,0);
+        TGear.viewStats(this,-2);
         System.exit(0);
     }
 }
