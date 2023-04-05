@@ -1,6 +1,8 @@
 package org.am21.utilities;
 
-import org.am21.model.items.Card.*;
+import org.am21.model.Card.ItemTileCard;
+import org.am21.model.Card.ItemType;
+import org.am21.model.Card.PersonalGoalCard;
 
 import java.util.*;
 
@@ -16,7 +18,8 @@ public class CardUtil {
      */
     private final static List<String> itemTileNames = new ArrayList<>();
     static {
-        Collections.addAll(itemTileNames, ItemType.__Cats__.name()+"1.1",ItemType.__Cats__.name()+"1.2",ItemType.__Cats__.name()+"1.3",
+        Collections.addAll(
+                itemTileNames, ItemType.__Cats__.name()+"1.1",ItemType.__Cats__.name()+"1.2",ItemType.__Cats__.name()+"1.3",
                 ItemType._Books__.name()+"1.1",ItemType._Books__.name()+"1.2",ItemType._Books__.name()+"1.3",
                 ItemType._Games__.name()+"1.1",ItemType._Games__.name()+"1.2",ItemType._Games__.name()+"1.3",
                 ItemType._Frames_.name()+"1.1",ItemType._Frames_.name()+"1.2",ItemType._Frames_.name()+"1.3",

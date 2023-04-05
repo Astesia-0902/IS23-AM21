@@ -1,7 +1,7 @@
 package org.am21.model;
 
-import org.am21.model.items.Card.ItemTileCard;
-import org.am21.utilities.Coordinates;
+import org.am21.model.Card.ItemTileCard;
+import org.am21.utilities.CardPointer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,20 +18,9 @@ public class Hand {
      * (became useless)
      */
     private int numCards;
-    private ArrayList<Coordinates> slot;
+    private ArrayList<CardPointer> slot;
 
     public static ItemTileCard neutral_card = new ItemTileCard("none");
-
-    /**
-    public Hand(Player player){
-        this.player = player;
-        this.numCards=0;
-        this.slot = new ArrayList<>(3);
-        slot.add(new Coordinates(0,0));
-        slot.add(new Coordinates(0,0));
-        slot.add(new Coordinates(0,0));
-
-    }*/
 
     public Hand(Player player){
         this.player = player;
@@ -39,7 +28,7 @@ public class Hand {
         this.slot = new ArrayList<>();
     }
 
-    public ArrayList<Coordinates> getSlot() {
+    public ArrayList<CardPointer> getSlot() {
         return slot;
     }
 
@@ -51,7 +40,7 @@ public class Hand {
      * @param c
      */
     public void memCard(ItemTileCard item,int r, int c){
-        Coordinates tmp = new Coordinates(r,c);
+        CardPointer tmp = new CardPointer(r,c);
         tmp.item = item;
         this.slot.add(tmp);
     }

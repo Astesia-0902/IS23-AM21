@@ -2,8 +2,8 @@ package org.am21.model;
 
 import org.am21.controller.GameController;
 import org.am21.controller.PlayerController;
-import org.am21.model.items.*;
-import org.am21.model.items.Card.*;
+import org.am21.model.Card.Card;
+import org.am21.model.Card.Goal;
 
 import java.util.ArrayList;
 import java.util.HashMap;

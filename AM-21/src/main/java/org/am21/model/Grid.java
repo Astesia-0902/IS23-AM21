@@ -1,18 +1,18 @@
-package org.am21.model.items;
+package org.am21.model;
 
-import org.am21.model.items.Card.ItemTileCard;
+import org.am21.model.Card.ItemTileCard;
 
 public abstract class Grid {
-    public int rowNum;
-    public int colNum;
+    public int gRow;
+    public int gColumn;
     public int capacity;
     private Cell[][] cellGrid;
 
-    public Grid(int rowNum, int colNum) {
-        this.rowNum = rowNum;
-        this.colNum = colNum;
-        this.capacity = this.rowNum * this.colNum;
-        this.cellGrid = new Cell[this.rowNum][this.colNum];
+    public Grid(int gRow, int gColumn) {
+        this.gRow = gRow;
+        this.gColumn = gColumn;
+        this.capacity = this.gRow * this.gColumn;
+        this.cellGrid = new Cell[this.gRow][this.gColumn];
     }
 
     public Cell[][] getCellGrid() {
@@ -40,10 +40,13 @@ public abstract class Grid {
         return null;
     }
 
-    public void insertInCell(int r, int c, ItemTileCard item){
+    public boolean insertInCell(int r, int c, ItemTileCard item){
         if(cellGrid[r][c]!=null) {
-            if (!cellGrid[r][c].isDark())
+            if (!cellGrid[r][c].isDark()){
                 cellGrid[r][c].setItem(item);
+                return true;
+            }
         }
+        return false;
     }
 }

@@ -1,17 +1,22 @@
-package org.am21.model.items;
+package org.am21.model;
 
-import org.am21.model.Hand;
-import org.am21.model.Match;
-import org.am21.model.items.Card.ItemTileCard;
+import org.am21.model.Card.ItemTileCard;
 import org.am21.utilities.BoardUtil;
+import org.am21.utilities.CardPointer;
 import org.am21.utilities.Coordinates;
 
-public class LivingRoomBoard extends Grid{
+import java.util.List;
+
+public class LivingRoomBoard extends Grid {
 
     /** The number of required cards depends on the number of players */
-    private final int numPlayer;
+    private final int maxSeats;
 
     public Match match;
+    /**
+     * List that indicates the boundaries of the board
+     */
+    public List<Coordinates> boundaries;
 
     /**
      * Construction of the LivingRoom:
@@ -20,14 +25,17 @@ public class LivingRoomBoard extends Grid{
      * - building the Board with all the item
      * @param rowNum
      * @param colNum
-     * @param numPlayer
+     * @param maxSeats
      * @param match
      */
-    public LivingRoomBoard(int rowNum, int colNum, int numPlayer,Match match) {
+    public LivingRoomBoard(int rowNum, int colNum, int maxSeats,Match match) {
         super(rowNum, colNum);
-        this.numPlayer = numPlayer;
+        this.maxSeats = maxSeats;
         this.match = match;
-        if(BoardUtil.buildLivingRoom(this,match.bag.getDeck())){
+
+        boundaries=BoardUtil.boardBounder(maxSeats);
+
+        if(BoardUtil.boardBuilder(this,match.bag.getDeck())){
             System.out.println("Match > Living Room Successfully built");
         }
     }
@@ -36,17 +44,22 @@ public class LivingRoomBoard extends Grid{
      * Setting the size of the grid according to the number of player
     **/
     public int getSize() {
-        if(numPlayer == 2)
+        if(maxSeats == 2)
             return 29;
-        else if(numPlayer == 3)
+        else if(maxSeats == 3)
             return 37;
         else
             return 45;
     }
-
+    //tmp
     @Override
-    public void insertInCell(int r, int c, ItemTileCard item) {
-        super.insertInCell(r, c, item);
+    public boolean insertInCell(int r, int c, ItemTileCard item) {
+
+        if(super.insertInCell(r, c, item)){
+            return true;
+        }
+        return false;
+
     }
 
     /**
@@ -87,11 +100,11 @@ public class LivingRoomBoard extends Grid{
             return false;
         }
 
-        if(r+1<rowNum && !isOccupied(r+1,c)){
+        if(r+1< gRow && !isOccupied(r+1,c)){
             return true;
         }else if(r-1>=0 && !isOccupied(r-1,c)) {
             return true;
-        }else if(c+1<colNum && !isOccupied(r,c+1)){
+        }else if(c+1< gColumn && !isOccupied(r,c+1)){
             return true;
         }else if(c-1>=0 && !isOccupied(r,c-1)){
             return true;
@@ -118,7 +131,7 @@ public class LivingRoomBoard extends Grid{
         int a;
         int b;
         boolean check = true; // Se check resta true allora è ortogonale
-        for(Coordinates card: pHand.getSlot()) {
+        for(CardPointer card: pHand.getSlot()) {
             a = Math.abs(r - card.x);
             b = Math.abs(c - card.y);
             System.out.print("Board > Coordinates difference: ");
@@ -165,8 +178,8 @@ public class LivingRoomBoard extends Grid{
      */
     public boolean checkBoard(){
         Cell tmp;
-        for(int i=0;i<this.rowNum;i++){
-            for(int j=0;j<this.colNum;j++){
+        for(int i = 0; i<this.gRow; i++){
+            for(int j = 0; j<this.gColumn; j++){
                 tmp = this.getCellGrid()[i][j];
                 if(!tmp.isDark() && tmp.getItem()!=null && !isAlone(i,j)){
                     return false;

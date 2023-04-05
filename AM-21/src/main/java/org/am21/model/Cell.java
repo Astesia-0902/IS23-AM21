@@ -1,6 +1,6 @@
-package org.am21.model.items;
+package org.am21.model;
 
-import org.am21.model.items.Card.ItemTileCard;
+import org.am21.model.Card.ItemTileCard;
 
 public class Cell {
     /**

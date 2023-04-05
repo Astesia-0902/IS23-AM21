@@ -3,11 +3,11 @@ package org.am21;
 import org.am21.model.Hand;
 import org.am21.model.Match;
 import org.am21.model.Player;
-import org.am21.model.items.Bag;
-import org.am21.model.items.CommonGoal;
-import org.am21.model.items.LivingRoomBoard;
-import org.am21.model.items.Shelf;
-import org.am21.utilities.Coordinates;
+import org.am21.model.Bag;
+import org.am21.model.Card.CommonGoal;
+import org.am21.model.LivingRoomBoard;
+import org.am21.model.Shelf;
+import org.am21.utilities.CardPointer;
 import org.junit.jupiter.api.DisplayName;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public class Printer{
         System.out.println("Match > Board:");
         for(int i=0;i<9;i++){
             for(int j=0;j<9;j++){
-                if(board.getCellGrid()[i][j].isDark()==true){
+                if(board.getCellGrid()[i][j]==null){
                     System.out.print("[XXXXXXXXXX.]");
                 }else if(board.getCellGrid()[i][j].getItem()==null){
                     System.out.print("[__________.]");
@@ -107,7 +107,7 @@ public class Printer{
     static void showHand(Hand hand){
         System.out.println("--------");
         System.out.println("Match  > "+hand.player.getName() + "'s Hand ["+ hand.getSlot().size()+"]:");
-        for(Coordinates x : hand.getSlot()) {
+        for(CardPointer x : hand.getSlot()) {
             if(x.item.getNameCard()!=null){
                 System.out.print("["+x.item.getNameCard()+"]");
             }
@@ -132,7 +132,7 @@ public class Printer{
             printThisShelf(x.shelf);
         }
         System.out.println();
-        printThisBoard(m.livingRoomBoard);
+        printThisBoard(m.board);
         spacer();
 
 

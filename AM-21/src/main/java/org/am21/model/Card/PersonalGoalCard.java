@@ -1,7 +1,7 @@
-package org.am21.model.items.Card;
+package org.am21.model.Card;
 
 import org.am21.model.Player;
-import org.am21.model.items.Shelf;
+import org.am21.model.Shelf;
 
 import java.util.ArrayList;
 import java.util.Collections;

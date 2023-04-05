@@ -1,6 +1,6 @@
-package org.am21.model.items.Card.CommonGoals;
+package org.am21.model.Card.CommonGoals;
 
-import org.am21.model.items.CommonGoal;
+import org.am21.model.Card.CommonGoal;
 
 public class CommonGoal2Lines extends CommonGoal {
     public CommonGoal2Lines(int numPlayer) {

@@ -1,9 +1,9 @@
-package org.am21.model.items.Card.CommonGoals;
+package org.am21.model.Card.CommonGoals;
 
-import org.am21.model.items.Card.ItemType;
-import org.am21.model.items.Cell;
-import org.am21.model.items.CommonGoal;
-import org.am21.model.items.Shelf;
+import org.am21.model.Card.ItemType;
+import org.am21.model.Cell;
+import org.am21.model.Card.CommonGoal;
+import org.am21.model.Shelf;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -78,10 +78,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;import org.am21.model.Hand;
 &nbsp;import org.am21.model.Player;
-&nbsp;import org.am21.model.TurnPhases;
+&nbsp;import org.am21.utilities.TurnPhases;
 &nbsp;import org.am21.model.items.Card.PersonalGoalCard;
-&nbsp;import org.am21.model.items.LivingRoomBoard;
-&nbsp;import org.am21.utilities.Coordinates;
+&nbsp;import org.am21.model.LivingRoomBoard;
+&nbsp;import org.am21.utilities.CardPointer;
 &nbsp;import org.am21.utilities.TGear;
 &nbsp;
 &nbsp;public class PlayerController {
@@ -153,7 +153,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 <b class="fc">&nbsp;        LivingRoomBoard tmpBoard = player.getMatch().livingRoomBoard;</b>
 &nbsp;
-&nbsp;        //TODO: elimina getItemTileCard dall&#39;if, quindi è necessario modificare la struttura della board,
+&nbsp;        //TODO: elimina getItemTileCard dall&#39;if, quindi ï¿½ necessario modificare la struttura della board,
 &nbsp;        //      dove le celle dark non contengono nessun oggetto Cell. La cella non deve esistere
 <b class="fc">&nbsp;        if (tmpBoard.getCellGrid()[r][c].getItem() == null) {</b>
 <b class="fc">&nbsp;            System.out.println(&quot;Board[!] &gt; Empty cell. Try again&quot;);</b>
@@ -169,7 +169,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;                System.out.println(&quot;Board &gt; Empty hand - No Orthogonality check&quot;);</b>
 &nbsp;
 &nbsp;            } else {
-&nbsp;                //Controllo se è già stato selezionato
+&nbsp;                //Controllo se ï¿½ giï¿½ stato selezionato
 <b class="fc">&nbsp;                for (Coordinates tmp : hand.getSlot()) {</b>
 <b class="fc">&nbsp;                    if ((r == tmp.x) &amp;&amp; (c == tmp.y)) {</b>
 &nbsp;                        //Gia selezionato
@@ -179,7 +179,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;                }</b>
 &nbsp;
 &nbsp;                //Iteriamo slot
-&nbsp;                //Condizione 2 (Ortogonalità):
+&nbsp;                //Condizione 2 (Ortogonalitï¿½):
 &nbsp;                //NewSelected Cell need to be adjacent to the other in slot.
 &nbsp;                //NewSelected Cell need to be in a straight line.
 &nbsp;                /**Coordinates have been filtered,

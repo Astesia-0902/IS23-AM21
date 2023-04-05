@@ -1,10 +1,10 @@
 package org.am21;
 
 import org.am21.controller.PlayerController;
-import org.am21.model.GamePhases;
+import org.am21.utilities.GamePhases;
 import org.am21.model.Match;
 import org.am21.model.Player;
-import org.am21.model.TurnPhases;
+import org.am21.utilities.TurnPhases;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ import static org.am21.Printer.*;
 class PlayerTest {
     static int numMatch=0;
     public static int t=0;
-    public static int maxRound=100;
+    public static int maxRound=20;
 
     @DisplayName("Test1")
     @Test
@@ -39,7 +39,7 @@ class PlayerTest {
         System.out.println("----------------------");
         System.out.println("Match > PlayerTurn: "+ match.currentPlayer.getName());
 
-        printThisBoard(match.livingRoomBoard);
+        printThisBoard(match.board);
 
         pCtrl1.selectCell(0,5);
         pCtrl1.selectCell(1,5);
@@ -63,7 +63,7 @@ class PlayerTest {
         pCtrl2.moveAllToHand();
         pCtrl3.moveAllToHand();
 
-        printThisBoard(match.livingRoomBoard);
+        printThisBoard(match.board);
 
     }
 
@@ -94,7 +94,7 @@ class PlayerTest {
         Printer.printThisShelf(player4.shelf);
         System.out.println("Match > PlayerTurn: "+ match.currentPlayer.getName());
 
-        printThisBoard(match.livingRoomBoard);
+        printThisBoard(match.board);
         randomChoice(pCtrl1);
         randomChoice(pCtrl2);
         randomChoice(pCtrl3);
@@ -111,7 +111,7 @@ class PlayerTest {
         pCtrl2.moveAllToHand();
         pCtrl3.moveAllToHand();
 
-        printThisBoard(match.livingRoomBoard);
+        printThisBoard(match.board);
 
         match.turnPhase = TurnPhases.Insertion;
         pCtrl1.tryToInsert(1);
@@ -157,7 +157,7 @@ class PlayerTest {
         Printer.printThisShelf(player4.shelf);
         System.out.println("Match > PlayerTurn: "+ match.currentPlayer.getName());
 
-        printThisBoard(match.livingRoomBoard);
+        printThisBoard(match.board);
 
         randomChoice(pCtrl1);
 
@@ -177,7 +177,7 @@ class PlayerTest {
         pCtrl2.moveAllToHand();
         pCtrl3.moveAllToHand();
 
-        printThisBoard(match.livingRoomBoard);
+        printThisBoard(match.board);
 
         match.turnPhase = TurnPhases.Insertion;
         pCtrl1.tryToInsert(1);
@@ -212,15 +212,17 @@ class PlayerTest {
         Player p3 = pC3.player;
         PlayerController pC4 = createPlayerController("Jane");
         Player p4 = pC4.player;
-
-        m.addPlayer(p1);
-        m.addPlayer(p2);
-        m.addPlayer(p3);
-        m.addPlayer(p4);
-
-        while(m.gamePhase== GamePhases.WaitingPlayers);
         spacer();
-        printThisBoard(m.livingRoomBoard);
+        while(m.gamePhase== GamePhases.WaitingPlayers) {
+            m.addPlayer(p1);
+            m.addPlayer(p2);
+            m.addPlayer(p3);
+            m.addPlayer(p4);
+        }
+
+
+        spacer();
+        printThisBoard(m.board);
         printfThisBag(m.bag);
         printCommGoals(m.commonGoals);
         printPersonalGoals(m.playerList);
@@ -228,21 +230,17 @@ class PlayerTest {
 
         for(t=0; t<maxRound; t++){      //Number of round
             System.out.println("Match > {[ Round number: "+ (t+1)+" ]}");
-            if(m.currentPlayer==p1) {
-                robotMoves(pC1, p1);
-            }else if(m.currentPlayer==p2){
-                robotMoves(pC2, p2);
-            }else if(m.currentPlayer==p3){
-                robotMoves(pC3, p3);
-            }else if(m.currentPlayer==p4){
-                robotMoves(pC4, p4);
+
+            for(Player p : m.playerList) {
+                if(m.currentPlayer==p){
+                    robotMoves(p.controller,p);
+                }
             }
 
             Printer.viewStats(m,t);
 
         }
 
-        printThisBoard(m.livingRoomBoard);
         if(t==maxRound){
             System.out.println("Match > Game ended without a winner");
         }

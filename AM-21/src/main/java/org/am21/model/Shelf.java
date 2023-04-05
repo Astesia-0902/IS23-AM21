@@ -1,8 +1,7 @@
-package org.am21.model.items;
+package org.am21.model;
 
-import org.am21.model.Player;
-import org.am21.model.items.Card.ItemTileCard;
-import org.am21.utilities.Coordinates;
+import org.am21.model.Card.ItemTileCard;
+import org.am21.utilities.CardPointer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,39 +18,53 @@ import java.util.List;
  */
 
 public class Shelf extends Grid {
-    /**state of col available (default true)*/
-
 
     public Player player;
     /**
      * Each element show how many slots are still available in correspondent column
      */
     public List<Integer> slotCol;
+    /**
+     * Starting Limit for numbers of card insertable in the shelf
+     */
     public int insertLimit=3;
-    private final static int row = 6 ;
-    private final static int column = 5;
+    public final int stdLim =3;
+    public final static int sRow = 6 ;
+    public final static int sColumn = 5;
 
 
-
+    /**
+     * Construction of the shelf:
+     * Initialize the grid with superclass
+     * Create array, each elem count slot available for each column
+     * @param player
+     */
     public Shelf(Player player){
-        super(row, column);
+        super(sRow, sColumn);
         this.player = player;
         this.slotCol = new ArrayList<>();
-        for(int i=0;i<colNum;i++){
-            slotCol.add(row);
+        for(int i = 0; i< gColumn; i++){
+            slotCol.add(sRow);
         }
-        this.initiateShelfGrid(row,column);
-        System.out.println("Match > "+player.getName()+"'s Shelf created.");
+        if(this.initiateShelfGrid(sRow, sColumn)){
+
+        }
+        //System.out.println("Match > "+player.getName()+"'s Shelf created.");
 
     }
 
+    /**
+     * Build each element of the matrix with a Cell elem
+     * @param r
+     * @param c
+     * @return
+     */
     public boolean initiateShelfGrid(int r,int c){
         for(int i=0; i<r;i++){
             for(int j=0;j<c;j++){
                 this.getCellGrid()[i][j] = new Cell();
             }
         }
-
         return false;
     }
 
@@ -70,20 +83,23 @@ public class Shelf extends Grid {
         int max=0;
         System.out.println("Shelf > Elaboration Limit... ");
         System.out.println("OldLimit:"+this.insertLimit);
-        for(int j=0;j<column;j++){
+        for(int j = 0; j< sColumn; j++){
             if(this.slotCol.get(j)>max){
                 max = this.slotCol.get(j);
             }
         }
-        if(max>=3){
-            this.insertLimit =3;    //da mettere var static adtto
+        if(max>=stdLim){
+            this.insertLimit=stdLim;
         }else{
-            this.insertLimit =max;
+            this.insertLimit=max;
         }
-        System.out.println("Shelf > NewLimit:" + this.insertLimit);
+
     }
 
-    /**number of slot available in total*/
+    /**
+     * number of slot available in total
+     * @return Number of Total space available in this shelf
+     * */
     public int getTotSlotAvail() {
         int sum=0;
         for(int x: this.slotCol)
@@ -92,23 +108,33 @@ public class Shelf extends Grid {
     }
 
 
-
-
     /**
-     * Insert an itemCard in the column
+     * Insert an itemCard in the column, then decrease the count
+     * in column (col)
      * @param item
      * @param col
+     * @return true if insertion has been successful
      */
-    public void insertCard2(ItemTileCard item,int col){
-        this.insertInCell(slotCol.get(col)-1,col,item);
-        this.slotCol.set(col,slotCol.get(col)-1);
+    public boolean insertCard(ItemTileCard item, int col){
+
+        if(this.insertInCell(slotCol.get(col)-1,col,item)){
+            this.slotCol.set(col,slotCol.get(col)-1);
+            return true;
+        }
+        return false;
     }
 
 
-    /**adjacent same item check */
-    public int colorsPoints(){
+    /**
+     * This method is called at the end of the Game
+     * It will calculate the points according to a table.
+     * Having multiple item of the same type adjacent
+     * give different amount of points.
+     *
+     *  */
+    public int colorPoints(){
 
-        List<Coordinates> common = new ArrayList<Coordinates>();
+        List<CardPointer> common = new ArrayList<CardPointer>();
 
         int points=0;
         int reg_index = -1;
@@ -119,21 +145,21 @@ public class Shelf extends Grid {
                 {
                     do {
                         reg_index++;
-                        common.add(new Coordinates(r, c));
-                        /** save the first not null item in String type*/
+                        common.add(new CardPointer(r, c));
+                        /* save the first not null item in String type*/
                         String recentCard = this.getItemName(common.get(reg_index).x,common.get(reg_index).y);
 
                         if (this.getItemName(r, c + 1) != null && (recentCard.equals(this.getItemName(r, c + 1)) )) {
-                            common.add(new Coordinates(r, c + 1));
+                            common.add(new CardPointer(r, c + 1));
                         }
                         if (this.getItemName(r, c - 1) != null && (recentCard.equals(this.getItemName(r, c - 1)) )) {
-                            common.add(new Coordinates(r, c - 1));
+                            common.add(new CardPointer(r, c - 1));
                         }
                         if (this.getItemName(r + 1, c) != null && (recentCard.equals(this.getItemName(r + 1, c)) )) {
-                            common.add(new Coordinates(r + 1, c));
+                            common.add(new CardPointer(r + 1, c));
                         }
                         if (this.getItemName(r - 1, c) != null && (recentCard.equals(this.getItemName(r - 1, c)) )) {
-                            common.add(new Coordinates(r - 1, c));
+                            common.add(new CardPointer(r - 1, c));
                         }
                         /** set the cell to null*/
                         this.setCell(r, c, null);

@@ -1,13 +1,14 @@
 package org.am21;
 
 import org.am21.controller.PlayerController;
-import org.am21.model.GamePhases;
+import org.am21.utilities.GamePhases;
 import org.am21.model.Match;
 import org.am21.model.Player;
 import org.junit.jupiter.api.Test;
 
-import static org.am21.Gear.createMatch;
-import static org.am21.Gear.createPlayerController;
+import static org.am21.Gear.*;
+import static org.am21.Printer.*;
+import static org.am21.Printer.printPersonalGoals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -15,6 +16,55 @@ public class ModelTest {
     static int numMatch=0;
     public static int t=0;
     public static int maxRound=10;
+
+
+    public static Match buildGame(){
+        Match m = createMatch(4);
+        numMatch++;
+        System.out.println("Game > [[Match n. "+ numMatch+"]]");
+        PlayerController pC1 = createPlayerController("Kratos");
+        Player p1 = pC1.player;
+        PlayerController pC2 = createPlayerController("Omar");
+        Player p2 = pC2.player;
+        PlayerController pC3 = createPlayerController("Silvestro");
+        Player p3 = pC3.player;
+        PlayerController pC4 = createPlayerController("Jane");
+        Player p4 = pC4.player;
+        spacer();
+        while(m.gamePhase== GamePhases.WaitingPlayers) {
+            m.addPlayer(p1);
+            m.addPlayer(p2);
+            m.addPlayer(p3);
+            m.addPlayer(p4);
+        }
+
+
+        spacer();
+        printThisBoard(m.board);
+        printfThisBag(m.bag);
+        printCommGoals(m.commonGoals);
+        printPersonalGoals(m.playerList);
+        spacer();
+
+        for(t=0; t<maxRound; t++){      //Number of round
+            System.out.println("Match > {[ Round number: "+ (t+1)+" ]}");
+
+            for(Player p : m.playerList) {
+                if(m.currentPlayer==p){
+                    robotMoves(p.controller,p);
+                }
+            }
+
+            Printer.viewStats(m,t);
+
+        }
+
+        if(t==maxRound){
+            System.out.println("Match > Game ended without a winner");
+        }
+
+        return m;
+    }
 
     /**
      * Test playerList number correct
@@ -63,11 +113,12 @@ public class ModelTest {
         //quando la partita viene inizializzata,startGame dura solo fino alla fine della chiamata
         assertTrue(m.gamePhase.equals(GamePhases.GameGoing));
 
+    }
 
-        
+    @Test
+    void runner(){
+        Match m1 = buildGame();
 
-
-
-
+        assertTrue(m1.playerList.size()==3);
     }
 }

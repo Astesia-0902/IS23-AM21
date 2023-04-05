@@ -1,4 +1,4 @@
-package org.am21.model.items.Card;
+package org.am21.model.Card;
 
 public class ItemTileCard extends Card {
     private boolean isNonSelectable;

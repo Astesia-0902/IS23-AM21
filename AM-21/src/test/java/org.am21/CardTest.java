@@ -3,8 +3,8 @@ package org.am21;
 import org.am21.controller.PlayerController;
 import org.am21.model.Match;
 import org.am21.model.Player;
-import org.am21.model.TurnPhases;
-import org.am21.model.items.Shelf;
+import org.am21.utilities.TurnPhases;
+import org.am21.model.Shelf;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +33,7 @@ class CardTest {
         printPlayerPersonalGoal(player1.getMyPersonalGoal().getGoalShelf());
         printPlayerPersonalGoal(player2.getMyPersonalGoal().getGoalShelf());
         System.out.println("\n----------------------\n");
-        printThisBoard(match.livingRoomBoard);
+        printThisBoard(match.board);
         System.out.println("\n----------------------\n");
         System.out.println("Match > PlayerTurn: "+ match.currentPlayer.getName());
         System.out.println("\n----------------------\n");
@@ -47,7 +47,7 @@ class CardTest {
         pCtrl1.tryToInsert(1);
         Printer.printThisShelf(player1.shelf);
         System.out.println("\n----------------------\n");
-        printThisBoard(match.livingRoomBoard);
+        printThisBoard(match.board);
         System.out.println("\n----------------------\n");
         System.out.println("Personal goals completed: " + player1.getMyPersonalGoal().checkGoal());
         System.out.println("Score obtained: " + player1.getMyPersonalGoal().calculatePoints());

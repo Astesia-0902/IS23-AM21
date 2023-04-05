@@ -1,16 +1,9 @@
 package org.am21.model;
 
 import org.am21.controller.GameController;
-import org.am21.model.items.Bag;
-import org.am21.model.items.Card.PersonalGoalCard;
-//import org.am21.model.items.Card.ScoringTokenCard;
-import org.am21.model.items.CommonGoal;
-import org.am21.model.items.LivingRoomBoard;
-import org.am21.model.items.Shelf;
-import org.am21.utilities.CardUtil;
-import org.am21.utilities.CommonGoalUtil;
-import org.am21.utilities.MyTimer;
-import org.am21.utilities.TGear;
+import org.am21.model.Card.CommonGoal;
+import org.am21.model.Card.PersonalGoalCard;
+import org.am21.utilities.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,18 +11,17 @@ import java.util.List;
 public class Match {
     public int matchID;
     public List<CommonGoal> commonGoals;
-    public boolean endGameToken;
+    private boolean endGameToken=true;
     public GameController gameController;
-    public LivingRoomBoard livingRoomBoard;
+    public LivingRoomBoard board;
     public Bag bag;
-    //public int bagIndex;
     public GamePhases gamePhase;
     public TurnPhases turnPhase;
     public Player currentPlayer;
     public List<Player> playerList;
     public int maxSeats;
     private Player firstToComplete;
-    private int numPlayers;
+
     public Player chairman;
     public MyTimer timer;
 
@@ -104,14 +96,16 @@ public class Match {
         //Initialization of the board
         bag = new Bag(this);
         //bag.setItemCollection(maxSeats);
-        livingRoomBoard = new LivingRoomBoard(9, 9, maxSeats, this);
+        board = new LivingRoomBoard(9, 9, maxSeats, this);
 
         startFirstRound();
     }
 
     private void startFirstRound(){
+
         //Initialize the game phase
         gamePhase = GamePhases.GameGoing;
+        System.out.println("Match > Player Turn: " + currentPlayer.getName());
         changeTurnPhase(TurnPhases.Selection);
 
         //Start the timer
@@ -132,23 +126,25 @@ public class Match {
 //    public void giveToken(Player player, ScoringTokenCard scoringToken) {
 //    }
 
-    public boolean isEndGame() {
-        return false;
+
+    public void setEndGameToken(boolean endGameToken) {
+        this.endGameToken = endGameToken;
     }
 
-    public void checkLastRound() {
+    public boolean checkLastRound() {
+        if (gamePhase == GamePhases.LastRound) {
+            if (playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats) == firstToComplete) {
+                System.out.println("Match > GAME OVER");
+                return true;
+            }
+        }
+        return false;
     }
 
     public Player getFirstToComplete() {
         return firstToComplete;
     }
 
-    /**
-     * @return which TurnPhase is
-     */
-    public TurnPhases whichTurnPhase() {
-        return turnPhase;
-    }
 
     /**
      * Change TurnPhase
@@ -164,30 +160,27 @@ public class Match {
     public void checkingGoals(Player player) {
         //Serie di comandi per controllare se il player ha completato dei goal
 
-
         changeTurnPhase(TurnPhases.EndTurn);
         this.callEndTurnRoutine();
     }
 
     private void callEndTurnRoutine() {
-        if (livingRoomBoard.checkBoard()) {
+        if (board.checkBoard()) {
             System.out.println("Match > Board need refill");
-            TGear.printThisBoard(livingRoomBoard);
+            TGear.printThisBoard(board);
             //refill
             if (!this.bag.refillRequest()) {
                 System.out.println("Match > Board not refilled");
             } else {
-                TGear.printThisBoard(livingRoomBoard);
+                TGear.printThisBoard(board);
             }
         }
-        if (gamePhase == GamePhases.LastRound) {
-            if (playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats) == firstToComplete) {
-                System.out.println("Match > GAME OVER");
-                endMatch();
-            }
+        if(checkLastRound()){
+            endMatch();
         }
         if (currentPlayer.shelf.getTotSlotAvail() == 0 && gamePhase != GamePhases.LastRound) {
             System.out.println("Match > Congratulations! " + currentPlayer.getName() + " has completed the shelf first");
+            this.setEndGameToken(false);
             System.out.println("Match > EndGame Token assigned");
             firstToComplete = currentPlayer;
             gamePhase = GamePhases.LastRound;
@@ -200,7 +193,9 @@ public class Match {
 
     private void endMatch() {
         System.out.println("Game > Room closed. See ya!");
+
+        //temp
         TGear.viewStats(this, -2);
-        //System.exit(100);
+        System.exit(100);
     }
 }

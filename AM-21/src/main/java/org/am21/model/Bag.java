@@ -1,9 +1,8 @@
-package org.am21.model.items;
+package org.am21.model;
 
-import org.am21.model.Match;
-import org.am21.model.items.Card.ItemTileCard;
-import org.am21.utilities.CardUtil;
+import org.am21.model.Card.ItemTileCard;
 import org.am21.utilities.BoardUtil;
+import org.am21.utilities.CardUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -58,7 +57,7 @@ public class Bag {
             return false;
         }else {
             System.out.println("Bag > Accessing Bag...");
-            BoardUtil.refillBoard(match.livingRoomBoard, this);
+            BoardUtil.refillBoard(match.board, this);
             System.out.println("Bag > Refill completed");
             System.out.println("Bag > Items remaining: "+ (this.itemCollection.size()-bagIndex));
             return true;

@@ -1,7 +1,7 @@
 package org.am21.controller;
 
 import org.am21.model.GameManager;
-import org.am21.model.GamePhases;
+import org.am21.utilities.GamePhases;
 
 import java.rmi.RemoteException;
 

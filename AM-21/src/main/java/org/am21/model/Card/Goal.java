@@ -1,6 +1,4 @@
-package org.am21.model.items;
-
-import org.am21.model.items.Card.Card;
+package org.am21.model.Card;
 
 public abstract class Goal extends Card {
     public int goalID;

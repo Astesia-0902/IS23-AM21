@@ -2,8 +2,8 @@ package org.am21.utilities;
 
 import org.am21.model.Match;
 import org.am21.model.Player;
-import org.am21.model.items.LivingRoomBoard;
-import org.am21.model.items.Shelf;
+import org.am21.model.LivingRoomBoard;
+import org.am21.model.Shelf;
 
 /**
  * Temporary Class. Needed for Testing
@@ -59,13 +59,12 @@ public class TGear {
             System.out.println("Number of clicks:["+x.tmp_clicks+"]");
             System.out.print("Limit:["+x.shelf.insertLimit +"]\n");
 
-            System.out.println("Personal goals completed: " + x.getMyPersonalGoal().checkGoal());
-            System.out.println("Score obtained: " + x.getMyPersonalGoal().calculatePoints());
+            System.out.println("Score obtained from OwnGoal: " + x.getMyPersonalGoal().calculatePoints());
 
             printThisShelf(x.shelf);
         }
         System.out.println();
-        printThisBoard(m.livingRoomBoard);
+        printThisBoard(m.board);
         spacer();
 
 

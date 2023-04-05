@@ -80,7 +80,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import org.am21.model.Match;
 &nbsp;import org.am21.model.items.Card.ItemTileCard;
 &nbsp;import org.am21.utilities.BoardUtil;
-&nbsp;import org.am21.utilities.Coordinates;
+&nbsp;import org.am21.utilities.CardPointer;
 &nbsp;
 &nbsp;public class LivingRoomBoard extends Grid{
 &nbsp;
@@ -213,7 +213,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    public boolean isOrthogonal(int r, int c, Hand pHand){
 &nbsp;        int a;
 &nbsp;        int b;
-<b class="fc">&nbsp;        boolean check = true; // Se check resta true allora è ortogonale</b>
+<b class="fc">&nbsp;        boolean check = true; // Se check resta true allora ï¿½ ortogonale</b>
 <b class="fc">&nbsp;        for(Coordinates card: pHand.getSlot()) {</b>
 <b class="fc">&nbsp;            a = Math.abs(r - card.x);</b>
 <b class="fc">&nbsp;            b = Math.abs(c - card.y);</b>

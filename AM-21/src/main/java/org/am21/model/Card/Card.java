@@ -1,4 +1,4 @@
-package org.am21.model.items.Card;
+package org.am21.model.Card;
 
 import java.awt.*;
 public abstract class Card extends Component {

@@ -3,8 +3,8 @@ package org.am21;
 import org.am21.controller.PlayerController;
 import org.am21.model.Match;
 import org.am21.model.Player;
-import org.am21.utilities.Coordinates;
-import org.am21.utilities.Mex;
+import org.am21.utilities.CardPointer;
+import org.am21.utilities.Mx;
 import org.junit.jupiter.api.DisplayName;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class Gear {
     static int counter_AI =0;
-    static List<Coordinates> posArr = new ArrayList<>();
+    static List<CardPointer> posArr = new ArrayList<>();
     static {
         /*
         for (int i = 0; i < 6; i++) {
@@ -26,10 +26,10 @@ public class Gear {
             posArr.add(new Coordinates(5, i));
         }
         */
-         posArr.addAll(Arrays.asList(new Coordinates(8,3),
-                 new Coordinates(8,4),
-                 new Coordinates(4,8),
-                 new Coordinates(5,8)));
+         posArr.addAll(Arrays.asList(new CardPointer(8,3),
+                 new CardPointer(8,4),
+                 new CardPointer(4,8),
+                 new CardPointer(5,8)));
         Collections.shuffle(posArr);
     }
 
@@ -67,17 +67,17 @@ public class Gear {
 
     @DisplayName("Spacer")
     static void spacer(){
-        System.out.println("-----------");
+        System.out.println("-------------------------");
     }
 
 
     @DisplayName("Player choices")
     static void randomChoice(PlayerController ctrl){
-        Mex state = Mex.Neutral;
+        Mx state = Mx.Neutral;
         int a,b;
         int attempt =0;
         int fail=0;
-        Coordinates tmp;
+        CardPointer tmp;
         System.out.println("--------");
         do {
             if(attempt ==0){
@@ -85,13 +85,13 @@ public class Gear {
                 b = (int) ((Math.random() * 9));
                 if(ctrl.selectCell(a, b)) {
                     attempt++;
-                    state = Mex.Success;
-                    Mex.show(state);
+                    state = Mx.Success;
+                    Mx.show(state);
                 }else{
                     fail++;
                 }
                 if(fail==5){
-                    for(Coordinates popo: posArr){
+                    for(CardPointer popo: posArr){
 
                         if(ctrl.selectCell(popo.x,popo.y)){
 

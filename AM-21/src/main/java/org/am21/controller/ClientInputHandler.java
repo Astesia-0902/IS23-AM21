@@ -2,7 +2,7 @@ package org.am21.controller;
 
 import org.am21.model.GameManager;
 import org.am21.model.PlayerManager;
-import org.am21.model.items.Card.ItemTileCard;
+import org.am21.model.Card.ItemTileCard;
 
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;

@@ -77,8 +77,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 <code class="sourceCode" id="sourceCode">&nbsp;package org.am21.model.items.Card.CommonGoals;
 &nbsp;
 &nbsp;
-&nbsp;import org.am21.model.items.CommonGoal;
-&nbsp;import org.am21.model.items.Shelf;
+&nbsp;import org.am21.model.items.Card.CommonGoal;
+&nbsp;import org.am21.model.Shelf;
 &nbsp;
 &nbsp;public class CommonGoalXShape extends CommonGoal {
 &nbsp;
@@ -88,15 +88,15 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;/**
 &nbsp;    public CommonGoalXShape(){
 &nbsp;        /**
-&nbsp;         * the check since follow the sequence position cell (marked by a   ° )
+&nbsp;         * the check since follow the sequence position cell (marked by a   ï¿½ )
 &nbsp;         * ?????
-&nbsp;         * ?°°°?
-&nbsp;         * ?°°°?
-&nbsp;         * ?°°°?
-&nbsp;         * ?°°°?
+&nbsp;         * ?ï¿½ï¿½ï¿½?
+&nbsp;         * ?ï¿½ï¿½ï¿½?
+&nbsp;         * ?ï¿½ï¿½ï¿½?
+&nbsp;         * ?ï¿½ï¿½ï¿½?
 &nbsp;         * ?????
-&nbsp;         * each ° have a adjacent check (4 element), which CENTER can recorde the
-&nbsp;         *  [row, column] of the principle position (the ° ) and secondary position
+&nbsp;         * each ï¿½ have a adjacent check (4 element), which CENTER can recorde the
+&nbsp;         *  [row, column] of the principle position (the ï¿½ ) and secondary position
 &nbsp;         *  [row-1,column-1], [row-1, column+1],[row+1, column-1], [row+1, column+1],
 &nbsp;         *  if one of the 4 rest element is different by the first, the vector is not matched (discard)
 &nbsp;         *  so we have completely 12 check , if check fall when the all 12 is different by the CENTER position
