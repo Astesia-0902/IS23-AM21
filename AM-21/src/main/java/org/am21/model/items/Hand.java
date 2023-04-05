@@ -13,19 +13,10 @@ import java.util.Collections;
  */
 public class Hand {
     public Player player;
-
-    /**
-     * Number of cards in the hand (SelectionPhase)
-     * (became useless)
-     */
-    private int numCards;
     private ArrayList<CardPointer> slot;
-
-    public static ItemTileCard neutral_card = new ItemTileCard("none");
 
     public Hand(Player player){
         this.player = player;
-        this.numCards=0;
         this.slot = new ArrayList<>();
     }
 
@@ -53,42 +44,6 @@ public class Hand {
         this.slot.clear();
     }
 
-
-
-
-
-    /**
-     * Insert the item in the slot-n.
-     * @param item
-     * @param n
-     */
-    public void setSlot(ItemTileCard item,int n,int r,int c) {
-        this.slot.get(n).item = item;
-        this.slot.get(n).x = r;
-        this.slot.get(n).y = c;
-    }
-
-    /**
-     * Reset slot when player unselect a card
-     * @param n
-     */
-    public void resetSlot(int n){
-        this.slot.get(n).item = neutral_card;
-        this.slot.get(n).x=-1;
-        this.slot.get(n).y=-1;
-    }
-
-    public int getNumCards() {
-        return numCards;
-    }
-
-    public void setNumCards(int numCards) {
-        if (numCards >= 0 && numCards <= 3) {
-            this.numCards = numCards;
-        } else {
-            System.out.println("Try again");
-        }
-    }
 
     /**
      * function for order changing between 2 element in slot

@@ -1,0 +1,312 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Shelf</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.model.items</a>
+</div>
+
+<h1>Coverage Summary for Class: Shelf (org.am21.model.items)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Shelf</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83,3%
+  </span>
+  <span class="absValue">
+    (5/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    48,5%
+  </span>
+  <span class="absValue">
+    (33/68)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.model.items;
+&nbsp;
+&nbsp;import org.am21.model.Cards.ItemTileCard;
+&nbsp;import org.am21.model.Player;
+&nbsp;import org.am21.utilities.CardPointer;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * Attributes needed:
+&nbsp; * - Number of cells available for each column              &lt;--check by method getSlotCol1,2,3,4,5
+&nbsp; * - Total number of cells available in the Shelf           &lt;--check by method slotTotAvailable
+&nbsp; * - Limit for insertion overall (it could be 3,2 or 1)  &lt;--check by method slotTotAvailable
+&nbsp; *
+&nbsp; * Method needed:
+&nbsp; * - Insertion of one item in a column(cells available in the column will decrease)  &lt;--check by method pushCard
+&nbsp; * -
+&nbsp; */
+&nbsp;
+&nbsp;public class Shelf extends Grid {
+&nbsp;
+&nbsp;    public Player player;
+&nbsp;    /**
+&nbsp;     * Each element show how many slots are still available in correspondent column
+&nbsp;     */
+&nbsp;    public List&lt;Integer&gt; slotCol;
+&nbsp;    /**
+&nbsp;     * Starting Limit for numbers of card insertable in the shelf
+&nbsp;     */
+<b class="fc">&nbsp;    public int insertLimit=3;</b>
+<b class="fc">&nbsp;    public final int stdLim =3;</b>
+&nbsp;    public final static int sRow = 6 ;
+&nbsp;    public final static int sColumn = 5;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Construction of the shelf:
+&nbsp;     * Initialize the grid with superclass
+&nbsp;     * Create array, each elem count slot available for each column
+&nbsp;     * @param player
+&nbsp;     */
+&nbsp;    public Shelf(Player player){
+<b class="fc">&nbsp;        super(sRow, sColumn);</b>
+<b class="fc">&nbsp;        this.player = player;</b>
+<b class="fc">&nbsp;        this.slotCol = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        for(int i = 0; i&lt; gColumn; i++){</b>
+<b class="fc">&nbsp;            slotCol.add(sRow);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if(this.initiateShelfGrid(sRow, sColumn)){</b>
+&nbsp;
+&nbsp;        }
+&nbsp;        //System.out.println(&quot;Match &gt; &quot;+player.getName()+&quot;&#39;s Shelf created.&quot;);
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Build each element of the matrix with a Cell elem
+&nbsp;     * @param r
+&nbsp;     * @param c
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    public boolean initiateShelfGrid(int r,int c){
+<b class="fc">&nbsp;        for(int i=0; i&lt;r;i++){</b>
+<b class="fc">&nbsp;            for(int j=0;j&lt;c;j++){</b>
+<b class="fc">&nbsp;                this.getCellGrid()[i][j] = new Cell();</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Calculate the min Limit for hand Capacity
+&nbsp;     * Example: If there are only column with 2 slots available,
+&nbsp;     * then &#39;handLimit&#39; = 2
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    public void elaborateLimit(){
+<b class="fc">&nbsp;        System.out.println(&quot;Shelf &gt; Slot available each column&quot;);</b>
+<b class="fc">&nbsp;        for(int x: player.shelf.slotCol){</b>
+<b class="fc">&nbsp;            System.out.print(&quot;[&quot;+x+&quot;]&quot;);</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        System.out.println(&quot;&quot;);</b>
+<b class="fc">&nbsp;        int max=0;</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Shelf &gt; Elaboration Limit... &quot;);</b>
+<b class="fc">&nbsp;        System.out.println(&quot;OldLimit:&quot;+this.insertLimit);</b>
+<b class="fc">&nbsp;        for(int j = 0; j&lt; sColumn; j++){</b>
+<b class="fc">&nbsp;            if(this.slotCol.get(j)&gt;max){</b>
+<b class="fc">&nbsp;                max = this.slotCol.get(j);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        if(max&gt;=stdLim){</b>
+<b class="fc">&nbsp;            this.insertLimit=stdLim;</b>
+&nbsp;        }else{
+<b class="fc">&nbsp;            this.insertLimit=max;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * number of slot available in total
+&nbsp;     * @return Number of Total space available in this shelf
+&nbsp;     * */
+&nbsp;    public int getTotSlotAvail() {
+<b class="fc">&nbsp;        int sum=0;</b>
+<b class="fc">&nbsp;        for(int x: this.slotCol)</b>
+<b class="fc">&nbsp;            sum = sum+x;</b>
+<b class="fc">&nbsp;        return sum;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Insert an itemCard in the column, then decrease the count
+&nbsp;     * in column (col)
+&nbsp;     * @param item
+&nbsp;     * @param col
+&nbsp;     * @return true if insertion has been successful
+&nbsp;     */
+&nbsp;    public boolean insertCard(ItemTileCard item, int col){
+&nbsp;
+<b class="fc">&nbsp;        if(this.insertInCell(slotCol.get(col)-1,col,item)){</b>
+<b class="fc">&nbsp;            this.slotCol.set(col,slotCol.get(col)-1);</b>
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is called at the end of the Game
+&nbsp;     * It will calculate the points according to a table.
+&nbsp;     * Having multiple item of the same type adjacent
+&nbsp;     * give different amount of points.
+&nbsp;     *
+&nbsp;     *  */
+&nbsp;    public int colorPoints(){
+&nbsp;
+<b class="nc">&nbsp;        List&lt;CardPointer&gt; common = new ArrayList&lt;CardPointer&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        int points=0;</b>
+<b class="nc">&nbsp;        int reg_index = -1;</b>
+&nbsp;
+<b class="nc">&nbsp;        for(int r=0;r&lt;6;r++) {</b>
+<b class="nc">&nbsp;            for(int c=0;c&lt;5;c++) {</b>
+<b class="nc">&nbsp;                if(this.getItemName(r,c)!=null)</b>
+&nbsp;                {
+&nbsp;                    do {
+<b class="nc">&nbsp;                        reg_index++;</b>
+<b class="nc">&nbsp;                        common.add(new CardPointer(r, c));</b>
+&nbsp;                        /* save the first not null item in String type*/
+<b class="nc">&nbsp;                        String recentCard = this.getItemName(common.get(reg_index).x,common.get(reg_index).y);</b>
+&nbsp;
+<b class="nc">&nbsp;                        if (this.getItemName(r, c + 1) != null &amp;&amp; (recentCard.equals(this.getItemName(r, c + 1)) )) {</b>
+<b class="nc">&nbsp;                            common.add(new CardPointer(r, c + 1));</b>
+&nbsp;                        }
+<b class="nc">&nbsp;                        if (this.getItemName(r, c - 1) != null &amp;&amp; (recentCard.equals(this.getItemName(r, c - 1)) )) {</b>
+<b class="nc">&nbsp;                            common.add(new CardPointer(r, c - 1));</b>
+&nbsp;                        }
+<b class="nc">&nbsp;                        if (this.getItemName(r + 1, c) != null &amp;&amp; (recentCard.equals(this.getItemName(r + 1, c)) )) {</b>
+<b class="nc">&nbsp;                            common.add(new CardPointer(r + 1, c));</b>
+&nbsp;                        }
+<b class="nc">&nbsp;                        if (this.getItemName(r - 1, c) != null &amp;&amp; (recentCard.equals(this.getItemName(r - 1, c)) )) {</b>
+<b class="nc">&nbsp;                            common.add(new CardPointer(r - 1, c));</b>
+&nbsp;                        }
+&nbsp;                        /** set the cell to null*/
+<b class="nc">&nbsp;                        this.setCell(r, c, null);</b>
+&nbsp;                        /**now begin check the next element of list to recheck this procedure*/
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;                    }while(common.size()&gt;reg_index+1);</b>
+&nbsp;
+&nbsp;                   /** Iterator &lt;Coordinates&gt; li = null;
+&nbsp;                    li = common.listIterator();
+&nbsp;                    if(li.hasNext()!=true){
+&nbsp;                        li.next();
+&nbsp;                    }*/
+&nbsp;
+&nbsp;                   /** count  all element of the list (check the duplicate)*/
+&nbsp;
+<b class="nc">&nbsp;                        for(int i=0; i&lt;common.size();i++)</b>
+&nbsp;                        {
+<b class="nc">&nbsp;                            for(int j=1;j&lt;common.size();j++) {</b>
+<b class="nc">&nbsp;                                if (common.get(i) == common.get(j))</b>
+&nbsp;                                {
+<b class="nc">&nbsp;                                    common.remove(j);</b>
+<b class="nc">&nbsp;                                    j--;</b>
+&nbsp;                                }
+&nbsp;                            }
+&nbsp;                        }
+&nbsp;
+<b class="nc">&nbsp;                        if(common.size()==3)</b>
+<b class="nc">&nbsp;                            points+=2;</b>
+<b class="nc">&nbsp;                        else if(common.size()==4)</b>
+<b class="nc">&nbsp;                            points+=3;</b>
+<b class="nc">&nbsp;                        else if(common.size()==5)</b>
+<b class="nc">&nbsp;                            points+=5;</b>
+<b class="nc">&nbsp;                        else if(common.size()&gt;=6)</b>
+<b class="nc">&nbsp;                            points+=8;</b>
+&nbsp;
+&nbsp;                }
+&nbsp;
+&nbsp;                /** clean the list*/
+<b class="nc">&nbsp;                common.clear();</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return points;</b>
+&nbsp;    }
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-06 01:15</div>
+</div>
+</body>
+</html>

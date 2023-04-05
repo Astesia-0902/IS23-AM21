@@ -25,7 +25,7 @@ public class CommonGoalUtil {
             secondGoal = (int) (Math.random() * 12);
         }
         res.add(commonGoalHashMap.get(secondGoal));
-        System.out.println("Match > "+res.size()+" CommonGoal generated");
+//        System.out.println("Match > "+res.size()+" CommonGoal generated");
 
         return res;
     }

@@ -14,7 +14,7 @@ public class GameController {
      * Initialize the game.
      * Pay attention to the order of the initialization of instances to avoid potential null pointer exception.
      */
-    public void initializeGame() {
+  /*  public void initializeGame() {
 
     }
 
@@ -24,7 +24,7 @@ public class GameController {
     }
 
     public void endGame() {
-    }
+    }*/
 
     public static void joinGame(int matchID, String userName, PlayerController playerController) {
         if (GameManager.matchList.get(matchID) == null) {

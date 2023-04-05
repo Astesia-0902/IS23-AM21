@@ -9,8 +9,6 @@ import org.am21.model.enumer.UserStatus;
 
 public class Player {
 
-    public int tmp_clicks=0;
-
     private String nickname;
 
     public UserStatus status;
@@ -67,9 +65,6 @@ public class Player {
     public void setHost(String host) {
         this.host = host;
     }
-    public int getPlayerScore(){
-        return playerScore;
-    }
 
     public PersonalGoalCard getMyPersonalGoal() {
         return myPersonalGoal;
@@ -97,7 +92,7 @@ public class Player {
     public void createHand(){
         this.hand = new Hand(this);
         this.controller.hand = this.hand;
-        System.out.println("Match > "+getName()+"'s Hand created and assigned.");
+//        System.out.println("Match > "+getName()+"'s Hand created and assigned.");
     }
 
 

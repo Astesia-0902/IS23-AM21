@@ -1,0 +1,178 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > TGear</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.utilities</a>
+</div>
+
+<h1>Coverage Summary for Class: TGear (org.am21.utilities)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TGear</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97,3%
+  </span>
+  <span class="absValue">
+    (36/37)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.utilities;
+&nbsp;
+&nbsp;import org.am21.model.Match;
+&nbsp;import org.am21.model.Player;
+&nbsp;import org.am21.model.items.Board;
+&nbsp;import org.am21.model.items.Shelf;
+&nbsp;
+&nbsp;/**
+&nbsp; * Temporary Class. Needed for Testing
+&nbsp; */
+<b class="nc">&nbsp;public class TGear {</b>
+&nbsp;    public static void printThisBoard(Board board){
+<b class="fc">&nbsp;        System.out.println(&quot;Match &gt; Board:&quot;);</b>
+<b class="fc">&nbsp;        for(int i=0;i&lt;9;i++){</b>
+<b class="fc">&nbsp;            for(int j=0;j&lt;9;j++){</b>
+<b class="fc">&nbsp;                if(board.getCellGrid()[i][j].isDark()==true){</b>
+<b class="fc">&nbsp;                    System.out.print(&quot;[XXXXXXXXXX.]&quot;);</b>
+<b class="fc">&nbsp;                }else if(board.getCellGrid()[i][j].getItem()==null){</b>
+<b class="fc">&nbsp;                    System.out.print(&quot;[__________.]&quot;);</b>
+<b class="fc">&nbsp;                }else if(board.getCellGrid()[i][j].getItem()!=null){</b>
+<b class="fc">&nbsp;                    System.out.print(&quot;[&quot;+ board.getCellGrid()[i][j].getItem().getNameCard() +&quot;]&quot;);</b>
+&nbsp;                }
+&nbsp;
+&nbsp;            }
+<b class="fc">&nbsp;            System.out.println(&quot;&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void printThisShelf(Shelf shelf){
+<b class="fc">&nbsp;        System.out.println(&quot;Match &gt; &quot;+shelf.player.getName()+&quot;&#39;s Shelf [&quot;+shelf.insertLimit +&quot;]:&quot;);</b>
+<b class="fc">&nbsp;        for(int i=0;i&lt;6;i++){</b>
+<b class="fc">&nbsp;            for(int j=0;j&lt;5;j++){</b>
+<b class="fc">&nbsp;                if(shelf.getCellGrid()[i][j].getItem()==null){</b>
+<b class="fc">&nbsp;                    System.out.print(&quot;[_________._]&quot;);</b>
+<b class="fc">&nbsp;                }else if(shelf.getCellGrid()[i][j].getItem()!=null){</b>
+<b class="fc">&nbsp;                    System.out.print(&quot;[&quot;+ shelf.getCellGrid()[i][j].getItem().getNameCard() +&quot;]&quot;);</b>
+&nbsp;                }
+&nbsp;
+&nbsp;            }
+<b class="fc">&nbsp;            System.out.println(&quot;&quot;);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void spacer(){
+<b class="fc">&nbsp;        System.out.println(&quot;-----------&quot;);</b>
+&nbsp;    }
+&nbsp;    public static void viewStats(Match m, int nRound){
+<b class="fc">&nbsp;        spacer();</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Match[!][!] &gt; Game Stats&quot;);</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Num round: [&quot;+(nRound+1)+&quot;]&quot;);</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Winner is: &quot;+m.getFirstToComplete().getName());</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Bag items: [&quot;+(m.bag.getDeck().size()-m.bag.bagIndex)+&quot;]&quot;);</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Bag index: [&quot;+m.bag.bagIndex+&quot;]&quot;);</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Player/Shelf/Hand situation:&quot; );</b>
+<b class="fc">&nbsp;        for(Player x: m.playerList){</b>
+&nbsp;
+<b class="fc">&nbsp;            System.out.print(x.getName()+&quot;[&quot;+x.shelf.getTotSlotAvail() +&quot;]--&quot;);</b>
+<b class="fc">&nbsp;            System.out.print(&quot;Limit:[&quot;+x.shelf.insertLimit +&quot;]\n&quot;);</b>
+<b class="fc">&nbsp;</b>
+&nbsp;            System.out.println(&quot;Score obtained from OwnGoal: &quot; + x.getMyPersonalGoal().calculatePoints());
+<b class="fc">&nbsp;</b>
+&nbsp;            printThisShelf(x.shelf);
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        System.out.println();</b>
+<b class="fc">&nbsp;        printThisBoard(m.board);</b>
+<b class="fc">&nbsp;        spacer();</b>
+<b class="fc">&nbsp;</b>
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-06 01:15</div>
+</div>
+</body>
+</html>

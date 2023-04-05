@@ -1,6 +1,7 @@
 package org.am21;
 
 import org.am21.controller.PlayerController;
+import org.am21.extra.Printer;
 import org.am21.model.Match;
 import org.am21.model.Player;
 import org.am21.model.enumer.TurnPhases;
@@ -8,10 +9,10 @@ import org.am21.model.items.Shelf;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.am21.Gear.createMatch;
-import static org.am21.Gear.createPlayerController;
-import static org.am21.Printer.printPersonalGoals;
-import static org.am21.Printer.printThisBoard;
+import static org.am21.extra.Gear.createMatch;
+import static org.am21.extra.Gear.createPlayerController;
+import static org.am21.extra.Printer.printPersonalGoals;
+import static org.am21.extra.Printer.printThisBoard;
 
 class CardTest {
     @Test

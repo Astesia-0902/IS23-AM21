@@ -1,0 +1,202 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CardUtil</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.utilities</a>
+</div>
+
+<h1>Coverage Summary for Class: CardUtil (org.am21.utilities)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CardUtil</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97,4%
+  </span>
+  <span class="absValue">
+    (37/38)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.utilities;
+&nbsp;
+&nbsp;import org.am21.model.Cards.ItemTileCard;
+&nbsp;import org.am21.model.Cards.ItemType;
+&nbsp;import org.am21.model.Cards.PersonalGoalCard;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;
+<b class="nc">&nbsp;public class CardUtil</b>
+&nbsp;{
+&nbsp;    // ----------------------------------- ITEM TILE --------------------------------------------------------
+&nbsp;
+&nbsp;    // we have 7+7+8 = 22 cards, distribute in 3 colors
+&nbsp;
+&nbsp;    private final static int numCards = 7;
+&nbsp;
+&nbsp;    /** This block generate the list of all the item&#39;s name */
+<b class="fc">&nbsp;    private final static List&lt;String&gt; itemTileNames = new ArrayList&lt;&gt;();</b>
+&nbsp;    static {
+<b class="fc">&nbsp;        Collections.addAll(itemTileNames, ItemType.__Cats__.name()+&quot;1.1&quot;,ItemType.__Cats__.name()+&quot;1.2&quot;,ItemType.__Cats__.name()+&quot;1.3&quot;,</b>
+<b class="fc">&nbsp;                ItemType._Books__.name()+&quot;1.1&quot;,ItemType._Books__.name()+&quot;1.2&quot;,ItemType._Books__.name()+&quot;1.3&quot;,</b>
+<b class="fc">&nbsp;                ItemType._Games__.name()+&quot;1.1&quot;,ItemType._Games__.name()+&quot;1.2&quot;,ItemType._Games__.name()+&quot;1.3&quot;,</b>
+<b class="fc">&nbsp;                ItemType._Frames_.name()+&quot;1.1&quot;,ItemType._Frames_.name()+&quot;1.2&quot;,ItemType._Frames_.name()+&quot;1.3&quot;,</b>
+<b class="fc">&nbsp;                ItemType.Trophies.name()+&quot;1.1&quot;,ItemType.Trophies.name()+&quot;1.2&quot;,ItemType.Trophies.name()+&quot;1.3&quot;,</b>
+<b class="fc">&nbsp;                ItemType._Plants_.name()+&quot;1.1&quot;,ItemType._Plants_.name()+&quot;1.2&quot;,ItemType._Plants_.name()+&quot;1.3&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Function to assign each item&#39;s name to an ItemTileCard element
+&nbsp;     * @return The list of ItemTileCards
+&nbsp;     */
+&nbsp;    public static List&lt;ItemTileCard&gt; buildItemTileCard(){
+<b class="fc">&nbsp;        List&lt;ItemTileCard&gt; itemTileCards = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        for (String itemTileName : itemTileNames) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; numCards; j++) {</b>
+<b class="fc">&nbsp;                ItemTileCard itemTileCard = new ItemTileCard(itemTileName);</b>
+<b class="fc">&nbsp;                itemTileCards.add(itemTileCard);</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        // Follows the physical game, adding the 22nd card of each set
+<b class="fc">&nbsp;        itemTileCards.addAll(Arrays.asList(</b>
+<b class="fc">&nbsp;                new ItemTileCard(ItemType.__Cats__.name()+&quot;1.2&quot;),</b>
+<b class="fc">&nbsp;                new ItemTileCard(ItemType._Books__.name()+&quot;1.3&quot;),</b>
+<b class="fc">&nbsp;                new ItemTileCard(ItemType._Games__.name()+&quot;1.2&quot;),</b>
+<b class="fc">&nbsp;                new ItemTileCard(ItemType._Frames_.name()+&quot;1.3&quot;),</b>
+<b class="fc">&nbsp;                new ItemTileCard(ItemType.Trophies.name()+&quot;1.3&quot;),</b>
+<b class="fc">&nbsp;                new ItemTileCard(ItemType._Plants_.name()+&quot;1.3&quot;)</b>
+&nbsp;        ));
+&nbsp;
+<b class="fc">&nbsp;        Collections.shuffle(itemTileCards);</b>
+<b class="fc">&nbsp;        return itemTileCards;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // ----------------------------------- PERSONAL GOAL --------------------------------------------------------
+&nbsp;
+<b class="fc">&nbsp;    public static Random randomPersonalGoal = new Random();</b>
+&nbsp;    public static int numPersonalGoal;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Function to generate the PersonalGoalCard for all players
+&nbsp;     * @param numPlayer
+&nbsp;     * @return PersonalGoalCard List
+&nbsp;     */
+&nbsp;    public static List&lt;PersonalGoalCard&gt; buildPersonalGoalCard(int numPlayer){
+<b class="fc">&nbsp;        Set&lt;Integer&gt; usedNumbers = new HashSet&lt;&gt;();</b>
+<b class="fc">&nbsp;        List&lt;PersonalGoalCard&gt; personalGoalCards = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; numPlayer; i++) {</b>
+&nbsp;            do {
+<b class="fc">&nbsp;                numPersonalGoal = randomPersonalGoal.nextInt(12) + 1;</b>
+<b class="fc">&nbsp;            } while (usedNumbers.contains(numPersonalGoal));</b>
+<b class="fc">&nbsp;            usedNumbers.add(numPersonalGoal);</b>
+<b class="fc">&nbsp;            personalGoalCards.add(new PersonalGoalCard(&quot;PERSONAL_GOALs&quot; + numPersonalGoal));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        System.out.println(&quot;Match &gt; &quot;+personalGoalCards.size()+&quot; PersonalGoal generated&quot;);</b>
+<b class="fc">&nbsp;        return personalGoalCards;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // ----------------------------------- SCORING TOKENS --------------------------------------------------------
+<b class="fc">&nbsp;    private final static HashMap&lt;Integer, Integer[]&gt; scoringTokens = new HashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * a set of scoring tokens in base of number of player
+&nbsp;     */
+&nbsp;    static {
+<b class="fc">&nbsp;        scoringTokens.put(4, new Integer[]{8,6,4,2});</b>
+<b class="fc">&nbsp;        scoringTokens.put(3, new Integer[]{8,6,4});</b>
+<b class="fc">&nbsp;        scoringTokens.put(2, new Integer[]{8,4});</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Function to distribute a set of scoring tokens
+&nbsp;     * @param numPlayer
+&nbsp;     * @return list of a set of scoring token card
+&nbsp;     */
+&nbsp;    public static List&lt;Integer&gt; buildScoringTokenCards(int numPlayer) {
+<b class="fc">&nbsp;        return new ArrayList&lt;&gt;(List.of(scoringTokens.get(numPlayer)));</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-06 01:15</div>
+</div>
+</body>
+</html>

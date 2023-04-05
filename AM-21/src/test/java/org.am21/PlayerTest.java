@@ -1,6 +1,7 @@
 package org.am21;
 
 import org.am21.controller.PlayerController;
+import org.am21.extra.Printer;
 import org.am21.model.enumer.GameState;
 import org.am21.model.Match;
 import org.am21.model.Player;
@@ -9,8 +10,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
-import static org.am21.Gear.*;
-import static org.am21.Printer.*;
+import static org.am21.extra.Gear.*;
+import static org.am21.extra.Printer.*;
 
 
 class PlayerTest {
@@ -248,16 +249,6 @@ class PlayerTest {
     }
 
 
-    /**
-     * Creazione di thread paralleli che emulano i movimenti del player
-     */
-    @DisplayName("Test 5")
-    @Test
-    void threadPlaying(){
-
-
-
-    }
 
 
 

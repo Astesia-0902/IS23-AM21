@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class GameManager {
+    public static GameManager game;
     //Key: player name, Value: match id
     public static HashMap<String, Integer> playerMatchMap = new HashMap<String, Integer>();
 
@@ -24,11 +25,12 @@ public class GameManager {
     private float timer;
 
     public GameManager(GameController controller) {
-        this.matchList = new ArrayList<Match>();
-        this.goals = new ArrayList<Goal>();
-        this.cards = new ArrayList<Card>();
+        this.matchList = new ArrayList<>();
+        this.goals = new ArrayList<>();
+        this.cards = new ArrayList<>();
         this.waitTime = 0;
         this.timer = 0;
+        game = this;
     }
 
     public static void createMatch(int playerNum, PlayerController playerController) {

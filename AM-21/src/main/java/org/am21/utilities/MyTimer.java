@@ -21,7 +21,7 @@ public class MyTimer {
      */
     public void startTimer(final int waitTime, final Match match){
         final int[] count = {0};
-        System.out.println("Match[!] > Timer started!");
+//        System.out.println("Match[!] > Timer started!");
         TimerTask task = new TimerTask() {
             @Override
             public void run() {

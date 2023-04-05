@@ -1,0 +1,189 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CommonGoalUtil</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.utilities</a>
+</div>
+
+<h1>Coverage Summary for Class: CommonGoalUtil (org.am21.utilities)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CommonGoalUtil</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92%
+  </span>
+  <span class="absValue">
+    (23/25)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.utilities;
+&nbsp;
+&nbsp;import org.am21.model.Cards.CommonGoals.*;
+&nbsp;import org.am21.model.Cards.CommonGoal;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;
+<b class="nc">&nbsp;public class CommonGoalUtil {</b>
+<b class="fc">&nbsp;    public static HashMap&lt;Integer,CommonGoal&gt; commonGoalHashMap = new HashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param numPlayer
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    public static List&lt;CommonGoal&gt; getCommonGoals(int numPlayer) {
+<b class="fc">&nbsp;        initializeMap(commonGoalHashMap,numPlayer);</b>
+<b class="fc">&nbsp;        List&lt;CommonGoal&gt; res = new ArrayList&lt;CommonGoal&gt;(2);</b>
+<b class="fc">&nbsp;        int firstGoal = (int) (Math.random() * 12);</b>
+<b class="fc">&nbsp;        res.add(commonGoalHashMap.get(firstGoal));</b>
+<b class="fc">&nbsp;        int secondGoal = (int) (Math.random() * 12);</b>
+<b class="fc">&nbsp;        while (secondGoal == firstGoal) {</b>
+<b class="nc">&nbsp;            secondGoal = (int) (Math.random() * 12);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        res.add(commonGoalHashMap.get(secondGoal));</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Match &gt; &quot;+res.size()+&quot; CommonGoal generated&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;        return res;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param map
+&nbsp;     * @param playerNum
+&nbsp;     */
+&nbsp;    private static void initializeMap(HashMap&lt;Integer,CommonGoal&gt; map,int playerNum){
+<b class="fc">&nbsp;        map.clear();</b>
+<b class="fc">&nbsp;        map.put(0,new CommonGoal2Lines(playerNum));</b>
+<b class="fc">&nbsp;        map.put(1,new CommonGoal2Columns(playerNum));</b>
+<b class="fc">&nbsp;        map.put(2,new CommonGoal3Column(playerNum));</b>
+<b class="fc">&nbsp;        map.put(3,new CommonGoal4Lines(playerNum));</b>
+<b class="fc">&nbsp;        map.put(4,new CommonGoal8Tiles(playerNum));</b>
+<b class="fc">&nbsp;        map.put(5,new CommonGoalCorner(playerNum));</b>
+<b class="fc">&nbsp;        map.put(6,new CommonGoalDiagonal(playerNum));</b>
+<b class="fc">&nbsp;        map.put(7,new CommonGoalSquare(playerNum));</b>
+<b class="fc">&nbsp;        map.put(8,new CommonGoalStairs(playerNum));</b>
+<b class="fc">&nbsp;        map.put(9,new CommonGoalx4Group(playerNum));</b>
+<b class="fc">&nbsp;        map.put(10,new CommonGoalx6Group(playerNum));</b>
+<b class="fc">&nbsp;        map.put(11,new CommonGoalXShape(playerNum));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;//    private static CommonGoal selectGoal(int index, int numPlayer) {
+&nbsp;//        switch (index) {
+&nbsp;//            case 0:
+&nbsp;//                return new CommonGoal2Columns(&quot;CommonGoal2Columns&quot;, numPlayer);
+&nbsp;//            case 1:
+&nbsp;//                return new CommonGoal2Lines(&quot;CommonGoal2Lines&quot;, numPlayer);
+&nbsp;//            case 2:
+&nbsp;//                return new CommonGoal3Column(&quot;CommonGoal3Column&quot;, numPlayer);
+&nbsp;//            case 3:
+&nbsp;//                return new CommonGoal4Lines(&quot;CommonGoal4Lines&quot;, numPlayer);
+&nbsp;//            case 4:
+&nbsp;//                return new CommonGoal8Tiles(&quot;CommonGoal8Tiles&quot;, numPlayer);
+&nbsp;//            case 5:
+&nbsp;//                return new CommonGoalCorner(&quot;CommonGoalCorner&quot;, numPlayer);
+&nbsp;//            case 6:
+&nbsp;//                return new CommonGoalDiagonal(&quot;CommonGoalDiagonal&quot;, numPlayer);
+&nbsp;//            case 7:
+&nbsp;//                return new CommonGoalSquare(&quot;CommonGoalSquare&quot;, numPlayer);
+&nbsp;//            case 8:
+&nbsp;//                return new CommonGoalStairs(&quot;CommonGoalStairs&quot;, numPlayer);
+&nbsp;//            case 9:
+&nbsp;//                return new CommonGoalx4Group(&quot;CommonGoalx4Group&quot;, numPlayer);
+&nbsp;//            case 10:
+&nbsp;//                return new CommonGoalx6Group(&quot;CommonGoalx6Group&quot;, numPlayer);
+&nbsp;//            case 11:
+&nbsp;//                return new CommonGoalXShape(&quot;CommonGoalXShape&quot;, numPlayer);
+&nbsp;//        }
+&nbsp;//        return null;
+&nbsp;//    }
+&nbsp;
+&nbsp;
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-06 01:15</div>
+</div>
+</body>
+</html>

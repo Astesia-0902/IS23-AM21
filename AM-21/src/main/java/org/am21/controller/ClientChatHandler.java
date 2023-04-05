@@ -14,7 +14,7 @@ public class ClientChatHandler extends UnicastRemoteObject implements IClientHan
     protected ClientChatHandler() throws RemoteException {
     }
 
-    public String sendChatMessage(String message) throws RemoteException {
+  /*  public String sendChatMessage(String message) throws RemoteException {
         return null;
-    }
+    }*/
 }

@@ -35,7 +35,7 @@ public class Bag {
         match.bag = this;
         this.itemCollection = CardUtil.buildItemTileCard();
         /** fill the item initialy **/
-        System.out.println("Match > Bag completely filled with "+ itemCollection.size());
+//        System.out.println("Match > Bag completely filled with "+ itemCollection.size());
     }
 
     /**
@@ -54,13 +54,13 @@ public class Bag {
      */
     public boolean refillRequest(){
         if((this.itemCollection.size()-bagIndex)==0){
-            System.out.println("Bag > Bag empty. No more refill");
+//            System.out.println("Bag > Bag empty. No more refill");
             return false;
         }else {
-            System.out.println("Bag > Accessing Bag...");
+//            System.out.println("Bag > Accessing Bag...");
             BoardUtil.refillBoard(match.board, this);
-            System.out.println("Bag > Refill completed");
-            System.out.println("Bag > Items remaining: "+ (this.itemCollection.size()-bagIndex));
+//            System.out.println("Bag > Refill completed");
+//            System.out.println("Bag > Items remaining: "+ (this.itemCollection.size()-bagIndex));
             return true;
         }
     }

@@ -6,7 +6,7 @@ import org.am21.model.Player;
 import org.am21.model.enumer.TurnPhases;
 import org.am21.model.Cards.PersonalGoalCard;
 import org.am21.utilities.CardPointer;
-import org.am21.model.enumer.Mx;
+import org.am21.utilities.Mx;
 
 
 
@@ -59,22 +59,22 @@ public class PlayerController {
      * @return false : Selection failed
      */
     public boolean selectCell(int r,int c){
-        System.out.println(player.getName() + " > Select: [" + r + "][" + c + "]");
+//        System.out.println(player.getName() + " > Select: [" + r + "][" + c + "]");
         // verify if it is player turn
         if(!isMyTurn(player)) {
             return false;
         }
         if (player.getMatch().turnPhase != TurnPhases.Selection) {
             //System.out.println("Match > Not Selection Phase");
-            fb = Mx.WrongPhase;
+//            fb = Mx.WrongPhase;
 
             return false;
         }
 
         if(player.shelf.insertLimit == hand.getSlot().size()){
-            fb= Mx.HandLimit;
+//            fb= Mx.HandLimit;
             //System.out.println("Shelf > Cannot pick more item");
-            System.out.println("Shelf > Hand["+hand.getSlot().size()+"]-Limit ["+player.shelf.insertLimit +"]");
+//            System.out.println("Shelf > Hand["+hand.getSlot().size()+"]-Limit ["+player.shelf.insertLimit +"]");
             return false;
         }
         //IL filtro precedente dovrebbe essere abbastanza
@@ -88,7 +88,7 @@ public class PlayerController {
         //TODO: elimina getItemTileCard dall'if, quindi è necessario modificare la struttura della board,
         //      dove le celle dark non contengono nessun oggetto Cell. La cella non deve esistere
         if (tmpBoard.getCellGrid()[r][c].getItem() == null) {
-            fb= Mx.NoCell;
+//            fb= Mx.NoCell;
 //            System.out.println("Board[!] > Empty cell. Try again");
             return false;
         }
@@ -119,7 +119,7 @@ public class PlayerController {
                    so they are valid for Orthogonality check*/
                 if (tmpBoard.isOrthogonal(r, c, hand) == false) {
 //                    System.out.println("Board > Not Orthogonal");
-                        fb= Mx.NoOrtho;
+//                        fb= Mx.NoOrtho;
                         return false;
                 } else {
 //                    System.out.println("Board > Orthogonal");
@@ -127,13 +127,13 @@ public class PlayerController {
             }
             //salvo le coordinate e il riferimento dell'item nella hand*/
             hand.memCard(tmpBoard.getCellItem(r, c), r, c);
-            System.out.println("Match > Item selected: [" + tmpBoard.getCellItem(r, c).getNameCard() + "]");
-            fb = Mx.SelectWin;
+//            System.out.println("Match > Item selected: [" + tmpBoard.getCellItem(r, c).getNameCard() + "]");
+//            fb = Mx.SelectWin;
             return true;
         } else {
             //Questo messaggio sara tolto e messo in ClientInputHandler o nelle funzioni dei test
 //            System.out.println("Match > Selection Failed");
-            fb = Mx.SelFail;
+//            fb = Mx.SelFail;
             return false;
         }
     }
@@ -152,7 +152,7 @@ public class PlayerController {
             return true;
         }else{
             //System.out.println("Match[!] > Not selection phase");
-            fb = Mx.WrongPhase;
+//            fb = Mx.WrongPhase;
             return false;
         }
 
@@ -209,7 +209,7 @@ public class PlayerController {
         }
         if(player.match.turnPhase == TurnPhases.Insertion){
 
-            System.out.println(player.getName()+" > Column: ["+col+"]");
+//            System.out.println(player.getName()+" > Column: ["+col+"]");
 
             if(player.shelf.slotCol.get(col)<hand.getSlot().size()){
                 fb=Mx.ColSlotF;
@@ -251,6 +251,9 @@ public class PlayerController {
 
     /**
      * This method will call another one in Hand to swap the position of two cards
+     * @param pos1
+     * @param pos2
+     * @return
      */
     public boolean changeHandOrder(int pos1,int pos2){
         if(!isMyTurn(player)) {
@@ -265,6 +268,11 @@ public class PlayerController {
 
     }
 
+    /**
+     * Verify if is the current Player correspond with the one calling this method
+     * @param player
+     * @return
+     */
     public boolean isMyTurn(Player player){
         if(player.match.currentPlayer != player) {
             fb = Mx.WrongPlayer;

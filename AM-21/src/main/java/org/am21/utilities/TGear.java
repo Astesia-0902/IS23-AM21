@@ -56,7 +56,6 @@ public class TGear {
         for(Player x: m.playerList){
 
             System.out.print(x.getName()+"["+x.shelf.getTotSlotAvail() +"]--");
-            System.out.println("Number of clicks:["+x.tmp_clicks+"]");
             System.out.print("Limit:["+x.shelf.insertLimit +"]\n");
 
             System.out.println("Score obtained from OwnGoal: " + x.getMyPersonalGoal().calculatePoints());

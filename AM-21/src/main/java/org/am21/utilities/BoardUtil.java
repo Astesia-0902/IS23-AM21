@@ -174,9 +174,6 @@ public class BoardUtil {
      * The method-chain is initialized by Match
      *
      *
-     *
-     *
-     *
      * @param board
      * @param bag
      */

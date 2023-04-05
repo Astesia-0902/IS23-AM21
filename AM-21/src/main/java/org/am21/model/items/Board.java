@@ -40,7 +40,7 @@ public class Board extends Grid {
 
     public boolean setupBoard(){
         if(BoardUtil.boardBuilder(this,this.match.bag.getDeck())){
-            System.out.println("Match > Living Room Successfully built");
+//            System.out.println("Match > Living Room Successfully built");
             return true;
         }
         return false;
@@ -101,11 +101,11 @@ public class Board extends Grid {
      */
     public boolean hasFreeSide(int r, int c){
         if(this.getCellGrid()[r][c]==null){
-            System.out.println("Board[!] > Out of boundaries: Cell doesn't exist. ");
+//            System.out.println("Board[!] > Out of boundaries: Cell doesn't exist. ");
             return false;
         }
         if(this.getCellGrid()[r][c].isDark()){
-            System.out.println("Board > Cell is dark");
+//            System.out.println("Board > Cell is dark");
             return false;
         }
 
@@ -147,9 +147,9 @@ public class Board extends Grid {
         for(CardPointer card: pHand.getSlot()) {
             a = Math.abs(r - card.x);
             b = Math.abs(c - card.y);
-            System.out.print("Board > Coordinates difference: ");
-            System.out.print("["+a+"]");
-            System.out.println("["+b+"]");
+//            System.out.print("Board > Coordinates difference: ");
+//            System.out.print("["+a+"]");
+//            System.out.println("["+b+"]");
 
             if(a==0 &&(b>0 && b<3)){
 

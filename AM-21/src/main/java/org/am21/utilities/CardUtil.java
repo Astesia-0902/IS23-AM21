@@ -72,7 +72,7 @@ public class CardUtil
             usedNumbers.add(numPersonalGoal);
             personalGoalCards.add(new PersonalGoalCard("PERSONAL_GOALs" + numPersonalGoal));
         }
-        System.out.println("Match > "+personalGoalCards.size()+" PersonalGoal generated");
+        //System.out.println("Match > "+personalGoalCards.size()+" PersonalGoal generated");
         return personalGoalCards;
     }
 

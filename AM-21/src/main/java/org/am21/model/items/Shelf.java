@@ -7,16 +7,6 @@ import org.am21.utilities.CardPointer;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Attributes needed:
- * - Number of cells available for each column              <--check by method getSlotCol1,2,3,4,5
- * - Total number of cells available in the Shelf           <--check by method slotTotAvailable
- * - Limit for insertion overall (it could be 3,2 or 1)  <--check by method slotTotAvailable
- *
- * Method needed:
- * - Insertion of one item in a column(cells available in the column will decrease)  <--check by method pushCard
- * -
- */
 
 public class Shelf extends Grid {
 
@@ -47,11 +37,7 @@ public class Shelf extends Grid {
         for(int i = 0; i< gColumn; i++){
             slotCol.add(sRow);
         }
-        if(this.initiateShelfGrid(sRow, sColumn)){
-
-        }
-        //System.out.println("Match > "+player.getName()+"'s Shelf created.");
-
+        this.initiateShelfGrid(sRow, sColumn);
     }
 
     /**
@@ -76,14 +62,14 @@ public class Shelf extends Grid {
      * @return
      */
     public void elaborateLimit(){
-        System.out.println("Shelf > Slot available each column");
+/*        System.out.println("Shelf > Slot available each column");
         for(int x: player.shelf.slotCol){
             System.out.print("["+x+"]");
         }
-        System.out.println("");
+        System.out.println("");*/
         int max=0;
-        System.out.println("Shelf > Elaboration Limit... ");
-        System.out.println("OldLimit:"+this.insertLimit);
+//        System.out.println("Shelf > Elaboration Limit... ");
+//        System.out.println("OldLimit:"+this.insertLimit);
         for(int j = 0; j< sColumn; j++){
             if(this.slotCol.get(j)>max){
                 max = this.slotCol.get(j);

@@ -1,0 +1,154 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CommonGoalx4Group</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.model.Cards.CommonGoals</a>
+</div>
+
+<h1>Coverage Summary for Class: CommonGoalx4Group (org.am21.model.Cards.CommonGoals)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CommonGoalx4Group</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33,3%
+  </span>
+  <span class="absValue">
+    (1/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    5,6%
+  </span>
+  <span class="absValue">
+    (1/18)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.model.Cards.CommonGoals;
+&nbsp;
+&nbsp;import org.am21.model.Cards.CommonGoal;
+&nbsp;import org.am21.model.items.Shelf;
+&nbsp;
+&nbsp;public class CommonGoalx4Group extends CommonGoal {
+&nbsp;    public CommonGoalx4Group(int numPlayer) {
+<b class="fc">&nbsp;        super(&quot;CommonGoalx4Group&quot;,numPlayer);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Scan the shelf to find 3 groups of 4 tiles of the same color
+&nbsp;     * @param shelf
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean checkGoal(Shelf shelf) {
+<b class="nc">&nbsp;        boolean[][] visited = new boolean[6][5];</b>
+<b class="nc">&nbsp;        int count = 0;</b>
+<b class="nc">&nbsp;        for(int i = 0; i &lt; 6; i++) {</b>
+<b class="nc">&nbsp;            for(int j = 0; j &lt; 5; j++) {</b>
+&nbsp;                //Once we find a tile != 0 and not visited, we check if it&#39;s the upper left tile of a 1x4 group
+<b class="nc">&nbsp;                if(shelf.getCellGrid()[i][j] != null &amp;&amp; !visited[i][j]) {</b>
+<b class="nc">&nbsp;                    boolean result = true;</b>
+<b class="nc">&nbsp;                    for(int k = 0; k &lt; 4; k++) {</b>
+<b class="nc">&nbsp;                        result = result &amp;&amp; process(shelf,i+k,j,visited);</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    if(result) {</b>
+<b class="nc">&nbsp;                        count++;</b>
+&nbsp;                        //If we find 3 groups of 4 tiles, we return true
+<b class="nc">&nbsp;                        if(count &gt;= 3) {</b>
+<b class="nc">&nbsp;                            return true;</b>
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean process(Shelf shelf, int i, int j, boolean[][] visited) {
+&nbsp;        //Check if the tile is in the shelf and not visited
+<b class="nc">&nbsp;        if(i &lt; 0 || i &gt;= 6 || j &lt; 0 || j &gt;= 5 || visited[i][j] || shelf.getCellGrid()[i][j] == null)</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;
+&nbsp;        //mark the tile as visited
+<b class="nc">&nbsp;        visited[i][j] = true;</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-06 01:15</div>
+</div>
+</body>
+</html>

@@ -3,6 +3,7 @@ package org.am21.model;
 import org.am21.controller.GameController;
 import org.am21.model.Cards.CommonGoal;
 import org.am21.model.Cards.PersonalGoalCard;
+import org.am21.model.enumer.UserStatus;
 import org.am21.model.items.Bag;
 import org.am21.model.items.Board;
 import org.am21.model.items.Shelf;
@@ -46,7 +47,8 @@ public class Match {
     public boolean addPlayer(Player player) {
         if (playerList.size() < maxSeats) {
             playerList.add(player);
-            System.out.println("Game > " + player.getName() + " added to the match");
+            player.status= UserStatus.GameMember;
+//            System.out.println("Game > " + player.getName() + " added to the match");
             player.match = this;
             player.createHand();
             player.shelf = new Shelf(player);
@@ -74,15 +76,15 @@ public class Match {
 
     public void matchStart() {
         if (playerList.size() < maxSeats) {
-            System.out.println("Game > Not enough players to begin. Keep waiting...");
+//            System.out.println("Game > Not enough players to begin. Keep waiting...");
             return;
         }
-        System.out.println("-------------------------");
-        System.out.println("Game > The match is starting!");
-        System.out.println("Match[!] > Let's play!");
+//        System.out.println("-------------------------");
+//        System.out.println("Game > The match is starting!");
+//        System.out.println("Match[!] > Let's play!");
         //Determine the first player
         chairman = playerList.get((int) (Math.random() * maxSeats));
-        System.out.println("Match > " + chairman.getName() + " get the Chair!");
+//        System.out.println("Match > " + chairman.getName() + " get the Chair!");
         currentPlayer = chairman;
 
         //Distribution of personal goals
@@ -111,7 +113,7 @@ public class Match {
 
         //Initialize the game phase
         gamePhase = GameState.GameGoing;
-        System.out.println("Match > Player Turn: " + currentPlayer.getName());
+//        System.out.println("Match > Player Turn: " + currentPlayer.getName());
         changeTurnPhase(TurnPhases.Selection);
 
         //Start the timer
@@ -121,7 +123,7 @@ public class Match {
 
     public void nextTurn() {
         currentPlayer = playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats);
-        System.out.println("Match > Player Turn: " + currentPlayer.getName());
+//        System.out.println("Match > Player Turn: " + currentPlayer.getName());
 
         timer = new MyTimer();
         timer.startTimer(2, this);
@@ -140,7 +142,7 @@ public class Match {
     public boolean checkLastRound() {
         if (gamePhase == GameState.LastRound) {
             if (playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats) == firstToComplete) {
-                System.out.println("Match > GAME OVER");
+//                System.out.println("Match > GAME OVER");
                 return true;
             }
         }
@@ -159,10 +161,13 @@ public class Match {
      */
     public void changeTurnPhase(TurnPhases phase) {
         turnPhase = phase;
-        System.out.println("Match [!] > { " + turnPhase + " Phase }");
+//        System.out.println("Match [!] > { " + turnPhase + " Phase }");
     }
 
-
+    /**
+     * This method check if the player has completed any Goal
+     * @param player
+     */
     public void checkingGoals(Player player) {
         //Serie di comandi per controllare se il player ha completato dei goal
 
@@ -172,11 +177,11 @@ public class Match {
 
     private void callEndTurnRoutine() {
         if (board.checkBoard()) {
-            System.out.println("Match > Board need refill");
+//            System.out.println("Match > Board need refill");
             TGear.printThisBoard(board);
             //refill
             if (!this.bag.refillRequest()) {
-                System.out.println("Match > Board not refilled");
+//                System.out.println("Match > Board not refilled");
             } else {
                 TGear.printThisBoard(board);
             }
@@ -185,9 +190,9 @@ public class Match {
             endMatch();
         }
         if (currentPlayer.shelf.getTotSlotAvail() == 0 && gamePhase != GameState.LastRound) {
-            System.out.println("Match > Congratulations! " + currentPlayer.getName() + " has completed the shelf first");
+//            System.out.println("Match > Congratulations! " + currentPlayer.getName() + " has completed the shelf first");
             this.setEndGameToken(false);
-            System.out.println("Match > EndGame Token assigned");
+//            System.out.println("Match > EndGame Token assigned");
             firstToComplete = currentPlayer;
             gamePhase = GameState.LastRound;
         }
@@ -198,10 +203,16 @@ public class Match {
     }
 
     private void endMatch() {
-        System.out.println("Game > Room closed. See ya!");
+//        System.out.println("Game > Room closed. See ya!");
 
         //temp
         TGear.viewStats(this, -2);
         System.exit(100);
     }
+
+    public boolean removePlayer(Player player){
+        return false;
+    }
+
+
 }
