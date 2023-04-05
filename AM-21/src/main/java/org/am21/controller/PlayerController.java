@@ -93,7 +93,7 @@ public class PlayerController {
             return false;
         }
 
-        if (tmpBoard.isSelectable(r, c) == true) {
+        if (tmpBoard.hasFreeSide(r, c) == true) {
 //            System.out.println("Board > Cell selectable");
             /*If the cell is selectable then verify second condition*/
 

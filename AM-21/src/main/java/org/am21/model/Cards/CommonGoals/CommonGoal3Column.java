@@ -1,7 +1,5 @@
 package org.am21.model.Cards.CommonGoals;
 
-import org.am21.model.Cards.ItemType;
-import org.am21.model.items.Cell;
 import org.am21.model.Cards.CommonGoal;
 import org.am21.model.items.Shelf;
 
@@ -27,26 +25,37 @@ public class CommonGoal3Column extends CommonGoal {
      * <p>
      * Infine se la variabile che conta le colonne che soddisfano la condizione è 3 allora goal è completato
      *
-     * @param pShelf
+     * @param shelf
      * @return
      */
     @Override
-    public boolean checkGoal(Shelf pShelf) {
-        int win_col = 0;
-        Cell[][] tmpCell = pShelf.getCellGrid();
-        Set<ItemType> reg = new HashSet<>();
-        for (int j = 0; j < 5; j++) {
-            for (int i = 0; i < 6; i++) {
-                //Scorrimento in verticale
-                if (reg.contains(tmpCell[i][j].getItem().getNameCard())) {
-
-                }
-
-
+    public boolean checkGoal(Shelf shelf) {
+        //at first check if number of full column in the Shelf is full
+        int numColMatch=0;
+        for(int i=0;i<6;i++)
+        {
+            Set<String> reg= new HashSet<>();
+            for(int j=0;j<5;j++)
+            {
+                if(shelf.getItemName(6, j) != null)
+                    reg.add(shelf.getItemName(i, j).substring(0, shelf.getItemName(i, j).length() - 3));
             }
+            if(reg.size()<=3)
+                numColMatch++;
+            reg.clear();
         }
 
+        if(numColMatch<3)
+            return false;
+        else
+            return true;
 
-        return false;
     }
 }
+
+
+
+/*
+ GoalShelf.player.shelf.getItemName(row, col).)
+         .equals(tileNames.get(val).getNameCard()))
+*/

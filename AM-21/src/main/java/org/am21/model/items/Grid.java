@@ -19,12 +19,20 @@ public abstract class Grid {
         return cellGrid;
     }
 
+    public Cell getCell(int r, int c){
+        return cellGrid[r][c];
+    }
+
     public void setCell(int rowNum, int colNum, Cell value){
         this.cellGrid[rowNum][colNum] = value;
     }
 
     public ItemTileCard getCellItem(int r,int c){
-        return cellGrid[r][c].getItem();
+        if(cellGrid[r][c]!=null){
+            return cellGrid[r][c].getItem();
+        }
+        return null;
+
     }
 
     public String getItemName(int rowNum,int colNum){

@@ -36,9 +36,14 @@ public class Board extends Grid {
 
         boundaries=BoardUtil.boardBounder(maxSeats);
 
-        if(BoardUtil.boardBuilder(this,match.bag.getDeck())){
+    }
+
+    public boolean setupBoard(){
+        if(BoardUtil.boardBuilder(this,this.match.bag.getDeck())){
             System.out.println("Match > Living Room Successfully built");
+            return true;
         }
+        return false;
     }
 
     /**
@@ -70,9 +75,12 @@ public class Board extends Grid {
      * @return
      */
     public boolean isOccupied(int r, int c){
+        if(getCellItem(r,c)!=null){
 
-        /*Cell (r,c) occupied*/
-        return this.getCellItem(r, c) != null;
+            /*Cell (r,c) occupied*/
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -91,7 +99,7 @@ public class Board extends Grid {
      * @param c
      * @return
      */
-    public boolean isSelectable(int r,int c){
+    public boolean hasFreeSide(int r, int c){
         if(this.getCellGrid()[r][c]==null){
             System.out.println("Board[!] > Out of boundaries: Cell doesn't exist. ");
             return false;
@@ -101,13 +109,17 @@ public class Board extends Grid {
             return false;
         }
 
-        if(r+1< gRow && !isOccupied(r+1,c)){
+        if((r+1< gRow) && !isOccupied(r+1,c)){
+
             return true;
         }else if(r-1>=0 && !isOccupied(r-1,c)) {
+
             return true;
-        }else if(c+1< gColumn && !isOccupied(r,c+1)){
+        }else if((c+1< gColumn) && !isOccupied(r,c+1)){
+
             return true;
         }else if(c-1>=0 && !isOccupied(r,c-1)){
+
             return true;
         }else{
             return false;

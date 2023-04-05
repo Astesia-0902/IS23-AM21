@@ -16,7 +16,7 @@ import static org.am21.Gear.spacer;
 
 public class Printer{
 
-    static void printThisBoard(Board board){
+    public static void printThisBoard(Board board){
         System.out.println("Match > Board:");
         for(int i=0;i<9;i++){
             for(int j=0;j<9;j++){

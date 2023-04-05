@@ -9,6 +9,12 @@ import java.util.List;
 
 public class CommonGoalUtil {
     public static HashMap<Integer,CommonGoal> commonGoalHashMap = new HashMap<>();
+
+    /**
+     *
+     * @param numPlayer
+     * @return
+     */
     public static List<CommonGoal> getCommonGoals(int numPlayer) {
         initializeMap(commonGoalHashMap,numPlayer);
         List<CommonGoal> res = new ArrayList<CommonGoal>(2);
@@ -21,12 +27,14 @@ public class CommonGoalUtil {
         res.add(commonGoalHashMap.get(secondGoal));
         System.out.println("Match > "+res.size()+" CommonGoal generated");
 
-
-
-
         return res;
     }
 
+    /**
+     *
+     * @param map
+     * @param playerNum
+     */
     private static void initializeMap(HashMap<Integer,CommonGoal> map,int playerNum){
         map.clear();
         map.put(0,new CommonGoal2Lines(playerNum));

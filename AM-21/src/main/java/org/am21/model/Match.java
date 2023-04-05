@@ -101,7 +101,8 @@ public class Match {
         //Initialization of the board
         bag = new Bag(this);
         //bag.setItemCollection(maxSeats);
-        board = new Board(9, 9, maxSeats, this);
+        board = new Board(this);
+        board.setupBoard();
 
         startFirstRound();
     }

@@ -5,111 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dd2f3e9a-b514-48f2-995d-660d696de66e" name="Changes" comment="add method Shelf as request">
-      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/network/client/Client.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/network/client/ClientApp.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/network/client/ClientSocket.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/network/server/Server.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/network/server/ServerSocket.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/view/VirtualView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/view/cli/Cli.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/board/BoardTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/player/PlayerModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/ClientInputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/ClientInputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/PlayerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/PlayerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/ServerMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Bag.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Bag.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Card/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/Card.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Card/CommonGoal.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Card/CommonGoals/CommonGoal2Columns.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoal2Columns.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Card/CommonGoals/CommonGoal2Lines.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoal2Lines.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Card/CommonGoals/CommonGoal3Column.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoal3Column.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Card/CommonGoals/CommonGoal4Lines.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoal4Lines.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Card/CommonGoals/CommonGoal8Tiles.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoal8Tiles.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Card/CommonGoals/CommonGoalCorner.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoalCorner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Card/CommonGoals/CommonGoalDiagonal.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoalDiagonal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Card/CommonGoals/CommonGoalSquare.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoalSquare.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Card/CommonGoals/CommonGoalStairs.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoalStairs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Card/CommonGoals/CommonGoalXShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoalXShape.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Card/CommonGoals/CommonGoalx4Group.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoalx4Group.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Card/CommonGoals/CommonGoalx6Group.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoalx6Group.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Card/Goal.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/Goal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Card/ItemTileCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/ItemTileCard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Card/ItemType.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/ItemType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Card/PersonalGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/PersonalGoalCard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cell.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Cell.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/GameManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Grid.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Grid.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Hand.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Hand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/LivingRoomBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Shelf.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Shelf.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/BoardUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/BoardUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/CardPointer.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/CardPointer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoal.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoal2Lines.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoal2Lines.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoal3Column.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoal3Column.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoal4Lines.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoal4Lines.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/ItemTileCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/ItemTileCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/PersonalGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/PersonalGoalCard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/CardUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/CardUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/CommonGoalUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/CommonGoalUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/GamePhases.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/enumer/GameState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/Mx.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/enumer/Mx.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/TGear.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/TGear.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/TurnPhases.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/enumer/TurnPhases.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/UserStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/enumer/UserStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/CardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/CardTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/Gear.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/Gear.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/ModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/ModelTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/PlayerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/PlayerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/board/BoardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/board/BoardTest.java" afterDir="false" />
+    </list>
+    <list id="19ab3365-554c-40d9-959c-e6407d37c953" name="Changes by jef" comment="">
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/PlayerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/PlayerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoal3Column.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoal3Column.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/ItemTileCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/ItemTileCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Bag.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Bag.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Grid.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Grid.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/BoardUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/BoardUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/CardUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/CardUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/Printer.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/Printer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-1/sources/source-2.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-1/sources/source-2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-1/sources/source-4.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-1/sources/source-4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-2/sources/source-4.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-2/sources/source-4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-2/sources/source-5.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-2/sources/source-5.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-3/sources/source-6.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-3/sources/source-6.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-1.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-3.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-3.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-5.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-5.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-6.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-6.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-7.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-7.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-8.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-8.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-9.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-9.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-a.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-a.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-b.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-b.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-c.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-c.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-6/sources/source-1.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-6/sources/source-1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-1/sources/source-2.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-1/sources/source-2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-1/sources/source-4.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-1/sources/source-4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-2/sources/source-4.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-2/sources/source-4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-2/sources/source-5.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-2/sources/source-5.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-3/sources/source-6.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-3/sources/source-6.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-1.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-3.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-3.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-5.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-5.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-6.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-6.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-7.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-7.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-8.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-8.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-9.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-9.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-a.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-a.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-b.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-b.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-c.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-c.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-6/sources/source-1.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-6/sources/source-1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-1/sources/source-2.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-1/sources/source-2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-1/sources/source-4.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-1/sources/source-4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-2/sources/source-4.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-2/sources/source-4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-2/sources/source-5.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-2/sources/source-5.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-3/sources/source-6.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-3/sources/source-6.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-4/sources/source-4.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-4/sources/source-4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-1.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-3.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-3.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-5.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-5.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-6.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-6.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-7.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-7.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-8.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-8.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-9.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-9.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-a.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-a.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-b.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-b.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-c.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-c.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-6/sources/source-1.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-6/sources/source-1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-6/sources/source-6.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-6/sources/source-6.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/board/BoardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/board/BoardTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,6 +53,53 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/CardUtil.java">
+      <ranges>
+        <range start1="8" end1="9" start2="8" end2="10" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="11" end1="13" start2="12" end2="14" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="15" end1="18" start2="16" end2="17" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="20" end1="22" start2="19" end2="20" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="57" end1="57" start2="55" end2="56" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="60" end1="60" start2="59" end2="64" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="77" end1="77" start2="81" end2="84" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="82" end1="83" start2="89" end2="95" changelist="19ab3365-554c-40d9-959c-e6407d37c953" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/ItemTileCard.java">
+      <ranges>
+        <range start1="3" end1="4" start2="3" end2="3" changelist="19ab3365-554c-40d9-959c-e6407d37c953" />
+        <range start1="6" end1="7" start2="5" end2="5" changelist="19ab3365-554c-40d9-959c-e6407d37c953" />
+        <range start1="9" end1="16" start2="7" end2="7" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="17" end1="18" start2="8" end2="8" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/AM-21/src/test/java/org.am21/board/BoardTest.java">
+      <ranges>
+        <range start1="2" end1="2" start2="2" end2="4" changelist="19ab3365-554c-40d9-959c-e6407d37c953" />
+        <range start1="3" end1="3" start2="5" end2="6" changelist="19ab3365-554c-40d9-959c-e6407d37c953" />
+        <range start1="4" end1="4" start2="7" end2="9" changelist="19ab3365-554c-40d9-959c-e6407d37c953" />
+        <range start1="7" end1="7" start2="12" end2="15" changelist="19ab3365-554c-40d9-959c-e6407d37c953" />
+        <range start1="9" end1="9" start2="17" end2="23" changelist="19ab3365-554c-40d9-959c-e6407d37c953" />
+        <range start1="11" end1="14" start2="25" end2="30" changelist="19ab3365-554c-40d9-959c-e6407d37c953" />
+        <range start1="19" end1="19" start2="35" end2="37" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="21" end1="21" start2="39" end2="50" changelist="19ab3365-554c-40d9-959c-e6407d37c953" />
+        <range start1="22" end1="22" start2="51" end2="61" changelist="19ab3365-554c-40d9-959c-e6407d37c953" />
+        <range start1="25" end1="26" start2="64" end2="65" changelist="19ab3365-554c-40d9-959c-e6407d37c953" />
+        <range start1="29" end1="29" start2="68" end2="201" changelist="19ab3365-554c-40d9-959c-e6407d37c953" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoal3Column.java">
+      <ranges>
+        <range start1="2" end1="4" start2="2" end2="2" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="29" end1="30" start2="27" end2="28" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="33" end1="45" start2="31" end2="41" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="46" end1="46" start2="42" end2="45" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="48" end1="50" start2="47" end2="52" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="53" end1="53" start2="55" end2="61" changelist="19ab3365-554c-40d9-959c-e6407d37c953" />
+      </ranges>
+    </file>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -146,28 +111,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;create.test.in.the.same.root&quot;: &quot;true&quot;,
-    &quot;last_directory_selection&quot;: &quot;D:/xmry/IS23-AM21/AM-21/src/main/java/org/am21/test&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/user/IdeaProjects/IS23-AM21/_deliveries/report/20230404/PlayerTest&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs.jest.jest_package&quot;: &quot;&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "create.test.in.the.same.root": "true",
+    "last_directory_selection": "D:/xmry/IS23-AM21/AM-21/src/main/java/org/am21/test",
+    "last_opened_file_path": "C:/Users/user/IdeaProjects/IS23-AM21/_deliveries/report/20230404/PlayerTest",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs.jest.jest_package": "",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "CodeWithMe"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -183,7 +147,7 @@
       <recent name="org.am21.utilities" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ModelTest">
+  <component name="RunManager" selected="JUnit.BoardTest.testIsSelectable">
     <configuration name="ServerTest" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.am21.controller.ServerMain" />
       <module name="IS23-AM21" />
@@ -192,32 +156,64 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CardTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BoardTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="IS23-AM21" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.am21.controller.*" />
+          <option name="PATTERN" value="org.am21.board.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="org.am21" />
-      <option name="MAIN_CLASS_NAME" value="org.am21.CardTest" />
+      <option name="PACKAGE_NAME" value="org.am21.board" />
+      <option name="MAIN_CLASS_NAME" value="org.am21.board.BoardTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MatchTest.run" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BoardTest.testIsSelectable" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="IS23-AM21" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.am21.controller.*" />
+          <option name="PATTERN" value="org.am21.board.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="org.am21" />
-      <option name="MAIN_CLASS_NAME" value="org.am21.MatchTest" />
-      <option name="METHOD_NAME" value="run" />
+      <option name="PACKAGE_NAME" value="org.am21.board" />
+      <option name="MAIN_CLASS_NAME" value="org.am21.board.BoardTest" />
+      <option name="METHOD_NAME" value="testIsSelectable" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BoardTest.testIsSelectableFalse" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="IS23-AM21" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.am21.board.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.am21.board" />
+      <option name="MAIN_CLASS_NAME" value="org.am21.board.BoardTest" />
+      <option name="METHOD_NAME" value="testIsSelectableFalse" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BoardTest.testIsSelectableTrue" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="IS23-AM21" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.am21.board.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.am21.board" />
+      <option name="MAIN_CLASS_NAME" value="org.am21.board.BoardTest" />
+      <option name="METHOD_NAME" value="testIsSelectableTrue" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -237,29 +233,13 @@
       <module name="IS23-AM21" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.am21.controller.*" />
+          <option name="PATTERN" value="org.am21.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="org.am21" />
       <option name="MAIN_CLASS_NAME" value="org.am21.ModelTest" />
       <option name="METHOD_NAME" value="runner" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ModelTest.testModel" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="IS23-AM21" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.am21.controller.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.am21" />
-      <option name="MAIN_CLASS_NAME" value="org.am21.ModelTest" />
-      <option name="METHOD_NAME" value="testModel" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -276,40 +256,23 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PlayerTest.unfinishedGameSimulation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <output_file path="C:\Users\user\OneDrive - Politecnico di Milano\Free\Shared\out.txt" is_save="true" />
-      <module name="IS23-AM21" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.am21.controller.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.am21.player" />
-      <option name="MAIN_CLASS_NAME" value="org.am21.player.PlayerTest" />
-      <option name="METHOD_NAME" value="unfinishedGameSimulation" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="Application.ServerTest" />
       <item itemvalue="JUnit.ModelTest" />
       <item itemvalue="JUnit.PlayerTest" />
+      <item itemvalue="JUnit.BoardTest" />
+      <item itemvalue="JUnit.BoardTest.testIsSelectable" />
+      <item itemvalue="JUnit.BoardTest.testIsSelectableFalse" />
+      <item itemvalue="JUnit.BoardTest.testIsSelectableTrue" />
       <item itemvalue="JUnit.ModelTest.runner" />
-      <item itemvalue="JUnit.ModelTest.testModel" />
-      <item itemvalue="JUnit.PlayerTest.unfinishedGameSimulation" />
-      <item itemvalue="JUnit.CardTest" />
-      <item itemvalue="JUnit.MatchTest.run" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.BoardTest" />
         <item itemvalue="JUnit.ModelTest.runner" />
-        <item itemvalue="JUnit.MatchTest.run" />
-        <item itemvalue="JUnit.CardTest" />
-        <item itemvalue="JUnit.PlayerTest.unfinishedGameSimulation" />
-        <item itemvalue="JUnit.ModelTest.testModel" />
+        <item itemvalue="JUnit.BoardTest.testIsSelectable" />
+        <item itemvalue="JUnit.BoardTest.testIsSelectableTrue" />
+        <item itemvalue="JUnit.BoardTest.testIsSelectableFalse" />
       </list>
     </recent_temporary>
   </component>
@@ -335,6 +298,7 @@
       <workItem from="1680588895976" duration="8012000" />
       <workItem from="1680608322081" duration="11375000" />
       <workItem from="1680623672433" duration="19107000" />
+      <workItem from="1680701711746" duration="14352000" />
     </task>
     <task id="LOCAL-00001" summary="update scoringToken test">
       <created>1680516093577</created>
@@ -420,20 +384,20 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/AM-21/src/test/java/org.am21/PlayerTest.java</url>
           <line>202</line>
-          <properties class="org.am21.player.PlayerTest" method="unfinishedGameSimulation">
+          <properties class="org.am21.PlayerTest" method="unfinishedGameSimulation">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/AM-21/src/test/java/org.am21/ModelTest.java</url>
-          <line>118</line>
-          <properties class="org.am21.ModelTest" method="runner">
+          <url>file://$PROJECT_DIR$/AM-21/src/test/java/org.am21/board/BoardTest.java</url>
+          <line>76</line>
+          <properties class="org.am21.board.BoardTest" method="testCell">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
-          <option name="timeStamp" value="4" />
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -446,9 +410,6 @@
     <SUITE FILE_PATH="coverage/IS23_AM21$PlayerControllerTest_randomSimulation.ic" NAME="PlayerControllerTest.randomSimulation Coverage Results" MODIFIED="1680449427731" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>org.am21.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/IS23_AM21$PlayerTest_unfinishedGameSimulation.ic" NAME="PlayerTest.unfinishedGameSimulation Coverage Results" MODIFIED="1680565125223" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>org.am21.*</FILTER>
-    </SUITE>
     <SUITE FILE_PATH="coverage/IS23_AM21$PlayerControllerTest_selectionSimulation.ic" NAME="PlayerControllerTest.selectionSimulation Coverage Results" MODIFIED="1680467526674" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>org.am21.*</FILTER>
     </SUITE>
@@ -456,5 +417,8 @@
       <FILTER>org.am21.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/IS23_AM21$PlayerControllerTest.ic" NAME="PlayerControllerTest Coverage Results" MODIFIED="1680447627787" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/IS23_AM21$PlayerTest_unfinishedGameSimulation.ic" NAME="PlayerTest.unfinishedGameSimulation Coverage Results" MODIFIED="1680565125223" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>org.am21.*</FILTER>
+    </SUITE>
   </component>
 </project>

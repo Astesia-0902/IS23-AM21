@@ -14,9 +14,8 @@ public class PersonalGoalCard extends Card {
     private final static List<ItemTileCard> tileNames = new ArrayList<>();
     private final static HashMap<Integer, Integer> currentScore = new HashMap<>();
     static {
-        // param1 : row of player's bookshelf
-        // param2 : column of player's bookshelf
-        // param3 : index of tileNames: Cats(0), Books(1), Games(2), Frames(3), Trophies(4), Plants(5)
+        /** {row of shelf, column of shelf, index of tileNames}*/
+        //  index of tileNames: Cats(0), Books(1), Games(2), Frames(3), Trophies(4), Plants(5)
 
         personalGoal.put("PERSONAL_GOALs1", new int[][]{{0, 0, 5}, {0, 2, 3}, {1, 4, 0}, {2, 3, 1}, {3, 1, 2}, {5, 2, 4}});
         personalGoal.put("PERSONAL_GOALs2", new int[][]{{1, 1, 5}, {2, 0, 0}, {2, 2, 2}, {3, 4, 1}, {4, 3, 4}, {5, 4, 3}});
@@ -44,17 +43,14 @@ public class PersonalGoalCard extends Card {
         currentScore.put(6,12);
     }
 
-    public static int[][] values;
-
-
     public PersonalGoalCard(String nameCard) {
         super(nameCard);
     }
 
     /**
-     * return the number of completed goals
-      */
-
+     * Function to check the goal if matched
+     * @return the number of goal completed
+     */
     public int checkGoal() {
         System.out.println("Match > Checking PersonalGoal achievement: ");
         int[][] values = personalGoal.get(GoalShelf.player.getMyPersonalGoal().getNameCard());
@@ -82,20 +78,23 @@ public class PersonalGoalCard extends Card {
         return count;
     }
 
-    // return the number of points the player has scored
+    /**
+     * Function to calculate the scores of player to get
+     * @return current score of player
+     */
     public int calculatePoints(){
         int count = checkGoal();
         return currentScore.getOrDefault(count, 0);
-    }
-
-    public static int getPersonaGoalCardSize() {
-        return personalGoal.size();
     }
 
     public void setPlayer(Player player) {
         this.GoalShelf = new Shelf(player);
     }
 
+    /**
+     * Function to get recent goal position matched in the shelf of the player
+     * @return goal shelf match
+     */
     public Shelf getGoalShelf() {
         int[][] values = personalGoal.get(GoalShelf.player.getMyPersonalGoal().getNameCard());
 

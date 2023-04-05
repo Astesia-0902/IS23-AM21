@@ -32,7 +32,7 @@ public class Bag {
      */
     public Bag(Match match){
         this.match = match;
-        //this.itemNum = 132;
+        match.bag = this;
         this.itemCollection = CardUtil.buildItemTileCard();
         /** fill the item initialy **/
         System.out.println("Match > Bag completely filled with "+ itemCollection.size());

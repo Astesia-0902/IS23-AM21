@@ -171,11 +171,11 @@ public class BoardUtil {
     /**
      * This method will be called by the Bag when the cards needed to refill the board are enough
      * The pre-condition is LivingBoard.isSingle() is true (every card in the board is isolated)
-     * The method-chain is initiliazed by Match
+     * The method-chain is initialized by Match
      *
      *
      *
-     * !!!Maybe remake order of refill: Do that from the center (5,5)
+     *
      *
      * @param board
      * @param bag

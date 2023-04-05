@@ -29,6 +29,10 @@ public abstract class CommonGoal extends Goal {
         return false;
     }
 
+    /**
+     *
+     * @param player
+     */
     public void setAchievedPlayers(Player player) {
         this.achievedPlayers.add(player);
         player.playerScore += this.tokenStack.get(index);
