@@ -4,7 +4,7 @@ import org.am21.controller.PlayerController;
 import org.am21.model.Match;
 import org.am21.model.Player;
 import org.am21.utilities.CardPointer;
-import org.am21.utilities.Mx;
+import org.am21.model.enumer.Mx;
 import org.junit.jupiter.api.DisplayName;
 
 import java.util.ArrayList;

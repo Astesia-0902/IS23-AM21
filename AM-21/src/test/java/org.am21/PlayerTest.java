@@ -1,10 +1,10 @@
 package org.am21;
 
 import org.am21.controller.PlayerController;
-import org.am21.utilities.GamePhases;
+import org.am21.model.enumer.GameState;
 import org.am21.model.Match;
 import org.am21.model.Player;
-import org.am21.utilities.TurnPhases;
+import org.am21.model.enumer.TurnPhases;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
@@ -213,7 +213,7 @@ class PlayerTest {
         PlayerController pC4 = createPlayerController("Jane");
         Player p4 = pC4.player;
         spacer();
-        while(m.gamePhase== GamePhases.WaitingPlayers) {
+        while(m.gamePhase== GameState.WaitingPlayers) {
             m.addPlayer(p1);
             m.addPlayer(p2);
             m.addPlayer(p3);

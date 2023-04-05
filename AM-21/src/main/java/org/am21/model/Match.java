@@ -1,8 +1,13 @@
 package org.am21.model;
 
 import org.am21.controller.GameController;
-import org.am21.model.Card.CommonGoal;
-import org.am21.model.Card.PersonalGoalCard;
+import org.am21.model.Cards.CommonGoal;
+import org.am21.model.Cards.PersonalGoalCard;
+import org.am21.model.items.Bag;
+import org.am21.model.items.Board;
+import org.am21.model.items.Shelf;
+import org.am21.model.enumer.GameState;
+import org.am21.model.enumer.TurnPhases;
 import org.am21.utilities.*;
 
 import java.util.ArrayList;
@@ -13,9 +18,9 @@ public class Match {
     public List<CommonGoal> commonGoals;
     private boolean endGameToken=true;
     public GameController gameController;
-    public LivingRoomBoard board;
+    public Board board;
     public Bag bag;
-    public GamePhases gamePhase;
+    public GameState gamePhase;
     public TurnPhases turnPhase;
     public Player currentPlayer;
     public List<Player> playerList;
@@ -28,7 +33,7 @@ public class Match {
     public Match(int maxSeats) {
         this.maxSeats = maxSeats;
         playerList = new ArrayList<Player>(maxSeats);
-        gamePhase = GamePhases.WaitingPlayers;
+        gamePhase = GameState.WaitingPlayers;
         commonGoals = new ArrayList<CommonGoal>(2);
     }
 
@@ -96,7 +101,7 @@ public class Match {
         //Initialization of the board
         bag = new Bag(this);
         //bag.setItemCollection(maxSeats);
-        board = new LivingRoomBoard(9, 9, maxSeats, this);
+        board = new Board(9, 9, maxSeats, this);
 
         startFirstRound();
     }
@@ -104,7 +109,7 @@ public class Match {
     private void startFirstRound(){
 
         //Initialize the game phase
-        gamePhase = GamePhases.GameGoing;
+        gamePhase = GameState.GameGoing;
         System.out.println("Match > Player Turn: " + currentPlayer.getName());
         changeTurnPhase(TurnPhases.Selection);
 
@@ -132,7 +137,7 @@ public class Match {
     }
 
     public boolean checkLastRound() {
-        if (gamePhase == GamePhases.LastRound) {
+        if (gamePhase == GameState.LastRound) {
             if (playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats) == firstToComplete) {
                 System.out.println("Match > GAME OVER");
                 return true;
@@ -178,12 +183,12 @@ public class Match {
         if(checkLastRound()){
             endMatch();
         }
-        if (currentPlayer.shelf.getTotSlotAvail() == 0 && gamePhase != GamePhases.LastRound) {
+        if (currentPlayer.shelf.getTotSlotAvail() == 0 && gamePhase != GameState.LastRound) {
             System.out.println("Match > Congratulations! " + currentPlayer.getName() + " has completed the shelf first");
             this.setEndGameToken(false);
             System.out.println("Match > EndGame Token assigned");
             firstToComplete = currentPlayer;
-            gamePhase = GamePhases.LastRound;
+            gamePhase = GameState.LastRound;
         }
 
         this.nextTurn();

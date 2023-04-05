@@ -1,6 +1,6 @@
 package org.am21.utilities;
 
-import org.am21.model.Card.ItemTileCard;
+import org.am21.model.Cards.ItemTileCard;
 
 public class CardPointer extends Coordinates{
 

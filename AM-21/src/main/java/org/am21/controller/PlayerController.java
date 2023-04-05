@@ -1,12 +1,12 @@
 package org.am21.controller;
 
-import org.am21.model.Hand;
+import org.am21.model.items.Board;
+import org.am21.model.items.Hand;
 import org.am21.model.Player;
-import org.am21.utilities.TurnPhases;
-import org.am21.model.Card.PersonalGoalCard;
-import org.am21.model.LivingRoomBoard;
+import org.am21.model.enumer.TurnPhases;
+import org.am21.model.Cards.PersonalGoalCard;
 import org.am21.utilities.CardPointer;
-import org.am21.utilities.Mx;
+import org.am21.model.enumer.Mx;
 
 
 
@@ -83,7 +83,7 @@ public class PlayerController {
             return false;
         }*/
 
-        LivingRoomBoard tmpBoard = player.getMatch().board;
+        Board tmpBoard = player.getMatch().board;
 
         //TODO: elimina getItemTileCard dall'if, quindi è necessario modificare la struttura della board,
         //      dove le celle dark non contengono nessun oggetto Cell. La cella non deve esistere

@@ -1,7 +1,7 @@
 package org.am21;
 
 import org.am21.controller.PlayerController;
-import org.am21.utilities.GamePhases;
+import org.am21.model.enumer.GameState;
 import org.am21.model.Match;
 import org.am21.model.Player;
 import org.junit.jupiter.api.Test;
@@ -31,7 +31,7 @@ public class ModelTest {
         PlayerController pC4 = createPlayerController("Jane");
         Player p4 = pC4.player;
         spacer();
-        while(m.gamePhase== GamePhases.WaitingPlayers) {
+        while(m.gamePhase== GameState.WaitingPlayers) {
             m.addPlayer(p1);
             m.addPlayer(p2);
             m.addPlayer(p3);
@@ -89,14 +89,14 @@ public class ModelTest {
         //m.addPlayer(p3);
         //m.addPlayer(p4);
 
-        while(m.gamePhase== GamePhases.WaitingPlayers);
+        while(m.gamePhase== GameState.WaitingPlayers);
 
         //Lista player contine effetivamente quel player?
         assertTrue(m.playerList.contains(p3));
         //Il numero di player è entro i limiti?
         assertEquals(2,m.playerList.size());
         //Se non ci sono abbastanza player sono in Waiting Phase?
-        assertTrue(m.gamePhase.equals(GamePhases.WaitingPlayers));
+        assertTrue(m.gamePhase.equals(GameState.WaitingPlayers));
 
     }
 
@@ -111,7 +111,7 @@ public class ModelTest {
 
 
         //quando la partita viene inizializzata,startGame dura solo fino alla fine della chiamata
-        assertTrue(m.gamePhase.equals(GamePhases.GameGoing));
+        assertTrue(m.gamePhase.equals(GameState.GameGoing));
 
     }
 
@@ -119,6 +119,10 @@ public class ModelTest {
     void runner(){
         Match m1 = buildGame();
 
-        assertTrue(m1.playerList.size()==3);
+        assertTrue(m1.playerList.size()==m1.maxSeats);
+
+
+
+
     }
 }

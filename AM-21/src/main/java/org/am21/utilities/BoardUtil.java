@@ -1,9 +1,9 @@
 package org.am21.utilities;
 
-import org.am21.model.Bag;
-import org.am21.model.Card.ItemTileCard;
-import org.am21.model.Cell;
-import org.am21.model.LivingRoomBoard;
+import org.am21.model.items.Bag;
+import org.am21.model.Cards.ItemTileCard;
+import org.am21.model.items.Cell;
+import org.am21.model.items.Board;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +49,7 @@ public class BoardUtil {
      *
      */
 
-    public static boolean boardBuilder(LivingRoomBoard board, List<ItemTileCard> itemTileCards){
+    public static boolean boardBuilder(Board board, List<ItemTileCard> itemTileCards){
         int index = 0;
         for(int i = 0; i<board.gRow; i++){
             for(int j = 0; j<board.gColumn; j++){
@@ -143,7 +143,7 @@ public class BoardUtil {
         return boundaries;
     }
 
-    public static boolean boardBuilder2(LivingRoomBoard b,List<ItemTileCard> itemList){
+    public static boolean boardBuilder2(Board b, List<ItemTileCard> itemList){
         int index=0;
         List<Coordinates> x = b.boundaries;
         boolean state = true;
@@ -180,7 +180,7 @@ public class BoardUtil {
      * @param board
      * @param bag
      */
-    public static void refillBoard(LivingRoomBoard board, Bag bag) {
+    public static void refillBoard(Board board, Bag bag) {
         Cell[][] tmp = board.getCellGrid();
 
         for (int i = 0; i < board.gRow; i++) {

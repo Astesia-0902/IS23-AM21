@@ -1,8 +1,8 @@
 package org.am21.utilities;
 
-import org.am21.model.Card.ItemTileCard;
-import org.am21.model.Card.ItemType;
-import org.am21.model.Card.PersonalGoalCard;
+import org.am21.model.Cards.ItemTileCard;
+import org.am21.model.Cards.ItemType;
+import org.am21.model.Cards.PersonalGoalCard;
 
 import java.util.*;
 

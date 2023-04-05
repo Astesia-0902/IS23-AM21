@@ -1,8 +1,10 @@
 package org.am21.model;
 
 import org.am21.controller.PlayerController;
-import org.am21.model.Card.PersonalGoalCard;
-import org.am21.utilities.UserStatus;
+import org.am21.model.Cards.PersonalGoalCard;
+import org.am21.model.items.Hand;
+import org.am21.model.items.Shelf;
+import org.am21.model.enumer.UserStatus;
 
 
 public class Player {

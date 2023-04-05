@@ -1,7 +1,7 @@
 package org.am21.utilities;
 
-import org.am21.model.Card.CommonGoals.*;
-import org.am21.model.Card.CommonGoal;
+import org.am21.model.Cards.CommonGoals.*;
+import org.am21.model.Cards.CommonGoal;
 
 import java.util.ArrayList;
 import java.util.HashMap;

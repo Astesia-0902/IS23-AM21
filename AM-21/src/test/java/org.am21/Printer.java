@@ -1,12 +1,12 @@
 package org.am21;
 
-import org.am21.model.Hand;
+import org.am21.model.items.Hand;
 import org.am21.model.Match;
 import org.am21.model.Player;
-import org.am21.model.Bag;
-import org.am21.model.Card.CommonGoal;
-import org.am21.model.LivingRoomBoard;
-import org.am21.model.Shelf;
+import org.am21.model.items.Bag;
+import org.am21.model.Cards.CommonGoal;
+import org.am21.model.items.Board;
+import org.am21.model.items.Shelf;
 import org.am21.utilities.CardPointer;
 import org.junit.jupiter.api.DisplayName;
 
@@ -16,7 +16,7 @@ import static org.am21.Gear.spacer;
 
 public class Printer{
 
-    static void printThisBoard(LivingRoomBoard board){
+    static void printThisBoard(Board board){
         System.out.println("Match > Board:");
         for(int i=0;i<9;i++){
             for(int j=0;j<9;j++){
