@@ -11,11 +11,11 @@ public class CommonGoal4Lines extends CommonGoal {
         super("CommonGoal4Lines",numPlayer);
     }
     public boolean checkGoal(Shelf shelf) {
+        Set<String> reg;
         //at first check if number of full column in the Shelf is full
         int numRowMatch=0;
-        for(int i=0;i<6;i++)
-        {
-            Set<String> reg= new HashSet<>();
+        for(int i=0;i<6;i++) {
+            reg = new HashSet<>();
             int j;
             for(j=0;j<5&&shelf.getItemName(i, j) != null;j++)
             {

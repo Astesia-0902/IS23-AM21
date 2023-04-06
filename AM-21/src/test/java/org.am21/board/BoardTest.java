@@ -114,16 +114,16 @@ public class BoardTest {
     }
 
     /**
-     * Test existance of a cell:
+     * Test if item in a cell:
      * -If it doesn't exist, it means the setup of the board has failed
-     * -If the test is successfull it, means the setup was done right
+     * -If the test is successful it, means the setup was done right
      *
      * In fact, during boardSetup all the cells in the grid are initialized
      */
     @Test
     void testCell(){
 
-        assertNotNull(board.getCell(0,0));
+        assertNull(board.getCell(0,0));
 
     }
 

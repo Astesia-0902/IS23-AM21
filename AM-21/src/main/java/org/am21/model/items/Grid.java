@@ -24,6 +24,7 @@ public abstract class Grid {
     }
 
     public void setCell(int rowNum, int colNum, ItemTileCard value){
+
         this.matrix[rowNum][colNum] = value;
     }
 
@@ -35,13 +36,14 @@ public abstract class Grid {
 
     }
 
+    /**
+     * Obtain Item's Reference
+     * @param rowNum
+     * @param colNum
+     * @return ItemName
+     */
     public String getItemName(int rowNum,int colNum){
-        /**
-         * Obtain Item's Reference
-         * @param rowNum
-         * @param colNum
-         * @return ItemName
-         */
+
         if (matrix[rowNum][colNum]!= null) {
             return matrix[rowNum][colNum].getNameCard();
         }

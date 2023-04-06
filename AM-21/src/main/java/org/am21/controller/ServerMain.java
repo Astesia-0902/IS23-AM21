@@ -24,6 +24,9 @@ public class ServerMain {
             Naming.bind("rmi://localhost:8888/ClientInputHandler", clientInputHandler);
             //Naming.bind("rmi://localhost:8888/ClientChatHandler", clientChatHandler);
             System.out.println("Server is ready");
+
+
+
         } catch (Exception ignored) {
 
         }

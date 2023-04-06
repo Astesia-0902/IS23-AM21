@@ -19,19 +19,23 @@ public abstract class CommonGoal extends Goal {
         achievedPlayers = new ArrayList<>();
     }
 
+    /**
+     * Durante la fase del turno CheckingGoal, viene controllato la Shelf del Player
+     * per verificare se l'obiettivo è stato completato
+     *
+     * @param shelf
+     * @return
+     */
     public boolean checkGoal(Shelf shelf) {
-        /**
-         * Durante la fase del turno CheckingGoal, viene controllato la Shelf del Player
-         * per verificare se l'obiettivo è stato completato
-         *
-         * @param shelf
-         * @return
-         */
+
 
         return false;
     }
 
     /**
+     * When a CommonGoal is achieved,
+     * the player is going to be added to the AchievedPlayers List
+     * A player can achieve the goal just one time.
      *
      * @param player
      */
@@ -39,7 +43,6 @@ public abstract class CommonGoal extends Goal {
         this.achievedPlayers.add(player);
         player.playerScore += this.tokenStack.get(index);
         this.tokenStack.remove(index);
-
         index++;
     }
 }

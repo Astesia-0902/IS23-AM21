@@ -45,7 +45,7 @@ public class Bag {
             return false;
         }else {
 //            System.out.println("Bag > Accessing Bag...");
-            BoardUtil.refillBoard(match.board, this);
+            BoardUtil.refillBoard(match.board);
 
 //            System.out.println("Bag > Refill completed");
 //            System.out.println("Bag > Items remaining: "+ (this.itemCollection.size()-bagIndex));

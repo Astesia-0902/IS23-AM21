@@ -18,17 +18,20 @@ public class CommonGoal2Lines extends CommonGoal {
 
         // Count the number of occurrences of each type of tile in each row
         int countGroup = 0;
+        HashMap<String, Integer> countTiles;
 
         for (int row = 0; row < rowNumShelf; row++) {
             // Create a counter for each column
-            HashMap<String, Integer> countTiles = new HashMap<>();
+             countTiles = new HashMap<>();
 
             for (int col = 0; col < colNumShelf; col++) {
-                String tileType = shelf.getItemName(row,col);
+                if(shelf.isOccupied(row,col)) {
+                    String tileType = shelf.getItemName(row, col).substring(0, shelf.getItemName(row, col).length() - 3);
 
-                // If the counter for tileType already exists in countTiles, the current value
-                // of the counter is incremented by 1, otherwise its value is set to 1
-                countTiles.put(tileType, countTiles.getOrDefault(tileType, 0) + 1);
+                    // If the counter for tileType already exists in countTiles, the current value
+                    // of the counter is incremented by 1, otherwise its value is set to 1
+                    countTiles.put(tileType, countTiles.getOrDefault(tileType, 0) + 1);
+                }
             }
 
             // Check if there is a row with 5 different types of tiles

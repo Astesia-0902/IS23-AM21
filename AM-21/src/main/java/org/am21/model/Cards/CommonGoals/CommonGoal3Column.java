@@ -4,7 +4,6 @@ import org.am21.model.Cards.CommonGoal;
 import org.am21.model.items.Shelf;
 
 import java.util.HashSet;
-import java.util.Set;
 
 public class CommonGoal3Column extends CommonGoal {
 
@@ -32,18 +31,24 @@ public class CommonGoal3Column extends CommonGoal {
     public boolean checkGoal(Shelf shelf) {
         //at first check if number of full column in the Shelf is full
         int numColMatch=0;
-        for(int i=0;i<6;i++)
-        {
-            Set<String> reg= new HashSet<>();
-            for(int j=0;j<5;j++)
-            {
-                if(shelf.getItemName(6, j) != null)
-                    reg.add(shelf.getItemName(i, j).substring(0, shelf.getItemName(i, j).length() - 3));
-            }
-            if(reg.size()<=3)
-                numColMatch++;
-            reg.clear();
-        }
+        HashSet<String> reg;
+         for(int j=0;j<5;j++){
+             reg= new HashSet<>();
+             if(shelf.slotCol.get(j)==0){
+                 //Colonna piena
+                 for(int i=0;i<6;i++){
+                     //scansiono colonna
+                       if(shelf.isOccupied(i,j)){
+                            reg.add(shelf.getItemName(i, j).substring(0, shelf.getItemName(i, j).length() - 3));
+                    }
+                 }
+                 if(reg.size()<=3)
+                     numColMatch++;
+             }
+             reg.clear();
+
+
+         }
 
         if(numColMatch<3)
             return false;

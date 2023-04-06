@@ -1,7 +1,6 @@
 package org.am21.utilities;
 
 import org.am21.model.items.Bag;
-import org.am21.model.Cards.ItemTileCard;
 import org.am21.model.items.Board;
 
 import java.util.ArrayList;
@@ -48,53 +47,7 @@ public class BoardUtil {
      *
      */
 
-    public static boolean boardBuilder(Board board, List<ItemTileCard> itemTileCards){
-        int index = 0;
-        for(int i = 0; i<board.gRow; i++){
-            for(int j = 0; j<board.gColumn; j++){
-                ItemTileCard newcell;
-                if(board.getSize()==29){
-                    if (i == 0 || i == 8 || j == 0 || j == 8 || (i == 1) &&
-                            ((j == 1) || (j == 2) || (j == 3) || (j == 6) || (j == 7)) ||
-                            ((i == 2) || (i == 6)) && ((j == 1) || (j == 2) || (j == 6) || (j == 7))
-                            || (i == 3) && (j == 7) || (i == 5) && (j == 1) ||
-                            (i == 7) && ((j == 1) || (j == 2) || (j == 5) || (j == 6) || (j == 7))){
 
-                    }
-                }else if(board.getSize()==37){
-                    if ((i == 0) && (j != 5) ||
-                            (i == 1) && ((j == 0) || (j == 1) || (j == 2) || (j == 3) || (j == 6) || (j == 7) || (j == 8)) ||
-                            (i == 2) && ((j == 0) || (j == 1) || (j == 7) || (j == 8)) ||
-                            (i == 3) && ((j == 7) || (j == 8)) ||
-                            (i == 4) && ((j == 0) || (j == 8)) ||
-                            (i == 5) && ((j == 0) || (j == 1)) ||
-                            (i == 6) && ((j == 0) || (j == 1) || (j == 7) || (j == 8)) ||
-                            (i == 7) && ((j == 0) || (j == 1) || (j == 2) || (j == 5) || (j == 6) || (j == 7) || (j == 8)) ||
-                            (i == 8) && (j != 3)){
-
-                    }
-                }else if(board.getSize() == 45){
-                    if ((i == 0) && ((j == 0) || (j == 1) || (j == 2) || (j == 3) || (j == 6) || (j == 7) || (j == 8)) ||
-                            (i == 1) && ((j == 0) || (j == 1) || (j == 2) || (j == 6) || (j == 7) || (j == 8)) ||
-                            (i == 2) && ((j == 0) || (j == 1) || (j == 7) || (j == 8)) ||
-                            (i == 3) && (j == 8) ||
-                            (i == 5) && (j == 0) ||
-                            (i == 6) && ((j == 0) || (j == 1) || (j == 7) || (j == 8)) ||
-                            (i == 7) && ((j == 0) || (j == 1) || (j == 2) || (j == 6) || (j == 7) || (j == 8)) ||
-                            (i == 8) && ((j == 0) || (j == 1) || (j == 2) || (j == 5) || (j == 6) || (j == 7) || (j == 8))){
-
-                    }
-                }else{
-                    return false;
-                    }
-                newcell = new ItemTileCard(itemTileCards.get(index++).getNameCard());
-                board.getMatrix()[i][j] = newcell;
-
-            }
-        }
-        board.bag.bagIndex=index;
-        return true;
-    }
 
     public static List<Coordinates> boardBounder(int maxSeats){
         List<Coordinates> boundaries = new ArrayList<>();
@@ -137,24 +90,6 @@ public class BoardUtil {
         return boundaries;
     }
 
-    public static boolean boardBuilder2(Board b, List<ItemTileCard> itemList){
-        int index=0;
-        List<Coordinates> x = b.boundaries;
-        boolean state = true;
-
-        for(int i=0;i<b.gRow;i++){
-            for(int j=x.get(i).x;j<x.get(i).y;j++){
-                ItemTileCard cell = new ItemTileCard(itemList.get(index++).getNameCard());
-                if(cell==null){
-                    state=false;
-                }
-                b.getMatrix()[i][j] = cell;
-            }
-
-        }
-        return state;
-    }
-
 
     /**
      * This method will be called by the Bag when the cards needed to refill the board are enough
@@ -162,10 +97,10 @@ public class BoardUtil {
      * The method-chain is initialized by Match
      *
      *
-     * @param b
-     * @param bag
+     * @param b LivingRoomBoard or Board
      */
-    public static boolean refillBoard(Board b, Bag bag) {
+    public static boolean refillBoard(Board b) {
+        Bag bag = b.bag;
         List<Coordinates> x = b.boundaries;
         if((bag.getDeck().size()-bag.bagIndex)==0){
             return false;
@@ -186,3 +121,62 @@ public class BoardUtil {
         return true;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+/*public static boolean boardBuilder(Board board, List<ItemTileCard> itemTileCards){
+        int index = 0;
+        for(int i = 0; i<board.gRow; i++){
+            for(int j = 0; j<board.gColumn; j++){
+                ItemTileCard cell;
+                if(board.getSize()==29){
+                    if (i == 0 || i == 8 || j == 0 || j == 8 || (i == 1) &&
+                            ((j == 1) || (j == 2) || (j == 3) || (j == 6) || (j == 7)) ||
+                            ((i == 2) || (i == 6)) && ((j == 1) || (j == 2) || (j == 6) || (j == 7))
+                            || (i == 3) && (j == 7) || (i == 5) && (j == 1) ||
+                            (i == 7) && ((j == 1) || (j == 2) || (j == 5) || (j == 6) || (j == 7))){
+
+                    }
+                }else if(board.getSize()==37){
+                    if ((i == 0) && (j != 5) ||
+                            (i == 1) && ((j == 0) || (j == 1) || (j == 2) || (j == 3) || (j == 6) || (j == 7) || (j == 8)) ||
+                            (i == 2) && ((j == 0) || (j == 1) || (j == 7) || (j == 8)) ||
+                            (i == 3) && ((j == 7) || (j == 8)) ||
+                            (i == 4) && ((j == 0) || (j == 8)) ||
+                            (i == 5) && ((j == 0) || (j == 1)) ||
+                            (i == 6) && ((j == 0) || (j == 1) || (j == 7) || (j == 8)) ||
+                            (i == 7) && ((j == 0) || (j == 1) || (j == 2) || (j == 5) || (j == 6) || (j == 7) || (j == 8)) ||
+                            (i == 8) && (j != 3)){
+
+                    }
+                }else if(board.getSize() == 45){
+                    if ((i == 0) && ((j == 0) || (j == 1) || (j == 2) || (j == 3) || (j == 6) || (j == 7) || (j == 8)) ||
+                            (i == 1) && ((j == 0) || (j == 1) || (j == 2) || (j == 6) || (j == 7) || (j == 8)) ||
+                            (i == 2) && ((j == 0) || (j == 1) || (j == 7) || (j == 8)) ||
+                            (i == 3) && (j == 8) ||
+                            (i == 5) && (j == 0) ||
+                            (i == 6) && ((j == 0) || (j == 1) || (j == 7) || (j == 8)) ||
+                            (i == 7) && ((j == 0) || (j == 1) || (j == 2) || (j == 6) || (j == 7) || (j == 8)) ||
+                            (i == 8) && ((j == 0) || (j == 1) || (j == 2) || (j == 5) || (j == 6) || (j == 7) || (j == 8))){
+
+                    }
+                }else{
+                    return false;
+                    }
+                cell = new ItemTileCard(itemTileCards.get(index++).getNameCard());
+                board.getMatrix()[i][j] = cell;
+
+            }
+        }
+        board.bag.bagIndex=index;
+        return true;
+    }*/

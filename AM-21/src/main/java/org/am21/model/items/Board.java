@@ -45,7 +45,7 @@ public class Board extends Grid {
     public boolean setupBoard() {
         bag = new Bag(match);
 
-        if (BoardUtil.refillBoard(this, this.bag)) {
+        if (BoardUtil.refillBoard(this)) {
 //            System.out.println("Match > Living Room Successfully filled");
             return true;
         }
@@ -190,7 +190,7 @@ public class Board extends Grid {
         for (int i = 0; i < this.gRow; i++) {
             for (int j = 0; j < this.gColumn; j++) {
                 tmp = this.getMatrix()[i][j];
-                if (tmp == null && !isAlone(i, j)) {
+                if (tmp != null && !isAlone(i, j)) {
                     return false;
                 }
             }
