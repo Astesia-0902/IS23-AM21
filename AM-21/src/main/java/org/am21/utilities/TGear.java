@@ -13,12 +13,10 @@ public class TGear {
         System.out.println("Match > Board:");
         for(int i=0;i<9;i++){
             for(int j=0;j<9;j++){
-                if(board.getCellGrid()[i][j].isDark()==true){
-                    System.out.print("[XXXXXXXXXX.]");
-                }else if(board.getCellGrid()[i][j].getItem()==null){
-                    System.out.print("[__________.]");
-                }else if(board.getCellGrid()[i][j].getItem()!=null){
-                    System.out.print("["+ board.getCellGrid()[i][j].getItem().getNameCard() +"]");
+                if(board.getMatrix()[i][j]==null){
+                    System.out.print("[_________.]");
+                } else if(board.getMatrix()[i][j]!=null){
+                    System.out.print("["+ board.getMatrix()[i][j].getNameCard() +"]");
                 }
 
             }
@@ -30,10 +28,10 @@ public class TGear {
         System.out.println("Match > "+shelf.player.getName()+"'s Shelf ["+shelf.insertLimit +"]:");
         for(int i=0;i<6;i++){
             for(int j=0;j<5;j++){
-                if(shelf.getCellGrid()[i][j].getItem()==null){
+                if(shelf.getMatrix()[i][j]==null){
                     System.out.print("[_________._]");
-                }else if(shelf.getCellGrid()[i][j].getItem()!=null){
-                    System.out.print("["+ shelf.getCellGrid()[i][j].getItem().getNameCard() +"]");
+                }else if(shelf.getMatrix()[i][j]!=null){
+                    System.out.print("["+ shelf.getMatrix()[i][j].getNameCard() +"]");
                 }
 
             }
@@ -50,8 +48,8 @@ public class TGear {
         System.out.println("Match[!][!] > Game Stats");
         System.out.println("Num round: ["+(nRound+1)+"]");
         System.out.println("Winner is: "+m.getFirstToComplete().getName());
-        System.out.println("Bag items: ["+(m.bag.getDeck().size()-m.bag.bagIndex)+"]");
-        System.out.println("Bag index: ["+m.bag.bagIndex+"]");
+        System.out.println("Bag items: ["+(m.board.bag.getDeck().size()-m.board.bag.bagIndex)+"]");
+        System.out.println("Bag index: ["+m.board.bag.bagIndex+"]");
         System.out.println("Player/Shelf/Hand situation:" );
         for(Player x: m.playerList){
 

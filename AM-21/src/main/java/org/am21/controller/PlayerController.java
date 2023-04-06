@@ -87,7 +87,7 @@ public class PlayerController {
 
         //TODO: elimina getItemTileCard dall'if, quindi è necessario modificare la struttura della board,
         //      dove le celle dark non contengono nessun oggetto Cell. La cella non deve esistere
-        if (tmpBoard.getCellGrid()[r][c].getItem() == null) {
+        if (tmpBoard.getMatrix()[r][c] == null) {
 //            fb= Mx.NoCell;
 //            System.out.println("Board[!] > Empty cell. Try again");
             return false;
@@ -182,7 +182,8 @@ public class PlayerController {
         }
         if(player.getMatch().turnPhase == TurnPhases.Insertion){
             for(CardPointer card: hand.getSlot()){
-                if(player.match.board.insertInCell(card.x,card.y,null)){
+                if(player.match.board.isOccupied(card.x,card.y)) {
+                    player.match.board.setCell(card.x, card.y, null);
                     return true;
                 }
             }
@@ -224,7 +225,7 @@ public class PlayerController {
             }else{
                 for(int i=hand.getSlot().size(),s=0;i>0;i--,s++){
                     //Inserting one card at the time
-                    if(player.shelf.insertCard(hand.getSlot().get(s).item,col)){
+                    if(player.shelf.insertInColumn(hand.getSlot().get(s).item,col)){
                         //System.out.println("Shelf > Insert...");
 
                     }else{

@@ -4,6 +4,7 @@ import org.am21.model.Player;
 import org.am21.model.items.Shelf;
 import org.am21.utilities.CardUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class CommonGoal extends Goal {
@@ -15,6 +16,7 @@ public abstract class CommonGoal extends Goal {
         super(nameCard);
         this.tokenStack = CardUtil.buildScoringTokenCards(numPlayer);
         this.index = 0;
+        achievedPlayers = new ArrayList<>();
     }
 
     public boolean checkGoal(Shelf shelf) {

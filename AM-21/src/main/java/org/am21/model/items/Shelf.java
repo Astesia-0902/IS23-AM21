@@ -37,7 +37,7 @@ public class Shelf extends Grid {
         for(int i = 0; i< gColumn; i++){
             slotCol.add(sRow);
         }
-        this.initiateShelfGrid(sRow, sColumn);
+        //this.initiateShelfGrid(sRow, sColumn);
     }
 
     /**
@@ -46,14 +46,15 @@ public class Shelf extends Grid {
      * @param c
      * @return
      */
+    /*
     public boolean initiateShelfGrid(int r,int c){
         for(int i=0; i<r;i++){
             for(int j=0;j<c;j++){
-                this.getCellGrid()[i][j] = new Cell();
+                this.getMatrix()[i][j] = new ItemTileCard();
             }
         }
         return false;
-    }
+    }*/
 
     /**
      * Calculate the min Limit for hand Capacity
@@ -95,6 +96,8 @@ public class Shelf extends Grid {
     }
 
 
+
+
     /**
      * Insert an itemCard in the column, then decrease the count
      * in column (col)
@@ -102,12 +105,14 @@ public class Shelf extends Grid {
      * @param col
      * @return true if insertion has been successful
      */
-    public boolean insertCard(ItemTileCard item, int col){
+    public boolean insertInColumn(ItemTileCard item, int col){
 
-        if(this.insertInCell(slotCol.get(col)-1,col,item)){
+        if(this.getMatrix()[slotCol.get(col)-1][col]==null){
+            this.getMatrix()[slotCol.get(col)-1][col]= item;
             this.slotCol.set(col,slotCol.get(col)-1);
             return true;
         }
+
         return false;
     }
 
@@ -190,6 +195,23 @@ public class Shelf extends Grid {
             }
         }
         return points;
+    }
+
+    /**
+     * Verify cell occupancy
+     *
+     * @param r
+     * @param c
+     * @return
+     */
+    public boolean isOccupied(int r, int c) {
+
+        if (getCellItem(r, c) != null) {
+
+            /*Cell (r,c) occupied*/
+            return true;
+        }
+        return false;
     }
 }
 

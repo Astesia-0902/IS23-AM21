@@ -2,7 +2,6 @@ package org.am21.utilities;
 
 import org.am21.model.items.Bag;
 import org.am21.model.Cards.ItemTileCard;
-import org.am21.model.items.Cell;
 import org.am21.model.items.Board;
 
 import java.util.ArrayList;
@@ -53,15 +52,14 @@ public class BoardUtil {
         int index = 0;
         for(int i = 0; i<board.gRow; i++){
             for(int j = 0; j<board.gColumn; j++){
-                Cell newcell = new Cell();
+                ItemTileCard newcell;
                 if(board.getSize()==29){
                     if (i == 0 || i == 8 || j == 0 || j == 8 || (i == 1) &&
                             ((j == 1) || (j == 2) || (j == 3) || (j == 6) || (j == 7)) ||
                             ((i == 2) || (i == 6)) && ((j == 1) || (j == 2) || (j == 6) || (j == 7))
                             || (i == 3) && (j == 7) || (i == 5) && (j == 1) ||
-                            (i == 7) && ((j == 1) || (j == 2) || (j == 5) || (j == 6) || (j == 7)))
-                    {
-                        newcell.setDark(true);
+                            (i == 7) && ((j == 1) || (j == 2) || (j == 5) || (j == 6) || (j == 7))){
+
                     }
                 }else if(board.getSize()==37){
                     if ((i == 0) && (j != 5) ||
@@ -72,9 +70,8 @@ public class BoardUtil {
                             (i == 5) && ((j == 0) || (j == 1)) ||
                             (i == 6) && ((j == 0) || (j == 1) || (j == 7) || (j == 8)) ||
                             (i == 7) && ((j == 0) || (j == 1) || (j == 2) || (j == 5) || (j == 6) || (j == 7) || (j == 8)) ||
-                            (i == 8) && (j != 3))
-                    {
-                        newcell.setDark(true);
+                            (i == 8) && (j != 3)){
+
                     }
                 }else if(board.getSize() == 45){
                     if ((i == 0) && ((j == 0) || (j == 1) || (j == 2) || (j == 3) || (j == 6) || (j == 7) || (j == 8)) ||
@@ -84,21 +81,18 @@ public class BoardUtil {
                             (i == 5) && (j == 0) ||
                             (i == 6) && ((j == 0) || (j == 1) || (j == 7) || (j == 8)) ||
                             (i == 7) && ((j == 0) || (j == 1) || (j == 2) || (j == 6) || (j == 7) || (j == 8)) ||
-                            (i == 8) && ((j == 0) || (j == 1) || (j == 2) || (j == 5) || (j == 6) || (j == 7) || (j == 8)))
-                    {
-                        newcell.setDark(true);
+                            (i == 8) && ((j == 0) || (j == 1) || (j == 2) || (j == 5) || (j == 6) || (j == 7) || (j == 8))){
+
                     }
                 }else{
                     return false;
-                }
-                if(!newcell.isDark() && newcell.getItem() == null) {
-                    newcell.setItem(itemTileCards.get(index++));
-                }
-                board.getCellGrid()[i][j] = newcell;
+                    }
+                newcell = new ItemTileCard(itemTileCards.get(index++).getNameCard());
+                board.getMatrix()[i][j] = newcell;
 
             }
         }
-        board.match.bag.bagIndex=index;
+        board.bag.bagIndex=index;
         return true;
     }
 
@@ -150,22 +144,16 @@ public class BoardUtil {
 
         for(int i=0;i<b.gRow;i++){
             for(int j=x.get(i).x;j<x.get(i).y;j++){
-                Cell cell = new Cell();
-                cell.setItem(itemList.get(index++));
-                if(cell.getItem()==null){
+                ItemTileCard cell = new ItemTileCard(itemList.get(index++).getNameCard());
+                if(cell==null){
                     state=false;
                 }
-                b.getCellGrid()[i][j] = cell;
+                b.getMatrix()[i][j] = cell;
             }
 
         }
         return state;
     }
-
-
-
-
-
 
 
     /**
@@ -174,25 +162,27 @@ public class BoardUtil {
      * The method-chain is initialized by Match
      *
      *
-     * @param board
+     * @param b
      * @param bag
      */
-    public static void refillBoard(Board board, Bag bag) {
-        Cell[][] tmp = board.getCellGrid();
+    public static boolean refillBoard(Board b, Bag bag) {
+        List<Coordinates> x = b.boundaries;
+        if((bag.getDeck().size()-bag.bagIndex)==0){
+            return false;
+        }
 
-        for (int i = 0; i < board.gRow; i++) {
-            for (int j = 0; j < board.gColumn; j++) {
-                Cell cell = new Cell();
-                if (tmp[i][j].isDark() == false && !board.isOccupied(i, j)) {
+        for(int i=0;i<b.gRow;i++){
+            for(int j=x.get(i).x;j<x.get(i).y;j++){
+
+                if (!b.isOccupied(i, j)) {
                     if ((bag.getDeck().size()- bag.bagIndex )>0) {
-
-                        board.insertInCell(i, j, bag.getDeck().get(bag.bagIndex));
+                        b.setCell(i, j, bag.getDeck().get(bag.bagIndex));
                         bag.bagIndex++;
 
                     }
                 }
             }
         }
-
+        return true;
     }
 }

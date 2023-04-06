@@ -19,14 +19,13 @@ public class CommonGoalXShape extends CommonGoal {
          * ?°°°?
          * ?°°°?
          * ?????
-         * each ° have a adjacent check (4 element), which CENTER can recorde the
+         * each ° have an adjacent check (4 element), which CENTER can recorde the
          *  [row, column] of the principle position (the ° ) and secondary position
          *  [row-1,column-1], [row-1, column+1],[row+1, column-1], [row+1, column+1],
          *  if one of the 4 rest element is different by the first, the vector is not matched (discard)
          *  so we have completely 12 check , if check fall when the all 12 is different by the CENTER position
          *  if one is completed then return true and get the points.
-         *
-    *}
+         **}
     */
 
     public boolean checkGoal(Shelf shelf) {

@@ -4,5 +4,4 @@ public enum GameState {
     WaitingPlayers,
     GameGoing,
     LastRound
-
 }

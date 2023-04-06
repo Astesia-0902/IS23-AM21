@@ -24,14 +24,15 @@ public class Hand {
         return slot;
     }
 
-    /**
-     * Create a temporary Coordinates object for data setting.
-     * Then add it to the slot list.
-     * @param item
-     * @param r
-     * @param c
-     */
+
     public void memCard(ItemTileCard item,int r, int c){
+        /**
+         * Create a temporary Coordinates object for data setting.
+         * Then add it to the slot list.
+         * @param item
+         * @param r
+         * @param c
+         */
         CardPointer tmp = new CardPointer(r,c);
         tmp.item = item;
         this.slot.add(tmp);
@@ -45,14 +46,14 @@ public class Hand {
     }
 
 
-    /**
-     * function for order changing between 2 element in slot
-     * Used during Insertion Phase
-     * @param pos1
-     * @param pos2
-     */
-    public void changeOrder(int pos1,int pos2){
 
+    public void changeOrder(int pos1,int pos2){
+        /**
+         * function for order changing between 2 element in slot
+         * Used during Insertion Phase
+         * @param pos1
+         * @param pos2
+         */
         Collections.swap(slot,pos1,pos2);
 
     }

@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerManager {
-    public static List<Player> players;
+    public static final List<Player> players = new ArrayList<>();
 
     public PlayerManager(){
-        players = new ArrayList<Player>();
     }
 
     public int getNumPlayers() {

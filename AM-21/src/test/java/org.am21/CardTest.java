@@ -59,10 +59,10 @@ class CardTest {
         System.out.println("Match > "+shelf.player.getName()+"'s PersonalGoal:");
         for(int i=0;i<6;i++){
             for(int j=0;j<5;j++){
-                if(shelf.getCellGrid()[i][j].getItem()==null){
+                if(shelf.getMatrix()[i][j]==null){
                     System.out.print("[______._]");
-                }else if(shelf.getCellGrid()[i][j].getItem()!=null){
-                    System.out.print("["+ shelf.getCellGrid()[i][j].getItem().getNameCard() +"]");
+                }else if(shelf.getMatrix()[i][j]!=null){
+                    System.out.print("["+ shelf.getMatrix()[i][j].getNameCard() +"]");
                 }
 
             }

@@ -33,11 +33,16 @@ public class CommonGoal2Columns extends CommonGoal {
             HashMap<String, Integer> countTiles = new HashMap<>();
 
             for (int row = 0; row < rowNumShelf; row++) {
-                String tileType = shelf.getItemName(row,col);
+                if(shelf.isOccupied(row,col)){
+                    if(shelf.getItemName(row, col)!=null) {
+                        String tileType = shelf.getItemName(row, col).substring(0, shelf.getItemName(row, col).length() - 3);
 
-                // If the counter for tileType already exists in countTiles, the current value
-                // of the counter is incremented by 1, otherwise its value is set to 1
-                countTiles.put(tileType, countTiles.getOrDefault(tileType, 0) + 1);
+                        // If the counter for tileType already exists in countTiles, the current value
+                        // of the counter is incremented by 1, otherwise its value is set to 1
+                        countTiles.put(tileType, countTiles.getOrDefault(tileType, 0) + 1);
+                    }
+                }
+
             }
 
             // Check if there is a column with 6 different types of tiles

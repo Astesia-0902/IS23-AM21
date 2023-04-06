@@ -17,10 +17,9 @@ import java.util.List;
 public class Match {
     public int matchID;
     public List<CommonGoal> commonGoals;
-    private boolean endGameToken=true;
+    private boolean endGameToken = true;
     public GameController gameController;
     public Board board;
-    public Bag bag;
     public GameState gamePhase;
     public TurnPhases turnPhase;
     public Player currentPlayer;
@@ -47,13 +46,15 @@ public class Match {
     public boolean addPlayer(Player player) {
         if (playerList.size() < maxSeats) {
             playerList.add(player);
-            player.status= UserStatus.GameMember;
+            player.status = UserStatus.GameMember;
 //            System.out.println("Game > " + player.getName() + " added to the match");
             player.match = this;
             player.createHand();
             player.shelf = new Shelf(player);
 
-            GameManager.playerMatchMap.put(player.getName(), matchID);
+            synchronized (GameManager.playerMatchMap) {
+                GameManager.playerMatchMap.put(player.getName(), matchID);
+            }
 
             if (playerList.size() == maxSeats) {
                 matchStart();
@@ -101,7 +102,7 @@ public class Match {
         }
 
         //Initialization of the board
-        bag = new Bag(this);
+        //bag = new Bag(this);
         //bag.setItemCollection(maxSeats);
         board = new Board(this);
         board.setupBoard();
@@ -109,7 +110,7 @@ public class Match {
         startFirstRound();
     }
 
-    private void startFirstRound(){
+    private void startFirstRound() {
 
         //Initialize the game phase
         gamePhase = GameState.GameGoing;
@@ -166,6 +167,7 @@ public class Match {
 
     /**
      * This method check if the player has completed any Goal
+     *
      * @param player
      */
     public void checkingGoals(Player player) {
@@ -179,14 +181,15 @@ public class Match {
         if (board.checkBoard()) {
 //            System.out.println("Match > Board need refill");
             TGear.printThisBoard(board);
+
             //refill
-            if (!this.bag.refillRequest()) {
+            if (!board.bag.refillRequest()) {
 //                System.out.println("Match > Board not refilled");
             } else {
                 TGear.printThisBoard(board);
             }
         }
-        if(checkLastRound()){
+        if (checkLastRound()) {
             endMatch();
         }
         if (currentPlayer.shelf.getTotSlotAvail() == 0 && gamePhase != GameState.LastRound) {
@@ -210,9 +213,7 @@ public class Match {
         System.exit(100);
     }
 
-    public boolean removePlayer(Player player){
+    public boolean removePlayer(Player player) {
         return false;
     }
-
-
 }

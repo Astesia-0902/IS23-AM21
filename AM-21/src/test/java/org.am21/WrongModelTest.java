@@ -41,7 +41,7 @@ public class WrongModelTest {
 
         spacer();
         printThisBoard(m.board);
-        printfThisBag(m.bag);
+        printfThisBag(m.board.bag);
         printCommGoals(m.commonGoals);
         printPersonalGoals(m.playerList);
         spacer();

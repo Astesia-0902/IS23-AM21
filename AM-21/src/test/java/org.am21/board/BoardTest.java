@@ -72,7 +72,7 @@ public class BoardTest {
     @BeforeEach
     void fullSetup(){
         m = buildGame();
-        bag = m.bag;
+        bag = m.board.bag;
         board = m.board;
         clearBoard(board);
     }
@@ -91,7 +91,7 @@ public class BoardTest {
     public void clearBoard(Board b){
         for(int i=0;i<b.gRow;i++) {
             for(int j=0;j<b.gColumn;j++){
-                b.insertInCell(i,j,null);
+                b.setCell(i,j,null);
 
             }
         }
@@ -135,7 +135,7 @@ public class BoardTest {
      */
     @Test
     void testOccupation(){
-        board.insertInCell(5,5,new ItemTileCard("Leo"));
+        board.setCell(5,5,new ItemTileCard("Leo"));
         assertTrue(board.isOccupied(5,5));
 
         assertFalse(board.isOccupied(0,0));
@@ -151,8 +151,8 @@ public class BoardTest {
     @Test
     void testCheckBoardFalse(){
 
-        board.insertInCell(5,5,new ItemTileCard("Leo"));
-        board.insertInCell(5,4,new ItemTileCard("MiniLeo"));
+        board.setCell(5,5,new ItemTileCard("Leo"));
+        board.setCell(5,4,new ItemTileCard("MiniLeo"));
         assertFalse(board.checkBoard());
 
     }
@@ -167,8 +167,8 @@ public class BoardTest {
     @Test
     void testCheckBoardTrue(){
 
-        board.insertInCell(5,5,new ItemTileCard("Leo"));
-        board.insertInCell(4,4,new ItemTileCard("MiniLeo"));
+        board.setCell(5,5,new ItemTileCard("Leo"));
+        board.setCell(4,4,new ItemTileCard("MiniLeo"));
         assertTrue(board.checkBoard());
 
     }
@@ -179,10 +179,10 @@ public class BoardTest {
     @Test
     void testIsAlone(){
 
-        board.insertInCell(5,5,new ItemTileCard("Koko"));
+        board.setCell(5,5,new ItemTileCard("Koko"));
         assertTrue(board.isAlone(5,5));
 
-        board.insertInCell(4,5,new ItemTileCard("kiki"));
+        board.setCell(4,5,new ItemTileCard("kiki"));
         assertFalse(board.isAlone(5,5));
 
     }
@@ -220,9 +220,9 @@ public class BoardTest {
     @Test
     void testHasFreeSide(){
 
-        board.insertInCell(5,5,new ItemTileCard("Ken"));
-        board.insertInCell(4,5,new ItemTileCard("BigKen"));
-        board.insertInCell(3,4,new ItemTileCard("LilKen"));
+        board.setCell(5,5,new ItemTileCard("Ken"));
+        board.setCell(4,5,new ItemTileCard("BigKen"));
+        board.setCell(3,4,new ItemTileCard("LilKen"));
 
 
         assertTrue(board.hasFreeSide(4,5));
@@ -238,11 +238,11 @@ public class BoardTest {
      */
     @Test
     void testHasFreeSideFalse(){
-        board.insertInCell(2,4,new ItemTileCard("Ken"));
-        board.insertInCell(3,3,new ItemTileCard("BigKen"));
-        board.insertInCell(3,4,new ItemTileCard("LilKen"));
-        board.insertInCell(3,5,new ItemTileCard("Ken"));
-        board.insertInCell(4,4,new ItemTileCard("BigKen"));
+        board.setCell(2,4,new ItemTileCard("Ken"));
+        board.setCell(3,3,new ItemTileCard("BigKen"));
+        board.setCell(3,4,new ItemTileCard("LilKen"));
+        board.setCell(3,5,new ItemTileCard("Ken"));
+        board.setCell(4,4,new ItemTileCard("BigKen"));
 
         assertFalse(board.hasFreeSide(3,4));
     }

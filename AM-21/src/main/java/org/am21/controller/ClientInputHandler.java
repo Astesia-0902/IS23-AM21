@@ -31,9 +31,13 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientHa
     //TODO:When the command is not from the current player, the command should be ignored.
     private boolean checkPlayerActionPhase() throws ServerNotActiveException {
         String userHost = getClientHost();
-        return GameManager.playerMatchMap.containsKey(userHost) &&
-                userHost.equals(GameManager.matchList.
-                        get(GameManager.playerMatchMap.get(userHost)).currentPlayer.getHost());
+        synchronized (GameManager.playerMatchMap) {
+            synchronized (GameManager.matchList) {
+                return GameManager.playerMatchMap.containsKey(userHost) &&
+                        userHost.equals(GameManager.matchList.
+                                get(GameManager.playerMatchMap.get(userHost)).currentPlayer.getHost());
+            }
+        }
     }
 
     public void logIn(String username) throws RemoteException, ServerNotActiveException {
@@ -41,8 +45,10 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientHa
         this.userName = username;
         playerController = new PlayerController(username);
         //TODO:the same username is not allowed to log in
-        if (!PlayerManager.players.contains(playerController.player)) {
-            PlayerManager.players.add(playerController.player);
+        synchronized (PlayerManager.players) {
+            if (!PlayerManager.players.contains(playerController.player)) {
+                PlayerManager.players.add(playerController.player);
+            }
         }
     }
 

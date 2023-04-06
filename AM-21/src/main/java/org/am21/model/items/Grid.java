@@ -6,30 +6,30 @@ public abstract class Grid {
     public int gRow;
     public int gColumn;
     public int capacity;
-    private Cell[][] cellGrid;
+    private ItemTileCard[][] matrix;
 
     public Grid(int gRow, int gColumn) {
         this.gRow = gRow;
         this.gColumn = gColumn;
         this.capacity = this.gRow * this.gColumn;
-        this.cellGrid = new Cell[this.gRow][this.gColumn];
+        this.matrix = new ItemTileCard[this.gRow][this.gColumn];
     }
 
-    public Cell[][] getCellGrid() {
-        return cellGrid;
+    public ItemTileCard[][] getMatrix() {
+        return matrix;
     }
 
-    public Cell getCell(int r, int c){
-        return cellGrid[r][c];
+    public ItemTileCard getCell(int r, int c){
+        return matrix[r][c];
     }
 
-    public void setCell(int rowNum, int colNum, Cell value){
-        this.cellGrid[rowNum][colNum] = value;
+    public void setCell(int rowNum, int colNum, ItemTileCard value){
+        this.matrix[rowNum][colNum] = value;
     }
 
     public ItemTileCard getCellItem(int r,int c){
-        if(cellGrid[r][c]!=null){
-            return cellGrid[r][c].getItem();
+        if(matrix[r][c]!=null){
+            return matrix[r][c];
         }
         return null;
 
@@ -42,19 +42,11 @@ public abstract class Grid {
          * @param colNum
          * @return ItemName
          */
-        if (cellGrid[rowNum][colNum].getItem()!= null) {
-            return cellGrid[rowNum][colNum].getItem().getNameCard();
+        if (matrix[rowNum][colNum]!= null) {
+            return matrix[rowNum][colNum].getNameCard();
         }
         return null;
     }
 
-    public boolean insertInCell(int r, int c, ItemTileCard item){
-        if(cellGrid[r][c]!=null) {
-            if (!cellGrid[r][c].isDark()){
-                cellGrid[r][c].setItem(item);
-                return true;
-            }
-        }
-        return false;
-    }
+
 }

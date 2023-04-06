@@ -14,19 +14,16 @@ public class GameController {
      * Initialize the game.
      * Pay attention to the order of the initialization of instances to avoid potential null pointer exception.
      */
-  /*  public void initializeGame() {
-
-    }
-
-
-    private void timerLoop() {
-
-    }
-
-    public void endGame() {
-    }*/
 
     public static void joinGame(int matchID, String userName, PlayerController playerController) {
+        synchronized (GameManager.playerMatchMap) {
+            synchronized (GameManager.matchList) {
+                joinGameHelper(matchID, userName, playerController);
+            }
+        }
+    }
+
+    private static void joinGameHelper(int matchID, String userName, PlayerController playerController) {
         if (GameManager.matchList.get(matchID) == null) {
             System.out.println("Message from the server: the indicate match not exists.");
             return;
@@ -49,6 +46,14 @@ public class GameController {
     }
 
     public static void createMatch(String userName, Integer createMatchRequestCount, int playerNum, PlayerController playerController) {
+        synchronized (GameManager.playerMatchMap) {
+            synchronized (GameManager.matchList) {
+                createMatchHelper(userName, createMatchRequestCount, playerNum, playerController);
+            }
+        }
+    }
+
+    private static void createMatchHelper(String userName, Integer createMatchRequestCount, int playerNum, PlayerController playerController) {
         if (GameManager.playerMatchMap.containsKey(userName) && createMatchRequestCount == 0) {
             System.out.println("Message from the server: the player already exists in a match. " +
                     "Create a new match will cause the player leave the current match." +

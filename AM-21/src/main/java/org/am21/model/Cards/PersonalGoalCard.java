@@ -102,7 +102,7 @@ public class PersonalGoalCard extends Card {
             int row = values[i][0];
             int col = values[i][1];
             int val = values[i][2];
-            this.GoalShelf.insertInCell(row, col, tileNames.get(val));
+            this.GoalShelf.setCell(row, col, tileNames.get(val));
         }
         return GoalShelf;
     }
