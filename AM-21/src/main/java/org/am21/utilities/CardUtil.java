@@ -1,6 +1,6 @@
 package org.am21.utilities;
 
-import org.am21.model.Cards.ItemTileCard;
+import org.am21.model.Cards.ItemCard;
 import org.am21.model.Cards.ItemType;
 import org.am21.model.Cards.PersonalGoalCard;
 
@@ -29,27 +29,27 @@ public class CardUtil
      * Function to assign each item's name to an ItemTileCard element
      * @return The list of ItemTileCards
      */
-    public static List<ItemTileCard> buildItemTileCard(){
-        List<ItemTileCard> itemTileCards = new ArrayList<>();
+    public static List<ItemCard> buildItemTileCard(){
+        List<ItemCard> itemCards = new ArrayList<>();
         for (String itemTileName : itemTileNames) {
             for (int j = 0; j < numCards; j++) {
-                ItemTileCard itemTileCard = new ItemTileCard(itemTileName);
-                itemTileCards.add(itemTileCard);
+                ItemCard itemCard = new ItemCard(itemTileName);
+                itemCards.add(itemCard);
             }
         }
 
         // Follows the physical game, adding the 22nd card of each set
-        itemTileCards.addAll(Arrays.asList(
-                new ItemTileCard(ItemType.__Cats__.name()+"1.2"),
-                new ItemTileCard(ItemType._Books__.name()+"1.3"),
-                new ItemTileCard(ItemType._Games__.name()+"1.2"),
-                new ItemTileCard(ItemType._Frames_.name()+"1.3"),
-                new ItemTileCard(ItemType.Trophies.name()+"1.3"),
-                new ItemTileCard(ItemType._Plants_.name()+"1.3")
+        itemCards.addAll(Arrays.asList(
+                new ItemCard(ItemType.__Cats__.name()+"1.2"),
+                new ItemCard(ItemType._Books__.name()+"1.3"),
+                new ItemCard(ItemType._Games__.name()+"1.2"),
+                new ItemCard(ItemType._Frames_.name()+"1.3"),
+                new ItemCard(ItemType.Trophies.name()+"1.3"),
+                new ItemCard(ItemType._Plants_.name()+"1.3")
         ));
 
-        Collections.shuffle(itemTileCards);
-        return itemTileCards;
+        Collections.shuffle(itemCards);
+        return itemCards;
     }
 
     // ----------------------------------- PERSONAL GOAL --------------------------------------------------------

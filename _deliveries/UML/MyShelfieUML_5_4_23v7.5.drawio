@@ -131,13 +131,13 @@
         <mxCell id="82CZIBrnQvVAiP8ag-YU-45" value="Cell" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;labelBackgroundColor=none;" parent="1" vertex="1">
           <mxGeometry x="-9500" y="-4310" width="334.65" height="177.16000000000003" as="geometry" />
         </mxCell>
-        <mxCell id="82CZIBrnQvVAiP8ag-YU-46" value="- state: boolean&lt;br&gt;-itemTileCard: ItemTileCard" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;labelBackgroundColor=none;textDirection=ltr;whiteSpace=wrap;html=1;" parent="82CZIBrnQvVAiP8ag-YU-45" vertex="1">
+        <mxCell id="82CZIBrnQvVAiP8ag-YU-46" value="- state: boolean&lt;br&gt;-itemCard: ItemTileCard" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;labelBackgroundColor=none;textDirection=ltr;whiteSpace=wrap;html=1;" parent="82CZIBrnQvVAiP8ag-YU-45" vertex="1">
           <mxGeometry y="26" width="334.65" height="52.74" as="geometry" />
         </mxCell>
         <mxCell id="82CZIBrnQvVAiP8ag-YU-47" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;labelBackgroundColor=none;" parent="82CZIBrnQvVAiP8ag-YU-45" vertex="1">
           <mxGeometry y="78.74000000000001" width="334.65" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="82CZIBrnQvVAiP8ag-YU-48" value="+getState(): int&#xa;+setState(int state): int&#xa;+getItemTileCard(): ItemTileCard&#xa;+setItemTileCard(ItemTileCard itemTileCard): ItemTileCard" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;labelBackgroundColor=none;textDirection=ltr;" parent="82CZIBrnQvVAiP8ag-YU-45" vertex="1">
+        <mxCell id="82CZIBrnQvVAiP8ag-YU-48" value="+getState(): int&#xa;+setState(int state): int&#xa;+getItemTileCard(): ItemTileCard&#xa;+setItemTileCard(ItemTileCard itemCard): ItemTileCard" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;labelBackgroundColor=none;textDirection=ltr;" parent="82CZIBrnQvVAiP8ag-YU-45" vertex="1">
           <mxGeometry y="86.74000000000001" width="334.65" height="90.42" as="geometry" />
         </mxCell>
         <mxCell id="82CZIBrnQvVAiP8ag-YU-49" value="Bag " style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;labelBackgroundColor=none;" parent="1" vertex="1">

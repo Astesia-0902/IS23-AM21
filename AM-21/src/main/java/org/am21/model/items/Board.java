@@ -1,6 +1,6 @@
 package org.am21.model.items;
 
-import org.am21.model.Cards.ItemTileCard;
+import org.am21.model.Cards.ItemCard;
 import org.am21.model.Match;
 import org.am21.utilities.BoardUtil;
 import org.am21.utilities.CardPointer;
@@ -64,22 +64,7 @@ public class Board extends Grid {
             return 45;
     }
 
-    /**
-     * Verify cell occupancy
-     *
-     * @param r
-     * @param c
-     * @return
-     */
-    public boolean isOccupied(int r, int c) {
 
-        if (getCellItem(r, c) != null) {
-
-            /*Cell (r,c) occupied*/
-            return true;
-        }
-        return false;
-    }
 
     /**
      * Condition 1:
@@ -186,7 +171,7 @@ public class Board extends Grid {
      * false: if at least one item is not isolated
      */
     public boolean checkBoard() {
-        ItemTileCard tmp;
+        ItemCard tmp;
         for (int i = 0; i < this.gRow; i++) {
             for (int j = 0; j < this.gColumn; j++) {
                 tmp = this.getMatrix()[i][j];

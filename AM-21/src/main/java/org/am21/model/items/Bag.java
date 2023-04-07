@@ -1,6 +1,6 @@
 package org.am21.model.items;
 
-import org.am21.model.Cards.ItemTileCard;
+import org.am21.model.Cards.ItemCard;
 import org.am21.model.Match;
 import org.am21.utilities.BoardUtil;
 import org.am21.utilities.CardUtil;
@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Bag {
     public Match match;
-    private List<ItemTileCard> itemCollection;
+    private List<ItemCard> itemCollection;
     public int bagIndex;
 
     /**
@@ -25,7 +25,7 @@ public class Bag {
     }
 
 
-    public List<ItemTileCard> getDeck() {
+    public List<ItemCard> getDeck() {
         /**
          * This method return itemCollection reference
          * @return

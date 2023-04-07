@@ -14,7 +14,7 @@ import static org.am21.extra.Gear.*;
 import static org.am21.extra.Printer.*;
 
 
-class PlayerTest {
+class PlayerModel {
     static int numMatch=0;
     public static int t=0;
     public static int maxRound=20;

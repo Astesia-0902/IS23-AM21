@@ -4,9 +4,9 @@ import org.am21.model.Cards.CommonGoal;
 import org.am21.model.items.Shelf;
 
 
-public class CommonGoalx6Group extends CommonGoal {
-    public CommonGoalx6Group(int numPlayer) {
-        super("CommonGoalx6Group",numPlayer);
+public class CommonGoal6Group extends CommonGoal {
+    public CommonGoal6Group(int numPlayer) {
+        super("CommonGoal6Group",numPlayer);
     }
 
     /**

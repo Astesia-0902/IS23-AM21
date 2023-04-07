@@ -46,8 +46,8 @@ public class CommonGoalUtil {
         map.put(6,new CommonGoalDiagonal(playerNum));
         map.put(7,new CommonGoalSquare(playerNum));
         map.put(8,new CommonGoalStairs(playerNum));
-        map.put(9,new CommonGoalx4Group(playerNum));
-        map.put(10,new CommonGoalx6Group(playerNum));
+        map.put(9,new CommonGoal4Group(playerNum));
+        map.put(10,new CommonGoal6Group(playerNum));
         map.put(11,new CommonGoalXShape(playerNum));
     }
 }

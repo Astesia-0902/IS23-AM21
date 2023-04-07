@@ -25,20 +25,27 @@ public class CommonGoalCorner extends CommonGoal{
      */
     @Override
     public boolean checkGoal(Shelf shelf) {
-        String corn1 = shelf.getItemName(1, 1);
-        String corn2 = shelf.getItemName(1, 5);
-        String corn3 = shelf.getItemName(6, 1);
-        String corn4 = shelf.getItemName(6, 5);
-        /**  if all corner are filled  */
-        if(corn1 !=null && corn2!= null && corn3!=null && corn4!=null)
+
+        if(shelf.isOccupied(0,0)&&
+                shelf.isOccupied(0,4)&&
+                shelf.isOccupied(5,0)&&
+                shelf.isOccupied(5,4))
         {
-            /**  if they are the same then return true*/
-            if(corn1.equals(corn2) && corn2.equals(corn3) && corn3.equals(corn4))
+
+            String corn1 = shelf.getItemType(0, 0);
+            String corn2 = shelf.getItemType(0, 4);
+            String corn3 = shelf.getItemType(5, 0);
+            String corn4 = shelf.getItemType(5, 4);
+            /* if all corner are filled  */
+
+                /*  if they are the same then return true*/
+            if (corn1.equals(corn2) && corn2.equals(corn3) && corn3.equals(corn4))
                 return true;
             else /**  else return false (so this player is missed the points)*/
                 return false;
+
         }
-           /**  return to continuing  checking
+           /* return to continuing  checking
             * ( the player has still chance for accumulating the points )*/
         return false;
     }

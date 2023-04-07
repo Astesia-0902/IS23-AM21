@@ -77,7 +77,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <code class="sourceCode" id="sourceCode">&nbsp;package org.am21.utilities;
 &nbsp;
 &nbsp;import org.am21.model.items.Bag;
-&nbsp;import org.am21.model.Cards.ItemTileCard;
+&nbsp;import org.am21.model.Cards.ItemCard;
 &nbsp;import org.am21.model.items.Cell;
 &nbsp;import org.am21.model.items.Board;
 &nbsp;
@@ -125,7 +125,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     *
 &nbsp;     */
 &nbsp;
-&nbsp;    public static boolean boardBuilder(Board board, List&lt;ItemTileCard&gt; itemTileCards){
+&nbsp;    public static boolean boardBuilder(Board board, List&lt;ItemTileCard&gt; itemCards){
 <b class="fc">&nbsp;        int index = 0;</b>
 <b class="fc">&nbsp;        for(int i = 0; i&lt;board.gRow; i++){</b>
 <b class="fc">&nbsp;            for(int j = 0; j&lt;board.gColumn; j++){</b>
@@ -168,7 +168,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                    return false;</b>
 &nbsp;                }
 <b class="fc">&nbsp;                if(!newcell.isDark() &amp;&amp; newcell.getItem() == null) {</b>
-<b class="fc">&nbsp;                    newcell.setItem(itemTileCards.get(index++));</b>
+<b class="fc">&nbsp;                    newcell.setItem(itemCards.get(index++));</b>
 &nbsp;                }
 <b class="fc">&nbsp;                board.getCellGrid()[i][j] = newcell;</b>
 &nbsp;

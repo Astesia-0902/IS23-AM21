@@ -1,6 +1,6 @@
 package org.am21.model.items;
 
-import org.am21.model.Cards.ItemTileCard;
+import org.am21.model.Cards.ItemCard;
 import org.am21.model.Player;
 import org.am21.utilities.CardPointer;
 
@@ -105,7 +105,7 @@ public class Shelf extends Grid {
      * @param col
      * @return true if insertion has been successful
      */
-    public boolean insertInColumn(ItemTileCard item, int col){
+    public boolean insertInColumn(ItemCard item, int col){
 
         if(this.getMatrix()[slotCol.get(col)-1][col]==null){
             this.getMatrix()[slotCol.get(col)-1][col]= item;
@@ -204,14 +204,6 @@ public class Shelf extends Grid {
      * @param c
      * @return
      */
-    public boolean isOccupied(int r, int c) {
 
-        if (getCellItem(r, c) != null) {
-
-            /*Cell (r,c) occupied*/
-            return true;
-        }
-        return false;
-    }
 }
 

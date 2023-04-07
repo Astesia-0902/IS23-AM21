@@ -105,16 +105,16 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @return The list of ItemTileCards
 &nbsp;     */
 &nbsp;    public static List&lt;ItemTileCard&gt; buildItemTileCard(){
-<b class="fc">&nbsp;        List&lt;ItemTileCard&gt; itemTileCards = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        List&lt;ItemTileCard&gt; itemCards = new ArrayList&lt;&gt;();</b>
 <b class="fc">&nbsp;        for (String itemTileName : itemTileNames) {</b>
 <b class="fc">&nbsp;            for (int j = 0; j &lt; numCards; j++) {</b>
-<b class="fc">&nbsp;                ItemTileCard itemTileCard = new ItemTileCard(itemTileName);</b>
-<b class="fc">&nbsp;                itemTileCards.add(itemTileCard);</b>
+<b class="fc">&nbsp;                ItemTileCard itemCard = new ItemTileCard(itemTileName);</b>
+<b class="fc">&nbsp;                itemCards.add(itemCard);</b>
 &nbsp;            }
 <b class="fc">&nbsp;        }</b>
 &nbsp;
 &nbsp;        // Follows the physical game, adding the 22nd card of each set
-<b class="fc">&nbsp;        itemTileCards.addAll(Arrays.asList(</b>
+<b class="fc">&nbsp;        itemCards.addAll(Arrays.asList(</b>
 <b class="fc">&nbsp;                new ItemTileCard(ItemType.__Cats__.name()+&quot;1.2&quot;),</b>
 <b class="fc">&nbsp;                new ItemTileCard(ItemType._Books__.name()+&quot;1.3&quot;),</b>
 <b class="fc">&nbsp;                new ItemTileCard(ItemType._Games__.name()+&quot;1.2&quot;),</b>
@@ -123,8 +123,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;                new ItemTileCard(ItemType._Plants_.name()+&quot;1.3&quot;)</b>
 &nbsp;        ));
 &nbsp;
-<b class="fc">&nbsp;        Collections.shuffle(itemTileCards);</b>
-<b class="fc">&nbsp;        return itemTileCards;</b>
+<b class="fc">&nbsp;        Collections.shuffle(itemCards);</b>
+<b class="fc">&nbsp;        return itemCards;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    // ----------------------------------- PERSONAL GOAL --------------------------------------------------------

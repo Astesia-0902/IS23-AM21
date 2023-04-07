@@ -126,7 +126,7 @@ public class PlayerController {
                 }
             }
             //salvo le coordinate e il riferimento dell'item nella hand*/
-            hand.memCard(tmpBoard.getCellItem(r, c), r, c);
+            hand.memCard(tmpBoard.getCell(r, c), r, c);
 //            System.out.println("Match > Item selected: [" + tmpBoard.getCellItem(r, c).getNameCard() + "]");
 //            fb = Mx.SelectWin;
             return true;

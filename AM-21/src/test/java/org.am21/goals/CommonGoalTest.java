@@ -3,7 +3,7 @@ package org.am21.goals;
 import org.am21.controller.PlayerController;
 import org.am21.model.Cards.CommonGoal;
 import org.am21.model.Cards.CommonGoals.*;
-import org.am21.model.Cards.ItemTileCard;
+import org.am21.model.Cards.ItemCard;
 import org.am21.model.Cards.ItemType;
 import org.am21.model.items.Shelf;
 import org.am21.utilities.CommonGoalUtil;
@@ -57,21 +57,21 @@ public class CommonGoalTest {
     void testComm2Col(){
         card = new CommonGoal2Columns(2);
 
-        s.insertInColumn(new ItemTileCard(ItemType.__Cats__+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType._Books__+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType._Frames_+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType._Games__+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType.Trophies+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType._Books__+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType._Frames_+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType._Games__+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType.Trophies+"1.1"),0);
 
         assertFalse(card.checkGoal(s));
 
-        s.insertInColumn(new ItemTileCard(ItemType.__Cats__+"1.1"),3);
-        s.insertInColumn(new ItemTileCard(ItemType._Books__+"1.1"),3);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),3);
-        s.insertInColumn(new ItemTileCard(ItemType._Frames_+"1.1"),3);
-        s.insertInColumn(new ItemTileCard(ItemType._Games__+"1.1"),3);
-        s.insertInColumn(new ItemTileCard(ItemType.Trophies+"1.1"),3);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),3);
+        s.insertInColumn(new ItemCard(ItemType._Books__+"1.1"),3);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),3);
+        s.insertInColumn(new ItemCard(ItemType._Frames_+"1.1"),3);
+        s.insertInColumn(new ItemCard(ItemType._Games__+"1.1"),3);
+        s.insertInColumn(new ItemCard(ItemType.Trophies+"1.1"),3);
 
         assertTrue(card.checkGoal(s));
 
@@ -100,21 +100,21 @@ public class CommonGoalTest {
     @Test
     void testComm2Lines(){
         card = new CommonGoal2Lines(2);
-        s.insertInColumn(new ItemTileCard(ItemType.__Cats__+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType._Books__+"1.1"),1);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),2);
-        s.insertInColumn(new ItemTileCard(ItemType._Frames_+"1.1"),3);
-        s.insertInColumn(new ItemTileCard(ItemType._Games__+"1.1"),4);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType._Books__+"1.1"),1);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),2);
+        s.insertInColumn(new ItemCard(ItemType._Frames_+"1.1"),3);
+        s.insertInColumn(new ItemCard(ItemType._Games__+"1.1"),4);
 
-        s.insertInColumn(new ItemTileCard(ItemType.__Cats__+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType._Books__+"1.1"),1);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),2);
-        s.insertInColumn(new ItemTileCard(ItemType._Frames_+"1.1"),3);
-        s.insertInColumn(new ItemTileCard(ItemType._Games__+"1.1"),4);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType._Books__+"1.1"),1);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),2);
+        s.insertInColumn(new ItemCard(ItemType._Frames_+"1.1"),3);
+        s.insertInColumn(new ItemCard(ItemType._Games__+"1.1"),4);
 
         assertTrue(card.checkGoal(s));
 
-        s.setCell(5,1,new ItemTileCard(ItemType.__Cats__+"1.1"));
+        s.setCell(5,1,new ItemCard(ItemType.__Cats__+"1.1"));
         assertFalse(card.checkGoal(s));
 
 
@@ -131,26 +131,26 @@ public class CommonGoalTest {
     void testComm3ColumnsFalse(){
         card = new CommonGoal3Column(2);
 
-        s.insertInColumn(new ItemTileCard(ItemType._Books__+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType.Trophies+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType.Trophies+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType.Trophies+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType._Books__+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType._Books__+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType.Trophies+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType.Trophies+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType.Trophies+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType._Books__+"1.1"),0);
 
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),3);
-        s.insertInColumn(new ItemTileCard(ItemType._Frames_+"1.1"),3);
-        s.insertInColumn(new ItemTileCard(ItemType._Games__+"1.1"),3);
-        s.insertInColumn(new ItemTileCard(ItemType.Trophies+"1.1"),3);
-        s.insertInColumn(new ItemTileCard(ItemType._Books__+"1.1"),3);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),3);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),3);
+        s.insertInColumn(new ItemCard(ItemType._Frames_+"1.1"),3);
+        s.insertInColumn(new ItemCard(ItemType._Games__+"1.1"),3);
+        s.insertInColumn(new ItemCard(ItemType.Trophies+"1.1"),3);
+        s.insertInColumn(new ItemCard(ItemType._Books__+"1.1"),3);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),3);
 
-        s.insertInColumn(new ItemTileCard(ItemType._Frames_+"1.1"),2);
-        s.insertInColumn(new ItemTileCard(ItemType.__Cats__+"1.1"),2);
-        s.insertInColumn(new ItemTileCard(ItemType.Trophies+"1.1"),2);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),2);
-        s.insertInColumn(new ItemTileCard(ItemType._Frames_+"1.1"),2);
-        s.insertInColumn(new ItemTileCard(ItemType._Games__+"1.1"),2);
+        s.insertInColumn(new ItemCard(ItemType._Frames_+"1.1"),2);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),2);
+        s.insertInColumn(new ItemCard(ItemType.Trophies+"1.1"),2);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),2);
+        s.insertInColumn(new ItemCard(ItemType._Frames_+"1.1"),2);
+        s.insertInColumn(new ItemCard(ItemType._Games__+"1.1"),2);
 
         assertFalse(card.checkGoal(s));
 
@@ -168,26 +168,26 @@ public class CommonGoalTest {
     void testComm3ColumnsTrue(){
         card = new CommonGoal3Column(2);
 
-        s.insertInColumn(new ItemTileCard(ItemType._Books__+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType.Trophies+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType._Books__+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType._Books__+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType.Trophies+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType._Books__+"1.1"),0);
 
-        s.insertInColumn(new ItemTileCard(ItemType._Frames_+"1.1"),1);
-        s.insertInColumn(new ItemTileCard(ItemType._Frames_+"1.1"),1);
-        s.insertInColumn(new ItemTileCard(ItemType._Games__+"1.1"),1);
-        s.insertInColumn(new ItemTileCard(ItemType._Games__+"1.1"),1);
-        s.insertInColumn(new ItemTileCard(ItemType._Frames_+"1.1"),1);
-        s.insertInColumn(new ItemTileCard(ItemType._Frames_+"1.1"),1);
+        s.insertInColumn(new ItemCard(ItemType._Frames_+"1.1"),1);
+        s.insertInColumn(new ItemCard(ItemType._Frames_+"1.1"),1);
+        s.insertInColumn(new ItemCard(ItemType._Games__+"1.1"),1);
+        s.insertInColumn(new ItemCard(ItemType._Games__+"1.1"),1);
+        s.insertInColumn(new ItemCard(ItemType._Frames_+"1.1"),1);
+        s.insertInColumn(new ItemCard(ItemType._Frames_+"1.1"),1);
 
-        s.insertInColumn(new ItemTileCard(ItemType.Trophies+"1.1"),4);
-        s.insertInColumn(new ItemTileCard(ItemType.Trophies+"1.1"),4);
-        s.insertInColumn(new ItemTileCard(ItemType.Trophies+"1.1"),4);
-        s.insertInColumn(new ItemTileCard(ItemType.Trophies+"1.1"),4);
-        s.insertInColumn(new ItemTileCard(ItemType.Trophies+"1.1"),4);
-        s.insertInColumn(new ItemTileCard(ItemType.Trophies+"1.1"),4);
+        s.insertInColumn(new ItemCard(ItemType.Trophies+"1.1"),4);
+        s.insertInColumn(new ItemCard(ItemType.Trophies+"1.1"),4);
+        s.insertInColumn(new ItemCard(ItemType.Trophies+"1.1"),4);
+        s.insertInColumn(new ItemCard(ItemType.Trophies+"1.1"),4);
+        s.insertInColumn(new ItemCard(ItemType.Trophies+"1.1"),4);
+        s.insertInColumn(new ItemCard(ItemType.Trophies+"1.1"),4);
 
         assertTrue(card.checkGoal(s));
 
@@ -203,29 +203,29 @@ public class CommonGoalTest {
     @Test
     void testCommGoal4LinesFalse(){
         card = new CommonGoal4Lines(2);
-        s.insertInColumn(new ItemTileCard(ItemType.__Cats__+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType._Books__+"1.1"),1);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),2);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),3);
-        s.insertInColumn(new ItemTileCard(ItemType.__Cats__+"1.1"),4);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType._Books__+"1.1"),1);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),2);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),3);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),4);
 
-        s.insertInColumn(new ItemTileCard(ItemType.__Cats__+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),1);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),2);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),3);
-        s.insertInColumn(new ItemTileCard(ItemType.__Cats__+"1.1"),4);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),1);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),2);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),3);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),4);
 
-        s.insertInColumn(new ItemTileCard(ItemType.__Cats__+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType.Trophies+"1.1"),1);
-        s.insertInColumn(new ItemTileCard(ItemType._Games__+"1.1"),2);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),3);
-        s.insertInColumn(new ItemTileCard(ItemType.__Cats__+"1.1"),4);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType.Trophies+"1.1"),1);
+        s.insertInColumn(new ItemCard(ItemType._Games__+"1.1"),2);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),3);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),4);
 
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),1);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),2);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),3);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),4);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),1);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),2);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),3);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),4);
 
         assertFalse(card.checkGoal(s));
 
@@ -243,35 +243,35 @@ public class CommonGoalTest {
     @Test
     void testCommGoal4LinesTrue(){
         card = new CommonGoal4Lines(2);
-        s.insertInColumn(new ItemTileCard(ItemType.__Cats__+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType._Books__+"1.1"),1);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),2);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),3);
-        s.insertInColumn(new ItemTileCard(ItemType.__Cats__+"1.1"),4);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType._Books__+"1.1"),1);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),2);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),3);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),4);
 
-        s.insertInColumn(new ItemTileCard(ItemType.__Cats__+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),1);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),2);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),3);
-        s.insertInColumn(new ItemTileCard(ItemType.__Cats__+"1.1"),4);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),1);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),2);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),3);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),4);
 
-        s.insertInColumn(new ItemTileCard(ItemType.__Cats__+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType.__Cats__+"1.1"),1);
-        s.insertInColumn(new ItemTileCard(ItemType.__Cats__+"1.1"),2);
-        s.insertInColumn(new ItemTileCard(ItemType.__Cats__+"1.1"),3);
-        s.insertInColumn(new ItemTileCard(ItemType.__Cats__+"1.1"),4);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),1);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),2);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),3);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),4);
 
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType.__Cats__+"1.1"),1);
-        s.insertInColumn(new ItemTileCard(ItemType._Games__+"1.1"),2);
-        s.insertInColumn(new ItemTileCard(ItemType.Trophies+"1.1"),3);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),4);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),1);
+        s.insertInColumn(new ItemCard(ItemType._Games__+"1.1"),2);
+        s.insertInColumn(new ItemCard(ItemType.Trophies+"1.1"),3);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),4);
 
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),1);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),2);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),3);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),4);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),1);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),2);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),3);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),4);
 
         assertTrue(card.checkGoal(s));
     }
@@ -282,30 +282,179 @@ public class CommonGoalTest {
     @Test
     void testCommGoal8Tiles(){
         card = new CommonGoal8Tiles(2);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),1);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),2);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),1);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),2);
 
         assertFalse(card.checkGoal(s));
 
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),3);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),4);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),3);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),4);
 
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),1);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),2);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),1);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),2);
 
-        s.insertInColumn(new ItemTileCard(ItemType.__Cats__+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType._Books__+"1.1"),1);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),2);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),3);
-        s.insertInColumn(new ItemTileCard(ItemType.__Cats__+"1.1"),4);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType._Books__+"1.1"),1);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),2);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),3);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),4);
 
-        s.insertInColumn(new ItemTileCard(ItemType.__Cats__+"1.1"),0);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),1);
-        s.insertInColumn(new ItemTileCard(ItemType._Plants_+"1.1"),2);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),0);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),1);
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),2);
 
         assertTrue(card.checkGoal(s));
+
+    }
+
+    /**
+     * Setup:
+     * 1: 2 corner are missing
+     * 2: 4 corner, same type
+     * 3: 4 corner one different
+     */
+    @Test
+    void testCommGoalCorner(){
+        card = new CommonGoalCorner(2);
+
+        s.setCell(0,0,new ItemCard(ItemType._Plants_+"1.1"));
+        s.setCell(0,4,new ItemCard(ItemType._Plants_+"1.1"));
+
+        assertFalse(card.checkGoal(s));
+        s.setCell(5,0,new ItemCard(ItemType._Plants_+"1.1"));
+        s.setCell(5,4,new ItemCard(ItemType._Plants_+"1.1"));
+
+        assertTrue(card.checkGoal(s));
+
+        s.setCell(5,4,new ItemCard(ItemType._Games__+"1.1"));
+        assertFalse(card.checkGoal(s));
+
+    }
+
+    /**
+     * Test Diagonals of the shelf
+     */
+    @Test
+    void TestCommGoalDiagonalTrue(){
+        card = new CommonGoalDiagonal(2);
+        //Starting point bottom left
+        for(int i=0;i<2;i++){
+            for(int r=i,c=0;(r<Shelf.sRow-1+i)&&c<Shelf.sColumn;r++,c++){
+                s.setCell(r,c,new ItemCard(ItemType.Trophies+"1.1"));
+            }
+            assertTrue(card.checkGoal(s));
+        }
+        for(int i=0;i<2;i++){
+            for(int r=i,c=4;(r<Shelf.sRow-1+i)&&c>=0;r++,c--){
+                s.setCell(r,c,new ItemCard(ItemType.Trophies+"1.1"));
+            }
+            assertTrue(card.checkGoal(s));
+        }
+    }
+
+    @Test
+    void testCommGoalDiagonalFalse(){
+        card = new CommonGoalDiagonal(2);
+        s.setCell(0,4,new ItemCard(ItemType._Games__+"1.1"));
+        assertFalse(card.checkGoal(s));
+
+        for(int r=1,c=0;(r<Shelf.sRow-1)&&c<Shelf.sColumn;r++,c++){
+            s.setCell(r,c,new ItemCard(ItemType.Trophies+"1.1"));
+
+        }
+
+        assertFalse(card.checkGoal(s));
+
+    }
+
+    /**
+     * Setup:
+     * 2 Square: Games
+     * 1 Square: Frames
+     */
+    @Test
+    void testCommGoalSquare(){
+        card = new CommonGoalSquare(2);
+
+        s.setCell(0,0,new ItemCard(ItemType._Games__+"1.1"));
+        s.setCell(1,0,new ItemCard(ItemType._Games__+"1.1"));
+        s.setCell(0,1,new ItemCard(ItemType._Games__+"1.1"));
+        s.setCell(1,1,new ItemCard(ItemType._Games__+"1.1"));
+
+        assertFalse(card.checkGoal(s));
+
+        s.setCell(1,2,new ItemCard(ItemType._Frames_+"1.1"));
+        s.setCell(2,2,new ItemCard(ItemType._Frames_+"1.1"));
+        s.setCell(1,3,new ItemCard(ItemType._Frames_+"1.1"));
+        s.setCell(2,3,new ItemCard(ItemType._Frames_+"1.1"));
+
+        s.setCell(3,3,new ItemCard(ItemType._Games__+"1.1"));
+        s.setCell(4,3,new ItemCard(ItemType._Games__+"1.1"));
+        s.setCell(3,4,new ItemCard(ItemType._Games__+"1.1"));
+
+        assertFalse(card.checkGoal(s));
+        s.setCell(4,4,new ItemCard(ItemType._Games__+"1.1"));
+
+        assertTrue(card.checkGoal(s));
+    }
+
+
+    @Test
+    void testCommGoal4Group(){
+        card = new CommonGoal4Group(2);
+
+        s.setCell(0,0,new ItemCard(ItemType.Trophies+"1.3"));
+        s.setCell(1,0,new ItemCard(ItemType.Trophies+"1.3"));
+        s.setCell(0,1,new ItemCard(ItemType.Trophies+"1.3"));
+        s.setCell(1,1,new ItemCard(ItemType.Trophies+"1.3"));
+
+        assertFalse(card.checkGoal(s));
+
+        s.setCell(2,0,new ItemCard(ItemType._Frames_+"1.3"));
+        s.setCell(3,0,new ItemCard(ItemType._Frames_+"1.3"));
+        s.setCell(2,1,new ItemCard(ItemType._Frames_+"1.3"));
+        s.setCell(3,1,new ItemCard(ItemType._Frames_+"1.3"));
+
+        s.setCell(0,4,new ItemCard(ItemType._Plants_+"1.3"));
+        s.setCell(1,4,new ItemCard(ItemType._Plants_+"1.3"));
+        s.setCell(2,4,new ItemCard(ItemType._Plants_+"1.3"));
+        s.setCell(3,4,new ItemCard(ItemType._Plants_+"1.3"));
+
+        s.setCell(5,2,new ItemCard(ItemType.Trophies+"1.3"));
+        s.setCell(5,3,new ItemCard(ItemType.Trophies+"1.3"));
+        s.setCell(4,3,new ItemCard(ItemType.Trophies+"1.3"));
+        s.setCell(4,4,new ItemCard(ItemType.Trophies+"1.3"));
+
+        assertTrue(card.checkGoal(s));
+
+        s.setCell(1,3,new ItemCard(ItemType._Plants_+"1.3"));
+        s.setCell(2,2,new ItemCard(ItemType._Plants_+"1.3"));
+        s.setCell(1,2,new ItemCard(ItemType._Plants_+"1.3"));
+        s.setCell(0,2,new ItemCard(ItemType._Plants_+"1.3"));
+
+        s.setCell(0,3,new ItemCard(ItemType.__Cats__+"1,1"));
+        s.setCell(3,3,new ItemCard(ItemType.__Cats__+"1,1"));
+        s.setCell(2,3,new ItemCard(ItemType.__Cats__+"1,1"));
+
+        assertTrue(card.checkGoal(s));
+
+
+
+    }
+    @Test
+    void testCommGoal6Group(){
+
+    }
+
+    @Test
+    void testCommGoalXShape(){
+
+    }
+
+    @Test
+    void testCommGoalStair(){
 
 
     }

@@ -1,7 +1,7 @@
 package org.am21.board;
 
 import org.am21.controller.PlayerController;
-import org.am21.model.Cards.ItemTileCard;
+import org.am21.model.Cards.ItemCard;
 import org.am21.model.Match;
 import org.am21.model.Player;
 import org.am21.model.enumer.GameState;
@@ -58,7 +58,7 @@ public class BoardTest {
 
         return m;
     }
-
+    @BeforeEach
     void setUp() {
 
         m= new Match(seats);
@@ -69,7 +69,6 @@ public class BoardTest {
 
     }
 
-    @BeforeEach
     void fullSetup(){
         m = buildGame();
         bag = m.board.bag;
@@ -135,7 +134,7 @@ public class BoardTest {
      */
     @Test
     void testOccupation(){
-        board.setCell(5,5,new ItemTileCard("Leo"));
+        board.setCell(5,5,new ItemCard("Leo"));
         assertTrue(board.isOccupied(5,5));
 
         assertFalse(board.isOccupied(0,0));
@@ -151,8 +150,8 @@ public class BoardTest {
     @Test
     void testCheckBoardFalse(){
 
-        board.setCell(5,5,new ItemTileCard("Leo"));
-        board.setCell(5,4,new ItemTileCard("MiniLeo"));
+        board.setCell(5,5,new ItemCard("Leo"));
+        board.setCell(5,4,new ItemCard("MiniLeo"));
         assertFalse(board.checkBoard());
 
     }
@@ -167,8 +166,8 @@ public class BoardTest {
     @Test
     void testCheckBoardTrue(){
 
-        board.setCell(5,5,new ItemTileCard("Leo"));
-        board.setCell(4,4,new ItemTileCard("MiniLeo"));
+        board.setCell(5,5,new ItemCard("Leo"));
+        board.setCell(4,4,new ItemCard("MiniLeo"));
         assertTrue(board.checkBoard());
 
     }
@@ -179,10 +178,10 @@ public class BoardTest {
     @Test
     void testIsAlone(){
 
-        board.setCell(5,5,new ItemTileCard("Koko"));
+        board.setCell(5,5,new ItemCard("Koko"));
         assertTrue(board.isAlone(5,5));
 
-        board.setCell(4,5,new ItemTileCard("kiki"));
+        board.setCell(4,5,new ItemCard("kiki"));
         assertFalse(board.isAlone(5,5));
 
     }
@@ -197,12 +196,12 @@ public class BoardTest {
         Hand h = new Hand(new PlayerController("").player);
 
         h.getSlot().add(new CardPointer(3,3));
-        h.getSlot().get(0).item= new ItemTileCard("none");
+        h.getSlot().get(0).item= new ItemCard("none");
 
         assertTrue(board.isOrthogonal(3,4,h));
 
         h.getSlot().add((new CardPointer(3,4)));
-        h.getSlot().get(0).item = new ItemTileCard("none");
+        h.getSlot().get(0).item = new ItemCard("none");
 
         assertFalse(board.isOrthogonal(4,4,h));
 
@@ -220,9 +219,9 @@ public class BoardTest {
     @Test
     void testHasFreeSide(){
 
-        board.setCell(5,5,new ItemTileCard("Ken"));
-        board.setCell(4,5,new ItemTileCard("BigKen"));
-        board.setCell(3,4,new ItemTileCard("LilKen"));
+        board.setCell(5,5,new ItemCard("Ken"));
+        board.setCell(4,5,new ItemCard("BigKen"));
+        board.setCell(3,4,new ItemCard("LilKen"));
 
 
         assertTrue(board.hasFreeSide(4,5));
@@ -238,11 +237,11 @@ public class BoardTest {
      */
     @Test
     void testHasFreeSideFalse(){
-        board.setCell(2,4,new ItemTileCard("Ken"));
-        board.setCell(3,3,new ItemTileCard("BigKen"));
-        board.setCell(3,4,new ItemTileCard("LilKen"));
-        board.setCell(3,5,new ItemTileCard("Ken"));
-        board.setCell(4,4,new ItemTileCard("BigKen"));
+        board.setCell(2,4,new ItemCard("Ken"));
+        board.setCell(3,3,new ItemCard("BigKen"));
+        board.setCell(3,4,new ItemCard("LilKen"));
+        board.setCell(3,5,new ItemCard("Ken"));
+        board.setCell(4,4,new ItemCard("BigKen"));
 
         assertFalse(board.hasFreeSide(3,4));
     }

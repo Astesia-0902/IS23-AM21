@@ -1,6 +1,6 @@
 package org.am21.model.items;
 
-import org.am21.model.Cards.ItemTileCard;
+import org.am21.model.Cards.ItemCard;
 import org.am21.model.Player;
 import org.am21.utilities.CardPointer;
 
@@ -25,7 +25,7 @@ public class Hand {
     }
 
 
-    public void memCard(ItemTileCard item,int r, int c){
+    public void memCard(ItemCard item, int r, int c){
         /**
          * Create a temporary Coordinates object for data setting.
          * Then add it to the slot list.

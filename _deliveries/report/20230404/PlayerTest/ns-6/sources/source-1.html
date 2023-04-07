@@ -85,7 +85,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 <b class="nc">&nbsp;public class BoardUtil {</b>
 &nbsp;
-&nbsp;    public static boolean buildLivingRoom(LivingRoomBoard board, List&lt;ItemTileCard&gt; itemTileCards){
+&nbsp;    public static boolean buildLivingRoom(LivingRoomBoard board, List&lt;ItemTileCard&gt; itemCards){
 <b class="fc">&nbsp;        int index = 0;</b>
 <b class="fc">&nbsp;        for(int i=0;i&lt;board.rowNum;i++){</b>
 <b class="fc">&nbsp;            for(int j=0;j&lt;board.colNum;j++){</b>
@@ -128,7 +128,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                    return false;</b>
 &nbsp;                }
 <b class="fc">&nbsp;                if(!newcell.isDark() &amp;&amp; newcell.getItem() == null) {</b>
-<b class="fc">&nbsp;                    newcell.setItem(itemTileCards.get(index++));</b>
+<b class="fc">&nbsp;                    newcell.setItem(itemCards.get(index++));</b>
 &nbsp;                }
 <b class="fc">&nbsp;                board.getCellGrid()[i][j] = newcell;</b>
 &nbsp;
@@ -176,10 +176,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * LivingRoom builder is going to fill the board&#39;s Cells for the first time.
 &nbsp;     *
 &nbsp;     * @param board
-&nbsp;     * @param itemTileCards
+&nbsp;     * @param itemCards
 &nbsp;     * @return
 &nbsp;     */
-&nbsp;    public static boolean xbuildLivingRoom(LivingRoomBoard board, List&lt;ItemTileCard&gt; itemTileCards) {
+&nbsp;    public static boolean xbuildLivingRoom(LivingRoomBoard board, List&lt;ItemTileCard&gt; itemCards) {
 <b class="nc">&nbsp;        Cell[][] cells = board.getCellGrid();</b>
 <b class="nc">&nbsp;        int index = 0;</b>
 &nbsp;
@@ -199,8 +199,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                        cells[i][j] = cell;</b>
 &nbsp;                    } else {
 <b class="nc">&nbsp;                        if (cell.getItem() == null) {</b>
-<b class="nc">&nbsp;                            ItemTileCard itemTileCard = itemTileCards.get(index++);</b>
-<b class="nc">&nbsp;                            cell.setItem(itemTileCard);</b>
+<b class="nc">&nbsp;                            ItemTileCard itemCard = itemCards.get(index++);</b>
+<b class="nc">&nbsp;                            cell.setItem(itemCard);</b>
 <b class="nc">&nbsp;                            cells[i][j] = cell;</b>
 &nbsp;                        }
 &nbsp;                    }
@@ -226,8 +226,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                        cells[i][j] = cell;</b>
 &nbsp;                    } else {
 <b class="nc">&nbsp;                        if (cell.getItem() == null) {</b>
-<b class="nc">&nbsp;                            ItemTileCard itemTileCard = itemTileCards.get(index++);</b>
-<b class="nc">&nbsp;                            cell.setItem(itemTileCard);</b>
+<b class="nc">&nbsp;                            ItemTileCard itemCard = itemCards.get(index++);</b>
+<b class="nc">&nbsp;                            cell.setItem(itemCard);</b>
 <b class="nc">&nbsp;                            cells[i][j] = cell;</b>
 &nbsp;                        }
 &nbsp;                    }
@@ -251,8 +251,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                        cells[i][j] = cell;</b>
 &nbsp;                    } else {
 <b class="nc">&nbsp;                        if (cell.getItem() == null) {</b>
-<b class="nc">&nbsp;                            ItemTileCard itemTileCard = itemTileCards.get(index++);</b>
-<b class="nc">&nbsp;                            cell.setItem(itemTileCard);</b>
+<b class="nc">&nbsp;                            ItemTileCard itemCard = itemCards.get(index++);</b>
+<b class="nc">&nbsp;                            cell.setItem(itemCard);</b>
 <b class="nc">&nbsp;                            cells[i][j] = cell;</b>
 &nbsp;                        }
 &nbsp;                    }

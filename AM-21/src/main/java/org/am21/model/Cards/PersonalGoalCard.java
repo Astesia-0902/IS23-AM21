@@ -11,7 +11,7 @@ import java.util.List;
 public class PersonalGoalCard extends Card {
     private Shelf GoalShelf;
     private final static HashMap<String, int[][]> personalGoal = new HashMap<>();
-    private final static List<ItemTileCard> tileNames = new ArrayList<>();
+    private final static List<ItemCard> tileNames = new ArrayList<>();
     private final static HashMap<Integer, Integer> currentScore = new HashMap<>();
     static {
         /** {row of shelf, column of shelf, index of tileNames}*/
@@ -31,9 +31,9 @@ public class PersonalGoalCard extends Card {
         personalGoal.put("PERSONAL_GOALs12", new int[][]{{0, 2, 1}, {1, 1, 5}, {2, 2, 3}, {3, 3, 4}, {4, 4, 2}, {5, 0, 0}});
 
         Collections.addAll(tileNames,
-                new ItemTileCard(ItemType.__Cats__.name()), new ItemTileCard(ItemType._Books__.name()),
-                new ItemTileCard(ItemType._Games__.name()), new ItemTileCard(ItemType._Frames_.name()),
-                new ItemTileCard(ItemType.Trophies.name()), new ItemTileCard(ItemType._Plants_.name()));
+                new ItemCard(ItemType.__Cats__.name()), new ItemCard(ItemType._Books__.name()),
+                new ItemCard(ItemType._Games__.name()), new ItemCard(ItemType._Frames_.name()),
+                new ItemCard(ItemType.Trophies.name()), new ItemCard(ItemType._Plants_.name()));
 
         currentScore.put(1,1);
         currentScore.put(2,2);

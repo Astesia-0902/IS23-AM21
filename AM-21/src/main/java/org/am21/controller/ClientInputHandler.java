@@ -2,7 +2,7 @@ package org.am21.controller;
 
 import org.am21.model.GameManager;
 import org.am21.model.PlayerManager;
-import org.am21.model.Cards.ItemTileCard;
+import org.am21.model.Cards.ItemCard;
 
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
@@ -76,7 +76,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientHa
         return false;
     }
 
-    public void removeItemFromHand(ItemTileCard item) throws ServerNotActiveException {
+    public void removeItemFromHand(ItemCard item) throws ServerNotActiveException {
         if (!checkPlayerActionPhase()) return;
     }
 
