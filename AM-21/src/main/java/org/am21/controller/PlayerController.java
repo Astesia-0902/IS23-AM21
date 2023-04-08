@@ -1,12 +1,11 @@
 package org.am21.controller;
 
-import org.am21.model.items.Board;
-import org.am21.model.items.Hand;
+import org.am21.model.Cards.PersonalGoalCard;
 import org.am21.model.Player;
 import org.am21.model.enumer.TurnPhases;
-import org.am21.model.Cards.PersonalGoalCard;
+import org.am21.model.items.Board;
+import org.am21.model.items.Hand;
 import org.am21.utilities.CardPointer;
-import org.am21.utilities.Mx;
 
 
 
@@ -14,7 +13,6 @@ import org.am21.utilities.Mx;
 public class PlayerController {
     public Player player;
     public Hand hand;
-    public static Mx fb= Mx.Neutral;
 
     /**
      * PlayerController constructor is initialized by GameController, when ClientInputHandler login.
@@ -66,13 +64,11 @@ public class PlayerController {
         }
         if (player.getMatch().turnPhase != TurnPhases.Selection) {
             //System.out.println("Match > Not Selection Phase");
-//            fb = Mx.WrongPhase;
 
             return false;
         }
 
         if(player.shelf.insertLimit == hand.getSlot().size()){
-//            fb= Mx.HandLimit;
             //System.out.println("Shelf > Cannot pick more item");
 //            System.out.println("Shelf > Hand["+hand.getSlot().size()+"]-Limit ["+player.shelf.insertLimit +"]");
             return false;
@@ -85,10 +81,7 @@ public class PlayerController {
 
         Board tmpBoard = player.getMatch().board;
 
-        //TODO: elimina getItemTileCard dall'if, quindi è necessario modificare la struttura della board,
-        //      dove le celle dark non contengono nessun oggetto Cell. La cella non deve esistere
         if (tmpBoard.getMatrix()[r][c] == null) {
-//            fb= Mx.NoCell;
 //            System.out.println("Board[!] > Empty cell. Try again");
             return false;
         }
@@ -119,7 +112,6 @@ public class PlayerController {
                    so they are valid for Orthogonality check*/
                 if (tmpBoard.isOrthogonal(r, c, hand) == false) {
 //                    System.out.println("Board > Not Orthogonal");
-//                        fb= Mx.NoOrtho;
                         return false;
                 } else {
 //                    System.out.println("Board > Orthogonal");
@@ -128,12 +120,11 @@ public class PlayerController {
             //salvo le coordinate e il riferimento dell'item nella hand*/
             hand.memCard(tmpBoard.getCell(r, c), r, c);
 //            System.out.println("Match > Item selected: [" + tmpBoard.getCellItem(r, c).getNameCard() + "]");
-//            fb = Mx.SelectWin;
+//
             return true;
         } else {
             //Questo messaggio sara tolto e messo in ClientInputHandler o nelle funzioni dei test
 //            System.out.println("Match > Selection Failed");
-//            fb = Mx.SelFail;
             return false;
         }
     }
@@ -152,7 +143,6 @@ public class PlayerController {
             return true;
         }else{
             //System.out.println("Match[!] > Not selection phase");
-//            fb = Mx.WrongPhase;
             return false;
         }
 
@@ -188,7 +178,6 @@ public class PlayerController {
                 }
             }
         }
-        fb = Mx.WrongPhase;
         return false;
     }
 
@@ -213,7 +202,6 @@ public class PlayerController {
 //            System.out.println(player.getName()+" > Column: ["+col+"]");
 
             if(player.shelf.slotCol.get(col)<hand.getSlot().size()){
-                fb=Mx.ColSlotF;
                 //System.out.println("Shelf[!] > Not enough space in this column");
                 /*
                 for(int x: player.shelf.slotCol){
@@ -245,7 +233,6 @@ public class PlayerController {
                 return true;
             }
         }
-        fb=Mx.WrongPhase;
         return false;
     }
 
@@ -276,13 +263,16 @@ public class PlayerController {
      */
     public boolean isMyTurn(Player player){
         if(player.match.currentPlayer != player) {
-            fb = Mx.WrongPlayer;
             //System.out.println("Match > Not your turn, "+ player.getName());
             return false;
         }
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean callEndInsertion(){
         if(!isMyTurn(player)) {
             return false;

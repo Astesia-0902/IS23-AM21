@@ -22,10 +22,6 @@ public class Player {
     public Shelf shelf;
     private PersonalGoalCard myPersonalGoal;
     /**
-     * player seat number used to determine playing order 1-4 (counterclockwise)
-     */
-    public int playerSeat;
-    /**
      * memorize 1 to 3 cards selected by player during a turn
      */
     public Hand hand;
@@ -50,7 +46,6 @@ public class Player {
         this.myPersonalGoal = null;
         this.shelf = null;
         this.hand = null;
-        this.playerSeat = 0;
         this.match = null;
     }
 

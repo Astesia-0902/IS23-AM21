@@ -42,6 +42,10 @@ public class Board extends Grid {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean setupBoard() {
         bag = new Bag(match);
 
@@ -54,6 +58,7 @@ public class Board extends Grid {
 
     /**
      * Setting the size of the grid according to the number of player
+     * @return
      **/
     public int getSize() {
         if (maxSeats == 2)
@@ -150,7 +155,8 @@ public class Board extends Grid {
     /**
      * Check if the item is isolated in the board
      * It means that there isn't any item adjacent.
-     *
+     * @param r
+     * @param c
      * @return
      */
     public boolean isAlone(int r, int c) {

@@ -7,8 +7,12 @@ import java.util.HashSet;
 
 public class CommonGoal3Column extends CommonGoal {
 
-
+    /**
+     *
+     * @param numPlayer
+     */
     public CommonGoal3Column(int numPlayer) {
+
         super("CommonGoal3Column",numPlayer);
     }
 

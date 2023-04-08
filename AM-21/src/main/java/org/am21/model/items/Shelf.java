@@ -197,13 +197,7 @@ public class Shelf extends Grid {
         return points;
     }
 
-    /**
-     * Verify cell occupancy
-     *
-     * @param r
-     * @param c
-     * @return
-     */
+
 
 }
 

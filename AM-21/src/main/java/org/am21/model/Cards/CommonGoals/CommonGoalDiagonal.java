@@ -6,7 +6,10 @@ import org.am21.model.items.Shelf;
 public class CommonGoalDiagonal extends CommonGoal {
     private static final int nDiagPerSide = 2;
 
-
+    /**
+     *
+     * @param numPlayer
+     */
     public CommonGoalDiagonal(int numPlayer) {
 
         super("CommonGoalDiagonal",numPlayer);

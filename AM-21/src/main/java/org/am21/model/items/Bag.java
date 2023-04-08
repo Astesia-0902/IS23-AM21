@@ -15,31 +15,34 @@ public class Bag {
      * Bag constructor:
      * When initialized, Bag will create the ItemCollection list, which will store all the items available
      * The cards are already shuffled.
+     * @param match
      */
     public Bag(Match match){
         this.match = match;
         this.bagIndex=0;
+        //Filling the bag completely
         this.itemCollection = CardUtil.buildItemTileCard();
-        /** fill the item initially **/
+
 //        System.out.println("Match > Bag completely filled with "+ itemCollection.size());
     }
 
-
+    /**
+     * This method return itemCollection reference
+     * @return
+     */
     public List<ItemCard> getDeck() {
-        /**
-         * This method return itemCollection reference
-         * @return
-         */
+
         return itemCollection;
     }
 
+    /**
+     * Match call refillRequest when LivingRoomBoard.isSingle() is true.
+     * This method will verify if there is any item in the Bag.
+     * If so, then it will call the GridUtil.refillBoard() method.
+     * @return true: if there are item added to the board.
+     */
     public boolean refillRequest(){
-        /**
-         * Match call refillRequest when LivingRoomBoard.isSingle() is true.
-         * This method will verify if there is any item in the Bag.
-         * If so, then it will call the GridUtil.refillBoard() method.
-         * @return true: if there are item added to the board.
-         */
+
         if((this.itemCollection.size()-bagIndex)==0){
 //            System.out.println("Bag > Bag empty. No more refill");
             return false;

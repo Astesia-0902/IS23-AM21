@@ -13,7 +13,12 @@ public class CommonGoal8Tiles extends CommonGoal {
 
     public boolean state=false;
 
+    /**
+     *
+     * @param numPlayer
+     */
     public CommonGoal8Tiles(int numPlayer) {
+
         super("CommonGoal8Tiles", numPlayer);
     }
 

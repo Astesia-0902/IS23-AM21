@@ -6,6 +6,11 @@ import org.am21.model.items.Shelf;
 public class CommonGoalSquare extends CommonGoal {
 
     private boolean[][] visited;
+
+    /**
+     *
+     * @param numPlayer
+     */
     public CommonGoalSquare(int numPlayer) {
 
         super("CommonGoalSquare",numPlayer);
@@ -107,7 +112,14 @@ public class CommonGoalSquare extends CommonGoal {
         return false;
     }
 
-
+    /**
+     *
+     * @param x
+     * @param y
+     * @param itemRef
+     * @param s
+     * @return
+     */
     private boolean find2ndSquare(int x,int y,String itemRef,Shelf s){
 
         for(int i=x;i<Shelf.sRow-1;i++){
@@ -134,7 +146,14 @@ public class CommonGoalSquare extends CommonGoal {
 
     }
 
-
+    /**
+     *
+     * @param r
+     * @param c
+     * @param s
+     * @param itemRef
+     * @return
+     */
     private boolean controlStatus(int r,int c,Shelf s,String itemRef){
         if(s.isOccupied(r,c) &&s.getItemType(r,c).equals(itemRef) &&!visited[r][c]) {
             visited[r][c]=true;

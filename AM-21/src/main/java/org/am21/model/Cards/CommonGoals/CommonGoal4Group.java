@@ -11,15 +11,123 @@ public class CommonGoal4Group extends CommonGoal {
 
     private boolean[][] visited;
     private int nGroup=0;
+
+    public static int minMembers=4;
+    public static int numGroup =4;
+
+    /**
+     *
+     * @param numPlayer
+     */
     public CommonGoal4Group(int numPlayer) {
+
         super("CommonGoal4Group",numPlayer);
     }
 
+
+
     /**
-     * Scan the shelf to find 3 groups of 4 tiles of the same color
+     *
      * @param s
      * @return
      */
+    @Override
+    public boolean checkGoal(Shelf s){
+        nGroup=0;
+        visited = new boolean[Shelf.sRow][Shelf.sColumn];
+
+        for(int i=0;i<Shelf.sRow;i++){
+            for(int j=0;j<Shelf.sColumn;j++){
+
+                if(s.isOccupied(i,j)&&!visited[i][j]&&findGroup(i,j,s)){
+                    nGroup++;
+                    if(nGroup== numGroup){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param startX
+     * @param startY
+     * @param s
+     * @return
+     */
+    private boolean findGroup(int startX,int startY,Shelf s){
+        String itemRef = s.getItemType(startX,startY);
+        boolean newMember = false;
+        Coordinates temp = null;
+
+        List<Coordinates> group = new ArrayList<>();
+        //default: first member
+        group.add(new Coordinates(startX,startY));
+        visited[startX][startY]=true;
+
+        do{
+
+            for(Coordinates member: group) {
+                temp = nextMember(member.x, member.y, s, itemRef);
+                if (temp != null && !group.contains(temp)) {
+                    newMember = true;
+                    break;
+                }
+                //if, after a group iteration, nextMember is not found and nGroup is still <4,
+                // it means the group is not valid
+
+                }
+            if (newMember) {
+                group.add(temp);
+                newMember=false;
+            }
+
+        }while (temp!=null);
+
+        if(group.size()>=minMembers)
+            return true;
+        else
+            return false;
+    }
+
+    /**
+     *
+     * @param x
+     * @param y
+     * @param s
+     * @param itemRef
+     * @return
+     */
+    private Coordinates nextMember(int x,int y,Shelf s,String itemRef){
+        Coordinates tmp;
+        if(x-1>=0&&!visited[x-1][y]&&s.isOccupied(x-1,y)&&s.getItemType(x-1,y).equals(itemRef)){
+            visited[x-1][y]=true;
+            tmp = new Coordinates(x-1,y);
+        }else if(y-1>=0&&!visited[x][y-1]&&s.isOccupied(x,y-1)&&s.getItemType(x,y-1).equals(itemRef)){
+            visited[x][y-1]=true;
+            tmp = new Coordinates(x,y-1);
+        } else if(x+1<Shelf.sRow&&!visited[x+1][y]&&s.isOccupied(x+1,y)&&s.getItemType(x+1,y).equals(itemRef)) {
+            visited[x+1][y]=true;
+            tmp = new Coordinates(x+1,y);
+        }else if(y+1<Shelf.sColumn&&!visited[x][y+1]&&s.isOccupied(x,y+1)&&s.getItemType(x,y+1).equals(itemRef)){
+            visited[x][y+1]=true;
+            tmp = new Coordinates(x,y+1);
+        }else {
+            tmp=null;
+        }
+        return tmp;
+    }
+}
+
+
+
+/**
+ * Scan the shelf to find 3 groups of 4 tiles of the same color
+ * @param s
+ * @return
+ */
 
     /*public boolean checkGoal(Shelf shelf) {
         boolean[][] visited = new boolean[6][5];
@@ -54,87 +162,3 @@ public class CommonGoal4Group extends CommonGoal {
         visited[i][j] = true;
         return true;
     }*/
-
-    @Override
-    public boolean checkGoal(Shelf s){
-        nGroup=0;
-        visited = new boolean[Shelf.sRow][Shelf.sColumn];
-
-
-        for(int i=0;i<Shelf.sRow;i++){
-            for(int j=0;j<Shelf.sColumn;j++){
-
-
-                if(s.isOccupied(i,j)&&!visited[i][j]&&findGroup(i,j,s)){
-                    nGroup++;
-                    if(nGroup==4){
-                        return true;
-                    }
-
-                }
-
-
-            }
-        }
-
-
-
-
-        return false;
-    }
-
-    private boolean findGroup(int startX,int startY,Shelf s){
-        String itemRef = s.getItemType(startX,startY);
-        boolean newMember = false;
-        Coordinates temp = null;
-
-        List<Coordinates> group = new ArrayList<>();
-        //default: first member
-        group.add(new Coordinates(startX,startY));
-        visited[startX][startY]=true;
-
-        do{
-
-            for(Coordinates member: group) {
-                temp = nextMember(member.x, member.y, s, itemRef);
-                if (temp != null && !group.contains(temp)) {
-                    newMember = true;
-                    break;
-                }
-                //if, after a group iteration, nextMember is not found and nGroup is still <4,
-                // it means the group is not valid
-
-                }
-            if (newMember) {
-                group.add(temp);
-                newMember=false;
-            }
-
-        }while (temp!=null);
-
-        if(group.size()>=4)
-            return true;
-        else
-            return false;
-    }
-
-    private Coordinates nextMember(int x,int y,Shelf s,String itemRef){
-        Coordinates tmp;
-        if(x-1>=0&&!visited[x-1][y]&&s.isOccupied(x-1,y)&&s.getItemType(x-1,y).equals(itemRef)){
-            visited[x-1][y]=true;
-            tmp = new Coordinates(x-1,y);
-        }else if(y-1>=0&&!visited[x][y-1]&&s.isOccupied(x,y-1)&&s.getItemType(x,y-1).equals(itemRef)){
-            visited[x][y-1]=true;
-            tmp = new Coordinates(x,y-1);
-        } else if(x+1<Shelf.sRow&&!visited[x+1][y]&&s.isOccupied(x+1,y)&&s.getItemType(x+1,y).equals(itemRef)) {
-            visited[x+1][y]=true;
-            tmp = new Coordinates(x+1,y);
-        }else if(y+1<Shelf.sColumn&&!visited[x][y+1]&&s.isOccupied(x,y+1)&&s.getItemType(x,y+1).equals(itemRef)){
-            visited[x][y+1]=true;
-            tmp = new Coordinates(x,y+1);
-        }else {
-            tmp=null;
-        }
-        return tmp;
-    }
-}

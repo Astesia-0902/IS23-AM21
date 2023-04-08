@@ -13,17 +13,23 @@ public class CommonGoal2Columns extends CommonGoal {
     private static final int numDiff = 6;
     private static final int numGroup = 2;
 
+    /**
+     *
+     * @param numPlayer
+     */
     public CommonGoal2Columns(int numPlayer) {
+
+
         super("CommonGoal2Columns",numPlayer);
     }
-
+    /**
+     * Scan the shelf to find two columns each formed by 6 different types of tiles.
+     * @param shelf
+     * @return
+     */
     @Override
     public boolean checkGoal(Shelf shelf) {
-        /**
-         * Scan the shelf to find two columns each formed by 6 different types of tiles.
-         * @param shelf
-         * @return
-         */
+
 
         // Count the number of occurrences of each type of tile in each column
         int countGroup = 0;

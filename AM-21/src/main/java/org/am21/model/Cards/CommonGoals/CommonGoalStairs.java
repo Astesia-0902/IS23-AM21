@@ -5,8 +5,12 @@ import org.am21.model.items.Shelf;
 
 public class CommonGoalStairs extends CommonGoal {
 
-
+    /**
+     *
+     * @param numPlayer
+     */
     public CommonGoalStairs(int numPlayer) {
+
         super("CommonGoalStairs",numPlayer);
     }
 /**
@@ -29,7 +33,11 @@ public class CommonGoalStairs extends CommonGoal {
          *
     *}
     */
-
+    /**
+     *
+     * @param shelf
+     * @return
+     */
     public boolean checkGoal(Shelf shelf) {
         int [] vectRow = {0,0,0,0,0};
         for(int x=0;x<5;x++)

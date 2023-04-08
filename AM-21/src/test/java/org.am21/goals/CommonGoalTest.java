@@ -354,6 +354,9 @@ public class CommonGoalTest {
         }
     }
 
+    /**
+     *
+     */
     @Test
     void testCommGoalDiagonalFalse(){
         card = new CommonGoalDiagonal(2);
@@ -400,7 +403,9 @@ public class CommonGoalTest {
         assertTrue(card.checkGoal(s));
     }
 
-
+    /**
+     *
+     */
     @Test
     void testCommGoal4Group(){
         card = new CommonGoal4Group(2);
@@ -443,18 +448,50 @@ public class CommonGoalTest {
 
 
     }
+
+    /**
+     * 
+     */
     @Test
     void testCommGoal6Group(){
+        card = new CommonGoal6Group(2);
+
+        s.setCell(0,0,new ItemCard(ItemType.__Cats__+"1.1"));
+        s.setCell(1,0,new ItemCard(ItemType.__Cats__+"1.2"));
+
+        s.setCell(0,1,new ItemCard(ItemType._Plants_+"1.1"));
+        s.setCell(1,1,new ItemCard(ItemType._Plants_+"1.2"));
+        s.setCell(2,1,new ItemCard(ItemType._Plants_+"1.3"));
+        s.setCell(2,0,new ItemCard(ItemType._Plants_+"1.1"));
+
+        s.setCell(0,2,new ItemCard(ItemType._Frames_+"1.1"));
+        s.setCell(1,2,new ItemCard(ItemType._Frames_+"1.1"));
+
+        s.setCell(2,2,new ItemCard(ItemType.Trophies+"1.1"));
+        s.setCell(2,3,new ItemCard(ItemType.Trophies+"1.2"));
+
+        s.setCell(0,3,new ItemCard(ItemType._Games__+"1.1"));
+        s.setCell(1,3,new ItemCard(ItemType._Games__+"1.3"));
+
+        assertFalse(card.checkGoal(s));
+
+        s.setCell(0,4,new ItemCard(ItemType.__Cats__+"1.1"));
+        s.setCell(1,4,new ItemCard(ItemType.__Cats__+"1.1"));
+
+        assertTrue(card.checkGoal(s));
+
 
     }
 
     @Test
     void testCommGoalXShape(){
+        card = new CommonGoalXShape(2);
 
     }
 
     @Test
     void testCommGoalStair(){
+        card = new CommonGoalStairs(2);
 
 
     }

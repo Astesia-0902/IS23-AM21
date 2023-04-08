@@ -6,7 +6,12 @@ import org.am21.model.items.Shelf;
 
 public class CommonGoalXShape extends CommonGoal {
 
+    /**
+     *
+     * @param numPlayer
+     */
     public CommonGoalXShape(int numPlayer) {
+
         super("CommonGoalXShape", numPlayer);
     }
 /**
@@ -27,7 +32,11 @@ public class CommonGoalXShape extends CommonGoal {
          *  if one is completed then return true and get the points.
          **}
     */
-
+    /**
+     *
+     * @param shelf
+     * @return
+     */
     public boolean checkGoal(Shelf shelf) {
         for(int row=1; row<5; row++)
         {

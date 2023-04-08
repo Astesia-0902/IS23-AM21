@@ -10,10 +10,20 @@ public class CommonGoal2Lines extends CommonGoal {
     private static final int colNumShelf = 5;
     private static final int numDiff = 5;
     private static final int numGroup = 2;
+
+    /**
+     *
+     * @param numPlayer
+     */
     public CommonGoal2Lines(int numPlayer) {
         super("CommonGoal2Lines",numPlayer);
     }
 
+    /**
+     *
+     * @param shelf
+     * @return
+     */
     public boolean checkGoal(Shelf shelf) {
 
         // Count the number of occurrences of each type of tile in each row

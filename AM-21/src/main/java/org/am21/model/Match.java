@@ -3,13 +3,15 @@ package org.am21.model;
 import org.am21.controller.GameController;
 import org.am21.model.Cards.CommonGoal;
 import org.am21.model.Cards.PersonalGoalCard;
-import org.am21.model.enumer.UserStatus;
-import org.am21.model.items.Bag;
-import org.am21.model.items.Board;
-import org.am21.model.items.Shelf;
 import org.am21.model.enumer.GameState;
 import org.am21.model.enumer.TurnPhases;
-import org.am21.utilities.*;
+import org.am21.model.enumer.UserStatus;
+import org.am21.model.items.Board;
+import org.am21.model.items.Shelf;
+import org.am21.utilities.CardUtil;
+import org.am21.utilities.CommonGoalUtil;
+import org.am21.utilities.MyTimer;
+import org.am21.utilities.TGear;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +76,6 @@ public class Match {
      * Declare who is player turn
      * And setting Turn Phase
      */
-
     public void matchStart() {
         if (playerList.size() < maxSeats) {
 //            System.out.println("Game > Not enough players to begin. Keep waiting...");
@@ -110,6 +111,9 @@ public class Match {
         startFirstRound();
     }
 
+    /**
+     *
+     */
     private void startFirstRound() {
 
         //Initialize the game phase
@@ -122,6 +126,9 @@ public class Match {
         timer.startTimer(5, this);
     }
 
+    /**
+     *
+     */
     public void nextTurn() {
         currentPlayer = playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats);
 //        System.out.println("Match > Player Turn: " + currentPlayer.getName());
@@ -132,14 +139,21 @@ public class Match {
         changeTurnPhase(TurnPhases.Selection);
     }
 
-//    public void giveToken(Player player, ScoringTokenCard scoringToken) {
-//    }
+    public void giveToken(Player player) {
+    }
 
-
+    /**
+     *
+     * @param endGameToken
+     */
     public void setEndGameToken(boolean endGameToken) {
         this.endGameToken = endGameToken;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean checkLastRound() {
         if (gamePhase == GameState.LastRound) {
             if (playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats) == firstToComplete) {
@@ -150,6 +164,10 @@ public class Match {
         return false;
     }
 
+    /**
+     *
+     * @return
+     */
     public Player getFirstToComplete() {
         return firstToComplete;
     }
@@ -177,6 +195,9 @@ public class Match {
         this.callEndTurnRoutine();
     }
 
+    /**
+     *
+     */
     private void callEndTurnRoutine() {
         if (board.checkBoard()) {
 //            System.out.println("Match > Board need refill");
@@ -205,6 +226,9 @@ public class Match {
 
     }
 
+    /**
+     *
+     */
     private void endMatch() {
 //        System.out.println("Game > Room closed. See ya!");
 
@@ -213,6 +237,11 @@ public class Match {
         System.exit(100);
     }
 
+    /**
+     *
+     * @param player
+     * @return
+     */
     public boolean removePlayer(Player player) {
         return false;
     }

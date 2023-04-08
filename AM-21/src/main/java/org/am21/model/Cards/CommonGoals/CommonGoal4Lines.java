@@ -7,9 +7,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class CommonGoal4Lines extends CommonGoal {
+    /**
+     *
+     * @param numPlayer
+     */
     public CommonGoal4Lines(int numPlayer) {
+
         super("CommonGoal4Lines",numPlayer);
     }
+
+    /**
+     *
+     * @param shelf
+     * @return
+     */
     public boolean checkGoal(Shelf shelf) {
         Set<String> reg;
         //at first check if number of full column in the Shelf is full

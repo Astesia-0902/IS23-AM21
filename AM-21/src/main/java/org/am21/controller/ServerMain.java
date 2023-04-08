@@ -11,6 +11,11 @@ import java.rmi.registry.LocateRegistry;
  * - Uniqueness of the nickname is granted by the server in phase of acceptance of the player
  */
 public class ServerMain {
+    /**
+     *
+     * @param args
+     * @throws RemoteException
+     */
     public static void main(String[] args) throws RemoteException {
         try {
             // Start the server

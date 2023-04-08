@@ -4,8 +4,12 @@ import org.am21.model.Cards.CommonGoal;
 import org.am21.model.items.Shelf;
 
 public class CommonGoalCorner extends CommonGoal{
-
+    /**
+     *
+     * @param numPlayer
+     */
     public CommonGoalCorner(int numPlayer) {
+
         super("CommonGoalCorner",numPlayer);
     }
 
@@ -22,6 +26,12 @@ public class CommonGoalCorner extends CommonGoal{
             *
         }
 
+     */
+
+    /**
+     *
+     * @param shelf
+     * @return
      */
     @Override
     public boolean checkGoal(Shelf shelf) {

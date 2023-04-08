@@ -28,6 +28,11 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientHa
 //        Get the IP address of the client
 //        System.out.println("Hello, I am " + getClientHost() + ":" + getClientPort());
 
+    /**
+     *
+     * @return
+     * @throws ServerNotActiveException
+     */
     //TODO:When the command is not from the current player, the command should be ignored.
     private boolean checkPlayerActionPhase() throws ServerNotActiveException {
         String userHost = getClientHost();
@@ -40,6 +45,12 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientHa
         }
     }
 
+    /**
+     *
+     * @param username
+     * @throws RemoteException
+     * @throws ServerNotActiveException
+     */
     public void logIn(String username) throws RemoteException, ServerNotActiveException {
         userHost = getClientHost();
         this.userName = username;
@@ -52,10 +63,22 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientHa
         }
     }
 
+    /**
+     *
+     * @param playerNum
+     * @throws RemoteException
+     * @throws ServerNotActiveException
+     */
     public void createMatch(int playerNum) throws RemoteException, ServerNotActiveException {
         GameController.createMatch(userName, createMatchRequestCount, playerNum, playerController);
     }
 
+    /**
+     *
+     * @param matchID
+     * @throws RemoteException
+     * @throws ServerNotActiveException
+     */
     public void joinGame(int matchID) throws RemoteException, ServerNotActiveException {
         GameController.joinGame(matchID, userName, playerController);
     }
@@ -66,20 +89,42 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientHa
 //        }
 //    }
 
+    /**
+     *
+     * @param row
+     * @param col
+     * @throws ServerNotActiveException
+     */
     public void selectCell(int row, int col) throws ServerNotActiveException {
         if (!checkPlayerActionPhase()) return;
         playerController.selectCell(row, col);
     }
 
+    /**
+     *
+     * @param colNum
+     * @param numTiles
+     * @return
+     * @throws ServerNotActiveException
+     */
     public boolean insertTiles(int colNum, int numTiles) throws ServerNotActiveException {
         if (!checkPlayerActionPhase()) return false;
         return false;
     }
 
+    /**
+     *
+     * @param item
+     * @throws ServerNotActiveException
+     */
     public void removeItemFromHand(ItemCard item) throws ServerNotActiveException {
         if (!checkPlayerActionPhase()) return;
     }
 
+    /**
+     *
+     * @throws ServerNotActiveException
+     */
     public void changeHandOrder() throws ServerNotActiveException {
         if (!checkPlayerActionPhase()) return;
     }
