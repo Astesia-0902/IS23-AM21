@@ -9,7 +9,7 @@ public class CommonGoalSquare extends CommonGoal {
 
     /**
      *
-     * @param numPlayer
+     * @param numPlayer the number of players
      */
     public CommonGoalSquare(int numPlayer) {
 
@@ -114,10 +114,10 @@ public class CommonGoalSquare extends CommonGoal {
 
     /**
      *
-     * @param x
-     * @param y
-     * @param itemRef
-     * @param s
+     * @param x is the row of the first square
+     * @param y is the column of the first square
+     * @param itemRef is the type of the first square
+     * @param s is the shelf
      * @return
      */
     private boolean find2ndSquare(int x,int y,String itemRef,Shelf s){
@@ -148,10 +148,10 @@ public class CommonGoalSquare extends CommonGoal {
 
     /**
      *
-     * @param r
-     * @param c
-     * @param s
-     * @param itemRef
+     * @param r is the row of the cell
+     * @param c is the column of the cell
+     * @param s is the shelf
+     * @param itemRef is the type of the first square
      * @return
      */
     private boolean controlStatus(int r,int c,Shelf s,String itemRef){

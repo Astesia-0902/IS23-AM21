@@ -46,10 +46,10 @@ public abstract class CommonGoal extends Goal {
         index++;
     }
 
-    public int extractToken(){
-        return tokenStack.get(index++);
-
-    }
+//    public int extractToken(){
+//        return tokenStack.get(index++);
+//
+//    }
 }
 
 

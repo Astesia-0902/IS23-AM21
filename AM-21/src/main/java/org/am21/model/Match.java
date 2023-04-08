@@ -194,7 +194,7 @@ public class Match {
         for(CommonGoal goal : commonGoals){
             if(goal.checkGoal(player.shelf)){
                 // Give player points/scoreToken
-                player.playerScore += goal.extractToken();
+                //player.playerScore += goal.extractToken();
                 goal.setAchievedPlayers(player);
 
             }
