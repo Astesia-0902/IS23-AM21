@@ -13,7 +13,7 @@ public class Board extends Grid {
     /**
      * The number of required cards depends on the number of players
      */
-    private final int maxSeats;
+    public final int maxSeats;
 
     public Match match;
     public Bag bag;
@@ -22,8 +22,8 @@ public class Board extends Grid {
      */
     public List<Coordinates> boundaries;
 
-    public static final int bRow = 9;
-    public static final int bCol = 9;
+    public static final int BOARD_ROW = 9;
+    public static final int BOARD_COLUMN = 9;
 
     /**
      * Construction of the LivingRoom:
@@ -34,7 +34,7 @@ public class Board extends Grid {
      * @param match is where the board belongs
      */
     public Board(Match match) {
-        super(bRow, bCol);
+        super(BOARD_ROW, BOARD_COLUMN);
         this.maxSeats = match.maxSeats;
         this.match = match;
 

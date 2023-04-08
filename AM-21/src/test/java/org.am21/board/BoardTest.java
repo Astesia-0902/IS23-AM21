@@ -3,8 +3,6 @@ package org.am21.board;
 import org.am21.controller.PlayerController;
 import org.am21.model.Cards.ItemCard;
 import org.am21.model.Match;
-import org.am21.model.Player;
-import org.am21.model.enumer.GameState;
 import org.am21.model.items.Bag;
 import org.am21.model.items.Board;
 import org.am21.model.items.Hand;
@@ -13,9 +11,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.am21.WrongModelTest.maxRound;
-import static org.am21.WrongModelTest.t;
-import static org.am21.extra.Gear.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -26,38 +21,6 @@ public class BoardTest {
     private static int seats=2;
 
 
-    public static Match buildGame(){
-        Match m = createMatch(seats);
-        PlayerController pC1 = createPlayerController("Kratos");
-        Player p1 = pC1.player;
-        PlayerController pC2 = createPlayerController("Omar");
-        Player p2 = pC2.player;
-        PlayerController pC3 = createPlayerController("Silvestro");
-        Player p3 = pC3.player;
-        PlayerController pC4 = createPlayerController("Jane");
-        Player p4 = pC4.player;
-        spacer();
-        while(m.gamePhase== GameState.WaitingPlayers) {
-            m.addPlayer(p1);
-            m.addPlayer(p2);
-            m.addPlayer(p3);
-            m.addPlayer(p4);
-        }
-
-        for(t=0; t<maxRound; t++){      //Number of round
-
-            for(Player p : m.playerList) {
-                if(m.currentPlayer==p){
-                    robotMoves(p.controller,p);
-                }
-            }
-
-            //Printer.viewStats(m,t);
-
-        }
-
-        return m;
-    }
     @BeforeEach
     void setUp() {
 
@@ -69,12 +32,6 @@ public class BoardTest {
 
     }
 
-    void fullSetup(){
-        m = buildGame();
-        bag = m.board.bag;
-        board = m.board;
-        clearBoard(board);
-    }
 
     @AfterEach
     void tearDown() {

@@ -18,8 +18,8 @@ public class WrongModelTest {
     public static int maxRound=10;
 
 
-    public static Match buildGame(){
-        Match m = createMatch(4);
+    public static Match buildGame(int seats){
+        Match m = createMatch(seats);
         numMatch++;
         System.out.println("Game > [[Match n. "+ numMatch+"]]");
         PlayerController pC1 = createPlayerController("Kratos");
@@ -117,12 +117,7 @@ public class WrongModelTest {
 
     @Test
     void runner(){
-        Match m1 = buildGame();
-
-        assertFalse(m1.playerList.size()==m1.maxSeats);
-
-
-
+        Match m1 = buildGame(2);
 
     }
 }

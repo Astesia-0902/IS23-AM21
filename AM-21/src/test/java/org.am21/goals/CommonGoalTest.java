@@ -450,7 +450,7 @@ public class CommonGoalTest {
     }
 
     /**
-     * 
+     *
      */
     @Test
     void testCommGoal6Group(){

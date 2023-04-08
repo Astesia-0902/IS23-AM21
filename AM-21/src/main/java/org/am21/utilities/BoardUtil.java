@@ -54,7 +54,7 @@ public class BoardUtil {
 
         switch (maxSeats){
             case 2: Collections.addAll(boundaries,
-                        new Coordinates(-1,-1),
+                        null,  //!!!!
                         new Coordinates(3,4),
                         new Coordinates(3,5),
                         new Coordinates(2,7),
@@ -62,7 +62,7 @@ public class BoardUtil {
                         new Coordinates(1,6),
                         new Coordinates(3,5),
                         new Coordinates(4,5),
-                        new Coordinates(-1,-1));
+                        null);
                 break;
             case 3: Collections.addAll(boundaries,
                     new Coordinates(3,3),
@@ -101,13 +101,17 @@ public class BoardUtil {
      */
     public static boolean refillBoard(Board b) {
         Bag bag = b.bag;
-        List<Coordinates> x = b.boundaries;
+        int k =0;   //parameter to shrink the border array at the extremities
+        List<Coordinates> borders = b.boundaries;
         if((bag.getDeck().size()-bag.bagIndex)==0){
             return false;
         }
+        if(b.maxSeats == 2){
+            k =1;
+        }
 
-        for(int i=0;i<b.gRow;i++){
-            for(int j=x.get(i).x;j<x.get(i).y;j++){
+        for(int i = 0+k; i<b.gRow-k; i++){
+            for(int j = borders.get(i).x; j<= borders.get(i).y; j++){
 
                 if (!b.isOccupied(i, j)) {
                     if ((bag.getDeck().size()- bag.bagIndex )>0) {

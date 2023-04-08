@@ -139,8 +139,7 @@ public class Match {
         changeTurnPhase(TurnPhases.Selection);
     }
 
-    public void giveToken(Player player) {
-    }
+
 
     /**
      *
@@ -190,10 +189,21 @@ public class Match {
      */
     public void checkingGoals(Player player) {
         //Serie di comandi per controllare se il player ha completato dei goal
+        player.getMyPersonalGoal().calculatePoints();
+
+        for(CommonGoal goal : commonGoals){
+            if(goal.checkGoal(player.shelf)){
+                // Give player points/scoreToken
+                player.playerScore += goal.extractToken();
+                goal.setAchievedPlayers(player);
+
+            }
+        }
 
         changeTurnPhase(TurnPhases.EndTurn);
         this.callEndTurnRoutine();
     }
+
 
     /**
      *
