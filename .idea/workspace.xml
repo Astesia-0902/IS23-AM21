@@ -6,13 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="dd2f3e9a-b514-48f2-995d-660d696de66e" name="Changes" comment="add method Shelf as request">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoal.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/BoardUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/BoardUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/WrongModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/WrongModelTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/board/BoardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/board/BoardTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/goals/CommonGoalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/goals/CommonGoalTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoalDiagonal.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoalDiagonal.java" afterDir="false" />
     </list>
     <list id="19ab3365-554c-40d9-959c-e6407d37c953" name="Changes by jef" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -95,7 +89,7 @@
       <recent name="org.am21.utilities" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.PlayerModel.unfinishedGameSimulation">
+  <component name="RunManager" selected="JUnit.CommonGoalTest">
     <configuration name="ServerTest" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.am21.controller.ServerMain" />
       <module name="IS23-AM21" />
@@ -228,8 +222,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.PlayerModel.unfinishedGameSimulation" />
         <item itemvalue="JUnit.WrongModelTest.runner" />
+        <item itemvalue="JUnit.PlayerModel.unfinishedGameSimulation" />
         <item itemvalue="JUnit.BoardTest" />
         <item itemvalue="JUnit.BoardTest.testOccupation" />
         <item itemvalue="JUnit.WrongModelTest.testPlayerList" />
