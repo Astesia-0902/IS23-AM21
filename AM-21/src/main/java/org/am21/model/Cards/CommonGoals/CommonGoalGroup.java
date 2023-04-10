@@ -9,10 +9,10 @@ import org.am21.model.items.Shelf;
  */
 public class CommonGoalGroup extends CommonGoal {
 
-    private boolean[][] visited;
+    //private boolean[][] visited;
 
-    public static int minMembers = 4;
-    public static int numGroup = 4;
+    //public static int minMembers = 4;
+    //public static int numGroup = 4;
 
     public int groupNum;
     public int groupSize;
@@ -232,7 +232,7 @@ public class CommonGoalGroup extends CommonGoal {
 }
 
 
-/**
+/*
  * Scan the shelf to find 3 groups of 4 tiles of the same color
  *
  * @param s

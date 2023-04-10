@@ -1,0 +1,161 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Bag</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.model.items</a>
+</div>
+
+<h1>Coverage Summary for Class: Bag (org.am21.model.items)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Bag</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88,9%
+  </span>
+  <span class="absValue">
+    (8/9)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.model.items;
+&nbsp;
+&nbsp;import org.am21.model.Cards.ItemCard;
+&nbsp;import org.am21.utilities.BoardUtil;
+&nbsp;import org.am21.utilities.CardUtil;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public class Bag {
+&nbsp;    public Board board;
+&nbsp;    private List&lt;ItemCard&gt; itemCollection;
+&nbsp;    public int bagIndex;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Bag constructor:
+&nbsp;     * When initialized, Bag will create the ItemCollection list, which will store all the items available
+&nbsp;     * The cards are already shuffled.
+&nbsp;     * @param board
+&nbsp;     */
+<b class="fc">&nbsp;    public Bag(Board board){</b>
+<b class="fc">&nbsp;        this.bagIndex=0;</b>
+<b class="fc">&nbsp;        this.board=board;</b>
+&nbsp;        //Filling the bag completely
+<b class="fc">&nbsp;        this.itemCollection = CardUtil.buildItemTileCard();</b>
+&nbsp;
+&nbsp;//        System.out.println(&quot;Match &gt; Bag completely filled with &quot;+ itemCollection.size());
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method return itemCollection reference
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    public List&lt;ItemCard&gt; getDeck() {
+&nbsp;
+<b class="fc">&nbsp;        return itemCollection;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Match call refillRequest when LivingRoomBoard.isSingle() is true.
+&nbsp;     * This method will verify if there is any item in the Bag.
+&nbsp;     * If so, then it will call the GridUtil.refillBoard() method.
+&nbsp;     * @return true: if there are item added to the board.
+&nbsp;     */
+&nbsp;    public boolean refillRequest(){
+&nbsp;
+<b class="fc">&nbsp;        if((this.itemCollection.size()-bagIndex)==0){</b>
+&nbsp;//            System.out.println(&quot;Bag &gt; Bag empty. No more refill&quot;);
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }else {
+&nbsp;//            System.out.println(&quot;Bag &gt; Accessing Bag...&quot;);
+<b class="fc">&nbsp;            BoardUtil.refillBoard(this.board);</b>
+&nbsp;
+&nbsp;//            System.out.println(&quot;Bag &gt; Refill completed&quot;);
+&nbsp;//            System.out.println(&quot;Bag &gt; Items remaining: &quot;+ (this.itemCollection.size()-bagIndex));
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-11 00:25</div>
+</div>
+</body>
+</html>

@@ -51,7 +51,7 @@ public class WrongModelTest {
 
             for(Player p : m.playerList) {
                 if(m.currentPlayer==p){
-                    robotMoves(p.controller,p);
+                    robotMoves(p.getController(),p);
                 }
             }
 

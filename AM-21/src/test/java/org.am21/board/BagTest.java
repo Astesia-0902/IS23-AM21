@@ -5,6 +5,10 @@ import org.am21.model.items.Bag;
 import org.am21.model.items.Board;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BagTest {
     private Match m;
@@ -15,14 +19,23 @@ public class BagTest {
     @BeforeEach
     void setUp(){
         m = new Match(seats);
-        b = new Bag(m);
+        board = new Board(m);
+        b=board.bag;
     }
 
     @AfterEach
     void tearDown(){
         m=null;
+        board=null;
         b=null;
 
+    }
+
+    @Test
+    void bagRefillTest(){
+        assertEquals(0,b.bagIndex);
+        assertEquals(132,b.getDeck().size());
+        assertTrue(b.refillRequest());
     }
 
 }

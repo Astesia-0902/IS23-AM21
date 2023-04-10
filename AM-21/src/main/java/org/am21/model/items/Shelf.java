@@ -25,36 +25,21 @@ public class Shelf extends Grid {
 
 
     /**
-     * Construction of the shelf:
+     * Construction of an empty shelf:
      * Initialize the grid with superclass
      * Create array, each elem count slot available for each column
+     * Row-Index-0 is bottom of the shelf
      * @param player
      */
     public Shelf(Player player){
         super(sRow, sColumn);
         this.player = player;
         this.slotCol = new ArrayList<>();
-        for(int i = 0; i< gColumn; i++){
+        for(int i = 0; i< sColumn; i++){
             slotCol.add(sRow);
         }
-        //this.initiateShelfGrid(sRow, sColumn);
-    }
 
-    /**
-     * Build each element of the matrix with a Cell elem
-     * @param r
-     * @param c
-     * @return
-     */
-    /*
-    public boolean initiateShelfGrid(int r,int c){
-        for(int i=0; i<r;i++){
-            for(int j=0;j<c;j++){
-                this.getMatrix()[i][j] = new ItemTileCard();
-            }
-        }
-        return false;
-    }*/
+    }
 
     /**
      * Calculate the min Limit for hand Capacity
@@ -62,7 +47,7 @@ public class Shelf extends Grid {
      * then 'handLimit' = 2
      * @return
      */
-    public void elaborateLimit(){
+    public void checkLimit(){
 /*        System.out.println("Shelf > Slot available each column");
         for(int x: player.shelf.slotCol){
             System.out.print("["+x+"]");
@@ -107,8 +92,8 @@ public class Shelf extends Grid {
      */
     public boolean insertInColumn(ItemCard item, int col){
 
-        if(this.getMatrix()[slotCol.get(col)-1][col]==null){
-            this.getMatrix()[slotCol.get(col)-1][col]= item;
+        if(this.getMatrix()[Shelf.sRow-slotCol.get(col)][col]==null && slotCol.get(col)>0){
+            this.getMatrix()[Shelf.sRow-slotCol.get(col)][col]= item;
             this.slotCol.set(col,slotCol.get(col)-1);
             return true;
         }
@@ -195,6 +180,12 @@ public class Shelf extends Grid {
             }
         }
         return points;
+    }
+
+
+    public void getGroupPoints(){
+
+
     }
 
 

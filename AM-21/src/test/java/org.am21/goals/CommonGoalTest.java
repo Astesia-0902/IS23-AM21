@@ -114,7 +114,7 @@ public class CommonGoalTest {
 
         assertTrue(card.checkGoal(s));
 
-        s.setCell(5, 1, new ItemCard(ItemType.__Cats__ + "1.1"));
+        s.setCell(0, 1, new ItemCard(ItemType.__Cats__ + "1.1"));
         assertFalse(card.checkGoal(s));
 
 
@@ -482,18 +482,69 @@ public class CommonGoalTest {
 
     }
 
+    /**
+     * Setup:
+     * A X with (1,1) as root
+     */
     @Test
     void testCommGoalXShape() {
         card = new CommonGoalXShape(2);
 
+        s.setCell(0,0,new ItemCard(ItemType.__Cats__ + "1.1"));
+        s.setCell(1,1,new ItemCard(ItemType.__Cats__ + "1.1"));
+        s.setCell(2,0,new ItemCard(ItemType.__Cats__ + "1.1"));
+        s.setCell(0,2,new ItemCard(ItemType.__Cats__ + "1.1"));
+        s.setCell(2,2,new ItemCard(ItemType.__Cats__ + "1.1"));
+
+        assertTrue(card.checkGoal(s));
     }
 
     @Test
     void testCommGoalStair() {
+        int k=Shelf.sRow;
         card = new CommonGoalStairs(2);
+        for(int c=0;c<Shelf.sColumn;c++){
+            for(int r=0;r<k;r++){
+                s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.3"),c);
+            }
+            k--;
+        }
+        assertTrue(card.checkGoal(s));
+        s=new Shelf(c.player);
+        k=Shelf.sRow;
 
+        for(int c=4;c>=0;c--){
+            for(int r=0;r<k;r++){
+                s.insertInColumn(new ItemCard(ItemType._Plants_+"1.3"),c);
+            }
+            k--;
+        }
+        assertTrue(card.checkGoal(s));
 
     }
+
+    /**
+     * Setup:
+     * Descending Stair with an extra item on the column 4
+     */
+    @Test
+    void testCommGoalStairFalse() {
+        int k=Shelf.sRow;
+        card = new CommonGoalStairs(2);
+        for(int c=0;c<Shelf.sColumn;c++){
+            for(int r=0;r<k;r++){
+                s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.3"),c);
+            }
+            k--;
+        }
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.2"),4);
+
+
+        assertFalse(card.checkGoal(s));
+
+    }
+
+
 
 
 }

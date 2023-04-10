@@ -37,17 +37,15 @@ public class Board extends Grid {
         super(BOARD_ROW, BOARD_COLUMN);
         this.maxSeats = match.maxSeats;
         this.match = match;
-
+        this.bag = new Bag(this);
         boundaries = BoardUtil.boardBounder(maxSeats);
-
     }
 
     /**
-     *
-     * @return
+     * This method is used to refill the board ONLY for the first time
+     * @return true if the refill is successful
      */
-    public boolean setupBoard() {
-        bag = new Bag(match);
+    public boolean firstSetup() {
 
         if (BoardUtil.refillBoard(this)) {
 //            System.out.println("Match > Living Room Successfully filled");
@@ -187,6 +185,20 @@ public class Board extends Grid {
             }
         }
         return true;
+    }
+
+    /**
+     * This method verifies if the cell is within the boundaries of this match
+     * @param r
+     * @param c
+     * @return true if the cell is playable
+     */
+    public boolean isPlayable(int r,int c){
+        if(boundaries.get(r)!=null && boundaries.get(r).x<=c && c<=boundaries.get(r).y){
+            return true;
+        }
+        return false;
+
     }
 }
 

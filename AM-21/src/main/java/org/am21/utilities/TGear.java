@@ -56,7 +56,7 @@ public class TGear {
             System.out.print(x.getName()+"["+x.shelf.getTotSlotAvail() +"]--");
             System.out.print("Limit:["+x.shelf.insertLimit +"]\n");
 
-            System.out.println("Score obtained from OwnGoal: " + x.getMyPersonalGoal().calculatePoints());
+            System.out.println("Score obtained from OwnGoal: " + x.getMyGoal().calculatePoints());
 
             printThisShelf(x.shelf);
         }

@@ -8,6 +8,7 @@ import org.am21.model.enumer.TurnPhases;
 import org.am21.model.enumer.UserStatus;
 import org.am21.model.items.Board;
 import org.am21.model.items.Shelf;
+import org.am21.model.Player;
 import org.am21.utilities.CardUtil;
 import org.am21.utilities.CommonGoalUtil;
 import org.am21.utilities.MyTimer;
@@ -49,9 +50,8 @@ public class Match {
         if (playerList.size() < maxSeats) {
             playerList.add(player);
             player.status = UserStatus.GameMember;
-//            System.out.println("Game > " + player.getName() + " added to the match");
+            //System.out.println("Game > " + player.getName() + " added to the match");
             player.match = this;
-            player.createHand();
             player.shelf = new Shelf(player);
 
             synchronized (GameManager.playerMatchMap) {
@@ -92,7 +92,7 @@ public class Match {
         //Distribution of personal goals
         List<PersonalGoalCard> personalGoalCards = CardUtil.buildPersonalGoalCard(maxSeats);
         for (int i = 0; i < maxSeats; i++) {
-            playerList.get(i).setOwnGoal(personalGoalCards.get(i));
+            playerList.get(i).setMyGoal(personalGoalCards.get(i));
             personalGoalCards.get(i).setPlayer(playerList.get(i));
         }
 
@@ -106,7 +106,7 @@ public class Match {
         //bag = new Bag(this);
         //bag.setItemCollection(maxSeats);
         board = new Board(this);
-        board.setupBoard();
+        board.firstSetup();
 
         startFirstRound();
     }
@@ -189,7 +189,7 @@ public class Match {
      */
     public void checkingGoals(Player player) {
         //Serie di comandi per controllare se il player ha completato dei goal
-        player.getMyPersonalGoal().calculatePoints();
+        player.getMyGoal().calculatePoints();
 
         for(CommonGoal goal : commonGoals){
             if(goal.checkGoal(player.shelf)){

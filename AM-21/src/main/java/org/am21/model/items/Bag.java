@@ -1,13 +1,13 @@
 package org.am21.model.items;
 
 import org.am21.model.Cards.ItemCard;
-import org.am21.model.Match;
 import org.am21.utilities.BoardUtil;
 import org.am21.utilities.CardUtil;
+
 import java.util.List;
 
 public class Bag {
-    public Match match;
+    public Board board;
     private List<ItemCard> itemCollection;
     public int bagIndex;
 
@@ -15,11 +15,11 @@ public class Bag {
      * Bag constructor:
      * When initialized, Bag will create the ItemCollection list, which will store all the items available
      * The cards are already shuffled.
-     * @param match
+     * @param board
      */
-    public Bag(Match match){
-        this.match = match;
+    public Bag(Board board){
         this.bagIndex=0;
+        this.board=board;
         //Filling the bag completely
         this.itemCollection = CardUtil.buildItemTileCard();
 
@@ -48,7 +48,7 @@ public class Bag {
             return false;
         }else {
 //            System.out.println("Bag > Accessing Bag...");
-            BoardUtil.refillBoard(match.board);
+            BoardUtil.refillBoard(this.board);
 
 //            System.out.println("Bag > Refill completed");
 //            System.out.println("Bag > Items remaining: "+ (this.itemCollection.size()-bagIndex));

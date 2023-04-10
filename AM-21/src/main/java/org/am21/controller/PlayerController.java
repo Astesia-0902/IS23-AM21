@@ -40,7 +40,7 @@ public class PlayerController {
      */
     public PersonalGoalCard viewGoal(){
 
-        return player.getMyPersonalGoal();
+        return player.getMyGoal();
     }
 
 
@@ -225,7 +225,7 @@ public class PlayerController {
                 //Inserimento avvenuto, devo pulire hand
                 //e calcolare new InsertLimit
                 hand.clearHand();
-                player.shelf.elaborateLimit();
+                player.shelf.checkLimit();
                 //TGear.printThisShelf(player.shelf);
                 if(!callEndInsertion()){
                     return false;

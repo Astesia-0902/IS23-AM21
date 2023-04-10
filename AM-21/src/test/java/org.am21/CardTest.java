@@ -31,8 +31,8 @@ class CardTest {
         System.out.println("\n----------------------\n");
         printPersonalGoals(match.playerList);
         System.out.println("\n----------------------\n");
-        printPlayerPersonalGoal(player1.getMyPersonalGoal().getGoalShelf());
-        printPlayerPersonalGoal(player2.getMyPersonalGoal().getGoalShelf());
+        printPlayerPersonalGoal(player1.getMyGoal().getGoalShelf());
+        printPlayerPersonalGoal(player2.getMyGoal().getGoalShelf());
         System.out.println("\n----------------------\n");
         printThisBoard(match.board);
         System.out.println("\n----------------------\n");
@@ -50,8 +50,8 @@ class CardTest {
         System.out.println("\n----------------------\n");
         printThisBoard(match.board);
         System.out.println("\n----------------------\n");
-        System.out.println("Personal goals completed: " + player1.getMyPersonalGoal().checkGoal());
-        System.out.println("Score obtained: " + player1.getMyPersonalGoal().calculatePoints());
+        System.out.println("Personal goals completed: " + player1.getMyGoal().checkGoal());
+        System.out.println("Score obtained: " + player1.getMyGoal().calculatePoints());
     }
 
     @DisplayName("Printf Shelf")

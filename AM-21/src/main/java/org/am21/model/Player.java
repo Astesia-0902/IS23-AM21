@@ -20,13 +20,13 @@ public class Player {
      */
     public int playerScore;
     public Shelf shelf;
-    private PersonalGoalCard myPersonalGoal;
+    private PersonalGoalCard myGoal;
     /**
      * memorize 1 to 3 cards selected by player during a turn
      */
     public Hand hand;
 
-    public PlayerController controller;
+    private PlayerController controller;
 
     public Match match;
 
@@ -43,9 +43,9 @@ public class Player {
         this.controller = controller;
         this.status = UserStatus.Online;
         this.playerScore = 0;
-        this.myPersonalGoal = null;
+        this.myGoal = null;
         this.shelf = null;
-        this.hand = null;
+        this.hand = new Hand(this);
         this.match = null;
     }
 
@@ -61,12 +61,12 @@ public class Player {
         this.host = host;
     }
 
-    public PersonalGoalCard getMyPersonalGoal() {
-        return myPersonalGoal;
+    public PersonalGoalCard getMyGoal() {
+        return myGoal;
     }
 
-    public void setOwnGoal(PersonalGoalCard goal){
-        this.myPersonalGoal = goal;
+    public void setMyGoal(PersonalGoalCard goal){
+        this.myGoal = goal;
     }
     public Shelf getShelf(){
         return shelf;
@@ -79,16 +79,7 @@ public class Player {
         this.hand = hand;
     }
 
-    /**
-     * Creation of the Player's Hand when joinMatch
-     * Assign Hand reference to Player and PlayerController
-     * @return
-     */
-    public void createHand(){
-        this.hand = new Hand(this);
-        this.controller.hand = this.hand;
-//        System.out.println("Match > "+getName()+"'s Hand created and assigned.");
+    public PlayerController getController() {
+        return controller;
     }
-
-
 }

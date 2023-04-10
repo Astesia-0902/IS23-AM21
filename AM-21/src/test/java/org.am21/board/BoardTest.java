@@ -25,10 +25,9 @@ public class BoardTest {
     void setUp() {
 
         m= new Match(seats);
-        bag = new Bag(m);
         board = new Board(m);
-        board.setupBoard();
-        clearBoard(board);
+        bag = board.bag;
+        //clearBoard(board);
 
     }
 
@@ -70,24 +69,22 @@ public class BoardTest {
     }
 
     /**
-     * Test if item in a cell:
-     * -If it doesn't exist, it means the setup of the board has failed
-     * -If the test is successful it, means the setup was done right
+     * Test if the new generated board is empty in a generic cell
+     * And then test it after firstSetup() is called.
      *
-     * In fact, during boardSetup all the cells in the grid are initialized
      */
     @Test
     void testCell(){
 
-        assertNull(board.getCell(0,0));
+        assertNull(board.getCell(5,5));
+        board.firstSetup();
+        assertNotNull(board.getCell(5,5));
 
     }
 
 
     /**
      * Test if, after an insertion, the cell is occupied
-     * 1: Playable cell     -> isOccupied=> true if there is an item
-     * 2: Not playable cell -> isOccupied=>false
      */
     @Test
     void testOccupation(){
@@ -130,7 +127,7 @@ public class BoardTest {
     }
 
     /**
-     * Test if a cell is alone
+     * Test if an item in a cell is isolated
      */
     @Test
     void testIsAlone(){
@@ -201,6 +198,13 @@ public class BoardTest {
         board.setCell(4,4,new ItemCard("BigKen"));
 
         assertFalse(board.hasFreeSide(3,4));
+    }
+
+    @Test
+    void testIsPlayable(){
+
+        assertTrue(board.isPlayable(5,5));
+        assertFalse(board.isPlayable(0,0));
     }
 
 }
