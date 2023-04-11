@@ -59,21 +59,15 @@ public class PersonalGoalCard extends Card {
             int row = values[i][0];
             int col = values[i][1];
             int val = values[i][2];
-            if (GoalShelf.player.shelf.getItemName(row, col) != null) {
-                System.out.println("Shelf > ["+row+ "]"+"["+col+ "]: " + GoalShelf.player.shelf.
-                        getItemName(row, col).substring(0, GoalShelf.player.shelf.getItemName(row, col).length() - 3));
-            }
-            // Compare the items on the player's bookshelf(row, col) with the items required by Personal Goal
 
+            // Compare the items on the player's bookshelf(row, col) with the items required by Personal Goal
             if (GoalShelf.player.shelf.getItemName(row, col) != null &&
-                    GoalShelf.player.shelf.getItemName(row, col).substring(0,
-                                    GoalShelf.player.shelf.getItemName(row, col).length() - 3)
+                    GoalShelf.player.shelf.getItemType(row,col)
                             .equals(tileNames.get(val).getNameCard())) {
+                System.out.println("Shelf > ["+row+ "]"+"["+col+ "]: " + GoalShelf.player.shelf.getItemType(row,col));
                 System.out.println("Match > +1 item matched!");
                 count++;
-
             }
-
         }
         return count;
     }
@@ -87,16 +81,15 @@ public class PersonalGoalCard extends Card {
         return currentScore.getOrDefault(count, 0);
     }
 
-    public void setPlayer(Player player) {
-        this.GoalShelf = new Shelf(player);
-    }
+
 
     /**
      * Function to get recent goal position matched in the shelf of the player
-     * @return goal shelf match
+     * @return goal shelf with color matches
      */
-    public Shelf getGoalShelf() {
-        int[][] values = personalGoal.get(GoalShelf.player.getMyGoal().getNameCard());
+    public Shelf setupGoalShelf(Player player) {
+        this.GoalShelf = new Shelf(player);
+        int[][] values = personalGoal.get(this.getNameCard());
 
         for (int i = 0; i < values.length; i++) {
             int row = values[i][0];
@@ -106,4 +99,10 @@ public class PersonalGoalCard extends Card {
         }
         return GoalShelf;
     }
+
+    public Shelf getGoalShelf(){
+        return this.GoalShelf;
+    }
+
+
 }

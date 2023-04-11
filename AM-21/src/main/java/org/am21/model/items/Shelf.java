@@ -2,7 +2,6 @@ package org.am21.model.items;
 
 import org.am21.model.Cards.ItemCard;
 import org.am21.model.Player;
-import org.am21.utilities.CardPointer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ public class Shelf extends Grid {
      * Construction of an empty shelf:
      * Initialize the grid with superclass
      * Create array, each elem count slot available for each column
-     * Row-Index-0 is bottom of the shelf
+     * Row-Index-0 is on the top of the shelf
      * @param player
      */
     public Shelf(Player player){
@@ -92,8 +91,8 @@ public class Shelf extends Grid {
      */
     public boolean insertInColumn(ItemCard item, int col){
 
-        if(this.getMatrix()[Shelf.sRow-slotCol.get(col)][col]==null && slotCol.get(col)>0){
-            this.getMatrix()[Shelf.sRow-slotCol.get(col)][col]= item;
+        if(this.getMatrix()[slotCol.get(col)-1][col]==null && slotCol.get(col)>0){
+            this.getMatrix()[slotCol.get(col)-1][col]= item;
             this.slotCol.set(col,slotCol.get(col)-1);
             return true;
         }
@@ -109,7 +108,57 @@ public class Shelf extends Grid {
      * give different amount of points.
      *
      *  */
-    public int colorPoints(){
+    public int getGroupPoints(){
+        boolean[][] visited = new boolean[sRow][sColumn];
+        int points=0;
+
+        for(int r=0;r<sRow;r++){
+            for(int c=0;c<sColumn;c++){
+                if(!isOccupied(r,c) || visited[r][c]){
+                    continue;
+                }
+                points += pointsTable(colorCounter(r,c,visited,1,getItemType(r,c)));
+            }
+        }
+        return points;
+    }
+
+    public int colorCounter(int r,int c, boolean[][] visited,int depth,String type){
+        int newDepth=depth;
+        visited[r][c]=true;
+
+        if(r>0&&!visited[r-1][c] && isOccupied(r-1,c)&&getItemType(r-1,c).equals(type)){
+            newDepth=colorCounter(r-1,c,visited,newDepth+1,type);
+        }
+        if(r+1<sRow&&!visited[r+1][c]&&isOccupied(r+1,c)&&getItemType(r+1,c).equals(type)){
+            newDepth=colorCounter(r+1,c,visited,newDepth+1,type);
+        }
+        if(c>0&&!visited[r][c-1]&&isOccupied(r,c-1)&&getItemType(r,c-1).equals(type)){
+            newDepth=colorCounter(r,c-1,visited,newDepth+1,type);
+        }
+        if(c+1<sColumn&&!visited[r][c+1]&&isOccupied(r,c+1)&&getItemType(r,c+1).equals(type)){
+            newDepth=colorCounter(r,c+1,visited,newDepth+1,type);
+        }
+        return newDepth;
+    }
+
+    public int pointsTable(int nItem){
+        switch (nItem) {
+            case 3:
+                return 2;
+            case 4:
+                return 3;
+            case 5:
+                return 5;
+            default:
+                if(nItem >= 6) return 8;
+                else return 0;
+        }
+    }
+}
+
+
+    /*public int colorPoints(){
 
         List<CardPointer> common = new ArrayList<CardPointer>();
 
@@ -123,72 +172,62 @@ public class Shelf extends Grid {
                     do {
                         reg_index++;
                         common.add(new CardPointer(r, c));
-                        /* save the first not null item in String type*/
-                        String recentCard = this.getItemName(common.get(reg_index).x,common.get(reg_index).y);
+                        *//* save the first not null item in String type*//*
+                        String recentCard = this.getItemName(common.get(reg_index-1).x,common.get(reg_index-1).y);
 
-                        if (this.getItemName(r, c + 1) != null && (recentCard.equals(this.getItemName(r, c + 1)) )) {
+                        if (c+1<Shelf.sColumn&&this.getItemName(r, c + 1) != null && (recentCard.equals(this.getItemName(r, c + 1)) )) {
                             common.add(new CardPointer(r, c + 1));
                         }
-                        if (this.getItemName(r, c - 1) != null && (recentCard.equals(this.getItemName(r, c - 1)) )) {
+                        if (c-1>=0&&this.getItemName(r, c - 1) != null && (recentCard.equals(this.getItemName(r, c - 1)) )) {
                             common.add(new CardPointer(r, c - 1));
                         }
-                        if (this.getItemName(r + 1, c) != null && (recentCard.equals(this.getItemName(r + 1, c)) )) {
+                        if (r+1<Shelf.sRow&&this.getItemName(r + 1, c) != null && (recentCard.equals(this.getItemName(r + 1, c)) )) {
                             common.add(new CardPointer(r + 1, c));
                         }
-                        if (this.getItemName(r - 1, c) != null && (recentCard.equals(this.getItemName(r - 1, c)) )) {
+                        if (r-1>=0&&this.getItemName(r - 1, c) != null && (recentCard.equals(this.getItemName(r - 1, c)) )) {
                             common.add(new CardPointer(r - 1, c));
                         }
-                        /** set the cell to null*/
+                        *//* set the cell to null*//*
                         this.setCell(r, c, null);
-                        /**now begin check the next element of list to recheck this procedure*/
+                        *//*now begin check the next element of list to recheck this procedure*//*
 
 
                     }while(common.size()>reg_index+1);
 
-                   /** Iterator <Coordinates> li = null;
-                    li = common.listIterator();
-                    if(li.hasNext()!=true){
-                        li.next();
-                    }*/
+                    *//* Iterator <Coordinates> li = null;
+                     li = common.listIterator();
+                     if(li.hasNext()!=true){
+                     li.next();
+                     }*//*
 
-                   /** count  all element of the list (check the duplicate)*/
+                    *//* count  all element of the list (check the duplicate)*//*
 
-                        for(int i=0; i<common.size();i++)
-                        {
-                            for(int j=1;j<common.size();j++) {
-                                if (common.get(i) == common.get(j))
-                                {
-                                    common.remove(j);
-                                    j--;
-                                }
+                    for(int i=0; i<common.size();i++)
+                    {
+                        for(int j=1;j<common.size();j++) {
+                            if (common.get(i) == common.get(j))
+                            {
+                                common.remove(j);
+                                j--;
                             }
                         }
+                    }
 
-                        if(common.size()==3)
-                            points+=2;
-                        else if(common.size()==4)
-                            points+=3;
-                        else if(common.size()==5)
-                            points+=5;
-                        else if(common.size()>=6)
-                            points+=8;
+                    if(common.size()==3)
+                        points+=2;
+                    else if(common.size()==4)
+                        points+=3;
+                    else if(common.size()==5)
+                        points+=5;
+                    else if(common.size()>=6)
+                        points+=8;
 
                 }
 
-                /** clean the list*/
+                *//* clean the list*//*
                 common.clear();
             }
         }
         return points;
-    }
-
-
-    public void getGroupPoints(){
-
-
-    }
-
-
-
-}
+    }*/
 

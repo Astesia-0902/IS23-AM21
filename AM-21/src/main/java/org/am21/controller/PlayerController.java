@@ -22,6 +22,8 @@ public class PlayerController {
     public PlayerController(String nickname){
 
         this.player = new Player(nickname,this);
+        this.hand = new Hand(this.player);
+        this.player.hand = this.hand;
     }
 
     /**
@@ -58,44 +60,25 @@ public class PlayerController {
      */
     public boolean selectCell(int r,int c){
 //        System.out.println(player.getName() + " > Select: [" + r + "][" + c + "]");
-        // verify if it is player turn
-        if(!isMyTurn(player)) {
+        // verify if it is player turn or if it is the right phase
+        if(!isMyTurn(player)||player.match.turnPhase != TurnPhases.Selection) {
             return false;
         }
-        if (player.getMatch().turnPhase != TurnPhases.Selection) {
-            //System.out.println("Match > Not Selection Phase");
-
-            return false;
-        }
-
         if(player.shelf.insertLimit == hand.getSlot().size()){
+            // Limit reached
             //System.out.println("Shelf > Cannot pick more item");
-//            System.out.println("Shelf > Hand["+hand.getSlot().size()+"]-Limit ["+player.shelf.insertLimit +"]");
-            return false;
-        }
-        //IL filtro precedente dovrebbe essere abbastanza
-        /*if(hand.getSlot().size()==3){
-            System.out.println("Board[!] > Hand full. If you want right-click and unselect");
-            return false;
-        }*/
-
-        Board tmpBoard = player.getMatch().board;
-
-        if (tmpBoard.getMatrix()[r][c] == null) {
-//            System.out.println("Board[!] > Empty cell. Try again");
+            //System.out.println("Shelf > Hand["+hand.getSlot().size()+"]-Limit ["+player.shelf.insertLimit +"]");
             return false;
         }
 
-        if (tmpBoard.hasFreeSide(r, c) == true) {
+        Board board = player.match.board;
+
+        if (board.isPlayable(r,c) && board.isOccupied(r,c) && board.hasFreeSide(r, c)) {
 //            System.out.println("Board > Cell selectable");
             /*If the cell is selectable then verify second condition*/
 
-            if (hand.getSlot().size() == 0) {
-
-//                System.out.println("Board > Empty hand - No Orthogonality check");
-
-            } else {
-                //Controllo se è già stato selezionato
+            if (hand.getSlot().size()>0)  {
+                //quando ci sono altre carte in mano, controllo se è gia stata selezionata
                 for (CardPointer tmp : hand.getSlot()) {
                     if ((r == tmp.x) && (c == tmp.y)) {
                         //Gia selezionato
@@ -110,23 +93,21 @@ public class PlayerController {
                 //NewSelected Cell need to be in a straight line.
                 /*Coordinates have been filtered,
                    so they are valid for Orthogonality check*/
-                if (tmpBoard.isOrthogonal(r, c, hand) == false) {
+                if (!board.isOrthogonal(r, c, hand)) {
 //                    System.out.println("Board > Not Orthogonal");
-                        return false;
-                } else {
-//                    System.out.println("Board > Orthogonal");
+                    return false;
                 }
             }
+            //Tutti i controlli passati: posso inserirlo nella hand
             //salvo le coordinate e il riferimento dell'item nella hand*/
-            hand.memCard(tmpBoard.getCell(r, c), r, c);
+            hand.memCard(board.getCell(r, c), r, c);
 //            System.out.println("Match > Item selected: [" + tmpBoard.getCellItem(r, c).getNameCard() + "]");
 //
             return true;
-        } else {
+        }
             //Questo messaggio sara tolto e messo in ClientInputHandler o nelle funzioni dei test
 //            System.out.println("Match > Selection Failed");
-            return false;
-        }
+        return false;
     }
 
     /**
@@ -134,7 +115,7 @@ public class PlayerController {
      * During Selection Phase:
      * Clear Hand. The Player need to reselect all the cells
      */
-    public boolean unselectCard(){
+    public boolean unselectCards(){
         if(!isMyTurn(player)) {
             return false;
         }
@@ -170,13 +151,13 @@ public class PlayerController {
         if(!isMyTurn(player)) {
             return false;
         }
-        if(player.getMatch().turnPhase == TurnPhases.Insertion){
+        if(player.match.turnPhase == TurnPhases.Insertion){
             for(CardPointer card: hand.getSlot()){
                 if(player.match.board.isOccupied(card.x,card.y)) {
                     player.match.board.setCell(card.x, card.y, null);
-                    return true;
                 }
             }
+            return true;
         }
         return false;
     }
@@ -192,16 +173,15 @@ public class PlayerController {
             return false;
         }
         // Non c'è piu spazio nella shelf quindi in teoria deve passare il turno
-        // temp da rimuovere quando viene gestito last round
+        // TODO:TEMP da rimuovere quando viene gestito last round
         if(player.shelf.getTotSlotAvail()==0){
             player.match.nextTurn();
             return false;
         }
+
         if(player.match.turnPhase == TurnPhases.Insertion){
-
 //            System.out.println(player.getName()+" > Column: ["+col+"]");
-
-            if(player.shelf.slotCol.get(col)<hand.getSlot().size()){
+            if(player.shelf.slotCol.get(col) < hand.getSlot().size()){
                 //System.out.println("Shelf[!] > Not enough space in this column");
                 /*
                 for(int x: player.shelf.slotCol){
@@ -239,16 +219,18 @@ public class PlayerController {
 
     /**
      * This method will call another one in Hand to swap the position of two cards
-     * @param pos1
-     * @param pos2
+     *
+     * @param i is position 1
+     * @param j is position 2
      * @return
      */
-    public boolean changeHandOrder(int pos1,int pos2){
+    public boolean changeHandOrder(int i,int j){
         if(!isMyTurn(player)) {
             return false;
         }
-        if(hand.getSlot().size()>=2){
-            hand.changeOrder(pos1,pos2);
+        int limit =hand.getSlot().size();
+        if(i>=0 && i<limit && j>=0 && j<limit && limit>1){
+            hand.changeOrder(i, j);
             //System.out.println("Hand > Order Changed");
             return true;
         }

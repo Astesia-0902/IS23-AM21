@@ -18,7 +18,7 @@ public class BoardTest {
     private Match m;
     private Board board;
     private Bag bag;
-    private static int seats=2;
+    private final static int seats=2;
 
 
     @BeforeEach
@@ -36,12 +36,11 @@ public class BoardTest {
     void tearDown() {
         m=null;
         board =null;
-        bag = null;
     }
 
     /**
      * Auxiliary Method for board reset
-     * @param b
+     * @param b is board
      */
     public void clearBoard(Board b){
         for(int i=0;i<b.gRow;i++) {
@@ -56,7 +55,6 @@ public class BoardTest {
 
     /**
      * Test if the board size is 45.
-     *
      * Expect NotEquals, in fact the maxSeats is 2 ,
      * so it should be 29.
      *
@@ -166,8 +164,7 @@ public class BoardTest {
      * (4,5) should be selectable
      * (3,4) should be selectable
      * (0,0) should be not selectable
-     *
-     *The condition of existence of the item inside
+     * The condition of existence of the item inside
      * the cell is already verified in SelectCell() from PlayerController
      */
     @Test

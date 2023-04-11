@@ -8,7 +8,6 @@ import org.am21.model.enumer.TurnPhases;
 import org.am21.model.enumer.UserStatus;
 import org.am21.model.items.Board;
 import org.am21.model.items.Shelf;
-import org.am21.model.Player;
 import org.am21.utilities.CardUtil;
 import org.am21.utilities.CommonGoalUtil;
 import org.am21.utilities.MyTimer;
@@ -93,7 +92,7 @@ public class Match {
         List<PersonalGoalCard> personalGoalCards = CardUtil.buildPersonalGoalCard(maxSeats);
         for (int i = 0; i < maxSeats; i++) {
             playerList.get(i).setMyGoal(personalGoalCards.get(i));
-            personalGoalCards.get(i).setPlayer(playerList.get(i));
+            personalGoalCards.get(i).setupGoalShelf(playerList.get(i));
         }
 
         //Determine the common goals
@@ -209,6 +208,10 @@ public class Match {
      *
      */
     private void callEndTurnRoutine() {
+        //Check if last round is completed
+        if (checkLastRound()) {
+            endMatch();
+        }
         if (board.checkBoard()) {
 //            System.out.println("Match > Board need refill");
             TGear.printThisBoard(board);
@@ -220,9 +223,7 @@ public class Match {
                 TGear.printThisBoard(board);
             }
         }
-        if (checkLastRound()) {
-            endMatch();
-        }
+
         if (currentPlayer.shelf.getTotSlotAvail() == 0 && gamePhase != GameState.LastRound) {
 //            System.out.println("Match > Congratulations! " + currentPlayer.getName() + " has completed the shelf first");
             this.setEndGameToken(false);

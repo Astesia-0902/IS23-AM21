@@ -59,12 +59,12 @@ public class Board extends Grid {
      * @return
      **/
     public int getSize() {
-        if (maxSeats == 2)
-            return 29;
-        else if (maxSeats == 3)
-            return 37;
-        else
-            return 45;
+        switch (maxSeats){
+            case 2: return 29;
+            case 3:return 37;
+            case 4:return 45;
+            default: return 0;
+        }
     }
 
 
@@ -92,7 +92,6 @@ public class Board extends Grid {
 //            System.out.println("Board[!] > Out of boundaries: Cell doesn't exist. ");
             return false;
         }
-
 
         if ((r + 1 < gRow) && !isOccupied(r + 1, c)) {
 

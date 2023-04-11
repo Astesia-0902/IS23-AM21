@@ -1,7 +1,6 @@
-package org.am21;
+package org.am21.extra;
 
 import org.am21.controller.PlayerController;
-import org.am21.extra.Printer;
 import org.am21.model.Match;
 import org.am21.model.Player;
 import org.am21.model.enumer.TurnPhases;
@@ -31,8 +30,8 @@ class CardTest {
         System.out.println("\n----------------------\n");
         printPersonalGoals(match.playerList);
         System.out.println("\n----------------------\n");
-        printPlayerPersonalGoal(player1.getMyGoal().getGoalShelf());
-        printPlayerPersonalGoal(player2.getMyGoal().getGoalShelf());
+        printPlayerPersonalGoal(player1.getMyGoal().setupGoalShelf(player1));
+        printPlayerPersonalGoal(player2.getMyGoal().setupGoalShelf(player2));
         System.out.println("\n----------------------\n");
         printThisBoard(match.board);
         System.out.println("\n----------------------\n");

@@ -1,4 +1,4 @@
-package org.am21;
+package org.am21.extra;
 
 import org.am21.controller.PlayerController;
 import org.am21.extra.Printer;

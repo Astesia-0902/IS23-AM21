@@ -11,7 +11,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -41,12 +40,14 @@ public class CommonGoalTest {
      */
     @Test
     void testCommGoalGen() {
-        List<CommonGoal> listGoal = new ArrayList<>();
+        List<CommonGoal> listGoal;
         listGoal = CommonGoalUtil.getCommonGoals(2);
 
         for (CommonGoal x : listGoal) {
             assertEquals(2, x.tokenStack.size());
         }
+
+        assertEquals(4,listGoal.get(0).tokenStack.get(1));
 
     }
 
@@ -114,7 +115,7 @@ public class CommonGoalTest {
 
         assertTrue(card.checkGoal(s));
 
-        s.setCell(0, 1, new ItemCard(ItemType.__Cats__ + "1.1"));
+        s.setCell(5, 1, new ItemCard(ItemType.__Cats__ + "1.1"));
         assertFalse(card.checkGoal(s));
 
 

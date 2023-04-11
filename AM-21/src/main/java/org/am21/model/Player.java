@@ -8,7 +8,6 @@ import org.am21.model.enumer.UserStatus;
 
 
 public class Player {
-
     private String nickname;
 
     public UserStatus status;
@@ -45,7 +44,6 @@ public class Player {
         this.playerScore = 0;
         this.myGoal = null;
         this.shelf = null;
-        this.hand = new Hand(this);
         this.match = null;
     }
 
@@ -70,9 +68,6 @@ public class Player {
     }
     public Shelf getShelf(){
         return shelf;
-    }
-    public Match getMatch(){
-        return match;
     }
 
     public void setHand(Hand hand){

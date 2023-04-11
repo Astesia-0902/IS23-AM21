@@ -1,16 +1,15 @@
-package org.am21;
+package org.am21.extra;
 
 import org.am21.controller.PlayerController;
-import org.am21.extra.Printer;
-import org.am21.model.enumer.GameState;
 import org.am21.model.Match;
 import org.am21.model.Player;
+import org.am21.model.enumer.GameState;
 import org.junit.jupiter.api.Test;
 
 import static org.am21.extra.Gear.*;
 import static org.am21.extra.Printer.*;
-import static org.am21.extra.Printer.printPersonalGoals;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class WrongModelTest {
     static int numMatch=0;

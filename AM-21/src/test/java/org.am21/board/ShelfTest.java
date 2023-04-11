@@ -52,9 +52,9 @@ public class ShelfTest {
 
     @Test
     void testInsertInColumn(){
-        assertNull(s.getCell(0,0));
+        assertNull(s.getCell(5,0));
         s.insertInColumn(new ItemCard("Item"),0);
-        assertNotNull(s.getCell(0,0));
+        assertNotNull(s.getCell(5,0));
     }
 
 
@@ -84,10 +84,13 @@ public class ShelfTest {
         s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),2);
         s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.2"),3);
 
+        s.insertInColumn(new ItemCard(ItemType._Games__+"1.3"),3);
 
-        assertEquals(18,s.colorPoints());
 
+        assertEquals(18,s.getGroupPoints());
 
+        s.insertInColumn(new ItemCard(ItemType._Frames_+"1.1"),4);
+        assertEquals(21,s.getGroupPoints());
 
     }
 
@@ -99,7 +102,25 @@ public class ShelfTest {
      */
     @Test
     void testCheckLimit(){
+        for(int r=0;r<4;r++){
+            for(int i=0;i<Shelf.sColumn;i++)
+                s.insertInColumn(new ItemCard(ItemType._Games__+"1.1"),i);
+        }
 
+        s.checkLimit();
+        assertEquals(2,s.insertLimit);
+
+        for(int i=0;i<Shelf.sColumn;i++)
+            s.insertInColumn(new ItemCard(ItemType._Games__+"1.1"),i);
+
+        s.checkLimit();
+        assertEquals(1,s.insertLimit);
+
+        for(int i=0;i<Shelf.sColumn;i++)
+            s.insertInColumn(new ItemCard(ItemType._Games__+"1.1"),i);
+
+        s.checkLimit();
+        assertEquals(0,s.insertLimit);
     }
 
 }

@@ -56,7 +56,7 @@ public class Printer{
         System.out.println("Match[Hide] > Personal:");
         for(Player x: pList){
             System.out.println("Match[Hide] > "+x.getName()+"'s goal is:"+x.getMyGoal().getNameCard());
-            printGoalShelf(x.getMyGoal().getGoalShelf());
+            printGoalShelf(x.getMyGoal().setupGoalShelf(x));
         }
     }
 
