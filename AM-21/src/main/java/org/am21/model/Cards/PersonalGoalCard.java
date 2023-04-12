@@ -10,6 +10,7 @@ import java.util.List;
 
 public class PersonalGoalCard extends Card {
     private Shelf GoalShelf;
+    public Player player;
     private final static HashMap<String, int[][]> personalGoal = new HashMap<>();
     private final static List<ItemCard> tileNames = new ArrayList<>();
     private final static HashMap<Integer, Integer> currentScore = new HashMap<>();
@@ -53,7 +54,7 @@ public class PersonalGoalCard extends Card {
      */
     public int checkGoal() {
         //System.out.println("Match > Checking PersonalGoal achievement: ");
-        int[][] values = personalGoal.get(GoalShelf.player.getMyGoal().getNameCard());
+        int[][] values = personalGoal.get(player.getMyGoal().getNameCard());
         int count = 0;
         for (int i = 0; i < values.length; i++) {
             int row = values[i][0];
@@ -61,8 +62,8 @@ public class PersonalGoalCard extends Card {
             int val = values[i][2];
 
             // Compare the items on the player's bookshelf(row, col) with the items required by Personal Goal
-            if (GoalShelf.player.shelf.getItemName(row, col) != null &&
-                    GoalShelf.player.shelf.getItemType(row,col)
+            if (player.shelf.getItemName(row, col) != null &&
+                    player.shelf.getItemType(row,col)
                             .equals(tileNames.get(val).getNameCard())) {
                 //System.out.println("Shelf > ["+row+ "]"+"["+col+ "]: " + GoalShelf.player.shelf.getItemType(row,col));
                 //System.out.println("Match > +1 item matched!");
@@ -85,6 +86,7 @@ public class PersonalGoalCard extends Card {
 
     /**
      * Function to get recent goal position matched in the shelf of the player
+     * Used for CLI
      * @return goal shelf with color matches
      */
     public Shelf setupGoalShelf(Player player) {

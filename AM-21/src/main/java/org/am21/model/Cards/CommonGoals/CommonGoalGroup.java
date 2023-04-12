@@ -26,10 +26,10 @@ public class CommonGoalGroup extends CommonGoal {
 
     @Override
     public boolean checkGoal(Shelf shelf) {
-        boolean[][] visited = new boolean[Shelf.sRow][Shelf.sColumn];
+        boolean[][] visited = new boolean[Shelf.SROW][Shelf.SCOLUMN];
         int count = 0;
-        for (int i = 0; i < Shelf.sRow; i++) {
-            for (int j = 0; j < Shelf.sColumn; j++) {
+        for (int i = 0; i < Shelf.SROW; i++) {
+            for (int j = 0; j < Shelf.SCOLUMN; j++) {
                 if (shelf.getCell(i, j) == null || visited[i][j]) {
                     continue;
                 }
@@ -71,7 +71,7 @@ public class CommonGoalGroup extends CommonGoal {
             }
         }
 
-        if (i < Shelf.sRow - 1 && !visited[i + 1][j] && shelf.getCell(i + 1, j) != null && shelf.getItemType(i + 1, j).equals(itemType)) {
+        if (i < Shelf.SROW - 1 && !visited[i + 1][j] && shelf.getCell(i + 1, j) != null && shelf.getItemType(i + 1, j).equals(itemType)) {
             if (process(shelf, i + 1, j, visited, depth + 1, itemType)) {
                 return true;
             }
@@ -83,7 +83,7 @@ public class CommonGoalGroup extends CommonGoal {
             }
         }
 
-        if (j < Shelf.sColumn - 1 && !visited[i][j + 1] && shelf.getCell(i, j + 1) != null && shelf.getItemType(i, j + 1).equals(itemType)) {
+        if (j < Shelf.SCOLUMN - 1 && !visited[i][j + 1] && shelf.getCell(i, j + 1) != null && shelf.getItemType(i, j + 1).equals(itemType)) {
             if (process(shelf, i, j + 1, visited, depth + 1, itemType)) {
                 return true;
             }

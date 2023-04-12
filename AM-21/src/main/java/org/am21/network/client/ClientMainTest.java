@@ -1,12 +1,15 @@
-package org.am21.controller;
+package org.am21.network.client;
+
+import org.am21.controller.IClientHandler;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.rmi.server.ServerNotActiveException;
 
-public class ClientTestMain1 {
+public class ClientMainTest {
     public static void main(String[] args) throws MalformedURLException, NotBoundException, RemoteException, ServerNotActiveException {
 
         // Start the server
@@ -16,8 +19,8 @@ public class ClientTestMain1 {
         System.out.println("Client is ready");
         System.out.println(clientInputHandler);
         //System.out.println(clientChatHandler);
-        clientInputHandler.logIn("ade");
-        clientInputHandler.joinGame(0);
+        clientInputHandler.logIn("test");
+        clientInputHandler.createMatch(2);
 
     }
 }

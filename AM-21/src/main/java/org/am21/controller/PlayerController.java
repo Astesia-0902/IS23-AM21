@@ -119,14 +119,11 @@ public class PlayerController {
         if(!isMyTurn(player)) {
             return false;
         }
-        if(player.match.turnPhase == TurnPhases.Selection) {
+        if(player.match.turnPhase == TurnPhases.Selection && hand.getSlot().size()>0) {
             hand.clearHand();
             return true;
-        }else{
-            //System.out.println("Match[!] > Not selection phase");
-            return false;
         }
-
+        return true;
     }
 
     /**

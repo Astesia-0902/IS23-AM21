@@ -341,13 +341,13 @@ public class CommonGoalTest {
         card = new CommonGoalDiagonal(2);
         //Starting point bottom left
         for (int i = 0; i < 2; i++) {
-            for (int r = i, c = 0; (r < Shelf.sRow - 1 + i) && c < Shelf.sColumn; r++, c++) {
+            for (int r = i, c = 0; (r < Shelf.SROW - 1 + i) && c < Shelf.SCOLUMN; r++, c++) {
                 s.setCell(r, c, new ItemCard(ItemType.Trophies + "1.1"));
             }
             assertTrue(card.checkGoal(s));
         }
         for (int i = 0; i < 2; i++) {
-            for (int r = i, c = 4; (r < Shelf.sRow - 1 + i) && c >= 0; r++, c--) {
+            for (int r = i, c = 4; (r < Shelf.SROW - 1 + i) && c >= 0; r++, c--) {
                 s.setCell(r, c, new ItemCard(ItemType.Trophies + "1.1"));
             }
             assertTrue(card.checkGoal(s));
@@ -363,7 +363,7 @@ public class CommonGoalTest {
         s.setCell(0, 4, new ItemCard(ItemType._Games__ + "1.1"));
         assertFalse(card.checkGoal(s));
 
-        for (int r = 1, c = 0; (r < Shelf.sRow - 1) && c < Shelf.sColumn; r++, c++) {
+        for (int r = 1, c = 0; (r < Shelf.SROW - 1) && c < Shelf.SCOLUMN; r++, c++) {
             s.setCell(r, c, new ItemCard(ItemType.Trophies + "1.1"));
 
         }
@@ -502,9 +502,9 @@ public class CommonGoalTest {
 
     @Test
     void testCommGoalStair() {
-        int k=Shelf.sRow;
+        int k=Shelf.SROW;
         card = new CommonGoalStairs(2);
-        for(int c=0;c<Shelf.sColumn;c++){
+        for(int c = 0; c<Shelf.SCOLUMN; c++){
             for(int r=0;r<k;r++){
                 s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.3"),c);
             }
@@ -512,7 +512,7 @@ public class CommonGoalTest {
         }
         assertTrue(card.checkGoal(s));
         s=new Shelf(c.player);
-        k=Shelf.sRow;
+        k=Shelf.SROW;
 
         for(int c=4;c>=0;c--){
             for(int r=0;r<k;r++){
@@ -530,9 +530,9 @@ public class CommonGoalTest {
      */
     @Test
     void testCommGoalStairFalse() {
-        int k=Shelf.sRow;
+        int k=Shelf.SROW;
         card = new CommonGoalStairs(2);
-        for(int c=0;c<Shelf.sColumn;c++){
+        for(int c = 0; c<Shelf.SCOLUMN; c++){
             for(int r=0;r<k;r++){
                 s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.3"),c);
             }

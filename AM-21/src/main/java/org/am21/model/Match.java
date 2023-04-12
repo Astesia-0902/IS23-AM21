@@ -93,8 +93,11 @@ public class Match {
         //Distribution of personal goals
         List<PersonalGoalCard> personalGoalCards = CardUtil.buildPersonalGoalCard(maxSeats);
         for (int i = 0; i < maxSeats; i++) {
+            //Give player PersonalGoal
             playerList.get(i).setMyGoal(personalGoalCards.get(i));
-            personalGoalCards.get(i).setupGoalShelf(playerList.get(i));
+            //Give the player's reference to the card
+            personalGoalCards.get(i).player=playerList.get(i);
+
         }
 
         //Determine the common goals

@@ -103,20 +103,20 @@ public class ShelfTest {
     @Test
     void testCheckLimit(){
         for(int r=0;r<4;r++){
-            for(int i=0;i<Shelf.sColumn;i++)
+            for(int i = 0; i<Shelf.SCOLUMN; i++)
                 s.insertInColumn(new ItemCard(ItemType._Games__+"1.1"),i);
         }
 
         s.checkLimit();
         assertEquals(2,s.insertLimit);
 
-        for(int i=0;i<Shelf.sColumn;i++)
+        for(int i = 0; i<Shelf.SCOLUMN; i++)
             s.insertInColumn(new ItemCard(ItemType._Games__+"1.1"),i);
 
         s.checkLimit();
         assertEquals(1,s.insertLimit);
 
-        for(int i=0;i<Shelf.sColumn;i++)
+        for(int i = 0; i<Shelf.SCOLUMN; i++)
             s.insertInColumn(new ItemCard(ItemType._Games__+"1.1"),i);
 
         s.checkLimit();
