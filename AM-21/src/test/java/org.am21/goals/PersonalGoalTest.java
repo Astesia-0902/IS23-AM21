@@ -1,9 +1,12 @@
 package org.am21.goals;
 
 import org.am21.controller.PlayerController;
+import org.am21.model.Cards.ItemCard;
+import org.am21.model.Cards.ItemType;
 import org.am21.model.Cards.PersonalGoalCard;
 import org.am21.model.Match;
 import org.am21.model.Player;
+import org.am21.model.items.Shelf;
 import org.am21.utilities.CardUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,8 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class PersonalGoalTest {
@@ -22,6 +24,7 @@ public class PersonalGoalTest {
     private List<PersonalGoalCard> listCards;
     private PlayerController c;
     private Player p;
+    private Shelf s;
 
     @BeforeEach
     void setUp(){
@@ -29,6 +32,8 @@ public class PersonalGoalTest {
         listCards = CardUtil.buildPersonalGoalCard(2);
         c=new PlayerController("Ade");
         p=c.player;
+        s=new Shelf(p);
+        p.shelf=s;
     }
 
     @AfterEach
@@ -51,13 +56,22 @@ public class PersonalGoalTest {
 
         assertEquals("_Plants_",card.getGoalShelf().getItemName(1,1));
         assertEquals("__Cats__",card.getGoalShelf().getItemName(2,0));
-        
+
     }
     @Test
     void testCheckGoal(){
         card = new PersonalGoalCard("PERSONAL_GOALs"+2);
+        p.setMyGoal(card);
+        card.setupGoalShelf(p);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),1);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),1);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),1);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),1);
 
-
+        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),1);
+        String type = s.getItemType(1,1);
+        assertEquals("_Plants_",type);
+        assertEquals(1,p.getMyGoal().calculatePoints());
 
     }
 

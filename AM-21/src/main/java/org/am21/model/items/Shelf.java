@@ -4,6 +4,7 @@ import org.am21.model.Cards.ItemCard;
 import org.am21.model.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -21,6 +22,15 @@ public class Shelf extends Grid {
     public final int stdLim =3;
     public final static int sRow = 6 ;
     public final static int sColumn = 5;
+
+    private final static HashMap<Integer,Integer> pointsMap=new HashMap<>();
+    static {
+        pointsMap.put(0,0);
+        pointsMap.put(3,2);
+        pointsMap.put(4,3);
+        pointsMap.put(5,5);
+        pointsMap.put(6,8);
+    }
 
 
     /**
@@ -143,17 +153,10 @@ public class Shelf extends Grid {
     }
 
     public int pointsTable(int nItem){
-        switch (nItem) {
-            case 3:
-                return 2;
-            case 4:
-                return 3;
-            case 5:
-                return 5;
-            default:
-                if(nItem >= 6) return 8;
-                else return 0;
-        }
+        if(nItem<3){nItem=0;}
+        else if(nItem>6){nItem=6;}
+
+        return pointsMap.get(nItem);
     }
 }
 

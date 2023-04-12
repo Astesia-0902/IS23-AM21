@@ -225,17 +225,10 @@ public class PlayerController {
      * @return
      */
     public boolean changeHandOrder(int i,int j){
-        if(!isMyTurn(player)) {
-            return false;
-        }
-        int limit =hand.getSlot().size();
-        if(i>=0 && i<limit && j>=0 && j<limit && limit>1){
-            hand.changeOrder(i, j);
-            //System.out.println("Hand > Order Changed");
+        if(isMyTurn(player) && hand.changeOrder(i,j)){
             return true;
         }
         return false;
-
     }
 
     /**

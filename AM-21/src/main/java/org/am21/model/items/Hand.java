@@ -57,12 +57,17 @@ public class Hand {
     /**
      * function for order changing between 2 element in slot
      * Used during Insertion Phase
-     * @param pos1
-     * @param pos2
+     * @param i is position 1
+     * @param j is position 2
      */
-    public void changeOrder(int pos1,int pos2){
-        Collections.swap(slot,pos1,pos2);
-
+    public boolean changeOrder(int i, int j){
+        int limit =getSlot().size();
+        if(i>=0 && i<limit && j>=0 && j<limit && limit>1){
+            Collections.swap(slot, i, j);
+            //System.out.println("Hand > Order Changed");
+            return true;
+        }
+        return false;
     }
 
 

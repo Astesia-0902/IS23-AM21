@@ -33,7 +33,8 @@ public class PlayerTest {
         m.addPlayer(p2);
 
         b=m.board;
-        s=new Shelf(p1);
+        p1.shelf=new Shelf(p1);
+        s=p1.shelf;
 
         m.currentPlayer = p1;
     }
@@ -162,6 +163,9 @@ public class PlayerTest {
         assertFalse(c1.tryToInsert(0));
         c1.callEndSelection();
         assertTrue(c1.tryToInsert(0));
+
+        assertTrue(s.isOccupied(5,0));
+
         c1.player.shelf.insertInColumn(new ItemCard("Generic"),0);
         c1.player.shelf.insertInColumn(new ItemCard("Generic"),0);
         c1.player.shelf.insertInColumn(new ItemCard("Generic"),0);

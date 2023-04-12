@@ -52,7 +52,7 @@ public class PersonalGoalCard extends Card {
      * @return the number of goal completed
      */
     public int checkGoal() {
-        System.out.println("Match > Checking PersonalGoal achievement: ");
+        //System.out.println("Match > Checking PersonalGoal achievement: ");
         int[][] values = personalGoal.get(GoalShelf.player.getMyGoal().getNameCard());
         int count = 0;
         for (int i = 0; i < values.length; i++) {
@@ -64,8 +64,8 @@ public class PersonalGoalCard extends Card {
             if (GoalShelf.player.shelf.getItemName(row, col) != null &&
                     GoalShelf.player.shelf.getItemType(row,col)
                             .equals(tileNames.get(val).getNameCard())) {
-                System.out.println("Shelf > ["+row+ "]"+"["+col+ "]: " + GoalShelf.player.shelf.getItemType(row,col));
-                System.out.println("Match > +1 item matched!");
+                //System.out.println("Shelf > ["+row+ "]"+"["+col+ "]: " + GoalShelf.player.shelf.getItemType(row,col));
+                //System.out.println("Match > +1 item matched!");
                 count++;
             }
         }
