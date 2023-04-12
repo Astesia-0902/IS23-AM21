@@ -4,10 +4,9 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
 import java.rmi.server.ServerNotActiveException;
 
-public class ClientMainTest {
+public class ClientTestMain1 {
     public static void main(String[] args) throws MalformedURLException, NotBoundException, RemoteException, ServerNotActiveException {
 
         // Start the server
@@ -17,8 +16,8 @@ public class ClientMainTest {
         System.out.println("Client is ready");
         System.out.println(clientInputHandler);
         //System.out.println(clientChatHandler);
-        clientInputHandler.logIn("test");
-        clientInputHandler.createMatch(2);
+        clientInputHandler.logIn("ade");
+        clientInputHandler.joinGame(0);
 
     }
 }

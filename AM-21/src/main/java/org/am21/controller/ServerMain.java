@@ -19,17 +19,19 @@ public class ServerMain {
     public static void main(String[] args) throws RemoteException {
         try {
             // Start the server
-            LocateRegistry.createRegistry(8888);
+            LocateRegistry.createRegistry(8808);
 
             // This object will be used by the client
             IClientHandler clientInputHandler = new ClientInputHandler();
             //IClientHandler clientChatHandler = new ClientChatHandler();
 
             // Bind the remote object's stub in the registry
-            Naming.bind("rmi://localhost:8888/ClientInputHandler", clientInputHandler);
+            Naming.bind("rmi://localhost:8808/ClientInputHandler", clientInputHandler);
             //Naming.bind("rmi://localhost:8888/ClientChatHandler", clientChatHandler);
             System.out.println("Server is ready");
-
+            while (true){
+                Thread.sleep(1000);
+            }
 
 
         } catch (Exception ignored) {

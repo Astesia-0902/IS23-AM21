@@ -61,6 +61,8 @@ public class Match {
                 matchStart();
             }
 
+            System.out.println("Game > " + player.getName() + " added to the match" + this.matchID);
+
             return true;
         }
         return false;
@@ -108,6 +110,7 @@ public class Match {
         board.firstSetup();
 
         startFirstRound();
+        System.out.println("Game > The match of ID: " + matchID + " is starting!");
     }
 
     /**
@@ -122,7 +125,7 @@ public class Match {
 
         //Start the timer
         timer = new MyTimer();
-        timer.startTimer(5, this);
+        timer.startTimer(30, this);
     }
 
     /**
@@ -133,15 +136,13 @@ public class Match {
 //        System.out.println("Match > Player Turn: " + currentPlayer.getName());
 
         timer = new MyTimer();
-        timer.startTimer(2, this);
+        timer.startTimer(30, this);
 
         changeTurnPhase(TurnPhases.Selection);
     }
 
 
-
     /**
-     *
      * @param endGameToken
      */
     public void setEndGameToken(boolean endGameToken) {
@@ -149,7 +150,6 @@ public class Match {
     }
 
     /**
-     *
      * @return
      */
     public boolean checkLastRound() {
@@ -163,7 +163,6 @@ public class Match {
     }
 
     /**
-     *
      * @return
      */
     public Player getFirstToComplete() {
@@ -190,8 +189,8 @@ public class Match {
         //Serie di comandi per controllare se il player ha completato dei goal
         player.getMyGoal().calculatePoints();
 
-        for(CommonGoal goal : commonGoals){
-            if(goal.checkGoal(player.shelf)){
+        for (CommonGoal goal : commonGoals) {
+            if (goal.checkGoal(player.shelf)) {
                 // Give player points/scoreToken
                 //player.playerScore += goal.extractToken();
                 goal.setAchievedPlayers(player);
@@ -249,7 +248,6 @@ public class Match {
     }
 
     /**
-     *
      * @param player
      * @return
      */

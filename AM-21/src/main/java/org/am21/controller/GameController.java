@@ -64,6 +64,7 @@ public class GameController {
         synchronized (GameManager.playerMatchMap) {
             synchronized (GameManager.matchList) {
                 createMatchHelper(userName, createMatchRequestCount, playerNum, playerController);
+                System.out.println("Message from the server: the match is created.");
             }
         }
     }

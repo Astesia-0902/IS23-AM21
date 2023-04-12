@@ -27,8 +27,8 @@ public class GameManager {
             }
 
             Match match = new Match(playerNum);
-            match.matchID = matchList.indexOf(match);
             matchList.add(match);
+            match.matchID = matchList.indexOf(match);
             match.addPlayer(playerController.player);
         }
     }

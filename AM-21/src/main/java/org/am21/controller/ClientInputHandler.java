@@ -51,6 +51,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientHa
      * @throws RemoteException
      * @throws ServerNotActiveException
      */
+    @Override
     public void logIn(String username) throws RemoteException, ServerNotActiveException {
         userHost = getClientHost();
         this.userName = username;
@@ -69,6 +70,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientHa
      * @throws RemoteException
      * @throws ServerNotActiveException
      */
+    @Override
     public void createMatch(int playerNum) throws RemoteException, ServerNotActiveException {
         GameController.createMatch(userName, createMatchRequestCount, playerNum, playerController);
     }
@@ -79,6 +81,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientHa
      * @throws RemoteException
      * @throws ServerNotActiveException
      */
+    @Override
     public void joinGame(int matchID) throws RemoteException, ServerNotActiveException {
         GameController.joinGame(matchID, userName, playerController);
     }
