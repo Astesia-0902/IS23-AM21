@@ -8,6 +8,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
 
+//TODO: we need reference of this class in every player instance, so we can send message to the client
 public class ClientInputHandler extends UnicastRemoteObject implements IClientHandler {
     public String userName;
     public String userHost;
