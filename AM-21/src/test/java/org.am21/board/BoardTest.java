@@ -13,7 +13,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+/**
+ * @author Ken Chen
+ * @author YangHao Mao
+ * @version 1.0
+ */
 public class BoardTest {
     private Match m;
     private Board board;
@@ -145,7 +149,7 @@ public class BoardTest {
     @Test
     void testIsOrthogonal(){
 
-        Hand h = new Hand(new PlayerController("").player);
+        Hand h = new Hand(new PlayerController("").getPlayer());
 
         h.getSlot().add(new CardPointer(3,3));
         h.getSlot().get(0).item= new ItemCard("none");

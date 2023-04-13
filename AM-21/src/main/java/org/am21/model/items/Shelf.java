@@ -16,12 +16,12 @@ public class Shelf extends Grid {
      */
     public List<Integer> slotCol;
     /**
-     * Starting Limit for numbers of card insertable in the shelf
+     * Numbers of items insertable in the shelf each turn. Starting limit: 3. It's diminishable.
      */
     public int insertLimit=3;
     public final static int STD_LIMIT =3;
-    public final static int SROW = 6 ;
-    public final static int SCOLUMN = 5;
+    public final static int SHELF_ROW = 6 ;
+    public final static int SHELF_COLUMN = 5;
 
     private final static HashMap<Integer,Integer> pointsMap=new HashMap<>();
     static {
@@ -41,11 +41,11 @@ public class Shelf extends Grid {
      * @param player
      */
     public Shelf(Player player){
-        super(SROW, SCOLUMN);
+        super(SHELF_ROW, SHELF_COLUMN);
         this.player = player;
         this.slotCol = new ArrayList<>();
-        for(int i = 0; i< SCOLUMN; i++){
-            slotCol.add(SROW);
+        for(int i = 0; i< SHELF_COLUMN; i++){
+            slotCol.add(SHELF_ROW);
         }
 
     }
@@ -65,7 +65,7 @@ public class Shelf extends Grid {
         int max=0;
 //        System.out.println("Shelf > Elaboration Limit... ");
 //        System.out.println("OldLimit:"+this.insertLimit);
-        for(int j = 0; j< SCOLUMN; j++){
+        for(int j = 0; j< SHELF_COLUMN; j++){
             if(this.slotCol.get(j)>max){
                 max = this.slotCol.get(j);
             }
@@ -119,11 +119,11 @@ public class Shelf extends Grid {
      *
      *  */
     public int getGroupPoints(){
-        boolean[][] visited = new boolean[SROW][SCOLUMN];
+        boolean[][] visited = new boolean[SHELF_ROW][SHELF_COLUMN];
         int points=0;
 
-        for(int r = 0; r< SROW; r++){
-            for(int c = 0; c< SCOLUMN; c++){
+        for(int r = 0; r< SHELF_ROW; r++){
+            for(int c = 0; c< SHELF_COLUMN; c++){
                 if(!isOccupied(r,c) || visited[r][c]){
                     continue;
                 }
@@ -140,13 +140,13 @@ public class Shelf extends Grid {
         if(r>0&&!visited[r-1][c] && isOccupied(r-1,c)&&getItemType(r-1,c).equals(type)){
             newDepth=colorCounter(r-1,c,visited,newDepth+1,type);
         }
-        if(r+1< SROW &&!visited[r+1][c]&&isOccupied(r+1,c)&&getItemType(r+1,c).equals(type)){
+        if(r+1< SHELF_ROW &&!visited[r+1][c]&&isOccupied(r+1,c)&&getItemType(r+1,c).equals(type)){
             newDepth=colorCounter(r+1,c,visited,newDepth+1,type);
         }
         if(c>0&&!visited[r][c-1]&&isOccupied(r,c-1)&&getItemType(r,c-1).equals(type)){
             newDepth=colorCounter(r,c-1,visited,newDepth+1,type);
         }
-        if(c+1< SCOLUMN &&!visited[r][c+1]&&isOccupied(r,c+1)&&getItemType(r,c+1).equals(type)){
+        if(c+1< SHELF_COLUMN &&!visited[r][c+1]&&isOccupied(r,c+1)&&getItemType(r,c+1).equals(type)){
             newDepth=colorCounter(r,c+1,visited,newDepth+1,type);
         }
         return newDepth;

@@ -9,7 +9,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
+/**
+ * @author Ken Chen
+ * @version 1.0
+ */
 public class BagTest {
     private Match m;
     private Board board;
@@ -35,7 +38,7 @@ public class BagTest {
     void bagRefillTest(){
         assertEquals(0,b.bagIndex);
         assertEquals(132,b.getDeck().size());
-        assertTrue(b.refillRequest());
+        assertTrue(b.refillBoard());
     }
 
 }

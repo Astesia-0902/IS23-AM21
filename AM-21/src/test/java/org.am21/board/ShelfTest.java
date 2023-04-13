@@ -10,7 +10,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * @author Ken Chen
+ * @version 1.0
+ */
 public class ShelfTest {
 
     private Shelf s;
@@ -20,7 +23,7 @@ public class ShelfTest {
     @BeforeEach
     void setUp(){
         c=new PlayerController("Ub");
-        p=c.player;
+        p= c.getPlayer();
         s=new Shelf(p);
     }
 
@@ -103,20 +106,20 @@ public class ShelfTest {
     @Test
     void testCheckLimit(){
         for(int r=0;r<4;r++){
-            for(int i = 0; i<Shelf.SCOLUMN; i++)
+            for(int i = 0; i<Shelf.SHELF_COLUMN; i++)
                 s.insertInColumn(new ItemCard(ItemType._Games__+"1.1"),i);
         }
 
         s.checkLimit();
         assertEquals(2,s.insertLimit);
 
-        for(int i = 0; i<Shelf.SCOLUMN; i++)
+        for(int i = 0; i<Shelf.SHELF_COLUMN; i++)
             s.insertInColumn(new ItemCard(ItemType._Games__+"1.1"),i);
 
         s.checkLimit();
         assertEquals(1,s.insertLimit);
 
-        for(int i = 0; i<Shelf.SCOLUMN; i++)
+        for(int i = 0; i<Shelf.SHELF_COLUMN; i++)
             s.insertInColumn(new ItemCard(ItemType._Games__+"1.1"),i);
 
         s.checkLimit();

@@ -1,10 +1,9 @@
 package org.am21.model;
 
-import org.am21.controller.GameController;
 import org.am21.model.Cards.CommonGoal;
 import org.am21.model.Cards.PersonalGoalCard;
+import org.am21.model.enumer.GamePhases;
 import org.am21.model.enumer.GameState;
-import org.am21.model.enumer.TurnPhases;
 import org.am21.model.enumer.UserStatus;
 import org.am21.model.items.Board;
 import org.am21.model.items.Shelf;
@@ -20,10 +19,9 @@ public class Match {
     public int matchID;
     public List<CommonGoal> commonGoals;
     private boolean endGameToken = true;
-    public GameController gameController;
     public Board board;
     public GameState gamePhase;
-    public TurnPhases turnPhase;
+    public GamePhases turnPhase;
     public Player currentPlayer;
     public List<Player> playerList;
     public int maxSeats;
@@ -34,34 +32,35 @@ public class Match {
 
     public Match(int maxSeats) {
         this.maxSeats = maxSeats;
-        playerList = new ArrayList<Player>(maxSeats);
+        playerList = new ArrayList<>(maxSeats);
         gamePhase = GameState.WaitingPlayers;
-        commonGoals = new ArrayList<CommonGoal>(2);
+        commonGoals = new ArrayList<>(2);
     }
 
     /**
-     * Add player to this match
+     * Add player to this match.
+     * And, eventually, when there are enough players,
+     * it will call the method to initialize the match {@link #initializeMatch()}
      *
-     * @param player
-     * @return
+     * @param player player that need to be added to the match
+     * @return true if the addition is successful, otherwise false
      */
     public boolean addPlayer(Player player) {
         if (playerList.size() < maxSeats) {
             playerList.add(player);
-            player.status = UserStatus.GameMember;
-            //System.out.println("Game > " + player.getName() + " added to the match");
-            player.match = this;
-            player.shelf = new Shelf(player);
+            player.setStatus(UserStatus.GameMember);
+            player.setMatch(this);
+            player.setShelf(new Shelf(player));
 
             synchronized (GameManager.playerMatchMap) {
-                GameManager.playerMatchMap.put(player.getName(), matchID);
+                GameManager.playerMatchMap.put(player.getNickname(), matchID);
             }
 
             if (playerList.size() == maxSeats) {
-                matchStart();
+                initializeMatch();
             }
 
-            System.out.println("Game > " + player.getName() + " added to the match" + this.matchID);
+            //System.out.println("Game > " + player.getNickname() + " added to the match N." + this.matchID);
 
             return true;
         }
@@ -70,61 +69,54 @@ public class Match {
 
     /**
      * This should be just the initialization of the Match:
-     * Building board, Bag, cards, choosing chairman
-     * -> StartGame phase
+     * Building board, Bag, cards, choosing chairman -> {@link GameState#GameGoing }
      * <p>
      * At the end,it will call another method to start the first Round:
      * Declare who is player turn
      * And setting Turn Phase
      */
-    public void matchStart() {
+    public void initializeMatch() {
         if (playerList.size() < maxSeats) {
-//            System.out.println("Game > Not enough players to begin. Keep waiting...");
+            //System.out.println("Game > Not enough players to begin. Keep waiting...");
             return;
         }
-//        System.out.println("-------------------------");
-//        System.out.println("Game > The match is starting!");
-//        System.out.println("Match[!] > Let's play!");
         //Determine the first player
         chairman = playerList.get((int) (Math.random() * maxSeats));
-//        System.out.println("Match > " + chairman.getName() + " get the Chair!");
         currentPlayer = chairman;
 
-        //Distribution of personal goals
+        //Distribution of Personal Goals
         List<PersonalGoalCard> personalGoalCards = CardUtil.buildPersonalGoalCard(maxSeats);
         for (int i = 0; i < maxSeats; i++) {
-            //Give player PersonalGoal
-            playerList.get(i).setMyGoal(personalGoalCards.get(i));
-            //Give the player's reference to the card
+            //Give player's reference to the card
             personalGoalCards.get(i).player=playerList.get(i);
-
+            //Give players their Personal Goal
+            playerList.get(i).setMyPersonalGoal(personalGoalCards.get(i));
         }
 
         //Determine the common goals
         commonGoals = CommonGoalUtil.getCommonGoals(maxSeats);
+
+        //Register the players in the playerMatchMap
         for (Player player : playerList) {
-            GameManager.playerMatchMap.put(player.getName(), matchID);
+            GameManager.playerMatchMap.put(player.getNickname(), matchID);
         }
 
         //Initialization of the board
-        //bag = new Bag(this);
-        //bag.setItemCollection(maxSeats);
         board = new Board(this);
         board.firstSetup();
 
+        //System.out.println("Game > The match of ID: " + matchID + " is starting!");
         startFirstRound();
-        System.out.println("Game > The match of ID: " + matchID + " is starting!");
     }
 
     /**
      *
      */
     private void startFirstRound() {
-
         //Initialize the game phase
         gamePhase = GameState.GameGoing;
 //        System.out.println("Match > Player Turn: " + currentPlayer.getName());
-        changeTurnPhase(TurnPhases.Selection);
+        changeTurnPhase(GamePhases.Selection);
 
         //Start the timer
         timer = new MyTimer();
@@ -141,7 +133,7 @@ public class Match {
         timer = new MyTimer();
         timer.startTimer(30, this);
 
-        changeTurnPhase(TurnPhases.Selection);
+        changeTurnPhase(GamePhases.Selection);
     }
 
 
@@ -149,6 +141,7 @@ public class Match {
      * @param endGameToken
      */
     public void setEndGameToken(boolean endGameToken) {
+
         this.endGameToken = endGameToken;
     }
 
@@ -178,7 +171,7 @@ public class Match {
      *
      * @param phase
      */
-    public void changeTurnPhase(TurnPhases phase) {
+    public void changeTurnPhase(GamePhases phase) {
         turnPhase = phase;
 //        System.out.println("Match [!] > { " + turnPhase + " Phase }");
     }
@@ -190,10 +183,10 @@ public class Match {
      */
     public void checkingGoals(Player player) {
         //Serie di comandi per controllare se il player ha completato dei goal
-        player.getMyGoal().calculatePoints();
+        player.getMyPersonalGoal().calculatePoints();
 
         for (CommonGoal goal : commonGoals) {
-            if (goal.checkGoal(player.shelf)) {
+            if (goal.checkGoal(player.getShelf())) {
                 // Give player points/scoreToken
                 //player.playerScore += goal.extractToken();
                 goal.setAchievedPlayers(player);
@@ -201,7 +194,7 @@ public class Match {
             }
         }
 
-        changeTurnPhase(TurnPhases.EndTurn);
+        changeTurnPhase(GamePhases.EndTurn);
         this.callEndTurnRoutine();
     }
 
@@ -219,14 +212,14 @@ public class Match {
             TGear.printThisBoard(board);
 
             //refill
-            if (!board.bag.refillRequest()) {
+            if (!board.bag.refillBoard()) {
 //                System.out.println("Match > Board not refilled");
             } else {
                 TGear.printThisBoard(board);
             }
         }
 
-        if (currentPlayer.shelf.getTotSlotAvail() == 0 && gamePhase != GameState.LastRound) {
+        if (currentPlayer.getShelf().getTotSlotAvail() == 0 && gamePhase != GameState.LastRound) {
 //            System.out.println("Match > Congratulations! " + currentPlayer.getName() + " has completed the shelf first");
             this.setEndGameToken(false);
 //            System.out.println("Match > EndGame Token assigned");

@@ -2,14 +2,13 @@ package org.am21.controller;
 
 import org.am21.model.GameManager;
 import org.am21.model.PlayerManager;
-import org.am21.model.Cards.ItemCard;
 
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
 
 //TODO: we need reference of this class in every player instance, so we can send message to the client
-public class ClientInputHandler extends UnicastRemoteObject implements IClientHandler {
+public class ClientInputHandler extends UnicastRemoteObject implements ClientInput {
     public String userName;
     public String userHost;
     private Integer createMatchRequestCount = 0;
@@ -35,7 +34,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientHa
      * @throws ServerNotActiveException
      */
     //TODO:When the command is not from the current player, the command should be ignored.
-    private boolean checkPlayerActionPhase() throws ServerNotActiveException {
+    public boolean checkPlayerActionPhase() throws ServerNotActiveException {
         String userHost = getClientHost();
         synchronized (GameManager.playerMatchMap) {
             synchronized (GameManager.matchList) {
@@ -59,8 +58,8 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientHa
         playerController = new PlayerController(username);
         //TODO:the same username is not allowed to log in
         synchronized (PlayerManager.players) {
-            if (!PlayerManager.players.contains(playerController.player)) {
-                PlayerManager.players.add(playerController.player);
+            if (!PlayerManager.players.contains(playerController.getPlayer())) {
+                PlayerManager.players.add(playerController.getPlayer());
             }
         }
     }
@@ -94,42 +93,50 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientHa
 //    }
 
     /**
-     *
      * @param row
      * @param col
-     * @throws ServerNotActiveException
-     */
-    public void selectCell(int row, int col) throws ServerNotActiveException {
-        if (!checkPlayerActionPhase()) return;
-        playerController.selectCell(row, col);
-    }
-
-    /**
-     *
-     * @param colNum
-     * @param numTiles
      * @return
      * @throws ServerNotActiveException
      */
-    public boolean insertTiles(int colNum, int numTiles) throws ServerNotActiveException {
-        if (!checkPlayerActionPhase()) return false;
+    public boolean selectCell(int row, int col) throws ServerNotActiveException {
+        if (!checkPlayerActionPhase() &&playerController.selectCell(row, col)) {
+            return true;
+        }
         return false;
     }
 
     /**
-     *
-     * @param item
+     * @param colNum
+     * @return
      * @throws ServerNotActiveException
      */
-    public void removeItemFromHand(ItemCard item) throws ServerNotActiveException {
-        if (!checkPlayerActionPhase()) return;
+    public boolean insertInColumn(int colNum) throws ServerNotActiveException {
+        if (!checkPlayerActionPhase() && playerController.tryToInsert(colNum)){
+            return true;
+        }
+        return false;
     }
 
     /**
-     *
      * @throws ServerNotActiveException
      */
-    public void changeHandOrder() throws ServerNotActiveException {
-        if (!checkPlayerActionPhase()) return;
+    public boolean unselectCards() throws ServerNotActiveException {
+        if (!checkPlayerActionPhase()&&playerController.unselectCards()){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param pos1
+     * @param pos2
+     * @throws ServerNotActiveException
+     */
+    @Override
+    public boolean sortHand(int pos1,int pos2) throws ServerNotActiveException {
+        if (!checkPlayerActionPhase()&&playerController.changeHandOrder(pos1,pos2)) {
+            return true;
+        }
+        return false;
     }
 }

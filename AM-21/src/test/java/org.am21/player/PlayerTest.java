@@ -4,7 +4,7 @@ import org.am21.controller.PlayerController;
 import org.am21.model.Cards.ItemCard;
 import org.am21.model.Match;
 import org.am21.model.Player;
-import org.am21.model.enumer.TurnPhases;
+import org.am21.model.enumer.GamePhases;
 import org.am21.model.items.Board;
 import org.am21.model.items.Shelf;
 import org.am21.utilities.CardPointer;
@@ -24,17 +24,17 @@ public class PlayerTest {
     @BeforeEach
     void setUp(){
         m=new Match(2);
-        m.matchStart();
+        m.initializeMatch();
         c1 = new PlayerController("Rorschach");
-        p1 =c1.player;
+        p1 = c1.getPlayer();
         c2 = new PlayerController("Rorschach");
-        p2 =c2.player;
+        p2 = c2.getPlayer();
         m.addPlayer(p1);
         m.addPlayer(p2);
 
         b=m.board;
-        p1.shelf=new Shelf(p1);
-        s=p1.shelf;
+        p1.setShelf(new Shelf(p1));
+        s= p1.getShelf();
 
         m.currentPlayer = p1;
     }
@@ -67,7 +67,7 @@ public class PlayerTest {
         assertFalse(c1.selectCell(5,5));
         assertTrue(c1.selectCell(1,4));
 
-        m.changeTurnPhase(TurnPhases.GoalChecking);
+        m.changeTurnPhase(GamePhases.GoalChecking);
         assertFalse(c1.selectCell(1,4));
 
         assertFalse(c2.selectCell(1,4));
@@ -100,7 +100,7 @@ public class PlayerTest {
         c1.selectCell(1,3);
         assertTrue(c1.unselectCards());
 
-        assertEquals(0,c1.hand.getSlot().size());
+        assertEquals(0, c1.getHand().getSlot().size());
 
     }
 
@@ -116,7 +116,7 @@ public class PlayerTest {
 
         assertFalse(c1.moveAllToHand());
 
-        m.changeTurnPhase(TurnPhases.Insertion);
+        m.changeTurnPhase(GamePhases.Insertion);
         assertTrue(c1.moveAllToHand());
         assertFalse(b.isOccupied(1,4));
         assertFalse(b.isOccupied(1,3));
@@ -130,9 +130,9 @@ public class PlayerTest {
     @Test
     void testCallingPhases(){
         c1.callEndSelection();
-        assertTrue(m.turnPhase.equals(TurnPhases.Insertion));
+        assertTrue(m.turnPhase.equals(GamePhases.Insertion));
         c1.callEndInsertion();
-        assertTrue(m.turnPhase.equals(TurnPhases.Selection));
+        assertTrue(m.turnPhase.equals(GamePhases.Selection));
         assertTrue(m.currentPlayer.equals(p2));
 
     }
@@ -141,13 +141,13 @@ public class PlayerTest {
     void testChangeHandOrder(){
         c1.selectCell(1,4);
         c1.selectCell(1,3);
-        CardPointer t=c1.hand.getSlot().get(0);
-        CardPointer f=c1.hand.getSlot().get(1);
+        CardPointer t= c1.getHand().getSlot().get(0);
+        CardPointer f= c1.getHand().getSlot().get(1);
         assertFalse(c1.changeHandOrder(1,2));
         c1.changeHandOrder(0,1);
 
-        assertTrue(c1.hand.getSlot().get(1).equals(t));
-        assertTrue(c1.hand.getSlot().get(0).equals(f));
+        assertTrue(c1.getHand().getSlot().get(1).equals(t));
+        assertTrue(c1.getHand().getSlot().get(0).equals(f));
     }
 
     /**
@@ -166,10 +166,10 @@ public class PlayerTest {
 
         assertTrue(s.isOccupied(5,0));
 
-        c1.player.shelf.insertInColumn(new ItemCard("Generic"),0);
-        c1.player.shelf.insertInColumn(new ItemCard("Generic"),0);
-        c1.player.shelf.insertInColumn(new ItemCard("Generic"),0);
-        c1.player.shelf.insertInColumn(new ItemCard("Generic"),0);
+        c1.getPlayer().getShelf().insertInColumn(new ItemCard("Generic"),0);
+        c1.getPlayer().getShelf().insertInColumn(new ItemCard("Generic"),0);
+        c1.getPlayer().getShelf().insertInColumn(new ItemCard("Generic"),0);
+        c1.getPlayer().getShelf().insertInColumn(new ItemCard("Generic"),0);
         assertFalse(c1.tryToInsert(0));
 
     }

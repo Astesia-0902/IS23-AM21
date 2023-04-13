@@ -25,7 +25,7 @@ public class TGear {
     }
 
     public static void printThisShelf(Shelf shelf){
-        System.out.println("Match > "+shelf.player.getName()+"'s Shelf ["+shelf.insertLimit +"]:");
+        System.out.println("Match > "+shelf.player.getNickname()+"'s Shelf ["+shelf.insertLimit +"]:");
         for(int i=0;i<6;i++){
             for(int j=0;j<5;j++){
                 if(shelf.getMatrix()[i][j]==null){
@@ -47,18 +47,18 @@ public class TGear {
         spacer();
         System.out.println("Match[!][!] > Game Stats");
         System.out.println("Num round: ["+(nRound+1)+"]");
-        System.out.println("Winner is: "+m.getFirstToComplete().getName());
+        System.out.println("Winner is: "+m.getFirstToComplete().getNickname());
         System.out.println("Bag items: ["+(m.board.bag.getDeck().size()-m.board.bag.bagIndex)+"]");
         System.out.println("Bag index: ["+m.board.bag.bagIndex+"]");
         System.out.println("Player/Shelf/Hand situation:" );
         for(Player x: m.playerList){
 
-            System.out.print(x.getName()+"["+x.shelf.getTotSlotAvail() +"]--");
-            System.out.print("Limit:["+x.shelf.insertLimit +"]\n");
+            System.out.print(x.getNickname()+"["+ x.getShelf().getTotSlotAvail() +"]--");
+            System.out.print("Limit:["+ x.getShelf().insertLimit +"]\n");
 
-            System.out.println("Score obtained from OwnGoal: " + x.getMyGoal().calculatePoints());
+            System.out.println("Score obtained from OwnGoal: " + x.getMyPersonalGoal().calculatePoints());
 
-            printThisShelf(x.shelf);
+            printThisShelf(x.getShelf());
         }
         System.out.println();
         printThisBoard(m.board);

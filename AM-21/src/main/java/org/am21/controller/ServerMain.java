@@ -22,7 +22,7 @@ public class ServerMain {
             LocateRegistry.createRegistry(8808);
 
             // This object will be used by the client
-            IClientHandler clientInputHandler = new ClientInputHandler();
+            ClientInput clientInputHandler = new ClientInputHandler();
             //IClientHandler clientChatHandler = new ClientChatHandler();
 
             // Bind the remote object's stub in the registry

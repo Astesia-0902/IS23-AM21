@@ -7,6 +7,7 @@ import org.am21.utilities.CardUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public abstract class CommonGoal extends Goal {
     public List<Integer> tokenStack;
     public List<Player> achievedPlayers;
@@ -41,7 +42,7 @@ public abstract class CommonGoal extends Goal {
      */
     public void setAchievedPlayers(Player player) {
         this.achievedPlayers.add(player);
-        player.playerScore += this.tokenStack.get(index);
+        player.setPlayerScore(player.getPlayerScore()+this.tokenStack.get(index));
         this.tokenStack.remove(index);
         index++;
     }

@@ -1,15 +1,12 @@
 package org.am21.utilities;
 
-import org.am21.model.items.Bag;
-import org.am21.model.items.Board;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class BoardUtil {
 
-    /**
+    /*
      *  2Players:
      *              *8: [ ][ ][ ][ ][ ][ ][ ][ ][ ]
      *              *7: [ ][ ][ ][*][*][ ][ ][ ][ ]
@@ -42,9 +39,6 @@ public class BoardUtil {
      *              *2: [ ][ ][*][*][*][*][*][ ][ ]
      *              *1: [ ][ ][ ][+][*][*][ ][ ][ ]
      *              *0: [ ][ ][ ][ ][+][*][ ][ ][ ]
-     *              *
-     * LivingRoom builder is going to fill the board's Cells for the first time.
-     *
      */
 
 
@@ -91,39 +85,7 @@ public class BoardUtil {
     }
 
 
-    /**
-     * This method will be called by the Bag when the cards needed to refill the board are enough
-     * The pre-condition is LivingBoard.isSingle() is true (every card in the board is isolated)
-     * The method-chain is initialized by Match
-     *
-     *
-     * @param b LivingRoomBoard or Board
-     */
-    public static boolean refillBoard(Board b) {
-        Bag bag = b.bag;
-        int k =0;   //parameter to shrink the border array at the extremities
-        List<Coordinates> borders = b.boundaries;
-        if((bag.getDeck().size()-bag.bagIndex)==0){
-            return false;
-        }
-        if(b.maxSeats == 2){
-            k =1;
-        }
 
-        for(int i = 0+k; i<b.gRow-k; i++){
-            for(int j = borders.get(i).x; j<= borders.get(i).y; j++){
-
-                if (!b.isOccupied(i, j)) {
-                    if ((bag.getDeck().size()- bag.bagIndex )>0) {
-                        b.setCell(i, j, bag.getDeck().get(bag.bagIndex));
-                        bag.bagIndex++;
-
-                    }
-                }
-            }
-        }
-        return true;
-    }
 }
 
 

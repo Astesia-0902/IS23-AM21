@@ -79,10 +79,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import org.am21.model.items.Board;
 &nbsp;import org.am21.model.items.Hand;
 &nbsp;import org.am21.model.Player;
-&nbsp;import org.am21.model.enumer.TurnPhases;
+&nbsp;import org.am21.model.enumer.GamePhases;
 &nbsp;import org.am21.model.Cards.PersonalGoalCard;
 &nbsp;import org.am21.utilities.CardPointer;
-&nbsp;import org.am21.utilities.Mx;
 &nbsp;
 &nbsp;
 &nbsp;
@@ -161,7 +160,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 <b class="fc">&nbsp;        Board tmpBoard = player.getMatch().board;</b>
 &nbsp;
-&nbsp;        //TODO: elimina getItemTileCard dall&#39;if, quindi è necessario modificare la struttura della board,
+&nbsp;        //TODO: elimina getItemTileCard dall&#39;if, quindi ï¿½ necessario modificare la struttura della board,
 &nbsp;        //      dove le celle dark non contengono nessun oggetto Cell. La cella non deve esistere
 <b class="fc">&nbsp;        if (tmpBoard.getCellGrid()[r][c].getItem() == null) {</b>
 <b class="fc">&nbsp;            fb= Mx.NoCell;</b>
@@ -178,7 +177,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;//                System.out.println(&quot;Board &gt; Empty hand - No Orthogonality check&quot;);
 &nbsp;
 &nbsp;            } else {
-&nbsp;                //Controllo se è già stato selezionato
+&nbsp;                //Controllo se ï¿½ giï¿½ stato selezionato
 <b class="fc">&nbsp;                for (CardPointer tmp : hand.getSlot()) {</b>
 <b class="fc">&nbsp;                    if ((r == tmp.x) &amp;&amp; (c == tmp.y)) {</b>
 &nbsp;                        //Gia selezionato
@@ -188,7 +187,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;                }</b>
 &nbsp;
 &nbsp;                //Iteriamo slot
-&nbsp;                //Condizione 2 (Ortogonalità):
+&nbsp;                //Condizione 2 (Ortogonalitï¿½):
 &nbsp;                //NewSelected Cell need to be adjacent to the other in slot.
 &nbsp;                //NewSelected Cell need to be in a straight line.
 &nbsp;                /*Coordinates have been filtered,
@@ -277,7 +276,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        if(!isMyTurn(player)) {</b>
 <b class="nc">&nbsp;            return false;</b>
 &nbsp;        }
-&nbsp;        // Non c&#39;è piu spazio nella shelf quindi in teoria deve passare il turno
+&nbsp;        // Non c&#39;ï¿½ piu spazio nella shelf quindi in teoria deve passare il turno
 &nbsp;        // temp da rimuovere quando viene gestito last round
 <b class="fc">&nbsp;        if(player.shelf.getTotSlotAvail()==0){</b>
 <b class="nc">&nbsp;            player.match.nextTurn();</b>

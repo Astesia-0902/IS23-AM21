@@ -55,14 +55,14 @@ public class Printer{
     public static void printPersonalGoals(List<Player> pList){
         System.out.println("Match[Hide] > Personal:");
         for(Player x: pList){
-            System.out.println("Match[Hide] > "+x.getName()+"'s goal is:"+x.getMyGoal().getNameCard());
-            printGoalShelf(x.getMyGoal().setupGoalShelf(x));
+            System.out.println("Match[Hide] > "+x.getNickname()+"'s goal is:"+x.getMyPersonalGoal().getNameCard());
+            printGoalShelf(x.getMyPersonalGoal().setupGoalShelf(x));
         }
     }
 
     @DisplayName("Printf GoalShelf")
     public static void printGoalShelf(Shelf shelf){
-        System.out.println("Match[Hide] > "+shelf.player.getName()+"'s PersonalGoal:");
+        System.out.println("Match[Hide] > "+shelf.player.getNickname()+"'s PersonalGoal:");
         for(int i=0;i<6;i++){
             for(int j=0;j<5;j++){
                 if(shelf.getMatrix()[i][j]==null){
@@ -87,7 +87,7 @@ public class Printer{
     }
 
     public static void printThisShelf(Shelf shelf){
-        System.out.println("Match > "+shelf.player.getName()+"'s Shelf ["+shelf.insertLimit +"]:");
+        System.out.println("Match > "+shelf.player.getNickname()+"'s Shelf ["+shelf.insertLimit +"]:");
         for(int i=0;i<6;i++){
             for(int j=0;j<5;j++){
                 if(shelf.getMatrix()[i][j]==null){
@@ -104,7 +104,7 @@ public class Printer{
 
     public static void showHand(Hand hand){
         System.out.println("--------");
-        System.out.println("Match  > "+hand.player.getName() + "'s Hand ["+ hand.getSlot().size()+"]:");
+        System.out.println("Match  > "+hand.player.getNickname() + "'s Hand ["+ hand.getSlot().size()+"]:");
         for(CardPointer x : hand.getSlot()) {
             if(x.item.getNameCard()!=null){
                 System.out.print("["+x.item.getNameCard()+"]");
@@ -124,9 +124,9 @@ public class Printer{
         System.out.println("Player/Shelf/Hand situation:" );
         for(Player x: m.playerList){
 
-            System.out.print(x.getName()+"["+x.shelf.getTotSlotAvail() +"]--");
-            System.out.print("Limit:["+x.shelf.insertLimit +"]\n");
-            printThisShelf(x.shelf);
+            System.out.print(x.getNickname()+"["+ x.getShelf().getTotSlotAvail() +"]--");
+            System.out.print("Limit:["+ x.getShelf().insertLimit +"]\n");
+            printThisShelf(x.getShelf());
         }
         System.out.println();
         printThisBoard(m.board);

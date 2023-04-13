@@ -16,7 +16,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+/**
+ * @author Ken Chen
+ * @version 1.0
+ */
 public class PersonalGoalTest {
 
     private Match m;
@@ -31,9 +34,9 @@ public class PersonalGoalTest {
         m = new Match(2);
         listCards = CardUtil.buildPersonalGoalCard(2);
         c=new PlayerController("Ade");
-        p=c.player;
+        p= c.getPlayer();
         s=new Shelf(p);
-        p.shelf=s;
+        p.setShelf(s);
     }
 
     @AfterEach
@@ -54,15 +57,16 @@ public class PersonalGoalTest {
         card = new PersonalGoalCard("PERSONAL_GOALs"+2);
         card.setupGoalShelf(p);
 
-        assertEquals("_Plants_",card.getGoalShelf().getItemName(1,1));
-        assertEquals("__Cats__",card.getGoalShelf().getItemName(2,0));
+        assertEquals("_Plants_",card.getPersonalGoalShelf().getItemName(1,1));
+        assertEquals("__Cats__",card.getPersonalGoalShelf().getItemName(2,0));
 
     }
     @Test
     void testCheckGoal(){
         card = new PersonalGoalCard("PERSONAL_GOALs"+2);
-        p.setMyGoal(card);
-        card.setupGoalShelf(p);
+        card.player=p;
+        p.setMyPersonalGoal(card);
+        p.setShelf(s);
         s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),1);
         s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),1);
         s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),1);
@@ -71,7 +75,7 @@ public class PersonalGoalTest {
         s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),1);
         String type = s.getItemType(1,1);
         assertEquals("_Plants_",type);
-        assertEquals(1,p.getMyGoal().calculatePoints());
+        assertEquals(1,p.getMyPersonalGoal().calculatePoints());
 
     }
 

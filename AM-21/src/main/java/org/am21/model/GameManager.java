@@ -2,8 +2,6 @@ package org.am21.model;
 
 import org.am21.controller.GameController;
 import org.am21.controller.PlayerController;
-import org.am21.model.Cards.Card;
-import org.am21.model.Cards.Goal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,7 +27,7 @@ public class GameManager {
             Match match = new Match(playerNum);
             matchList.add(match);
             match.matchID = matchList.indexOf(match);
-            match.addPlayer(playerController.player);
+            match.addPlayer(playerController.getPlayer());
         }
     }
 

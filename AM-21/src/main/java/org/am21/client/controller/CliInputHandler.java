@@ -24,9 +24,15 @@ public class CliInputHandler {
             case "help":
                 handleHelp();
                 break;
+            case "exit":
+                handleExit();
+                break;
             default:
                 break;
         }
+    }
+
+    private static void handleExit() {
     }
 
     private static void handleHelp() {

@@ -1,11 +1,10 @@
 package org.am21.extra;
 
 import org.am21.controller.PlayerController;
-import org.am21.extra.Printer;
-import org.am21.model.enumer.GameState;
 import org.am21.model.Match;
 import org.am21.model.Player;
-import org.am21.model.enumer.TurnPhases;
+import org.am21.model.enumer.GamePhases;
+import org.am21.model.enumer.GameState;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
@@ -25,20 +24,20 @@ class PlayerModel {
 
         Match match = createMatch(3);
         PlayerController pCtrl1 = createPlayerController("Ambrogio");
-        Player player1 = pCtrl1.player;
+        Player player1 = pCtrl1.getPlayer();
         match.addPlayer(player1);
-        Printer.printThisShelf(player1.shelf);
+        printThisShelf(player1.getShelf());
         PlayerController pCtrl2 = createPlayerController("Ambra");
-        Player player2 = pCtrl2.player;
+        Player player2 = pCtrl2.getPlayer();
         match.addPlayer(player2);
-        Printer.printThisShelf(player2.shelf);
+        printThisShelf(player2.getShelf());
         PlayerController pCtrl3 = createPlayerController("Zazà");
-        Player player3 = pCtrl3.player;
+        Player player3 = pCtrl3.getPlayer();
         match.addPlayer(player3);
-        Printer.printThisShelf(player3.shelf);
+        printThisShelf(player3.getShelf());
 
         System.out.println("----------------------");
-        System.out.println("Match > PlayerTurn: "+ match.currentPlayer.getName());
+        System.out.println("Match > PlayerTurn: "+ match.currentPlayer.getNickname());
 
         printThisBoard(match.board);
 
@@ -56,9 +55,9 @@ class PlayerModel {
         pCtrl3.selectCell(4,1);
 
 
-        Printer.showHand(pCtrl1.hand);
-        Printer.showHand(pCtrl2.hand);
-        Printer.showHand(pCtrl3.hand);
+        showHand(pCtrl1.getHand());
+        showHand(pCtrl2.getHand());
+        showHand(pCtrl3.getHand());
 
         pCtrl1.moveAllToHand();
         pCtrl2.moveAllToHand();
@@ -76,24 +75,24 @@ class PlayerModel {
     void randomSimulation(){
         Match match = createMatch(4);
         PlayerController pCtrl1 = createPlayerController("Ambrogio");
-        Player player1 = pCtrl1.player;
+        Player player1 = pCtrl1.getPlayer();
         match.addPlayer(player1);
         PlayerController pCtrl2 = createPlayerController("Ambra");
-        Player player2 = pCtrl2.player;
+        Player player2 = pCtrl2.getPlayer();
         match.addPlayer(player2);
         PlayerController pCtrl3 = createPlayerController("Zazà");
-        Player player3 = pCtrl3.player;
+        Player player3 = pCtrl3.getPlayer();
         match.addPlayer(player3);
         PlayerController pCtrl4 = createPlayerController("Lupin");
-        Player player4 = pCtrl4.player;
+        Player player4 = pCtrl4.getPlayer();
         match.addPlayer(player4);
 
         System.out.println("----------------------");
-        Printer.printThisShelf(player1.shelf);
-        Printer.printThisShelf(player2.shelf);
-        Printer.printThisShelf(player3.shelf);
-        Printer.printThisShelf(player4.shelf);
-        System.out.println("Match > PlayerTurn: "+ match.currentPlayer.getName());
+        printThisShelf(player1.getShelf());
+        printThisShelf(player2.getShelf());
+        printThisShelf(player3.getShelf());
+        printThisShelf(player4.getShelf());
+        System.out.println("Match > PlayerTurn: "+ match.currentPlayer.getNickname());
 
         printThisBoard(match.board);
         randomChoice(pCtrl1);
@@ -101,12 +100,12 @@ class PlayerModel {
         randomChoice(pCtrl3);
         randomChoice(pCtrl4);
 
-        Printer.showHand(pCtrl1.hand);
+        showHand(pCtrl1.getHand());
         pCtrl1.changeHandOrder(0,1);
-        Printer.showHand(pCtrl1.hand);
-        Printer.showHand(pCtrl2.hand);
-        Printer.showHand(pCtrl3.hand);
-        Printer.showHand(pCtrl4.hand);
+        showHand(pCtrl1.getHand());
+        showHand(pCtrl2.getHand());
+        showHand(pCtrl3.getHand());
+        showHand(pCtrl4.getHand());
 
         pCtrl1.moveAllToHand();
         pCtrl2.moveAllToHand();
@@ -114,19 +113,19 @@ class PlayerModel {
 
         printThisBoard(match.board);
 
-        match.turnPhase = TurnPhases.Insertion;
+        match.turnPhase = GamePhases.Insertion;
         pCtrl1.tryToInsert(1);
         pCtrl2.tryToInsert(2);
         pCtrl3.tryToInsert(3);
         pCtrl4.tryToInsert(4);
-        Printer.printThisShelf(player1.shelf);
-        Printer.printThisShelf(player2.shelf);
-        Printer.printThisShelf(player3.shelf);
-        Printer.printThisShelf(player4.shelf);
-        Printer.showHand(pCtrl1.hand);
-        Printer.showHand(pCtrl2.hand);
-        Printer.showHand(pCtrl3.hand);
-        Printer.showHand(pCtrl4.hand);
+        printThisShelf(player1.getShelf());
+        printThisShelf(player2.getShelf());
+        printThisShelf(player3.getShelf());
+        printThisShelf(player4.getShelf());
+        showHand(pCtrl1.getHand());
+        showHand(pCtrl2.getHand());
+        showHand(pCtrl3.getHand());
+        showHand(pCtrl4.getHand());
     }
 
     /**
@@ -138,25 +137,25 @@ class PlayerModel {
     void randomRobotMovesSimulation(){
         Match match = createMatch(4);
         PlayerController pCtrl1 = createPlayerController("Ambrogio");
-        Player player1 = pCtrl1.player;
+        Player player1 = pCtrl1.getPlayer();
         match.addPlayer(player1);
         PlayerController pCtrl2 = createPlayerController("Ambra");
-        Player player2 = pCtrl2.player;
+        Player player2 = pCtrl2.getPlayer();
         match.addPlayer(player2);
         PlayerController pCtrl3 = createPlayerController("Zazà");
-        Player player3 = pCtrl3.player;
+        Player player3 = pCtrl3.getPlayer();
         match.addPlayer(player3);
         PlayerController pCtrl4 = createPlayerController("Lupin");
-        Player player4 = pCtrl4.player;
+        Player player4 = pCtrl4.getPlayer();
         match.addPlayer(player4);
 
 
         System.out.println("----------------------");
-        Printer.printThisShelf(player1.shelf);
-        Printer.printThisShelf(player2.shelf);
-        Printer.printThisShelf(player3.shelf);
-        Printer.printThisShelf(player4.shelf);
-        System.out.println("Match > PlayerTurn: "+ match.currentPlayer.getName());
+        printThisShelf(player1.getShelf());
+        printThisShelf(player2.getShelf());
+        printThisShelf(player3.getShelf());
+        printThisShelf(player4.getShelf());
+        System.out.println("Match > PlayerTurn: "+ match.currentPlayer.getNickname());
 
         printThisBoard(match.board);
 
@@ -168,33 +167,33 @@ class PlayerModel {
 
         randomChoice(pCtrl4);
 
-        Printer.showHand(pCtrl1.hand);
+        showHand(pCtrl1.getHand());
         pCtrl1.changeHandOrder(0,1);
-        Printer.showHand(pCtrl1.hand);
-        Printer.showHand(pCtrl2.hand);
-        Printer.showHand(pCtrl3.hand);
-        Printer.showHand(pCtrl4.hand);
+        showHand(pCtrl1.getHand());
+        showHand(pCtrl2.getHand());
+        showHand(pCtrl3.getHand());
+        showHand(pCtrl4.getHand());
         pCtrl1.moveAllToHand();
         pCtrl2.moveAllToHand();
         pCtrl3.moveAllToHand();
 
         printThisBoard(match.board);
 
-        match.turnPhase = TurnPhases.Insertion;
+        match.turnPhase = GamePhases.Insertion;
         pCtrl1.tryToInsert(1);
         pCtrl2.tryToInsert(2);
         pCtrl3.tryToInsert(3);
         pCtrl4.tryToInsert(4);
 
-        Printer.printThisShelf(player1.shelf);
-        Printer.printThisShelf(player2.shelf);
-        Printer.printThisShelf(player3.shelf);
-        Printer.printThisShelf(player4.shelf);
+        printThisShelf(player1.getShelf());
+        printThisShelf(player2.getShelf());
+        printThisShelf(player3.getShelf());
+        printThisShelf(player4.getShelf());
 
-        Printer.showHand(pCtrl1.hand);
-        Printer.showHand(pCtrl2.hand);
-        Printer.showHand(pCtrl3.hand);
-        Printer.showHand(pCtrl4.hand);
+        showHand(pCtrl1.getHand());
+        showHand(pCtrl2.getHand());
+        showHand(pCtrl3.getHand());
+        showHand(pCtrl4.getHand());
     }
 
 
@@ -206,13 +205,13 @@ class PlayerModel {
         numMatch++;
         System.out.println("Game > [[Match n. "+ numMatch+"]]");
         PlayerController pC1 = createPlayerController("Kratos");
-        Player p1 = pC1.player;
+        Player p1 = pC1.getPlayer();
         PlayerController pC2 = createPlayerController("Omar");
-        Player p2 = pC2.player;
+        Player p2 = pC2.getPlayer();
         PlayerController pC3 = createPlayerController("Silvestro");
-        Player p3 = pC3.player;
+        Player p3 = pC3.getPlayer();
         PlayerController pC4 = createPlayerController("Jane");
-        Player p4 = pC4.player;
+        Player p4 = pC4.getPlayer();
         spacer();
         while(m.gamePhase== GameState.WaitingPlayers) {
             m.addPlayer(p1);

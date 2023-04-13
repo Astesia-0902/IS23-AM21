@@ -33,7 +33,7 @@ public class GameController {
      */
     private static void joinGameHelper(int matchID, String userName, PlayerController playerController) {
         if (GameManager.matchList.get(matchID) == null) {
-            System.out.println("Message from the server: the indicate match not exists.");
+            System.out.println("Server >  The specified match does not exist.");
             return;
         }
 
@@ -41,13 +41,13 @@ public class GameController {
             if (!GameManager.playerMatchMap.containsKey(userName)) {
                 System.out.println("Message from the server: the player not exists in any match.");
             } else {
-                if (!GameManager.matchList.get(matchID).addPlayer(playerController.player)) {
+                if (!GameManager.matchList.get(matchID).addPlayer(playerController.getPlayer())) {
                     System.out.println("Message from the server: the match is full.");
                 }
             }
             //if the match is not started, the player join the match
         } else if (GameManager.matchList.get(matchID).gamePhase == GameState.WaitingPlayers) {
-            if (!GameManager.matchList.get(matchID).addPlayer(playerController.player)) {
+            if (!GameManager.matchList.get(matchID).addPlayer(playerController.getPlayer())) {
                 System.out.println("Message from the server: the match is full.");
             }
         }

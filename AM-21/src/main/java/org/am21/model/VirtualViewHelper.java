@@ -7,4 +7,6 @@ public class VirtualViewHelper {
     public static VirtualView virtualViewBuilder(Match match) {
         VirtualView res = new VirtualView();
         //TODO:build the virtual view
+        return res;
+    }
 }

@@ -4,7 +4,6 @@ import org.am21.controller.PlayerController;
 import org.am21.model.Match;
 import org.am21.model.Player;
 import org.am21.utilities.CardPointer;
-import org.am21.utilities.Mx;
 import org.junit.jupiter.api.DisplayName;
 
 import java.util.ArrayList;
@@ -73,7 +72,6 @@ public class Gear {
 
     @DisplayName("Player choices")
     public static void randomChoice(PlayerController ctrl){
-        Mx state = Mx.Neutral;
         int a,b;
         int attempt =0;
         int fail=0;
@@ -85,8 +83,7 @@ public class Gear {
                 b = (int) ((Math.random() * 9));
                 if(ctrl.selectCell(a, b)) {
                     attempt++;
-                    state = Mx.Success;
-//                    Mx.show(state);
+
                 }else{
                     fail++;
                 }
@@ -118,7 +115,7 @@ public class Gear {
 //                System.out.print("Board > Selection difference: ");
 //                System.out.print("["+a+"]");
 //                System.out.println("["+b+"]");
-                tmp = ctrl.hand.getSlot().get((int) (Math.random() * (ctrl.hand.getSlot().size())));
+                tmp = ctrl.getHand().getSlot().get((int) (Math.random() * (ctrl.getHand().getSlot().size())));
                 a = a + tmp.x;
                 b = b + tmp.y;
                 if(a<0 || a>8 || b<0 || b>8){

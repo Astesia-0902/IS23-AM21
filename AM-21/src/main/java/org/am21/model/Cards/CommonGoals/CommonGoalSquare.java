@@ -70,14 +70,14 @@ public class CommonGoalSquare extends CommonGoal {
      */
     @Override
     public boolean checkGoal(Shelf s){
-        visited = new boolean[Shelf.SROW][Shelf.SCOLUMN];
+        visited = new boolean[Shelf.SHELF_ROW][Shelf.SHELF_COLUMN];
 
         String itemRef=null;
 
 
         //Scan full matrix(not row=5, it's useless to check)
-        for(int i = 0; i<(Shelf.SROW -1); i++){
-            for(int j = 0; j<Shelf.SCOLUMN -1; j++){
+        for(int i = 0; i<(Shelf.SHELF_ROW -1); i++){
+            for(int j = 0; j<Shelf.SHELF_COLUMN -1; j++){
 
                 //(i,j) is the square root
                 if(s.isOccupied(i,j) && !visited[i][j]){
@@ -122,8 +122,8 @@ public class CommonGoalSquare extends CommonGoal {
      */
     private boolean find2ndSquare(int x,int y,String itemRef,Shelf s){
 
-        for(int i = x; i<Shelf.SROW -1; i++){
-            for(int j = y; j<Shelf.SCOLUMN -1; j++){
+        for(int i = x; i<Shelf.SHELF_ROW -1; i++){
+            for(int j = y; j<Shelf.SHELF_COLUMN -1; j++){
                 //(i,j) is the square root
                 if(controlStatus(i,j,s,itemRef)) {
                     if(controlStatus(i+1,j,s,itemRef)

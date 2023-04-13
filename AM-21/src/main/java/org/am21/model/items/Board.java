@@ -8,6 +8,7 @@ import org.am21.utilities.Coordinates;
 
 import java.util.List;
 
+
 public class Board extends Grid {
 
     /**
@@ -47,7 +48,7 @@ public class Board extends Grid {
      */
     public boolean firstSetup() {
 
-        if (BoardUtil.refillBoard(this)) {
+        if (bag.refillBoard()) {
 //            System.out.println("Match > Living Room Successfully filled");
             return true;
         }
@@ -93,13 +94,13 @@ public class Board extends Grid {
             return false;
         }
 
-        if ((r + 1 < gRow) && !isOccupied(r + 1, c)) {
+        if ((r + 1 < BOARD_ROW) && !isOccupied(r + 1, c)) {
 
             return true;
         } else if (r - 1 >= 0 && !isOccupied(r - 1, c)) {
 
             return true;
-        } else if ((c + 1 < gColumn) && !isOccupied(r, c + 1)) {
+        } else if ((c + 1 < BOARD_COLUMN) && !isOccupied(r, c + 1)) {
 
             return true;
         } else if (c - 1 >= 0 && !isOccupied(r, c - 1)) {
@@ -158,9 +159,9 @@ public class Board extends Grid {
      */
     public boolean isAlone(int r, int c) {
 
-        if ((r + 1 < 9 && isOccupied(r + 1, c))
+        if ((r + 1 < BOARD_ROW && isOccupied(r + 1, c))
                 || (r - 1 >= 0 && isOccupied(r - 1, c))
-                || (c + 1 < 9 && isOccupied(r, c + 1))
+                || (c + 1 < BOARD_COLUMN && isOccupied(r, c + 1))
                 || (c - 1 >= 0 && isOccupied(r, c - 1))) {
             return false;
         }
@@ -175,8 +176,8 @@ public class Board extends Grid {
      */
     public boolean checkBoard() {
         ItemCard tmp;
-        for (int i = 0; i < this.gRow; i++) {
-            for (int j = 0; j < this.gColumn; j++) {
+        for (int i = 0; i < BOARD_ROW; i++) {
+            for (int j = 0; j < BOARD_COLUMN; j++) {
                 tmp = this.getMatrix()[i][j];
                 if (tmp != null && !isAlone(i, j)) {
                     return false;
@@ -199,6 +200,8 @@ public class Board extends Grid {
         return false;
 
     }
+
+
 }
 
 

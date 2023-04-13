@@ -15,6 +15,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Ken Chen
+ * @version 1.0
+ */
 public class CommonGoalTest {
     private Shelf s;
     private static int seats = 2;
@@ -25,7 +29,7 @@ public class CommonGoalTest {
     @BeforeEach
     void setUp() {
         c = new PlayerController("A");
-        s = new Shelf(c.player);
+        s = new Shelf(c.getPlayer());
     }
 
     @AfterEach
@@ -86,9 +90,9 @@ public class CommonGoalTest {
     void testSetAchievedPlayers() {
         card = new CommonGoal2Columns(2);
 
-        card.setAchievedPlayers(c.player);
+        card.setAchievedPlayers(c.getPlayer());
 
-        assertTrue(card.achievedPlayers.get(0).equals(c.player));
+        assertTrue(card.achievedPlayers.get(0).equals(c.getPlayer()));
 
         assertEquals(1, card.tokenStack.size());
 
@@ -341,13 +345,13 @@ public class CommonGoalTest {
         card = new CommonGoalDiagonal(2);
         //Starting point bottom left
         for (int i = 0; i < 2; i++) {
-            for (int r = i, c = 0; (r < Shelf.SROW - 1 + i) && c < Shelf.SCOLUMN; r++, c++) {
+            for (int r = i, c = 0; (r < Shelf.SHELF_ROW - 1 + i) && c < Shelf.SHELF_COLUMN; r++, c++) {
                 s.setCell(r, c, new ItemCard(ItemType.Trophies + "1.1"));
             }
             assertTrue(card.checkGoal(s));
         }
         for (int i = 0; i < 2; i++) {
-            for (int r = i, c = 4; (r < Shelf.SROW - 1 + i) && c >= 0; r++, c--) {
+            for (int r = i, c = 4; (r < Shelf.SHELF_ROW - 1 + i) && c >= 0; r++, c--) {
                 s.setCell(r, c, new ItemCard(ItemType.Trophies + "1.1"));
             }
             assertTrue(card.checkGoal(s));
@@ -363,7 +367,7 @@ public class CommonGoalTest {
         s.setCell(0, 4, new ItemCard(ItemType._Games__ + "1.1"));
         assertFalse(card.checkGoal(s));
 
-        for (int r = 1, c = 0; (r < Shelf.SROW - 1) && c < Shelf.SCOLUMN; r++, c++) {
+        for (int r = 1, c = 0; (r < Shelf.SHELF_ROW - 1) && c < Shelf.SHELF_COLUMN; r++, c++) {
             s.setCell(r, c, new ItemCard(ItemType.Trophies + "1.1"));
 
         }
@@ -502,17 +506,17 @@ public class CommonGoalTest {
 
     @Test
     void testCommGoalStair() {
-        int k=Shelf.SROW;
+        int k=Shelf.SHELF_ROW;
         card = new CommonGoalStairs(2);
-        for(int c = 0; c<Shelf.SCOLUMN; c++){
+        for(int c = 0; c<Shelf.SHELF_COLUMN; c++){
             for(int r=0;r<k;r++){
                 s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.3"),c);
             }
             k--;
         }
         assertTrue(card.checkGoal(s));
-        s=new Shelf(c.player);
-        k=Shelf.SROW;
+        s=new Shelf(c.getPlayer());
+        k=Shelf.SHELF_ROW;
 
         for(int c=4;c>=0;c--){
             for(int r=0;r<k;r++){
@@ -530,9 +534,9 @@ public class CommonGoalTest {
      */
     @Test
     void testCommGoalStairFalse() {
-        int k=Shelf.SROW;
+        int k=Shelf.SHELF_ROW;
         card = new CommonGoalStairs(2);
-        for(int c = 0; c<Shelf.SCOLUMN; c++){
+        for(int c = 0; c<Shelf.SHELF_COLUMN; c++){
             for(int r=0;r<k;r++){
                 s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.3"),c);
             }

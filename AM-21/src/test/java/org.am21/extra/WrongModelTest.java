@@ -22,13 +22,13 @@ public class WrongModelTest {
         numMatch++;
         System.out.println("Game > [[Match n. "+ numMatch+"]]");
         PlayerController pC1 = createPlayerController("Kratos");
-        Player p1 = pC1.player;
+        Player p1 = pC1.getPlayer();
         PlayerController pC2 = createPlayerController("Omar");
-        Player p2 = pC2.player;
+        Player p2 = pC2.getPlayer();
         PlayerController pC3 = createPlayerController("Silvestro");
-        Player p3 = pC3.player;
+        Player p3 = pC3.getPlayer();
         PlayerController pC4 = createPlayerController("Jane");
-        Player p4 = pC4.player;
+        Player p4 = pC4.getPlayer();
         spacer();
         while(m.gamePhase== GameState.WaitingPlayers) {
             m.addPlayer(p1);
@@ -75,13 +75,13 @@ public class WrongModelTest {
         Match m = createMatch(2);
         System.out.println("Game > [[Match n. "+ numMatch+"]]");
         PlayerController pC1 = createPlayerController("Kratos");
-        Player p1 = pC1.player;
+        Player p1 = pC1.getPlayer();
         PlayerController pC2 = createPlayerController("Omar");
-        Player p2 = pC2.player;
+        Player p2 = pC2.getPlayer();
         PlayerController pC3 = createPlayerController("Silvestro");
-        Player p3 = pC3.player;
+        Player p3 = pC3.getPlayer();
         PlayerController pC4 = createPlayerController("Jane");
-        Player p4 = pC4.player;
+        Player p4 = pC4.getPlayer();
 
         m.addPlayer(p1);
         m.addPlayer(p2);
@@ -104,8 +104,8 @@ public class WrongModelTest {
         Match m = createMatch(2);
         PlayerController c1 = createPlayerController("Uno");
         PlayerController c2 = createPlayerController("Due");
-        m.addPlayer(c1.player);
-        m.addPlayer(c1.player);
+        m.addPlayer(c1.getPlayer());
+        m.addPlayer(c1.getPlayer());
 
 
 

@@ -2,17 +2,20 @@ package org.am21.controller;
 
 import org.am21.model.Cards.PersonalGoalCard;
 import org.am21.model.Player;
-import org.am21.model.enumer.TurnPhases;
+import org.am21.model.enumer.GamePhases;
 import org.am21.model.items.Board;
 import org.am21.model.items.Hand;
 import org.am21.utilities.CardPointer;
 
 
-
-
+/**
+ * @author Ken Chen
+ * @version 1.0
+ * @
+ */
 public class PlayerController {
-    public Player player;
-    public Hand hand;
+    private Player player;
+    private Hand hand;
 
     /**
      * PlayerController constructor is initialized by GameController, when ClientInputHandler login.
@@ -23,7 +26,23 @@ public class PlayerController {
 
         this.player = new Player(nickname,this);
         this.hand = new Hand(this.player);
-        this.player.hand = this.hand;
+        this.player.setHand(this.hand);
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public Hand getHand() {
+        return hand;
+    }
+
+    public void setHand(Hand hand) {
+        this.hand = hand;
     }
 
     /**
@@ -40,14 +59,15 @@ public class PlayerController {
      * !Implementation incomplete due to Lack of View Component!
      * @return
      */
-    public PersonalGoalCard viewGoal(){
+    public PersonalGoalCard viewPersonalGoal(){
 
-        return player.getMyGoal();
+        return player.getMyPersonalGoal();
     }
 
 
+
     /**
-     * During SelectionCards of TurnPhases, when the player click on an item,
+     * During SelectionCards of GamePhases, when the player click on an item,
      * the command will memorize the item position and reference in the PlayerHand
      * if is Selectable(at least one item adjacent)
      * and if is Orthogonal to the other selected cards
@@ -61,17 +81,17 @@ public class PlayerController {
     public boolean selectCell(int r,int c){
 //        System.out.println(player.getName() + " > Select: [" + r + "][" + c + "]");
         // verify if it is player turn or if it is the right phase
-        if(!isMyTurn(player)||player.match.turnPhase != TurnPhases.Selection) {
+        if(!isMyTurn(player)||player.getMatch().turnPhase != GamePhases.Selection) {
             return false;
         }
-        if(player.shelf.insertLimit == hand.getSlot().size()){
+        if(player.getShelf().insertLimit == hand.getSlot().size()){
             // Limit reached
             //System.out.println("Shelf > Cannot pick more item");
             //System.out.println("Shelf > Hand["+hand.getSlot().size()+"]-Limit ["+player.shelf.insertLimit +"]");
             return false;
         }
 
-        Board board = player.match.board;
+        Board board = player.getMatch().board;
 
         if (board.isPlayable(r,c) && board.isOccupied(r,c) && board.hasFreeSide(r, c)) {
 //            System.out.println("Board > Cell selectable");
@@ -119,7 +139,7 @@ public class PlayerController {
         if(!isMyTurn(player)) {
             return false;
         }
-        if(player.match.turnPhase == TurnPhases.Selection && hand.getSlot().size()>0) {
+        if(player.getMatch().turnPhase == GamePhases.Selection && hand.getSlot().size()>0) {
             hand.clearHand();
             return true;
         }
@@ -135,7 +155,7 @@ public class PlayerController {
         if(!isMyTurn(player)) {
             return false;
         }
-        player.match.changeTurnPhase(TurnPhases.Insertion);
+        player.getMatch().changeTurnPhase(GamePhases.Insertion);
         return true;
     }
 
@@ -148,10 +168,10 @@ public class PlayerController {
         if(!isMyTurn(player)) {
             return false;
         }
-        if(player.match.turnPhase == TurnPhases.Insertion){
+        if(player.getMatch().turnPhase == GamePhases.Insertion){
             for(CardPointer card: hand.getSlot()){
-                if(player.match.board.isOccupied(card.x,card.y)) {
-                    player.match.board.setCell(card.x, card.y, null);
+                if(player.getMatch().board.isOccupied(card.x,card.y)) {
+                    player.getMatch().board.setCell(card.x, card.y, null);
                 }
             }
             return true;
@@ -171,14 +191,14 @@ public class PlayerController {
         }
         // Non c'è piu spazio nella shelf quindi in teoria deve passare il turno
         // TODO:TEMP da rimuovere quando viene gestito last round
-        if(player.shelf.getTotSlotAvail()==0){
-            player.match.nextTurn();
+        if(player.getShelf().getTotSlotAvail()==0){
+            player.getMatch().nextTurn();
             return false;
         }
 
-        if(player.match.turnPhase == TurnPhases.Insertion){
+        if(player.getMatch().turnPhase == GamePhases.Insertion){
 //            System.out.println(player.getName()+" > Column: ["+col+"]");
-            if(player.shelf.slotCol.get(col) < hand.getSlot().size()){
+            if(player.getShelf().slotCol.get(col) < hand.getSlot().size()){
                 //System.out.println("Shelf[!] > Not enough space in this column");
                 /*
                 for(int x: player.shelf.slotCol){
@@ -190,7 +210,7 @@ public class PlayerController {
             }else{
                 for(int i=hand.getSlot().size(),s=0;i>0;i--,s++){
                     //Inserting one card at the time
-                    if(player.shelf.insertInColumn(hand.getSlot().get(s).item,col)){
+                    if(player.getShelf().insertInColumn(hand.getSlot().get(s).item,col)){
                         //System.out.println("Shelf > Insert...");
 
                     }else{
@@ -202,7 +222,7 @@ public class PlayerController {
                 //Inserimento avvenuto, devo pulire hand
                 //e calcolare new InsertLimit
                 hand.clearHand();
-                player.shelf.checkLimit();
+                player.getShelf().checkLimit();
                 //TGear.printThisShelf(player.shelf);
                 if(!callEndInsertion()){
                     return false;
@@ -234,7 +254,7 @@ public class PlayerController {
      * @return
      */
     public boolean isMyTurn(Player player){
-        if(player.match.currentPlayer != player) {
+        if(player.getMatch().currentPlayer != player) {
             //System.out.println("Match > Not your turn, "+ player.getName());
             return false;
         }
@@ -249,8 +269,8 @@ public class PlayerController {
         if(!isMyTurn(player)) {
             return false;
         }
-        player.match.changeTurnPhase(TurnPhases.GoalChecking);
-        player.match.checkingGoals(player);
+        player.getMatch().changeTurnPhase(GamePhases.GoalChecking);
+        player.getMatch().checkingGoals(player);
         return true;
     }
 
