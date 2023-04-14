@@ -27,6 +27,8 @@ public interface ClientInput extends Remote {
 
     boolean unselectCards() throws RemoteException,ServerNotActiveException;
 
-    boolean sortHand(int pos1, int pos2) throws ServerNotActiveException;
+    boolean sortHand(int pos1, int pos2) throws RemoteException,ServerNotActiveException;
+
+    boolean exitMatch() throws RemoteException;
 }
 

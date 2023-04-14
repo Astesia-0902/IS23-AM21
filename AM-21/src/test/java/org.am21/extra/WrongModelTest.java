@@ -30,7 +30,7 @@ public class WrongModelTest {
         PlayerController pC4 = createPlayerController("Jane");
         Player p4 = pC4.getPlayer();
         spacer();
-        while(m.gamePhase== GameState.WaitingPlayers) {
+        while(m.gameState == GameState.WaitingPlayers) {
             m.addPlayer(p1);
             m.addPlayer(p2);
             m.addPlayer(p3);
@@ -88,14 +88,14 @@ public class WrongModelTest {
         //m.addPlayer(p3);
         //m.addPlayer(p4);
 
-        while(m.gamePhase== GameState.WaitingPlayers);
+        while(m.gameState == GameState.WaitingPlayers);
 
         //Lista player contine effetivamente quel player?
         assertTrue(m.playerList.contains(p3));
         //Il numero di player è entro i limiti?
         assertEquals(2,m.playerList.size());
         //Se non ci sono abbastanza player sono in Waiting Phase?
-        assertTrue(m.gamePhase.equals(GameState.WaitingPlayers));
+        assertTrue(m.gameState.equals(GameState.WaitingPlayers));
 
     }
 
@@ -110,7 +110,7 @@ public class WrongModelTest {
 
 
         //quando la partita viene inizializzata,startGame dura solo fino alla fine della chiamata
-        assertTrue(m.gamePhase.equals(GameState.GameGoing));
+        assertTrue(m.gameState.equals(GameState.GameGoing));
 
     }
 

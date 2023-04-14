@@ -8,7 +8,6 @@ import org.am21.model.enumer.UserStatus;
 
 /**
  * This class represent the player model with all its data
- * @author Ken Chen
  * @version 1.0
  */
 public class Player {

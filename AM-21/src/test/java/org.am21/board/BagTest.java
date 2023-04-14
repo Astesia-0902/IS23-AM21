@@ -5,12 +5,11 @@ import org.am21.model.items.Bag;
 import org.am21.model.items.Board;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
- * @author Ken Chen
  * @version 1.0
  */
 public class BagTest {

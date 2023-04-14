@@ -4,7 +4,6 @@ package org.am21.utilities;
 /**
  * The class is used to store particular Coordinates
  * and also to delimit extremities
- * @author Ken Chen
  * @version 1.0
  */
 public class Coordinates {

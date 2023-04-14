@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 /**
- * @author Ken Chen
  * @version 1.0
  */
 public class ShelfTest {

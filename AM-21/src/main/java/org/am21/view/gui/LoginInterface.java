@@ -1,4 +1,4 @@
-package org.am21.view.cli;
+package org.am21.view.gui;
 
 import org.am21.model.component.BackGroundPanel;
 import org.am21.utilities.PathUtils;

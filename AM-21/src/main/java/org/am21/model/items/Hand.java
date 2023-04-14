@@ -2,7 +2,7 @@ package org.am21.model.items;
 
 import org.am21.model.Cards.ItemCard;
 import org.am21.model.Player;
-import org.am21.model.enumer.GamePhases;
+import org.am21.model.enumer.GamePhase;
 import org.am21.utilities.CardPointer;
 
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.Collections;
 
 /**
  * Hand class contains an array with 3 elements.
- * It's used to store temporarily the selected cards,during {@link GamePhases#Selection}.
+ * It's used to store temporarily the selected cards,during {@link GamePhase#Selection}.
  * Min: 1 card. Max: 3 card.
  *
  * @author Ken Chen

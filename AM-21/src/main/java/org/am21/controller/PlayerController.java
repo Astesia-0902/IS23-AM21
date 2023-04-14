@@ -2,16 +2,14 @@ package org.am21.controller;
 
 import org.am21.model.Cards.PersonalGoalCard;
 import org.am21.model.Player;
-import org.am21.model.enumer.GamePhases;
+import org.am21.model.enumer.GamePhase;
 import org.am21.model.items.Board;
 import org.am21.model.items.Hand;
 import org.am21.utilities.CardPointer;
 
 
 /**
- * @author Ken Chen
  * @version 1.0
- * @
  */
 public class PlayerController {
     private Player player;
@@ -67,7 +65,7 @@ public class PlayerController {
 
 
     /**
-     * During SelectionCards of GamePhases, when the player click on an item,
+     * During SelectionCards of GamePhase, when the player click on an item,
      * the command will memorize the item position and reference in the PlayerHand
      * if is Selectable(at least one item adjacent)
      * and if is Orthogonal to the other selected cards
@@ -81,7 +79,7 @@ public class PlayerController {
     public boolean selectCell(int r,int c){
 //        System.out.println(player.getName() + " > Select: [" + r + "][" + c + "]");
         // verify if it is player turn or if it is the right phase
-        if(!isMyTurn(player)||player.getMatch().turnPhase != GamePhases.Selection) {
+        if(!isMyTurn(player)||player.getMatch().gamePhase != GamePhase.Selection) {
             return false;
         }
         if(player.getShelf().insertLimit == hand.getSlot().size()){
@@ -139,7 +137,7 @@ public class PlayerController {
         if(!isMyTurn(player)) {
             return false;
         }
-        if(player.getMatch().turnPhase == GamePhases.Selection && hand.getSlot().size()>0) {
+        if(player.getMatch().gamePhase == GamePhase.Selection && hand.getSlot().size()>0) {
             hand.clearHand();
             return true;
         }
@@ -155,7 +153,7 @@ public class PlayerController {
         if(!isMyTurn(player)) {
             return false;
         }
-        player.getMatch().changeTurnPhase(GamePhases.Insertion);
+        player.getMatch().setGamePhase(GamePhase.Insertion);
         return true;
     }
 
@@ -168,7 +166,7 @@ public class PlayerController {
         if(!isMyTurn(player)) {
             return false;
         }
-        if(player.getMatch().turnPhase == GamePhases.Insertion){
+        if(player.getMatch().gamePhase == GamePhase.Insertion){
             for(CardPointer card: hand.getSlot()){
                 if(player.getMatch().board.isOccupied(card.x,card.y)) {
                     player.getMatch().board.setCell(card.x, card.y, null);
@@ -196,7 +194,7 @@ public class PlayerController {
             return false;
         }
 
-        if(player.getMatch().turnPhase == GamePhases.Insertion){
+        if(player.getMatch().gamePhase == GamePhase.Insertion){
 //            System.out.println(player.getName()+" > Column: ["+col+"]");
             if(player.getShelf().slotCol.get(col) < hand.getSlot().size()){
                 //System.out.println("Shelf[!] > Not enough space in this column");
@@ -269,8 +267,8 @@ public class PlayerController {
         if(!isMyTurn(player)) {
             return false;
         }
-        player.getMatch().changeTurnPhase(GamePhases.GoalChecking);
-        player.getMatch().checkingGoals(player);
+        player.getMatch().setGamePhase(GamePhase.GoalChecking);
+        player.getMatch().checkingCommonGoals(player);
         return true;
     }
 

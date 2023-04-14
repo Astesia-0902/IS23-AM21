@@ -14,8 +14,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * @author Ken Chen
- * @author YangHao Mao
  * @version 1.0
  */
 public class BoardTest {

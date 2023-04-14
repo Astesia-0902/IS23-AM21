@@ -37,7 +37,7 @@ public class GameController {
             return;
         }
 
-        if (GameManager.matchList.get(matchID).gamePhase == GameState.GameGoing) {
+        if (GameManager.matchList.get(matchID).gameState == GameState.GameGoing) {
             if (!GameManager.playerMatchMap.containsKey(userName)) {
                 System.out.println("Message from the server: the player not exists in any match.");
             } else {
@@ -46,7 +46,7 @@ public class GameController {
                 }
             }
             //if the match is not started, the player join the match
-        } else if (GameManager.matchList.get(matchID).gamePhase == GameState.WaitingPlayers) {
+        } else if (GameManager.matchList.get(matchID).gameState == GameState.WaitingPlayers) {
             if (!GameManager.matchList.get(matchID).addPlayer(playerController.getPlayer())) {
                 System.out.println("Message from the server: the match is full.");
             }
@@ -90,5 +90,14 @@ public class GameController {
             GameManager.createMatch(playerNum, playerController);
         }
     }
+
+    public static boolean removePlayerFromMatch(PlayerController ctrl,int matchID){
+        if(GameManager.playerMatchMap.containsKey(ctrl.getPlayer().getNickname())){
+                GameManager.matchList.get(matchID).removePlayer(ctrl.getPlayer());
+                return true;
+        }
+        return false;
+    }
+
 
 }

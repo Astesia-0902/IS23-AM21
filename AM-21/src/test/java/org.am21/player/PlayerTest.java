@@ -4,7 +4,7 @@ import org.am21.controller.PlayerController;
 import org.am21.model.Cards.ItemCard;
 import org.am21.model.Match;
 import org.am21.model.Player;
-import org.am21.model.enumer.GamePhases;
+import org.am21.model.enumer.GamePhase;
 import org.am21.model.items.Board;
 import org.am21.model.items.Shelf;
 import org.am21.utilities.CardPointer;
@@ -14,6 +14,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @version 1.0
+ */
 public class PlayerTest {
     private PlayerController c1,c2;
     private Player p1,p2;
@@ -67,7 +70,7 @@ public class PlayerTest {
         assertFalse(c1.selectCell(5,5));
         assertTrue(c1.selectCell(1,4));
 
-        m.changeTurnPhase(GamePhases.GoalChecking);
+        m.setGamePhase(GamePhase.GoalChecking);
         assertFalse(c1.selectCell(1,4));
 
         assertFalse(c2.selectCell(1,4));
@@ -116,7 +119,7 @@ public class PlayerTest {
 
         assertFalse(c1.moveAllToHand());
 
-        m.changeTurnPhase(GamePhases.Insertion);
+        m.setGamePhase(GamePhase.Insertion);
         assertTrue(c1.moveAllToHand());
         assertFalse(b.isOccupied(1,4));
         assertFalse(b.isOccupied(1,3));
@@ -130,9 +133,9 @@ public class PlayerTest {
     @Test
     void testCallingPhases(){
         c1.callEndSelection();
-        assertTrue(m.turnPhase.equals(GamePhases.Insertion));
+        assertTrue(m.gamePhase.equals(GamePhase.Insertion));
         c1.callEndInsertion();
-        assertTrue(m.turnPhase.equals(GamePhases.Selection));
+        assertTrue(m.gamePhase.equals(GamePhase.Selection));
         assertTrue(m.currentPlayer.equals(p2));
 
     }

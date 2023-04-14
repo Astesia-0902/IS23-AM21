@@ -3,7 +3,7 @@ package org.am21.extra;
 import org.am21.controller.PlayerController;
 import org.am21.model.Match;
 import org.am21.model.Player;
-import org.am21.model.enumer.GamePhases;
+import org.am21.model.enumer.GamePhase;
 import org.am21.model.enumer.GameState;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
@@ -113,7 +113,7 @@ class PlayerModel {
 
         printThisBoard(match.board);
 
-        match.turnPhase = GamePhases.Insertion;
+        match.gamePhase = GamePhase.Insertion;
         pCtrl1.tryToInsert(1);
         pCtrl2.tryToInsert(2);
         pCtrl3.tryToInsert(3);
@@ -179,7 +179,7 @@ class PlayerModel {
 
         printThisBoard(match.board);
 
-        match.turnPhase = GamePhases.Insertion;
+        match.gamePhase = GamePhase.Insertion;
         pCtrl1.tryToInsert(1);
         pCtrl2.tryToInsert(2);
         pCtrl3.tryToInsert(3);
@@ -213,7 +213,7 @@ class PlayerModel {
         PlayerController pC4 = createPlayerController("Jane");
         Player p4 = pC4.getPlayer();
         spacer();
-        while(m.gamePhase== GameState.WaitingPlayers) {
+        while(m.gameState == GameState.WaitingPlayers) {
             m.addPlayer(p1);
             m.addPlayer(p2);
             m.addPlayer(p3);

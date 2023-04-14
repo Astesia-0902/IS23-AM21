@@ -3,7 +3,7 @@ package org.am21.extra;
 import org.am21.controller.PlayerController;
 import org.am21.model.Match;
 import org.am21.model.Player;
-import org.am21.model.enumer.GamePhases;
+import org.am21.model.enumer.GamePhase;
 import org.am21.model.items.Shelf;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,7 +43,7 @@ class CardTest {
         Printer.showHand(pCtrl1.getHand());
         pCtrl1.moveAllToHand();
 
-        match.turnPhase = GamePhases.Insertion;
+        match.gamePhase = GamePhase.Insertion;
         pCtrl1.tryToInsert(1);
         Printer.printThisShelf(player1.getShelf());
         System.out.println("\n----------------------\n");

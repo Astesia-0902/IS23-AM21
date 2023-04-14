@@ -98,7 +98,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements ClientInp
      * @return
      * @throws ServerNotActiveException
      */
-    public boolean selectCell(int row, int col) throws ServerNotActiveException {
+    public boolean selectCell(int row, int col) throws RemoteException,ServerNotActiveException {
         if (!checkPlayerActionPhase() &&playerController.selectCell(row, col)) {
             return true;
         }
@@ -110,7 +110,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements ClientInp
      * @return
      * @throws ServerNotActiveException
      */
-    public boolean insertInColumn(int colNum) throws ServerNotActiveException {
+    public boolean insertInColumn(int colNum) throws RemoteException,ServerNotActiveException {
         if (!checkPlayerActionPhase() && playerController.tryToInsert(colNum)){
             return true;
         }
@@ -120,7 +120,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements ClientInp
     /**
      * @throws ServerNotActiveException
      */
-    public boolean unselectCards() throws ServerNotActiveException {
+    public boolean unselectCards() throws RemoteException,ServerNotActiveException {
         if (!checkPlayerActionPhase()&&playerController.unselectCards()){
             return true;
         }
@@ -133,8 +133,20 @@ public class ClientInputHandler extends UnicastRemoteObject implements ClientInp
      * @throws ServerNotActiveException
      */
     @Override
-    public boolean sortHand(int pos1,int pos2) throws ServerNotActiveException {
+    public boolean sortHand(int pos1,int pos2) throws RemoteException,ServerNotActiveException {
         if (!checkPlayerActionPhase()&&playerController.changeHandOrder(pos1,pos2)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Player can leave the match when Match is WaitingPlayers or is GameGoing
+     * @return
+     */
+    @Override
+    public boolean exitMatch() throws RemoteException {
+        if(GameController.removePlayerFromMatch(playerController,playerController.getPlayer().getMatch().matchID)){
             return true;
         }
         return false;

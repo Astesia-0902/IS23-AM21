@@ -17,7 +17,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * @author Ken Chen
  * @version 1.0
  */
 public class PersonalGoalTest {

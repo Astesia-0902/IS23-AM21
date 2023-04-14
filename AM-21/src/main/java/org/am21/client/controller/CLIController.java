@@ -26,6 +26,6 @@ public class CLIController {
         int timer = myJson.getObject("timer", int.class);
         String currentPlayer = myJson.getString("currentPlayer");
         String gameState = myJson.getString("gameState");
-        String gamePhase = myJson.getString("gamePhase");
+        String gamePhase = myJson.getString("gameState");
     }
 }
