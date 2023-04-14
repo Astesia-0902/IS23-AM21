@@ -7,4 +7,8 @@ public class Cli implements View {
     public void loginInterface(String nickname) {
 
     }
+
+    public void BoardInterface() {
+
+    }
 }
