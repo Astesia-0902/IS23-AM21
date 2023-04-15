@@ -48,9 +48,9 @@ public class Bag {
             return false;
         }
         List<Coordinates> borders = board.boundaries;
-        int k =0;//parameter to shrink the border array at the extremities
+        int k=0;//parameter to shrink the border array at the extremities
         if(board.maxSeats == 2){
-            k =1;
+            k=1;
         }
 
         for(int i = 0+k; i<Board.BOARD_ROW -k; i++){

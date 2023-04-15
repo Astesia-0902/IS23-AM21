@@ -3,7 +3,9 @@ package org.am21.extra;
 import org.am21.controller.PlayerController;
 import org.am21.model.Match;
 import org.am21.model.Player;
+import org.am21.model.enumer.GameState;
 import org.am21.utilities.CardPointer;
+import org.am21.utilities.GameGear;
 import org.junit.jupiter.api.DisplayName;
 
 import java.util.ArrayList;
@@ -11,7 +13,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static org.am21.utilities.GameGear.spacer;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 public class Gear {
+    static int numMatch=0;
+    public static int t=0;
     public static int counter_AI =0;
     public static List<CardPointer> posArr = new ArrayList<>();
      static {
@@ -33,28 +41,11 @@ public class Gear {
     }
 
 
-    @DisplayName("Match creation")
-    public static Match createMatch(int numSeats){
-//        System.out.println("Game > Creating new match...");
-        Match match = new Match(numSeats);
-//        System.out.println("Match > Number of seats:" + match.maxSeats);
-//        System.out.println("Game > Match created.");
-        return match;
-    }
-
-    @DisplayName("PlayerController creation")
-    public static PlayerController createPlayerController(String name){
-//        System.out.println("----------------------");
-//        System.out.println("Game > Player account creation...");
-        PlayerController playerController = new PlayerController(name);
-//        System.out.println("Game > Nickname: "+playerController.player.getName());
-        return playerController;
-    }
 
     public static void robotMoves(PlayerController pC, Player p){
         if(pC.isMyTurn(p)) {
             randomChoice(pC);
-//            Printer.showHand(p.hand);
+//           GameGear.showHand(p.hand);
             pC.moveAllToHand();
             while(!pC.tryToInsert((int) (Math.random() * 5))){
 //                System.out.println(p.getName()+" > Finding column...");
@@ -62,11 +53,6 @@ public class Gear {
 
         }
 
-    }
-
-    @DisplayName("Spacer")
-    public static void spacer(){
-        System.out.println("-------------------------");
     }
 
 
@@ -112,14 +98,14 @@ public class Gear {
                     b = ((int) (Math.random() * 3)) - 1;
                 }while(a!=0 && b!=0);
 
-//                System.out.print("Board > Selection difference: ");
-//                System.out.print("["+a+"]");
-//                System.out.println("["+b+"]");
-                tmp = ctrl.getHand().getSlot().get((int) (Math.random() * (ctrl.getHand().getSlot().size())));
+                /*System.out.print("Board > Selection difference: ");
+                System.out.print("["+a+"]");
+                System.out.println("["+b+"]");*/
+                int numGen=(int) (Math.random() * (ctrl.getHand().getSlot().size()));
+                tmp = ctrl.getHand().getSlot().get(numGen);
                 a = a + tmp.x;
                 b = b + tmp.y;
                 if(a<0 || a>8 || b<0 || b>8){
-
                 }else{
                     ctrl.selectCell(a, b);
                     attempt++;
@@ -129,6 +115,51 @@ public class Gear {
         }while(attempt <10);
         ctrl.callEndSelection();
 
+    }
+
+    public static Match buildGame(int seats, int nRounds){
+        Match m = new Match(seats);
+        numMatch++;
+        System.out.println("Game > [[Match n. "+ numMatch+"]]");
+        PlayerController pC1 = new PlayerController("Kratos");
+        Player p1 = pC1.getPlayer();
+        PlayerController pC2 = new PlayerController("Omar");
+        Player p2 = pC2.getPlayer();
+        PlayerController pC3 = new PlayerController("Silvestro");
+        Player p3 = pC3.getPlayer();
+        PlayerController pC4 = new PlayerController("Jane");
+        Player p4 = pC4.getPlayer();
+        m.addPlayer(p1);
+        m.addPlayer(p2);
+        m.addPlayer(p3);
+        m.addPlayer(p4);
+
+        spacer();
+        GameGear.printThisBoard(m.board);
+        GameGear.printfThisBag(m.board.bag);
+        GameGear.printCommGoals(m.commonGoals);
+        GameGear.printPersonalGoals(m.playerList);
+        spacer();
+        assertEquals(4,m.playerList.size());
+        assertNotNull(m.chairman);
+        Player p;
+        for(t=0; t<nRounds; t++){      //Number of round
+            System.out.println("Match > {[ Round number: "+ (t+1)+" ]}");
+
+            for(int f=0;f<m.playerList.size();f++) {
+                p=m.playerList.get(f);
+                if(m.currentPlayer.equals(p)){
+                    robotMoves(p.getController(),p);
+                }
+            }
+            if(m.gameState== GameState.Closed){
+                break;
+            }
+            GameGear.viewStats(m,t);
+        }
+
+
+        return m;
     }
 
 

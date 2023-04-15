@@ -27,30 +27,24 @@ public abstract class CommonGoal extends Goal {
      * @param shelf
      * @return
      */
-    public boolean checkGoal(Shelf shelf) {
+    public abstract boolean checkGoal(Shelf shelf);
 
 
-        return false;
-    }
 
     /**
      * When a CommonGoal is achieved,
      * the player is going to be added to the AchievedPlayers List
-     * A player can achieve the goal just one time.
-     *
-     * @param player
+     * A player can achieve the goal just one time, so if, for any reasons, it's achieved again, nothing happens
+     * @param player player who has achieved Common Goal
      */
-    public void setAchievedPlayers(Player player) {
-        this.achievedPlayers.add(player);
-        player.setPlayerScore(player.getPlayerScore()+this.tokenStack.get(index));
-        this.tokenStack.remove(index);
-        index++;
+    public void commonGoalAchieved(Player player) {
+        if(!achievedPlayers.contains(player)&&tokenStack.size()>0) {
+            achievedPlayers.add(player);
+            player.getController().addScore(tokenStack.get(0));
+            tokenStack.remove(0);
+        }
     }
 
-//    public int extractToken(){
-//        return tokenStack.get(index++);
-//
-//    }
 }
 
 

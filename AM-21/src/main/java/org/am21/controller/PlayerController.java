@@ -188,7 +188,7 @@ public class PlayerController {
             return false;
         }
         // Non c'è piu spazio nella shelf quindi in teoria deve passare il turno
-        // TODO:TEMP da rimuovere quando viene gestito last round
+        // TODO:TEMP da rimuovere quando viene gestito callEndRountine()
         if(player.getShelf().getTotSlotAvail()==0){
             player.getMatch().nextTurn();
             return false;
@@ -221,10 +221,9 @@ public class PlayerController {
                 //e calcolare new InsertLimit
                 hand.clearHand();
                 player.getShelf().checkLimit();
-                //TGear.printThisShelf(player.shelf);
-                if(!callEndInsertion()){
-                    return false;
-                }
+                //GameGear.printThisShelf(player.shelf);
+                callEndInsertion();
+
                 return true;
             }
         }
@@ -263,13 +262,19 @@ public class PlayerController {
      *
      * @return
      */
-    public boolean callEndInsertion(){
-        if(!isMyTurn(player)) {
-            return false;
+    public void callEndInsertion(){
+        if(player.getMatch().gamePhase==GamePhase.Insertion) {
+            player.getMatch().setGamePhase(GamePhase.GoalChecking);
+            player.getMatch().checkingCommonGoals(player);
         }
-        player.getMatch().setGamePhase(GamePhase.GoalChecking);
-        player.getMatch().checkingCommonGoals(player);
-        return true;
+    }
+
+    /**
+     * Method to add points to current player's Score
+     * @param points
+     */
+    public void addScore(int points){
+        player.setPlayerScore(player.getPlayerScore()+points);
     }
 
 
