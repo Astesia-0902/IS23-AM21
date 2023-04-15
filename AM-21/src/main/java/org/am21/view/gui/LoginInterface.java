@@ -1,7 +1,7 @@
 package org.am21.view.gui;
 
 import org.am21.model.component.BackGroundPanel;
-import org.am21.utilities.PathUtils;
+import org.am21.utilities.PathUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -21,8 +21,8 @@ public class LoginInterface {
         frame.setBounds(0,0,WIDTH,HEIGHT);
         frame.setResizable(false);
 
-        frame.setIconImage(ImageIO.read(new File(PathUtils.getPath("Publisher material\\Icon 50x50px.png"))));
-        BackGroundPanel backGroundPanel = new BackGroundPanel(ImageIO.read(new File(PathUtils.getPath("misc\\sfondo parquet.jpg"))));
+        frame.setIconImage(ImageIO.read(new File(PathUtil.getPath("Publisher material\\Icon 50x50px.png"))));
+        BackGroundPanel backGroundPanel = new BackGroundPanel(ImageIO.read(new File(PathUtil.getPath("misc\\sfondo parquet.jpg"))));
 
         Box vbox = Box.createVerticalBox();
 
