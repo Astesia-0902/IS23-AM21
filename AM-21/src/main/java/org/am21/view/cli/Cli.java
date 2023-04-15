@@ -1,8 +1,11 @@
 package org.am21.view.cli;
 
 import org.am21.controller.ClientInput;
+import org.am21.model.items.Shelf;
 import org.am21.view.View;
 
+import java.rmi.RemoteException;
+import java.rmi.server.ServerNotActiveException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -13,6 +16,10 @@ public class Cli implements View {
     private Thread inputThread;
     private ClientInput clientInputHandler;
 
+
+
+    private static final int SHELF_ROW = 6;
+    private static final int SHELF_COLUMN = 5;
 
 
     /**
@@ -67,19 +74,61 @@ public class Cli implements View {
         }
     }
 
-//    public void clearCli(){
+    @Override
+    public String showDescription(int CommonGoalCard) {
+        switch (CommonGoalCard){
+            case 0:
+                return "Two columns each formed by 6 different types of tiles.";
+            case 1:
+                return "Two lines each formed by 5 different types of tiles. One line can show the " +
+                        "same or a different combination of the other line.";
+            case 2:
+                return "Three columns each formed by 6 tiles of maximum three different types. One " +
+                        "column can show the same or a different combination of another column.";
+            case 3:
+                return "Four lines each formed by 5 tiles of maximum three different types. One " +
+                        "line can show the same or a different combination of another line.";
+            case 4:
+                return "Eight tiles of the same type. There’s no restriction about the position of " +
+                        "these tiles.";
+            case 5:
+                return "Four tiles of the same type in the four corners of the bookshelf.";
+            case 6:
+                return "Five tiles of the same type forming a diagonal.";
+            case 7:
+                return "Two groups each containing 4 tiles of the same type in a 2x2 square. The tiles " +
+                        "of one square can be different from those of the other square.";
+            case 8:
+                return "Five columns of increasing or decreasing height. Starting from the first column on " +
+                        "the left or on the right, each next column must be made of exactly one more tile. " +
+                        "Tiles can be of any type.";
+            case 9:
+                return "Four groups each containing at least 4 tiles of the same type (not necessarily " +
+                        "in the depicted shape). The tiles of one group can be different " +
+                        "from those of another group.";
+            case 10:
+                return "Six groups each containing at least 2 tiles of the same type (not necessarily " +
+                        "in the depicted shape). The tiles of one group can be different " +
+                        "from those of another group.";
+            case 11:
+                return "Five tiles of the same type forming an X.";
+        }
+        return null;
+    }
+
+    //    public void clearCli(){
 //        System.out.println("\033[H\033[2J");
 //        System.out.flush();
 //    }
 
     @Override
-    public void askLogin() {
+    public void askLogin() throws ServerNotActiveException, RemoteException {
         System.out.print("Enter the username: ");
         String username = readLine();
         boolean usernameAccepted = false;
 
         do {
-            //usernameAccepted = login(username);
+            //usernameAccepted = clientInputHandler.logIn(username);
 
             if(usernameAccepted){
                 System.out.println("Hi, " + username + " Login games.");
@@ -93,7 +142,7 @@ public class Cli implements View {
     }
 
     @Override
-    public void askAction() {
+    public void askAction() throws ServerNotActiveException, RemoteException {
         System.out.println("Game Option:");
         System.out.println("1. Create a new match.");
         System.out.println("2. Join a match.");
@@ -122,12 +171,13 @@ public class Cli implements View {
     }
 
     @Override
-    public void askCreateGame() {
+    public void askCreateGame() throws ServerNotActiveException, RemoteException {
         System.out.println("Room generation in  progress...");
         int playerNumber = askMaxSeats();
         int matchID;
 
-        //createMatch(playerNumber);
+        clientInputHandler.createMatch(playerNumber);
+
         System.out.println("Successfully created a game for " + playerNumber + " persons!");
         Random random = new Random();
         matchID = random.nextInt();
@@ -142,18 +192,19 @@ public class Cli implements View {
             try {
                 System.out.print("Please select the number of players [2 to 4]: ");
                 playerNumber = Integer.parseInt(readLine());
-                if (playerNumber == 2 || playerNumber == 3 || playerNumber == 4){
-                    System.out.println("Ok");
+                if (playerNumber != 2 && playerNumber != 3 && playerNumber != 4){
+                    System.out.println("Invalid number! Please try again.");
                 }
             } catch (NumberFormatException e){
                 System.out.println("Invalid input! Please try again.");
             }
         } while (playerNumber == 2 || playerNumber == 3 || playerNumber == 4);
+        System.out.println("Ok");
         return playerNumber;
     }
 
     @Override
-    public void askJoinGame() {
+    public void askJoinGame() throws ServerNotActiveException, RemoteException {
         boolean replyAction = false;
         int matchID;
         do {
@@ -161,7 +212,7 @@ public class Cli implements View {
                 System.out.print("Please select the number of players [2 to 4]: ");
                 matchID = Integer.parseInt(readLine());
 
-                //boolean replyAction = joinGame(matchID);
+                //replyAction = clientInputHandler.joinGame(matchID);
 
                 if (replyAction){
                     System.out.println("Joining the match: " + matchID);
@@ -174,19 +225,30 @@ public class Cli implements View {
     }
 
     @Override
-    public void askLeaveGame() {
-        //leaveGame();
+    public void askLeaveGame() throws RemoteException {
+        clientInputHandler.exitMatch();
         System.out.println("See you soon. Bye.");
     }
 
     @Override
-    public void showCommonGoals(String username) {
-
+    public void showCommonGoals(String username, int commonGoalCard) {
+        System.out.println(username+"'s CommonGaol:");
+        System.out.println(showDescription(commonGoalCard));
     }
 
     @Override
-    public void showPersonalGoal(String username) {
-
+    public void showPersonalGoal(String username, Shelf personalGoalCard) {
+        System.out.println(username+"'s PersonalGoal:");
+        for(int i=0;i<SHELF_ROW;i++){
+            for(int j=0;j<SHELF_COLUMN;j++){
+                if(personalGoalCard.getMatrix()[i][j]==null){
+                    System.out.print("[______._]");
+                }else if(personalGoalCard.getMatrix()[i][j]!=null){
+                    System.out.print("["+ personalGoalCard.getMatrix()[i][j].getNameCard() +"]");
+                }
+            }
+            System.out.println();
+        }
     }
 
     @Override
