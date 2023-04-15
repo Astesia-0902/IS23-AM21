@@ -9,7 +9,7 @@ import java.rmi.server.ServerNotActiveException;
  * @author JiaLiang Ding
  * @version 1.0
  */
-public interface ClientInput extends Remote {
+public interface IClientInput extends Remote {
     void joinGame(int matchID) throws RemoteException, ServerNotActiveException;
 
 
@@ -30,5 +30,7 @@ public interface ClientInput extends Remote {
     boolean sortHand(int pos1, int pos2) throws RemoteException,ServerNotActiveException;
 
     boolean exitMatch() throws RemoteException;
+
+    String getVirtualView() throws RemoteException;
 }
 

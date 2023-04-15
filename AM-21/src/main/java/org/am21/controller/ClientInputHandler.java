@@ -8,7 +8,7 @@ import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
 
 //TODO: we need reference of this class in every player instance, so we can send message to the client
-public class ClientInputHandler extends UnicastRemoteObject implements ClientInput {
+public class ClientInputHandler extends UnicastRemoteObject implements IClientInput {
     public String userName;
     public String userHost;
     private Integer createMatchRequestCount = 0;
@@ -152,5 +152,15 @@ public class ClientInputHandler extends UnicastRemoteObject implements ClientInp
             return true;
         }
         return false;
+    }
+
+    /**
+     * Use this method to get the virtual view of the match
+     * @return JSON string of the virtual view
+     * @throws RemoteException
+     */
+    @Override
+    public String getVirtualView() throws RemoteException {
+        return playerController.getPlayer().getMatch().getVirtualView();
     }
 }

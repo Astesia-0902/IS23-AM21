@@ -24,24 +24,32 @@ public class VirtualView implements Serializable {
     //so we use a integer to map the goal picture
     public List<Integer> commonGoal;
     public int timer;
-    public String[] nicknames;
-    public int[] scores;
+    public String[] players;
+    public List<Integer> scores;
     public List<int[][]> shelf;
-    public int[] personalGoals;
-
-    public String[] getNicknames() {
-        return nicknames;
+    public List<Integer> personalGoals;
+    public String currentPlayer;
+    public String getCurrentPlayer() {
+        return currentPlayer;
     }
 
-    public void setNicknames(String[] nicknames) {
-        this.nicknames = nicknames;
+    public void setCurrentPlayer(String currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 
-    public int[] getScores() {
+    public String[] getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(String[] players) {
+        this.players = players;
+    }
+
+    public List<Integer> getScores() {
         return scores;
     }
 
-    public void setScores(int[] scores) {
+    public void setScores(List<Integer> scores) {
         this.scores = scores;
     }
 
@@ -53,11 +61,11 @@ public class VirtualView implements Serializable {
         this.shelf = shelf;
     }
 
-    public int[] getPersonalGoals() {
+    public List<Integer> getPersonalGoals() {
         return personalGoals;
     }
 
-    public void setPersonalGoals(int[] personalGoals) {
+    public void setPersonalGoals(List<Integer> personalGoals) {
         this.personalGoals = personalGoals;
     }
 

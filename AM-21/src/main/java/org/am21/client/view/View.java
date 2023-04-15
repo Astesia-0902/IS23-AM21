@@ -1,4 +1,4 @@
-package org.am21.view;
+package org.am21.client.view;
 
 
 import org.am21.model.items.Shelf;

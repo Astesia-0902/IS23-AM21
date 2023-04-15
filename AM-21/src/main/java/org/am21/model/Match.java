@@ -26,7 +26,8 @@ public class Match {
     public List<Player> playerList;
     public int maxSeats;
     private Player firstToComplete;
-
+    //TODO:initialize the virtual view
+    public VirtualView virtualView;
     public Player chairman;
     public MyTimer timer;
 
@@ -44,11 +45,14 @@ public class Match {
 
         this.endGameToken = endGameToken;
     }
+
     public Player getFirstToComplete() {
         return firstToComplete;
     }
+
     /**
      * Change GamePhase
+     *
      * @param phase
      */
     public void setGamePhase(GamePhase phase) {
@@ -86,18 +90,20 @@ public class Match {
             return false;
         }
     }
+
     /**
      * This method allows to safely remove the player from the match.
      * Operations:
      * - Update PlayerList<br>
      * - Update Player's game items<br>
      * - Update PlayerMatchMap<br>
+     *
      * @param player player who left the match
      * @return true if the operation is successful, otherwise false
      */
     public boolean removePlayer(Player player) {
         synchronized (playerList) {
-            if(playerList.contains(player)){
+            if (playerList.contains(player)) {
                 playerList.remove(player);
                 player.setPlayerScore(0);
                 player.setStatus(UserStatus.Online);
@@ -119,13 +125,12 @@ public class Match {
     private void callEndTurnRoutine() {
         //Check if last round is completed
         if (gameState == GameState.LastRound &&
-                playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats) == firstToComplete)
-        {
+                playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats) == firstToComplete) {
             //Calculate Personal Goal Points for each player
             checkPersonalGoals();
             checkShelfPoints();
             endMatch();
-        }else {
+        } else {
             if (board.checkBoard()) {
                 System.out.println("Match > Board need refill");
                 GameGear.printThisBoard(board);
@@ -142,7 +147,7 @@ public class Match {
                 this.setEndGameToken(false);
 //            System.out.println("Match > EndGame Token assigned");
                 firstToComplete = currentPlayer;
-                firstToComplete.setPlayerScore(firstToComplete.getPlayerScore()+1);
+                firstToComplete.setPlayerScore(firstToComplete.getPlayerScore() + 1);
                 gameState = GameState.LastRound;
             }
             this.nextTurn();
@@ -152,10 +157,11 @@ public class Match {
 
     /**
      * This method check if the player has completed any Goal
+     *
      * @param player player that need to check
      */
     public void checkingCommonGoals(Player player) {
-        if(gamePhase==GamePhase.GoalChecking) {
+        if (gamePhase == GamePhase.GoalChecking) {
             for (CommonGoal goal : commonGoals) {
                 if (goal.checkGoal(player.getShelf())) {
                     // Give player points/scoreToken
@@ -177,22 +183,22 @@ public class Match {
      * and new points will be added thank to calculatePoints().
      * This way, the personal goal can be called individually at the end of each turn.
      */
-    public void checkPersonalGoals(){
-        for(Player p: playerList){
+    public void checkPersonalGoals() {
+        for (Player p : playerList) {
             p.getController().addScore(p.getMyPersonalGoal().calculatePoints());
         }
 
     }
 
     public void checkShelfPoints() {
-        for(Player p: playerList){
+        for (Player p : playerList) {
             p.getController().addScore(p.getShelf().getGroupPoints());
         }
 
     }
 
     /**
-     *This method is called when the match ends.
+     * This method is called when the match ends.
      * Operations:
      * - Show the final game stats.<br>
      * - Clear the board and the items.<br>
@@ -205,11 +211,11 @@ public class Match {
 
         //TODO: clear board
         //Removing players from the match
-        for(Player player : playerList){
+        for (Player player : playerList) {
             player.setStatus(UserStatus.Online);
             player.setMatch(null);
             player.setShelf(null);
-            synchronized (GameManager.playerMatchMap){
+            synchronized (GameManager.playerMatchMap) {
                 GameManager.playerMatchMap.remove(player.getNickname());
             }
         }
@@ -217,7 +223,7 @@ public class Match {
         playerList.clear();
         //System.out.println("Game > Room closed. See ya!");
         //temp
-        gameState=GameState.Closed;
+        gameState = GameState.Closed;
 
         return true;
     }
@@ -229,12 +235,12 @@ public class Match {
      * If the state is {@link GameState#WaitingPlayers}: it calls {@link #initializeMatch()}
      * If it is {@link GameState#Ready}: it calls {@link #startFirstRound()}
      */
-    public void checkRoom(){
-        if(playerList.size()<maxSeats){
-            if(!gameState.equals(GameState.WaitingPlayers)){
+    public void checkRoom() {
+        if (playerList.size() < maxSeats) {
+            if (!gameState.equals(GameState.WaitingPlayers)) {
                 endMatch();
             }
-        }else {
+        } else {
             if (gameState.equals(GameState.WaitingPlayers)) {
                 initializeMatch();
                 System.out.println("Match > InitMatch Complete");
@@ -266,7 +272,7 @@ public class Match {
         List<PersonalGoalCard> personalGoalCards = CardUtil.buildPersonalGoalCard(maxSeats);
         for (int i = 0; i < maxSeats; i++) {
             //Give player's reference to the card
-            personalGoalCards.get(i).player=playerList.get(i);
+            personalGoalCards.get(i).player = playerList.get(i);
             //Give players their Personal Goal
             playerList.get(i).setMyPersonalGoal(personalGoalCards.get(i));
         }
@@ -291,7 +297,7 @@ public class Match {
      * State: {@link GameState#GameGoing}
      */
     private boolean startFirstRound() {
-        gameState=GameState.GameGoing;
+        gameState = GameState.GameGoing;
         //System.out.println("Game > The match of ID: " + matchID + " is starting!");
         currentPlayer = chairman;
         //System.out.println("Match > Player Turn: " + currentPlayer.getNickname());
@@ -314,5 +320,9 @@ public class Match {
 
         setGamePhase(GamePhase.Selection);
 
+    }
+
+    public String getVirtualView() {
+        return VirtualViewHelper.getVirtualViewJSON(virtualView);
     }
 }

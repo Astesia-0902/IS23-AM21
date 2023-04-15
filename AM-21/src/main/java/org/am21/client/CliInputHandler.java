@@ -4,6 +4,9 @@ import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
 import java.util.Scanner;
 
+/**
+ * abandoned class
+ */
 public class CliInputHandler {
     public static void handleInput(String input) throws ServerNotActiveException, RemoteException {
         Scanner in = new Scanner(System.in);
@@ -46,14 +49,14 @@ public class CliInputHandler {
     }
 
     private static void handleJoin(int matchID) throws ServerNotActiveException, RemoteException {
-        ClientGameController.clientInputHandler.joinGame(matchID);
+        ClientGameController.IClientInputHandler.joinGame(matchID);
     }
 
     private static void handleCreate(int playerCount) throws ServerNotActiveException, RemoteException {
-        ClientGameController.clientInputHandler.createMatch(playerCount);
+        ClientGameController.IClientInputHandler.createMatch(playerCount);
     }
 
     private static void handleLogin(String username) throws ServerNotActiveException, RemoteException {
-        ClientGameController.clientInputHandler.logIn(username);
+        ClientGameController.IClientInputHandler.logIn(username);
     }
 }

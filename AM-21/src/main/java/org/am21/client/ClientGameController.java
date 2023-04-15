@@ -1,7 +1,7 @@
 package org.am21.client;
 
-import org.am21.controller.ClientInput;
+import org.am21.controller.IClientInput;
 
 public class ClientGameController {
-    public static ClientInput clientInputHandler;
+    public static IClientInput IClientInputHandler;
 }

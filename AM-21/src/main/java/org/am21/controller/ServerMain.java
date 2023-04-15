@@ -23,11 +23,11 @@ public class ServerMain {
             // Start the server
             LocateRegistry.createRegistry(8807);
             // This object will be used by the client
-            ClientInput clientInputHandler = new ClientInputHandler();
+            IClientInput IClientInputHandler = new ClientInputHandler();
             //IClientHandler clientChatHandler = new ClientChatHandler();
 
             // Bind the remote object's stub in the registry
-            Naming.bind("rmi://localhost:8807/ClientInputHandler", clientInputHandler);
+            Naming.bind("rmi://localhost:8807/ClientInputHandler", IClientInputHandler);
             //Naming.bind("rmi://localhost:8888/ClientChatHandler", clientChatHandler);
             System.out.println("Server is ready");
             while (true){

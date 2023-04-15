@@ -1,8 +1,8 @@
-package org.am21.view.cli;
+package org.am21.client.view.cli;
 
-import org.am21.controller.ClientInput;
+import org.am21.controller.IClientInput;
 import org.am21.model.items.Shelf;
-import org.am21.view.View;
+import org.am21.client.view.View;
 
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
@@ -14,7 +14,7 @@ import java.util.concurrent.FutureTask;
 
 public class Cli implements View {
     private Thread inputThread;
-    private ClientInput clientInputHandler;
+    private IClientInput IClientInputHandler;
 
 
 
@@ -176,7 +176,7 @@ public class Cli implements View {
         int playerNumber = askMaxSeats();
         int matchID;
 
-        clientInputHandler.createMatch(playerNumber);
+        IClientInputHandler.createMatch(playerNumber);
 
         System.out.println("Successfully created a game for " + playerNumber + " persons!");
         Random random = new Random();
@@ -226,7 +226,7 @@ public class Cli implements View {
 
     @Override
     public void askLeaveGame() throws RemoteException {
-        clientInputHandler.exitMatch();
+        IClientInputHandler.exitMatch();
         System.out.println("See you soon. Bye.");
     }
 

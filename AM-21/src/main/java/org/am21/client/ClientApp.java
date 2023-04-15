@@ -1,6 +1,6 @@
 package org.am21.client;
 
-import org.am21.view.cli.Cli;
+import org.am21.client.view.cli.Cli;
 
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
