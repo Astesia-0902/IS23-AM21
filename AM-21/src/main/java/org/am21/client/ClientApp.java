@@ -12,7 +12,13 @@ public class ClientApp {
 
     public static void main(String[] args) throws MalformedURLException, NotBoundException, ServerNotActiveException, ExecutionException, RemoteException {
         Cli cli = new Cli();
-        cli.init();
+        //cli.init();
+        //cli.askLogin();
+        //cli.askAction();
+        //cli.askMaxSeats();
+        //cli.askJoinGame();
+        //cli.askLeaveGame();
+
     }
 
 

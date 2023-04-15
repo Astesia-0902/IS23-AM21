@@ -125,20 +125,22 @@ public class Cli implements View {
     public void askLogin() throws ServerNotActiveException, RemoteException {
         System.out.print("Enter the username: ");
         String username = readLine();
-        boolean usernameAccepted = false;
+        //boolean usernameAccepted = false;
+        boolean usernameAccepted = true;
 
         do {
             //usernameAccepted = clientInputHandler.logIn(username);
 
-            if(usernameAccepted){
-                System.out.println("Hi, " + username + " Login games.");
+            if (usernameAccepted) {
+                System.out.println("Hi, " + username + " is login in the game.");
             } else {
                 System.out.println("Username already exists, please re-enter.");
                 username = readLine();
             }
 
-        } while (usernameAccepted);
-
+        } while (!usernameAccepted);
+    //}while (usernameAccepted);
+        System.out.println("----------------------------");
     }
 
     @Override
@@ -176,13 +178,15 @@ public class Cli implements View {
         int playerNumber = askMaxSeats();
         int matchID;
 
+        //TODO: fixe the null point
         clientInputHandler.createMatch(playerNumber);
 
         System.out.println("Successfully created a game for " + playerNumber + " persons!");
         Random random = new Random();
-        matchID = random.nextInt();
+        matchID = random.nextInt(100);
         System.out.println("The room number is " + matchID);
         System.out.println("Waiting for players...");
+
     }
 
     @Override
@@ -198,7 +202,7 @@ public class Cli implements View {
             } catch (NumberFormatException e){
                 System.out.println("Invalid input! Please try again.");
             }
-        } while (playerNumber == 2 || playerNumber == 3 || playerNumber == 4);
+        } while (playerNumber != 2 && playerNumber != 3 && playerNumber != 4);
         System.out.println("Ok");
         return playerNumber;
     }
@@ -226,6 +230,7 @@ public class Cli implements View {
 
     @Override
     public void askLeaveGame() throws RemoteException {
+        //TODO: fix the null point
         clientInputHandler.exitMatch();
         System.out.println("See you soon. Bye.");
     }
