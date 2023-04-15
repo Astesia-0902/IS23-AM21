@@ -26,7 +26,7 @@ public class Player {
 
     /**
      * Constructor for player's data initialization
-     * At the beginning, GameController are going to create Player with just basic info, without game items
+     * At the beginning, ClientGameController are going to create Player with just basic info, without game items
      * Status: Online when accessing the game, not in a match though.
      * Creating a PlayerController for each player account.
      * @param nickname Nickname of the player

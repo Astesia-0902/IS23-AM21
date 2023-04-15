@@ -11,6 +11,8 @@ import java.rmi.registry.LocateRegistry;
  * - Uniqueness of the nickname is granted by the server in phase of acceptance of the player
  */
 public class ServerMain {
+
+
     /**
      *
      * @param args
@@ -19,14 +21,13 @@ public class ServerMain {
     public static void main(String[] args) throws RemoteException {
         try {
             // Start the server
-            LocateRegistry.createRegistry(8808);
-
+            LocateRegistry.createRegistry(8807);
             // This object will be used by the client
             ClientInput clientInputHandler = new ClientInputHandler();
             //IClientHandler clientChatHandler = new ClientChatHandler();
 
             // Bind the remote object's stub in the registry
-            Naming.bind("rmi://localhost:8808/ClientInputHandler", clientInputHandler);
+            Naming.bind("rmi://localhost:8807/ClientInputHandler", clientInputHandler);
             //Naming.bind("rmi://localhost:8888/ClientChatHandler", clientChatHandler);
             System.out.println("Server is ready");
             while (true){
@@ -38,4 +39,6 @@ public class ServerMain {
 
         }
     }
+
 }
+

@@ -16,7 +16,7 @@ public class PlayerController {
     private Hand hand;
 
     /**
-     * PlayerController constructor is initialized by GameController, when ClientInputHandler login.
+     * PlayerController constructor is initialized by ClientGameController, when ClientInputHandler login.
      * It will create the player and add his reference
      *
      */

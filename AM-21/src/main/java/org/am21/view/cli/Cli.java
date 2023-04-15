@@ -40,7 +40,7 @@ public class Cli implements View {
     public void askServerInfo()throws ExecutionException{
         Map<String, String> serverInfo = new HashMap<>();
         String defaultAddress = "localhost";
-        String defaultPort = "8888";
+        String defaultPort = "8807";
 
         System.out.println("Enter the server address: ["+ defaultAddress + "]");
         String address = readLine();
@@ -137,7 +137,7 @@ public class Cli implements View {
                 System.out.print("Please select the number of players [2 to 4]: ");
                 playerNumber = Integer.parseInt(readLine());
                 if (playerNumber == 2 || playerNumber == 3 || playerNumber == 4){
-                    System.out.println("Invalid number! Please try again.");
+                    System.out.println("Ok");
                 }
             } catch (NumberFormatException e){
                 System.out.println("Invalid input! Please try again.");

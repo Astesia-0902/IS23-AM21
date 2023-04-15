@@ -2,23 +2,25 @@ package org.am21.client.controller;
 
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
+import java.util.Scanner;
 
 public class CliInputHandler {
     public static void handleInput(String input) throws ServerNotActiveException, RemoteException {
+        Scanner in = new Scanner(System.in);
         switch (input) {
             case "login":
                 System.out.println("Login, please enter your username:");
-                String username = System.console().readLine();
+                String username = in.nextLine();
                 handleLogin(username);
                 break;
             case "create match":
                 System.out.println("Create match, please enter the number of players:");
-                int playerCount = Integer.parseInt(System.console().readLine());
+                int playerCount = in.nextInt();
                 handleCreate(playerCount);
                 break;
             case "join":
                 System.out.println("Join match, please enter the match ID:");
-                int matchID = Integer.parseInt(System.console().readLine());
+                int matchID = in.nextInt();
                 handleJoin(matchID);
                 break;
             case "help":
@@ -44,14 +46,14 @@ public class CliInputHandler {
     }
 
     private static void handleJoin(int matchID) throws ServerNotActiveException, RemoteException {
-        GameController.clientInputHandler.joinGame(matchID);
+        ClientGameController.clientInputHandler.joinGame(matchID);
     }
 
     private static void handleCreate(int playerCount) throws ServerNotActiveException, RemoteException {
-        GameController.clientInputHandler.createMatch(playerCount);
+        ClientGameController.clientInputHandler.createMatch(playerCount);
     }
 
     private static void handleLogin(String username) throws ServerNotActiveException, RemoteException {
-        GameController.clientInputHandler.logIn(username);
+        ClientGameController.clientInputHandler.logIn(username);
     }
 }

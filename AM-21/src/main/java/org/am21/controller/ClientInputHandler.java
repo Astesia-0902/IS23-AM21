@@ -56,12 +56,14 @@ public class ClientInputHandler extends UnicastRemoteObject implements ClientInp
         userHost = getClientHost();
         this.userName = username;
         playerController = new PlayerController(username);
+
         //TODO:the same username is not allowed to log in
         synchronized (PlayerManager.players) {
             if (!PlayerManager.players.contains(playerController.getPlayer())) {
                 PlayerManager.players.add(playerController.getPlayer());
             }
         }
+       // return true;
     }
 
     /**
