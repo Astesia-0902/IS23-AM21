@@ -83,13 +83,13 @@ public class CommonGoalTest {
     }
 
     /**
-     * Testing setAchievedPlayers method and his side effects
+     * Testing commonGoalAchieved method and his side effects
      */
     @Test
     void testSetAchievedPlayers() {
         card = new CommonGoal2Columns(2);
 
-        card.setAchievedPlayers(c.getPlayer());
+        card.commonGoalAchieved(c.getPlayer());
 
         assertTrue(card.achievedPlayers.get(0).equals(c.getPlayer()));
 

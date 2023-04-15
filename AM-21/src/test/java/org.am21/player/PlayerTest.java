@@ -27,7 +27,6 @@ public class PlayerTest {
     @BeforeEach
     void setUp(){
         m=new Match(2);
-        m.initializeMatch();
         c1 = new PlayerController("Rorschach");
         p1 = c1.getPlayer();
         c2 = new PlayerController("Rorschach");

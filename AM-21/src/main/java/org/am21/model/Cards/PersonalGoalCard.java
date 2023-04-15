@@ -65,8 +65,8 @@ public class PersonalGoalCard extends Card {
             // Compare the items on the player's bookshelf(row, col) with the items required by Personal Goal
             if (player.getShelf().getItemName(row, col) != null &&
                     player.getShelf().getItemType(row,col)
-                            .equals(tileNames.get(val).getNameCard())) {
-                //System.out.println("Shelf > ["+row+ "]"+"["+col+ "]: " + PersonalGoalShelf.player.shelf.getItemType(row,col));
+                            .equals(tileNames.get(val).getNameCard()))
+            {
                 //System.out.println("Match > +1 item matched!");
                 count++;
             }

@@ -10,7 +10,7 @@ import org.am21.model.items.Shelf;
 import org.am21.utilities.CardUtil;
 import org.am21.utilities.CommonGoalUtil;
 import org.am21.utilities.MyTimer;
-import org.am21.utilities.TGear;
+import org.am21.utilities.GameGear;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +53,10 @@ public class Match {
      */
     public void setGamePhase(GamePhase phase) {
         gamePhase = phase;
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
     }
 
     /**
@@ -117,14 +121,17 @@ public class Match {
         if (gameState == GameState.LastRound &&
                 playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats) == firstToComplete)
         {
+            //Calculate Personal Goal Points for each player
+            checkPersonalGoals();
+            checkShelfPoints();
             endMatch();
         }else {
             if (board.checkBoard()) {
 //            System.out.println("Match > Board need refill");
-                TGear.printThisBoard(board);
+                GameGear.printThisBoard(board);
                 //refill
                 if (board.bag.refillBoard()) {
-                    TGear.printThisBoard(board);
+                    GameGear.printThisBoard(board);
                 }
             }
 
@@ -133,30 +140,53 @@ public class Match {
                 this.setEndGameToken(false);
 //            System.out.println("Match > EndGame Token assigned");
                 firstToComplete = currentPlayer;
+                firstToComplete.setPlayerScore(firstToComplete.getPlayerScore()+1);
                 gameState = GameState.LastRound;
             }
             this.nextTurn();
         }
 
     }
+
     /**
      * This method check if the player has completed any Goal
      * @param player player that need to check
      */
     public void checkingCommonGoals(Player player) {
-        //Serie di comandi per controllare se il player ha completato dei goal
-        player.getMyPersonalGoal().calculatePoints();
-
-        for (CommonGoal goal : commonGoals) {
-            if (goal.checkGoal(player.getShelf())) {
-                // Give player points/scoreToken
-                //player.playerScore += goal.extractToken();
-                goal.setAchievedPlayers(player);
-
+        if(gamePhase==GamePhase.GoalChecking) {
+            for (CommonGoal goal : commonGoals) {
+                if (goal.checkGoal(player.getShelf())) {
+                    // Give player points/scoreToken
+                    goal.commonGoalAchieved(player);
+                }
             }
+            setGamePhase(GamePhase.EndTurn);
+            this.callEndTurnRoutine();
         }
-        setGamePhase(GamePhase.EndTurn);
-        this.callEndTurnRoutine();
+    }
+
+    /**
+     * Sequence for Personal Goal Check
+     * Called after the last round (Current Setup)
+     * Otherwise(Alternative setup):
+     * We need to change the Personal Goal Card setup.
+     * - Add new Integer that store old Points
+     * So each time a checkGoal is called, the points will be removed from player's score
+     * and new points will be added thank to calculatePoints().
+     * This way, the personal goal can be called individually at the end of each turn.
+     */
+    public void checkPersonalGoals(){
+        for(Player p: playerList){
+            p.getController().addScore(p.getMyPersonalGoal().calculatePoints());
+        }
+
+    }
+
+    public void checkShelfPoints() {
+        for(Player p: playerList){
+            p.getController().addScore(p.getShelf().getGroupPoints());
+        }
+
     }
 
     /**
@@ -168,7 +198,9 @@ public class Match {
      * - Remove all the players from the match<br>
      */
     private boolean endMatch() {
-        //TODO: final game stats
+        //Print the Final Stats of the Match
+        GameGear.viewFinalStats(this);
+
         //TODO: clear board
         //Removing players from the match
         for(Player player : playerList){
@@ -179,14 +211,12 @@ public class Match {
                 GameManager.playerMatchMap.remove(player.getNickname());
             }
         }
-        //Maybe not necessary, at end match instance will deleted
+        //Maybe not necessary, at end match instance will be deleted
         playerList.clear();
-
         //System.out.println("Game > Room closed. See ya!");
         //temp
-        //TGear.viewStats(this, -2);
-
         gameState=GameState.Closed;
+
         return true;
     }
 
@@ -205,10 +235,12 @@ public class Match {
         }else {
             if (gameState.equals(GameState.WaitingPlayers)) {
                 initializeMatch();
+                System.out.println("Match > InitMatch Complete");
                 checkRoom();
             }
             if (gameState.equals(GameState.Ready)) {
                 startFirstRound();
+                System.out.println("Match > Start first round!");
             }
         }
     }
@@ -249,6 +281,7 @@ public class Match {
         board = new Board(this);
         board.firstSetup();
 
+        setGameState(GameState.Ready);
     }
 
     /**
