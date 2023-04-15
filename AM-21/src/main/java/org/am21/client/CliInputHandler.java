@@ -1,4 +1,4 @@
-package org.am21.client.controller;
+package org.am21.client;
 
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;

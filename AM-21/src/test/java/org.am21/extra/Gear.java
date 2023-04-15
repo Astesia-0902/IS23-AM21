@@ -14,8 +14,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.am21.utilities.GameGear.spacer;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class Gear {
     static int numMatch=0;
@@ -45,7 +43,7 @@ public class Gear {
     public static void robotMoves(PlayerController pC, Player p){
         if(pC.isMyTurn(p)) {
             randomChoice(pC);
-//           GameGear.showHand(p.hand);
+          GameGear.showHand(p.getHand());
             pC.moveAllToHand();
             while(!pC.tryToInsert((int) (Math.random() * 5))){
 //                System.out.println(p.getName()+" > Finding column...");
@@ -65,50 +63,49 @@ public class Gear {
 
         do {
             if(attempt ==0){
-                a = (int) ((Math.random() * 9));
-                b = (int) ((Math.random() * 9));
+                do {
+                    a = (int) ((Math.random() * 9));
+                    b = (int) ((Math.random() * 9));
+                }while (!ctrl.getPlayer().getMatch().board.isPlayable(a,b));
                 if(ctrl.selectCell(a, b)) {
                     attempt++;
-
                 }else{
                     fail++;
                 }
                 if(fail==5){
-                    for(CardPointer popo: posArr){
-
-                        if(ctrl.selectCell(popo.x,popo.y)){
-
+                    for(CardPointer point : posArr){
+                        if(ctrl.selectCell(point.x, point.y)){
                             attempt++;
                             counter_AI++;
                         }
                         if(fail==10){
-                            attempt =10;
+                            attempt=10;
                             break;
                         }else{
                             fail++;
                         }
                     }
-
                 }
-
-
             }else {
                 do {
-                    a = ((int) (Math.random() * 3)) - 1;
-                    b = ((int) (Math.random() * 3)) - 1;
+                    a = ((int) (Math.random() * 5))-2;
+                    b = ((int) (Math.random() * 5))-2;
                 }while(a!=0 && b!=0);
 
-                /*System.out.print("Board > Selection difference: ");
+                System.out.print("Board > Selection difference: ");
                 System.out.print("["+a+"]");
-                System.out.println("["+b+"]");*/
+                System.out.println("["+b+"]");
                 int numGen=(int) (Math.random() * (ctrl.getHand().getSlot().size()));
+                System.out.println(numGen);
                 tmp = ctrl.getHand().getSlot().get(numGen);
                 a = a + tmp.x;
                 b = b + tmp.y;
                 if(a<0 || a>8 || b<0 || b>8){
                 }else{
-                    ctrl.selectCell(a, b);
-                    attempt++;
+                    if(ctrl.getPlayer().getMatch().board.isPlayable(a,b)){
+                        ctrl.selectCell(a, b);
+                        attempt++;
+                    }
                 }
 
             }
@@ -140,12 +137,9 @@ public class Gear {
         GameGear.printCommGoals(m.commonGoals);
         GameGear.printPersonalGoals(m.playerList);
         spacer();
-        assertEquals(4,m.playerList.size());
-        assertNotNull(m.chairman);
         Player p;
         for(t=0; t<nRounds; t++){      //Number of round
-            System.out.println("Match > {[ Round number: "+ (t+1)+" ]}");
-
+            if(m.gameState!= GameState.Closed) System.out.println("Match > {[ Round number: "+ (t+1)+" ]}");
             for(int f=0;f<m.playerList.size();f++) {
                 p=m.playerList.get(f);
                 if(m.currentPlayer.equals(p)){

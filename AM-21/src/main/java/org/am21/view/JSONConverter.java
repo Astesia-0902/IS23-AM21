@@ -1,4 +1,4 @@
-package org.am21.client.controller;
+package org.am21.view;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -8,7 +8,7 @@ import java.util.List;
 /**
  *
  */
-public class CLIController {
+public class JSONConverter {
     public JSONObject myJson;
 
     /**

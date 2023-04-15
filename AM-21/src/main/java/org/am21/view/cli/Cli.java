@@ -1,5 +1,6 @@
 package org.am21.view.cli;
 
+import org.am21.controller.ClientInput;
 import org.am21.view.View;
 
 import java.util.HashMap;
@@ -10,6 +11,9 @@ import java.util.concurrent.FutureTask;
 
 public class Cli implements View {
     private Thread inputThread;
+    private ClientInput clientInputHandler;
+
+
 
     /**
      * Read a line from the standard input
@@ -33,8 +37,10 @@ public class Cli implements View {
         return input;
     }
 
-    public void init(){
+    public void init() throws ExecutionException {
+
         System.out.println("Welcome to MyShelfie Board Game!");
+        askServerInfo();
     }
 
     public void askServerInfo()throws ExecutionException{

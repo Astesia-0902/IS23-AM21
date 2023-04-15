@@ -92,7 +92,7 @@ public class PlayerController {
         Board board = player.getMatch().board;
 
         if (board.isPlayable(r,c) && board.isOccupied(r,c) && board.hasFreeSide(r, c)) {
-//            System.out.println("Board > Cell selectable");
+            System.out.println("Board > Cell selectable");
             /*If the cell is selectable then verify second condition*/
 
             if (hand.getSlot().size()>0)  {
@@ -100,7 +100,7 @@ public class PlayerController {
                 for (CardPointer tmp : hand.getSlot()) {
                     if ((r == tmp.x) && (c == tmp.y)) {
                         //Gia selezionato
-//                        System.out.println("Board[!] > Already selected. Try again.");
+                        System.out.println("Board[!] > Already selected. Try again.");
                         return false;
                     }
                 }
@@ -112,7 +112,7 @@ public class PlayerController {
                 /*Coordinates have been filtered,
                    so they are valid for Orthogonality check*/
                 if (!board.isOrthogonal(r, c, hand)) {
-//                    System.out.println("Board > Not Orthogonal");
+                    System.out.println("Board > Not Orthogonal ["+r+","+c+"]");
                     return false;
                 }
             }

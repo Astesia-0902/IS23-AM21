@@ -127,10 +127,12 @@ public class Match {
             endMatch();
         }else {
             if (board.checkBoard()) {
-//            System.out.println("Match > Board need refill");
+                System.out.println("Match > Board need refill");
                 GameGear.printThisBoard(board);
                 //refill
                 if (board.bag.refillBoard()) {
+                    //TODO: to eliminate, this var is just for test
+                    GameGear.numberOfRefill++;
                     GameGear.printThisBoard(board);
                 }
             }

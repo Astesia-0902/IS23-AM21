@@ -126,28 +126,30 @@ public class Board extends Grid {
      * @return check
      */
     public boolean isOrthogonal(int r, int c, Hand pHand) {
-
         int a;
         int b;
-        boolean check = true; // Se check resta true allora è ortogonale
+        boolean one_adjacent=false;
+        boolean inline = true;
+
         for (CardPointer card : pHand.getSlot()) {
             a = Math.abs(r - card.x);
             b = Math.abs(c - card.y);
-//            System.out.print("Board > Coordinates difference: ");
-//            System.out.print("["+a+"]");
-//            System.out.println("["+b+"]");
-
-            if (a == 0 && (b > 0 && b < 3)) {
-
-            } else if (b == 0 && (a > 0 && a < 3)) {
-
+            System.out.print("Board > Coordinates difference: ");
+            System.out.print("["+a+"]");
+            System.out.println("["+b+"]");
+            //Check if the new item is adjacent at least to one item in the hand
+            //Check if the new item is in line
+            if (a == 0 && (b > 0 && b <= 2)) {
+                if(b==1)one_adjacent=true;
+            } else if (b == 0 && (a > 0 && a <= 2)) {
+                if(a==1)one_adjacent=true;
             } else {
-                check = false;
+                inline = false;
             }
-
         }
-        return check;
-
+        System.out.println(inline);
+        System.out.println(one_adjacent);
+        return inline && one_adjacent;
     }
 
     /**

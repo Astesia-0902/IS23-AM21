@@ -14,6 +14,7 @@ import java.util.List;
  * Temporary Class. Needed for Testing
  */
 public class GameGear {
+    public static int numberOfRefill;
     public static void printThisBoard(Board board){
         System.out.println("Match > Board:");
         for(int i=0;i<9;i++){
@@ -51,7 +52,7 @@ public class GameGear {
     }
     public static void showHand(Hand hand){
         System.out.println("--------");
-        System.out.println("Match  > "+hand.player.getNickname() + "'s HandLimit ["+ hand.getSlot().size()+"]:");
+        System.out.println("Match  > "+hand.player.getNickname() + "'s Hand["+ hand.getSlot().size()+"]:");
         for(CardPointer x : hand.getSlot()) {
             if(x.item.getNameCard()!=null){
                 System.out.print("["+x.item.getNameCard()+"]");
@@ -113,17 +114,18 @@ public class GameGear {
         spacer();
         System.out.println("Match[!][!] > Game Stats");
         System.out.println("Num round: ["+(nRound+1)+"]");
+        System.out.println("Num of refill: ["+numberOfRefill+"]");
         System.out.println("Bag items: ["+(m.board.bag.getDeck().size()-m.board.bag.bagIndex)+"]");
         System.out.println("Bag index: ["+m.board.bag.bagIndex+"]");
         System.out.println("Player/Score/Shelf/Hand situation:" );
         for(Player x: m.playerList){
             spacer();
             System.out.print(x.getNickname()+"["+ x.getShelf().getTotSlotAvail() +"]--");
-            System.out.print("Limit:["+ x.getShelf().insertLimit +"]\n");
-            GameGear.printGoalShelf(x.getMyPersonalGoal().getPersonalGoalShelf());
+            System.out.print("HandLimit:["+ x.getShelf().insertLimit +"]\n");
             System.out.println("PersonalGoal Points: " + x.getMyPersonalGoal().calculatePoints());
             System.out.println("Score: "+x.getPlayerScore());
             GameGear.printThisShelf(x.getShelf());
+            GameGear.printGoalShelf(x.getMyPersonalGoal().getPersonalGoalShelf());
         }
         System.out.println();
         GameGear.printThisBoard(m.board);
@@ -134,6 +136,7 @@ public class GameGear {
         spacer();
         System.out.println("Match[!][!] > Final Game Stats");
         System.out.println("Winner is: "+m.getFirstToComplete().getNickname());
+        System.out.println("Num of refill: ["+numberOfRefill+"]");
         System.out.println("Bag items: ["+(m.board.bag.getDeck().size()-m.board.bag.bagIndex)+"]");
         System.out.println("Bag index: ["+m.board.bag.bagIndex+"]");
         m.commonGoals.stream().forEach(x->{
@@ -147,12 +150,13 @@ public class GameGear {
         for(Player x: m.playerList){
             spacer();
             System.out.print(x.getNickname()+"["+ x.getShelf().getTotSlotAvail() +"]--");
-            System.out.print("Limit:["+ x.getShelf().insertLimit +"]\n");
-            GameGear.printGoalShelf(x.getMyPersonalGoal().getPersonalGoalShelf());
+            System.out.print("HandLimit:["+ x.getShelf().insertLimit +"]\n");
             System.out.println("Shelf Points: "+x.getShelf().getGroupPoints());
             System.out.println("PersonalGoal Points: " + x.getMyPersonalGoal().calculatePoints());
             System.out.println("Score: "+x.getPlayerScore());
             printThisShelf(x.getShelf());
+            GameGear.printGoalShelf(x.getMyPersonalGoal().getPersonalGoalShelf());
+
         }
         System.out.println();
         printThisBoard(m.board);

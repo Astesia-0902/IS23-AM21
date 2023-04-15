@@ -2,6 +2,7 @@ package org.am21.board;
 
 import org.am21.controller.PlayerController;
 import org.am21.model.Cards.ItemCard;
+import org.am21.model.Cards.ItemType;
 import org.am21.model.Match;
 import org.am21.model.items.Bag;
 import org.am21.model.items.Board;
@@ -45,8 +46,8 @@ public class BoardTest {
      * @param b is board
      */
     public void clearBoard(Board b){
-        for(int i=0;i<b.gRow;i++) {
-            for(int j=0;j<b.gColumn;j++){
+        for(int i=0;i<Board.BOARD_ROW;i++) {
+            for(int j=0;j<Board.BOARD_COLUMN;j++){
                 b.setCell(i,j,null);
 
             }
@@ -206,4 +207,68 @@ public class BoardTest {
         assertFalse(board.isPlayable(0,0));
     }
 
+    /**
+     * Setup: there are 3 cards on the board in different positions
+     * L shape and I shape
+     * Test if I can pick all three of them, also in different order
+     */
+    @Test
+    void testIsOrthogonal2(){
+        Match m1 = new Match(2);
+        PlayerController c = new PlayerController("A");
+        PlayerController d = new PlayerController("B");
+        m1.addPlayer(c.getPlayer());
+        m1.addPlayer(d.getPlayer());
+
+        m1.currentPlayer=(c.getPlayer());
+
+        clearBoard(m1.board);
+
+        m1.board.setCell(4,4,new ItemCard(ItemType.__Cats__+"1.1"));
+        m1.board.setCell(3,4,new ItemCard(ItemType.__Cats__+"1.1"));
+        m1.board.setCell(5,4,new ItemCard(ItemType.__Cats__+"1.1"));
+
+        assertTrue(c.selectCell(4,4));
+        assertTrue(c.selectCell(5,4));
+        assertTrue(c.selectCell(3,4));
+
+        c.unselectCards();
+        //Change order
+        assertTrue(c.selectCell(3,4));
+        assertFalse(c.selectCell(5,4));
+        assertTrue(c.selectCell(4,4));
+
+
+    }
+
+    /**
+     * Setup: there are 3 cards on the board in different positions
+     * L shape
+     * Test if I can pick all three of them, also in different order
+     */
+    @Test
+    void testIsOrthogonal3(){
+        Match m1 = new Match(2);
+        PlayerController c = new PlayerController("A");
+        PlayerController d = new PlayerController("B");
+        m1.addPlayer(c.getPlayer());
+        m1.addPlayer(d.getPlayer());
+
+        m1.currentPlayer=(c.getPlayer());
+        clearBoard(m1.board);
+        m1.board.setCell(4,4,new ItemCard(ItemType.__Cats__+"1.1"));
+        m1.board.setCell(3,4,new ItemCard(ItemType.__Cats__+"1.1"));
+        m1.board.setCell(4,5,new ItemCard(ItemType.__Cats__+"1.1"));
+
+        assertTrue(c.selectCell(4,4));
+        assertTrue(c.selectCell(3,4));
+        assertFalse(c.selectCell(4,5));
+
+        c.unselectCards();
+        //Change Order
+        assertTrue(c.selectCell(3,4));
+        assertFalse(c.selectCell(4,5));
+        assertTrue(c.selectCell(4,4));
+
+    }
 }

@@ -1,7 +1,5 @@
 package org.am21.client;
 
-import org.am21.client.controller.CliInputHandler;
-import org.am21.client.controller.ClientGameController;
 import org.am21.controller.ClientInput;
 
 import java.net.MalformedURLException;
