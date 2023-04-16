@@ -1,10 +1,14 @@
 package org.am21.game;
 
 import org.am21.controller.PlayerController;
+import org.am21.model.Cards.ItemCard;
+import org.am21.model.Cards.ItemType;
 import org.am21.model.GameManager;
 import org.am21.model.Match;
 import org.am21.model.Player;
+import org.am21.model.enumer.GamePhase;
 import org.am21.model.enumer.GameState;
+import org.am21.model.items.Shelf;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -110,39 +114,116 @@ class MatchTest {
     }
 
 
-
+    /**
+     * Test if the method works correctly
+     * Setup: match initialized
+     * - GameState==GameGoing
+     * - GamePhase==Selection
+     * - CurrentPlayer contained in playerList
+     */
     @Test
     void testStartFirstRound(){
+        m=new Match(2);
+        PlayerController c1 = new PlayerController("A");
+        PlayerController c2 = new PlayerController("B");
+        m.addPlayer(c1.getPlayer());
+        m.addPlayer(c2.getPlayer());
+        //Match initialized, then it should call startFirstRound() automatically
+
+        assertTrue(m.gameState==GameState.GameGoing);
+        assertTrue(m.gamePhase== GamePhase.Selection);
+        assertTrue(m.playerList.contains(m.currentPlayer));
+        assertNotNull(m.timer);
 
     }
 
     /**
      * What if a player leave the match while the match is starting?
+     * The match should end, thanks to checkRoom() that calls endMatch()
+     * Test:
+     * During a game, if endMatch is called what will happen?
+     * Expectation: GameState=Closed, playerList cleared, board cleared,
+     *      playerMatchMap doesn't contain players of the match
      */
     @Test
-    void testCheckRoom(){
+    void testCheckRoomAndEndMatch(){
+        m=new Match(2);
+        PlayerController c1 = new PlayerController("A");
+        PlayerController c2 = new PlayerController("B");
+        m.addPlayer(c1.getPlayer());
+        m.addPlayer(c2.getPlayer());
+        //Match started
+        assertTrue(m.gameState==GameState.GameGoing);
+        m.removePlayer(c1.getPlayer());
+        assertTrue(m.gameState==GameState.Closed);
+        assertEquals(0,m.playerList.size());
+        assertFalse(GameManager.playerMatchMap.containsKey(c1.getPlayer()));
+        assertFalse(GameManager.playerMatchMap.containsKey(c2.getPlayer()));
 
     }
 
-    @Test
-    void testEndMatch(){
-
-    }
-
+    /**
+     * Test if the current player after calling nextTurn() is the next in list
+     */
     @Test
     void testNextTurn(){
+        m=new Match(4);
+        PlayerController c1 = new PlayerController("A");
+        PlayerController c2 = new PlayerController("B");
+        PlayerController c3 = new PlayerController("C");
+        PlayerController c4 = new PlayerController("D");
+        m.addPlayer(c1.getPlayer());
+        m.addPlayer(c2.getPlayer());
+        m.addPlayer(c3.getPlayer());
+        m.addPlayer(c4.getPlayer());
+        //Start
+
+        Player prev = m.currentPlayer;
+        m.nextTurn();
+        assertTrue(m.currentPlayer.equals(m.playerList.get((m.playerList.indexOf(prev) + 1) % m.maxSeats)));
+
 
     }
 
-    @Test
-    void testCheckingGoals(){
-
-    }
-
+    /**
+     * Setup:
+     * Player with a full shelf.
+     * If callEndRouting is called by playerController.callEndInsertion:
+     * - GamePhase changes to LastRound
+     * - EndGameToke should be false
+     * - firstToComplete should be set
+     * After the first player completed the shelf, the second player can play one last turn
+     * and the endMatch will be called.
+     */
     @Test
     void testCallEndTurnRoutine(){
-
+        m=new Match(2);
+        PlayerController c1 = new PlayerController("A");
+        PlayerController c2 = new PlayerController("B");
+        m.addPlayer(c1.getPlayer());
+        m.addPlayer(c2.getPlayer());
+        m.currentPlayer=c1.getPlayer();
+        Shelf s=c1.getPlayer().getShelf();
+        c1.callEndSelection();
+        //Simulate full insertion of the shelf
+        for(int i = 0; i< Shelf.SHELF_COLUMN; i++){
+            s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),i);
+            s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),i);
+            s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),i);
+            s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),i);
+            s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),i);
+            s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),i);
+        }
+        assertEquals(0,s.getTotSlotAvail());
+        c1.callEndInsertion();
+        assertTrue(m.gameState==GameState.LastRound);
+        assertFalse(m.isEndGameToken());
+        assertEquals(m.getFirstToComplete(),c1.getPlayer());
+        c2.callEndSelection();
+        c2.callEndInsertion();
+        assertTrue(m.gameState==GameState.Closed);
     }
+
 
 
 

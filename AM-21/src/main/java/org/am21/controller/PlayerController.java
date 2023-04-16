@@ -265,7 +265,7 @@ public class PlayerController {
     public void callEndInsertion(){
         if(player.getMatch().gamePhase==GamePhase.Insertion) {
             player.getMatch().setGamePhase(GamePhase.GoalChecking);
-            player.getMatch().checkingCommonGoals(player);
+            player.getMatch().checkCommonGoals(player);
         }
     }
 

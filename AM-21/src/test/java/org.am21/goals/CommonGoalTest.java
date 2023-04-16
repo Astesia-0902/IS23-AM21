@@ -490,6 +490,7 @@ public class CommonGoalTest {
      * Setup:
      * A X with (1,1) as root
      */
+    //TODO: check with root in (0,0)
     @Test
     void testCommGoalXShape() {
         card = new CommonGoalXShape(2);

@@ -27,8 +27,8 @@ public class Cli implements View {
     private static final int SHELF_ROW = 6;
     private static final int SHELF_COLUMN = 5;
 
-    private static final int BOARD_ROW = 8;
-    private static final int BOARD_COLUMN = 8;
+    private static final int BOARD_ROW = 9;
+    private static final int BOARD_COLUMN = 9;
 
 
     /**
@@ -85,7 +85,7 @@ public class Cli implements View {
     }
 
     @Override
-    public void GoalDescription(int CommonGoalCard) {
+    public void showGoalDescription(int CommonGoalCard) {
         switch (CommonGoalCard){
             case 0:
                 System.out.println("CommonGoal2Lines: Two columns each formed by 6 different types of tiles.");
@@ -281,7 +281,7 @@ public class Cli implements View {
             }
 
         } while (commonGoalCard < 0 || commonGoalCard > 11);
-        GoalDescription(commonGoalCard);
+        showGoalDescription(commonGoalCard);
         //TODO: Replace player with JSONConverter
         System.out.println("You received: " + player.getPlayerScore() + " points.");
     }

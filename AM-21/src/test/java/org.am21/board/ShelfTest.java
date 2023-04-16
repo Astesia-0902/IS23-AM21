@@ -124,5 +124,27 @@ public class ShelfTest {
         s.checkLimit();
         assertEquals(0,s.insertLimit);
     }
+    /**
+     * Verifies, when according to our game a shelf is complete,
+     * if it's really complete.
+     */
+    @Test
+    void testShelfFullness(){
+        for(int i=0; i<Shelf.SHELF_COLUMN;i++){
+            s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),i);
+            s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),i);
+            s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),i);
+            s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),i);
+            s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),i);
+            s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),i);
+        }
+        assertEquals(0,s.getTotSlotAvail());
+        for(int i=0;i<Shelf.SHELF_ROW;i++){
+            for(int j=0;j<Shelf.SHELF_COLUMN;j++){
+                assertTrue(s.isOccupied(i,j));
+            }
+        }
+
+    }
 
 }

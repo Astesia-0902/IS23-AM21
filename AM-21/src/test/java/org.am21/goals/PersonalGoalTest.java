@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * @version 1.0
  */
 public class PersonalGoalTest {
-
     private Match m;
     private PersonalGoalCard card;
     private List<PersonalGoalCard> listCards;
@@ -77,6 +76,8 @@ public class PersonalGoalTest {
         assertEquals(1,p.getMyPersonalGoal().calculatePoints());
 
     }
+
+    //TODO: Test Points gaining in each stage of the table
 
 
 

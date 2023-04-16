@@ -46,7 +46,12 @@ public class Match {
         this.endGameToken = endGameToken;
     }
 
+    public boolean isEndGameToken() {
+        return endGameToken;
+    }
+
     public Player getFirstToComplete() {
+
         return firstToComplete;
     }
 
@@ -125,7 +130,8 @@ public class Match {
     private void callEndTurnRoutine() {
         //Check if last round is completed
         if (gameState == GameState.LastRound &&
-                playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats) == firstToComplete) {
+                playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats) == firstToComplete)
+        {
             //Calculate Personal Goal Points for each player
             checkPersonalGoals();
             checkShelfPoints();
@@ -136,16 +142,16 @@ public class Match {
                 GameGear.printThisBoard(board);
                 //refill
                 if (board.bag.refillBoard()) {
-                    //TODO: to eliminate, this var is just for test
+                    //TODO: eliminate, this var is just for test
                     GameGear.numberOfRefill++;
                     GameGear.printThisBoard(board);
                 }
             }
 
             if (currentPlayer.getShelf().getTotSlotAvail() == 0 && gameState != GameState.LastRound) {
-//            System.out.println("Match > Congratulations! " + currentPlayer.getName() + " has completed the shelf first");
+                //System.out.println("Match > Congratulations! " + currentPlayer.getNickname() + " has completed the shelf first");
                 this.setEndGameToken(false);
-//            System.out.println("Match > EndGame Token assigned");
+                //System.out.println("Match > EndGame Token assigned");
                 firstToComplete = currentPlayer;
                 firstToComplete.setPlayerScore(firstToComplete.getPlayerScore() + 1);
                 gameState = GameState.LastRound;
@@ -160,7 +166,7 @@ public class Match {
      *
      * @param player player that need to check
      */
-    public void checkingCommonGoals(Player player) {
+    public void checkCommonGoals(Player player) {
         if (gamePhase == GamePhase.GoalChecking) {
             for (CommonGoal goal : commonGoals) {
                 if (goal.checkGoal(player.getShelf())) {
@@ -296,7 +302,7 @@ public class Match {
      * Command to start the first round.
      * State: {@link GameState#GameGoing}
      */
-    private boolean startFirstRound() {
+    private void startFirstRound() {
         gameState = GameState.GameGoing;
         //System.out.println("Game > The match of ID: " + matchID + " is starting!");
         currentPlayer = chairman;
@@ -305,7 +311,7 @@ public class Match {
         //Start the timer
         timer = new MyTimer();
         timer.startTimer(30, this);
-        return true;
+
     }
 
     /**

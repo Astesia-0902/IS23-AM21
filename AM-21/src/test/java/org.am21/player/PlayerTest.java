@@ -26,7 +26,7 @@ public class PlayerTest {
 
     @BeforeEach
     void setUp(){
-        m=new Match(2);
+        m =new Match(2);
         c1 = new PlayerController("Rorschach");
         p1 = c1.getPlayer();
         c2 = new PlayerController("Rorschach");
@@ -174,6 +174,23 @@ public class PlayerTest {
         c1.getPlayer().getShelf().insertInColumn(new ItemCard("Generic"),0);
         assertFalse(c1.tryToInsert(0));
 
+    }
+
+    /**
+     * Verification game design:
+     * - Cannot insert without selection confirm
+     * - Insertion of cards in just one column
+     */
+    @Test
+    void testTryToInsert2(){
+        c1.selectCell(1,4);
+        c1.selectCell(1,3);
+        assertFalse(c1.tryToInsert(0));
+        c1.callEndSelection();
+        assertTrue(c1.tryToInsert(0));
+        assertTrue(s.isOccupied(5,0));
+        assertTrue(s.isOccupied(4,0));
+        assertFalse(s.isOccupied(5,1));
     }
 
 

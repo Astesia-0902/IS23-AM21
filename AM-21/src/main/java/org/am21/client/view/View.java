@@ -9,6 +9,8 @@ import java.rmi.server.ServerNotActiveException;
 public interface View {
     //String chooseView();
 
+    void showGoalDescription(int CommonGoalCard);
+
     void askLogin() throws ServerNotActiveException, RemoteException;
     void askAction() throws ServerNotActiveException, RemoteException;
     void askCreateGame() throws ServerNotActiveException, RemoteException;
@@ -16,7 +18,6 @@ public interface View {
     void askJoinGame() throws ServerNotActiveException, RemoteException;
     void askLeaveGame() throws RemoteException;
     void showCommonGoals();
-    void GoalDescription(int CommonGoalCard);
     void showPersonalGoal();
     void showCurrentPlayer();
     void showShelf(Shelf userShelf);

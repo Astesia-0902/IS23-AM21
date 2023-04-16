@@ -135,7 +135,8 @@ public class GameGear {
     public static void viewFinalStats(Match m){
         spacer();
         System.out.println("Match[!][!] > Final Game Stats");
-        System.out.println("Winner is: "+m.getFirstToComplete().getNickname());
+        if(m.getFirstToComplete()!=null){
+            System.out.println("Winner is: "+m.getFirstToComplete().getNickname());}
         System.out.println("Num of refill: ["+numberOfRefill+"]");
         System.out.println("Bag items: ["+(m.board.bag.getDeck().size()-m.board.bag.bagIndex)+"]");
         System.out.println("Bag index: ["+m.board.bag.bagIndex+"]");
@@ -155,7 +156,7 @@ public class GameGear {
             System.out.println("PersonalGoal Points: " + x.getMyPersonalGoal().calculatePoints());
             System.out.println("Score: "+x.getPlayerScore());
             printThisShelf(x.getShelf());
-            GameGear.printGoalShelf(x.getMyPersonalGoal().getPersonalGoalShelf());
+            GameGear.printGoalShelf(x.getMyPersonalGoal().setupGoalShelf(x));
 
         }
         System.out.println();
