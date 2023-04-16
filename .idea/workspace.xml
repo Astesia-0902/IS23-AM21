@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="dd2f3e9a-b514-48f2-995d-660d696de66e" name="Changes" comment="update Cli">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/ClientApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/ClientApp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/View.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/cli/Cli.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/cli/Cli.java" afterDir="false" />
     </list>
@@ -526,7 +527,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681588933882</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="update Cli">
+      <created>1681644813012</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1681644813012</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -589,7 +597,8 @@
     <MESSAGE value="update scoringToken test" />
     <MESSAGE value="delete ScoringTokenCard.java" />
     <MESSAGE value="fixed some cli problem" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed some cli problem" />
+    <MESSAGE value="update Cli" />
+    <option name="LAST_COMMIT_MESSAGE" value="update Cli" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

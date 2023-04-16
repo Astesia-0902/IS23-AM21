@@ -10,7 +10,7 @@ import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
 public class ClientApp {
-    public static void runCliTest(Cli cli) throws ServerNotActiveException, RemoteException,ExecutionException {
+    public static void runCliTest(Cli cli) throws ServerNotActiveException, RemoteException, ExecutionException, MalformedURLException, NotBoundException {
         Scanner in = new Scanner(System.in);
         fine:
         {

@@ -11,13 +11,10 @@ public interface View {
 
     void askLogin() throws ServerNotActiveException, RemoteException;
     void askAction() throws ServerNotActiveException, RemoteException;
-
     void askCreateGame() throws ServerNotActiveException, RemoteException;
     int askMaxSeats();
     void askJoinGame() throws ServerNotActiveException, RemoteException;
     void askLeaveGame() throws RemoteException;
-
-
     void showCommonGoals();
     void GoalDescription(int CommonGoalCard);
     void showPersonalGoal();
@@ -29,10 +26,8 @@ public interface View {
     void askSelection() throws ServerNotActiveException, RemoteException;
     void askDeselection() throws ServerNotActiveException, RemoteException;
     void askInsertion() throws ServerNotActiveException, RemoteException;
-
-//
-//    void askNextMove();
-//
-//
-
+    void askMessage();
+    void askEndGameToken();
+    void help() throws ServerNotActiveException, RemoteException;
+    void showTimer();
 }

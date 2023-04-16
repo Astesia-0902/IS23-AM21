@@ -1,13 +1,16 @@
 package org.am21.client.view.cli;
 
+import org.am21.client.view.JSONConverter;
 import org.am21.client.view.View;
-import org.am21.controller.ClientInputHandler;
 import org.am21.controller.IClientInput;
 import org.am21.model.Player;
 import org.am21.model.items.Board;
 import org.am21.model.items.Shelf;
 import org.am21.utilities.CardPointer;
 
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
 import java.util.*;
@@ -17,7 +20,9 @@ import java.util.concurrent.FutureTask;
 public class Cli implements View {
     private Thread inputThread;
     private IClientInput IClientInputHandler;
+    //TODO: Replace player with JSONConverter
     private Player player;
+    private final List<String> chatHistory = new ArrayList<>();
 
     private static final int SHELF_ROW = 6;
     private static final int SHELF_COLUMN = 5;
@@ -25,10 +30,6 @@ public class Cli implements View {
     private static final int BOARD_ROW = 8;
     private static final int BOARD_COLUMN = 8;
 
-    public Cli() throws RemoteException {
-        this.IClientInputHandler = new ClientInputHandler();
-        this.player = new Player(null, null);
-    }
 
     /**
      * Read a line from the standard input
@@ -53,12 +54,11 @@ public class Cli implements View {
     }
 
     public void init() throws ExecutionException {
-
         System.out.println("Welcome to MyShelfie Board Game!");
         //askServerInfo();
     }
 
-    public void askServerInfo()throws ExecutionException{
+    public void askServerInfo() throws ExecutionException, MalformedURLException, NotBoundException, RemoteException {
         Map<String, String> serverInfo = new HashMap<>();
         String defaultAddress = "localhost";
         String defaultPort = "8807";
@@ -80,6 +80,8 @@ public class Cli implements View {
         }else {
             serverInfo.put("port", port);
         }
+        IClientInputHandler = (IClientInput) Naming.lookup("rmi://" + serverInfo.get("address") + ":"
+                + serverInfo.get("port") + "/ClientInputHandler");
     }
 
     @Override
@@ -157,9 +159,7 @@ public class Cli implements View {
             }
 
         //} while (usernameAccepted);
-    } while (!usernameAccepted);
-
-        //player.setNickname(username);
+        } while (!usernameAccepted);
     }
 
     @Override
@@ -249,7 +249,7 @@ public class Cli implements View {
     @Override
     public void askLeaveGame() throws RemoteException {
         //TODO: fixe the null point
-       // IClientInputHandler.exitMatch();
+        IClientInputHandler.exitMatch();
         System.out.println("See you soon. Bye.");
     }
 
@@ -268,10 +268,10 @@ public class Cli implements View {
         System.out.println("9. CommonGoal4Group.");
         System.out.println("10. CommonGoal6Group.");
         System.out.println("11. CommonGoalXShape.");
-        int commonGoalCard = -1;
+        int commonGoalCard = 0;
         do {
             try {
-                System.out.print("Enter the action you wish to select: ");
+                System.out.print("Enter the Common Goal you wish to see: ");
                 commonGoalCard = Integer.parseInt(readLine());
                 if (commonGoalCard < 0 || commonGoalCard > 11){
                     System.out.println("Invalid number! Please try again.");
@@ -280,14 +280,16 @@ public class Cli implements View {
                 System.out.println("Invalid input! Please try again.");
             }
 
-        } while (commonGoalCard >= 0 && commonGoalCard <= 11);
+        } while (commonGoalCard < 0 || commonGoalCard > 11);
         GoalDescription(commonGoalCard);
+        //TODO: Replace player with JSONConverter
         System.out.println("You received: " + player.getPlayerScore() + " points.");
     }
 
     @Override
     public void showPersonalGoal() {
-        System.out.println(player.getNickname() + "'s PersonalGoal:" + player.getMyPersonalGoal().getNameCard());
+        //TODO: Replace player with JSONConverter
+        System.out.println(JSONConverter.currentPlayer + "'s PersonalGoal:" + player.getMyPersonalGoal().getNameCard());
         showShelf(player.getMyPersonalGoal().getPersonalGoalShelf());
         System.out.println("You matched " + player.getMyPersonalGoal().checkGoal() + " item and scored " +
                 player.getMyPersonalGoal().calculatePoints() + "points! Good!");
@@ -295,7 +297,7 @@ public class Cli implements View {
 
     @Override
     public void showCurrentPlayer() {
-        System.out.println(player.getNickname() + ", it's your turn!");
+        System.out.println(JSONConverter.currentPlayer + ", it's your turn!");
     }
 
     @Override
@@ -315,6 +317,7 @@ public class Cli implements View {
 
     @Override
     public void showBoard() {
+        //TODO: Replace player with JSONConverter
         Board board = player.getMatch().board;
         System.out.println("Board:");
         for(int i=0;i<9;i++){
@@ -336,9 +339,10 @@ public class Cli implements View {
 
     @Override
     public void showPlayersStats() {
+        //TODO: Replace player with JSONConverter
         List<Player> playerList = player.getMatch().playerList;
         for (int i = 0; i < playerList.size(); i++) {
-            System.out.println(playerList.get(i).getNickname() + "'s stats:");
+            System.out.println(playerList.get(i).getNickname() + "'s stats: " + playerList.get(i).getStatus());
             System.out.println(playerList.get(i).getNickname() + "'s score: " + playerList.get(i).getPlayerScore());
             showShelf(playerList.get(i).getShelf());
         }
@@ -400,6 +404,7 @@ public class Cli implements View {
     }
 
     public void showItemInCell(int row, int column) {
+        //TODO: Replace player with JSONConverter
         System.out.println(player.getMatch().board.getItemName(row,column));
     }
 
@@ -455,6 +460,7 @@ public class Cli implements View {
         System.out.println("Which cards should switch?");
         int sortConfirm = 0;
         int position1 = 1, position2 = 2;
+        //TODO: Replace player with JSONConverter
         ArrayList<CardPointer> cardPointers = player.getHand().getSlot();
         while(sortConfirm != 1) {
             do {
@@ -499,11 +505,12 @@ public class Cli implements View {
     }
 
     public void showHand() {
+        //TODO: Replace player with JSONConverter
         ArrayList<CardPointer> cardPointers = player.getHand().getSlot();
         System.out.println(player.getNickname() + "have in hand: ");
-        for (int i = 0; i < cardPointers.size(); i++) {
-            System.out.println("[" + cardPointers.get(i).x + ", " + cardPointers.get(i).y + "] - "
-                    + cardPointers.get(i).item);
+        for (CardPointer cardPointer : cardPointers) {
+            System.out.println("[" + cardPointer.x + ", " + cardPointer.y + "] - "
+                    + cardPointer.item);
         }
     }
 
@@ -531,6 +538,32 @@ public class Cli implements View {
             columnConfirm = Integer.parseInt(readLine());
         }
         return column;
+    }
+
+    @Override
+    public void askMessage() {
+        for (int i = 0; i < chatHistory.size(); i++) {
+            System.out.println(chatHistory);
+        }
+        String message = readLine();
+        chatHistory.add(player.getNickname() + "> " + message);
+    }
+
+    @Override
+    public void askEndGameToken() {
+
+    }
+
+    @Override
+    public void help() throws ServerNotActiveException, RemoteException {
+        if (IClientInputHandler.checkPlayerActionPhase()){
+
+        }
+    }
+
+    @Override
+    public void showTimer() {
+
     }
 
     @Override
@@ -571,6 +604,7 @@ public class Cli implements View {
                     showCommonGoals();
                     break;
                 case 6:
+                    //TODO: Replace player with JSONConverter
                     showShelf(player.getShelf());
                     break;
                 case 7:
@@ -580,21 +614,20 @@ public class Cli implements View {
                     showPlayersStats();
                     break;
                 case 9:
-
+                    help();
                     break;
                 case 10:
-
+                    askMessage();
                     break;
                 case 11:
-
+                    askEndGameToken();
                     break;
                 case 12:
-
+                    showTimer();
                     break;
                 case 13:
                     askLeaveGame();
                     break;
-
                 default:
                     option = Integer.parseInt(readLine());
                     break;
