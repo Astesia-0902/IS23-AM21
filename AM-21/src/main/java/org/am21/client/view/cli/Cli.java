@@ -52,8 +52,9 @@ public class Cli implements View {
     }
 
     public void init() throws ExecutionException {
+
         System.out.println("Welcome to MyShelfie Board Game!");
-        askServerInfo();
+        //askServerInfo();
     }
 
     public void askServerInfo()throws ExecutionException{
@@ -137,13 +138,14 @@ public class Cli implements View {
             usernameAccepted = IClientInputHandler.logIn(username);
 
             if(usernameAccepted){
-                System.out.println("Hi, " + username + " Login games.");
+                System.out.println("Hi, " + username + " is login in the game.");
             } else {
                 System.out.println("Username already exists, please re-enter.");
                 username = readLine();
             }
 
-        } while (usernameAccepted);
+        //} while (usernameAccepted);
+    } while (!usernameAccepted);
 
         //player.setNickname(username);
     }
@@ -182,12 +184,12 @@ public class Cli implements View {
         System.out.println("Room generation in  progress...");
         int playerNumber = askMaxSeats();
         int matchID;
-
-        IClientInputHandler.createMatch(playerNumber);
+        //TODO: fix the null point
+        //IClientInputHandler.createMatch(playerNumber);
 
         System.out.println("Successfully created a game for " + playerNumber + " persons!");
         Random random = new Random();
-        matchID = random.nextInt();
+        matchID = random.nextInt(100);
         System.out.println("The room number is " + matchID);
         System.out.println("Waiting for players...");
     }
@@ -205,7 +207,8 @@ public class Cli implements View {
             } catch (NumberFormatException e){
                 System.out.println("Invalid input! Please try again.");
             }
-        } while (playerNumber == 2 || playerNumber == 3 || playerNumber == 4);
+        //} while (playerNumber == 2 || playerNumber == 3 || playerNumber == 4);
+    } while (playerNumber != 2 && playerNumber != 3 && playerNumber != 4);
         System.out.println("Ok");
         return playerNumber;
     }
@@ -219,7 +222,7 @@ public class Cli implements View {
                 System.out.print("Please select the number of players [2 to 4]: ");
                 matchID = Integer.parseInt(readLine());
 
-                replyAction = IClientInputHandler.joinGame(matchID);
+                //replyAction = clientInputHandler.joinGame(matchID);
 
                 if (replyAction){
                     System.out.println("Joining the match: " + matchID);
@@ -233,7 +236,8 @@ public class Cli implements View {
 
     @Override
     public void askLeaveGame() throws RemoteException {
-        IClientInputHandler.exitMatch();
+        //TODO: fixe the null point
+       // IClientInputHandler.exitMatch();
         System.out.println("See you soon. Bye.");
     }
 
