@@ -6,6 +6,7 @@ import org.am21.controller.IClientInput;
 import org.am21.model.Player;
 import org.am21.model.items.Board;
 import org.am21.model.items.Shelf;
+import org.am21.utilities.CardPointer;
 
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
@@ -82,45 +83,56 @@ public class Cli implements View {
     }
 
     @Override
-    public String GoalDescription(int CommonGoalCard) {
+    public void GoalDescription(int CommonGoalCard) {
         switch (CommonGoalCard){
             case 0:
-                return "CommonGoal2Lines: Two columns each formed by 6 different types of tiles.";
+                System.out.println("CommonGoal2Lines: Two columns each formed by 6 different types of tiles.");
+                break;
             case 1:
-                return "CommonGoal2Columns: Two lines each formed by 5 different types of tiles. " +
-                        "One line can show the same or a different combination of the other line.";
+                System.out.println("CommonGoal2Columns: Two lines each formed by 5 different types of tiles. " +
+                        "One line can show the same or a different combination of the other line.");
+                break;
             case 2:
-                return "CommonGoal3Column: Three columns each formed by 6 tiles of maximum three different types. " +
-                        "One column can show the same or a different combination of another column.";
+                System.out.println("CommonGoal3Column: Three columns each formed by 6 tiles of maximum three " +
+                        "different types. One column can show the same or a different combination of another column.");
+                break;
             case 3:
-                return "CommonGoal4Lines: Four lines each formed by 5 tiles of maximum three different types. " +
-                        "One line can show the same or a different combination of another line.";
+                System.out.println("CommonGoal4Lines: Four lines each formed by 5 tiles of maximum three " +
+                        "different types. One line can show the same or a different combination of another line.");
+                break;
             case 4:
-                return "CommonGoal8Tiles: Eight tiles of the same type. There’s no restriction about the position " +
-                        "of these tiles.";
+                System.out.println("CommonGoal8Tiles: Eight tiles of the same type. " +
+                        "There’s no restriction about the position of these tiles.");
+                break;
             case 5:
-                return "CommonGoalCorner: Four tiles of the same type in the four corners of the bookshelf.";
+                System.out.println("CommonGoalCorner: Four tiles of the same type in the four corners of " +
+                        "the bookshelf.");
+                break;
             case 6:
-                return "CommonGoalDiagonal: Five tiles of the same type forming a diagonal.";
+                System.out.println("CommonGoalDiagonal: Five tiles of the same type forming a diagonal.");
+                break;
             case 7:
-                return "CommonGoalSquare: Two groups each containing 4 tiles of the same type in a 2x2 square. " +
-                        "The tiles of one square can be different from those of the other square.";
+                System.out.println("CommonGoalSquare: Two groups each containing 4 tiles of the same type in a 2x2 " +
+                        "square. The tiles of one square can be different from those of the other square.");
             case 8:
-                return "CommonGoalStairs: Five columns of increasing or decreasing height. " +
+                System.out.println("CommonGoalStairs: Five columns of increasing or decreasing height. " +
                         "Starting from the first column on the left or on the right, " +
-                        "each next column must be made of exactly one more tile. Tiles can be of any type.";
+                        "each next column must be made of exactly one more tile. Tiles can be of any type.");
+                break;
             case 9:
-                return "CommonGoal4Group: Four groups each containing at least 4 tiles of the same type " +
+                System.out.println("CommonGoal4Group: Four groups each containing at least 4 tiles of the same type " +
                         "(not necessarily in the depicted shape). The tiles of one group can be different " +
-                        "from those of another group.";
+                        "from those of another group.");
+                break;
             case 10:
-                return "CommonGoal6Group: Six groups each containing at least 2 tiles of the same type " +
+                System.out.println("CommonGoal6Group: Six groups each containing at least 2 tiles of the same type " +
                         "(not necessarily in the depicted shape). The tiles of one group can be different " +
-                        "from those of another group.";
+                        "from those of another group.");
+                break;
             case 11:
-                return "CommonGoalXShape: Five tiles of the same type forming an X.";
+                System.out.println("CommonGoalXShape: Five tiles of the same type forming an X.");
+                break;
         }
-        return null;
     }
 
     //    public void clearCli(){
@@ -269,13 +281,16 @@ public class Cli implements View {
             }
 
         } while (commonGoalCard >= 0 && commonGoalCard <= 11);
-        System.out.println(GoalDescription(commonGoalCard));
+        GoalDescription(commonGoalCard);
+        System.out.println("You received: " + player.getPlayerScore() + " points.");
     }
 
     @Override
     public void showPersonalGoal() {
         System.out.println(player.getNickname() + "'s PersonalGoal:" + player.getMyPersonalGoal().getNameCard());
         showShelf(player.getMyPersonalGoal().getPersonalGoalShelf());
+        System.out.println("You matched " + player.getMyPersonalGoal().checkGoal() + " item and scored " +
+                player.getMyPersonalGoal().calculatePoints() + "points! Good!");
     }
 
     @Override
@@ -334,11 +349,12 @@ public class Cli implements View {
         showBoard();
         int row = askCoordinates().get(0);
         int column = askCoordinates().get(1);
+
         IClientInputHandler.selectCell(row, column);
+        //TODO: Cases of failure
         System.out.println("Selection Successful!");
     }
 
-    @Override
     public List<Integer> askCoordinates() {
         System.out.println("Enter the coordinates you wish to select [row, column].");
         int selectConfirm = 0;
@@ -355,7 +371,7 @@ public class Cli implements View {
                 } catch (NumberFormatException e) {
                     System.out.println("Invalid input! Please try again.");
                 }
-            } while (selectRow >= 0 && selectRow <= BOARD_ROW);
+            } while (selectRow < 0 || selectRow > BOARD_ROW);
 
             do {
                 try {
@@ -367,7 +383,7 @@ public class Cli implements View {
                 } catch (NumberFormatException e) {
                     System.out.println("Invalid input! Please try again.");
                 }
-            } while (selectColumn >= 0 && selectColumn <= BOARD_COLUMN);
+            } while (selectColumn < 0 || selectColumn > BOARD_COLUMN);
 
             System.out.print("The coordinates you have chosen are: [" + selectRow + ", " + selectColumn + "] - ");
             showItemInCell(selectRow, selectColumn);
@@ -383,9 +399,138 @@ public class Cli implements View {
         return coordinates;
     }
 
-    @Override
     public void showItemInCell(int row, int column) {
         System.out.println(player.getMatch().board.getItemName(row,column));
+    }
+
+    @Override
+    public void askDeselection() throws ServerNotActiveException, RemoteException {
+        showHand();
+        System.out.println("Do you want to cancel all selected cards?");
+        System.out.println("1. Yes.");
+        System.out.println("0. No.");
+        int deselectConfirm = Integer.parseInt(readLine());
+        if(deselectConfirm == 1){
+            //player.getHand().clearHand();?
+            //IClientInputHandler.unselectCards();?
+            System.out.println("Successfully removed all selected cards!");
+        }
+    }
+
+    @Override
+    public void askInsertion() throws ServerNotActiveException, RemoteException {
+        showHand();
+        System.out.println("Do you want to change insertion order?");
+        System.out.println("1. Yes.");
+        System.out.println("0. No.");
+        int sort = 0;
+        do {
+            try {
+                sort = Integer.parseInt(readLine());
+                if(sort == 1){
+                    askSort();
+                } else if (sort == 0){
+                    int column = askColumn();
+                    IClientInputHandler.insertInColumn(column);
+                    System.out.println("Cards are correctly inserted in the shelf!");
+                } else {
+                    System.out.println("Invalid number! Please try again.");
+                }
+            } catch (NumberFormatException e){
+                System.out.println("Invalid input! Please try again.");
+            }
+
+        } while (sort != 1 && sort != 0);
+
+
+    }
+
+    public void askSort() throws ServerNotActiveException, RemoteException {
+        List<Integer> itemSwapped = askIndex();
+        IClientInputHandler.sortHand(itemSwapped.get(0), itemSwapped.get(1));
+        System.out.println("Card order changed.");
+    }
+
+    public List<Integer> askIndex() {
+        System.out.println("Which cards should switch?");
+        int sortConfirm = 0;
+        int position1 = 1, position2 = 2;
+        ArrayList<CardPointer> cardPointers = player.getHand().getSlot();
+        while(sortConfirm != 1) {
+            do {
+                try {
+                    System.out.print("position1 (1 to " + cardPointers.size() + "): ");
+                    position1 = Integer.parseInt(readLine());
+                    if (position1 < 1 || position1 > cardPointers.size()) {
+                        System.out.println("Invalid number! Please try again.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input! Please try again.");
+                }
+            } while (position1 < 1 || position1 > cardPointers.size());
+
+            do {
+                try {
+                    System.out.print("position2 (1 to " + cardPointers.size() + "): ");
+                    position2 = Integer.parseInt(readLine());
+                    if (position2 < 1 || position2 > cardPointers.size()) {
+                        System.out.println("Invalid number! Please try again.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input! Please try again.");
+                }
+            } while (position2 < 1 || position2 > cardPointers.size());
+
+            System.out.println("You have chosen to swap " + cardPointers.get(position1).item +
+                    " [" + cardPointers.get(position1).x + ", " + cardPointers.get(position1).y + " ] and " +
+                    cardPointers.get(position2).item + " [" + cardPointers.get(position1).x + ", " +
+                    cardPointers.get(position1).y + " ]");
+            System.out.println("Confirm your choice:");
+            System.out.println("1. Confirm.");
+            System.out.println("0. Re-select.");
+
+            sortConfirm = Integer.parseInt(readLine());
+        }
+        List<Integer> index = new ArrayList<>();
+        index.add(position1);
+        index.add(position2);
+
+        return index;
+    }
+
+    public void showHand() {
+        ArrayList<CardPointer> cardPointers = player.getHand().getSlot();
+        System.out.println(player.getNickname() + "have in hand: ");
+        for (int i = 0; i < cardPointers.size(); i++) {
+            System.out.println("[" + cardPointers.get(i).x + ", " + cardPointers.get(i).y + "] - "
+                    + cardPointers.get(i).item);
+        }
+    }
+
+    public int askColumn() {
+        System.out.println("In which column would you like to insert the cards?");
+        int columnConfirm = 0;
+        int column = 0;
+        while (columnConfirm != 1) {
+            do {
+                try {
+                    System.out.print("Column (0 to " + SHELF_COLUMN + "): ");
+                    column = Integer.parseInt(readLine());
+                    if (column < 0 || column > SHELF_COLUMN) {
+                        System.out.println("Invalid number! Please try again.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input! Please try again.");
+                }
+            } while (column < 0 || column > SHELF_COLUMN);
+            System.out.println("You have chosen column " + column);
+            System.out.println("Confirm your choice:");
+            System.out.println("1. Confirm.");
+            System.out.println("0. Re-select.");
+
+            columnConfirm = Integer.parseInt(readLine());
+        }
+        return column;
     }
 
     @Override
@@ -414,10 +559,10 @@ public class Cli implements View {
                     askSelection();
                     break;
                 case 2:
-
+                    askDeselection();
                     break;
                 case 3:
-
+                    askInsertion();
                     break;
                 case 4:
                     showPersonalGoal();
