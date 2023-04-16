@@ -1,6 +1,7 @@
 package org.am21.client;
 
 import org.am21.client.view.cli.Cli;
+import org.am21.model.Player;
 
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
@@ -12,8 +13,8 @@ public class ClientApp {
 
     public static void main(String[] args) throws MalformedURLException, NotBoundException, ServerNotActiveException, ExecutionException, RemoteException {
         Cli cli = new Cli();
-        //cli.init();
-        //cli.askLogin();
+        cli.init();
+        cli.askLogin();
         //cli.askAction();
         //cli.askMaxSeats();
         //cli.askJoinGame();

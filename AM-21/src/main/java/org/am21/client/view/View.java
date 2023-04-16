@@ -5,6 +5,7 @@ import org.am21.model.items.Shelf;
 
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
+import java.util.List;
 
 public interface View {
     //String chooseView();
@@ -18,15 +19,17 @@ public interface View {
     void askLeaveGame() throws RemoteException;
 
 
-    void showCommonGoals(String username, int commonGoalCard);
-    String showDescription(int CommonGoalCard);
-    void showPersonalGoal(String username, Shelf personalGoalCard);
-    void showCurrentPlayer(String username);
-//
-//    void askPlayerMove();
-//
-//    void showBoard();
-//    void askSelection();
+    void showCommonGoals();
+    String GoalDescription(int CommonGoalCard);
+    void showPersonalGoal();
+    void showCurrentPlayer();
+    void showShelf(Shelf userShelf);
+    void showBoard();
+    void showPlayersStats();
+    void askPlayerMove() throws RemoteException, ServerNotActiveException;
+    void askSelection() throws ServerNotActiveException, RemoteException;
+    List<Integer> askCoordinates();
+    void showItemInCell(int row, int column);
 //    void askDeselection();
 //    void askInsertion();
 //    boolean askSort();

@@ -10,12 +10,12 @@ import java.rmi.server.ServerNotActiveException;
  * @version 1.0
  */
 public interface IClientInput extends Remote {
-    void joinGame(int matchID) throws RemoteException, ServerNotActiveException;
+    boolean joinGame(int matchID) throws RemoteException, ServerNotActiveException;
 
 
     boolean checkPlayerActionPhase() throws RemoteException,ServerNotActiveException;
 
-    void logIn(String username) throws RemoteException, ServerNotActiveException;
+    boolean logIn(String username) throws RemoteException, ServerNotActiveException;
 
 
     void createMatch(int playerNum) throws RemoteException, ServerNotActiveException;

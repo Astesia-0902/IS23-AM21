@@ -22,7 +22,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      * @throws RemoteException if failed to export object
      * @since JDK1.1
      */
-    protected ClientInputHandler() throws RemoteException {
+    public ClientInputHandler() throws RemoteException {
         clientChatHandler = new ClientChatHandler();
     }
 //        Get the IP address of the client
@@ -46,13 +46,13 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     }
 
     /**
-     *
      * @param username
+     * @return
      * @throws RemoteException
      * @throws ServerNotActiveException
      */
     @Override
-    public void logIn(String username) throws RemoteException, ServerNotActiveException {
+    public boolean logIn(String username) throws RemoteException, ServerNotActiveException {
         userHost = getClientHost();
         this.userName = username;
         playerController = new PlayerController(username);
@@ -63,7 +63,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
                 PlayerManager.players.add(playerController.getPlayer());
             }
         }
-       // return true;
+        return true;
     }
 
     /**
@@ -78,14 +78,15 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     }
 
     /**
-     *
      * @param matchID
+     * @return
      * @throws RemoteException
      * @throws ServerNotActiveException
      */
     @Override
-    public void joinGame(int matchID) throws RemoteException, ServerNotActiveException {
+    public boolean joinGame(int matchID) throws RemoteException, ServerNotActiveException {
         GameController.joinGame(matchID, userName, playerController);
+        return true;
     }
 
 //    public void startMatch(){
