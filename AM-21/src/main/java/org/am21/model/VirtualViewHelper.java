@@ -23,7 +23,7 @@ public class VirtualViewHelper {
     }
 
     /**
-     * This method will set the dinamic data to the virtual view
+     * This method will set the dynamic data to the virtual view
      * Call this method after each round ends
      * @param match the match
      */
@@ -31,6 +31,8 @@ public class VirtualViewHelper {
         setRoundUpdatePlayer(match);
         setCurrentPlayer(match);
         setGamePhase(match);
+        //TODO: setGameState(match)
+        //TODO: update players data
     }
 
     /**
@@ -48,7 +50,7 @@ public class VirtualViewHelper {
         for (Player player : match.playerList) {
             players.add(player.getNickname());
             //TODO: uncomment
-            //personalGoals.add(player.getMyPersonalGoal().getNameCard());
+            personalGoals.add(player.getMyPersonalGoal().getNameCard());
             scores.add(player.getPlayerScore());
             shelves.add(buildShelves(player.getShelf()));
         }
@@ -123,6 +125,10 @@ public class VirtualViewHelper {
 
     private static void setGamePhase(Match match) {
         match.virtualView.setGamePhase(match.gamePhase.toString());
+    }
+
+    private static void setGameState(Match match) {
+        match.virtualView.setGameState(match.gameState.toString());
     }
 
     /**

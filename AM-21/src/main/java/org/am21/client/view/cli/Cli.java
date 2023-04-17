@@ -1,11 +1,13 @@
 package org.am21.client.view.cli;
 
+import org.am21.client.ClientGameController;
 import org.am21.client.view.JSONConverter;
 import org.am21.client.view.View;
-import org.am21.networkRMI.IClientInput;
 import org.am21.model.Player;
 import org.am21.model.items.Board;
 import org.am21.model.items.Shelf;
+import org.am21.networkRMI.ClientCallBack;
+import org.am21.networkRMI.IClientInput;
 import org.am21.utilities.CardPointer;
 
 import java.net.MalformedURLException;
@@ -80,9 +82,18 @@ public class Cli implements View {
         }else {
             serverInfo.put("port", port);
         }
+        System.out.println(address);
+        System.out.println(port);
+        System.out.println("rmi://" + serverInfo.get("address") + ":"
+                + serverInfo.get("port") + "/ClientInputHandler");
+
         IClientInputHandler = (IClientInput) Naming.lookup("rmi://" + serverInfo.get("address") + ":"
                 + serverInfo.get("port") + "/ClientInputHandler");
+        ClientGameController.IClientInputHandler = IClientInputHandler;
+        IClientInputHandler.registerCallBack(new ClientCallBack());
     }
+
+
 
     public void showGoalDescription(int CommonGoalCard) {
         switch (CommonGoalCard){

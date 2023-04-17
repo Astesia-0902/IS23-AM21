@@ -4,113 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="42f1cdb5-3327-4696-846f-87855c4cbffd" name="Changes" comment="">
+    <list default="true" id="42f1cdb5-3327-4696-846f-87855c4cbffd" name="Changes" comment="update Cli">
+      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/enumer/ServerMessage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/JSONConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/JSONConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/ClientApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/ClientApp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/cli/Cli.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/cli/Cli.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/PlayerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/PlayerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoal2Columns.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoal2Columns.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoal3Column.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoal3Column.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoal8Tiles.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoal8Tiles.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoalDiagonal.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoalDiagonal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoalGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoalGroup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoalSquare.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoals/CommonGoalSquare.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/PersonalGoalCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/PersonalGoalCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/GameManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/PlayerManager.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/VirtualView.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/VirtualView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/VirtualViewHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/VirtualViewHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Shelf.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Shelf.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/GameGear.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/GameGear.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/board/BoardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/board/BoardTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/board/ShelfTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/board/ShelfTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/extra/CardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/extra/CardTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/extra/Gear.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/extra/Gear.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/ChatManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/ChatManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientCallBack.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientCallBack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientInputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientInputHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/extra/WrongModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/extra/WrongModelTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/GameTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/GameTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/MatchTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/MatchTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/goals/CommonGoalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/goals/CommonGoalTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/goals/PersonalGoalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/goals/PersonalGoalTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/player/PlayerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/player/PlayerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/UML/.$MyShelfieUML_5_4_23v7.5.drawio.bkp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/UML/.$MyShelfieUML_5_4_23v7.5.drawio.dtmp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/UML/MyShelfieUML_5_4_23v7.5.drawio" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-1/sources/source-4.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-1/sources/source-4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-3/sources/source-3.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-3/sources/source-3.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-3/sources/source-7.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-3/sources/source-7.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-1.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-5.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-5.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-6.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-6.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-7.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-7.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-8.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-8.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-9.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-9.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-a.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-a.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-b.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-b.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-c.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestMatch/ns-5/sources/source-c.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-1/sources/source-4.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-1/sources/source-4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-3/sources/source-3.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-3/sources/source-3.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-3/sources/source-7.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-3/sources/source-7.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-1.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-5.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-5.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-6.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-6.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-7.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-7.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-8.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-8.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-9.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-9.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-a.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-a.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-b.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-b.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-c.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230403/TestPlayerController/ns-5/sources/source-c.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-1/sources/source-4.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-1/sources/source-4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-2/sources/source-4.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-2/sources/source-4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-2/sources/source-5.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-2/sources/source-5.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-3/sources/source-3.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-3/sources/source-3.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-3/sources/source-7.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-3/sources/source-7.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-4/sources/source-4.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-4/sources/source-4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-1.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-5.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-5.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-6.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-6.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-7.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-7.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-8.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-8.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-9.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-9.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-a.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-a.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-b.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-b.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-c.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-5/sources/source-c.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-6/sources/source-6.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230404/PlayerTest/ns-6/sources/source-6.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-1/sources/source-4.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-1/sources/source-4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-2/sources/source-2.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-2/sources/source-2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-2/sources/source-3.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-2/sources/source-3.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-3/sources/source-2.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-3/sources/source-2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-3/sources/source-6.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-3/sources/source-6.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-4/sources/source-1.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-4/sources/source-1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-4/sources/source-2.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-4/sources/source-2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-4/sources/source-3.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-4/sources/source-3.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-4/sources/source-4.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-4/sources/source-4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-4/sources/source-5.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-4/sources/source-5.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-4/sources/source-6.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-4/sources/source-6.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-4/sources/source-7.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-4/sources/source-7.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-4/sources/source-8.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-4/sources/source-8.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-4/sources/source-9.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-4/sources/source-9.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-4/sources/source-a.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-4/sources/source-a.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-4/sources/source-b.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-4/sources/source-b.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-4/sources/source-c.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-4/sources/source-c.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-6/sources/source-6.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-6/sources/source-6.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-7/sources/source-8.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230405/BoardTest/ns-7/sources/source-8.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230411/CommonGoalTest/ns-1/sources/source-1.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230411/CommonGoalTest/ns-1/sources/source-1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230411/CommonGoalTest/ns-2/sources/source-1.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230411/CommonGoalTest/ns-2/sources/source-1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230411/CommonGoalTest/ns-2/sources/source-2.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230411/CommonGoalTest/ns-2/sources/source-2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230411/CommonGoalTest/ns-2/sources/source-3.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230411/CommonGoalTest/ns-2/sources/source-3.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230411/CommonGoalTest/ns-2/sources/source-4.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230411/CommonGoalTest/ns-2/sources/source-4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230411/CommonGoalTest/ns-2/sources/source-5.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230411/CommonGoalTest/ns-2/sources/source-5.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230411/CommonGoalTest/ns-2/sources/source-6.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230411/CommonGoalTest/ns-2/sources/source-6.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230411/CommonGoalTest/ns-2/sources/source-7.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230411/CommonGoalTest/ns-2/sources/source-7.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230411/CommonGoalTest/ns-2/sources/source-8.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230411/CommonGoalTest/ns-2/sources/source-8.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230411/CommonGoalTest/ns-2/sources/source-9.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230411/CommonGoalTest/ns-2/sources/source-9.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230411/CommonGoalTest/ns-2/sources/source-a.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230411/CommonGoalTest/ns-2/sources/source-a.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230411/CommonGoalTest/ns-2/sources/source-b.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230411/CommonGoalTest/ns-2/sources/source-b.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230411/CommonGoalTest/ns-3/sources/source-4.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230411/CommonGoalTest/ns-3/sources/source-4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230411/PlayerTest/ns-1/sources/source-1.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230411/PlayerTest/ns-1/sources/source-1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230411/PlayerTest/ns-2/sources/source-1.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230411/PlayerTest/ns-2/sources/source-1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230411/PlayerTest/ns-3/sources/source-3.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230411/PlayerTest/ns-3/sources/source-3.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230411/ShelfTest/ns-1/sources/source-1.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230411/ShelfTest/ns-1/sources/source-1.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -369,7 +278,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MatchTest.testCheckRoomAndEndMatch" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MatchTest.testAddPlayer" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="IS23-AM21" />
       <extension name="coverage">
         <pattern>
@@ -379,7 +288,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="org.am21.game" />
       <option name="MAIN_CLASS_NAME" value="org.am21.game.MatchTest" />
-      <option name="METHOD_NAME" value="testCheckRoomAndEndMatch" />
+      <option name="METHOD_NAME" value="testAddPlayer" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -404,21 +313,6 @@
       <option name="PACKAGE_NAME" value="org.am21.goals" />
       <option name="MAIN_CLASS_NAME" value="org.am21.goals.PersonalGoalTest" />
       <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="PlayerModel" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="IS23-AM21" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.am21.extra.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.am21.extra" />
-      <option name="MAIN_CLASS_NAME" value="org.am21.extra.PlayerModel" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -521,7 +415,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="WrongModelTest.runner" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="WrongModelTest.runner2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="IS23-AM21" />
       <extension name="coverage">
         <pattern>
@@ -531,7 +425,23 @@
       </extension>
       <option name="PACKAGE_NAME" value="org.am21.extra" />
       <option name="MAIN_CLASS_NAME" value="org.am21.extra.WrongModelTest" />
-      <option name="METHOD_NAME" value="runner" />
+      <option name="METHOD_NAME" value="runner2" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WrongModelTest.runner4" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="IS23-AM21" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.am21.extra.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.am21.extra" />
+      <option name="MAIN_CLASS_NAME" value="org.am21.extra.WrongModelTest" />
+      <option name="METHOD_NAME" value="runner4" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -549,19 +459,19 @@
       <item itemvalue="JUnit.PlayerTest" />
       <item itemvalue="JUnit.PersonalGoalTest" />
       <item itemvalue="JUnit.BagTest" />
-      <item itemvalue="JUnit.MatchTest.testCheckRoomAndEndMatch" />
+      <item itemvalue="JUnit.MatchTest.testAddPlayer" />
+      <item itemvalue="JUnit.WrongModelTest.runner2" />
+      <item itemvalue="JUnit.WrongModelTest.runner4" />
       <item itemvalue="JUnit.ShelfTest.testShelfFullness" />
-      <item itemvalue="JUnit.PlayerModel" />
       <item itemvalue="JUnit.WrongModelTest" />
-      <item itemvalue="JUnit.WrongModelTest.runner" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.WrongModelTest" />
+        <item itemvalue="JUnit.MatchTest.testAddPlayer" />
+        <item itemvalue="JUnit.WrongModelTest.runner4" />
+        <item itemvalue="JUnit.WrongModelTest.runner2" />
         <item itemvalue="JUnit.ShelfTest.testShelfFullness" />
-        <item itemvalue="JUnit.MatchTest.testCheckRoomAndEndMatch" />
-        <item itemvalue="JUnit.WrongModelTest.runner" />
-        <item itemvalue="JUnit.PlayerModel" />
       </list>
     </recent_temporary>
   </component>
@@ -571,7 +481,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="dd2f3e9a-b514-48f2-995d-660d696de66e" name="Changes" comment="" />
+      <changelist id="42f1cdb5-3327-4696-846f-87855c4cbffd" name="Changes" comment="update Cli" />
       <created>1679250713673</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -612,6 +522,7 @@
       <workItem from="1681577459186" duration="2359000" />
       <workItem from="1681581643852" duration="7446000" />
       <workItem from="1681632703543" duration="5137000" />
+      <workItem from="1681758338761" duration="7840000" />
     </task>
     <task id="LOCAL-00001" summary="update scoringToken test">
       <created>1680516093577</created>

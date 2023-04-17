@@ -12,9 +12,19 @@ public class GameManager {
     //Key: player name, Value: match id
     public static final HashMap<String, Integer> playerMatchMap = new HashMap<String, Integer>();
     public static final List<Match> matchList = new ArrayList<Match>();
+    public static final List<Player> players = new ArrayList<>();
 
     public GameManager(GameController controller) {
 
+    }
+    public int getNumPlayers() {
+        return players.size();
+    }
+    public void addPlayer(Player player){
+        players.add(player);
+    }
+    public void removePlayer(Player player){
+        players.remove(player);
     }
 
     public static void createMatch(int playerNum, PlayerController playerController) {

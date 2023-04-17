@@ -82,6 +82,7 @@ public class PlayerController {
 //        System.out.println(player.getName() + " > Select: [" + r + "][" + c + "]");
         // verify if it is player turn or if it is the right phase
         if(!isMyTurn(player)||player.getMatch().gamePhase != GamePhase.Selection) {
+
             return false;
         }
         if(player.getShelf().insertLimit == hand.getSlot().size()){
@@ -127,6 +128,11 @@ public class PlayerController {
         }
             //Questo messaggio sara tolto e messo in ClientInputHandler o nelle funzioni dei test
 //            System.out.println("Match > Selection Failed");
+        /*try {
+            clientInput.callBack.sendMessageFromServer(ServerMessage.SelectionFailed.toString());
+        }catch (RemoteException e){
+            throw new RuntimeException(e);
+        }*/
         return false;
     }
 

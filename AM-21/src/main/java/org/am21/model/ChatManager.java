@@ -1,7 +1,4 @@
-package org.am21.model.items;
-
-import org.am21.model.Match;
-import org.am21.model.Player;
+package org.am21.model;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;

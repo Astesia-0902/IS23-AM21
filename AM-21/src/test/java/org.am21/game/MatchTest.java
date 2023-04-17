@@ -9,9 +9,13 @@ import org.am21.model.Player;
 import org.am21.model.enumer.GamePhase;
 import org.am21.model.enumer.GameState;
 import org.am21.model.items.Shelf;
+import org.am21.networkRMI.ClientCallBack;
+import org.am21.networkRMI.ClientInputHandler;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,10 +41,13 @@ class MatchTest {
      * Result expected: There should be 2 players in the match
      */
     @Test
-    void testAddPlayer(){
-        PlayerController c1 = new PlayerController("A",null);
-        PlayerController c2 = new PlayerController("B",null);
-        PlayerController c3 = new PlayerController("C",null);
+    void testAddPlayer() throws RemoteException {
+        PlayerController c1 = new PlayerController("A",new ClientInputHandler());
+        c1.clientInput.callBack=new ClientCallBack();
+        PlayerController c2 = new PlayerController("B",new ClientInputHandler());
+        c2.clientInput.callBack=new ClientCallBack();
+        PlayerController c3 = new PlayerController("C",new ClientInputHandler());
+        c3.clientInput.callBack=new ClientCallBack();
         m.addPlayer(c1.getPlayer());
         m.addPlayer(c2.getPlayer());
         m.addPlayer(c3.getPlayer());
@@ -53,9 +60,12 @@ class MatchTest {
      * When called verify if all the attributes are correct.
      */
     @Test
-    void testInitializeMatch(){
-        PlayerController c1 = new PlayerController("A",null);
-        PlayerController c2 = new PlayerController("B",null);
+    void testInitializeMatch() throws RemoteException {
+        PlayerController c1 = new PlayerController("A",new ClientInputHandler());
+        c1.clientInput.callBack=new ClientCallBack();
+
+        PlayerController c2 = new PlayerController("B",new ClientInputHandler());
+        c2.clientInput.callBack=new ClientCallBack();
         m.addPlayer(c1.getPlayer());
         m.addPlayer(c2.getPlayer());
         //startMatch() is called automatically

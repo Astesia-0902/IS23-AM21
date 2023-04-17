@@ -17,7 +17,6 @@ public class WrongModelTest {
     @DisplayName("Game 2 players")
     void runner2(){
         Match m1 = buildGame(2,20);
-
     }
     @Test
     @DisplayName("Game 3 players")

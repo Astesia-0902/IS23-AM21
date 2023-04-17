@@ -6,7 +6,6 @@ import org.am21.model.enumer.GamePhase;
 import org.am21.model.enumer.GameState;
 import org.am21.model.enumer.UserStatus;
 import org.am21.model.items.Board;
-import org.am21.model.items.ChatManager;
 import org.am21.model.items.Shelf;
 import org.am21.utilities.CardUtil;
 import org.am21.utilities.CommonGoalUtil;
@@ -16,8 +15,6 @@ import org.am21.utilities.MyTimer;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class Match {
     public int matchID;
@@ -99,7 +96,7 @@ public class Match {
                 //System.out.println("Game > " + player.getNickname() + " added to the match N." + this.matchID);
 
                 //Update virtual view
-                VirtualViewHelper.setPlayers(this);
+                //VirtualViewHelper.setPlayers(this);
                 //TODO:uncomment
                 //notifyVirtualView();
                 checkRoom();
@@ -313,6 +310,7 @@ public class Match {
         //TODO: uncomment
         //VirtualViewHelper.buildVirtualView(this);
         //notifyVirtualView();
+
     }
 
     /**
@@ -325,6 +323,8 @@ public class Match {
         currentPlayer = chairman;
         //System.out.println("Match > Player Turn: " + currentPlayer.getNickname());
         setGamePhase(GamePhase.Selection);
+        //VirtualViewHelper.buildVirtualView(this);
+        //notifyVirtualView();
 
     }
 
@@ -388,7 +388,7 @@ public class Match {
 
     }
 
-    public void decideWinner2(){
+    /*public void decideWinner2(){
         Optional<Player> tmp_winner =
                 playerList.stream()
                         .reduce((p1, p2)->p1.getPlayerScore() > p2.getPlayerScore()? p1: p2);
@@ -401,6 +401,6 @@ public class Match {
                 this.winner=null;
             }
         }
-    }
+    }*/
 
 }

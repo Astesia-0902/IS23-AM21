@@ -3,7 +3,6 @@ package org.am21.networkRMI;
 import org.am21.controller.GameController;
 import org.am21.controller.PlayerController;
 import org.am21.model.GameManager;
-import org.am21.model.PlayerManager;
 
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
@@ -59,9 +58,9 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         playerController = new PlayerController(username, this);
 
         //TODO:the same username is not allowed to log in
-        synchronized (PlayerManager.players) {
-            if (!PlayerManager.players.contains(playerController.getPlayer())) {
-                PlayerManager.players.add(playerController.getPlayer());
+        synchronized (GameManager.players) {
+            if (!GameManager.players.contains(playerController.getPlayer())) {
+                GameManager.players.add(playerController.getPlayer());
             }
         }
         return true;
