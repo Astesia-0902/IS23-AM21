@@ -99,12 +99,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        super(&quot;CommonGoal2Columns&quot;,numPlayer);</b>
 &nbsp;    }
 &nbsp;    /**
-&nbsp;     * Scan the shelf to find two columns each formed by 6 different types of tiles.
-&nbsp;     * @param shelf
+&nbsp;     * Scan the shelves to find two columns each formed by 6 different types of tiles.
+&nbsp;     * @param shelves
 &nbsp;     * @return
 &nbsp;     */
 &nbsp;    @Override
-&nbsp;    public boolean checkGoal(Shelf shelf) {
+&nbsp;    public boolean checkGoal(Shelf shelves) {
 &nbsp;
 &nbsp;
 &nbsp;        // Count the number of occurrences of each type of tile in each column
@@ -115,9 +115,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;            HashMap&lt;String, Integer&gt; countTiles = new HashMap&lt;&gt;();</b>
 &nbsp;
 <b class="fc">&nbsp;            for (int row = 0; row &lt; rowNumShelf; row++) {</b>
-<b class="fc">&nbsp;                if(shelf.isOccupied(row,col)){</b>
-<b class="fc">&nbsp;                    if(shelf.getItemName(row, col)!=null) {</b>
-<b class="fc">&nbsp;                        String tileType = shelf.getItemName(row, col).substring(0, shelf.getItemName(row, col).length() - 3);</b>
+<b class="fc">&nbsp;                if(shelves.isOccupied(row,col)){</b>
+<b class="fc">&nbsp;                    if(shelves.getItemName(row, col)!=null) {</b>
+<b class="fc">&nbsp;                        String tileType = shelves.getItemName(row, col).substring(0, shelves.getItemName(row, col).length() - 3);</b>
 &nbsp;
 &nbsp;                        // If the counter for tileType already exists in countTiles, the current value
 &nbsp;                        // of the counter is incremented by 1, otherwise its value is set to 1

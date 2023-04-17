@@ -90,10 +90,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
-&nbsp;    public boolean checkGoal(Shelf shelf) {
+&nbsp;    public boolean checkGoal(Shelf shelves) {
 &nbsp;        /**
-&nbsp;         * Scan the shelf to find five tiles of the same type forming a diagonal.
-&nbsp;         * @param shelf
+&nbsp;         * Scan the shelves to find five tiles of the same type forming a diagonal.
+&nbsp;         * @param shelves
 &nbsp;         * @return
 &nbsp;         */
 &nbsp;
@@ -101,11 +101,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        //  (0,0), (1,1), (2,2), (3,3), (4,4)
 &nbsp;        //  (1,0), (2,1), (3,2), (4,3), (5,4)
 <b class="nc">&nbsp;        for (int row = 0; row &lt; rowNumShelf; row++) {</b>
-<b class="nc">&nbsp;            String tile = shelf.getItemName(row, 0);</b>
-<b class="nc">&nbsp;            if (tile != null &amp;&amp; tile.equals(shelf.getItemName(row+1, 1))</b>
-<b class="nc">&nbsp;                    &amp;&amp; tile.equals(shelf.getItemName(row+2,2))</b>
-<b class="nc">&nbsp;                    &amp;&amp; tile.equals(shelf.getItemName(row+3,3))</b>
-<b class="nc">&nbsp;                    &amp;&amp; tile.equals(shelf.getItemName(row+4,4))){</b>
+<b class="nc">&nbsp;            String tile = shelves.getItemName(row, 0);</b>
+<b class="nc">&nbsp;            if (tile != null &amp;&amp; tile.equals(shelves.getItemName(row+1, 1))</b>
+<b class="nc">&nbsp;                    &amp;&amp; tile.equals(shelves.getItemName(row+2,2))</b>
+<b class="nc">&nbsp;                    &amp;&amp; tile.equals(shelves.getItemName(row+3,3))</b>
+<b class="nc">&nbsp;                    &amp;&amp; tile.equals(shelves.getItemName(row+4,4))){</b>
 <b class="nc">&nbsp;                return true;</b>
 &nbsp;            }
 &nbsp;        }

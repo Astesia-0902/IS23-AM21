@@ -92,11 +92,11 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
-&nbsp;    public boolean checkGoal(Shelf shelf) {
+&nbsp;    public boolean checkGoal(Shelf shelves) {
 &nbsp;        /**
-&nbsp;         * Scan the shelf to find eight tiles of the same type. There’s no
+&nbsp;         * Scan the shelves to find eight tiles of the same type. Thereï¿½s no
 &nbsp;         * restriction about the position of these tiles.
-&nbsp;         * @param shelf
+&nbsp;         * @param shelves
 &nbsp;         * @return
 &nbsp;         */
 &nbsp;
@@ -104,7 +104,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        Map&lt;String, Integer&gt; countTiles = new HashMap&lt;&gt;();</b>
 <b class="nc">&nbsp;        for (int row = 0; row &lt; rowNumShelf; row++) {</b>
 <b class="nc">&nbsp;            for (int col = 0; col &lt; colNumShelf; col++) {</b>
-<b class="nc">&nbsp;                String tile = shelf.getItemName(row, col);</b>
+<b class="nc">&nbsp;                String tile = shelves.getItemName(row, col);</b>
 &nbsp;
 &nbsp;                // If the counter for tileType already exists in countTiles, the current value
 &nbsp;                // of the counter is incremented by 1, otherwise its value is set to 1

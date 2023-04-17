@@ -99,19 +99,19 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
-&nbsp;     * Scan the shelf to find eight tiles of the same type. There’s no
+&nbsp;     * Scan the shelves to find eight tiles of the same type. Thereï¿½s no
 &nbsp;     * restriction about the position of these tiles.
-&nbsp;     * @param shelf
+&nbsp;     * @param shelves
 &nbsp;     * @return
 &nbsp;     */
-&nbsp;    public boolean checkGoal(Shelf shelf) {
+&nbsp;    public boolean checkGoal(Shelf shelves) {
 &nbsp;        // Create a counter
 <b class="fc">&nbsp;        Map&lt;String, Integer&gt; countTiles = new HashMap&lt;&gt;();</b>
 &nbsp;
 <b class="fc">&nbsp;        for (int row = 0; row &lt; rowNumShelf; row++) {</b>
 <b class="fc">&nbsp;            for (int col = 0; col &lt; colNumShelf; col++) {</b>
-<b class="fc">&nbsp;                if(shelf.isOccupied(row,col)) {</b>
-<b class="fc">&nbsp;                    String tile = shelf.getItemName(row, col).substring(0, shelf.getItemName(row, col).length() - 3);</b>
+<b class="fc">&nbsp;                if(shelves.isOccupied(row,col)) {</b>
+<b class="fc">&nbsp;                    String tile = shelves.getItemName(row, col).substring(0, shelves.getItemName(row, col).length() - 3);</b>
 &nbsp;                    ;
 &nbsp;
 &nbsp;                    // If the counter for tileType already exists in countTiles, the current value

@@ -14,7 +14,7 @@ import java.util.List;
  * Temporary Class. Needed for Testing
  */
 public class GameGear {
-    public static int numberOfRefill;
+    //public static int numberOfRefill;
     public static void printThisBoard(Board board){
         System.out.println("Match > Board:");
         for(int i=0;i<9;i++){
@@ -114,7 +114,7 @@ public class GameGear {
         spacer();
         System.out.println("Match[!][!] > Game Stats");
         System.out.println("Num round: ["+(nRound+1)+"]");
-        System.out.println("Num of refill: ["+numberOfRefill+"]");
+        //System.out.println("Num of refill: ["+numberOfRefill+"]");
         System.out.println("Bag items: ["+(m.board.bag.getDeck().size()-m.board.bag.bagIndex)+"]");
         System.out.println("Bag index: ["+m.board.bag.bagIndex+"]");
         System.out.println("Player/Score/Shelf/Hand situation:" );
@@ -135,9 +135,9 @@ public class GameGear {
     public static void viewFinalStats(Match m){
         spacer();
         System.out.println("Match[!][!] > Final Game Stats");
-        if(m.getFirstToComplete()!=null){
-            System.out.println("Winner is: "+m.getFirstToComplete().getNickname());}
-        System.out.println("Num of refill: ["+numberOfRefill+"]");
+        if(m.winner!=null){
+            System.out.println("Winner is: "+m.winner.getNickname());}
+        //System.out.println("Num of refill: ["+numberOfRefill+"]");
         System.out.println("Bag items: ["+(m.board.bag.getDeck().size()-m.board.bag.bagIndex)+"]");
         System.out.println("Bag index: ["+m.board.bag.bagIndex+"]");
         m.commonGoals.stream().forEach(x->{

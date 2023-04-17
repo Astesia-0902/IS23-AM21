@@ -17,7 +17,7 @@ public class CommonGoalDiagonal extends CommonGoal {
 
 
     /**
-     * Scan the shelf to find five tiles of the same type forming a diagonal.
+     * Scan the shelves to find five tiles of the same type forming a diagonal.
      * (0,0), (1,1), (2,2), (3,3), (4,4)
      * (1,0), (2,1), (3,2), (4,3), (5,4)
      *
@@ -60,15 +60,15 @@ public class CommonGoalDiagonal extends CommonGoal {
 }
 
 
-    /*String tile = shelf.getItemName(row, 0).substring(0, shelf.getItemName(row, 0).length() - 3);
-            if (tile != null && tile.equals(shelf.getItemName(row+1, 1).
-                    substring(0, shelf.getItemName(row+1, 1).length() - 3))
-                    && tile.equals(shelf.getItemName(row+2,2).
-                    substring(0, shelf.getItemName(row+2, 2).length() - 3))
-                    && tile.equals(shelf.getItemName(row+3,3).
-                    substring(0, shelf.getItemName(row+3, 3).length() - 3))
-                    && tile.equals(shelf.getItemName(row+4,4).
-                    substring(0, shelf.getItemName(row+4, 4).length() - 3))){
+    /*String tile = shelves.getItemName(row, 0).substring(0, shelves.getItemName(row, 0).length() - 3);
+            if (tile != null && tile.equals(shelves.getItemName(row+1, 1).
+                    substring(0, shelves.getItemName(row+1, 1).length() - 3))
+                    && tile.equals(shelves.getItemName(row+2,2).
+                    substring(0, shelves.getItemName(row+2, 2).length() - 3))
+                    && tile.equals(shelves.getItemName(row+3,3).
+                    substring(0, shelves.getItemName(row+3, 3).length() - 3))
+                    && tile.equals(shelves.getItemName(row+4,4).
+                    substring(0, shelves.getItemName(row+4, 4).length() - 3))){
                     return true;
                     }*/
 

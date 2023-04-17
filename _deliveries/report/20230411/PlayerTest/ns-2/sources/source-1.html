@@ -94,7 +94,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * A player score is visible by everyone during the game
 &nbsp;     */
 &nbsp;    public int playerScore;
-&nbsp;    public Shelf shelf;
+&nbsp;    public Shelf shelves;
 &nbsp;    private PersonalGoalCard myGoal;
 &nbsp;    /**
 &nbsp;     * memorize 1 to 3 cards selected by player during a turn
@@ -119,7 +119,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        this.status = UserStatus.Online;</b>
 <b class="fc">&nbsp;        this.playerScore = 0;</b>
 <b class="fc">&nbsp;        this.myGoal = null;</b>
-<b class="fc">&nbsp;        this.shelf = null;</b>
+<b class="fc">&nbsp;        this.shelves = null;</b>
 <b class="fc">&nbsp;        this.match = null;</b>
 &nbsp;    }
 &nbsp;
@@ -143,7 +143,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        this.myGoal = goal;</b>
 &nbsp;    }
 &nbsp;    public Shelf getShelf(){
-<b class="nc">&nbsp;        return shelf;</b>
+<b class="nc">&nbsp;        return shelves;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    public void setHand(Hand hand){

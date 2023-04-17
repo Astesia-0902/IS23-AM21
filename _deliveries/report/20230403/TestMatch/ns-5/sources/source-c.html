@@ -86,19 +86,19 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
-&nbsp;     * Scan the shelf to find 6 groups of 2 tiles of the same color
-&nbsp;     * @param shelf
+&nbsp;     * Scan the shelves to find 6 groups of 2 tiles of the same color
+&nbsp;     * @param shelves
 &nbsp;     * @return
 &nbsp;     */
 &nbsp;    @Override
-&nbsp;    public boolean checkGoal(Shelf shelf) {
+&nbsp;    public boolean checkGoal(Shelf shelves) {
 <b class="nc">&nbsp;        boolean[][] visited = new boolean[6][5];</b>
 <b class="nc">&nbsp;        int count = 0;</b>
 <b class="nc">&nbsp;        for(int i = 0; i &lt; 6; i++) {</b>
 <b class="nc">&nbsp;            for(int j = 0; j &lt; 5; j++) {</b>
 &nbsp;                //Once we find a tile != 0 and not visited, we check if it&#39;s the upper left tile of a 1x2 group
-<b class="nc">&nbsp;                if(shelf.getCellGrid()[i][j] != null &amp;&amp; !visited[i][j]) {</b>
-<b class="nc">&nbsp;                    boolean result = process(shelf,i,j,visited) &amp;&amp; process(shelf,i+1,j,visited);</b>
+<b class="nc">&nbsp;                if(shelves.getCellGrid()[i][j] != null &amp;&amp; !visited[i][j]) {</b>
+<b class="nc">&nbsp;                    boolean result = process(shelves,i,j,visited) &amp;&amp; process(shelves,i+1,j,visited);</b>
 <b class="nc">&nbsp;                    if(result) {</b>
 <b class="nc">&nbsp;                        count++;</b>
 &nbsp;                        //If we find 6 groups of 2 tiles, we return true
@@ -112,9 +112,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        return false;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    private boolean process(Shelf shelf, int i, int j, boolean[][] visited) {
-&nbsp;        //Check if the tile is in the shelf and not visited
-<b class="nc">&nbsp;        if(i &lt; 0 || i &gt;= 6 || j &lt; 0 || j &gt;= 5 || visited[i][j] || shelf.getCellGrid()[i][j] == null)</b>
+&nbsp;    private boolean process(Shelf shelves, int i, int j, boolean[][] visited) {
+&nbsp;        //Check if the tile is in the shelves and not visited
+<b class="nc">&nbsp;        if(i &lt; 0 || i &gt;= 6 || j &lt; 0 || j &gt;= 5 || visited[i][j] || shelves.getCellGrid()[i][j] == null)</b>
 <b class="nc">&nbsp;            return false;</b>
 &nbsp;
 &nbsp;        //mark the tile as visited

@@ -95,7 +95,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * A player score is visible by everyone during the game
 &nbsp;     */
 &nbsp;    public int playerScore;
-&nbsp;    public Shelf shelf;
+&nbsp;    public Shelf shelves;
 &nbsp;    private PersonalGoalCard myPersonalGoal;
 &nbsp;    /**
 &nbsp;     * player seat number used to determine playing order 1-4 (counterclockwise)
@@ -124,7 +124,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        this.status = UserStatus.Online;</b>
 <b class="fc">&nbsp;        this.playerScore = 0;</b>
 <b class="fc">&nbsp;        this.myPersonalGoal = null;</b>
-<b class="fc">&nbsp;        this.shelf = null;</b>
+<b class="fc">&nbsp;        this.shelves = null;</b>
 <b class="fc">&nbsp;        this.hand = null;</b>
 <b class="fc">&nbsp;        this.playerSeat = 0;</b>
 <b class="fc">&nbsp;        this.match = null;</b>
@@ -150,7 +150,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        this.myPersonalGoal = goal;
 <b class="fc">&nbsp;    }</b>
 &nbsp;    public Shelf getShelf(){
-&nbsp;        return shelf;
+&nbsp;        return shelves;
 &nbsp;    }
 <b class="fc">&nbsp;    public Match getMatch(){</b>
 &nbsp;        return match;

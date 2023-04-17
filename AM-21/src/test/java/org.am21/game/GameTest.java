@@ -20,4 +20,5 @@ public class GameTest {
     //TODO: Check Match.checkPersonalGOal()
     //TODO: Check Match.checkShelfPoints()
     //TODO: Full simulation of a game with ClientInputHandler, GameController, Match , GameManager
+    //TODO: Verify the declaration of the winner
 }

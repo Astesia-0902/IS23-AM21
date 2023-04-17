@@ -1,7 +1,6 @@
 package org.am21.extra;
 
 import org.am21.model.Match;
-import org.am21.utilities.GameGear;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
@@ -12,7 +11,7 @@ import static org.am21.extra.Gear.buildGame;
 public class WrongModelTest {
     @BeforeEach
     void reset(){
-        GameGear.numberOfRefill=0;
+        //GameGear.numberOfRefill=0;
     }
     @Test
     @DisplayName("Game 2 players")

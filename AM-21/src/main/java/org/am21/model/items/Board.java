@@ -89,8 +89,8 @@ public class Board extends Grid {
      */
     public boolean hasFreeSide(int r, int c) {
 
-        if (this.getMatrix()[r][c] == null) {
-//            System.out.println("Board[!] > Out of boundaries: Cell doesn't exist. ");
+        if (getMatrix()[r][c] == null) {
+            //System.out.println("Board[!] > Out of boundaries: Cell doesn't exist. ");
             return false;
         }
 
@@ -117,13 +117,10 @@ public class Board extends Grid {
      * The selected tiles need to be on a Straight Line
      * And the new card needs to be adjacent to one of the old cards
      * <p>
-     * La differenza delle coordinate lungo una direzione deve essere 0
-     * La differenza delle coordinate rimanente puo essere o 1 o 2
-     *
      * @param r
      * @param c
      * @param pHand
-     * @return check
+     * @return true if the conditions are respected, otherwise false
      */
     public boolean isOrthogonal(int r, int c, Hand pHand) {
         int a;
@@ -134,9 +131,9 @@ public class Board extends Grid {
         for (CardPointer card : pHand.getSlot()) {
             a = Math.abs(r - card.x);
             b = Math.abs(c - card.y);
-            System.out.print("Board > Coordinates difference: ");
+            /*System.out.print("Board > Coordinates difference: ");
             System.out.print("["+a+"]");
-            System.out.println("["+b+"]");
+            System.out.println("["+b+"]");*/
             //Check if the new item is adjacent at least to one item in the hand
             //Check if the new item is in line
             if (a == 0 && (b > 0 && b <= 2)) {
@@ -147,8 +144,8 @@ public class Board extends Grid {
                 inline = false;
             }
         }
-        System.out.println(inline);
-        System.out.println(one_adjacent);
+        //System.out.println(inline);
+        //System.out.println(one_adjacent);
         return inline && one_adjacent;
     }
 

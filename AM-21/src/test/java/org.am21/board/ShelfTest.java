@@ -21,7 +21,7 @@ public class ShelfTest {
 
     @BeforeEach
     void setUp(){
-        c=new PlayerController("Ub");
+        c=new PlayerController("Ub",null);
         p= c.getPlayer();
         s=new Shelf(p);
     }
@@ -35,7 +35,7 @@ public class ShelfTest {
 
     /**
      * Testing array which keep count of how many slots are still available
-     * in every column of the shelf
+     * in every column of the shelves
      */
     @Test
     void testSlotCol(){
@@ -45,7 +45,7 @@ public class ShelfTest {
     }
 
     /**
-     * Test how much space is left on the shelf
+     * Test how much space is left on the shelves
      */
     @Test
     void testGetTotSlotAvailable(){
@@ -100,7 +100,7 @@ public class ShelfTest {
 
 
     /**
-     * Check if the limit changes when the shelf is reaching his full capacity
+     * Check if the limit changes when the shelves is reaching his full capacity
      */
     @Test
     void testCheckLimit(){
@@ -125,7 +125,7 @@ public class ShelfTest {
         assertEquals(0,s.insertLimit);
     }
     /**
-     * Verifies, when according to our game a shelf is complete,
+     * Verifies, when according to our game a shelves is complete,
      * if it's really complete.
      */
     @Test

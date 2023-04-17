@@ -97,10 +97,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    /**
 &nbsp;     *
-&nbsp;     * @param shelf
+&nbsp;     * @param shelves
 &nbsp;     * @return
 &nbsp;     */
-&nbsp;    public boolean checkGoal(Shelf shelf) {
+&nbsp;    public boolean checkGoal(Shelf shelves) {
 &nbsp;
 &nbsp;        // Count the number of occurrences of each type of tile in each row
 <b class="fc">&nbsp;        int countGroup = 0;</b>
@@ -111,8 +111,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;             countTiles = new HashMap&lt;&gt;();</b>
 &nbsp;
 <b class="fc">&nbsp;            for (int col = 0; col &lt; colNumShelf; col++) {</b>
-<b class="fc">&nbsp;                if(shelf.isOccupied(row,col)) {</b>
-<b class="fc">&nbsp;                    String tileType = shelf.getItemName(row, col).substring(0, shelf.getItemName(row, col).length() - 3);</b>
+<b class="fc">&nbsp;                if(shelves.isOccupied(row,col)) {</b>
+<b class="fc">&nbsp;                    String tileType = shelves.getItemName(row, col).substring(0, shelves.getItemName(row, col).length() - 3);</b>
 &nbsp;
 &nbsp;                    // If the counter for tileType already exists in countTiles, the current value
 &nbsp;                    // of the counter is incremented by 1, otherwise its value is set to 1

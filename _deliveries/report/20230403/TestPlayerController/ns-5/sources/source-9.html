@@ -106,12 +106,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    *}
 &nbsp;    */
 &nbsp;
-&nbsp;    public boolean checkGoal(Shelf shelf) {
+&nbsp;    public boolean checkGoal(Shelf shelves) {
 <b class="nc">&nbsp;        int [] vectRow = {0,0,0,0,0};</b>
 <b class="nc">&nbsp;        for(int x=0;x&lt;5;x++)</b>
 &nbsp;        {
 <b class="nc">&nbsp;            for (int y = 0; y &lt; 6; y++) {</b>
-<b class="nc">&nbsp;                if (shelf.getItemName(y, x) != null)</b>
+<b class="nc">&nbsp;                if (shelves.getItemName(y, x) != null)</b>
 <b class="nc">&nbsp;                    vectRow[x]++;</b>
 &nbsp;            }
 &nbsp;        }

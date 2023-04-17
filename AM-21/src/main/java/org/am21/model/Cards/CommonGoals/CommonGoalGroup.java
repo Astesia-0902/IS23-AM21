@@ -49,7 +49,7 @@ public class CommonGoalGroup extends CommonGoal {
     /**
      * This method recursively checks if there is a group of tiles of the same type
      * Use this version if a continuous set of tiles is regarded as a group no matter how many tiles are in the group
-     * @param shelf the shelf to check
+     * @param shelf the shelves to check
      * @param i row index
      * @param j column index
      * @param visited a boolean matrix to keep track of visited tiles
@@ -98,7 +98,7 @@ public class CommonGoalGroup extends CommonGoal {
 //    /**
 //     * Use this version a continuous group of tiles is regarded as a group only if the number of tiles is smaller than or equal to groupSize
 //     */
-//    private boolean process(Shelf shelf, int i, int j, boolean[][] visited, int depth, String itemType) {
+//    private boolean process(Shelf shelves, int i, int j, boolean[][] visited, int depth, String itemType) {
 //        if (depth == groupSize) {
 //            return true;
 //        }
@@ -108,26 +108,26 @@ public class CommonGoalGroup extends CommonGoal {
 //        //Check all 4 directions
 //        //If we find a tile of the same type, we recursively call process
 //        //check the conditions before calling process, building calls on stack is expensive
-//        if (i > 0 && !visited[i - 1][j] && shelf.getCell(i - 1, j) != null && shelf.getItemType(i - 1, j).equals(itemType)) {
-//            if (process(shelf, i - 1, j, visited, depth + 1, itemType)) {
+//        if (i > 0 && !visited[i - 1][j] && shelves.getCell(i - 1, j) != null && shelves.getItemType(i - 1, j).equals(itemType)) {
+//            if (process(shelves, i - 1, j, visited, depth + 1, itemType)) {
 //                return true;
 //            }
 //        }
 //
-//        if (i < Shelf.sRow - 1 && !visited[i + 1][j] && shelf.getCell(i + 1, j) != null && shelf.getItemType(i + 1, j).equals(itemType)) {
-//            if (process(shelf, i + 1, j, visited, depth + 1, itemType)) {
+//        if (i < Shelf.sRow - 1 && !visited[i + 1][j] && shelves.getCell(i + 1, j) != null && shelves.getItemType(i + 1, j).equals(itemType)) {
+//            if (process(shelves, i + 1, j, visited, depth + 1, itemType)) {
 //                return true;
 //            }
 //        }
 //
-//        if (j > 0 && !visited[i][j - 1] && shelf.getCell(i, j - 1) != null && shelf.getItemType(i, j - 1).equals(itemType)) {
-//            if (process(shelf, i, j - 1, visited, depth + 1, itemType)) {
+//        if (j > 0 && !visited[i][j - 1] && shelves.getCell(i, j - 1) != null && shelves.getItemType(i, j - 1).equals(itemType)) {
+//            if (process(shelves, i, j - 1, visited, depth + 1, itemType)) {
 //                return true;
 //            }
 //        }
 //
-//        if (j < Shelf.sColumn - 1 && !visited[i][j + 1] && shelf.getCell(i, j + 1) != null && shelf.getItemType(i, j + 1).equals(itemType)) {
-//            if (process(shelf, i, j + 1, visited, depth + 1, itemType)) {
+//        if (j < Shelf.sColumn - 1 && !visited[i][j + 1] && shelves.getCell(i, j + 1) != null && shelves.getItemType(i, j + 1).equals(itemType)) {
+//            if (process(shelves, i, j + 1, visited, depth + 1, itemType)) {
 //                return true;
 //            }
 //        }
@@ -233,22 +233,22 @@ public class CommonGoalGroup extends CommonGoal {
 
 
 /*
- * Scan the shelf to find 3 groups of 4 tiles of the same color
+ * Scan the shelves to find 3 groups of 4 tiles of the same color
  *
  * @param s
  * @return
  */
 
-    /*public boolean checkGoal(Shelf shelf) {
+    /*public boolean checkGoal(Shelf shelves) {
         boolean[][] visited = new boolean[6][5];
         int count = 0;
         for(int i = 0; i < 6; i++) {
             for(int j = 0; j < 5; j++) {
                 //Once we find a tile != 0 and not visited, we check if it's the upper left tile of a 1x4 group
-                if(shelf.getMatrix()[i][j] != null && !visited[i][j]) {
+                if(shelves.getMatrix()[i][j] != null && !visited[i][j]) {
                     boolean result = true;
                     for(int k = 0; k < 4; k++) {
-                        result = result && process(shelf,i+k,j,visited);
+                        result = result && process(shelves,i+k,j,visited);
                     }
                     if(result) {
                         count++;
@@ -264,8 +264,8 @@ public class CommonGoalGroup extends CommonGoal {
     }
 
     private boolean process(Shelf s, int i, int j, boolean[][] visited) {
-        //Check if the tile is in the shelf and not visited
-        if(i < 0 || i >= 6 || j < 0 || j >= 5 || visited[i][j] || shelf.getMatrix()[i][j] == null)
+        //Check if the tile is in the shelves and not visited
+        if(i < 0 || i >= 6 || j < 0 || j >= 5 || visited[i][j] || shelves.getMatrix()[i][j] == null)
             return false;
 
         //mark the tile as visited

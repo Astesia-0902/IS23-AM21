@@ -23,7 +23,7 @@ public class CommonGoal8Tiles extends CommonGoal {
     }
 
     /**
-     * Scan the shelf to find eight tiles of the same type. There’s no
+     * Scan the shelves to find eight tiles of the same type. There’s no
      * restriction about the position of these tiles.
      * @param shelf
      * @return

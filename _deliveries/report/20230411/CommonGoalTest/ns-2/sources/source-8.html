@@ -101,16 +101,16 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
-&nbsp;    public boolean checkGoal(Shelf shelf) {
+&nbsp;    public boolean checkGoal(Shelf shelves) {
 <b class="fc">&nbsp;        boolean[][] visited = new boolean[Shelf.sRow][Shelf.sColumn];</b>
 <b class="fc">&nbsp;        int count = 0;</b>
 <b class="fc">&nbsp;        for (int i = 0; i &lt; Shelf.sRow; i++) {</b>
 <b class="fc">&nbsp;            for (int j = 0; j &lt; Shelf.sColumn; j++) {</b>
-<b class="fc">&nbsp;                if (shelf.getCell(i, j) == null || visited[i][j]) {</b>
+<b class="fc">&nbsp;                if (shelves.getCell(i, j) == null || visited[i][j]) {</b>
 <b class="fc">&nbsp;                    continue;</b>
 &nbsp;                }
-<b class="fc">&nbsp;                String itemType = shelf.getItemType(i, j);</b>
-<b class="fc">&nbsp;                if (process(shelf, i, j, visited, 1, itemType)) {</b>
+<b class="fc">&nbsp;                String itemType = shelves.getItemType(i, j);</b>
+<b class="fc">&nbsp;                if (process(shelves, i, j, visited, 1, itemType)) {</b>
 <b class="fc">&nbsp;                    count++;</b>
 &nbsp;
 <b class="fc">&nbsp;                    if (count &gt;= groupNum) {</b>
@@ -125,7 +125,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    /**
 &nbsp;     * This method recursively checks if there is a group of tiles of the same type
 &nbsp;     * Use this version if a continuous set of tiles is regarded as a group no matter how many tiles are in the group
-&nbsp;     * @param shelf the shelf to check
+&nbsp;     * @param shelves the shelves to check
 &nbsp;     * @param i row index
 &nbsp;     * @param j column index
 &nbsp;     * @param visited a boolean matrix to keep track of visited tiles
@@ -133,7 +133,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @param itemType the type of the item we are looking for
 &nbsp;     * @return true if there is a group of tiles of the same type
 &nbsp;     */
-&nbsp;    private boolean process(Shelf shelf, int i, int j, boolean[][] visited, int depth, String itemType) {
+&nbsp;    private boolean process(Shelf shelves, int i, int j, boolean[][] visited, int depth, String itemType) {
 <b class="fc">&nbsp;        boolean flag = depth &gt;= groupSize;</b>
 &nbsp;
 <b class="fc">&nbsp;        visited[i][j] = true;</b>
@@ -141,26 +141,26 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        //Check all 4 directions
 &nbsp;        //If we find a tile of the same type, we recursively call process
 &nbsp;        //check the conditions before calling process, building calls on stack is expensive
-<b class="fc">&nbsp;        if (i &gt; 0 &amp;&amp; !visited[i - 1][j] &amp;&amp; shelf.getCell(i - 1, j) != null &amp;&amp; shelf.getItemType(i - 1, j).equals(itemType)) {</b>
-<b class="fc">&nbsp;            if (process(shelf, i - 1, j, visited, depth + 1, itemType)) {</b>
+<b class="fc">&nbsp;        if (i &gt; 0 &amp;&amp; !visited[i - 1][j] &amp;&amp; shelves.getCell(i - 1, j) != null &amp;&amp; shelves.getItemType(i - 1, j).equals(itemType)) {</b>
+<b class="fc">&nbsp;            if (process(shelves, i - 1, j, visited, depth + 1, itemType)) {</b>
 <b class="fc">&nbsp;                return true;</b>
 &nbsp;            }
 &nbsp;        }
 &nbsp;
-<b class="fc">&nbsp;        if (i &lt; Shelf.sRow - 1 &amp;&amp; !visited[i + 1][j] &amp;&amp; shelf.getCell(i + 1, j) != null &amp;&amp; shelf.getItemType(i + 1, j).equals(itemType)) {</b>
-<b class="fc">&nbsp;            if (process(shelf, i + 1, j, visited, depth + 1, itemType)) {</b>
+<b class="fc">&nbsp;        if (i &lt; Shelf.sRow - 1 &amp;&amp; !visited[i + 1][j] &amp;&amp; shelves.getCell(i + 1, j) != null &amp;&amp; shelves.getItemType(i + 1, j).equals(itemType)) {</b>
+<b class="fc">&nbsp;            if (process(shelves, i + 1, j, visited, depth + 1, itemType)) {</b>
 <b class="fc">&nbsp;                return true;</b>
 &nbsp;            }
 &nbsp;        }
 &nbsp;
-<b class="fc">&nbsp;        if (j &gt; 0 &amp;&amp; !visited[i][j - 1] &amp;&amp; shelf.getCell(i, j - 1) != null &amp;&amp; shelf.getItemType(i, j - 1).equals(itemType)) {</b>
-<b class="fc">&nbsp;            if (process(shelf, i, j - 1, visited, depth + 1, itemType)) {</b>
+<b class="fc">&nbsp;        if (j &gt; 0 &amp;&amp; !visited[i][j - 1] &amp;&amp; shelves.getCell(i, j - 1) != null &amp;&amp; shelves.getItemType(i, j - 1).equals(itemType)) {</b>
+<b class="fc">&nbsp;            if (process(shelves, i, j - 1, visited, depth + 1, itemType)) {</b>
 <b class="fc">&nbsp;                return true;</b>
 &nbsp;            }
 &nbsp;        }
 &nbsp;
-<b class="fc">&nbsp;        if (j &lt; Shelf.sColumn - 1 &amp;&amp; !visited[i][j + 1] &amp;&amp; shelf.getCell(i, j + 1) != null &amp;&amp; shelf.getItemType(i, j + 1).equals(itemType)) {</b>
-<b class="fc">&nbsp;            if (process(shelf, i, j + 1, visited, depth + 1, itemType)) {</b>
+<b class="fc">&nbsp;        if (j &lt; Shelf.sColumn - 1 &amp;&amp; !visited[i][j + 1] &amp;&amp; shelves.getCell(i, j + 1) != null &amp;&amp; shelves.getItemType(i, j + 1).equals(itemType)) {</b>
+<b class="fc">&nbsp;            if (process(shelves, i, j + 1, visited, depth + 1, itemType)) {</b>
 <b class="fc">&nbsp;                return true;</b>
 &nbsp;            }
 &nbsp;        }
@@ -174,7 +174,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;//    /**
 &nbsp;//     * Use this version a continuous group of tiles is regarded as a group only if the number of tiles is smaller than or equal to groupSize
 &nbsp;//     */
-&nbsp;//    private boolean process(Shelf shelf, int i, int j, boolean[][] visited, int depth, String itemType) {
+&nbsp;//    private boolean process(Shelf shelves, int i, int j, boolean[][] visited, int depth, String itemType) {
 &nbsp;//        if (depth == groupSize) {
 &nbsp;//            return true;
 &nbsp;//        }
@@ -184,26 +184,26 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;//        //Check all 4 directions
 &nbsp;//        //If we find a tile of the same type, we recursively call process
 &nbsp;//        //check the conditions before calling process, building calls on stack is expensive
-&nbsp;//        if (i &gt; 0 &amp;&amp; !visited[i - 1][j] &amp;&amp; shelf.getCell(i - 1, j) != null &amp;&amp; shelf.getItemType(i - 1, j).equals(itemType)) {
-&nbsp;//            if (process(shelf, i - 1, j, visited, depth + 1, itemType)) {
+&nbsp;//        if (i &gt; 0 &amp;&amp; !visited[i - 1][j] &amp;&amp; shelves.getCell(i - 1, j) != null &amp;&amp; shelves.getItemType(i - 1, j).equals(itemType)) {
+&nbsp;//            if (process(shelves, i - 1, j, visited, depth + 1, itemType)) {
 &nbsp;//                return true;
 &nbsp;//            }
 &nbsp;//        }
 &nbsp;//
-&nbsp;//        if (i &lt; Shelf.sRow - 1 &amp;&amp; !visited[i + 1][j] &amp;&amp; shelf.getCell(i + 1, j) != null &amp;&amp; shelf.getItemType(i + 1, j).equals(itemType)) {
-&nbsp;//            if (process(shelf, i + 1, j, visited, depth + 1, itemType)) {
+&nbsp;//        if (i &lt; Shelf.sRow - 1 &amp;&amp; !visited[i + 1][j] &amp;&amp; shelves.getCell(i + 1, j) != null &amp;&amp; shelves.getItemType(i + 1, j).equals(itemType)) {
+&nbsp;//            if (process(shelves, i + 1, j, visited, depth + 1, itemType)) {
 &nbsp;//                return true;
 &nbsp;//            }
 &nbsp;//        }
 &nbsp;//
-&nbsp;//        if (j &gt; 0 &amp;&amp; !visited[i][j - 1] &amp;&amp; shelf.getCell(i, j - 1) != null &amp;&amp; shelf.getItemType(i, j - 1).equals(itemType)) {
-&nbsp;//            if (process(shelf, i, j - 1, visited, depth + 1, itemType)) {
+&nbsp;//        if (j &gt; 0 &amp;&amp; !visited[i][j - 1] &amp;&amp; shelves.getCell(i, j - 1) != null &amp;&amp; shelves.getItemType(i, j - 1).equals(itemType)) {
+&nbsp;//            if (process(shelves, i, j - 1, visited, depth + 1, itemType)) {
 &nbsp;//                return true;
 &nbsp;//            }
 &nbsp;//        }
 &nbsp;//
-&nbsp;//        if (j &lt; Shelf.sColumn - 1 &amp;&amp; !visited[i][j + 1] &amp;&amp; shelf.getCell(i, j + 1) != null &amp;&amp; shelf.getItemType(i, j + 1).equals(itemType)) {
-&nbsp;//            if (process(shelf, i, j + 1, visited, depth + 1, itemType)) {
+&nbsp;//        if (j &lt; Shelf.sColumn - 1 &amp;&amp; !visited[i][j + 1] &amp;&amp; shelves.getCell(i, j + 1) != null &amp;&amp; shelves.getItemType(i, j + 1).equals(itemType)) {
+&nbsp;//            if (process(shelves, i, j + 1, visited, depth + 1, itemType)) {
 &nbsp;//                return true;
 &nbsp;//            }
 &nbsp;//        }
@@ -309,22 +309,22 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;
 &nbsp;/*
-&nbsp; * Scan the shelf to find 3 groups of 4 tiles of the same color
+&nbsp; * Scan the shelves to find 3 groups of 4 tiles of the same color
 &nbsp; *
 &nbsp; * @param s
 &nbsp; * @return
 &nbsp; */
 &nbsp;
-&nbsp;    /*public boolean checkGoal(Shelf shelf) {
+&nbsp;    /*public boolean checkGoal(Shelf shelves) {
 &nbsp;        boolean[][] visited = new boolean[6][5];
 &nbsp;        int count = 0;
 &nbsp;        for(int i = 0; i &lt; 6; i++) {
 &nbsp;            for(int j = 0; j &lt; 5; j++) {
 &nbsp;                //Once we find a tile != 0 and not visited, we check if it&#39;s the upper left tile of a 1x4 group
-&nbsp;                if(shelf.getMatrix()[i][j] != null &amp;&amp; !visited[i][j]) {
+&nbsp;                if(shelves.getMatrix()[i][j] != null &amp;&amp; !visited[i][j]) {
 &nbsp;                    boolean result = true;
 &nbsp;                    for(int k = 0; k &lt; 4; k++) {
-&nbsp;                        result = result &amp;&amp; process(shelf,i+k,j,visited);
+&nbsp;                        result = result &amp;&amp; process(shelves,i+k,j,visited);
 &nbsp;                    }
 &nbsp;                    if(result) {
 &nbsp;                        count++;
@@ -340,8 +340,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    private boolean process(Shelf s, int i, int j, boolean[][] visited) {
-&nbsp;        //Check if the tile is in the shelf and not visited
-&nbsp;        if(i &lt; 0 || i &gt;= 6 || j &lt; 0 || j &gt;= 5 || visited[i][j] || shelf.getMatrix()[i][j] == null)
+&nbsp;        //Check if the tile is in the shelves and not visited
+&nbsp;        if(i &lt; 0 || i &gt;= 6 || j &lt; 0 || j &gt;= 5 || visited[i][j] || shelves.getMatrix()[i][j] == null)
 &nbsp;            return false;
 &nbsp;
 &nbsp;        //mark the tile as visited

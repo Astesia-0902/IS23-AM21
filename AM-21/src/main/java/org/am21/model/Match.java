@@ -11,10 +11,13 @@ import org.am21.model.items.Shelf;
 import org.am21.utilities.CardUtil;
 import org.am21.utilities.CommonGoalUtil;
 import org.am21.utilities.GameGear;
+import org.am21.utilities.MyTimer;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Match {
     public int matchID;
@@ -31,6 +34,8 @@ public class Match {
     public VirtualView virtualView;
     public Player chairman;
     public ChatManager chatManager;
+    public MyTimer timer;
+    public Player winner;
 
     public Match(int maxSeats) {
         this.maxSeats = maxSeats;
@@ -38,6 +43,8 @@ public class Match {
         gameState = GameState.WaitingPlayers;
         commonGoals = new ArrayList<>(2);
         chatManager = new ChatManager(this);
+        //TODO:  temp(ken)
+        virtualView=new VirtualView();
     }
 
     /**
@@ -86,15 +93,15 @@ public class Match {
                 player.setMatch(this);
                 player.setPlayerScore(0);
                 player.setShelf(new Shelf(player));
-
                 synchronized (GameManager.playerMatchMap) {
                     GameManager.playerMatchMap.put(player.getNickname(), matchID);
                 }
                 //System.out.println("Game > " + player.getNickname() + " added to the match N." + this.matchID);
 
-                //update virtual view
+                //Update virtual view
                 VirtualViewHelper.setPlayers(this);
-                notifyVirtualView();
+                //TODO:uncomment
+                //notifyVirtualView();
                 checkRoom();
                 return true;
             }
@@ -124,9 +131,10 @@ public class Match {
                     GameManager.playerMatchMap.remove(player.getNickname());
                 }
                 checkRoom();
-                //update virtual view
-                VirtualViewHelper.setPlayers(this);
-                notifyVirtualView();
+                //TODO:uncomment
+                //Update virtual view
+                //VirtualViewHelper.setPlayers(this);
+                //notifyVirtualView();
                 return true;
             }
             return false;
@@ -150,14 +158,12 @@ public class Match {
                 GameGear.printThisBoard(board);
                 //refill
                 if (board.bag.refillBoard()) {
-                    //TODO: eliminate, this var is just for test
-                    GameGear.numberOfRefill++;
                     GameGear.printThisBoard(board);
                 }
             }
 
             if (currentPlayer.getShelf().getTotSlotAvail() == 0 && gameState != GameState.LastRound) {
-                //System.out.println("Match > Congratulations! " + currentPlayer.getNickname() + " has completed the shelf first");
+                //System.out.println("Match > Congratulations! " + currentPlayer.getNickname() + " has completed the shelves first");
                 this.setEndGameToken(false);
                 //System.out.println("Match > EndGame Token assigned");
                 firstToComplete = currentPlayer;
@@ -214,16 +220,16 @@ public class Match {
     /**
      * This method is called when the match ends.
      * Operations:
+     * - Declare the absolute winner<br>
      * - Show the final game stats.<br>
-     * - Clear the board and the items.<br>
      * - Reset players score<br>
-     * - Remove all the players from the match<br>
+     * - Remove all the players from the match
      */
     private boolean endMatch() {
+        decideWinner();
         //Print the Final Stats of the Match
-        GameGear.viewFinalStats(this);
+        //GameGear.viewFinalStats(this);
 
-        //TODO: clear board
         //Removing players from the match
         for (Player player : playerList) {
             player.setStatus(UserStatus.Online);
@@ -257,12 +263,12 @@ public class Match {
         } else {
             if (gameState.equals(GameState.WaitingPlayers)) {
                 initializeMatch();
-                System.out.println("Match > InitMatch Complete");
+                //System.out.println("Match > InitMatch Complete");
                 checkRoom();
             }
             if (gameState.equals(GameState.Ready)) {
                 startFirstRound();
-                System.out.println("Match > Start first round!");
+                //System.out.println("Match > Start first round!");
             }
         }
     }
@@ -304,8 +310,9 @@ public class Match {
         board.firstSetup();
 
         setGameState(GameState.Ready);
-        VirtualViewHelper.buildVirtualView(this);
-        notifyVirtualView();
+        //TODO: uncomment
+        //VirtualViewHelper.buildVirtualView(this);
+        //notifyVirtualView();
     }
 
     /**
@@ -329,16 +336,17 @@ public class Match {
         //System.out.println("Match > Player Turn: " + currentPlayer.getNickname());
 
         setGamePhase(GamePhase.Selection);
-
+        //TODO: uncomment
         //Update VirtualView
-        VirtualViewHelper.updateVirtualView(this);
-        notifyVirtualView();
+        //VirtualViewHelper.updateVirtualView(this);
+        //notifyVirtualView();
     }
 
     /**
      * Get the JSON of the virtual view
      * @return the JSON of the virtual view
      */
+
     public String getVirtualView() {
         return VirtualViewHelper.getVirtualViewJSON(virtualView);
     }
@@ -355,4 +363,44 @@ public class Match {
             }
         }
     }
+
+    /**
+     * This method will decide the absolute winner of the match
+     * If multiple players have the same highest score, then there is no winner.
+     */
+    public void decideWinner(){
+        Player tiePlayer=null;
+        Player topPlayer=null;
+        int maxScore=0;
+        for(Player p: playerList){
+            if(p.getPlayerScore()>maxScore){
+                topPlayer = p;
+                maxScore = p.getPlayerScore();
+            }else if(p.getPlayerScore()==maxScore){
+                tiePlayer=p;
+            }
+        }
+        if(topPlayer!=null&&tiePlayer!=null&&tiePlayer.getPlayerScore()==topPlayer.getPlayerScore()){
+            winner=null;
+        }else{
+            winner=topPlayer;
+        }
+
+    }
+
+    public void decideWinner2(){
+        Optional<Player> tmp_winner =
+                playerList.stream()
+                        .reduce((p1, p2)->p1.getPlayerScore() > p2.getPlayerScore()? p1: p2);
+        tmp_winner.ifPresentOrElse(player->this.winner=player,
+                ()->this.winner=null);
+        if(tmp_winner.isPresent()){
+            if(!playerList.stream()
+                    .filter(p->!p.equals(this.winner)&&p.getPlayerScore()==this.winner.getPlayerScore())
+                    .collect(Collectors.toList()).isEmpty()){
+                this.winner=null;
+            }
+        }
+    }
+
 }

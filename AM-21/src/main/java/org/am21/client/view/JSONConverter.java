@@ -34,7 +34,7 @@ public class JSONConverter {
         commonGoal = jsonObject.getJSONArray("commonGoal").toJavaList(String.class);
         //TODO:we only need the personal goal of the player of this client
         personalGoal = jsonObject.getJSONArray("personalGoal").toJavaList(Integer.class).get(getPlayerIndex(currentPlayer));
-        shelf = jsonObject.getJSONArray("shelf").toJavaList(String[][].class);
+        shelf = jsonObject.getJSONArray("shelves").toJavaList(String[][].class);
         gamePhase = jsonObject.getString("gamePhase");
     }
 

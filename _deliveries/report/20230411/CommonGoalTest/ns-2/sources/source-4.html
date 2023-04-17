@@ -94,19 +94,19 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    /**
 &nbsp;     *
-&nbsp;     * @param shelf
+&nbsp;     * @param shelves
 &nbsp;     * @return
 &nbsp;     */
-&nbsp;    public boolean checkGoal(Shelf shelf) {
+&nbsp;    public boolean checkGoal(Shelf shelves) {
 &nbsp;        Set&lt;String&gt; reg;
 &nbsp;        //at first check if number of full column in the Shelf is full
 <b class="fc">&nbsp;        int numRowMatch=0;</b>
 <b class="fc">&nbsp;        for(int i=0;i&lt;6;i++) {</b>
 <b class="fc">&nbsp;            reg = new HashSet&lt;&gt;();</b>
 &nbsp;            int j;
-<b class="fc">&nbsp;            for(j=0;j&lt;5&amp;&amp;shelf.getItemName(i, j) != null;j++)</b>
+<b class="fc">&nbsp;            for(j=0;j&lt;5&amp;&amp;shelves.getItemName(i, j) != null;j++)</b>
 &nbsp;            {
-<b class="fc">&nbsp;                reg.add(shelf.getItemName(i, j).substring(0, shelf.getItemName(i, j).length() - 3));</b>
+<b class="fc">&nbsp;                reg.add(shelves.getItemName(i, j).substring(0, shelves.getItemName(i, j).length() - 3));</b>
 &nbsp;            }
 <b class="fc">&nbsp;            if(reg.size()&lt;=3&amp;&amp;j==5)</b>
 <b class="fc">&nbsp;                numRowMatch++;</b>

@@ -90,7 +90,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;    private final static List&lt;ItemTileCard&gt; tileNames = new ArrayList&lt;&gt;();</b>
 <b class="fc">&nbsp;    private final static HashMap&lt;Integer, Integer&gt; currentScore = new HashMap&lt;&gt;();</b>
 &nbsp;    static {
-&nbsp;        /** {row of shelf, column of shelf, index of tileNames}*/
+&nbsp;        /** {row of shelves, column of shelves, index of tileNames}*/
 &nbsp;        //  index of tileNames: Cats(0), Books(1), Games(2), Frames(3), Trophies(4), Plants(5)
 &nbsp;
 <b class="fc">&nbsp;        personalGoal.put(&quot;PERSONAL_GOALs1&quot;, new int[][]{{0, 0, 5}, {0, 2, 3}, {1, 4, 0}, {2, 3, 1}, {3, 1, 2}, {5, 2, 4}});</b>
@@ -135,15 +135,15 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;            int row = values[i][0];</b>
 <b class="fc">&nbsp;            int col = values[i][1];</b>
 <b class="fc">&nbsp;            int val = values[i][2];</b>
-<b class="fc">&nbsp;            if (GoalShelf.player.shelf.getItemName(row, col) != null) {</b>
-<b class="fc">&nbsp;                System.out.println(&quot;Shelf &gt; [&quot;+row+ &quot;]&quot;+&quot;[&quot;+col+ &quot;]: &quot; + GoalShelf.player.shelf.</b>
-<b class="fc">&nbsp;                        getItemName(row, col).substring(0, GoalShelf.player.shelf.getItemName(row, col).length() - 3));</b>
+<b class="fc">&nbsp;            if (GoalShelf.player.shelves.getItemName(row, col) != null) {</b>
+<b class="fc">&nbsp;                System.out.println(&quot;Shelf &gt; [&quot;+row+ &quot;]&quot;+&quot;[&quot;+col+ &quot;]: &quot; + GoalShelf.player.shelves.</b>
+<b class="fc">&nbsp;                        getItemName(row, col).substring(0, GoalShelf.player.shelves.getItemName(row, col).length() - 3));</b>
 &nbsp;            }
 &nbsp;            // Compare the items on the player&#39;s bookshelf(row, col) with the items required by Personal Goal
 &nbsp;
-<b class="fc">&nbsp;            if (GoalShelf.player.shelf.getItemName(row, col) != null &amp;&amp;</b>
-<b class="fc">&nbsp;                    GoalShelf.player.shelf.getItemName(row, col).substring(0,</b>
-<b class="fc">&nbsp;                                    GoalShelf.player.shelf.getItemName(row, col).length() - 3)</b>
+<b class="fc">&nbsp;            if (GoalShelf.player.shelves.getItemName(row, col) != null &amp;&amp;</b>
+<b class="fc">&nbsp;                    GoalShelf.player.shelves.getItemName(row, col).substring(0,</b>
+<b class="fc">&nbsp;                                    GoalShelf.player.shelves.getItemName(row, col).length() - 3)</b>
 <b class="fc">&nbsp;                            .equals(tileNames.get(val).getNameCard())) {</b>
 <b class="fc">&nbsp;                System.out.println(&quot;Match &gt; +1 item matched!&quot;);</b>
 <b class="fc">&nbsp;                count++;</b>
@@ -168,8 +168,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    /**
-&nbsp;     * Function to get recent goal position matched in the shelf of the player
-&nbsp;     * @return goal shelf match
+&nbsp;     * Function to get recent goal position matched in the shelves of the player
+&nbsp;     * @return goal shelves match
 &nbsp;     */
 &nbsp;    public Shelf getGoalShelf() {
 <b class="fc">&nbsp;        int[][] values = personalGoal.get(GoalShelf.player.getMyPersonalGoal().getNameCard());</b>

@@ -27,7 +27,7 @@ public class CommonGoalTest {
 
     @BeforeEach
     void setUp() {
-        c = new PlayerController("A");
+        c = new PlayerController("A",null);
         s = new Shelf(c.getPlayer());
     }
 
@@ -337,7 +337,7 @@ public class CommonGoalTest {
     }
 
     /**
-     * Test Diagonals of the shelf
+     * Test Diagonals of the shelves
      */
     @Test
     void TestCommGoalDiagonalTrue() {

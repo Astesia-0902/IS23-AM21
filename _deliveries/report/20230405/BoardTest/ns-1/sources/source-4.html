@@ -146,10 +146,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            return false;</b>
 &nbsp;        }
 &nbsp;
-<b class="fc">&nbsp;        if(player.shelf.insertLimit == hand.getSlot().size()){</b>
+<b class="fc">&nbsp;        if(player.shelves.insertLimit == hand.getSlot().size()){</b>
 <b class="fc">&nbsp;            fb= Mx.HandLimit;</b>
 &nbsp;            //System.out.println(&quot;Shelf &gt; Cannot pick more item&quot;);
-<b class="fc">&nbsp;            System.out.println(&quot;Shelf &gt; Hand[&quot;+hand.getSlot().size()+&quot;]-Limit [&quot;+player.shelf.insertLimit +&quot;]&quot;);</b>
+<b class="fc">&nbsp;            System.out.println(&quot;Shelf &gt; Hand[&quot;+hand.getSlot().size()+&quot;]-Limit [&quot;+player.shelves.insertLimit +&quot;]&quot;);</b>
 <b class="fc">&nbsp;            return false;</b>
 &nbsp;        }
 &nbsp;        //IL filtro precedente dovrebbe essere abbastanza
@@ -276,9 +276,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        if(!isMyTurn(player)) {</b>
 <b class="nc">&nbsp;            return false;</b>
 &nbsp;        }
-&nbsp;        // Non c&#39;� piu spazio nella shelf quindi in teoria deve passare il turno
+&nbsp;        // Non c&#39;� piu spazio nella shelves quindi in teoria deve passare il turno
 &nbsp;        // temp da rimuovere quando viene gestito last round
-<b class="fc">&nbsp;        if(player.shelf.getTotSlotAvail()==0){</b>
+<b class="fc">&nbsp;        if(player.shelves.getTotSlotAvail()==0){</b>
 <b class="nc">&nbsp;            player.match.nextTurn();</b>
 <b class="nc">&nbsp;            return false;</b>
 &nbsp;        }
@@ -286,20 +286,20 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 <b class="fc">&nbsp;            System.out.println(player.getName()+&quot; &gt; Column: [&quot;+col+&quot;]&quot;);</b>
 &nbsp;
-<b class="fc">&nbsp;            if(player.shelf.slotCol.get(col)&lt;hand.getSlot().size()){</b>
+<b class="fc">&nbsp;            if(player.shelves.slotCol.get(col)&lt;hand.getSlot().size()){</b>
 <b class="fc">&nbsp;                fb=Mx.ColSlotF;</b>
 &nbsp;                //System.out.println(&quot;Shelf[!] &gt; Not enough space in this column&quot;);
 &nbsp;                /*
-&nbsp;                for(int x: player.shelf.slotCol){
+&nbsp;                for(int x: player.shelves.slotCol){
 &nbsp;                    System.out.print(&quot;[&quot;+x+&quot;]&quot;);
 &nbsp;                }
 &nbsp;                System.out.println(&quot;&quot;);*/
-&nbsp;                //System.out.println(&quot;Shelf &gt; Limit: [&quot;+player.shelf.insertLimit +&quot;]&quot;);
+&nbsp;                //System.out.println(&quot;Shelf &gt; Limit: [&quot;+player.shelves.insertLimit +&quot;]&quot;);
 <b class="fc">&nbsp;                return false;</b>
 &nbsp;            }else{
 <b class="fc">&nbsp;                for(int i=hand.getSlot().size(),s=0;i&gt;0;i--,s++){</b>
 &nbsp;                    //Inserting one card at the time
-<b class="fc">&nbsp;                    if(player.shelf.insertCard(hand.getSlot().get(s).item,col)){</b>
+<b class="fc">&nbsp;                    if(player.shelves.insertCard(hand.getSlot().get(s).item,col)){</b>
 &nbsp;                        //System.out.println(&quot;Shelf &gt; Insert...&quot;);
 &nbsp;
 &nbsp;                    }else{
@@ -311,8 +311,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;                //Inserimento avvenuto, devo pulire hand
 &nbsp;                //e calcolare new InsertLimit
 <b class="fc">&nbsp;                hand.clearHand();</b>
-<b class="fc">&nbsp;                player.shelf.elaborateLimit();</b>
-&nbsp;                //TGear.printThisShelf(player.shelf);
+<b class="fc">&nbsp;                player.shelves.elaborateLimit();</b>
+&nbsp;                //TGear.printThisShelf(player.shelves);
 <b class="fc">&nbsp;                if(!callEndInsertion()){</b>
 <b class="nc">&nbsp;                    return false;</b>
 &nbsp;                }

@@ -40,6 +40,8 @@ public class VirtualViewHelper {
      *
      * @param match the match
      */
+    //TODO: maybe updatePlayer?
+    //TODO: maybe is called when the match has been initialized and not when a player is added
     public static void setPlayers(Match match) {
         List<String> players = new ArrayList<>();
         List<String> personalGoals = new ArrayList<>();
@@ -47,14 +49,16 @@ public class VirtualViewHelper {
         List<String[][]> shelves = new ArrayList<>();
         for (Player player : match.playerList) {
             players.add(player.getNickname());
-            personalGoals.add(player.getMyPersonalGoal().getNameCard());
+            //TODO: uncomment
+            //personalGoals.add(player.getMyPersonalGoal().getNameCard());
             scores.add(player.getPlayerScore());
             shelves.add(buildShelves(player.getShelf()));
         }
         match.virtualView.setPlayers(players);
-        match.virtualView.setPersonalGoals(personalGoals);
+        //TODO: uncomment
+        //match.virtualView.setPersonalGoals(personalGoals);
         match.virtualView.setScores(scores);
-        match.virtualView.setShelf(shelves);
+        match.virtualView.setShelves(shelves);
     }
 
     /**
@@ -71,12 +75,12 @@ public class VirtualViewHelper {
             shelves.add(buildShelves(player.getShelf()));
         }
         match.virtualView.setScores(scores);
-        match.virtualView.setShelf(shelves);
+        match.virtualView.setShelves(shelves);
     }
 
     /**
-     * This method will build a shelf to the virtual view
-     * @param shelf the shelf
+     * This method will build a shelves to the virtual view
+     * @param shelf the shelves
      * @return the virtual view
      */
     private static String[][] buildShelves(Shelf shelf) {
@@ -155,7 +159,7 @@ public class VirtualViewHelper {
     }
 
     public static String getShelfListJSON(VirtualView virtualView) {
-        return JSON.toJSONString(virtualView.getShelf());
+        return JSON.toJSONString(virtualView.getShelves());
     }
 
     public static String getBoardJSON(VirtualView virtualView) {

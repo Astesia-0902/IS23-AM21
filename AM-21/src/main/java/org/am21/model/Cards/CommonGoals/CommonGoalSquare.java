@@ -17,22 +17,22 @@ public class CommonGoalSquare extends CommonGoal {
     }
 
 
-    /*public boolean checkGoal2(Shelf shelf) {
+    /*public boolean checkGoal2(Shelf shelves) {
         boolean[][] visited = new boolean[Shelf.sRow][Shelf.sColumn];
         int count = 0;
         String root;
         for (int i = 0; i < Shelf.sRow-1; i++) {
             for (int j = 0; j < Shelf.sColumn; j++) {
-                if (shelf.isOccupied(i, j)) {
+                if (shelves.isOccupied(i, j)) {
                     //Item type of our analysis
-                    root = shelf.getItemName(i,j).substring(0,shelf.getItemName(i,j).length()-3);
+                    root = shelves.getItemName(i,j).substring(0,shelves.getItemName(i,j).length()-3);
                     //Once we find a tile != 0 and not visited, we check if it's the upper left tile of a 2x2 group
                     if (!visited[i][j]) {
                         System.out.println("A");
-                        boolean result = process(shelf, i, j, visited,root)
-                                && process(shelf, i + 1, j, visited,root)
-                                && process(shelf, i, j + 1, visited,root)
-                                && process(shelf, i + 1, j + 1, visited,root);
+                        boolean result = process(shelves, i, j, visited,root)
+                                && process(shelves, i + 1, j, visited,root)
+                                && process(shelves, i, j + 1, visited,root)
+                                && process(shelves, i + 1, j + 1, visited,root);
                         if (result) {
                             System.out.println("b");
                             count++;
@@ -48,10 +48,10 @@ public class CommonGoalSquare extends CommonGoal {
         return false;
     }
 
-    private boolean process(Shelf shelf, int i, int j, boolean[][] visited,String root) {
-        //Check if the item is in the shelf and not visited
+    private boolean process(Shelf shelves, int i, int j, boolean[][] visited,String root) {
+        //Check if the item is in the shelves and not visited
         if (i < 0 || i >= 6 || j < 0 || j >= 5 || visited[i][j]
-                || !shelf.isOccupied(i,j) || shelf.getItemType(i,j)!=root)
+                || !shelves.isOccupied(i,j) || shelves.getItemType(i,j)!=root)
         {
             System.out.println("c");
             return false;
@@ -64,8 +64,8 @@ public class CommonGoalSquare extends CommonGoal {
     }*/
 
     /**
-     * Scan the shelf to find 2 groups of 4 tiles of the same color
-     * @param s is the shelf
+     * Scan the shelves to find 2 groups of 4 tiles of the same color
+     * @param s is the shelves
      * @return true if the goal is reached, false otherwise
      */
     @Override
@@ -117,7 +117,7 @@ public class CommonGoalSquare extends CommonGoal {
      * @param x is the row of the first square
      * @param y is the column of the first square
      * @param itemRef is the type of the first square
-     * @param s is the shelf
+     * @param s is the shelves
      * @return
      */
     private boolean find2ndSquare(int x,int y,String itemRef,Shelf s){
@@ -150,7 +150,7 @@ public class CommonGoalSquare extends CommonGoal {
      *
      * @param r is the row of the cell
      * @param c is the column of the cell
-     * @param s is the shelf
+     * @param s is the shelves
      * @param itemRef is the type of the first square
      * @return
      */

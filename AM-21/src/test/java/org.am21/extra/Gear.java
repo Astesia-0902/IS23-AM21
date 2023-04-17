@@ -92,11 +92,10 @@ public class Gear {
                     b = ((int) (Math.random() * 5))-2;
                 }while(a!=0 && b!=0);
 
-                System.out.print("Board > Selection difference: ");
+                /*System.out.print("Board > Selection difference: ");
                 System.out.print("["+a+"]");
-                System.out.println("["+b+"]");
+                System.out.println("["+b+"]");*/
                 int numGen=(int) (Math.random() * (ctrl.getHand().getSlot().size()));
-                System.out.println(numGen);
                 tmp = ctrl.getHand().getSlot().get(numGen);
                 a = a + tmp.x;
                 b = b + tmp.y;
@@ -118,13 +117,13 @@ public class Gear {
         Match m = new Match(seats);
         numMatch++;
         System.out.println("Game > [[Match n. "+ numMatch+"]]");
-        PlayerController pC1 = new PlayerController("Kratos");
+        PlayerController pC1 = new PlayerController("Kratos",null);
         Player p1 = pC1.getPlayer();
-        PlayerController pC2 = new PlayerController("Omar");
+        PlayerController pC2 = new PlayerController("Omar",null);
         Player p2 = pC2.getPlayer();
-        PlayerController pC3 = new PlayerController("Silvestro");
+        PlayerController pC3 = new PlayerController("Silvestro",null);
         Player p3 = pC3.getPlayer();
-        PlayerController pC4 = new PlayerController("Jane");
+        PlayerController pC4 = new PlayerController("Jane",null);
         Player p4 = pC4.getPlayer();
         m.addPlayer(p1);
         m.addPlayer(p2);

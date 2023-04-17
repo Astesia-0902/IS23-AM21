@@ -7,7 +7,7 @@ import java.util.List;
 //TODO:we need to discuss how to map each card to a number
 //TODO:maybe we can store the game state in a JSON file
 //1. The board map
-//2. The list of shelf
+//2. The list of shelves
 //3. The list of player
 //4. The score of each player
 //5. The current player
@@ -25,7 +25,7 @@ public class VirtualView implements Serializable {
     public List<String> commonGoal;
     public List<String> players;
     public List<Integer> scores;
-    public List<String[][]> shelf;
+    public List<String[][]> shelves;
     public List<String> personalGoals;
     public String currentPlayer;
     public String gamePhase;
@@ -62,12 +62,12 @@ public class VirtualView implements Serializable {
         this.scores = scores;
     }
 
-    public List<String[][]> getShelf() {
-        return shelf;
+    public List<String[][]> getShelves() {
+        return shelves;
     }
 
-    public void setShelf(List<String[][]> shelf) {
-        this.shelf = shelf;
+    public void setShelves(List<String[][]> shelves) {
+        this.shelves = shelves;
     }
 
     public List<String> getPersonalGoals() {

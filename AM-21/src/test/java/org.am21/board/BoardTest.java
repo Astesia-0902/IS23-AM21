@@ -148,7 +148,7 @@ public class BoardTest {
     @Test
     void testIsOrthogonal(){
 
-        Hand h = new Hand(new PlayerController("").getPlayer());
+        Hand h = new Hand(new PlayerController("",null).getPlayer());
 
         h.getSlot().add(new CardPointer(3,3));
         h.getSlot().get(0).item= new ItemCard("none");
@@ -215,8 +215,8 @@ public class BoardTest {
     @Test
     void testIsOrthogonal2(){
         Match m1 = new Match(2);
-        PlayerController c = new PlayerController("A");
-        PlayerController d = new PlayerController("B");
+        PlayerController c = new PlayerController("A",null);
+        PlayerController d = new PlayerController("B",null);
         m1.addPlayer(c.getPlayer());
         m1.addPlayer(d.getPlayer());
 
@@ -249,8 +249,8 @@ public class BoardTest {
     @Test
     void testIsOrthogonal3(){
         Match m1 = new Match(2);
-        PlayerController c = new PlayerController("A");
-        PlayerController d = new PlayerController("B");
+        PlayerController c = new PlayerController("A",null);
+        PlayerController d = new PlayerController("B",null);
         m1.addPlayer(c.getPlayer());
         m1.addPlayer(d.getPlayer());
 

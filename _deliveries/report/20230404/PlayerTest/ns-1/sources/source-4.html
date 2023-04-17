@@ -140,9 +140,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;            return false;</b>
 &nbsp;        }
 &nbsp;
-<b class="fc">&nbsp;        if(player.shelf.insertLimit == hand.getSlot().size()){</b>
+<b class="fc">&nbsp;        if(player.shelves.insertLimit == hand.getSlot().size()){</b>
 <b class="fc">&nbsp;            System.out.println(&quot;Shelf &gt; Cannot pick more item&quot;);</b>
-<b class="fc">&nbsp;            System.out.println(&quot;Shelf &gt; Hand[&quot;+hand.getSlot().size()+&quot;]-Limit [&quot;+player.shelf.insertLimit +&quot;]&quot;);</b>
+<b class="fc">&nbsp;            System.out.println(&quot;Shelf &gt; Hand[&quot;+hand.getSlot().size()+&quot;]-Limit [&quot;+player.shelves.insertLimit +&quot;]&quot;);</b>
 <b class="fc">&nbsp;            return false;</b>
 &nbsp;        }
 &nbsp;
@@ -259,23 +259,23 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 <b class="fc">&nbsp;            System.out.println(player.getName()+&quot; &gt; Column: [&quot;+col+&quot;]&quot;);</b>
 &nbsp;
-<b class="fc">&nbsp;            if(player.shelf.slotCol.get(col)&lt;hand.getSlot().size()){</b>
+<b class="fc">&nbsp;            if(player.shelves.slotCol.get(col)&lt;hand.getSlot().size()){</b>
 <b class="fc">&nbsp;                System.out.println(&quot;Shelf[!] &gt; Not enough space&quot;);</b>
-<b class="fc">&nbsp;                for(int x: player.shelf.slotCol){</b>
+<b class="fc">&nbsp;                for(int x: player.shelves.slotCol){</b>
 <b class="fc">&nbsp;                    System.out.print(&quot;[&quot;+x+&quot;]&quot;);</b>
 <b class="fc">&nbsp;                }</b>
 <b class="fc">&nbsp;                System.out.println(&quot;&quot;);</b>
-<b class="fc">&nbsp;                System.out.println(&quot;Shelf &gt; Limit: [&quot;+player.shelf.insertLimit +&quot;]&quot;);</b>
+<b class="fc">&nbsp;                System.out.println(&quot;Shelf &gt; Limit: [&quot;+player.shelves.insertLimit +&quot;]&quot;);</b>
 <b class="fc">&nbsp;                return false;</b>
 &nbsp;            }else{
 <b class="fc">&nbsp;                for(int i=hand.getSlot().size(),s=0;i&gt;0;i--,s++){</b>
 &nbsp;
-<b class="fc">&nbsp;                    player.shelf.insertCard2(hand.getSlot().get(s).item,col);</b>
+<b class="fc">&nbsp;                    player.shelves.insertCard2(hand.getSlot().get(s).item,col);</b>
 <b class="fc">&nbsp;                    System.out.println(&quot;Shelf &gt; Insert...&quot;);</b>
 &nbsp;                }
 <b class="fc">&nbsp;                hand.clearHand();</b>
-<b class="fc">&nbsp;                player.shelf.elaborateLimit();</b>
-<b class="fc">&nbsp;                TGear.printThisShelf(player.shelf);</b>
+<b class="fc">&nbsp;                player.shelves.elaborateLimit();</b>
+<b class="fc">&nbsp;                TGear.printThisShelf(player.shelves);</b>
 <b class="fc">&nbsp;                callEndInsertion();</b>
 <b class="fc">&nbsp;                return true;</b>
 &nbsp;            }

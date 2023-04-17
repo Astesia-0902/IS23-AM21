@@ -7,10 +7,13 @@ import org.am21.model.Player;
 import org.am21.model.enumer.GamePhase;
 import org.am21.model.items.Board;
 import org.am21.model.items.Shelf;
+import org.am21.networkRMI.ClientInputHandler;
 import org.am21.utilities.CardPointer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,11 +28,11 @@ public class PlayerTest {
     private Shelf s;
 
     @BeforeEach
-    void setUp(){
+    void setUp() throws RemoteException {
         m =new Match(2);
-        c1 = new PlayerController("Rorschach");
+        c1 = new PlayerController("Rorschach",new ClientInputHandler());
         p1 = c1.getPlayer();
-        c2 = new PlayerController("Rorschach");
+        c2 = new PlayerController("Rorschach",new ClientInputHandler());
         p2 = c2.getPlayer();
         m.addPlayer(p1);
         m.addPlayer(p2);

@@ -106,22 +106,22 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    /**
 &nbsp;     *
-&nbsp;     * @param shelf
+&nbsp;     * @param shelves
 &nbsp;     * @return
 &nbsp;     */
 &nbsp;    @Override
-&nbsp;    public boolean checkGoal(Shelf shelf) {
+&nbsp;    public boolean checkGoal(Shelf shelves) {
 &nbsp;
-<b class="fc">&nbsp;        if(shelf.isOccupied(0,0)&amp;&amp;</b>
-<b class="fc">&nbsp;                shelf.isOccupied(0,4)&amp;&amp;</b>
-<b class="fc">&nbsp;                shelf.isOccupied(5,0)&amp;&amp;</b>
-<b class="fc">&nbsp;                shelf.isOccupied(5,4))</b>
+<b class="fc">&nbsp;        if(shelves.isOccupied(0,0)&amp;&amp;</b>
+<b class="fc">&nbsp;                shelves.isOccupied(0,4)&amp;&amp;</b>
+<b class="fc">&nbsp;                shelves.isOccupied(5,0)&amp;&amp;</b>
+<b class="fc">&nbsp;                shelves.isOccupied(5,4))</b>
 &nbsp;        {
 &nbsp;
-<b class="fc">&nbsp;            String corn1 = shelf.getItemType(0, 0);</b>
-<b class="fc">&nbsp;            String corn2 = shelf.getItemType(0, 4);</b>
-<b class="fc">&nbsp;            String corn3 = shelf.getItemType(5, 0);</b>
-<b class="fc">&nbsp;            String corn4 = shelf.getItemType(5, 4);</b>
+<b class="fc">&nbsp;            String corn1 = shelves.getItemType(0, 0);</b>
+<b class="fc">&nbsp;            String corn2 = shelves.getItemType(0, 4);</b>
+<b class="fc">&nbsp;            String corn3 = shelves.getItemType(5, 0);</b>
+<b class="fc">&nbsp;            String corn4 = shelves.getItemType(5, 4);</b>
 &nbsp;            /* if all corner are filled  */
 &nbsp;
 &nbsp;                /*  if they are the same then return true*/

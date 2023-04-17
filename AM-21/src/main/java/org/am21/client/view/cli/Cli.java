@@ -447,7 +447,7 @@ public class Cli implements View {
             } else {
                 int column = askColumn();
                 IClientInputHandler.insertInColumn(column);
-                System.out.println("Cards are correctly inserted in the shelf!");
+                System.out.println("Cards are correctly inserted in the shelves!");
             }
         } while (sort);
     }
@@ -569,7 +569,7 @@ public class Cli implements View {
         System.out.println("What's your next move?");
         System.out.println("1. Select an item on the board.");
         System.out.println("2. Deselect the cards.");
-        System.out.println("3. Insert in the shelf.");
+        System.out.println("3. Insert in the shelves.");
         System.out.println("4. See Personal goal.");
         System.out.println("5. See Common goal.");
         System.out.println("6. See Shelf.");

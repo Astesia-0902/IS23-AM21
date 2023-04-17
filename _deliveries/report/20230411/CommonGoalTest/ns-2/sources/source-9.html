@@ -93,22 +93,22 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;
-&nbsp;    /*public boolean checkGoal2(Shelf shelf) {
+&nbsp;    /*public boolean checkGoal2(Shelf shelves) {
 &nbsp;        boolean[][] visited = new boolean[Shelf.sRow][Shelf.sColumn];
 &nbsp;        int count = 0;
 &nbsp;        String root;
 &nbsp;        for (int i = 0; i &lt; Shelf.sRow-1; i++) {
 &nbsp;            for (int j = 0; j &lt; Shelf.sColumn; j++) {
-&nbsp;                if (shelf.isOccupied(i, j)) {
+&nbsp;                if (shelves.isOccupied(i, j)) {
 &nbsp;                    //Item type of our analysis
-&nbsp;                    root = shelf.getItemName(i,j).substring(0,shelf.getItemName(i,j).length()-3);
+&nbsp;                    root = shelves.getItemName(i,j).substring(0,shelves.getItemName(i,j).length()-3);
 &nbsp;                    //Once we find a tile != 0 and not visited, we check if it&#39;s the upper left tile of a 2x2 group
 &nbsp;                    if (!visited[i][j]) {
 &nbsp;                        System.out.println(&quot;A&quot;);
-&nbsp;                        boolean result = process(shelf, i, j, visited,root)
-&nbsp;                                &amp;&amp; process(shelf, i + 1, j, visited,root)
-&nbsp;                                &amp;&amp; process(shelf, i, j + 1, visited,root)
-&nbsp;                                &amp;&amp; process(shelf, i + 1, j + 1, visited,root);
+&nbsp;                        boolean result = process(shelves, i, j, visited,root)
+&nbsp;                                &amp;&amp; process(shelves, i + 1, j, visited,root)
+&nbsp;                                &amp;&amp; process(shelves, i, j + 1, visited,root)
+&nbsp;                                &amp;&amp; process(shelves, i + 1, j + 1, visited,root);
 &nbsp;                        if (result) {
 &nbsp;                            System.out.println(&quot;b&quot;);
 &nbsp;                            count++;
@@ -124,10 +124,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        return false;
 &nbsp;    }
 &nbsp;
-&nbsp;    private boolean process(Shelf shelf, int i, int j, boolean[][] visited,String root) {
-&nbsp;        //Check if the item is in the shelf and not visited
+&nbsp;    private boolean process(Shelf shelves, int i, int j, boolean[][] visited,String root) {
+&nbsp;        //Check if the item is in the shelves and not visited
 &nbsp;        if (i &lt; 0 || i &gt;= 6 || j &lt; 0 || j &gt;= 5 || visited[i][j]
-&nbsp;                || !shelf.isOccupied(i,j) || shelf.getItemType(i,j)!=root)
+&nbsp;                || !shelves.isOccupied(i,j) || shelves.getItemType(i,j)!=root)
 &nbsp;        {
 &nbsp;            System.out.println(&quot;c&quot;);
 &nbsp;            return false;
@@ -140,8 +140,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }*/
 &nbsp;
 &nbsp;    /**
-&nbsp;     * Scan the shelf to find 2 groups of 4 tiles of the same color
-&nbsp;     * @param s is the shelf
+&nbsp;     * Scan the shelves to find 2 groups of 4 tiles of the same color
+&nbsp;     * @param s is the shelves
 &nbsp;     * @return true if the goal is reached, false otherwise
 &nbsp;     */
 &nbsp;    @Override
@@ -193,7 +193,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     * @param x is the row of the first square
 &nbsp;     * @param y is the column of the first square
 &nbsp;     * @param itemRef is the type of the first square
-&nbsp;     * @param s is the shelf
+&nbsp;     * @param s is the shelves
 &nbsp;     * @return
 &nbsp;     */
 &nbsp;    private boolean find2ndSquare(int x,int y,String itemRef,Shelf s){
@@ -226,7 +226,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     *
 &nbsp;     * @param r is the row of the cell
 &nbsp;     * @param c is the column of the cell
-&nbsp;     * @param s is the shelf
+&nbsp;     * @param s is the shelves
 &nbsp;     * @param itemRef is the type of the first square
 &nbsp;     * @return
 &nbsp;     */

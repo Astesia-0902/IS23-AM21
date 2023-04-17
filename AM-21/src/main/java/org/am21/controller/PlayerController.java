@@ -6,7 +6,6 @@ import org.am21.model.enumer.GamePhase;
 import org.am21.model.items.Board;
 import org.am21.model.items.Hand;
 import org.am21.networkRMI.ClientInputHandler;
-import org.am21.networkRMI.IClientInput;
 import org.am21.utilities.CardPointer;
 
 
@@ -88,14 +87,14 @@ public class PlayerController {
         if(player.getShelf().insertLimit == hand.getSlot().size()){
             // Limit reached
             //System.out.println("Shelf > Cannot pick more item");
-            //System.out.println("Shelf > Hand["+hand.getSlot().size()+"]-Limit ["+player.shelf.insertLimit +"]");
+            //System.out.println("Shelf > Hand["+hand.getSlot().size()+"]-Limit ["+player.shelves.insertLimit +"]");
             return false;
         }
 
         Board board = player.getMatch().board;
 
         if (board.isPlayable(r,c) && board.isOccupied(r,c) && board.hasFreeSide(r, c)) {
-            System.out.println("Board > Cell selectable");
+            //System.out.println("Board > Cell selectable");
             /*If the cell is selectable then verify second condition*/
 
             if (hand.getSlot().size()>0)  {
@@ -103,7 +102,7 @@ public class PlayerController {
                 for (CardPointer tmp : hand.getSlot()) {
                     if ((r == tmp.x) && (c == tmp.y)) {
                         //Gia selezionato
-                        System.out.println("Board[!] > Already selected. Try again.");
+                        //System.out.println("Board[!] > Already selected. Try again.");
                         return false;
                     }
                 }
@@ -115,7 +114,7 @@ public class PlayerController {
                 /*Coordinates have been filtered,
                    so they are valid for Orthogonality check*/
                 if (!board.isOrthogonal(r, c, hand)) {
-                    System.out.println("Board > Not Orthogonal ["+r+","+c+"]");
+                    //System.out.println("Board > Not Orthogonal ["+r+","+c+"]");
                     return false;
                 }
             }
@@ -190,23 +189,16 @@ public class PlayerController {
         if(!isMyTurn(player)) {
             return false;
         }
-        // Non c'è piu spazio nella shelf quindi in teoria deve passare il turno
-        // TODO:TEMP da rimuovere quando viene gestito callEndRountine()
-        if(player.getShelf().getTotSlotAvail()==0){
-            player.getMatch().nextTurn();
-            return false;
-        }
-
         if(player.getMatch().gamePhase == GamePhase.Insertion){
 //            System.out.println(player.getName()+" > Column: ["+col+"]");
             if(player.getShelf().slotCol.get(col) < hand.getSlot().size()){
                 //System.out.println("Shelf[!] > Not enough space in this column");
                 /*
-                for(int x: player.shelf.slotCol){
+                for(int x: player.shelves.slotCol){
                     System.out.print("["+x+"]");
                 }
                 System.out.println("");*/
-                //System.out.println("Shelf > Limit: ["+player.shelf.insertLimit +"]");
+                //System.out.println("Shelf > Limit: ["+player.shelves.insertLimit +"]");
                 return false;
             }else{
                 for(int i=hand.getSlot().size(),s=0;i>0;i--,s++){
@@ -224,7 +216,7 @@ public class PlayerController {
                 //e calcolare new InsertLimit
                 hand.clearHand();
                 player.getShelf().checkLimit();
-                //GameGear.printThisShelf(player.shelf);
+                //GameGear.printThisShelf(player.shelves);
                 callEndInsertion();
 
                 return true;

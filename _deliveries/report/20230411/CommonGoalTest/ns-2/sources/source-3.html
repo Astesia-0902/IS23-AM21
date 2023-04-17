@@ -94,32 +94,32 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    /**
 &nbsp;     * Durante la fase del turno CheckingGoal, viene controllato la Shelf del Player
-&nbsp;     * per verificare se l&#39;obiettivo è stato completato
+&nbsp;     * per verificare se l&#39;obiettivo ï¿½ stato completato
 &nbsp;     * &lt;p&gt;
 &nbsp;     * &lt;p&gt;
 &nbsp;     * Uso un int per contare il numero di colonne che soddisfano la condizione
 &nbsp;     * Itero ogni colonna. Per ogni colonna controlliamo tutte le celle e creiamo una variabile int
-&nbsp;     * che conterà ItemType diversi che incontriamo nella colonna.
+&nbsp;     * che conterï¿½ ItemType diversi che incontriamo nella colonna.
 &nbsp;     * Quando int supera 3 allora non soddisfa la condizione e passiamo alla prossima colonna
 &nbsp;     * &lt;p&gt;
-&nbsp;     * Infine se la variabile che conta le colonne che soddisfano la condizione è 3 allora goal è completato
+&nbsp;     * Infine se la variabile che conta le colonne che soddisfano la condizione ï¿½ 3 allora goal ï¿½ completato
 &nbsp;     *
-&nbsp;     * @param shelf
+&nbsp;     * @param shelves
 &nbsp;     * @return
 &nbsp;     */
 &nbsp;    @Override
-&nbsp;    public boolean checkGoal(Shelf shelf) {
+&nbsp;    public boolean checkGoal(Shelf shelves) {
 &nbsp;        //at first check if number of full column in the Shelf is full
 <b class="fc">&nbsp;        int numColMatch=0;</b>
 &nbsp;        HashSet&lt;String&gt; reg;
 <b class="fc">&nbsp;         for(int j=0;j&lt;5;j++){</b>
 <b class="fc">&nbsp;             reg= new HashSet&lt;&gt;();</b>
-<b class="fc">&nbsp;             if(shelf.slotCol.get(j)==0){</b>
+<b class="fc">&nbsp;             if(shelves.slotCol.get(j)==0){</b>
 &nbsp;                 //Colonna piena
 <b class="fc">&nbsp;                 for(int i=0;i&lt;6;i++){</b>
 &nbsp;                     //scansiono colonna
-<b class="fc">&nbsp;                       if(shelf.isOccupied(i,j)){</b>
-<b class="fc">&nbsp;                            reg.add(shelf.getItemName(i, j).substring(0, shelf.getItemName(i, j).length() - 3));</b>
+<b class="fc">&nbsp;                       if(shelves.isOccupied(i,j)){</b>
+<b class="fc">&nbsp;                            reg.add(shelves.getItemName(i, j).substring(0, shelves.getItemName(i, j).length() - 3));</b>
 &nbsp;                    }
 &nbsp;                 }
 <b class="fc">&nbsp;                 if(reg.size()&lt;=3)</b>
@@ -141,7 +141,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;
 &nbsp;/*
-&nbsp; GoalShelf.player.shelf.getItemName(row, col).)
+&nbsp; GoalShelf.player.shelves.getItemName(row, col).)
 &nbsp;         .equals(tileNames.get(val).getNameCard()))
 &nbsp;*/
 </code>

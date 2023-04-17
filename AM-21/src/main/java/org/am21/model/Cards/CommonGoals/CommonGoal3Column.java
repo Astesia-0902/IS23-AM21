@@ -65,6 +65,6 @@ public class CommonGoal3Column extends CommonGoal {
 
 
 /*
- GoalShelf.player.shelf.getItemName(row, col).)
+ GoalShelf.player.shelves.getItemName(row, col).)
          .equals(tileNames.get(val).getNameCard()))
 */

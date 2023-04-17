@@ -128,7 +128,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;            System.out.println(&quot;Game &gt; &quot;+player.getName()+&quot; added to the match&quot;);</b>
 <b class="fc">&nbsp;            player.match = this;</b>
 <b class="fc">&nbsp;            player.createHand();</b>
-<b class="fc">&nbsp;            player.shelf = new Shelf(player);</b>
+<b class="fc">&nbsp;            player.shelves = new Shelf(player);</b>
 &nbsp;
 <b class="fc">&nbsp;            GameManager.playerMatchMap.put(player.getName(), matchID);</b>
 &nbsp;
@@ -264,8 +264,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;                endMatch();</b>
 &nbsp;            }
 &nbsp;        }
-<b class="fc">&nbsp;        if(currentPlayer.shelf.getTotSlotAvail()==0 &amp;&amp; gamePhase!=GamePhases.LastRound){</b>
-<b class="fc">&nbsp;            System.out.println(&quot;Match &gt; Congratulations! &quot;+currentPlayer.getName()+&quot; has completed the shelf first&quot;);</b>
+<b class="fc">&nbsp;        if(currentPlayer.shelves.getTotSlotAvail()==0 &amp;&amp; gamePhase!=GamePhases.LastRound){</b>
+<b class="fc">&nbsp;            System.out.println(&quot;Match &gt; Congratulations! &quot;+currentPlayer.getName()+&quot; has completed the shelves first&quot;);</b>
 <b class="fc">&nbsp;            System.out.println(&quot;Match &gt; EndGame Token assigned&quot;);</b>
 <b class="fc">&nbsp;            firstToComplete=currentPlayer;</b>
 <b class="fc">&nbsp;            gamePhase = GamePhases.LastRound;</b>

@@ -16,7 +16,7 @@ public class Shelf extends Grid {
      */
     public List<Integer> slotCol;
     /**
-     * Numbers of items insertable in the shelf each turn. Starting limit: 3. It's diminishable.
+     * Numbers of items insertable in the shelves each turn. Starting limit: 3. It's diminishable.
      */
     public int insertLimit=3;
     public final static int STD_LIMIT =3;
@@ -34,10 +34,10 @@ public class Shelf extends Grid {
 
 
     /**
-     * Construction of an empty shelf:
+     * Construction of an empty shelves:
      * Initialize the grid with superclass
      * Create array, each elem count slot available for each column
-     * Row-Index-0 is on the top of the shelf
+     * Row-Index-0 is on the top of the shelves
      * @param player
      */
     public Shelf(Player player){
@@ -58,7 +58,7 @@ public class Shelf extends Grid {
      */
     public void checkLimit(){
 /*        System.out.println("Shelf > Slot available each column");
-        for(int x: player.shelf.slotCol){
+        for(int x: player.shelves.slotCol){
             System.out.print("["+x+"]");
         }
         System.out.println("");*/
@@ -80,7 +80,7 @@ public class Shelf extends Grid {
 
     /**
      * number of slot available in total
-     * @return Number of Total space available in this shelf
+     * @return Number of Total space available in this shelves
      * */
     public int getTotSlotAvail() {
         int sum=0;

@@ -93,15 +93,15 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;/**
 &nbsp;    public CommonGoalXShape(){
 &nbsp;        /**
-&nbsp;         * the check since follow the sequence position cell (marked by a   ° )
+&nbsp;         * the check since follow the sequence position cell (marked by a   ï¿½ )
 &nbsp;         * ?????
-&nbsp;         * ?°°°?
-&nbsp;         * ?°°°?
-&nbsp;         * ?°°°?
-&nbsp;         * ?°°°?
+&nbsp;         * ?ï¿½ï¿½ï¿½?
+&nbsp;         * ?ï¿½ï¿½ï¿½?
+&nbsp;         * ?ï¿½ï¿½ï¿½?
+&nbsp;         * ?ï¿½ï¿½ï¿½?
 &nbsp;         * ?????
-&nbsp;         * each ° have an adjacent check (4 element), which CENTER can recorde the
-&nbsp;         *  [row, column] of the principle position (the ° ) and secondary position
+&nbsp;         * each ï¿½ have an adjacent check (4 element), which CENTER can recorde the
+&nbsp;         *  [row, column] of the principle position (the ï¿½ ) and secondary position
 &nbsp;         *  [row-1,column-1], [row-1, column+1],[row+1, column-1], [row+1, column+1],
 &nbsp;         *  if one of the 4 rest element is different by the first, the vector is not matched (discard)
 &nbsp;         *  so we have completely 12 check , if check fall when the all 12 is different by the CENTER position
@@ -110,19 +110,19 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    */
 &nbsp;    /**
 &nbsp;     *
-&nbsp;     * @param shelf
+&nbsp;     * @param shelves
 &nbsp;     * @return
 &nbsp;     */
-&nbsp;    public boolean checkGoal(Shelf shelf) {
+&nbsp;    public boolean checkGoal(Shelf shelves) {
 <b class="fc">&nbsp;        for(int row=1; row&lt;5; row++)</b>
 &nbsp;        {
 <b class="fc">&nbsp;            for(int col=1;col&lt;4;col++)</b>
 &nbsp;            {
-<b class="fc">&nbsp;                String center = shelf.getItemName(row, col);</b>
-<b class="fc">&nbsp;                String leftDown = shelf.getItemName(row-1, col-1);</b>
-<b class="fc">&nbsp;                String rightDown = shelf.getItemName(row-1, col+1);</b>
-<b class="fc">&nbsp;                String leftUp = shelf.getItemName(row+1, col-1);</b>
-<b class="fc">&nbsp;                String rightUp = shelf.getItemName(row+1, col+1);</b>
+<b class="fc">&nbsp;                String center = shelves.getItemName(row, col);</b>
+<b class="fc">&nbsp;                String leftDown = shelves.getItemName(row-1, col-1);</b>
+<b class="fc">&nbsp;                String rightDown = shelves.getItemName(row-1, col+1);</b>
+<b class="fc">&nbsp;                String leftUp = shelves.getItemName(row+1, col-1);</b>
+<b class="fc">&nbsp;                String rightUp = shelves.getItemName(row+1, col+1);</b>
 <b class="fc">&nbsp;                if(center!=null &amp;&amp; center.equals(leftDown) &amp;&amp; center.equals(rightDown) &amp;&amp; center.equals(leftUp) &amp;&amp; center.equals(rightUp))</b>
 <b class="fc">&nbsp;                    return true;</b>
 &nbsp;            }

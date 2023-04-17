@@ -23,7 +23,7 @@ public class CommonGoal2Columns extends CommonGoal {
         super("CommonGoal2Columns",numPlayer);
     }
     /**
-     * Scan the shelf to find two columns each formed by 6 different types of tiles.
+     * Scan the shelves to find two columns each formed by 6 different types of tiles.
      * @param shelf
      * @return
      */

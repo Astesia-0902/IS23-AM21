@@ -105,16 +105,16 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    *}
 &nbsp;    */
 &nbsp;
-&nbsp;    public boolean checkGoal(Shelf shelf) {
+&nbsp;    public boolean checkGoal(Shelf shelves) {
 <b class="nc">&nbsp;        for(int row=1; row&lt;5; row++)</b>
 &nbsp;        {
 <b class="nc">&nbsp;            for(int col=1;col&lt;4;col++)</b>
 &nbsp;            {
-<b class="nc">&nbsp;                String center = shelf.getItemName(row, col);</b>
-<b class="nc">&nbsp;                String leftDown = shelf.getItemName(row-1, col-1);</b>
-<b class="nc">&nbsp;                String rightDown = shelf.getItemName(row-1, col+1);</b>
-<b class="nc">&nbsp;                String leftUp = shelf.getItemName(row+1, col-1);</b>
-<b class="nc">&nbsp;                String rightUp = shelf.getItemName(row+1, col+1);</b>
+<b class="nc">&nbsp;                String center = shelves.getItemName(row, col);</b>
+<b class="nc">&nbsp;                String leftDown = shelves.getItemName(row-1, col-1);</b>
+<b class="nc">&nbsp;                String rightDown = shelves.getItemName(row-1, col+1);</b>
+<b class="nc">&nbsp;                String leftUp = shelves.getItemName(row+1, col-1);</b>
+<b class="nc">&nbsp;                String rightUp = shelves.getItemName(row+1, col+1);</b>
 <b class="nc">&nbsp;                if(center!=null &amp;&amp; center.equals(leftDown) &amp;&amp; center.equals(rightDown) &amp;&amp; center.equals(leftUp) &amp;&amp; center.equals(rightUp))</b>
 <b class="nc">&nbsp;                    return true;</b>
 &nbsp;            }

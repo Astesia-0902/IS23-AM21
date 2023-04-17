@@ -102,14 +102,14 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        }
 &nbsp;    }
 &nbsp;
-&nbsp;    public static void printThisShelf(Shelf shelf){
-<b class="fc">&nbsp;        System.out.println(&quot;Match &gt; &quot;+shelf.player.getName()+&quot;&#39;s Shelf [&quot;+shelf.insertLimit +&quot;]:&quot;);</b>
+&nbsp;    public static void printThisShelf(Shelf shelves){
+<b class="fc">&nbsp;        System.out.println(&quot;Match &gt; &quot;+shelves.player.getName()+&quot;&#39;s Shelf [&quot;+shelves.insertLimit +&quot;]:&quot;);</b>
 <b class="fc">&nbsp;        for(int i=0;i&lt;6;i++){</b>
 <b class="fc">&nbsp;            for(int j=0;j&lt;5;j++){</b>
-<b class="fc">&nbsp;                if(shelf.getCellGrid()[i][j].getItem()==null){</b>
+<b class="fc">&nbsp;                if(shelves.getCellGrid()[i][j].getItem()==null){</b>
 <b class="fc">&nbsp;                    System.out.print(&quot;[_________._]&quot;);</b>
-<b class="fc">&nbsp;                }else if(shelf.getCellGrid()[i][j].getItem()!=null){</b>
-<b class="fc">&nbsp;                    System.out.print(&quot;[&quot;+ shelf.getCellGrid()[i][j].getItem().getNameCard() +&quot;]&quot;);</b>
+<b class="fc">&nbsp;                }else if(shelves.getCellGrid()[i][j].getItem()!=null){</b>
+<b class="fc">&nbsp;                    System.out.print(&quot;[&quot;+ shelves.getCellGrid()[i][j].getItem().getNameCard() +&quot;]&quot;);</b>
 &nbsp;                }
 &nbsp;
 &nbsp;            }
@@ -131,12 +131,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        System.out.println(&quot;Player/Shelf/Hand situation:&quot; );</b>
 <b class="fc">&nbsp;        for(Player x: m.playerList){</b>
 &nbsp;
-<b class="fc">&nbsp;            System.out.print(x.getName()+&quot;[&quot;+x.shelf.getTotSlotAvail() +&quot;]--&quot;);</b>
-<b class="fc">&nbsp;            System.out.print(&quot;Limit:[&quot;+x.shelf.insertLimit +&quot;]\n&quot;);</b>
+<b class="fc">&nbsp;            System.out.print(x.getName()+&quot;[&quot;+x.shelves.getTotSlotAvail() +&quot;]--&quot;);</b>
+<b class="fc">&nbsp;            System.out.print(&quot;Limit:[&quot;+x.shelves.insertLimit +&quot;]\n&quot;);</b>
 <b class="fc">&nbsp;</b>
 &nbsp;            System.out.println(&quot;Score obtained from OwnGoal: &quot; + x.getMyPersonalGoal().calculatePoints());
 <b class="fc">&nbsp;</b>
-&nbsp;            printThisShelf(x.shelf);
+&nbsp;            printThisShelf(x.shelves);
 <b class="fc">&nbsp;        }</b>
 <b class="fc">&nbsp;        System.out.println();</b>
 <b class="fc">&nbsp;        printThisBoard(m.board);</b>

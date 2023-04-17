@@ -92,7 +92,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    public List&lt;Integer&gt; slotCol;
 &nbsp;    /**
-&nbsp;     * Starting Limit for numbers of card insertable in the shelf
+&nbsp;     * Starting Limit for numbers of card insertable in the shelves
 &nbsp;     */
 <b class="fc">&nbsp;    public int insertLimit=3;</b>
 <b class="fc">&nbsp;    public final int stdLim =3;</b>
@@ -101,10 +101,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;
 &nbsp;    /**
-&nbsp;     * Construction of an empty shelf:
+&nbsp;     * Construction of an empty shelves:
 &nbsp;     * Initialize the grid with superclass
 &nbsp;     * Create array, each elem count slot available for each column
-&nbsp;     * Row-Index-0 is bottom of the shelf
+&nbsp;     * Row-Index-0 is bottom of the shelves
 &nbsp;     * @param player
 &nbsp;     */
 &nbsp;    public Shelf(Player player){
@@ -125,7 +125,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;     */
 &nbsp;    public void checkLimit(){
 &nbsp;/*        System.out.println(&quot;Shelf &gt; Slot available each column&quot;);
-&nbsp;        for(int x: player.shelf.slotCol){
+&nbsp;        for(int x: player.shelves.slotCol){
 &nbsp;            System.out.print(&quot;[&quot;+x+&quot;]&quot;);
 &nbsp;        }
 &nbsp;        System.out.println(&quot;&quot;);*/
@@ -147,7 +147,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 &nbsp;    /**
 &nbsp;     * number of slot available in total
-&nbsp;     * @return Number of Total space available in this shelf
+&nbsp;     * @return Number of Total space available in this shelves
 &nbsp;     * */
 &nbsp;    public int getTotSlotAvail() {
 <b class="nc">&nbsp;        int sum=0;</b>
