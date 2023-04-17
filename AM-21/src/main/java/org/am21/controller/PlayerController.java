@@ -5,6 +5,8 @@ import org.am21.model.Player;
 import org.am21.model.enumer.GamePhase;
 import org.am21.model.items.Board;
 import org.am21.model.items.Hand;
+import org.am21.networkRMI.ClientInputHandler;
+import org.am21.networkRMI.IClientInput;
 import org.am21.utilities.CardPointer;
 
 
@@ -14,17 +16,18 @@ import org.am21.utilities.CardPointer;
 public class PlayerController {
     private Player player;
     private Hand hand;
+    public ClientInputHandler clientInput;
 
     /**
      * PlayerController constructor is initialized by ClientGameController, when ClientInputHandler login.
      * It will create the player and add his reference
      *
      */
-    public PlayerController(String nickname){
-
+    public PlayerController(String nickname, ClientInputHandler clientInput){
         this.player = new Player(nickname,this);
         this.hand = new Hand(this.player);
         this.player.setHand(this.hand);
+        this.clientInput = clientInput;
     }
 
     public Player getPlayer() {

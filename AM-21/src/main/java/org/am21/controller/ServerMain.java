@@ -1,5 +1,8 @@
 package org.am21.controller;
 
+import org.am21.networkRMI.ClientInputHandler;
+import org.am21.networkRMI.IClientInput;
+
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;

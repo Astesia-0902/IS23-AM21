@@ -1,6 +1,7 @@
 package org.am21.client;
 
-import org.am21.controller.IClientInput;
+import org.am21.networkRMI.ClientCallBack;
+import org.am21.networkRMI.IClientInput;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -12,10 +13,9 @@ public class ClientMainTest1 {
     public static void main(String[] args) throws MalformedURLException, NotBoundException, RemoteException, ServerNotActiveException {
 
         // Start the client n°1
-        IClientInput IClientInputHandler = (IClientInput) Naming.lookup("rmi://localhost:8807/ClientInputHandler");
-        ClientGameController.IClientInputHandler = IClientInputHandler;
-        //IClientHandler clientChatHandler = (IClientHandler) Naming.lookup("rmi://localhost:8808/ClientChatHandler");
-        //Client do something
+        IClientInput clientInput = (IClientInput) Naming.lookup("rmi://localhost:8807/ClientInputHandler");
+        ClientGameController.IClientInputHandler = clientInput;
+        clientInput.registerCallBack(new ClientCallBack());
         System.out.println("Client 1 is ready");
         //TODO:Use callback to get the message from server
         while (true) {

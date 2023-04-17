@@ -1,6 +1,6 @@
 package org.am21.client;
 
-import org.am21.controller.IClientInput;
+import org.am21.networkRMI.IClientInput;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;

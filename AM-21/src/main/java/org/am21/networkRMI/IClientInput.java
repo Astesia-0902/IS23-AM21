@@ -1,4 +1,4 @@
-package org.am21.controller;
+package org.am21.networkRMI;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -32,5 +32,7 @@ public interface IClientInput extends Remote {
     boolean exitMatch() throws RemoteException;
 
     String getVirtualView() throws RemoteException;
+
+    void registerCallBack(IClientCallBack callBack) throws RemoteException;
 }
 

@@ -19,16 +19,25 @@ import java.util.List;
  * This class will be serialized and sent to the client
  */
 public class VirtualView implements Serializable {
-    public int[][] board;
+    public String[][] board;
     //since we don't process the goal logic in the client side, we don't need to send the goal to the client
     //so we use a integer to map the goal picture
-    public List<Integer> commonGoal;
-    public int timer;
-    public String[] players;
+    public List<String> commonGoal;
+    public List<String> players;
     public List<Integer> scores;
-    public List<int[][]> shelf;
-    public List<Integer> personalGoals;
+    public List<String[][]> shelf;
+    public List<String> personalGoals;
     public String currentPlayer;
+    public String gamePhase;
+
+    public String getGamePhase() {
+        return gamePhase;
+    }
+
+    public void setGamePhase(String gamePhase) {
+        this.gamePhase = gamePhase;
+    }
+
     public String getCurrentPlayer() {
         return currentPlayer;
     }
@@ -37,11 +46,11 @@ public class VirtualView implements Serializable {
         this.currentPlayer = currentPlayer;
     }
 
-    public String[] getPlayers() {
+    public List<String> getPlayers() {
         return players;
     }
 
-    public void setPlayers(String[] players) {
+    public void setPlayers(List<String> players) {
         this.players = players;
     }
 
@@ -53,43 +62,35 @@ public class VirtualView implements Serializable {
         this.scores = scores;
     }
 
-    public List<int[][]> getShelf() {
+    public List<String[][]> getShelf() {
         return shelf;
     }
 
-    public void setShelf(List<int[][]> shelf) {
+    public void setShelf(List<String[][]> shelf) {
         this.shelf = shelf;
     }
 
-    public List<Integer> getPersonalGoals() {
+    public List<String> getPersonalGoals() {
         return personalGoals;
     }
 
-    public void setPersonalGoals(List<Integer> personalGoals) {
+    public void setPersonalGoals(List<String> personalGoals) {
         this.personalGoals = personalGoals;
     }
 
-    public int[][] getBoard() {
+    public String[][] getBoard() {
         return board;
     }
 
-    public void setBoard(int[][] board) {
+    public void setBoard(String[][] board) {
         this.board = board;
     }
 
-    public List<Integer> getCommonGoal() {
+    public List<String> getCommonGoal() {
         return commonGoal;
     }
 
-    public void setCommonGoal(List<Integer> commonGoal) {
+    public void setCommonGoal(List<String> commonGoal) {
         this.commonGoal = commonGoal;
-    }
-
-    public int getTimer() {
-        return timer;
-    }
-
-    public void setTimer(int timer) {
-        this.timer = timer;
     }
 }

@@ -6,12 +6,13 @@ import org.am21.model.enumer.GamePhase;
 import org.am21.model.enumer.GameState;
 import org.am21.model.enumer.UserStatus;
 import org.am21.model.items.Board;
+import org.am21.model.items.ChatManager;
 import org.am21.model.items.Shelf;
 import org.am21.utilities.CardUtil;
 import org.am21.utilities.CommonGoalUtil;
-import org.am21.utilities.MyTimer;
 import org.am21.utilities.GameGear;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,13 +30,14 @@ public class Match {
     //TODO:initialize the virtual view
     public VirtualView virtualView;
     public Player chairman;
-    public MyTimer timer;
+    public ChatManager chatManager;
 
     public Match(int maxSeats) {
         this.maxSeats = maxSeats;
         playerList = new ArrayList<>(maxSeats);
         gameState = GameState.WaitingPlayers;
         commonGoals = new ArrayList<>(2);
+        chatManager = new ChatManager(this);
     }
 
     /**
@@ -89,6 +91,10 @@ public class Match {
                     GameManager.playerMatchMap.put(player.getNickname(), matchID);
                 }
                 //System.out.println("Game > " + player.getNickname() + " added to the match N." + this.matchID);
+
+                //update virtual view
+                VirtualViewHelper.setPlayers(this);
+                notifyVirtualView();
                 checkRoom();
                 return true;
             }
@@ -118,6 +124,9 @@ public class Match {
                     GameManager.playerMatchMap.remove(player.getNickname());
                 }
                 checkRoom();
+                //update virtual view
+                VirtualViewHelper.setPlayers(this);
+                notifyVirtualView();
                 return true;
             }
             return false;
@@ -130,8 +139,7 @@ public class Match {
     private void callEndTurnRoutine() {
         //Check if last round is completed
         if (gameState == GameState.LastRound &&
-                playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats) == firstToComplete)
-        {
+                playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats) == firstToComplete) {
             //Calculate Personal Goal Points for each player
             checkPersonalGoals();
             checkShelfPoints();
@@ -296,6 +304,8 @@ public class Match {
         board.firstSetup();
 
         setGameState(GameState.Ready);
+        VirtualViewHelper.buildVirtualView(this);
+        notifyVirtualView();
     }
 
     /**
@@ -308,9 +318,6 @@ public class Match {
         currentPlayer = chairman;
         //System.out.println("Match > Player Turn: " + currentPlayer.getNickname());
         setGamePhase(GamePhase.Selection);
-        //Start the timer
-        timer = new MyTimer();
-        timer.startTimer(30, this);
 
     }
 
@@ -321,14 +328,31 @@ public class Match {
         currentPlayer = playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats);
         //System.out.println("Match > Player Turn: " + currentPlayer.getNickname());
 
-        timer = new MyTimer();
-        timer.startTimer(30, this);
-
         setGamePhase(GamePhase.Selection);
 
+        //Update VirtualView
+        VirtualViewHelper.updateVirtualView(this);
+        notifyVirtualView();
     }
 
+    /**
+     * Get the JSON of the virtual view
+     * @return the JSON of the virtual view
+     */
     public String getVirtualView() {
         return VirtualViewHelper.getVirtualViewJSON(virtualView);
+    }
+
+    /**
+     * notify all the players of the virtual view
+     */
+    public void notifyVirtualView() {
+        for (Player p : playerList) {
+            try {
+                p.getController().clientInput.callBack.sendVirtualView(getVirtualView());
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

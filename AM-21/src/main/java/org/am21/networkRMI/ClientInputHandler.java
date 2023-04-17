@@ -1,5 +1,7 @@
-package org.am21.controller;
+package org.am21.networkRMI;
 
+import org.am21.controller.GameController;
+import org.am21.controller.PlayerController;
 import org.am21.model.GameManager;
 import org.am21.model.PlayerManager;
 
@@ -13,25 +15,24 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     public String userHost;
     private Integer createMatchRequestCount = 0;
     public PlayerController playerController;
-    public ClientChatHandler clientChatHandler;
+    public IClientCallBack callBack;
 
     /**
      * Creates and exports a new UnicastRemoteObject object using an
      * anonymous port.
-     *
      * @throws RemoteException if failed to export object
      * @since JDK1.1
      */
     public ClientInputHandler() throws RemoteException {
-        clientChatHandler = new ClientChatHandler();
     }
+
+
 //        Get the IP address of the client
 //        System.out.println("Hello, I am " + getClientHost() + ":" + getClientPort());
 
     /**
-     *
-     * @return
-     * @throws ServerNotActiveException
+     * @return the result of the operation
+     * @throws ServerNotActiveException if the client is not active
      */
     //TODO:When the command is not from the current player, the command should be ignored.
     public boolean checkPlayerActionPhase() throws ServerNotActiveException {
@@ -55,7 +56,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     public boolean logIn(String username) throws RemoteException, ServerNotActiveException {
         userHost = getClientHost();
         this.userName = username;
-        playerController = new PlayerController(username);
+        playerController = new PlayerController(username, this);
 
         //TODO:the same username is not allowed to log in
         synchronized (PlayerManager.players) {
@@ -67,7 +68,6 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     }
 
     /**
-     *
      * @param playerNum
      * @throws RemoteException
      * @throws ServerNotActiveException
@@ -101,8 +101,8 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      * @return
      * @throws ServerNotActiveException
      */
-    public boolean selectCell(int row, int col) throws RemoteException,ServerNotActiveException {
-        if (!checkPlayerActionPhase() &&playerController.selectCell(row, col)) {
+    public boolean selectCell(int row, int col) throws RemoteException, ServerNotActiveException {
+        if (!checkPlayerActionPhase() && playerController.selectCell(row, col)) {
             return true;
         }
         return false;
@@ -113,8 +113,8 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      * @return
      * @throws ServerNotActiveException
      */
-    public boolean insertInColumn(int colNum) throws RemoteException,ServerNotActiveException {
-        if (!checkPlayerActionPhase() && playerController.tryToInsert(colNum)){
+    public boolean insertInColumn(int colNum) throws RemoteException, ServerNotActiveException {
+        if (!checkPlayerActionPhase() && playerController.tryToInsert(colNum)) {
             return true;
         }
         return false;
@@ -123,8 +123,8 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     /**
      * @throws ServerNotActiveException
      */
-    public boolean unselectCards() throws RemoteException,ServerNotActiveException {
-        if (!checkPlayerActionPhase()&&playerController.unselectCards()){
+    public boolean unselectCards() throws RemoteException, ServerNotActiveException {
+        if (!checkPlayerActionPhase() && playerController.unselectCards()) {
             return true;
         }
         return false;
@@ -136,8 +136,8 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      * @throws ServerNotActiveException
      */
     @Override
-    public boolean sortHand(int pos1,int pos2) throws RemoteException,ServerNotActiveException {
-        if (!checkPlayerActionPhase()&&playerController.changeHandOrder(pos1,pos2)) {
+    public boolean sortHand(int pos1, int pos2) throws RemoteException, ServerNotActiveException {
+        if (!checkPlayerActionPhase() && playerController.changeHandOrder(pos1, pos2)) {
             return true;
         }
         return false;
@@ -145,11 +145,12 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
 
     /**
      * Player can leave the match when Match is WaitingPlayers or is GameGoing
+     *
      * @return
      */
     @Override
     public boolean exitMatch() throws RemoteException {
-        if(GameController.removePlayerFromMatch(playerController,playerController.getPlayer().getMatch().matchID)){
+        if (GameController.removePlayerFromMatch(playerController, playerController.getPlayer().getMatch().matchID)) {
             return true;
         }
         return false;
@@ -157,11 +158,18 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
 
     /**
      * Use this method to get the virtual view of the match
+     *
      * @return JSON string of the virtual view
      * @throws RemoteException
      */
     @Override
     public String getVirtualView() throws RemoteException {
         return playerController.getPlayer().getMatch().getVirtualView();
+    }
+
+    @Override
+    public void registerCallBack(IClientCallBack callBack) throws RemoteException {
+        this.callBack = callBack;
+        System.out.println("Client registered callback");
     }
 }

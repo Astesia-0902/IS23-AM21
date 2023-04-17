@@ -2,7 +2,7 @@ package org.am21.client.view.cli;
 
 import org.am21.client.view.JSONConverter;
 import org.am21.client.view.View;
-import org.am21.controller.IClientInput;
+import org.am21.networkRMI.IClientInput;
 import org.am21.model.Player;
 import org.am21.model.items.Board;
 import org.am21.model.items.Shelf;
