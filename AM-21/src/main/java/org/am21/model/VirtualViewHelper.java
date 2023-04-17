@@ -2,7 +2,6 @@ package org.am21.model;
 
 import com.alibaba.fastjson2.JSON;
 import org.am21.model.items.Shelf;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +36,6 @@ public class VirtualViewHelper {
     /**
      * This method will set ALL player related data to the virtual view
      * recommend to use this method when the match starts
-     *
      * @param match the match
      */
     //TODO: maybe updatePlayer?
@@ -64,7 +62,6 @@ public class VirtualViewHelper {
     /**
      * This method will set the scores of each player to the virtual view
      * recommend to use this method when each round ends
-     *
      * @param match the match
      */
     private static void setRoundUpdatePlayer(Match match) {

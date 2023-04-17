@@ -7,13 +7,18 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.ServerNotActiveException;
 import java.util.Scanner;
 public class ClientMainTest1 {
     public static void main(String[] args) throws MalformedURLException, NotBoundException, RemoteException, ServerNotActiveException {
 
         // Start the client n°1
-        IClientInput clientInput = (IClientInput) Naming.lookup("rmi://localhost:8807/ClientInputHandler");
+        //String addr = System.in.read();
+        Registry registry = LocateRegistry.getRegistry("localhost:8807");
+        IClientInput clientInput = (IClientInput) registry.lookup("ClientInputHandler");
+        //IClientInput clientInput = (IClientInput) Naming.lookup("rmi://localhost:8807/ClientInputHandler");
         ClientGameController.IClientInputHandler = clientInput;
         clientInput.registerCallBack(new ClientCallBack());
         System.out.println("Client 1 is ready");

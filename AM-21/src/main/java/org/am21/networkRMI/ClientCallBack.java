@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
  */
 public class ClientCallBack implements IClientCallBack{
     @Override
-    public void messageFromServer(String message) throws RemoteException {
+    public void sendMessageFromServer(String message) throws RemoteException {
         //TODO:Print the message from server
     }
 
