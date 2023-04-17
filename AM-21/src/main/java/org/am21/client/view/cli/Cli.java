@@ -53,9 +53,9 @@ public class Cli implements View {
         return input;
     }
 
-    public void init() throws ExecutionException {
+    public void init() throws ExecutionException, MalformedURLException, NotBoundException, RemoteException {
         System.out.println("Welcome to MyShelfie Board Game!");
-        //askServerInfo();
+        askServerInfo();
     }
 
     public void askServerInfo() throws ExecutionException, MalformedURLException, NotBoundException, RemoteException {
@@ -84,7 +84,6 @@ public class Cli implements View {
                 + serverInfo.get("port") + "/ClientInputHandler");
     }
 
-    @Override
     public void showGoalDescription(int CommonGoalCard) {
         switch (CommonGoalCard){
             case 0:
@@ -157,8 +156,6 @@ public class Cli implements View {
                 System.out.println("Username already exists, please re-enter.");
                 username = readLine();
             }
-
-        //} while (usernameAccepted);
         } while (!usernameAccepted);
     }
 
@@ -197,7 +194,7 @@ public class Cli implements View {
         int playerNumber = askMaxSeats();
         int matchID;
         //TODO: fix the null point
-        //IClientInputHandler.createMatch(playerNumber);
+        IClientInputHandler.createMatch(playerNumber);
 
         System.out.println("Successfully created a game for " + playerNumber + " persons!");
         Random random = new Random();
@@ -219,8 +216,7 @@ public class Cli implements View {
             } catch (NumberFormatException e){
                 System.out.println("Invalid input! Please try again.");
             }
-        //} while (playerNumber == 2 || playerNumber == 3 || playerNumber == 4);
-    } while (playerNumber != 2 && playerNumber != 3 && playerNumber != 4);
+        } while (playerNumber != 2 && playerNumber != 3 && playerNumber != 4);
         System.out.println("Ok");
         return playerNumber;
     }
@@ -233,8 +229,7 @@ public class Cli implements View {
             try {
                 System.out.print("Please select the number of players [2 to 4]: ");
                 matchID = Integer.parseInt(readLine());
-
-                //replyAction = clientInputHandler.joinGame(matchID);
+                replyAction = IClientInputHandler.joinGame(matchID);
 
                 if (replyAction){
                     System.out.println("Joining the match: " + matchID);
@@ -289,7 +284,7 @@ public class Cli implements View {
     @Override
     public void showPersonalGoal() {
         //TODO: Replace player with JSONConverter
-        System.out.println(JSONConverter.currentPlayer + "'s PersonalGoal:" + player.getMyPersonalGoal().getNameCard());
+        System.out.println(player.getNickname() + "'s PersonalGoal:" + player.getMyPersonalGoal().getNameCard());
         showShelf(player.getMyPersonalGoal().getPersonalGoalShelf());
         System.out.println("You matched " + player.getMyPersonalGoal().checkGoal() + " item and scored " +
                 player.getMyPersonalGoal().calculatePoints() + "points! Good!");
@@ -351,20 +346,37 @@ public class Cli implements View {
     @Override
     public void askSelection() throws ServerNotActiveException, RemoteException {
         showBoard();
-        int row = askCoordinates().get(0);
-        int column = askCoordinates().get(1);
+        int numCard = 0;
+        do {
+            try {
+                System.out.println("How many cards do you want to select [1 to 3]?");
+                numCard = Integer.parseInt(readLine());
+                if (numCard <= 0 || numCard > 3) {
+                    System.out.println("Invalid number! Please try again.");
+                } else {
+                    int count = 1;
+                    while (count != numCard) {
+                        int row = askCoordinates().get(0);
+                        int column = askCoordinates().get(1);
 
-        IClientInputHandler.selectCell(row, column);
-        //TODO: Cases of failure
-        System.out.println("Selection Successful!");
+                        IClientInputHandler.selectCell(row, column);
+                        //TODO: Cases of failure
+                        System.out.println("Selection Successful!");
+                        count++;
+                    }
+                }
+            } catch (NumberFormatException e){
+                System.out.println("Invalid input! Please try again.");
+            }
+        } while (numCard <= 0 || numCard > 3);
     }
 
     public List<Integer> askCoordinates() {
         System.out.println("Enter the coordinates you wish to select [row, column].");
-        int selectConfirm = 0;
+        boolean selectConfirm = false;
         int selectRow = 0, selectColumn = 0;
 
-        while(selectConfirm != 1) {
+        while(!selectConfirm) {
             do {
                 try {
                     System.out.print("row (0 to " + BOARD_ROW + "): ");
@@ -395,7 +407,7 @@ public class Cli implements View {
             System.out.println("1. Confirm.");
             System.out.println("0. Re-select.");
 
-            selectConfirm = Integer.parseInt(readLine());
+            selectConfirm = Boolean.parseBoolean(readLine());
         }
         List<Integer> coordinates = new ArrayList<>();
         coordinates.add(selectRow);
@@ -414,9 +426,8 @@ public class Cli implements View {
         System.out.println("Do you want to cancel all selected cards?");
         System.out.println("1. Yes.");
         System.out.println("0. No.");
-        int deselectConfirm = Integer.parseInt(readLine());
-        if(deselectConfirm == 1){
-            //player.getHand().clearHand();?
+        boolean deselectConfirm = Boolean.parseBoolean(readLine());
+        if(deselectConfirm){
             //IClientInputHandler.unselectCards();?
             System.out.println("Successfully removed all selected cards!");
         }
@@ -425,29 +436,20 @@ public class Cli implements View {
     @Override
     public void askInsertion() throws ServerNotActiveException, RemoteException {
         showHand();
-        System.out.println("Do you want to change insertion order?");
-        System.out.println("1. Yes.");
-        System.out.println("0. No.");
-        int sort = 0;
+        boolean sort;
         do {
-            try {
-                sort = Integer.parseInt(readLine());
-                if(sort == 1){
-                    askSort();
-                } else if (sort == 0){
-                    int column = askColumn();
-                    IClientInputHandler.insertInColumn(column);
-                    System.out.println("Cards are correctly inserted in the shelf!");
-                } else {
-                    System.out.println("Invalid number! Please try again.");
-                }
-            } catch (NumberFormatException e){
-                System.out.println("Invalid input! Please try again.");
+            System.out.println("Do you want to change insertion order?");
+            System.out.println("1. Yes.");
+            System.out.println("0. No.");
+            sort = Boolean.parseBoolean(readLine());
+            if(sort){
+                askSort();
+            } else {
+                int column = askColumn();
+                IClientInputHandler.insertInColumn(column);
+                System.out.println("Cards are correctly inserted in the shelf!");
             }
-
-        } while (sort != 1 && sort != 0);
-
-
+        } while (sort);
     }
 
     public void askSort() throws ServerNotActiveException, RemoteException {
@@ -458,11 +460,11 @@ public class Cli implements View {
 
     public List<Integer> askIndex() {
         System.out.println("Which cards should switch?");
-        int sortConfirm = 0;
+        boolean sortConfirm = false;
         int position1 = 1, position2 = 2;
         //TODO: Replace player with JSONConverter
         ArrayList<CardPointer> cardPointers = player.getHand().getSlot();
-        while(sortConfirm != 1) {
+        while(!sortConfirm) {
             do {
                 try {
                     System.out.print("position1 (1 to " + cardPointers.size() + "): ");
@@ -487,15 +489,13 @@ public class Cli implements View {
                 }
             } while (position2 < 1 || position2 > cardPointers.size());
 
-            System.out.println("You have chosen to swap " + cardPointers.get(position1).item +
-                    " [" + cardPointers.get(position1).x + ", " + cardPointers.get(position1).y + " ] and " +
-                    cardPointers.get(position2).item + " [" + cardPointers.get(position1).x + ", " +
-                    cardPointers.get(position1).y + " ]");
+            System.out.println("You have chosen to swap " + cardPointers.get(position1).item + " and " +
+                    cardPointers.get(position2).item);
             System.out.println("Confirm your choice:");
             System.out.println("1. Confirm.");
             System.out.println("0. Re-select.");
 
-            sortConfirm = Integer.parseInt(readLine());
+            sortConfirm = Boolean.parseBoolean(readLine());
         }
         List<Integer> index = new ArrayList<>();
         index.add(position1);
@@ -516,9 +516,9 @@ public class Cli implements View {
 
     public int askColumn() {
         System.out.println("In which column would you like to insert the cards?");
-        int columnConfirm = 0;
+        boolean columnConfirm = false;
         int column = 0;
-        while (columnConfirm != 1) {
+        while (!columnConfirm) {
             do {
                 try {
                     System.out.print("Column (0 to " + SHELF_COLUMN + "): ");
@@ -530,12 +530,12 @@ public class Cli implements View {
                     System.out.println("Invalid input! Please try again.");
                 }
             } while (column < 0 || column > SHELF_COLUMN);
-            System.out.println("You have chosen column " + column);
+            System.out.println("You have chosen Column " + column);
             System.out.println("Confirm your choice:");
             System.out.println("1. Confirm.");
             System.out.println("0. Re-select.");
 
-            columnConfirm = Integer.parseInt(readLine());
+            columnConfirm = Boolean.parseBoolean(readLine());
         }
         return column;
     }
@@ -556,9 +556,7 @@ public class Cli implements View {
 
     @Override
     public void help() throws ServerNotActiveException, RemoteException {
-        if (IClientInputHandler.checkPlayerActionPhase()){
 
-        }
     }
 
     @Override
