@@ -17,7 +17,7 @@ import java.util.concurrent.FutureTask;
 
 public class Cli implements View {
     private Thread inputThread;
-    private IClientInput IClientInputHandler;
+    private IClientInput iClientInputHandler;
     private ClientCallBack clientCallBack;
     private String player;
     private int personalGoal;
@@ -92,10 +92,10 @@ public class Cli implements View {
         System.out.println("rmi://" + serverInfo.get("address") + ":"
                 + serverInfo.get("port") + "/ClientInputHandler");
 
-        IClientInputHandler = (IClientInput) Naming.lookup("rmi://" + serverInfo.get("address") + ":"
+        iClientInputHandler = (IClientInput) Naming.lookup("rmi://" + serverInfo.get("address") + ":"
                 + serverInfo.get("port") + "/ClientInputHandler");
-        ClientGameController.IClientInputHandler = IClientInputHandler;
-        IClientInputHandler.registerCallBack(clientCallBack);
+        ClientGameController.IClientInputHandler = iClientInputHandler;
+        iClientInputHandler.registerCallBack(clientCallBack);
         clientCallBack.sendMessageFromServer("Successfully joined at " + serverInfo.get("address")
                 + ":" + serverInfo.get("port"));
     }
@@ -164,7 +164,7 @@ public class Cli implements View {
         boolean usernameAccepted;
 
         do {
-            usernameAccepted = IClientInputHandler.logIn(username);
+            usernameAccepted = iClientInputHandler.logIn(username);
 
             if(usernameAccepted){
                 clientCallBack.sendMessageFromServer("Hi, " + username + " is login in the game.");
@@ -213,7 +213,7 @@ public class Cli implements View {
         int playerNumber = askMaxSeats();
         int matchID;
         //TODO: fix the null point
-        IClientInputHandler.createMatch(playerNumber);
+        iClientInputHandler.createMatch(playerNumber);
 
         clientCallBack.sendMessageFromServer("Successfully created a game for " + playerNumber + " persons!");
         Random random = new Random();
@@ -247,7 +247,7 @@ public class Cli implements View {
             try {
                 clientCallBack.sendMessageFromServer("Please enter the room number: ");
                 matchID = Integer.parseInt(readLine());
-                replyAction = IClientInputHandler.joinGame(matchID);
+                replyAction = iClientInputHandler.joinGame(matchID);
 
                 if (replyAction){
                     clientCallBack.sendMessageFromServer("Joining the match: " + matchID);
@@ -262,7 +262,7 @@ public class Cli implements View {
     @Override
     public void askLeaveGame() throws RemoteException {
         //TODO: fixe the null point
-        IClientInputHandler.exitMatch();
+        iClientInputHandler.exitMatch();
         clientCallBack.sendMessageFromServer("See you soon. Bye.");
     }
 
@@ -441,7 +441,7 @@ public class Cli implements View {
         int row = askCoordinates().get(0);
         int column = askCoordinates().get(1);
 
-        if (IClientInputHandler.selectCell(row, column)) {
+        if (iClientInputHandler.selectCell(row, column)) {
             clientCallBack.sendMessageFromServer("Selection Successful!");
         }
     }
@@ -505,7 +505,7 @@ public class Cli implements View {
 
         boolean deselectConfirm = Boolean.parseBoolean(readLine());
         if(deselectConfirm){
-            //IClientInputHandler.unselectCards();?
+            //iClientInputHandler.unselectCards();?
             clientCallBack.sendMessageFromServer("Successfully removed all selected cards!");
         }
     }
@@ -524,7 +524,7 @@ public class Cli implements View {
                 askSort();
             } else {
                 int column = askColumn();
-                IClientInputHandler.insertInColumn(column);
+                iClientInputHandler.insertInColumn(column);
                 clientCallBack.sendMessageFromServer("Cards are correctly inserted in the shelves!");
             }
         } while (sort);
@@ -532,7 +532,7 @@ public class Cli implements View {
 
     public void askSort() throws ServerNotActiveException, RemoteException {
         List<Integer> itemSwapped = askIndex();
-        IClientInputHandler.sortHand(itemSwapped.get(0), itemSwapped.get(1));
+        iClientInputHandler.sortHand(itemSwapped.get(0), itemSwapped.get(1));
         clientCallBack.sendMessageFromServer("Card order changed.");
     }
 

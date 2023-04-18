@@ -162,6 +162,8 @@ public class PlayerController {
             return false;
         }
         player.getMatch().setGamePhase(GamePhase.Insertion);
+        moveAllToHand();
+
         return true;
     }
 
