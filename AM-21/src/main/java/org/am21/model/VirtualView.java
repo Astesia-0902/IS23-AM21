@@ -19,18 +19,44 @@ import java.util.List;
  * This class will be serialized and sent to the client
  */
 public class VirtualView implements Serializable {
-
+    public int matchID;
     public String[][] board;
     //since we don't process the goal logic in the client side, we don't need to send the goal to the client
     //so we use a integer to map the goal picture
-    public List<String> commonGoal;
+    public List<String> commonGoals;
+    public List<Integer> commonGoalScores;
     public List<String> players;
+    public List<String> currentPlayerHand;
     public List<Integer> scores;
     public List<String[][]> shelves;
-    public List<String> personalGoals;
+    public List<Integer> personalGoals;
     public String currentPlayer;
     public String gamePhase;
     public String gameState;
+
+    public List<String> getCurrentPlayerHand() {
+        return currentPlayerHand;
+    }
+
+    public void setCurrentPlayerHand(List<String> currentPlayerHand) {
+        this.currentPlayerHand = currentPlayerHand;
+    }
+
+    public List<Integer> getCommonGoalScores() {
+        return commonGoalScores;
+    }
+
+    public void setCommonGoalScores(List<Integer> commonGoalScores) {
+        this.commonGoalScores = commonGoalScores;
+    }
+
+    public int getMatchID() {
+        return matchID;
+    }
+
+    public void setMatchID(int matchID) {
+        this.matchID = matchID;
+    }
 
     public String getGamePhase() {
         return gamePhase;
@@ -72,11 +98,11 @@ public class VirtualView implements Serializable {
         this.shelves = shelves;
     }
 
-    public List<String> getPersonalGoals() {
+    public List<Integer> getPersonalGoals() {
         return personalGoals;
     }
 
-    public void setPersonalGoals(List<String> personalGoals) {
+    public void setPersonalGoals(List<Integer> personalGoals) {
         this.personalGoals = personalGoals;
     }
 
@@ -88,12 +114,12 @@ public class VirtualView implements Serializable {
         this.board = board;
     }
 
-    public List<String> getCommonGoal() {
-        return commonGoal;
+    public List<String> getCommonGoals() {
+        return commonGoals;
     }
 
-    public void setCommonGoal(List<String> commonGoal) {
-        this.commonGoal = commonGoal;
+    public void setCommonGoals(List<String> commonGoals) {
+        this.commonGoals = commonGoals;
     }
 
     public String getGameState() {

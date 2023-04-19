@@ -6,6 +6,7 @@ import org.am21.model.GameManager;
 import org.am21.model.Match;
 import org.am21.model.Player;
 import org.am21.model.enumer.GameState;
+import org.am21.networkRMI.ClientCallBack;
 import org.am21.networkRMI.ClientInputHandler;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,19 +18,21 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GameTest {
-
     PlayerController client1;
     PlayerController client2;
 
     GameController game_ctrl;
     GameManager game;
 
-
     @BeforeEach
     void setUp(){
         try {
-            client1 = new PlayerController("A",new ClientInputHandler());
-            client2 = new PlayerController("B",new ClientInputHandler());
+            ClientInputHandler client1_handler = new ClientInputHandler();
+            ClientInputHandler client2_handler = new ClientInputHandler();
+            client1_handler.callBack = new ClientCallBack();
+            client2_handler.callBack = new ClientCallBack();
+            client1 = new PlayerController("A",client1_handler);
+            client2 = new PlayerController("B",client2_handler);
 
         } catch (RemoteException e) {
             throw new RuntimeException(e);

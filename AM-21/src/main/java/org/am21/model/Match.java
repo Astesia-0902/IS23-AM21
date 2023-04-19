@@ -45,10 +45,9 @@ public class Match {
     }
 
     /**
-     * @param endGameToken
+     * @param endGameToken true if the match is ended, otherwise false
      */
     public void setEndGameToken(boolean endGameToken) {
-
         this.endGameToken = endGameToken;
     }
 
@@ -63,8 +62,7 @@ public class Match {
 
     /**
      * Change GamePhase
-     *
-     * @param phase
+     * @param phase new GamePhase
      */
     public void setGamePhase(GamePhase phase) {
         gamePhase = phase;
@@ -78,7 +76,6 @@ public class Match {
      * Add player to this match.
      * And, eventually, when there are enough players,
      * it will call the method to initialize the match {@link #initializeMatch()}
-     *
      * @param player player that need to be added to the match
      * @return true if the addition is successful, otherwise false
      */
@@ -94,7 +91,6 @@ public class Match {
                     GameManager.playerMatchMap.put(player.getNickname(), matchID);
                 }
                 //System.out.println("Game > " + player.getNickname() + " added to the match N." + this.matchID);
-
                 //Update virtual view
                 //VirtualViewHelper.setPlayers(this);
                 //TODO:uncomment
@@ -112,7 +108,6 @@ public class Match {
      * - Update PlayerList<br>
      * - Update Player's game items<br>
      * - Update PlayerMatchMap<br>
-     *
      * @param player player who left the match
      * @return true if the operation is successful, otherwise false
      */
@@ -128,10 +123,6 @@ public class Match {
                     GameManager.playerMatchMap.remove(player.getNickname());
                 }
                 checkRoom();
-                //TODO:uncomment
-                //Update virtual view
-                //VirtualViewHelper.setPlayers(this);
-                //notifyVirtualView();
                 return true;
             }
             return false;
@@ -169,12 +160,10 @@ public class Match {
             }
             this.nextTurn();
         }
-
     }
 
     /**
      * This method check if the player has completed any Goal
-     *
      * @param player player that need to check
      */
     public void checkCommonGoals(Player player) {
@@ -204,14 +193,12 @@ public class Match {
         for (Player p : playerList) {
             p.getController().addScore(p.getMyPersonalGoal().calculatePoints());
         }
-
     }
 
     public void checkShelfPoints() {
         for (Player p : playerList) {
             p.getController().addScore(p.getShelf().getGroupPoints());
         }
-
     }
 
     /**
@@ -308,9 +295,6 @@ public class Match {
 
         setGameState(GameState.Ready);
         //TODO: uncomment
-        //VirtualViewHelper.buildVirtualView(this);
-        //notifyVirtualView();
-
     }
 
     /**
@@ -323,9 +307,9 @@ public class Match {
         currentPlayer = chairman;
         //System.out.println("Match > Player Turn: " + currentPlayer.getNickname());
         setGamePhase(GamePhase.Selection);
-        //VirtualViewHelper.buildVirtualView(this);
-        //notifyVirtualView();
-
+        //TODO: test it
+        VirtualViewHelper.buildVirtualView(this);
+        notifyVirtualView();
     }
 
     /**
@@ -333,13 +317,7 @@ public class Match {
      */
     public void nextTurn() {
         currentPlayer = playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats);
-        //System.out.println("Match > Player Turn: " + currentPlayer.getNickname());
-
         setGamePhase(GamePhase.Selection);
-        //TODO: uncomment
-        //Update VirtualView
-        //VirtualViewHelper.updateVirtualView(this);
-        //notifyVirtualView();
     }
 
     /**
