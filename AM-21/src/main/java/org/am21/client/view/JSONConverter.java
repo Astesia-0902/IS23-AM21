@@ -31,6 +31,7 @@ public class JSONConverter {
      * @param json the JSON string received from the server
      */
     public static void setViewVariables(String json) {
+        //TODO: add the player's commonGoal score
         JSONObject jsonObject = JSONObject.parseObject(json);
         virtualBoard = jsonObject.getObject("board", String[][].class);
         players = jsonObject.getJSONArray("players").toJavaList(String.class);

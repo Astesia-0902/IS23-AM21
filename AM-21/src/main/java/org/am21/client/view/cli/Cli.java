@@ -20,12 +20,15 @@ public class Cli implements View {
     private IClientInput iClientInputHandler;
     private ClientCallBack clientCallBack;
     private String player;
+    private int playerIndex;
     private int personalGoal;
+    private boolean insertPhase;
 
     private static final int SHELF_ROW = 6;
     private static final int SHELF_COLUMN = 5;
     private static final int BOARD_ROW = 6;
     private static final int BOARD_COLUMN = 5;
+    private static final int HAND_SIZE = 3;
 
     public Cli() throws RemoteException {
         this.clientCallBack = new ClientCallBack();
@@ -60,7 +63,7 @@ public class Cli implements View {
 
     public void initPlayer(String username) {
         //TODO: Replace player with JSONConverter
-        int playerIndex = JSONConverter.getPlayerIndex(username);
+        playerIndex = JSONConverter.getPlayerIndex(username);
         player = JSONConverter.players.get(playerIndex);
         personalGoal = JSONConverter.personalGoal;
     }
@@ -272,7 +275,6 @@ public class Cli implements View {
             showGoalDescription(JSONConverter.commonGoal.get(i));
         }
 
-        //TODO: get the player's commonGoal score
 //        System.out.println("You received: " + player.getPlayerScore() + " points.");
     }
 
@@ -436,13 +438,29 @@ public class Cli implements View {
 
     @Override
     public void askSelection() throws ServerNotActiveException, RemoteException {
-        showBoard();
+        if (!insertPhase) {
+            if (JSONConverter.currentPlayerHand.size() < HAND_SIZE) {
+                showBoard();
+                boolean selectionConfirm;
+                do {
+                    List<Integer> coordinates = askIndex();
+                    int row = coordinates.get(0);
+                    int column = coordinates.get(1);
 
-        int row = askCoordinates().get(0);
-        int column = askCoordinates().get(1);
-
-        if (iClientInputHandler.selectCell(row, column)) {
-            clientCallBack.sendMessageFromServer("Selection Successful!");
+                    if (iClientInputHandler.selectCell(row, column)) {
+                        clientCallBack.sendMessageFromServer("Selection Successful!");
+                    }
+                    clientCallBack.sendChatMessage("""
+                            Do you want to continue with selection?
+                            1. Yes.
+                            0. No.""");
+                    selectionConfirm = Boolean.parseBoolean(readLine());
+                } while (selectionConfirm);
+            } else {
+                clientCallBack.sendMessageFromServer("Hand full!");
+            }
+        } else {
+            clientCallBack.sendChatMessage("You cannot select the cards anymore.");
         }
     }
 
@@ -476,8 +494,8 @@ public class Cli implements View {
                 }
             } while (selectColumn < 0 || selectColumn > BOARD_COLUMN);
 
-            clientCallBack.sendMessageFromServer("The coordinates you have chosen are: [" + selectRow + ", " + selectColumn + "] - ");
-            showItemInCell(selectRow, selectColumn);
+            clientCallBack.sendMessageFromServer("The coordinates you have chosen are: [" + selectRow + ", " +
+                    selectColumn + "] - " + showItemInCell(selectRow, selectColumn));
             clientCallBack.sendMessageFromServer("""
             Confirm your choice:
             1. Confirm.
@@ -491,90 +509,100 @@ public class Cli implements View {
         return coordinates;
     }
 
-    public void showItemInCell(int row, int column) throws RemoteException {
-        clientCallBack.sendMessageFromServer(JSONConverter.virtualBoard[row][column]);
+    public String showItemInCell(int row, int column) throws RemoteException {
+        return JSONConverter.virtualBoard[row][column];
     }
 
     @Override
     public void askDeselection() throws ServerNotActiveException, RemoteException {
-        showHand();
-        clientCallBack.sendMessageFromServer("""
-        Do you want to cancel all selected cards?
-        1. Yes.
-        0. No.""");
+        if (!insertPhase) {
+            showHand();
+            clientCallBack.sendMessageFromServer("""
+                    Do you want to cancel all selected cards?
+                    1. Yes.
+                    0. No.""");
 
-        boolean deselectConfirm = Boolean.parseBoolean(readLine());
-        if(deselectConfirm){
-            //iClientInputHandler.unselectCards();?
-            clientCallBack.sendMessageFromServer("Successfully removed all selected cards!");
+            boolean deselectConfirm = Boolean.parseBoolean(readLine());
+            if (deselectConfirm) {
+                if (iClientInputHandler.unselectCards()) {
+                    clientCallBack.sendMessageFromServer("Successfully removed all selected cards!");
+                }
+            }
+        } else {
+            clientCallBack.sendChatMessage("You cannot deselect the cards anymore.");
         }
     }
 
     @Override
     public void askInsertion() throws ServerNotActiveException, RemoteException {
-        showHand();
-        boolean sort;
-        do {
-            clientCallBack.sendMessageFromServer("""
-            Do you want to change insertion order?
-            1. Yes.
-            0. No.""");
-            sort = Boolean.parseBoolean(readLine());
-            if(sort){
-                askSort();
-            } else {
-                int column = askColumn();
-                iClientInputHandler.insertInColumn(column);
-                clientCallBack.sendMessageFromServer("Cards are correctly inserted in the shelves!");
-            }
-        } while (sort);
+        insertPhase = true;
+        if (showHand()) {
+            boolean sort;
+            do {
+                clientCallBack.sendMessageFromServer("""
+                        Do you want to change insertion order?
+                        1. Yes.
+                        0. No.""");
+                sort = Boolean.parseBoolean(readLine());
+                if (sort) {
+                    askSort();
+                } else {
+                    int column = askColumn();
+                    iClientInputHandler.insertInColumn(column);
+                    clientCallBack.sendMessageFromServer("Cards are correctly inserted in the shelves!");
+                }
+            } while (sort);
+        } else {
+            clientCallBack.sendMessageFromServer("You can’t insert cards if you did not select any cards!");
+            insertPhase = false;
+        }
     }
 
     public void askSort() throws ServerNotActiveException, RemoteException {
         List<Integer> itemSwapped = askIndex();
-        iClientInputHandler.sortHand(itemSwapped.get(0), itemSwapped.get(1));
-        clientCallBack.sendMessageFromServer("Card order changed.");
+        if (iClientInputHandler.sortHand(itemSwapped.get(0), itemSwapped.get(1))) {
+            clientCallBack.sendMessageFromServer("Card order changed.");
+        }
     }
 
     public List<Integer> askIndex() throws RemoteException {
         clientCallBack.sendMessageFromServer("Which cards should switch?");
         boolean sortConfirm;
         int position1 = 1, position2 = 2;
-//        //TODO: Replace player with JSONConverter
-//        ArrayList<CardPointer> cardPointers = player.getHand().getSlot();
-//        do {
-//            do {
-//                try {
-//                    System.out.print("position1 (1 to " + cardPointers.size() + "): ");
-//                    position1 = Integer.parseInt(readLine());
-//                    if (position1 < 1 || position1 > cardPointers.size()) {
-//                        System.out.println("Invalid number! Please try again.");
-//                    }
-//                } catch (NumberFormatException e) {
-//                    System.out.println("Invalid input! Please try again.");
-//                }
-//            } while (position1 < 1 || position1 > cardPointers.size());
-//
-//            do {
-//                try {
-//                    System.out.print("position2 (1 to " + cardPointers.size() + "): ");
-//                    position2 = Integer.parseInt(readLine());
-//                    if (position2 < 1 || position2 > cardPointers.size()) {
-//                        System.out.println("Invalid number! Please try again.");
-//                    }
-//                } catch (NumberFormatException e) {
-//                    System.out.println("Invalid input! Please try again.");
-//                }
-//            } while (position2 < 1 || position2 > cardPointers.size());
-//
-//            System.out.println("You have chosen to swap " + cardPointers.get(position1).item + " and " +
-//                    cardPointers.get(position2).item);
-//            System.out.println("Confirm your choice:");
-//            System.out.println("1. Confirm.");
-//            System.out.println("0. Re-select.");
-//
-//            sortConfirm = Boolean.parseBoolean(readLine());
-//        } while(!sortConfirm);
+
+        do {
+            do {
+                try {
+                    System.out.print("position1 (1 to " + JSONConverter.currentPlayerHand.size() + "): ");
+                    position1 = Integer.parseInt(readLine());
+                    if (position1 < 1 || position1 > JSONConverter.currentPlayerHand.size()) {
+                        System.out.println("Invalid number! Please try again.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input! Please try again.");
+                }
+            } while (position1 < 1 || position1 > JSONConverter.currentPlayerHand.size());
+
+            do {
+                try {
+                    System.out.print("position2 (1 to " + JSONConverter.currentPlayerHand.size() + "): ");
+                    position2 = Integer.parseInt(readLine());
+                    if (position2 < 1 || position2 > JSONConverter.currentPlayerHand.size()) {
+                        System.out.println("Invalid number! Please try again.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input! Please try again.");
+                }
+            } while (position2 < 1 || position2 > JSONConverter.currentPlayerHand.size());
+
+            System.out.println("You have chosen to swap " + JSONConverter.currentPlayerHand.get(position1) + " and " +
+                    JSONConverter.currentPlayerHand.get(position2));
+            System.out.println("Confirm your choice:");
+            System.out.println("1. Confirm.");
+            System.out.println("0. Re-select.");
+
+            sortConfirm = Boolean.parseBoolean(readLine());
+        } while(!sortConfirm);
         List<Integer> index = new ArrayList<>();
         index.add(position1);
         index.add(position2);
@@ -582,14 +610,15 @@ public class Cli implements View {
         return index;
     }
 
-    public void showHand() {
-        //TODO: add handList in JSONConverter
-//        ArrayList<CardPointer> cardPointers = player.getHand().getSlot();
-//        System.out.println(player + "have in hand: ");
-//        for (CardPointer cardPointer : cardPointers) {
-//            System.out.println("[" + cardPointer.x + ", " + cardPointer.y + "] - "
-//                    + cardPointer.item);
-//        }
+    public boolean showHand() throws RemoteException {
+        clientCallBack.sendMessageFromServer(player +" have in hand:");
+        if (JSONConverter.currentPlayerHand.isEmpty()){
+            return false;
+        }
+        for (int i = 0; i < JSONConverter.currentPlayerHand.size(); i++) {
+            clientCallBack.sendMessageFromServer(JSONConverter.currentPlayerHand.get(i));
+        }
+        return true;
     }
 
     public int askColumn() throws RemoteException {
@@ -633,7 +662,25 @@ public class Cli implements View {
 
     @Override
     public void help() throws ServerNotActiveException, RemoteException {
-
+        clientCallBack.sendMessageFromServer("You can do the following commands in this phase:");
+        if (!insertPhase){
+            showMenu();
+        } else {
+            clientCallBack.sendMessageFromServer("""
+        insert- Insert in the shelves.
+        pGoal- See Personal goal.
+        cGoal- See Common goal.
+        shelf- See Shelf.
+        board- See Board.
+        stats- See Players Stats.
+        help- Help.
+        msg- Send Message to General chat.
+        end- Check EndGameToken.
+        time- Show timer.
+        quit- Quit Match.
+        exit- Cancel option.
+        """);
+        }
     }
 
     @Override
@@ -641,73 +688,77 @@ public class Cli implements View {
 
     }
 
+    private void showMenu() throws RemoteException {
+        clientCallBack.sendMessageFromServer("""
+        select- Select an item on the board.
+        deselect - Deselect the cards.
+        insert- Insert in the shelves.
+        pGoal- See Personal goal.
+        cGoal- See Common goal.
+        shelf- See Shelf.
+        board- See Board.
+        stats- See Players Stats.
+        help- Help.
+        msg- Send Message to General chat.
+        end- Check EndGameToken.
+        time- Show timer.
+        quit- Quit Match.
+        exit- Cancel option.
+        """);
+    }
+
     @Override
     public void askPlayerMove() throws RemoteException, ServerNotActiveException {
-        clientCallBack.sendMessageFromServer("""
-        What's your next move?
-        1. Select an item on the board.
-        2. Deselect the cards.
-        3. Insert in the shelves.
-        4. See Personal goal.
-        5. See Common goal.
-        6. See Shelf.
-        7. See Board.
-        8. See Players Stats.
-        9. Help.
-        10. Send Message to General chat.
-        11. Check EndGameToken.
-        12. Show timer.
-        13. Quit Match.
-        0. Cancel option.
-        
-        Enter the action you wish to select:""");
+        clientCallBack.sendMessageFromServer("What's your next move?");
+        showMenu();
+        clientCallBack.sendMessageFromServer("Enter the action you wish to select:");
 
-        int option = Integer.parseInt(readLine());
-        while (option != 0) {
+        String option = readLine();
+        do {
             switch (option) {
-                case 1:
+                case "select":
                     askSelection();
                     break;
-                case 2:
+                case "deselect":
                     askDeselection();
                     break;
-                case 3:
+                case "insert":
                     askInsertion();
                     break;
-                case 4:
+                case "pGoal":
                     showPersonalGoal();
                     break;
-                case 5:
+                case "cGoal":
                     showCommonGoals();
                     break;
-                case 6:
+                case "shelf":
                     showShelf();
                     break;
-                case 7:
+                case "board":
                     showBoard();
                     break;
-                case 8:
+                case "stats":
                     showPlayersStats();
                     break;
-                case 9:
+                case "help":
                     help();
                     break;
-                case 10:
+                case "msg":
                     askMessage();
                     break;
-                case 11:
+                case "end":
                     askEndGameToken();
                     break;
-                case 12:
+                case "time":
                     showTimer();
                     break;
-                case 13:
+                case "quit":
                     askLeaveGame();
                     break;
                 default:
-                    option = Integer.parseInt(readLine());
+                    option = readLine();
                     break;
             }
-        }
+        } while (!option.equals("quit"));
     }
 }

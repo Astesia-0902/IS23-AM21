@@ -1,4 +1,4 @@
-package org.am21.model.component;
+package org.am21.client.view.gui.component;
 
 import javax.swing.*;
 import java.awt.*;
