@@ -1,0 +1,271 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CommonGoalSquare</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.model.Cards.CommonGoals</a>
+</div>
+
+<h1>Coverage Summary for Class: CommonGoalSquare (org.am21.model.Cards.CommonGoals)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CommonGoalSquare</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (28/28)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.model.Cards.CommonGoals;
+&nbsp;
+&nbsp;import org.am21.model.Cards.CommonGoal;
+&nbsp;import org.am21.model.items.Shelf;
+&nbsp;
+&nbsp;public class CommonGoalSquare extends CommonGoal {
+&nbsp;
+&nbsp;    private boolean[][] visited;
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param numPlayer the number of players
+&nbsp;     */
+&nbsp;    public CommonGoalSquare(int numPlayer) {
+&nbsp;
+<b class="fc">&nbsp;        super(&quot;CommonGoalSquare&quot;,numPlayer);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /*public boolean checkGoal2(Shelf shelves) {
+&nbsp;        boolean[][] visited = new boolean[Shelf.sRow][Shelf.sColumn];
+&nbsp;        int count = 0;
+&nbsp;        String root;
+&nbsp;        for (int i = 0; i &lt; Shelf.sRow-1; i++) {
+&nbsp;            for (int j = 0; j &lt; Shelf.sColumn; j++) {
+&nbsp;                if (shelves.isOccupied(i, j)) {
+&nbsp;                    //Item type of our analysis
+&nbsp;                    root = shelves.getItemName(i,j).substring(0,shelves.getItemName(i,j).length()-3);
+&nbsp;                    //Once we find a tile != 0 and not visited, we check if it&#39;s the upper left tile of a 2x2 group
+&nbsp;                    if (!visited[i][j]) {
+&nbsp;                        System.out.println(&quot;A&quot;);
+&nbsp;                        boolean result = process(shelves, i, j, visited,root)
+&nbsp;                                &amp;&amp; process(shelves, i + 1, j, visited,root)
+&nbsp;                                &amp;&amp; process(shelves, i, j + 1, visited,root)
+&nbsp;                                &amp;&amp; process(shelves, i + 1, j + 1, visited,root);
+&nbsp;                        if (result) {
+&nbsp;                            System.out.println(&quot;b&quot;);
+&nbsp;                            count++;
+&nbsp;                            //If we find 2 groups of 4 tiles, we return true
+&nbsp;                            if (count &gt;= 2) {
+&nbsp;                                return true;
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;            }
+&nbsp;        }
+&nbsp;        return false;
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean process(Shelf shelves, int i, int j, boolean[][] visited,String root) {
+&nbsp;        //Check if the item is in the shelves and not visited
+&nbsp;        if (i &lt; 0 || i &gt;= 6 || j &lt; 0 || j &gt;= 5 || visited[i][j]
+&nbsp;                || !shelves.isOccupied(i,j) || shelves.getItemType(i,j)!=root)
+&nbsp;        {
+&nbsp;            System.out.println(&quot;c&quot;);
+&nbsp;            return false;
+&nbsp;        }
+&nbsp;
+&nbsp;        System.out.println(&quot;d&quot;);
+&nbsp;        //mark the tile as visited
+&nbsp;        visited[i][j] = true;
+&nbsp;        return true;
+&nbsp;    }*/
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Scan the shelves to find 2 groups of 4 tiles of the same color
+&nbsp;     * @param s is the shelves
+&nbsp;     * @return true if the goal is reached, false otherwise
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean checkGoal(Shelf s){
+<b class="fc">&nbsp;        visited = new boolean[Shelf.SHELF_ROW][Shelf.SHELF_COLUMN];</b>
+&nbsp;
+<b class="fc">&nbsp;        String itemRef=null;</b>
+&nbsp;
+&nbsp;
+&nbsp;        //Scan full matrix(not row=5, it&#39;s useless to check)
+<b class="fc">&nbsp;        for(int i = 0; i&lt;(Shelf.SHELF_ROW -1); i++){</b>
+<b class="fc">&nbsp;            for(int j = 0; j&lt;Shelf.SHELF_COLUMN -1; j++){</b>
+&nbsp;
+&nbsp;                //(i,j) is the square root
+<b class="fc">&nbsp;                if(s.isOccupied(i,j) &amp;&amp; !visited[i][j]){</b>
+<b class="fc">&nbsp;                    if(itemRef==null){</b>
+<b class="fc">&nbsp;                        itemRef=s.getItemType(i,j);</b>
+&nbsp;                    }
+&nbsp;
+&nbsp;                    // Cell get visited
+<b class="fc">&nbsp;                    visited[i][j]=true;</b>
+&nbsp;                    // Check if there is a Square with same type
+<b class="fc">&nbsp;                    if(controlStatus(i+1,j,s,itemRef)</b>
+<b class="fc">&nbsp;                            &amp;&amp;controlStatus(i+1,j+1,s,itemRef)</b>
+<b class="fc">&nbsp;                            &amp;&amp;controlStatus(i,j+1,s,itemRef))</b>
+&nbsp;                    {
+&nbsp;                        //Yes, We got a square!
+&nbsp;
+<b class="fc">&nbsp;                        if(find2ndSquare(i,j,itemRef,s)){</b>
+&nbsp;                            //End Check goal, we got 2 squares with same type
+<b class="fc">&nbsp;                            return true;</b>
+&nbsp;                        }else{
+&nbsp;                            //reset itemRef
+<b class="fc">&nbsp;                            itemRef=null;</b>
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;
+&nbsp;
+&nbsp;                }
+&nbsp;                // when we end the check of the square(win or lost)
+&nbsp;                // we go back to (i,j+1) in the for
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param x is the row of the first square
+&nbsp;     * @param y is the column of the first square
+&nbsp;     * @param itemRef is the type of the first square
+&nbsp;     * @param s is the shelves
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    private boolean find2ndSquare(int x,int y,String itemRef,Shelf s){
+&nbsp;
+<b class="fc">&nbsp;        for(int i = x; i&lt;Shelf.SHELF_ROW -1; i++){</b>
+<b class="fc">&nbsp;            for(int j = y; j&lt;Shelf.SHELF_COLUMN -1; j++){</b>
+&nbsp;                //(i,j) is the square root
+<b class="fc">&nbsp;                if(controlStatus(i,j,s,itemRef)) {</b>
+<b class="fc">&nbsp;                    if(controlStatus(i+1,j,s,itemRef)</b>
+<b class="fc">&nbsp;                            &amp;&amp;controlStatus(i+1,j+1,s,itemRef)</b>
+<b class="fc">&nbsp;                            &amp;&amp;controlStatus(i,j+1,s,itemRef))</b>
+&nbsp;                    {
+&nbsp;                        //2nd Square found
+<b class="fc">&nbsp;                        return true;</b>
+&nbsp;
+&nbsp;
+&nbsp;                    }
+&nbsp;
+&nbsp;
+&nbsp;                }
+&nbsp;
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param r is the row of the cell
+&nbsp;     * @param c is the column of the cell
+&nbsp;     * @param s is the shelves
+&nbsp;     * @param itemRef is the type of the first square
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    private boolean controlStatus(int r,int c,Shelf s,String itemRef){
+<b class="fc">&nbsp;        if(s.isOccupied(r,c) &amp;&amp;s.getItemType(r,c).equals(itemRef) &amp;&amp;!visited[r][c]) {</b>
+<b class="fc">&nbsp;            visited[r][c]=true;</b>
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-22 23:48</div>
+</div>
+</body>
+</html>

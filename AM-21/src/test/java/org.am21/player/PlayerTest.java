@@ -7,6 +7,7 @@ import org.am21.model.Player;
 import org.am21.model.enumer.GamePhase;
 import org.am21.model.items.Board;
 import org.am21.model.items.Shelf;
+import org.am21.networkRMI.ClientCallBack;
 import org.am21.networkRMI.ClientInputHandler;
 import org.am21.utilities.CardPointer;
 import org.junit.jupiter.api.AfterEach;
@@ -31,8 +32,10 @@ public class PlayerTest {
     void setUp() throws RemoteException {
         m =new Match(2);
         c1 = new PlayerController("Rorschach",new ClientInputHandler());
+        c1.clientInput.callBack=new ClientCallBack();
         p1 = c1.getPlayer();
         c2 = new PlayerController("Rorschach",new ClientInputHandler());
+        c2.clientInput.callBack=new ClientCallBack();
         p2 = c2.getPlayer();
         m.addPlayer(p1);
         m.addPlayer(p2);

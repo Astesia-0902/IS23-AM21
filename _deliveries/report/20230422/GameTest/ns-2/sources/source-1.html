@@ -1,0 +1,146 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ChatManager</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.model</a>
+</div>
+
+<h1>Coverage Summary for Class: ChatManager (org.am21.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ChatManager</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33,3%
+  </span>
+  <span class="absValue">
+    (1/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    30%
+  </span>
+  <span class="absValue">
+    (3/10)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.model;
+&nbsp;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class is used to manage the chat messages
+&nbsp; * Every match has a chat manager
+&nbsp; */
+&nbsp;public class ChatManager {
+<b class="fc">&nbsp;    public List&lt;String&gt; chatMessages = new ArrayList&lt;&gt;();</b>
+&nbsp;    private String message;
+&nbsp;    private String sender;
+&nbsp;    private Match match;
+&nbsp;
+<b class="fc">&nbsp;    public ChatManager(Match match) {</b>
+<b class="fc">&nbsp;        this.match = match;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * send the message to all players
+&nbsp;     * @param message the message
+&nbsp;     * @param sender the sender
+&nbsp;     * @throws RemoteException if the remote call fails
+&nbsp;     */
+&nbsp;    public void sendMessage(String message, String sender) throws RemoteException {
+<b class="nc">&nbsp;        this.message = message;</b>
+<b class="nc">&nbsp;        this.sender = sender;</b>
+<b class="nc">&nbsp;        chatMessages.add(sender + &quot;: &quot; + message);</b>
+<b class="nc">&nbsp;        for (Player player : match.playerList) {</b>
+<b class="nc">&nbsp;            player.getController().clientInput.callBack.sendChatMessage(chatMessages.get(chatMessages.size() - 1));</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the chat messages history
+&nbsp;     * @return the chat messages history
+&nbsp;     */
+&nbsp;    public List&lt;String&gt; getChatMessages() {
+<b class="nc">&nbsp;        return chatMessages;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-22 23:51</div>
+</div>
+</body>
+</html>

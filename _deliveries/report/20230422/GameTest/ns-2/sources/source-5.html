@@ -1,0 +1,235 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > VirtualView</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.model</a>
+</div>
+
+<h1>Coverage Summary for Class: VirtualView (org.am21.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">VirtualView</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    52%
+  </span>
+  <span class="absValue">
+    (13/25)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    52%
+  </span>
+  <span class="absValue">
+    (13/25)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.model;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;//TODO:object to be sent to the client
+&nbsp;//TODO:we need to discuss how to map each card to a number
+&nbsp;//TODO:maybe we can store the game state in a JSON file
+&nbsp;//1. The board map
+&nbsp;//2. The list of shelves
+&nbsp;//3. The list of player
+&nbsp;//4. The score of each player
+&nbsp;//5. The current player
+&nbsp;//6. The current turn
+&nbsp;//7. The current phase
+&nbsp;//8. The current common goal and the personal goal of current player
+&nbsp;
+&nbsp;/**
+&nbsp; * This class will be serialized and sent to the client
+&nbsp; */
+<b class="fc">&nbsp;public class VirtualView implements Serializable {</b>
+&nbsp;    public int matchID;
+&nbsp;    public String[][] board;
+&nbsp;    //since we don&#39;t process the goal logic in the client side, we don&#39;t need to send the goal to the client
+&nbsp;    //so we use a integer to map the goal picture
+&nbsp;    public List&lt;String&gt; commonGoals;
+&nbsp;    public List&lt;Integer&gt; commonGoalScores;
+&nbsp;    public List&lt;String&gt; players;
+&nbsp;    public List&lt;String&gt; currentPlayerHand;
+&nbsp;    public List&lt;Integer&gt; scores;
+&nbsp;    public List&lt;String[][]&gt; shelves;
+&nbsp;    public List&lt;Integer&gt; personalGoals;
+&nbsp;    public String currentPlayer;
+&nbsp;    public String gamePhase;
+&nbsp;    public String gameState;
+&nbsp;
+&nbsp;    public List&lt;String&gt; getCurrentPlayerHand() {
+<b class="nc">&nbsp;        return currentPlayerHand;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setCurrentPlayerHand(List&lt;String&gt; currentPlayerHand) {
+<b class="fc">&nbsp;        this.currentPlayerHand = currentPlayerHand;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Integer&gt; getCommonGoalScores() {
+<b class="nc">&nbsp;        return commonGoalScores;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setCommonGoalScores(List&lt;Integer&gt; commonGoalScores) {
+<b class="fc">&nbsp;        this.commonGoalScores = commonGoalScores;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getMatchID() {
+<b class="nc">&nbsp;        return matchID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setMatchID(int matchID) {
+<b class="fc">&nbsp;        this.matchID = matchID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getGamePhase() {
+<b class="nc">&nbsp;        return gamePhase;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setGamePhase(String gamePhase) {
+<b class="fc">&nbsp;        this.gamePhase = gamePhase;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getCurrentPlayer() {
+<b class="nc">&nbsp;        return currentPlayer;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setCurrentPlayer(String currentPlayer) {
+<b class="fc">&nbsp;        this.currentPlayer = currentPlayer;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;String&gt; getPlayers() {
+<b class="nc">&nbsp;        return players;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setPlayers(List&lt;String&gt; players) {
+<b class="fc">&nbsp;        this.players = players;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Integer&gt; getScores() {
+<b class="nc">&nbsp;        return scores;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setScores(List&lt;Integer&gt; scores) {
+<b class="fc">&nbsp;        this.scores = scores;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;String[][]&gt; getShelves() {
+<b class="nc">&nbsp;        return shelves;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setShelves(List&lt;String[][]&gt; shelves) {
+<b class="fc">&nbsp;        this.shelves = shelves;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Integer&gt; getPersonalGoals() {
+<b class="nc">&nbsp;        return personalGoals;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setPersonalGoals(List&lt;Integer&gt; personalGoals) {
+<b class="fc">&nbsp;        this.personalGoals = personalGoals;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String[][] getBoard() {
+<b class="nc">&nbsp;        return board;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setBoard(String[][] board) {
+<b class="fc">&nbsp;        this.board = board;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;String&gt; getCommonGoals() {
+<b class="nc">&nbsp;        return commonGoals;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setCommonGoals(List&lt;String&gt; commonGoals) {
+<b class="fc">&nbsp;        this.commonGoals = commonGoals;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getGameState() {
+<b class="nc">&nbsp;        return gameState;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setGameState(String gameState) {
+<b class="fc">&nbsp;        this.gameState = gameState;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-22 23:51</div>
+</div>
+</body>
+</html>

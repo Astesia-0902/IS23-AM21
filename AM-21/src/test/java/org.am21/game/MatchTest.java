@@ -102,11 +102,14 @@ class MatchTest {
      * Test if removePlayer() works.
      */
     @Test
-    void testRemovePlayer(){
+    void testRemovePlayer() throws RemoteException {
         m=new Match(4);
-        PlayerController c1 = new PlayerController("A",null);
-        PlayerController c2 = new PlayerController("B",null);
-        PlayerController c3 = new PlayerController("C",null);
+        PlayerController c1 = new PlayerController("A",new ClientInputHandler());
+        c1.clientInput.callBack=new ClientCallBack();
+        PlayerController c2 = new PlayerController("B",new ClientInputHandler());
+        c2.clientInput.callBack=new ClientCallBack();
+        PlayerController c3 = new PlayerController("C",new ClientInputHandler());
+        c3.clientInput.callBack=new ClientCallBack();
 
         m.addPlayer(c1.getPlayer());
         m.addPlayer(c2.getPlayer());
@@ -129,10 +132,12 @@ class MatchTest {
      * - CurrentPlayer contained in playerList
      */
     @Test
-    void testStartFirstRound(){
+    void testStartFirstRound() throws RemoteException {
         m=new Match(2);
-        PlayerController c1 = new PlayerController("A",null);
-        PlayerController c2 = new PlayerController("B",null);
+        PlayerController c1 = new PlayerController("A",new ClientInputHandler());
+        c1.clientInput.callBack=new ClientCallBack();
+        PlayerController c2 = new PlayerController("B",new ClientInputHandler());
+        c2.clientInput.callBack=new ClientCallBack();
         m.addPlayer(c1.getPlayer());
         m.addPlayer(c2.getPlayer());
         //Match initialized, then it should call startFirstRound() automatically
@@ -153,10 +158,12 @@ class MatchTest {
      *      playerMatchMap doesn't contain players of the match
      */
     @Test
-    void testCheckRoomAndEndMatch(){
+    void testCheckRoomAndEndMatch() throws RemoteException {
         m=new Match(2);
-        PlayerController c1 = new PlayerController("A",null);
-        PlayerController c2 = new PlayerController("B",null);
+        PlayerController c1 = new PlayerController("A",new ClientInputHandler());
+        c1.clientInput.callBack=new ClientCallBack();
+        PlayerController c2 = new PlayerController("B",new ClientInputHandler());
+        c2.clientInput.callBack=new ClientCallBack();
         m.addPlayer(c1.getPlayer());
         m.addPlayer(c2.getPlayer());
         //Match started
@@ -173,12 +180,16 @@ class MatchTest {
      * Test if the current player after calling nextTurn() is the next in list
      */
     @Test
-    void testNextTurn(){
+    void testNextTurn() throws RemoteException {
         m=new Match(4);
-        PlayerController c1 = new PlayerController("A",null);
-        PlayerController c2 = new PlayerController("B",null);
-        PlayerController c3 = new PlayerController("C",null);
-        PlayerController c4 = new PlayerController("D",null);
+        PlayerController c1 = new PlayerController("A",new ClientInputHandler());
+        c1.clientInput.callBack=new ClientCallBack();
+        PlayerController c2 = new PlayerController("B",new ClientInputHandler());
+        c2.clientInput.callBack=new ClientCallBack();
+        PlayerController c3 = new PlayerController("C",new ClientInputHandler());
+        c3.clientInput.callBack=new ClientCallBack();
+        PlayerController c4 = new PlayerController("D",new ClientInputHandler());
+        c4.clientInput.callBack=new ClientCallBack();
         m.addPlayer(c1.getPlayer());
         m.addPlayer(c2.getPlayer());
         m.addPlayer(c3.getPlayer());
@@ -203,10 +214,12 @@ class MatchTest {
      * and the endMatch will be called.
      */
     @Test
-    void testCallEndTurnRoutine(){
+    void testCallEndTurnRoutine() throws RemoteException {
         m=new Match(2);
-        PlayerController c1 = new PlayerController("A",null);
-        PlayerController c2 = new PlayerController("B",null);
+        PlayerController c1 = new PlayerController("A",new ClientInputHandler());
+        c1.clientInput.callBack=new ClientCallBack();
+        PlayerController c2 = new PlayerController("B",new ClientInputHandler());
+        c2.clientInput.callBack=new ClientCallBack();
         m.addPlayer(c1.getPlayer());
         m.addPlayer(c2.getPlayer());
         m.currentPlayer=c1.getPlayer();
@@ -241,12 +254,16 @@ class MatchTest {
      * Expect 1 winner
      */
     @Test
-    void testDeclareWinner(){
+    void testDeclareWinner() throws RemoteException {
         m=new Match(4);
-        PlayerController c1 = new PlayerController("A",null);
-        PlayerController c2 = new PlayerController("B",null);
-        PlayerController c3 = new PlayerController("C",null);
-        PlayerController c4 = new PlayerController("D",null);
+        PlayerController c1 = new PlayerController("A",new ClientInputHandler());
+        c1.clientInput.callBack=new ClientCallBack();
+        PlayerController c2 = new PlayerController("B",new ClientInputHandler());
+        c2.clientInput.callBack=new ClientCallBack();
+        PlayerController c3 = new PlayerController("C",new ClientInputHandler());
+        c3.clientInput.callBack=new ClientCallBack();
+        PlayerController c4 = new PlayerController("D",new ClientInputHandler());
+        c4.clientInput.callBack=new ClientCallBack();
         m.addPlayer(c1.getPlayer());
         m.addPlayer(c2.getPlayer());
         m.addPlayer(c3.getPlayer());
@@ -279,12 +296,16 @@ class MatchTest {
      * I expect no winner
      */
     @Test
-    void testDeclareWinner2(){
+    void testDeclareWinner2() throws RemoteException {
         m=new Match(4);
-        PlayerController c1 = new PlayerController("A",null);
-        PlayerController c2 = new PlayerController("B",null);
-        PlayerController c3 = new PlayerController("C",null);
-        PlayerController c4 = new PlayerController("D",null);
+        PlayerController c1 = new PlayerController("A",new ClientInputHandler());
+        c1.clientInput.callBack=new ClientCallBack();
+        PlayerController c2 = new PlayerController("B",new ClientInputHandler());
+        c2.clientInput.callBack=new ClientCallBack();
+        PlayerController c3 = new PlayerController("C",new ClientInputHandler());
+        c3.clientInput.callBack=new ClientCallBack();
+        PlayerController c4 = new PlayerController("D",new ClientInputHandler());
+        c4.clientInput.callBack=new ClientCallBack();
         m.addPlayer(c1.getPlayer());
         m.addPlayer(c2.getPlayer());
         m.addPlayer(c3.getPlayer());

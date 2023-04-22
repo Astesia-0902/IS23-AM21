@@ -52,7 +52,7 @@ public class PersonalGoalTest {
 
     @Test
     void testGoalShelf(){
-        card = new PersonalGoalCard("PERSONAL_GOALs"+2);
+        card = new PersonalGoalCard("PERSONAL_GOAL0"+2);
         card.setupGoalShelf(p);
 
         assertEquals("_Plants_",card.getPersonalGoalShelf().getItemName(1,1));
@@ -61,7 +61,7 @@ public class PersonalGoalTest {
     }
     @Test
     void testCheckGoal(){
-        card = new PersonalGoalCard("PERSONAL_GOALs"+2);
+        card = new PersonalGoalCard("PERSONAL_GOAL0"+2);
         card.player=p;
         p.setMyPersonalGoal(card);
         p.setShelf(s);

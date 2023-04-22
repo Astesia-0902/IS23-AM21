@@ -266,9 +266,6 @@ public class Match {
      * And setting Turn Phase
      */
     public void initializeMatch() {
-        //Change GameState to GameGoing, from now on if a player leaves, then the match ends
-        gameState = GameState.GameGoing;
-
         //Determine the chairman player
         chairman = playerList.get((int) (Math.random() * maxSeats));
 
@@ -294,7 +291,6 @@ public class Match {
         board.firstSetup();
 
         setGameState(GameState.Ready);
-        //TODO: uncomment
     }
 
     /**

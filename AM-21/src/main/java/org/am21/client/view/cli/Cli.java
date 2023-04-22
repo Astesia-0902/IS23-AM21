@@ -32,6 +32,8 @@ public class Cli implements View {
 
     public Cli() throws RemoteException {
         this.clientCallBack = new ClientCallBack();
+        //TODO: keep it separate from constructor to avoid test destruction :)
+        this.clientCallBack.cli = this;
     }
 
     /**
@@ -394,8 +396,12 @@ public class Cli implements View {
     }
 
     @Override
-    public void showCurrentPlayer() throws RemoteException {
-        clientCallBack.sendMessageFromServer(JSONConverter.currentPlayer + ", it's your turn!");
+    public void showCurrentPlayer() {
+        if(JSONConverter.currentPlayer.equals(player)){
+            System.out.println("Hey "+player+"! It's your turn");
+        }else{
+            System.out.println("It's "+ JSONConverter.currentPlayer+"'s turn. ");
+        }
     }
 
     @Override
@@ -686,6 +692,22 @@ public class Cli implements View {
     @Override
     public void showTimer() {
 
+    }
+
+    /**
+     * Displays the initial setup:
+     * - Filled Board
+     * - 2 commonGoals
+     * - Player's personal goal
+     * - and current player
+     */
+    @Override
+    public void showMatchSetup() throws RemoteException {
+        //TODO: Redo better
+        showBoard();
+        showCommonGoals();
+        showPersonalGoal();
+        showCurrentPlayer();
     }
 
     private void showMenu() throws RemoteException {

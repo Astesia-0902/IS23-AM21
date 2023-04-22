@@ -1,0 +1,387 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PlayerController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: PlayerController (org.am21.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PlayerController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (12/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    82,9%
+  </span>
+  <span class="absValue">
+    (58/70)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.controller;
+&nbsp;
+&nbsp;import org.am21.model.Cards.PersonalGoalCard;
+&nbsp;import org.am21.model.Player;
+&nbsp;import org.am21.model.enumer.GamePhase;
+&nbsp;import org.am21.model.items.Board;
+&nbsp;import org.am21.model.items.Hand;
+&nbsp;import org.am21.networkRMI.ClientInputHandler;
+&nbsp;import org.am21.utilities.CardPointer;
+&nbsp;
+&nbsp;
+&nbsp;/**
+&nbsp; * @version 1.0
+&nbsp; */
+&nbsp;public class PlayerController {
+&nbsp;    private Player player;
+&nbsp;    private Hand hand;
+&nbsp;    public ClientInputHandler clientInput;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * PlayerController constructor is initialized by ClientGameController, when ClientInputHandler login.
+&nbsp;     * It will create the player and add his reference
+&nbsp;     *
+&nbsp;     */
+<b class="fc">&nbsp;    public PlayerController(String nickname, ClientInputHandler clientInput){</b>
+<b class="fc">&nbsp;        this.player = new Player(nickname,this);</b>
+<b class="fc">&nbsp;        this.hand = new Hand(this.player);</b>
+<b class="fc">&nbsp;        this.player.setHand(this.hand);</b>
+<b class="fc">&nbsp;        this.clientInput = clientInput;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Player getPlayer() {
+<b class="fc">&nbsp;        return player;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setPlayer(Player player) {
+<b class="nc">&nbsp;        this.player = player;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Hand getHand() {
+<b class="fc">&nbsp;        return hand;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setHand(Hand hand) {
+<b class="nc">&nbsp;        this.hand = hand;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Command to set player&#39;s nickname
+&nbsp;     * @param newName
+&nbsp;     */
+&nbsp;    public void changeName(String newName){
+&nbsp;
+<b class="nc">&nbsp;        player.setNickname(newName);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Command to see my own goal
+&nbsp;     * !Implementation incomplete due to Lack of View Component!
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    public PersonalGoalCard viewPersonalGoal(){
+&nbsp;
+<b class="nc">&nbsp;        return player.getMyPersonalGoal();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * During SelectionCards of GamePhase, when the player click on an item,
+&nbsp;     * the command will memorize the item position and reference in the PlayerHand
+&nbsp;     * if is Selectable(at least one item adjacent)
+&nbsp;     * and if is Orthogonal to the other selected cards
+&nbsp;     *
+&nbsp;     * To revisit
+&nbsp;     *
+&nbsp;     * @param r
+&nbsp;     * @param c
+&nbsp;     * @return false : Selection failed
+&nbsp;     */
+&nbsp;    public boolean selectCell(int r,int c){
+&nbsp;//        System.out.println(player.getName() + &quot; &gt; Select: [&quot; + r + &quot;][&quot; + c + &quot;]&quot;);
+&nbsp;        // verify if it is player turn or if it is the right phase
+<b class="fc">&nbsp;        if(!isMyTurn(player)||player.getMatch().gamePhase != GamePhase.Selection) {</b>
+&nbsp;
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if(player.getShelf().insertLimit == hand.getSlot().size()){</b>
+&nbsp;            // Limit reached
+&nbsp;            //System.out.println(&quot;Shelf &gt; Cannot pick more item&quot;);
+&nbsp;            //System.out.println(&quot;Shelf &gt; Hand[&quot;+hand.getSlot().size()+&quot;]-Limit [&quot;+player.shelves.insertLimit +&quot;]&quot;);
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Board board = player.getMatch().board;</b>
+&nbsp;
+<b class="fc">&nbsp;        if (board.isPlayable(r,c) &amp;&amp; board.isOccupied(r,c) &amp;&amp; board.hasFreeSide(r, c)) {</b>
+&nbsp;            //System.out.println(&quot;Board &gt; Cell selectable&quot;);
+&nbsp;            /*If the cell is selectable then verify second condition*/
+&nbsp;
+<b class="fc">&nbsp;            if (hand.getSlot().size()&gt;0)  {</b>
+&nbsp;                //quando ci sono altre carte in mano, controllo se è gia stata selezionata
+<b class="fc">&nbsp;                for (CardPointer tmp : hand.getSlot()) {</b>
+<b class="fc">&nbsp;                    if ((r == tmp.x) &amp;&amp; (c == tmp.y)) {</b>
+&nbsp;                        //Gia selezionato
+&nbsp;                        //System.out.println(&quot;Board[!] &gt; Already selected. Try again.&quot;);
+<b class="nc">&nbsp;                        return false;</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                }</b>
+&nbsp;
+&nbsp;                //Iteriamo slot
+&nbsp;                //Condizione 2 (Ortogonalità):
+&nbsp;                //NewSelected Cell need to be adjacent to the other in slot.
+&nbsp;                //NewSelected Cell need to be in a straight line.
+&nbsp;                /*Coordinates have been filtered,
+&nbsp;                   so they are valid for Orthogonality check*/
+<b class="fc">&nbsp;                if (!board.isOrthogonal(r, c, hand)) {</b>
+&nbsp;                    //System.out.println(&quot;Board &gt; Not Orthogonal [&quot;+r+&quot;,&quot;+c+&quot;]&quot;);
+<b class="fc">&nbsp;                    return false;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;            //Tutti i controlli passati: posso inserirlo nella hand
+&nbsp;            //salvo le coordinate e il riferimento dell&#39;item nella hand*/
+<b class="fc">&nbsp;            hand.memCard(board.getCell(r, c), r, c);</b>
+&nbsp;//            System.out.println(&quot;Match &gt; Item selected: [&quot; + tmpBoard.getCellItem(r, c).getNameCard() + &quot;]&quot;);
+&nbsp;//
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+&nbsp;            //Questo messaggio sara tolto e messo in ClientInputHandler o nelle funzioni dei test
+&nbsp;//            System.out.println(&quot;Match &gt; Selection Failed&quot;);
+&nbsp;        /*try {
+&nbsp;            clientInput.callBack.sendMessageFromServer(ServerMessage.SelectionFailed.toString());
+&nbsp;        }catch (RemoteException e){
+&nbsp;            throw new RuntimeException(e);
+&nbsp;        }*/
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Triggered maybe by right-click
+&nbsp;     * During Selection Phase:
+&nbsp;     * Clear Hand. The Player need to reselect all the cells
+&nbsp;     */
+&nbsp;    public boolean unselectCards(){
+<b class="fc">&nbsp;        if(!isMyTurn(player)) {</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if(player.getMatch().gamePhase == GamePhase.Selection &amp;&amp; hand.getSlot().size()&gt;0) {</b>
+<b class="fc">&nbsp;            hand.clearHand();</b>
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Triggered maybe by a Confirm Selection Button
+&nbsp;     * Or by the timer
+&nbsp;     * It will ask the match to change TurnPhase in Insertion
+&nbsp;     */
+&nbsp;    public boolean callEndSelection(){
+<b class="fc">&nbsp;        if(!isMyTurn(player)) {</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        player.getMatch().setGamePhase(GamePhase.Insertion);</b>
+<b class="fc">&nbsp;        moveAllToHand();</b>
+&nbsp;
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * During Insertion Phase.
+&nbsp;     * Item in hand will be removed from Board through slot iteration.
+&nbsp;     * @return true if the items has been removed all from the board
+&nbsp;     */
+&nbsp;    public boolean moveAllToHand(){
+<b class="fc">&nbsp;        if(!isMyTurn(player)) {</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if(player.getMatch().gamePhase == GamePhase.Insertion){</b>
+<b class="fc">&nbsp;            for(CardPointer card: hand.getSlot()){</b>
+<b class="fc">&nbsp;                if(player.getMatch().board.isOccupied(card.x,card.y)) {</b>
+<b class="fc">&nbsp;                    player.getMatch().board.setCell(card.x, card.y, null);</b>
+&nbsp;                }
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Request for the Shelf to insert all the selected cards in a column(col)
+&nbsp;     * @param col
+&nbsp;     * @return true if the insertion is successful
+&nbsp;     */
+&nbsp;    public boolean tryToInsert(int col){
+<b class="fc">&nbsp;        if(!isMyTurn(player)) {</b>
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if(player.getMatch().gamePhase == GamePhase.Insertion){</b>
+&nbsp;//            System.out.println(player.getName()+&quot; &gt; Column: [&quot;+col+&quot;]&quot;);
+<b class="fc">&nbsp;            if(player.getShelf().slotCol.get(col) &lt; hand.getSlot().size()){</b>
+&nbsp;                //System.out.println(&quot;Shelf[!] &gt; Not enough space in this column&quot;);
+&nbsp;                /*
+&nbsp;                for(int x: player.shelves.slotCol){
+&nbsp;                    System.out.print(&quot;[&quot;+x+&quot;]&quot;);
+&nbsp;                }
+&nbsp;                System.out.println(&quot;&quot;);*/
+&nbsp;                //System.out.println(&quot;Shelf &gt; Limit: [&quot;+player.shelves.insertLimit +&quot;]&quot;);
+<b class="nc">&nbsp;                return false;</b>
+&nbsp;            }else{
+<b class="fc">&nbsp;                for(int i=hand.getSlot().size(),s=0;i&gt;0;i--,s++){</b>
+&nbsp;                    //Inserting one card at the time
+<b class="fc">&nbsp;                    if(player.getShelf().insertInColumn(hand.getSlot().get(s).item,col)){</b>
+&nbsp;                        //System.out.println(&quot;Shelf &gt; Insert...&quot;);
+&nbsp;
+&nbsp;                    }else{
+&nbsp;                        //If one of the card cannot be put indide the column
+<b class="nc">&nbsp;                        return false;</b>
+&nbsp;                    }
+&nbsp;
+&nbsp;                }
+&nbsp;                //Inserimento avvenuto, devo pulire hand
+&nbsp;                //e calcolare new InsertLimit
+<b class="fc">&nbsp;                hand.clearHand();</b>
+<b class="fc">&nbsp;                player.getShelf().checkLimit();</b>
+&nbsp;                //GameGear.printThisShelf(player.shelves);
+<b class="fc">&nbsp;                callEndInsertion();</b>
+&nbsp;
+<b class="fc">&nbsp;                return true;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method will call another one in Hand to swap the position of two cards
+&nbsp;     *
+&nbsp;     * @param i is position 1
+&nbsp;     * @param j is position 2
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    public boolean changeHandOrder(int i,int j){
+<b class="fc">&nbsp;        if(isMyTurn(player) &amp;&amp; hand.changeOrder(i,j)){</b>
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Verify if is the current Player correspond with the one calling this method
+&nbsp;     * @param player
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    public boolean isMyTurn(Player player){
+<b class="fc">&nbsp;        if(player.getMatch().currentPlayer != player) {</b>
+&nbsp;            //System.out.println(&quot;Match &gt; Not your turn, &quot;+ player.getName());
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    public void callEndInsertion(){
+<b class="fc">&nbsp;        if(player.getMatch().gamePhase==GamePhase.Insertion) {</b>
+<b class="fc">&nbsp;            player.getMatch().setGamePhase(GamePhase.GoalChecking);</b>
+<b class="fc">&nbsp;            player.getMatch().checkCommonGoals(player);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to add points to current player&#39;s Score
+&nbsp;     * @param points
+&nbsp;     */
+&nbsp;    public void addScore(int points){
+<b class="fc">&nbsp;        player.setPlayerScore(player.getPlayerScore()+points);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-22 23:48</div>
+</div>
+</body>
+</html>

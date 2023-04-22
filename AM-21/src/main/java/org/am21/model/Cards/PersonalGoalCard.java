@@ -18,18 +18,18 @@ public class PersonalGoalCard extends Card {
         /** {row of shelves, column of shelves, index of tileNames}*/
         //  index of tileNames: Cats(0), Books(1), Games(2), Frames(3), Trophies(4), Plants(5)
 
-        personalGoal.put("PERSONAL_GOALs1", new int[][]{{0, 0, 5}, {0, 2, 3}, {1, 4, 0}, {2, 3, 1}, {3, 1, 2}, {5, 2, 4}});
-        personalGoal.put("PERSONAL_GOALs2", new int[][]{{1, 1, 5}, {2, 0, 0}, {2, 2, 2}, {3, 4, 1}, {4, 3, 4}, {5, 4, 3}});
-        personalGoal.put("PERSONAL_GOALs3", new int[][]{{1, 0, 3}, {1, 3, 2}, {2, 2, 5}, {3, 1, 0}, {3, 4, 4}, {5, 0, 1}});
-        personalGoal.put("PERSONAL_GOALs4", new int[][]{{0, 4, 2}, {2, 0, 4}, {2, 2, 3}, {3, 3, 5}, {4, 1, 1}, {4, 2, 0}});
-        personalGoal.put("PERSONAL_GOALs5", new int[][]{{1, 1, 4}, {3, 1, 3}, {3, 2, 1}, {4, 4, 5}, {5, 0, 2}, {5, 3, 0}});
-        personalGoal.put("PERSONAL_GOALs6", new int[][]{{0, 2, 4}, {0, 4, 0}, {2, 3, 1}, {4, 1, 2}, {4, 3, 3}, {5, 0, 5}});
-        personalGoal.put("PERSONAL_GOALs7", new int[][]{{0, 0, 0}, {1, 3, 3}, {2, 1, 5}, {3, 0, 4}, {4, 4, 2}, {5, 2, 1}});
-        personalGoal.put("PERSONAL_GOALs8", new int[][]{{0, 4, 3}, {1, 1, 0}, {2, 2, 4}, {3, 0, 5}, {4, 3, 1}, {5, 3, 2}});
-        personalGoal.put("PERSONAL_GOALs9", new int[][]{{0, 2, 2}, {2, 2, 0}, {3, 4, 1}, {4, 1, 4}, {4, 4, 5}, {5, 0, 3}});
-        personalGoal.put("PERSONAL_GOALs10", new int[][]{{0, 4, 4}, {1, 1, 2}, {2, 0, 1}, {3, 3, 0}, {4, 1, 3}, {5, 3, 5}});
-        personalGoal.put("PERSONAL_GOALs11", new int[][]{{0, 2, 5}, {1, 1, 1}, {2, 0, 2}, {3, 2, 3}, {4, 4, 0}, {5, 3, 4}});
-        personalGoal.put("PERSONAL_GOALs12", new int[][]{{0, 2, 1}, {1, 1, 5}, {2, 2, 3}, {3, 3, 4}, {4, 4, 2}, {5, 0, 0}});
+        personalGoal.put("PERSONAL_GOAL01", new int[][]{{0, 0, 5}, {0, 2, 3}, {1, 4, 0}, {2, 3, 1}, {3, 1, 2}, {5, 2, 4}});
+        personalGoal.put("PERSONAL_GOAL02", new int[][]{{1, 1, 5}, {2, 0, 0}, {2, 2, 2}, {3, 4, 1}, {4, 3, 4}, {5, 4, 3}});
+        personalGoal.put("PERSONAL_GOAL03", new int[][]{{1, 0, 3}, {1, 3, 2}, {2, 2, 5}, {3, 1, 0}, {3, 4, 4}, {5, 0, 1}});
+        personalGoal.put("PERSONAL_GOAL04", new int[][]{{0, 4, 2}, {2, 0, 4}, {2, 2, 3}, {3, 3, 5}, {4, 1, 1}, {4, 2, 0}});
+        personalGoal.put("PERSONAL_GOAL05", new int[][]{{1, 1, 4}, {3, 1, 3}, {3, 2, 1}, {4, 4, 5}, {5, 0, 2}, {5, 3, 0}});
+        personalGoal.put("PERSONAL_GOAL06", new int[][]{{0, 2, 4}, {0, 4, 0}, {2, 3, 1}, {4, 1, 2}, {4, 3, 3}, {5, 0, 5}});
+        personalGoal.put("PERSONAL_GOAL07", new int[][]{{0, 0, 0}, {1, 3, 3}, {2, 1, 5}, {3, 0, 4}, {4, 4, 2}, {5, 2, 1}});
+        personalGoal.put("PERSONAL_GOAL08", new int[][]{{0, 4, 3}, {1, 1, 0}, {2, 2, 4}, {3, 0, 5}, {4, 3, 1}, {5, 3, 2}});
+        personalGoal.put("PERSONAL_GOAL09", new int[][]{{0, 2, 2}, {2, 2, 0}, {3, 4, 1}, {4, 1, 4}, {4, 4, 5}, {5, 0, 3}});
+        personalGoal.put("PERSONAL_GOAL10", new int[][]{{0, 4, 4}, {1, 1, 2}, {2, 0, 1}, {3, 3, 0}, {4, 1, 3}, {5, 3, 5}});
+        personalGoal.put("PERSONAL_GOAL11", new int[][]{{0, 2, 5}, {1, 1, 1}, {2, 0, 2}, {3, 2, 3}, {4, 4, 0}, {5, 3, 4}});
+        personalGoal.put("PERSONAL_GOAL12", new int[][]{{0, 2, 1}, {1, 1, 5}, {2, 2, 3}, {3, 3, 4}, {4, 4, 2}, {5, 0, 0}});
 
         Collections.addAll(tileNames,
                 new ItemCard(ItemType.__Cats__.name()), new ItemCard(ItemType._Books__.name()),
@@ -55,7 +55,7 @@ public class PersonalGoalCard extends Card {
      */
     public int checkGoal() {
         //System.out.println("Match > Checking PersonalGoal achievement: ");
-        int[][] values = personalGoal.get(getNameCard());
+        int[][] values = personalGoal.get(player.getMyPersonalGoal().getNameCard());
         int count = 0;
         for (int i = 0; i < values.length; i++) {
             int row = values[i][0];

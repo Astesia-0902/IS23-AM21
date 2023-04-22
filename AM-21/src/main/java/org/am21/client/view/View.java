@@ -27,4 +27,5 @@ public interface View {
     void askEndGameToken();
     void help() throws ServerNotActiveException, RemoteException;
     void showTimer();
+    void showMatchSetup() throws RemoteException;
 }

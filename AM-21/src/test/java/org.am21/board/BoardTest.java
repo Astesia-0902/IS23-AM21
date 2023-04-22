@@ -7,10 +7,14 @@ import org.am21.model.Match;
 import org.am21.model.items.Bag;
 import org.am21.model.items.Board;
 import org.am21.model.items.Hand;
+import org.am21.networkRMI.ClientCallBack;
+import org.am21.networkRMI.ClientInputHandler;
 import org.am21.utilities.CardPointer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -213,10 +217,12 @@ public class BoardTest {
      * Test if I can pick all three of them, also in different order
      */
     @Test
-    void testIsOrthogonal2(){
+    void testIsOrthogonal2() throws RemoteException {
         Match m1 = new Match(2);
-        PlayerController c = new PlayerController("A",null);
-        PlayerController d = new PlayerController("B",null);
+        PlayerController c = new PlayerController("A",new ClientInputHandler());
+        PlayerController d = new PlayerController("B",new ClientInputHandler());
+        c.clientInput.callBack=new ClientCallBack();
+        d.clientInput.callBack=new ClientCallBack();
         m1.addPlayer(c.getPlayer());
         m1.addPlayer(d.getPlayer());
 
@@ -247,10 +253,12 @@ public class BoardTest {
      * Test if I can pick all three of them, also in different order
      */
     @Test
-    void testIsOrthogonal3(){
+    void testIsOrthogonal3() throws RemoteException {
         Match m1 = new Match(2);
-        PlayerController c = new PlayerController("A",null);
-        PlayerController d = new PlayerController("B",null);
+        PlayerController c = new PlayerController("A",new ClientInputHandler());
+        PlayerController d = new PlayerController("B",new ClientInputHandler());
+        c.clientInput.callBack=new ClientCallBack();
+        d.clientInput.callBack=new ClientCallBack();
         m1.addPlayer(c.getPlayer());
         m1.addPlayer(d.getPlayer());
 

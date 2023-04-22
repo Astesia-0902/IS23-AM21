@@ -37,8 +37,6 @@ public class VirtualViewHelper {
      *
      * @param match the match
      */
-    //TODO: maybe updatePlayer?
-    //TODO: maybe is called when the match has been initialized and not when a player is added
     private static void setPlayers(Match match) {
         List<String> players = new ArrayList<>();
         List<Integer> personalGoals = new ArrayList<>();
@@ -46,7 +44,6 @@ public class VirtualViewHelper {
         List<String[][]> shelves = new ArrayList<>();
         for (Player player : match.playerList) {
             players.add(player.getNickname());
-            //TODO: uncomment
             int stringLength = player.getMyPersonalGoal().getNameCard().length();
             String temp = player.getMyPersonalGoal().getNameCard().substring(stringLength - 2, stringLength);
             int goalID = Integer.parseInt(temp);

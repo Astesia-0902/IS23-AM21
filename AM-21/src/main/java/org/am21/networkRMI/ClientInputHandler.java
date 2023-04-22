@@ -169,6 +169,6 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     @Override
     public void registerCallBack(IClientCallBack callBack) throws RemoteException {
         this.callBack = callBack;
-        System.out.println("Client registered callback");
+        System.out.println("Client Callback registered ");
     }
 }
