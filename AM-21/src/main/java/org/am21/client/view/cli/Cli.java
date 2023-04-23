@@ -104,58 +104,6 @@ public class Cli implements View {
                 + ":" + serverInfo.get("port"));
     }
 
-    public void showGoalDescription(String CommonGoalCard) throws RemoteException {
-        switch (CommonGoalCard){
-            case "CommonGoal2Lines":
-                System.out.println("CommonGoal2Lines: Two columns each formed by 6 different types of tiles.");
-                break;
-            case "CommonGoal2Columns":
-                System.out.println("CommonGoal2Columns: Two lines each formed by 5 different types of tiles. " +
-                        "One line can show the same or a different combination of the other line.");
-                break;
-            case "CommonGoal3Column":
-                System.out.println("CommonGoal3Column: Three columns each formed by 6 tiles of maximum three " +
-                        "different types. One column can show the same or a different combination of another column.");
-                break;
-            case "CommonGoal4Lines":
-                System.out.println("CommonGoal4Lines: Four lines each formed by 5 tiles of maximum three " +
-                        "different types. One line can show the same or a different combination of another line.");
-                break;
-            case "CommonGoal8Tiles":
-                System.out.println("CommonGoal8Tiles: Eight tiles of the same type. " +
-                        "There’s no restriction about the position of these tiles.");
-                break;
-            case "CommonGoalCorner":
-                System.out.println("CommonGoalCorner: Four tiles of the same type in the four corners of " +
-                        "the bookshelf.");
-                break;
-            case "CommonGoalDiagonal":
-                System.out.println("CommonGoalDiagonal: Five tiles of the same type forming a diagonal.");
-                break;
-            case "CommonGoalSquare":
-                System.out.println("CommonGoalSquare: Two groups each containing 4 tiles of the same type in a 2x2 " +
-                        "square. The tiles of one square can be different from those of the other square.");
-            case "CommonGoalStairs":
-                System.out.println("CommonGoalStairs: Five columns of increasing or decreasing height. " +
-                        "Starting from the first column on the left or on the right, " +
-                        "each next column must be made of exactly one more tile. Tiles can be of any type.");
-                break;
-            case "CommonGoal4Group":
-                System.out.println("CommonGoal4Group: Four groups each containing at least 4 tiles of the same type " +
-                        "(not necessarily in the depicted shape). The tiles of one group can be different " +
-                        "from those of another group.");
-                break;
-            case "CommonGoal6Group":
-                System.out.println("CommonGoal6Group: Six groups each containing at least 2 tiles of the same type " +
-                        "(not necessarily in the depicted shape). The tiles of one group can be different " +
-                        "from those of another group.");
-                break;
-            case "CommonGoalXShape":
-                System.out.println("CommonGoalXShape: Five tiles of the same type forming an X.");
-                break;
-        }
-    }
-
     //    public void clearCli(){
 //        System.out.println("\033[H\033[2J");
 //        System.out.flush();
@@ -172,7 +120,6 @@ public class Cli implements View {
 
             if(usernameAccepted){
                 this.username=username;
-                System.out.println("AAAAA");
             } else {
                 username = readLine();
             }
@@ -180,7 +127,7 @@ public class Cli implements View {
     }
 
     @Override
-    public void askAction() throws ServerNotActiveException, RemoteException {
+    public void askMenuAction() throws ServerNotActiveException, RemoteException {
         System.out.println("""
                 Game Option:
                 1. Create a new match.
@@ -246,7 +193,7 @@ public class Cli implements View {
             if(iClientInputHandler.joinGame(matchID)){
                 askWaitingAction();
             }else{
-                askAction();
+                askMenuAction();
             }
         } catch (NumberFormatException e){
             System.out.println("Invalid input! Please try again.");
@@ -806,9 +753,61 @@ public class Cli implements View {
 
     @Override
     public void showOnlinePlayer() throws RemoteException {
-
+        iClientInputHandler.printOnlinePlayers();
     }
     public void printer(String message){
         System.out.println(message);
+    }
+
+    public void showGoalDescription(String CommonGoalCard) throws RemoteException {
+        switch (CommonGoalCard){
+            case "CommonGoal2Lines":
+                System.out.println("CommonGoal2Lines: Two columns each formed by 6 different types of tiles.");
+                break;
+            case "CommonGoal2Columns":
+                System.out.println("CommonGoal2Columns: Two lines each formed by 5 different types of tiles. " +
+                        "One line can show the same or a different combination of the other line.");
+                break;
+            case "CommonGoal3Column":
+                System.out.println("CommonGoal3Column: Three columns each formed by 6 tiles of maximum three " +
+                        "different types. One column can show the same or a different combination of another column.");
+                break;
+            case "CommonGoal4Lines":
+                System.out.println("CommonGoal4Lines: Four lines each formed by 5 tiles of maximum three " +
+                        "different types. One line can show the same or a different combination of another line.");
+                break;
+            case "CommonGoal8Tiles":
+                System.out.println("CommonGoal8Tiles: Eight tiles of the same type. " +
+                        "There’s no restriction about the position of these tiles.");
+                break;
+            case "CommonGoalCorner":
+                System.out.println("CommonGoalCorner: Four tiles of the same type in the four corners of " +
+                        "the bookshelf.");
+                break;
+            case "CommonGoalDiagonal":
+                System.out.println("CommonGoalDiagonal: Five tiles of the same type forming a diagonal.");
+                break;
+            case "CommonGoalSquare":
+                System.out.println("CommonGoalSquare: Two groups each containing 4 tiles of the same type in a 2x2 " +
+                        "square. The tiles of one square can be different from those of the other square.");
+            case "CommonGoalStairs":
+                System.out.println("CommonGoalStairs: Five columns of increasing or decreasing height. " +
+                        "Starting from the first column on the left or on the right, " +
+                        "each next column must be made of exactly one more tile. Tiles can be of any type.");
+                break;
+            case "CommonGoal4Group":
+                System.out.println("CommonGoal4Group: Four groups each containing at least 4 tiles of the same type " +
+                        "(not necessarily in the depicted shape). The tiles of one group can be different " +
+                        "from those of another group.");
+                break;
+            case "CommonGoal6Group":
+                System.out.println("CommonGoal6Group: Six groups each containing at least 2 tiles of the same type " +
+                        "(not necessarily in the depicted shape). The tiles of one group can be different " +
+                        "from those of another group.");
+                break;
+            case "CommonGoalXShape":
+                System.out.println("CommonGoalXShape: Five tiles of the same type forming an X.");
+                break;
+        }
     }
 }

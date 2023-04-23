@@ -35,6 +35,8 @@ public interface IClientInput extends Remote {
 
     void registerCallBack(IClientCallBack callBack) throws RemoteException;
 
-    void sendChatMessage(String message);
+    void sendChatMessage(String message) throws RemoteException;
+
+    void printOnlinePlayers() throws RemoteException;
 }
 

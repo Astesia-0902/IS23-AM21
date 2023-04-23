@@ -33,7 +33,7 @@ public class ClientApp {
                 System.out.println("----------------------------------");
                 switch (sel) {
                     case "welcome":cli.init(); break;
-                    case "action": cli.askAction(); break;
+                    case "action": cli.askMenuAction(); break;
                     case "login": cli.askLogin(); break;
                     case "create": cli.askCreateMatch(); break;
                     case "join": cli.askJoinMatch(); break;

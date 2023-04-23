@@ -58,15 +58,13 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         userHost = getClientHost();
         this.userName = username;
         playerController = new PlayerController(username, this);
-        System.out.println("whatever");
         //TODO:the same username is not allowed to log in(same name not allowed)
         synchronized (GameManager.players) {
             if (!GameManager.players.contains(playerController.getPlayer())) {
                 GameManager.players.add(playerController.getPlayer());
             }
         }
-
-        this.callBack.sendMessageToClient("Login Successful. Hi "+username);
+        this.callBack.sendMessageToClient("Server > Login Successful. Hi "+username);
         return true;
     }
 
@@ -177,19 +175,20 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     }
 
     @Override
-    public void sendChatMessage(String message) {
+    public void sendChatMessage(String message) throws RemoteException {
 
     }
-
+    @Override
     public void printOnlinePlayers() throws RemoteException{
+        String message="";
         callBack.sendMessageToClient("List of Online PLayers:");
         for(Player p:GameManager.players){
-            if(p.getStatus()== UserStatus.Online){
-                callBack.sendMessageToClient("["+p.getNickname()+"]");
+            if(p.getStatus()==UserStatus.Online || p.getStatus()==UserStatus.GameMember){
+                message+=("["+p.getNickname()+"] ");
 
             }
-
         }
+        callBack.sendMessageToClient(message);
 
     }
 }

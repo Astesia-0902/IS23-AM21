@@ -261,6 +261,7 @@ public class PlayerController {
     public boolean changeHandOrder(int i,int j){
         if(isMyTurn(player) && hand.changeOrder(i,j)){
             //TODO: add VV update hand
+            //TODO: Server message: Order changed
             return true;
         }
         return false;

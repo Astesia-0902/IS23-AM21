@@ -2,7 +2,6 @@ package org.am21.model.items;
 
 import org.am21.model.Cards.ItemCard;
 import org.am21.model.Player;
-import org.am21.model.VirtualViewHelper;
 import org.am21.model.enumer.GamePhase;
 import org.am21.utilities.CardPointer;
 
@@ -68,15 +67,16 @@ public class Hand {
      */
     public boolean changeOrder(int i, int j){
         int limit =getSlot().size();
+        if(limit<=1){
+            //TODO: server message: Not enough cards to swap
+            return false;
+        }
         if(i>=0 && i<limit && j>=0 && j<limit && limit>1){
             Collections.swap(slot, i, j);
             //System.out.println("Hand > Order Changed");
-
-            //notify virtual view
-//            VirtualViewHelper.setCurrentPlayerHand(player.getMatch());
-//            player.getMatch().notifyVirtualView();
             return true;
         }
+        //TODO: server message: Index Out of Border
         return false;
     }
 
