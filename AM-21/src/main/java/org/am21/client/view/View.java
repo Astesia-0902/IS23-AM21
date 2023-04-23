@@ -9,10 +9,11 @@ public interface View {
 
     void askLogin() throws ServerNotActiveException, RemoteException;
     void askAction() throws ServerNotActiveException, RemoteException;
-    void askCreateGame() throws ServerNotActiveException, RemoteException;
+    void askCreateMatch() throws ServerNotActiveException, RemoteException;
     int askMaxSeats() throws RemoteException;
-    void askJoinGame() throws ServerNotActiveException, RemoteException;
-    void askLeaveGame() throws RemoteException;
+    void askJoinMatch() throws ServerNotActiveException, RemoteException;
+    void askLeaveMatch() throws RemoteException;
+    void askExitGame() throws RemoteException;
     void showCommonGoals() throws RemoteException;
     void showPersonalGoal() throws RemoteException;
     void showCurrentPlayer() throws RemoteException;

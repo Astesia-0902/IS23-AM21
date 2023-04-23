@@ -35,10 +35,10 @@ public class ClientApp {
                     case "welcome":cli.init(); break;
                     case "action": cli.askAction(); break;
                     case "login": cli.askLogin(); break;
-                    case "create": cli.askCreateGame(); break;
-                    case "join": cli.askJoinGame(); break;
+                    case "create": cli.askCreateMatch(); break;
+                    case "join": cli.askJoinMatch(); break;
                     case "max": cli.askMaxSeats(); break;
-                    case "leave": cli.askLeaveGame(); break;
+                    case "leave": cli.askLeaveMatch(); break;
                     case "info": cli.askServerInfo(); break;
                     //TODO:case "scg":cli.showCommonGoals();break;
                     //TODO:case "spg":cli.showCommonGoals();break;

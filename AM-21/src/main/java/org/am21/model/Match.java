@@ -329,11 +329,15 @@ public class Match {
      * notify all the players of the virtual view
      */
     public void notifyVirtualView() {
+
         for (Player p : playerList) {
-            try {
-                p.getController().clientInput.callBack.sendVirtualView(getVirtualView());
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
+            //TODO: Watch out for test
+            if(p.getController().clientInput.callBack!=null){
+                try {
+                    p.getController().clientInput.callBack.sendVirtualView(getVirtualView());
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }

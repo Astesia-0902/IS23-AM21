@@ -4,10 +4,12 @@ import org.am21.controller.PlayerController;
 import org.am21.model.Match;
 import org.am21.model.Player;
 import org.am21.model.enumer.GameState;
+import org.am21.networkRMI.ClientInputHandler;
 import org.am21.utilities.CardPointer;
 import org.am21.utilities.GameGear;
 import org.junit.jupiter.api.DisplayName;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -113,17 +115,17 @@ public class Gear {
 
     }
 
-    public static Match buildGame(int seats, int nRounds){
+    public static Match buildGame(int seats, int nRounds) throws RemoteException {
         Match m = new Match(seats);
         numMatch++;
         System.out.println("Game > [[Match n. "+ numMatch+"]]");
-        PlayerController pC1 = new PlayerController("Kratos",null);
+        PlayerController pC1 = new PlayerController("Kratos",new ClientInputHandler());
         Player p1 = pC1.getPlayer();
-        PlayerController pC2 = new PlayerController("Omar",null);
+        PlayerController pC2 = new PlayerController("Omar",new ClientInputHandler());
         Player p2 = pC2.getPlayer();
-        PlayerController pC3 = new PlayerController("Silvestro",null);
+        PlayerController pC3 = new PlayerController("Silvestro",new ClientInputHandler());
         Player p3 = pC3.getPlayer();
-        PlayerController pC4 = new PlayerController("Jane",null);
+        PlayerController pC4 = new PlayerController("Jane",new ClientInputHandler());
         Player p4 = pC4.getPlayer();
         m.addPlayer(p1);
         m.addPlayer(p2);

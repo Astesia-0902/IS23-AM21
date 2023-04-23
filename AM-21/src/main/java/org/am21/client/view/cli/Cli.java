@@ -196,13 +196,13 @@ public class Cli implements View {
         while (option != 0) {
             switch (option) {
                 case 1:
-                    askCreateGame();
+                    askCreateMatch();
                     break;
                 case 2:
-                    askJoinGame();
+                    askJoinMatch();
                     break;
                 case 3:
-                    askLeaveGame();
+                    askLeaveMatch();
                     break;
                 default:
                     option = Integer.parseInt(readLine());
@@ -213,7 +213,7 @@ public class Cli implements View {
     }
 
     @Override
-    public void askCreateGame() throws ServerNotActiveException, RemoteException {
+    public void askCreateMatch() throws ServerNotActiveException, RemoteException {
         clientCallBack.sendMessageFromServer("Room generation in  progress...");
         int playerNumber = askMaxSeats();
         int matchID;
@@ -245,7 +245,7 @@ public class Cli implements View {
     }
 
     @Override
-    public void askJoinGame() throws ServerNotActiveException, RemoteException {
+    public void askJoinMatch() throws ServerNotActiveException, RemoteException {
         boolean replyAction = false;
         int matchID;
         do {
@@ -265,10 +265,15 @@ public class Cli implements View {
     }
 
     @Override
-    public void askLeaveGame() throws RemoteException {
+    public void askLeaveMatch() throws RemoteException {
         //TODO: fixe the null point
-        iClientInputHandler.exitMatch();
+        iClientInputHandler.leaveMatch();
         clientCallBack.sendMessageFromServer("See you soon. Bye.");
+    }
+
+    @Override
+    public void askExitGame() throws RemoteException {
+
     }
 
     @Override
@@ -445,11 +450,12 @@ public class Cli implements View {
     @Override
     public void askSelection() throws ServerNotActiveException, RemoteException {
         if (!insertPhase) {
+            //TODO: Questo controllo andrebbe fatto solo dal server
             if (JSONConverter.currentPlayerHand.size() < HAND_SIZE) {
                 showBoard();
                 boolean selectionConfirm;
                 do {
-                    List<Integer> coordinates = askIndex();
+                    List<Integer> coordinates = askCoordinates();
                     int row = coordinates.get(0);
                     int column = coordinates.get(1);
 
@@ -575,7 +581,9 @@ public class Cli implements View {
         clientCallBack.sendMessageFromServer("Which cards should switch?");
         boolean sortConfirm;
         int position1 = 1, position2 = 2;
-
+        //TODO: Controllo che pos1 e pos2 siano diversi per evitare scambio della stessa posizione
+        // (che si puo fare, ma vogliamo evitare di far perdere tempo al server)
+        //TODO: Nel server la hand ha index-0 come prima posizione quindi è necessario manipolazione dei numeri
         do {
             do {
                 try {
@@ -695,6 +703,7 @@ public class Cli implements View {
     }
 
     /**
+     * Called by CALLBACK
      * Displays the initial setup:
      * - Filled Board
      * - 2 commonGoals
@@ -724,8 +733,8 @@ public class Cli implements View {
         msg- Send Message to General chat.
         end- Check EndGameToken.
         time- Show timer.
-        quit- Quit Match.
-        exit- Cancel option.
+        leave- Leave Match.
+        exit- Exit Game.
         """);
     }
 
@@ -774,8 +783,11 @@ public class Cli implements View {
                 case "time":
                     showTimer();
                     break;
-                case "quit":
-                    askLeaveGame();
+                case "leave":
+                    askLeaveMatch();
+                    break;
+                case "exit":
+                    askExitGame();
                     break;
                 default:
                     option = readLine();

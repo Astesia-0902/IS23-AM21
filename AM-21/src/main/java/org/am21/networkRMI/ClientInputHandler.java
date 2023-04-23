@@ -148,7 +148,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      * @return
      */
     @Override
-    public boolean exitMatch() throws RemoteException {
+    public boolean leaveMatch() throws RemoteException {
         if (GameController.removePlayerFromMatch(playerController, playerController.getPlayer().getMatch().matchID)) {
             return true;
         }

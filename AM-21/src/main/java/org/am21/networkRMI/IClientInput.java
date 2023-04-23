@@ -29,7 +29,7 @@ public interface IClientInput extends Remote {
 
     boolean sortHand(int pos1, int pos2) throws RemoteException,ServerNotActiveException;
 
-    boolean exitMatch() throws RemoteException;
+    boolean leaveMatch() throws RemoteException;
 
     String getVirtualView() throws RemoteException;
 

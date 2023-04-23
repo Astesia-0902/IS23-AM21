@@ -3,10 +3,13 @@ package org.am21.controller;
 import org.am21.model.Cards.PersonalGoalCard;
 import org.am21.model.Player;
 import org.am21.model.enumer.GamePhase;
+import org.am21.model.enumer.ServerMessage;
 import org.am21.model.items.Board;
 import org.am21.model.items.Hand;
 import org.am21.networkRMI.ClientInputHandler;
 import org.am21.utilities.CardPointer;
+
+import java.rmi.RemoteException;
 
 
 /**
@@ -126,7 +129,12 @@ public class PlayerController {
 //
             return true;
         }
-            //Questo messaggio sara tolto e messo in ClientInputHandler o nelle funzioni dei test
+        try {
+            clientInput.callBack.sendMessageFromServer(String.valueOf(ServerMessage.SelectionFailed));
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+        //Questo messaggio sara tolto e messo in ClientInputHandler o nelle funzioni dei test
 //            System.out.println("Match > Selection Failed");
         /*try {
             clientInput.callBack.sendMessageFromServer(ServerMessage.SelectionFailed.toString());
