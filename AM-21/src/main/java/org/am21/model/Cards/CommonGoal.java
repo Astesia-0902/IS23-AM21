@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public abstract class CommonGoal extends Goal {
+public abstract class CommonGoal extends Card {
     public List<Integer> tokenStack;
     public List<Player> achievedPlayers;
     public int index;
@@ -40,6 +40,7 @@ public abstract class CommonGoal extends Goal {
     public void commonGoalAchieved(Player player) {
         if(!achievedPlayers.contains(player)&&tokenStack.size()>0) {
             achievedPlayers.add(player);
+
             player.getController().addScore(tokenStack.get(0));
             tokenStack.remove(0);
         }

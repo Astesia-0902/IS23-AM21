@@ -25,7 +25,7 @@ public interface IClientInput extends Remote {
 
     boolean insertInColumn(int colNum) throws RemoteException,ServerNotActiveException;
 
-    boolean unselectCards() throws RemoteException,ServerNotActiveException;
+    boolean deselectCards() throws RemoteException,ServerNotActiveException;
 
     boolean sortHand(int pos1, int pos2) throws RemoteException,ServerNotActiveException;
 
@@ -34,5 +34,7 @@ public interface IClientInput extends Remote {
     String getVirtualView() throws RemoteException;
 
     void registerCallBack(IClientCallBack callBack) throws RemoteException;
+
+    void sendChatMessage(String message);
 }
 

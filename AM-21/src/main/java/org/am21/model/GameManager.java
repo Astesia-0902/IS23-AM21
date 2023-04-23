@@ -36,7 +36,7 @@ public class GameManager {
 
                 //System.out.println("Exceeded players number limit. Try again.");
                 try {
-                    playerController.clientInput.callBack.sendMessageFromServer(String.valueOf(PExceed));
+                    playerController.clientInput.callBack.sendMessageToClient(String.valueOf(PExceed));
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);
                 }

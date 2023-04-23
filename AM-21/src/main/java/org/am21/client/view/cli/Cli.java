@@ -1,6 +1,5 @@
 package org.am21.client.view.cli;
 
-import org.am21.client.ClientGameController;
 import org.am21.client.view.JSONConverter;
 import org.am21.client.view.View;
 import org.am21.networkRMI.ClientCallBack;
@@ -16,6 +15,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
 public class Cli implements View {
+    String username;
     private Thread inputThread;
     private IClientInput iClientInputHandler;
     private ClientCallBack clientCallBack;
@@ -28,7 +28,6 @@ public class Cli implements View {
     private static final int SHELF_COLUMN = 5;
     private static final int BOARD_ROW = 6;
     private static final int BOARD_COLUMN = 5;
-    private static final int HAND_SIZE = 3;
 
     public Cli() throws RemoteException {
         this.clientCallBack = new ClientCallBack();
@@ -75,7 +74,7 @@ public class Cli implements View {
         String defaultAddress = "localhost";
         String defaultPort = "8807";
 
-        clientCallBack.sendMessageFromServer("Enter the server address: ["+ defaultAddress + "]");
+        System.out.println("Enter the server address: ["+ defaultAddress + "]");
         String address = readLine();
 
         if (address.equals("")){
@@ -84,7 +83,7 @@ public class Cli implements View {
             serverInfo.put("address", address);
         }
 
-        clientCallBack.sendMessageFromServer("Enter the server Port: ["+ defaultPort + "]");
+        System.out.println("Enter the server Port: ["+ defaultPort + "]");
         String port = readLine();
 
         if (port.equals("")){
@@ -99,60 +98,60 @@ public class Cli implements View {
 
         iClientInputHandler = (IClientInput) Naming.lookup("rmi://" + serverInfo.get("address") + ":"
                 + serverInfo.get("port") + "/ClientInputHandler");
-        ClientGameController.IClientInputHandler = iClientInputHandler;
+//        ClientGameController.IClientInputHandler = iClientInputHandler;
         iClientInputHandler.registerCallBack(clientCallBack);
-        clientCallBack.sendMessageFromServer("Successfully joined at " + serverInfo.get("address")
+        System.out.println("Successfully joined at " + serverInfo.get("address")
                 + ":" + serverInfo.get("port"));
     }
 
     public void showGoalDescription(String CommonGoalCard) throws RemoteException {
         switch (CommonGoalCard){
             case "CommonGoal2Lines":
-                clientCallBack.sendMessageFromServer("CommonGoal2Lines: Two columns each formed by 6 different types of tiles.");
+                System.out.println("CommonGoal2Lines: Two columns each formed by 6 different types of tiles.");
                 break;
             case "CommonGoal2Columns":
-                clientCallBack.sendMessageFromServer("CommonGoal2Columns: Two lines each formed by 5 different types of tiles. " +
+                System.out.println("CommonGoal2Columns: Two lines each formed by 5 different types of tiles. " +
                         "One line can show the same or a different combination of the other line.");
                 break;
             case "CommonGoal3Column":
-                clientCallBack.sendMessageFromServer("CommonGoal3Column: Three columns each formed by 6 tiles of maximum three " +
+                System.out.println("CommonGoal3Column: Three columns each formed by 6 tiles of maximum three " +
                         "different types. One column can show the same or a different combination of another column.");
                 break;
             case "CommonGoal4Lines":
-                clientCallBack.sendMessageFromServer("CommonGoal4Lines: Four lines each formed by 5 tiles of maximum three " +
+                System.out.println("CommonGoal4Lines: Four lines each formed by 5 tiles of maximum three " +
                         "different types. One line can show the same or a different combination of another line.");
                 break;
             case "CommonGoal8Tiles":
-                clientCallBack.sendMessageFromServer("CommonGoal8Tiles: Eight tiles of the same type. " +
+                System.out.println("CommonGoal8Tiles: Eight tiles of the same type. " +
                         "There’s no restriction about the position of these tiles.");
                 break;
             case "CommonGoalCorner":
-                clientCallBack.sendMessageFromServer("CommonGoalCorner: Four tiles of the same type in the four corners of " +
+                System.out.println("CommonGoalCorner: Four tiles of the same type in the four corners of " +
                         "the bookshelf.");
                 break;
             case "CommonGoalDiagonal":
-                clientCallBack.sendMessageFromServer("CommonGoalDiagonal: Five tiles of the same type forming a diagonal.");
+                System.out.println("CommonGoalDiagonal: Five tiles of the same type forming a diagonal.");
                 break;
             case "CommonGoalSquare":
-                clientCallBack.sendMessageFromServer("CommonGoalSquare: Two groups each containing 4 tiles of the same type in a 2x2 " +
+                System.out.println("CommonGoalSquare: Two groups each containing 4 tiles of the same type in a 2x2 " +
                         "square. The tiles of one square can be different from those of the other square.");
             case "CommonGoalStairs":
-                clientCallBack.sendMessageFromServer("CommonGoalStairs: Five columns of increasing or decreasing height. " +
+                System.out.println("CommonGoalStairs: Five columns of increasing or decreasing height. " +
                         "Starting from the first column on the left or on the right, " +
                         "each next column must be made of exactly one more tile. Tiles can be of any type.");
                 break;
             case "CommonGoal4Group":
-                clientCallBack.sendMessageFromServer("CommonGoal4Group: Four groups each containing at least 4 tiles of the same type " +
+                System.out.println("CommonGoal4Group: Four groups each containing at least 4 tiles of the same type " +
                         "(not necessarily in the depicted shape). The tiles of one group can be different " +
                         "from those of another group.");
                 break;
             case "CommonGoal6Group":
-                clientCallBack.sendMessageFromServer("CommonGoal6Group: Six groups each containing at least 2 tiles of the same type " +
+                System.out.println("CommonGoal6Group: Six groups each containing at least 2 tiles of the same type " +
                         "(not necessarily in the depicted shape). The tiles of one group can be different " +
                         "from those of another group.");
                 break;
             case "CommonGoalXShape":
-                clientCallBack.sendMessageFromServer("CommonGoalXShape: Five tiles of the same type forming an X.");
+                System.out.println("CommonGoalXShape: Five tiles of the same type forming an X.");
                 break;
         }
     }
@@ -164,7 +163,7 @@ public class Cli implements View {
 
     @Override
     public void askLogin() throws ServerNotActiveException, RemoteException {
-        clientCallBack.sendMessageFromServer("Enter the username: ");
+        System.out.println("Enter the username: ");
         String username = readLine();
         boolean usernameAccepted;
 
@@ -172,10 +171,9 @@ public class Cli implements View {
             usernameAccepted = iClientInputHandler.logIn(username);
 
             if(usernameAccepted){
-                clientCallBack.sendMessageFromServer("Hi, " + username + " is login in the game.");
-                initPlayer(username);
+                this.username=username;
+                System.out.println("AAAAA");
             } else {
-                clientCallBack.sendMessageFromServer("Username already exists, please re-enter.");
                 username = readLine();
             }
         } while (!usernameAccepted);
@@ -183,7 +181,7 @@ public class Cli implements View {
 
     @Override
     public void askAction() throws ServerNotActiveException, RemoteException {
-        clientCallBack.sendMessageFromServer("""
+        System.out.println("""
                 Game Option:
                 1. Create a new match.
                 2. Join a match.
@@ -214,16 +212,11 @@ public class Cli implements View {
 
     @Override
     public void askCreateMatch() throws ServerNotActiveException, RemoteException {
-        clientCallBack.sendMessageFromServer("Room generation in  progress...");
+        System.out.println("Room generation in  progress...");
         int playerNumber = askMaxSeats();
-        int matchID;
         //TODO: fix the null point
         iClientInputHandler.createMatch(playerNumber);
 
-        clientCallBack.sendMessageFromServer("Successfully created a game for " + playerNumber + " persons!");
-        Random random = new Random();
-        matchID = random.nextInt(100);
-        clientCallBack.sendMessageFromServer("The room number is " + matchID + "\nWaiting for players...");
     }
 
     @Override
@@ -231,36 +224,43 @@ public class Cli implements View {
         int playerNumber = 0;
         do {
             try {
-                clientCallBack.sendMessageFromServer("Please select the number of players [2 to 4]: ");
+                System.out.println("Please select the number of players [2 to 4]: ");
                 playerNumber = Integer.parseInt(readLine());
-                if (playerNumber != 2 && playerNumber != 3 && playerNumber != 4){
-                    clientCallBack.sendMessageFromServer("Invalid number! Please try again.");
+                if (playerNumber < 2 || playerNumber > 4){
+                    System.out.println("Invalid number! Please try again.");
                 }
             } catch (NumberFormatException e){
-                clientCallBack.sendMessageFromServer("Invalid input! Please try again.");
+                System.out.println("Invalid input! Please try again.");
             }
-        } while (playerNumber != 2 && playerNumber != 3 && playerNumber != 4);
-        clientCallBack.sendMessageFromServer("Ok");
+        } while (playerNumber < 2 || playerNumber > 4);
         return playerNumber;
     }
 
     @Override
     public void askJoinMatch() throws ServerNotActiveException, RemoteException {
-        boolean replyAction = false;
         int matchID;
-        do {
-            try {
-                clientCallBack.sendMessageFromServer("Please enter the room number: ");
-                matchID = Integer.parseInt(readLine());
-                replyAction = iClientInputHandler.joinGame(matchID);
 
-                if (replyAction){
-                    clientCallBack.sendMessageFromServer("Joining the match: " + matchID);
-                }
-            } catch (NumberFormatException e){
-                clientCallBack.sendMessageFromServer("Invalid input! Please try again.");
+        try {
+            System.out.println("Please enter the room number: ");
+            matchID = Integer.parseInt(readLine());
+            if(iClientInputHandler.joinGame(matchID)){
+                askWaitingAction();
+            }else{
+                askAction();
             }
-        } while (replyAction);
+        } catch (NumberFormatException e){
+            System.out.println("Invalid input! Please try again.");
+        }
+
+
+    }
+
+    /**
+     * Showcase the Commands available during Waiting Players
+     */
+    private void askWaitingAction() {
+
+
 
     }
 
@@ -268,7 +268,7 @@ public class Cli implements View {
     public void askLeaveMatch() throws RemoteException {
         //TODO: fixe the null point
         iClientInputHandler.leaveMatch();
-        clientCallBack.sendMessageFromServer("See you soon. Bye.");
+        System.out.println("See you soon. Bye.");
     }
 
     @Override
@@ -287,10 +287,10 @@ public class Cli implements View {
 
     @Override
     public void showPersonalGoal() throws RemoteException {
-        clientCallBack.sendMessageFromServer(player + "'s PersonalGoal:");
+        System.out.println(player + "'s PersonalGoal:");
         switch (personalGoal){
             case 1:
-                clientCallBack.sendMessageFromServer("""
+                System.out.println("""
                         [_Plants_][______._][_Frames_][______._][______._]
                         [______._][______._][______._][______._][__Cats__]
                         [______._][______._][______._][_Books__][______._]
@@ -299,7 +299,7 @@ public class Cli implements View {
                         [______._][______._][Trophies][______._][______._]""");
                 break;
             case 2:
-                clientCallBack.sendMessageFromServer("""
+                System.out.println("""
                         [______._][______._][______._][______._][______._]
                         [______._][_Plants_][______._][______._][______._]
                         [__Cats__][______._][_Games__][______._][______._]
@@ -308,7 +308,7 @@ public class Cli implements View {
                         [______._][______._][______._][______._][_Frames_]""");
                 break;
             case 3:
-                clientCallBack.sendMessageFromServer("""
+                System.out.println("""
                         [______._][______._][______._][______._][______._]
                         [_Frames_][______._][______._][_Games__][______._]
                         [______._][______._][_Plants_][______._][______._]
@@ -317,7 +317,7 @@ public class Cli implements View {
                         [_Books__][______._][______._][______._][______._]""");
                 break;
             case 4:
-                clientCallBack.sendMessageFromServer("""
+                System.out.println("""
                         [______._][______._][______._][______._][_Games__]
                         [______._][______._][______._][______._][______._]
                         [Trophies][______._][_Frames_][______._][______._]
@@ -326,7 +326,7 @@ public class Cli implements View {
                         [______._][______._][______._][______._][______._]""");
                 break;
             case 5:
-                clientCallBack.sendMessageFromServer("""
+                System.out.println("""
                         [______._][______._][______._][______._][______._]
                         [______._][Trophies][______._][______._][______._]
                         [______._][______._][______._][______._][______._]
@@ -335,7 +335,7 @@ public class Cli implements View {
                         [_Games__][______._][______._][__Cats__][______._]""");
                 break;
             case 6:
-                clientCallBack.sendMessageFromServer("""
+                System.out.println("""
                         [______._][______._][Trophies][______._][__Cats__]
                         [______._][______._][______._][______._][______._]
                         [______._][______._][______._][_Books__][______._]
@@ -344,7 +344,7 @@ public class Cli implements View {
                         [_Plants_][______._][______._][______._][______._]""");
                 break;
             case 7:
-                clientCallBack.sendMessageFromServer("""
+                System.out.println("""
                         [__Cats__][______._][______._][______._][______._]
                         [______._][______._][______._][_Frames_][______._]
                         [______._][_Plants_][______._][______._][______._]
@@ -353,7 +353,7 @@ public class Cli implements View {
                         [______._][______._][_Books__][______._][______._]""");
                 break;
             case 8:
-                clientCallBack.sendMessageFromServer("""
+                System.out.println("""
                         [______._][______._][______._][______._][_Frames_]
                         [______._][__Cats__][______._][______._][______._]
                         [______._][______._][Trophies][______._][______._]
@@ -362,7 +362,7 @@ public class Cli implements View {
                         [______._][______._][______._][_Games__][______._]""");
                 break;
             case 9:
-                clientCallBack.sendMessageFromServer("""
+                System.out.println("""
                         [______._][______._][_Games__][______._][______._]
                         [______._][______._][______._][______._][______._]
                         [______._][______._][__Cats__][______._][______._]
@@ -371,7 +371,7 @@ public class Cli implements View {
                         [_Frames_][______._][______._][______._][______._]""");
                 break;
             case 10:
-                clientCallBack.sendMessageFromServer("""
+                System.out.println("""
                         [______._][______._][______._][______._][Trophies]
                         [______._][_Games__][______._][______._][______._]
                         [_Books__][______._][______._][______._][______._]
@@ -380,7 +380,7 @@ public class Cli implements View {
                         [______._][______._][______._][_Plants_][______._]""");
                 break;
             case 11:
-                clientCallBack.sendMessageFromServer("""
+                System.out.println("""
                         [______._][______._][_Plants_][______._][______._]
                         [______._][_Books__][______._][______._][______._]
                         [_Games__][______._][______._][______._][______._]
@@ -389,7 +389,7 @@ public class Cli implements View {
                         [______._][______._][______._][Trophies][______._]""");
                 break;
             case 12:
-                clientCallBack.sendMessageFromServer("""
+                System.out.println("""
                         [______._][______._][_Books__][______._][______._]
                         [______._][_Plants_][______._][______._][______._]
                         [______._][______._][_Frames_][______._][______._]
@@ -411,14 +411,14 @@ public class Cli implements View {
 
     @Override
     public void showShelf() throws RemoteException {
-        clientCallBack.sendMessageFromServer(player + "'s Shelf:");
+        System.out.println(player + "'s Shelf:");
         for (String[][] userShelf : JSONConverter.shelf) {
             for (int i = 0; i < SHELF_ROW; i++) {
                 for (int j = 0; j < SHELF_COLUMN; j++) {
                     String item = userShelf[i][j] == null? "[______._] " : userShelf[i][j];
-                    clientCallBack.sendMessageFromServer("[" + item + "] ");
+                    System.out.println("[" + item + "] ");
                 }
-                clientCallBack.sendMessageFromServer("\n");
+                System.out.println("\n");
             }
         }
     }
@@ -426,13 +426,13 @@ public class Cli implements View {
     @Override
     public void showBoard() throws RemoteException {
         String[][] board = JSONConverter.virtualBoard;
-        clientCallBack.sendMessageFromServer("Board:");
+        System.out.println("Board:");
         for(int i = 0; i < BOARD_ROW; i++){
             for(int j = 0; j < BOARD_COLUMN; j++){
                 String item = board[i][j] == null? "[______._] " : board[i][j];
-                clientCallBack.sendMessageFromServer("[" + item + "] ");
+                System.out.println("[" + item + "] ");
             }
-            clientCallBack.sendMessageFromServer("\n");
+            System.out.println("\n");
         }
     }
 
@@ -441,18 +441,19 @@ public class Cli implements View {
         List<String> playerList = JSONConverter.players;
         List<Integer> scoreList = JSONConverter.scores;
         for (int i = 0; i < playerList.size(); i++) {
-            clientCallBack.sendMessageFromServer(playerList.get(i) + "'s stats: ");
-            clientCallBack.sendMessageFromServer(playerList.get(i) + "'s score: " + scoreList.get(i));
+            System.out.println(playerList.get(i) + "'s stats: ");
+            System.out.println(playerList.get(i) + "'s score: " + scoreList.get(i));
             showShelf();
         }
     }
 
     @Override
     public void askSelection() throws ServerNotActiveException, RemoteException {
+        //TODO: Json.GamePhase dependence
         if (!insertPhase) {
-            //TODO: Questo controllo andrebbe fatto solo dal server
-            if (JSONConverter.currentPlayerHand.size() < HAND_SIZE) {
+
                 showBoard();
+                System.out.println("Select a cell on the board");
                 boolean selectionConfirm;
                 do {
                     List<Integer> coordinates = askCoordinates();
@@ -460,55 +461,52 @@ public class Cli implements View {
                     int column = coordinates.get(1);
 
                     if (iClientInputHandler.selectCell(row, column)) {
-                        clientCallBack.sendMessageFromServer("Selection Successful!");
+                        //System.out.println("Selection Successful!");
+                        System.out.print("Item selected: ");
+                        showItemInCell(row,column);
                     }
-                    clientCallBack.sendChatMessage("""
+                    System.out.println("""
                             Do you want to continue with selection?
                             1. Yes.
                             0. No.""");
                     selectionConfirm = Boolean.parseBoolean(readLine());
                 } while (selectionConfirm);
-            } else {
-                clientCallBack.sendMessageFromServer("Hand full!");
-            }
-        } else {
-            clientCallBack.sendChatMessage("You cannot select the cards anymore.");
         }
     }
 
     public List<Integer> askCoordinates() throws RemoteException {
-        clientCallBack.sendMessageFromServer("Enter the coordinates you wish to select [row, column].");
+        System.out.println("Enter the coordinates you wish to select [row, column].");
         boolean selectConfirm;
         int selectRow = 0, selectColumn = 0;
 
         do {
             do {
                 try {
-                    clientCallBack.sendMessageFromServer("row (0 to " + BOARD_ROW + "): ");
+                    System.out.println("row (0 to " + BOARD_ROW + "): ");
                     selectRow = Integer.parseInt(readLine());
                     if (selectRow < 0 || selectRow > BOARD_ROW) {
-                        clientCallBack.sendMessageFromServer("Invalid number! Please try again.");
+                        System.out.println("Invalid number! Please try again.");
                     }
                 } catch (NumberFormatException e) {
-                    clientCallBack.sendMessageFromServer("Invalid input! Please try again.");
+                    System.out.println("Invalid input! Please try again.");
                 }
             } while (selectRow < 0 || selectRow > BOARD_ROW);
 
             do {
                 try {
-                    clientCallBack.sendMessageFromServer("column (0 to " + BOARD_COLUMN + "): ");
+                    System.out.println("column (0 to " + BOARD_COLUMN + "): ");
                     selectColumn = Integer.parseInt(readLine());
                     if (selectColumn < 0 || selectColumn > BOARD_COLUMN) {
-                        clientCallBack.sendMessageFromServer("Invalid number! Please try again.");
+                        System.out.println("Invalid number! Please try again.");
                     }
                 } catch (NumberFormatException e) {
-                    clientCallBack.sendMessageFromServer("Invalid input! Please try again.");
+                    System.out.println("Invalid input! Please try again.");
                 }
             } while (selectColumn < 0 || selectColumn > BOARD_COLUMN);
 
-            clientCallBack.sendMessageFromServer("The coordinates you have chosen are: [" + selectRow + ", " +
+            System.out.println("The coordinates you have chosen are: [" + selectRow + ", " +
                     selectColumn + "] - " + showItemInCell(selectRow, selectColumn));
-            clientCallBack.sendMessageFromServer("""
+            System.out.println("""
             Confirm your choice:
             1. Confirm.
             0. Re-select.""");
@@ -527,21 +525,21 @@ public class Cli implements View {
 
     @Override
     public void askDeselection() throws ServerNotActiveException, RemoteException {
+        //TODO: Json.Gamephase
         if (!insertPhase) {
             showHand();
-            clientCallBack.sendMessageFromServer("""
+            System.out.println("""
                     Do you want to cancel all selected cards?
                     1. Yes.
                     0. No.""");
 
             boolean deselectConfirm = Boolean.parseBoolean(readLine());
             if (deselectConfirm) {
-                if (iClientInputHandler.unselectCards()) {
-                    clientCallBack.sendMessageFromServer("Successfully removed all selected cards!");
-                }
+                iClientInputHandler.deselectCards();
+
             }
         } else {
-            clientCallBack.sendChatMessage("You cannot deselect the cards anymore.");
+            System.out.println("The conditions to use this command are not respected. Try again");
         }
     }
 
@@ -551,7 +549,7 @@ public class Cli implements View {
         if (showHand()) {
             boolean sort;
             do {
-                clientCallBack.sendMessageFromServer("""
+                System.out.println("""
                         Do you want to change insertion order?
                         1. Yes.
                         0. No.""");
@@ -561,11 +559,11 @@ public class Cli implements View {
                 } else {
                     int column = askColumn();
                     iClientInputHandler.insertInColumn(column);
-                    clientCallBack.sendMessageFromServer("Cards are correctly inserted in the shelves!");
+                    System.out.println("Cards are correctly inserted in the shelves!");
                 }
             } while (sort);
         } else {
-            clientCallBack.sendMessageFromServer("You can’t insert cards if you did not select any cards!");
+            System.out.println("You can’t insert cards if you did not select any cards!");
             insertPhase = false;
         }
     }
@@ -573,12 +571,12 @@ public class Cli implements View {
     public void askSort() throws ServerNotActiveException, RemoteException {
         List<Integer> itemSwapped = askIndex();
         if (iClientInputHandler.sortHand(itemSwapped.get(0), itemSwapped.get(1))) {
-            clientCallBack.sendMessageFromServer("Card order changed.");
+            System.out.println("Card order changed.");
         }
     }
 
     public List<Integer> askIndex() throws RemoteException {
-        clientCallBack.sendMessageFromServer("Which cards should switch?");
+        System.out.println("Which cards should switch?");
         boolean sortConfirm;
         int position1 = 1, position2 = 2;
         //TODO: Controllo che pos1 e pos2 siano diversi per evitare scambio della stessa posizione
@@ -625,33 +623,33 @@ public class Cli implements View {
     }
 
     public boolean showHand() throws RemoteException {
-        clientCallBack.sendMessageFromServer(player +" have in hand:");
+        System.out.println(player +" have in hand:");
         if (JSONConverter.currentPlayerHand.isEmpty()){
             return false;
         }
         for (int i = 0; i < JSONConverter.currentPlayerHand.size(); i++) {
-            clientCallBack.sendMessageFromServer(JSONConverter.currentPlayerHand.get(i));
+            System.out.println(JSONConverter.currentPlayerHand.get(i));
         }
         return true;
     }
 
     public int askColumn() throws RemoteException {
-        clientCallBack.sendMessageFromServer("In which column would you like to insert the cards?");
+        System.out.println("In which column would you like to insert the cards?");
         boolean columnConfirm;
         int column = 0;
          do {
             do {
                 try {
-                    clientCallBack.sendMessageFromServer("Column (0 to " + SHELF_COLUMN + "): ");
+                    System.out.println("Column (0 to " + SHELF_COLUMN + "): ");
                     column = Integer.parseInt(readLine());
                     if (column < 0 || column > SHELF_COLUMN) {
-                        clientCallBack.sendMessageFromServer("Invalid number! Please try again.");
+                        System.out.println("Invalid number! Please try again.");
                     }
                 } catch (NumberFormatException e) {
-                    clientCallBack.sendMessageFromServer("Invalid input! Please try again.");
+                    System.out.println("Invalid input! Please try again.");
                 }
             } while (column < 0 || column > SHELF_COLUMN);
-             clientCallBack.sendMessageFromServer("""
+             System.out.println("""
             You have chosen Column\040""" + column + """
             Confirm your choice:
             1. Confirm.
@@ -662,25 +660,25 @@ public class Cli implements View {
         return column;
     }
 
-    @Override
-    public void askMessage() throws RemoteException {
+    public void handleChatMessage() throws RemoteException {
         String message = readLine();
-        clientCallBack.sendChatMessage(message);
+        //TODO:
+        iClientInputHandler.sendChatMessage(message);
 
     }
 
     @Override
-    public void askEndGameToken() {
+    public void showEndGameToken() {
 
     }
 
     @Override
     public void help() throws ServerNotActiveException, RemoteException {
-        clientCallBack.sendMessageFromServer("You can do the following commands in this phase:");
+        System.out.println("You can do the following commands in this phase:");
         if (!insertPhase){
-            showMenu();
+            showCommandMenu();
         } else {
-            clientCallBack.sendMessageFromServer("""
+            System.out.println("""
         insert- Insert in the shelves.
         pGoal- See Personal goal.
         cGoal- See Common goal.
@@ -713,14 +711,16 @@ public class Cli implements View {
     @Override
     public void showMatchSetup() throws RemoteException {
         //TODO: Redo better
+
+        initPlayer(username);
         showBoard();
         showCommonGoals();
         showPersonalGoal();
         showCurrentPlayer();
     }
 
-    private void showMenu() throws RemoteException {
-        clientCallBack.sendMessageFromServer("""
+    private void showCommandMenu() throws RemoteException {
+        System.out.println("""
         select- Select an item on the board.
         deselect - Deselect the cards.
         insert- Insert in the shelves.
@@ -736,13 +736,16 @@ public class Cli implements View {
         leave- Leave Match.
         exit- Exit Game.
         """);
+
+
+
     }
 
     @Override
     public void askPlayerMove() throws RemoteException, ServerNotActiveException {
-        clientCallBack.sendMessageFromServer("What's your next move?");
-        showMenu();
-        clientCallBack.sendMessageFromServer("Enter the action you wish to select:");
+        System.out.println("What's your next move?");
+        showCommandMenu();
+        System.out.println("Enter the action you wish to select:");
 
         String option = readLine();
         do {
@@ -775,10 +778,10 @@ public class Cli implements View {
                     help();
                     break;
                 case "msg":
-                    askMessage();
+                    handleChatMessage();
                     break;
                 case "end":
-                    askEndGameToken();
+                    showEndGameToken();
                     break;
                 case "time":
                     showTimer();
@@ -794,5 +797,18 @@ public class Cli implements View {
                     break;
             }
         } while (!option.equals("quit"));
+    }
+
+    @Override
+    public void askShowObject() throws RemoteException {
+
+    }
+
+    @Override
+    public void showOnlinePlayer() throws RemoteException {
+
+    }
+    public void printer(String message){
+        System.out.println(message);
     }
 }

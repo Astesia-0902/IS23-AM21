@@ -1,4 +1,4 @@
-package org.am21.client;
+package org.am21.extra;
 
 import org.am21.networkRMI.IClientInput;
 
@@ -16,7 +16,7 @@ public class ClientMainTest2 {
         IClientInput IClientInputHandler = (IClientInput) Naming.lookup("rmi://localhost:8808/ClientInputHandler");
         //IClientHandler clientChatHandler = (IClientHandler) Naming.lookup("rmi://localhost:8808/ClientChatHandler");
         //Client do something
-        ClientGameController.IClientInputHandler = IClientInputHandler;
+        //ClientGameController.IClientInputHandler = IClientInputHandler;
         System.out.println("Client 2 is ready");
         while (true) {
             System.out.println("Please enter a command:");
@@ -26,7 +26,7 @@ public class ClientMainTest2 {
 
             String input = in.nextLine();
 
-            CliInputHandler.handleInput(input);
+            //CliInputHandler.handleInput(input);
         }
         /*System.out.println(clientInputHandler);
         System.out.println(clientChatHandler);

@@ -16,8 +16,9 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     }
 
     @Override
-    public void sendMessageFromServer(String message) throws RemoteException {
+    public void sendMessageToClient(String message) throws RemoteException {
         //TODO:Print the message from server
+        cli.printer(message);
     }
 
     /**

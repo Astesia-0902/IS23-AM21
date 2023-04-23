@@ -3,6 +3,8 @@ package org.am21.networkRMI;
 import org.am21.controller.GameController;
 import org.am21.controller.PlayerController;
 import org.am21.model.GameManager;
+import org.am21.model.Player;
+import org.am21.model.enumer.UserStatus;
 
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
@@ -56,13 +58,15 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         userHost = getClientHost();
         this.userName = username;
         playerController = new PlayerController(username, this);
-
-        //TODO:the same username is not allowed to log in
+        System.out.println("whatever");
+        //TODO:the same username is not allowed to log in(same name not allowed)
         synchronized (GameManager.players) {
             if (!GameManager.players.contains(playerController.getPlayer())) {
                 GameManager.players.add(playerController.getPlayer());
             }
         }
+
+        this.callBack.sendMessageToClient("Login Successful. Hi "+username);
         return true;
     }
 
@@ -122,7 +126,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     /**
      * @throws ServerNotActiveException
      */
-    public boolean unselectCards() throws RemoteException, ServerNotActiveException {
+    public boolean deselectCards() throws RemoteException, ServerNotActiveException {
         if (!checkPlayerActionPhase() && playerController.unselectCards()) {
             return true;
         }
@@ -170,5 +174,22 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     public void registerCallBack(IClientCallBack callBack) throws RemoteException {
         this.callBack = callBack;
         System.out.println("Client Callback registered ");
+    }
+
+    @Override
+    public void sendChatMessage(String message) {
+
+    }
+
+    public void printOnlinePlayers() throws RemoteException{
+        callBack.sendMessageToClient("List of Online PLayers:");
+        for(Player p:GameManager.players){
+            if(p.getStatus()== UserStatus.Online){
+                callBack.sendMessageToClient("["+p.getNickname()+"]");
+
+            }
+
+        }
+
     }
 }

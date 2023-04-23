@@ -108,7 +108,7 @@ public class PlayerController {
                         //Gia selezionato
                         //System.out.println("Board[!] > Already selected. Try again.");
                         try {
-                            clientInput.callBack.sendMessageFromServer(String.valueOf(ServerMessage.Cell_Selected));
+                            clientInput.callBack.sendMessageToClient(String.valueOf(ServerMessage.Cell_Selected));
                         } catch (RemoteException e) {
                             throw new RuntimeException(e);
                         }
@@ -125,7 +125,7 @@ public class PlayerController {
                 if (!board.isOrthogonal(r, c, hand)) {
                     //System.out.println("Board > Not Orthogonal ["+r+","+c+"]");
                     try {
-                        clientInput.callBack.sendMessageFromServer(String.valueOf(ServerMessage.Cell_Orthogonal));
+                        clientInput.callBack.sendMessageToClient(String.valueOf(ServerMessage.Cell_Orthogonal));
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
@@ -135,15 +135,16 @@ public class PlayerController {
             //Tutti i controlli passati: posso inserirlo nella hand
             //salvo le coordinate e il riferimento dell'item nella hand*/
             hand.memCard(board.getCell(r, c), r, c);
+            //TODO: add VV update hand
 //            System.out.println("Match > Item selected: [" + tmpBoard.getCellItem(r, c).getNameCard() + "]");
 //
             return true;
         }
-        FromServer(ServerMessage.Selection_No);
+        sendMessage(ServerMessage.Selection_No);
         //Questo messaggio sara tolto e messo in ClientInputHandler o nelle funzioni dei test
 //            System.out.println("Match > Selection Failed");
         /*try {
-            clientInput.callBack.sendMessageFromServer(ServerMessage.SelectionFailed.toString());
+            clientInput.callBack.sendMessageToClient(ServerMessage.SelectionFailed.toString());
         }catch (RemoteException e){
             throw new RuntimeException(e);
         }*/
@@ -161,9 +162,10 @@ public class PlayerController {
         }
         if(player.getMatch().gamePhase == GamePhase.Selection && hand.getSlot().size()>0) {
             hand.clearHand();
+            //TODO: add VV update hand
             return true;
         }
-        return true;
+        return false;
     }
 
     /**
@@ -177,6 +179,7 @@ public class PlayerController {
         }
         player.getMatch().setGamePhase(GamePhase.Insertion);
         moveAllToHand();
+        //TODO: add VV update GamePhase and Board
 
         return true;
     }
@@ -240,7 +243,7 @@ public class PlayerController {
                 player.getShelf().checkLimit();
                 //GameGear.printThisShelf(player.shelves);
                 callEndInsertion();
-
+                //TODO: add VV update Shelf, Hand, GamePhase
                 return true;
             }
         }
@@ -257,6 +260,7 @@ public class PlayerController {
      */
     public boolean changeHandOrder(int i,int j){
         if(isMyTurn(player) && hand.changeOrder(i,j)){
+            //TODO: add VV update hand
             return true;
         }
         return false;
@@ -283,6 +287,7 @@ public class PlayerController {
         if(player.getMatch().gamePhase==GamePhase.Insertion) {
             player.getMatch().setGamePhase(GamePhase.GoalChecking);
             player.getMatch().checkCommonGoals(player);
+            //TODO: Add VV update GamePhase, CommonGoal Scores, Player score
         }
     }
 
@@ -298,9 +303,9 @@ public class PlayerController {
      * function to call server message
      * @param m ServerMessage
      */
-    void FromServer(ServerMessage m){
+    void sendMessage(ServerMessage m){
         try {
-            clientInput.callBack.sendMessageFromServer(String.valueOf(m));
+            clientInput.callBack.sendMessageToClient(String.valueOf(m));
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }

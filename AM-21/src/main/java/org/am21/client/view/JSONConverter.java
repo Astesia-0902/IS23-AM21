@@ -17,12 +17,13 @@ public class JSONConverter {
     public static String currentPlayer;
     public static List<Integer> scores;
     public static List<String> commonGoal;
+    //TODO: add Commongoal tokenStack only the top token
     public static int personalGoal;
     public static List<String[][]> shelf;
     public static String gamePhase;
     public static String gameState;
     public static List<String> currentPlayerHand;
-
+    //TODO: endgameTOken (T or F)
     /**
      * Once the JSON is received, it is parsed and the data is stored in the corresponding variables
      * the key strings of get methods are generated automatically,

@@ -1,10 +1,9 @@
-package org.am21.client;
+package org.am21.extra;
 
 import org.am21.networkRMI.ClientCallBack;
 import org.am21.networkRMI.IClientInput;
 
 import java.net.MalformedURLException;
-import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -19,7 +18,7 @@ public class ClientMainTest1 {
         Registry registry = LocateRegistry.getRegistry("localhost:8807");
         IClientInput clientInput = (IClientInput) registry.lookup("ClientInputHandler");
         //IClientInput clientInput = (IClientInput) Naming.lookup("rmi://localhost:8807/ClientInputHandler");
-        ClientGameController.IClientInputHandler = clientInput;
+        //ClientGameController.IClientInputHandler = clientInput;
         clientInput.registerCallBack(new ClientCallBack());
         System.out.println("Client 1 is ready");
         //TODO:Use callback to get the message from server
@@ -31,7 +30,7 @@ public class ClientMainTest1 {
 
             String input = in.nextLine();
             
-            CliInputHandler.handleInput(input);
+            //CliInputHandler.handleInput(input);
         }
     }
 }

@@ -33,6 +33,7 @@ public class VirtualView implements Serializable {
     public String currentPlayer;
     public String gamePhase;
     public String gameState;
+    //TODO: endgame token
 
     public List<String> getCurrentPlayerHand() {
         return currentPlayerHand;

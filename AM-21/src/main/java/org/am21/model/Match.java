@@ -40,7 +40,6 @@ public class Match {
         gameState = GameState.WaitingPlayers;
         commonGoals = new ArrayList<>(2);
         chatManager = new ChatManager(this);
-        //TODO:  temp(ken)
         virtualView=new VirtualView();
     }
 
@@ -93,7 +92,6 @@ public class Match {
                 //System.out.println("Game > " + player.getNickname() + " added to the match N." + this.matchID);
                 //Update virtual view
                 //VirtualViewHelper.setPlayers(this);
-                //TODO:uncomment
                 //notifyVirtualView();
                 checkRoom();
                 return true;
@@ -123,6 +121,7 @@ public class Match {
                     GameManager.playerMatchMap.remove(player.getNickname());
                 }
                 checkRoom();
+                //TODO: update VV PLayersList and Player Score, Shelf List...
                 return true;
             }
             return false;
@@ -147,6 +146,7 @@ public class Match {
                 //refill
                 if (board.bag.refillBoard()) {
                     GameGear.printThisBoard(board);
+
                 }
             }
 
@@ -157,8 +157,11 @@ public class Match {
                 firstToComplete = currentPlayer;
                 firstToComplete.setPlayerScore(firstToComplete.getPlayerScore() + 1);
                 gameState = GameState.LastRound;
+                //TODO: update VV Gamestate,endgametoken, player score
             }
             this.nextTurn();
+            //TODO: Add VV update BOard, GamePhase, CurrentPlayer.
+            //      notify all at end
         }
     }
 
@@ -171,6 +174,11 @@ public class Match {
             for (CommonGoal goal : commonGoals) {
                 if (goal.checkGoal(player.getShelf())) {
                     // Give player points/scoreToken
+                    try {
+                        player.getController().clientInput.callBack.sendMessageToClient("Match > "+player.getNickname()+" acquired "+goal.tokenStack.get(0) +" points");
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
                     goal.commonGoalAchieved(player);
                 }
             }
@@ -228,7 +236,7 @@ public class Match {
         //System.out.println("Game > Room closed. See ya!");
         //temp
         gameState = GameState.Closed;
-
+        //TODO: add VV deletion
         return true;
     }
 
@@ -365,20 +373,16 @@ public class Match {
         }
 
     }
-
-    /*public void decideWinner2(){
-        Optional<Player> tmp_winner =
-                playerList.stream()
-                        .reduce((p1, p2)->p1.getPlayerScore() > p2.getPlayerScore()? p1: p2);
-        tmp_winner.ifPresentOrElse(player->this.winner=player,
-                ()->this.winner=null);
-        if(tmp_winner.isPresent()){
-            if(!playerList.stream()
-                    .filter(p->!p.equals(this.winner)&&p.getPlayerScore()==this.winner.getPlayerScore())
-                    .collect(Collectors.toList()).isEmpty()){
-                this.winner=null;
+    public void sendMessageToAll(String message){
+        for(Player p:playerList){
+            try {
+                p.getController().clientInput.callBack.sendMessageToClient(message);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
             }
+
         }
-    }*/
+
+    }
 
 }

@@ -24,9 +24,13 @@ public interface View {
     void askSelection() throws ServerNotActiveException, RemoteException;
     void askDeselection() throws ServerNotActiveException, RemoteException;
     void askInsertion() throws ServerNotActiveException, RemoteException;
-    void askMessage() throws RemoteException;
-    void askEndGameToken();
+    void handleChatMessage() throws RemoteException;
+    void showEndGameToken();
     void help() throws ServerNotActiveException, RemoteException;
     void showTimer();
     void showMatchSetup() throws RemoteException;
+    void askShowObject() throws RemoteException;
+    void showOnlinePlayer() throws RemoteException;
+
+    void printer(String message) throws RemoteException;
 }
