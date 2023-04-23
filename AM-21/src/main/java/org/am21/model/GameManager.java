@@ -3,9 +3,12 @@ package org.am21.model;
 import org.am21.controller.GameController;
 import org.am21.controller.PlayerController;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static org.am21.model.enumer.ServerMessage.PExceed;
 
 public class GameManager {
     public static GameManager game;
@@ -30,7 +33,13 @@ public class GameManager {
     public static void createMatch(int playerNum, PlayerController playerController) {
         synchronized (matchList) {
             if (playerNum < 2 || playerNum > 4) {
-                System.out.println("Exceeded players number limit. Try again.");
+
+                //System.out.println("Exceeded players number limit. Try again.");
+                try {
+                    playerController.clientInput.callBack.sendMessageFromServer(String.valueOf(PExceed));
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
                 return;
             }
 

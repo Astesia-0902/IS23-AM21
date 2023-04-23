@@ -107,6 +107,11 @@ public class PlayerController {
                     if ((r == tmp.x) && (c == tmp.y)) {
                         //Gia selezionato
                         //System.out.println("Board[!] > Already selected. Try again.");
+                        try {
+                            clientInput.callBack.sendMessageFromServer(String.valueOf(ServerMessage.Cell_Selected));
+                        } catch (RemoteException e) {
+                            throw new RuntimeException(e);
+                        }
                         return false;
                     }
                 }
@@ -119,6 +124,11 @@ public class PlayerController {
                    so they are valid for Orthogonality check*/
                 if (!board.isOrthogonal(r, c, hand)) {
                     //System.out.println("Board > Not Orthogonal ["+r+","+c+"]");
+                    try {
+                        clientInput.callBack.sendMessageFromServer(String.valueOf(ServerMessage.Cell_Orthogonal));
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
                     return false;
                 }
             }
@@ -129,11 +139,7 @@ public class PlayerController {
 //
             return true;
         }
-        try {
-            clientInput.callBack.sendMessageFromServer(String.valueOf(ServerMessage.SelectionFailed));
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
+        FromServer(ServerMessage.Selection_No);
         //Questo messaggio sara tolto e messo in ClientInputHandler o nelle funzioni dei test
 //            System.out.println("Match > Selection Failed");
         /*try {
@@ -288,5 +294,16 @@ public class PlayerController {
         player.setPlayerScore(player.getPlayerScore()+points);
     }
 
+    /**
+     * function to call server message
+     * @param m ServerMessage
+     */
+    void FromServer(ServerMessage m){
+        try {
+            clientInput.callBack.sendMessageFromServer(String.valueOf(m));
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
