@@ -2,6 +2,7 @@ package org.am21.model.items;
 
 import org.am21.model.Cards.ItemCard;
 import org.am21.model.Match;
+import org.am21.model.enumer.ServerMessage;
 import org.am21.utilities.BoardUtil;
 import org.am21.utilities.CardPointer;
 import org.am21.utilities.Coordinates;
@@ -90,6 +91,7 @@ public class Board extends Grid {
     public boolean hasFreeSide(int r, int c) {
 
         if (getMatrix()[r][c] == null) {
+            match.sendMessageToAll(ServerMessage.Cell_Illegal);
             //System.out.println("Board[!] > Out of boundaries: Cell doesn't exist. ");
             return false;
         }
@@ -107,6 +109,7 @@ public class Board extends Grid {
 
             return true;
         } else {
+            match.sendMessageToAll(ServerMessage.Cell_Free);
             return false;
         }
     }
@@ -199,7 +202,6 @@ public class Board extends Grid {
         return false;
 
     }
-
 
 }
 

@@ -3,8 +3,10 @@ package org.am21.model.items;
 import org.am21.model.Cards.ItemCard;
 import org.am21.model.Player;
 import org.am21.model.enumer.GamePhase;
+import org.am21.model.enumer.ServerMessage;
 import org.am21.utilities.CardPointer;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -68,7 +70,11 @@ public class Hand {
     public boolean changeOrder(int i, int j){
         int limit =getSlot().size();
         if(limit<=1){
-            //TODO: server message: Not enough cards to swap
+            try {
+                player.getController().clientInput.callBack.sendMessageToClient(String.valueOf(ServerMessage.Sort_No));
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
             return false;
         }
         if(i>=0 && i<limit && j>=0 && j<limit && limit>1){
@@ -76,7 +82,11 @@ public class Hand {
             //System.out.println("Hand > Order Changed");
             return true;
         }
-        //TODO: server message: Index Out of Border
+        try {
+            player.getController().clientInput.callBack.sendMessageToClient(String.valueOf(ServerMessage.Sort_Index));
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
         return false;
     }
 

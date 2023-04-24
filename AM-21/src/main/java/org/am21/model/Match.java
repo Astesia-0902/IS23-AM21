@@ -4,6 +4,7 @@ import org.am21.model.Cards.CommonGoal;
 import org.am21.model.Cards.PersonalGoalCard;
 import org.am21.model.enumer.GamePhase;
 import org.am21.model.enumer.GameState;
+import org.am21.model.enumer.ServerMessage;
 import org.am21.model.enumer.UserStatus;
 import org.am21.model.items.Board;
 import org.am21.model.items.Shelf;
@@ -15,6 +16,8 @@ import org.am21.utilities.MyTimer;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.am21.model.enumer.ServerMessage.*;
 
 public class Match {
     public int matchID;
@@ -293,10 +296,14 @@ public class Match {
         for (Player player : playerList) {
             GameManager.playerMatchMap.put(player.getNickname(), matchID);
         }
+        sendMessageToAll(BB);
 
         //Initialization of the board
         board = new Board(this);
-        board.firstSetup();
+        if(board.firstSetup())
+            sendMessageToAll(BB_Ok);
+        else
+            sendMessageToAll(BB_No);
 
         setGameState(GameState.Ready);
     }
@@ -373,10 +380,10 @@ public class Match {
         }
 
     }
-    public void sendMessageToAll(String message){
+    public void sendMessageToAll(ServerMessage message){
         for(Player p:playerList){
             try {
-                p.getController().clientInput.callBack.sendMessageToClient(message);
+                p.getController().clientInput.callBack.sendMessageToClient(String.valueOf(message));
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }

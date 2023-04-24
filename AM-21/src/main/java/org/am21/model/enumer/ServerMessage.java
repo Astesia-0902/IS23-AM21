@@ -6,30 +6,27 @@ public enum ServerMessage {
     Connection_No("Server > Connection failed\n"),
 
     //Login phase
-    Login_Ok("Server > Login successful\n"),
-    Login_No("Server > Login failed\n"),
-
-    //Game menu phase
-    CreateM_Ok("Server > Create match successful\n"),
-    CreateM_No("Server > Create match failed\n"),
-    JoinM_Ok("Server > Join match successful\n"),
-    JoinM_No("Server > Join match failed\n"),
+    Login_Ok("Server > Login successful.\n Hi "),
+    Login_No("Server > Access denied. This username is already taken, please enter a new one...\n"),
+    ListP("Server > This is list of player online: \n"),
 
     //Create match phase
-    GenerateR("Server > Generating room\n"),
     PExists("Server > The player already exists in match. In order to create a new match, you need to abandon the current one. Do you wish to continue?\n"),
     PExceed("Server > Exceeded player number limit. Try again\n"),
+    CreateM_Ok("Server > Create match successful\n"),
+    CreateM_No("Server > Create match failed\n"),
+
 
     //Join match phase
     FindM_Ok("Server > Match is found\n"),
-    FindM_No("Server > Match is not found\n"),
-    FullM("Server > The match is full\n"),
+    FindM_No("Server > The room is not exists, please try again\n"),
+    FullM("Server > The room is full\n"),
     PExists_No("Server > The player does not exist in any room. Try to create a new one\n"),
 
     //Match initialization phase
     BB("Server > The match is about to start. Building game board... Please wait\n"),
     BB_Ok("Server > Board build successful\n"),
-    BB_No("Server > Boald build failed\n"),
+    BB_No("Server > Board build failed\n"),
 
     //Game phase (Selection phase)
     Selection_Ok("Server > Selection successful\n"),
@@ -42,7 +39,9 @@ public enum ServerMessage {
     Hand_Full("Server > You reached the limit of items you could pick\n"),
 
     //Game phase (Deselection phase)
-
+    DeSel_Ok("Server > Deselection successful\n"),
+    DeSel_No("Server > Deselection failed\n"),
+    DeSel_Null("Server > You did not select any card yet. Deselection is not necessary\n"),
 
     //Game phase (Insertion phase)
     WhichCellWriteTheCoordinates(""),
@@ -51,9 +50,9 @@ public enum ServerMessage {
     ColumnNotAvailable(""),
 
     //Game phase (Sort phase)
-    DoYouWantToChangeInsertionOrder(""),
-    WitchCardsShouldSwitch(""),
-    CardOrderChanged(""),
+    Sort_No("Server > Not enough cards in your hand\n"),
+    Sort_Index("Server > Index out of border\n"),
+    Sort_Ok("Server > Order changed\n"),
 
 
     //Game phase (Show object phase)

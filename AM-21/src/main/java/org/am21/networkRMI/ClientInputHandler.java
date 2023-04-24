@@ -4,6 +4,7 @@ import org.am21.controller.GameController;
 import org.am21.controller.PlayerController;
 import org.am21.model.GameManager;
 import org.am21.model.Player;
+import org.am21.model.enumer.ServerMessage;
 import org.am21.model.enumer.UserStatus;
 
 import java.rmi.RemoteException;
@@ -64,7 +65,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
                 GameManager.players.add(playerController.getPlayer());
             }
         }
-        this.callBack.sendMessageToClient("Server > Login Successful. Hi "+username);
+        this.callBack.sendMessageToClient(ServerMessage.Login_Ok+username);
         return true;
     }
 
@@ -128,6 +129,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         if (!checkPlayerActionPhase() && playerController.unselectCards()) {
             return true;
         }
+        this.callBack.sendMessageToClient(String.valueOf(ServerMessage.DeSel_No));
         return false;
     }
 
@@ -181,7 +183,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     @Override
     public void printOnlinePlayers() throws RemoteException{
         String message="";
-        callBack.sendMessageToClient("List of Online PLayers:");
+        this.callBack.sendMessageToClient(String.valueOf(ServerMessage.ListP));
         for(Player p:GameManager.players){
             if(p.getStatus()==UserStatus.Online || p.getStatus()==UserStatus.GameMember){
                 message+=("["+p.getNickname()+"] ");

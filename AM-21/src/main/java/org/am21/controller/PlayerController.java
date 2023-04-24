@@ -100,6 +100,7 @@ public class PlayerController {
         if (board.isPlayable(r,c) && board.isOccupied(r,c) && board.hasFreeSide(r, c)) {
             //System.out.println("Board > Cell selectable");
             /*If the cell is selectable then verify second condition*/
+            sendMessage(ServerMessage.Selection_Ok);
 
             if (hand.getSlot().size()>0)  {
                 //quando ci sono altre carte in mano, controllo se è gia stata selezionata
@@ -107,11 +108,7 @@ public class PlayerController {
                     if ((r == tmp.x) && (c == tmp.y)) {
                         //Gia selezionato
                         //System.out.println("Board[!] > Already selected. Try again.");
-                        try {
-                            clientInput.callBack.sendMessageToClient(String.valueOf(ServerMessage.Cell_Selected));
-                        } catch (RemoteException e) {
-                            throw new RuntimeException(e);
-                        }
+                        sendMessage(ServerMessage.Cell_Selected);
                         return false;
                     }
                 }
@@ -124,14 +121,12 @@ public class PlayerController {
                    so they are valid for Orthogonality check*/
                 if (!board.isOrthogonal(r, c, hand)) {
                     //System.out.println("Board > Not Orthogonal ["+r+","+c+"]");
-                    try {
-                        clientInput.callBack.sendMessageToClient(String.valueOf(ServerMessage.Cell_Orthogonal));
-                    } catch (RemoteException e) {
-                        throw new RuntimeException(e);
-                    }
+                    sendMessage(ServerMessage.Cell_Orthogonal);
                     return false;
                 }
             }
+            else
+                sendMessage(ServerMessage.Hand_Full);
             //Tutti i controlli passati: posso inserirlo nella hand
             //salvo le coordinate e il riferimento dell'item nella hand*/
             hand.memCard(board.getCell(r, c), r, c);
@@ -140,6 +135,7 @@ public class PlayerController {
 //
             return true;
         }
+
         sendMessage(ServerMessage.Selection_No);
         //Questo messaggio sara tolto e messo in ClientInputHandler o nelle funzioni dei test
 //            System.out.println("Match > Selection Failed");
@@ -162,9 +158,11 @@ public class PlayerController {
         }
         if(player.getMatch().gamePhase == GamePhase.Selection && hand.getSlot().size()>0) {
             hand.clearHand();
+            sendMessage(ServerMessage.DeSel_Ok);
             //TODO: add VV update hand
             return true;
         }
+        sendMessage(ServerMessage.DeSel_Null);
         return false;
     }
 
@@ -261,7 +259,7 @@ public class PlayerController {
     public boolean changeHandOrder(int i,int j){
         if(isMyTurn(player) && hand.changeOrder(i,j)){
             //TODO: add VV update hand
-            //TODO: Server message: Order changed
+            sendMessage(ServerMessage.Sort_Ok);
             return true;
         }
         return false;

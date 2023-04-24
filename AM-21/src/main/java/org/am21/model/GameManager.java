@@ -2,13 +2,12 @@ package org.am21.model;
 
 import org.am21.controller.GameController;
 import org.am21.controller.PlayerController;
+import org.am21.model.enumer.ServerMessage;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import static org.am21.model.enumer.ServerMessage.PExceed;
 
 public class GameManager {
     public static GameManager game;
@@ -36,7 +35,7 @@ public class GameManager {
 
                 //System.out.println("Exceeded players number limit. Try again.");
                 try {
-                    playerController.clientInput.callBack.sendMessageToClient(String.valueOf(PExceed));
+                    playerController.clientInput.callBack.sendMessageToClient(String.valueOf(ServerMessage.PExceed));
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);
                 }
