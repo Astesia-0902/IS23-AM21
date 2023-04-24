@@ -8,7 +8,6 @@ import java.util.List;
 
 /**
  * You can find the virtual view data in this class
- * TODO: virtual view update every time the server sends a JSON
  */
 public class JSONConverter {
     public static int matchID;
@@ -17,13 +16,14 @@ public class JSONConverter {
     public static String currentPlayer;
     public static List<Integer> scores;
     public static List<String> commonGoal;
-    //TODO: add Commongoal tokenStack only the top token
+    public static List<Integer> commonGoalScore;
     public static int personalGoal;
     public static List<String[][]> shelf;
     public static String gamePhase;
     public static String gameState;
     public static List<String> currentPlayerHand;
-    //TODO: endgameTOken (T or F)
+    public static boolean endGameToken;
+
     /**
      * Once the JSON is received, it is parsed and the data is stored in the corresponding variables
      * the key strings of get methods are generated automatically,
@@ -32,14 +32,13 @@ public class JSONConverter {
      * @param json the JSON string received from the server
      */
     public static void setViewVariables(String json) {
-        //TODO: add the player's commonGoal score
         JSONObject jsonObject = JSONObject.parseObject(json);
         virtualBoard = jsonObject.getObject("board", String[][].class);
         players = jsonObject.getJSONArray("players").toJavaList(String.class);
         currentPlayer = jsonObject.getString("currentPlayer");
         scores = jsonObject.getJSONArray("scores").toJavaList(Integer.class);
         commonGoal = jsonObject.getJSONArray("commonGoals").toJavaList(String.class);
-        //TODO:we only need the personal goal of the player of this client
+        commonGoalScore = jsonObject.getJSONArray("commonGoalScores").toJavaList(Integer.class);
         personalGoal = jsonObject.getJSONArray("personalGoals").toJavaList(Integer.class).get(getPlayerIndex(currentPlayer));
         JSONArray temp = jsonObject.getJSONArray("shelves");
         shelf = new java.util.ArrayList<>();
@@ -50,6 +49,7 @@ public class JSONConverter {
         gameState = jsonObject.getString("gameState");
         currentPlayerHand = jsonObject.getJSONArray("currentPlayerHand").toJavaList(String.class);
         matchID = jsonObject.getInteger("matchID");
+        endGameToken = jsonObject.getBoolean("endGameToken");
     }
 
     /**

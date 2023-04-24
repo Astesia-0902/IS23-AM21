@@ -8,7 +8,6 @@ import java.util.List;
 
 /**
  * We use this class to build the virtual view
- * TODO:Modify the virtual view when the match data is updated
  */
 public class VirtualViewHelper {
     /**
@@ -178,6 +177,11 @@ public class VirtualViewHelper {
             commonGoalScore.add(match.commonGoals.get(i).tokenStack.get(0));
         }
         match.virtualView.setCommonGoalScores(commonGoalScore);
+    }
+
+    //TODO: set the end game token
+    public static void setEndGame(Match match) {
+        match.virtualView.setEndGameToken(match.isEndGameToken());
     }
 
     private static void setMatchID(Match match) {

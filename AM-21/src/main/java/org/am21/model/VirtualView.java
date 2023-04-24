@@ -3,9 +3,6 @@ package org.am21.model;
 import java.io.Serializable;
 import java.util.List;
 
-//TODO:object to be sent to the client
-//TODO:we need to discuss how to map each card to a number
-//TODO:maybe we can store the game state in a JSON file
 //1. The board map
 //2. The list of shelves
 //3. The list of player
@@ -33,7 +30,15 @@ public class VirtualView implements Serializable {
     public String currentPlayer;
     public String gamePhase;
     public String gameState;
-    //TODO: endgame token
+    public boolean endGameToken;
+
+    public boolean isEndGameToken() {
+        return endGameToken;
+    }
+
+    public void setEndGameToken(boolean endGameToken) {
+        this.endGameToken = endGameToken;
+    }
 
     public List<String> getCurrentPlayerHand() {
         return currentPlayerHand;
