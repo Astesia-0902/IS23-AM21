@@ -38,19 +38,19 @@ public class GameController {
     private static boolean joinGameHelper(int matchID, String userName, PlayerController playerController) {
         if (GameManager.matchList.size()<(matchID+1) || GameManager.matchList.get(matchID) == null) {
             //System.out.println("Server >  The specified match does not exist.");
-            sendMessage(playerController,ServerMessage.FindM_No);
+            GameManager.sendCommunication(playerController,ServerMessage.FindM_No);
             return false;
         }
 
         if (GameManager.matchList.get(matchID).gameState == GameState.GameGoing) {
             if (!GameManager.playerMatchMap.containsKey(userName)) {
                 //System.out.println("Message from the server: the player not exists in any match.");
-                sendMessage(playerController,ServerMessage.PExists_No);
+                GameManager.sendCommunication(playerController,ServerMessage.PExists_No);
                 return false;
             } else {
                 if (!GameManager.matchList.get(matchID).addPlayer(playerController.getPlayer())) {
                     //System.out.println("Message from the server: the match is full.");
-                    sendMessage(playerController,ServerMessage.FullM);
+                    GameManager.sendCommunication(playerController,ServerMessage.FullM);
                     return false;
                 }
             }
@@ -58,10 +58,10 @@ public class GameController {
         } else if (GameManager.matchList.get(matchID).gameState == GameState.WaitingPlayers) {
             if (!GameManager.matchList.get(matchID).addPlayer(playerController.getPlayer())) {
                 //System.out.println("Message from the server: the match is full.");
-                sendMessage(playerController,ServerMessage.FullM);
+                GameManager.sendCommunication(playerController,ServerMessage.FullM);
                 return false;
             }
-            sendMessage(playerController,ServerMessage.FindM_Ok);
+            GameManager.sendCommunication(playerController,ServerMessage.FindM_Ok);
             return true;
         }
         return false;
@@ -80,7 +80,7 @@ public class GameController {
             synchronized (GameManager.matchList) {
                 if(createMatchHelper(userName, createMatchRequestCount, playerNum, playerController)) {
                     //System.out.println("Message from the server: the match is created.");
-                    sendMessage(playerController, ServerMessage.CreateM_Ok);
+                    GameManager.sendCommunication(playerController, ServerMessage.CreateM_Ok);
                     return true;
                 }
             }
@@ -100,13 +100,17 @@ public class GameController {
             /*System.out.println("Message from the server: the player already exists in a match. " +
                     "Create a new match will cause the player leave the current match." +
                     "Do you want to continue?");*/
-            sendMessage(playerController,ServerMessage.PExists);
+            GameManager.sendCommunication(playerController,ServerMessage.PExists);
             createMatchRequestCount = 1;
         } else if (GameManager.playerMatchMap.containsKey(userName) && createMatchRequestCount == 1) {
             createMatchRequestCount = 0;
             if(GameManager.createMatch(playerNum, playerController)){
-                sendMessage(playerController,ServerMessage.CreateM_Ok);
+                GameManager.sendCommunication(playerController,ServerMessage.CreateM_Ok);
                 return true;
+            }else{
+                //System.out.println("Exceeded players number limit. Try again.");
+                GameManager.sendCommunication(playerController,ServerMessage.PExceed);
+
             }
 
 
@@ -114,8 +118,11 @@ public class GameController {
         } else if (!GameManager.playerMatchMap.containsKey(userName)) {
             if(GameManager.createMatch(playerNum, playerController)){
 
-                sendMessage(playerController,ServerMessage.CreateM_Ok);
+                GameManager.sendCommunication(playerController,ServerMessage.CreateM_Ok);
                 return true;
+            }else{
+                //System.out.println("Exceeded players number limit. Try again.");
+                GameManager.sendCommunication(playerController,ServerMessage.PExceed);
             }
 
 
@@ -131,18 +138,8 @@ public class GameController {
         return false;
     }
 
-    /**
-     * function to call server message
-     * @param pc PlayerController
-     * @param m ServerMessage
-     */
-    private static void sendMessage(PlayerController pc, ServerMessage m){
-        try {
-            pc.clientInput.callBack.sendMessageToClient(m.value());
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
+
 
 
 }

@@ -5,7 +5,6 @@ import org.am21.model.Cards.ItemCard;
 import org.am21.model.Match;
 import org.am21.model.Player;
 import org.am21.model.enumer.GamePhase;
-import org.am21.model.enumer.ServerMessage;
 import org.am21.model.items.Board;
 import org.am21.model.items.Shelf;
 import org.am21.networkRMI.ClientCallBack;
@@ -47,7 +46,6 @@ public class PlayerTest {
 
         m.currentPlayer = p1;
 
-        System.out.println(ServerMessage.BB.value());
     }
 
     @AfterEach

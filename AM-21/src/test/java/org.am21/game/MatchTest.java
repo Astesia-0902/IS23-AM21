@@ -26,6 +26,7 @@ class MatchTest {
     Match m;
     @BeforeEach
     void setUp(){
+        
         m=new Match(2);
     }
 

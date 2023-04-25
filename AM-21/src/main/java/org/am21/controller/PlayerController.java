@@ -1,6 +1,7 @@
 package org.am21.controller;
 
 import org.am21.model.Cards.PersonalGoalCard;
+import org.am21.model.GameManager;
 import org.am21.model.Player;
 import org.am21.model.enumer.GamePhase;
 import org.am21.model.enumer.ServerMessage;
@@ -8,8 +9,6 @@ import org.am21.model.items.Board;
 import org.am21.model.items.Hand;
 import org.am21.networkRMI.ClientInputHandler;
 import org.am21.utilities.CardPointer;
-
-import java.rmi.RemoteException;
 
 
 /**
@@ -100,7 +99,7 @@ public class PlayerController {
         if (board.isPlayable(r,c) && board.isOccupied(r,c) && board.hasFreeSide(r, c)) {
             //System.out.println("Board > Cell selectable");
             /*If the cell is selectable then verify second condition*/
-            sendMessage(ServerMessage.Selection_Ok);
+            GameManager.sendCommunication(this,ServerMessage.Selection_Ok);
 
             if (hand.getSlot().size()>0)  {
                 //quando ci sono altre carte in mano, controllo se è gia stata selezionata
@@ -108,7 +107,7 @@ public class PlayerController {
                     if ((r == tmp.x) && (c == tmp.y)) {
                         //Gia selezionato
                         //System.out.println("Board[!] > Already selected. Try again.");
-                        sendMessage(ServerMessage.Cell_Selected);
+                        GameManager.sendCommunication(this,ServerMessage.Cell_Selected);
                         return false;
                     }
                 }
@@ -121,12 +120,13 @@ public class PlayerController {
                    so they are valid for Orthogonality check*/
                 if (!board.isOrthogonal(r, c, hand)) {
                     //System.out.println("Board > Not Orthogonal ["+r+","+c+"]");
-                    sendMessage(ServerMessage.Cell_Orthogonal);
+                    GameManager.sendCommunication(this,ServerMessage.Cell_Orthogonal);
                     return false;
                 }
             }
-            else
-                sendMessage(ServerMessage.Hand_Full);
+            else {
+                GameManager.sendCommunication(this,ServerMessage.Hand_Full);
+            }
             //Tutti i controlli passati: posso inserirlo nella hand
             //salvo le coordinate e il riferimento dell'item nella hand*/
             hand.memCard(board.getCell(r, c), r, c);
@@ -136,14 +136,10 @@ public class PlayerController {
             return true;
         }
 
-        sendMessage(ServerMessage.Selection_No);
+        GameManager.sendCommunication(this,ServerMessage.Selection_No);
         //Questo messaggio sara tolto e messo in ClientInputHandler o nelle funzioni dei test
 //            System.out.println("Match > Selection Failed");
-        /*try {
-            clientInput.callBack.sendMessageToClient(ServerMessage.SelectionFailed.toString());
-        }catch (RemoteException e){
-            throw new RuntimeException(e);
-        }*/
+
         return false;
     }
 
@@ -158,12 +154,12 @@ public class PlayerController {
         }
         if(player.getMatch().gamePhase == GamePhase.Selection && hand.getSlot().size()>0) {
             hand.clearHand();
-            sendMessage(ServerMessage.DeSel_Ok);
+            GameManager.sendCommunication(this,ServerMessage.DeSel_Ok);
             //TODO: add VV update hand
             return true;
         }
 
-        sendMessage(ServerMessage.DeSel_Null);
+        GameManager.sendCommunication(this,ServerMessage.DeSel_Null);
         return false;
     }
 
@@ -260,7 +256,7 @@ public class PlayerController {
     public boolean changeHandOrder(int i,int j){
         if(isMyTurn(player) && hand.changeOrder(i,j)){
             //TODO: add VV update hand
-            sendMessage(ServerMessage.Sort_Ok);
+            GameManager.sendCommunication(this,ServerMessage.Sort_Ok);
             return true;
         }
         return false;
@@ -299,18 +295,5 @@ public class PlayerController {
         player.setPlayerScore(player.getPlayerScore()+points);
     }
 
-    /**
-     * function to call server message
-     * @param m ServerMessage
-     */
-    void sendMessage(ServerMessage m){
-        if(clientInput.callBack!=null) {
-            try {
-                clientInput.callBack.sendMessageToClient(m.value());
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
 
 }

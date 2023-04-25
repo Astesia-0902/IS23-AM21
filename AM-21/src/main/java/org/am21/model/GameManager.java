@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class GameManager {
+    public static boolean SERVER_COMM=true;
+
     public static GameManager game;
     //Key: player name, Value: match id
     public static final HashMap<String, Integer> playerMatchMap = new HashMap<String, Integer>();
@@ -35,13 +37,6 @@ public class GameManager {
     public static boolean createMatch(int playerNum, PlayerController playerController) {
         synchronized (matchList) {
             if (playerNum < 2 || playerNum > 4) {
-
-                //System.out.println("Exceeded players number limit. Try again.");
-                try {
-                    playerController.clientInput.callBack.sendMessageToClient(ServerMessage.PExceed.value());
-                } catch (RemoteException e) {
-                    throw new RuntimeException(e);
-                }
                 return false;
             }
 
@@ -50,6 +45,21 @@ public class GameManager {
             match.matchID = matchList.indexOf(match);
             match.addPlayer(playerController.getPlayer());
             return true;
+        }
+    }
+
+    /**
+     * function to call server message
+     * @param pc PlayerController
+     * @param m ServerMessage
+     */
+    public static void sendCommunication(PlayerController pc, ServerMessage m){
+        if(SERVER_COMM) {
+            try {
+                pc.clientInput.callBack.sendMessageToClient(m.value());
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

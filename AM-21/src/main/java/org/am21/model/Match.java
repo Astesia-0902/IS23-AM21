@@ -312,11 +312,11 @@ public class Match {
 
         //Initialization of the board
         board = new Board(this);
-        if(board.firstSetup())
+        if(board.firstSetup()){
             sendMessageToAll(BB_Ok);
-        else
+        } else {
             sendMessageToAll(BB_No);
-
+        }
         setGameState(GameState.Ready);
     }
 
@@ -403,11 +403,8 @@ public class Match {
 
         for(Player p:playerList){
             if(p.getController().clientInput.callBack!=null) {
-                try {
-                    p.getController().clientInput.callBack.sendMessageToClient(message.value());
-                } catch (RemoteException e) {
-                    throw new RuntimeException();
-                }
+
+                GameManager.sendCommunication(p.getController(),message);
             }
 
         }
