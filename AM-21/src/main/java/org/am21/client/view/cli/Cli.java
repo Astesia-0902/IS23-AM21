@@ -20,6 +20,7 @@ public class Cli implements View {
     private IClientInput iClientInputHandler;
     private ClientCallBack clientCallBack;
     private String player;
+    private int playerIndex;
     private int personalGoal;
     private static final int SHELF_ROW = 6;
     private static final int SHELF_COLUMN = 5;
@@ -28,6 +29,7 @@ public class Cli implements View {
 
     private boolean CANCEL_WAIT =false;
     private boolean CANCEL_PLAY=false;
+
 
     public Cli() throws RemoteException {
         this.clientCallBack = new ClientCallBack();
@@ -76,8 +78,7 @@ public class Cli implements View {
     }
 
     public void initPlayer(String username) {
-        //TODO: Replace player with JSONConverter
-        int playerIndex = JSONConverter.getPlayerIndex(username);
+        playerIndex = JSONConverter.getPlayerIndex(username);
         player = JSONConverter.players.get(playerIndex);
         personalGoal = JSONConverter.personalGoal;
     }
@@ -216,10 +217,7 @@ public class Cli implements View {
     public boolean askCreateMatch() throws ServerNotActiveException, RemoteException {
         System.out.println("Room generation in  progress...");
         int playerNumber = askMaxSeats();
-        if (iClientInputHandler.createMatch(playerNumber)) {
-            return true;
-        }
-        return false;
+        return iClientInputHandler.createMatch(playerNumber);
     }
 
     @Override
@@ -390,7 +388,7 @@ public class Cli implements View {
                 The player who scored most points wins the game. In case of a tie, the tied player sitting further
                 (clockwise) from the first player wins the game.
                 Scoring Example:
-                Example: Helena scores 12 points from scoring tokens, 6 points from her personal goal card, and 
+                Example: Helena scores 12 points from scoring tokens, 6 points from her personal goal card, and
                 18 points from the groups of adjacent tiles in her bookshelf:
                 6 adjacent Trophy tiles: 8 points
                 5 adjacent Cat tiles: 5 points
@@ -422,122 +420,97 @@ public class Cli implements View {
         for (int i = 0; i < JSONConverter.commonGoal.size(); i++) {
             showGoalDescription(JSONConverter.commonGoal.get(i));
         }
-
-//        System.out.println("You received: " + player.getPlayerScore() + " points.");
+        System.out.println("You received: " + JSONConverter.commonGoalScore.get(playerIndex) + " points.");
     }
 
     @Override
     public void showPersonalGoal() {
         System.out.println(player + "'s PersonalGoal:");
-        switch (personalGoal){
-            case 1:
-                System.out.println("""
-                        [_Plants_][______._][_Frames_][______._][______._]
-                        [______._][______._][______._][______._][__Cats__]
-                        [______._][______._][______._][_Books__][______._]
-                        [______._][_Games__][______._][______._][______._]
-                        [______._][______._][______._][______._][______._]
-                        [______._][______._][Trophies][______._][______._]""");
-                break;
-            case 2:
-                System.out.println("""
-                        [______._][______._][______._][______._][______._]
-                        [______._][_Plants_][______._][______._][______._]
-                        [__Cats__][______._][_Games__][______._][______._]
-                        [______._][______._][______._][______._][_Books__]
-                        [______._][______._][______._][Trophies][______._]
-                        [______._][______._][______._][______._][_Frames_]""");
-                break;
-            case 3:
-                System.out.println("""
-                        [______._][______._][______._][______._][______._]
-                        [_Frames_][______._][______._][_Games__][______._]
-                        [______._][______._][_Plants_][______._][______._]
-                        [______._][__Cats__][______._][______._][Trophies]
-                        [______._][______._][______._][______._][______._]
-                        [_Books__][______._][______._][______._][______._]""");
-                break;
-            case 4:
-                System.out.println("""
-                        [______._][______._][______._][______._][_Games__]
-                        [______._][______._][______._][______._][______._]
-                        [Trophies][______._][_Frames_][______._][______._]
-                        [______._][______._][______._][_Plants_][______._]
-                        [______._][_Books__][__Cats__][______._][______._]
-                        [______._][______._][______._][______._][______._]""");
-                break;
-            case 5:
-                System.out.println("""
-                        [______._][______._][______._][______._][______._]
-                        [______._][Trophies][______._][______._][______._]
-                        [______._][______._][______._][______._][______._]
-                        [______._][_Frames_][_Books__][______._][______._]
-                        [______._][______._][______._][______._][_Plants_]
-                        [_Games__][______._][______._][__Cats__][______._]""");
-                break;
-            case 6:
-                System.out.println("""
-                        [______._][______._][Trophies][______._][__Cats__]
-                        [______._][______._][______._][______._][______._]
-                        [______._][______._][______._][_Books__][______._]
-                        [______._][______._][______._][______._][______._]
-                        [______._][_Games__][______._][_Frames_][______._]
-                        [_Plants_][______._][______._][______._][______._]""");
-                break;
-            case 7:
-                System.out.println("""
-                        [__Cats__][______._][______._][______._][______._]
-                        [______._][______._][______._][_Frames_][______._]
-                        [______._][_Plants_][______._][______._][______._]
-                        [Trophies][______._][______._][______._][______._]
-                        [______._][______._][______._][______._][_Games__]
-                        [______._][______._][_Books__][______._][______._]""");
-                break;
-            case 8:
-                System.out.println("""
-                        [______._][______._][______._][______._][_Frames_]
-                        [______._][__Cats__][______._][______._][______._]
-                        [______._][______._][Trophies][______._][______._]
-                        [_Plants_][______._][______._][______._][______._]
-                        [______._][______._][______._][_Books__][______._]
-                        [______._][______._][______._][_Games__][______._]""");
-                break;
-            case 9:
-                System.out.println("""
-                        [______._][______._][_Games__][______._][______._]
-                        [______._][______._][______._][______._][______._]
-                        [______._][______._][__Cats__][______._][______._]
-                        [______._][______._][______._][______._][_Books__]
-                        [______._][Trophies][______._][______._][_Plants_]
-                        [_Frames_][______._][______._][______._][______._]""");
-                break;
-            case 10:
-                System.out.println("""
-                        [______._][______._][______._][______._][Trophies]
-                        [______._][_Games__][______._][______._][______._]
-                        [_Books__][______._][______._][______._][______._]
-                        [______._][______._][______._][__Cats__][______._]
-                        [______._][_Frames_][______._][______._][______._]
-                        [______._][______._][______._][_Plants_][______._]""");
-                break;
-            case 11:
-                System.out.println("""
-                        [______._][______._][_Plants_][______._][______._]
-                        [______._][_Books__][______._][______._][______._]
-                        [_Games__][______._][______._][______._][______._]
-                        [______._][______._][_Frames_][______._][______._]
-                        [______._][______._][______._][______._][__Cats__]
-                        [______._][______._][______._][Trophies][______._]""");
-                break;
-            case 12:
-                System.out.println("""
-                        [______._][______._][_Books__][______._][______._]
-                        [______._][_Plants_][______._][______._][______._]
-                        [______._][______._][_Frames_][______._][______._]
-                        [______._][______._][______._][Trophies][______._]
-                        [______._][______._][______._][______._][_Games__]
-                        [__Cats__][______._][______._][______._][______._]""");
-                break;
+        switch (personalGoal) {
+            case 1 -> System.out.println("""
+                    [_Plants_][______._][_Frames_][______._][______._]
+                    [______._][______._][______._][______._][__Cats__]
+                    [______._][______._][______._][_Books__][______._]
+                    [______._][_Games__][______._][______._][______._]
+                    [______._][______._][______._][______._][______._]
+                    [______._][______._][Trophies][______._][______._]""");
+            case 2 -> System.out.println("""
+                    [______._][______._][______._][______._][______._]
+                    [______._][_Plants_][______._][______._][______._]
+                    [__Cats__][______._][_Games__][______._][______._]
+                    [______._][______._][______._][______._][_Books__]
+                    [______._][______._][______._][Trophies][______._]
+                    [______._][______._][______._][______._][_Frames_]""");
+            case 3 -> System.out.println("""
+                    [______._][______._][______._][______._][______._]
+                    [_Frames_][______._][______._][_Games__][______._]
+                    [______._][______._][_Plants_][______._][______._]
+                    [______._][__Cats__][______._][______._][Trophies]
+                    [______._][______._][______._][______._][______._]
+                    [_Books__][______._][______._][______._][______._]""");
+            case 4 -> System.out.println("""
+                    [______._][______._][______._][______._][_Games__]
+                    [______._][______._][______._][______._][______._]
+                    [Trophies][______._][_Frames_][______._][______._]
+                    [______._][______._][______._][_Plants_][______._]
+                    [______._][_Books__][__Cats__][______._][______._]
+                    [______._][______._][______._][______._][______._]""");
+            case 5 -> System.out.println("""
+                    [______._][______._][______._][______._][______._]
+                    [______._][Trophies][______._][______._][______._]
+                    [______._][______._][______._][______._][______._]
+                    [______._][_Frames_][_Books__][______._][______._]
+                    [______._][______._][______._][______._][_Plants_]
+                    [_Games__][______._][______._][__Cats__][______._]""");
+            case 6 -> System.out.println("""
+                    [______._][______._][Trophies][______._][__Cats__]
+                    [______._][______._][______._][______._][______._]
+                    [______._][______._][______._][_Books__][______._]
+                    [______._][______._][______._][______._][______._]
+                    [______._][_Games__][______._][_Frames_][______._]
+                    [_Plants_][______._][______._][______._][______._]""");
+            case 7 -> System.out.println("""
+                    [__Cats__][______._][______._][______._][______._]
+                    [______._][______._][______._][_Frames_][______._]
+                    [______._][_Plants_][______._][______._][______._]
+                    [Trophies][______._][______._][______._][______._]
+                    [______._][______._][______._][______._][_Games__]
+                    [______._][______._][_Books__][______._][______._]""");
+            case 8 -> System.out.println("""
+                    [______._][______._][______._][______._][_Frames_]
+                    [______._][__Cats__][______._][______._][______._]
+                    [______._][______._][Trophies][______._][______._]
+                    [_Plants_][______._][______._][______._][______._]
+                    [______._][______._][______._][_Books__][______._]
+                    [______._][______._][______._][_Games__][______._]""");
+            case 9 -> System.out.println("""
+                    [______._][______._][_Games__][______._][______._]
+                    [______._][______._][______._][______._][______._]
+                    [______._][______._][__Cats__][______._][______._]
+                    [______._][______._][______._][______._][_Books__]
+                    [______._][Trophies][______._][______._][_Plants_]
+                    [_Frames_][______._][______._][______._][______._]""");
+            case 10 -> System.out.println("""
+                    [______._][______._][______._][______._][Trophies]
+                    [______._][_Games__][______._][______._][______._]
+                    [_Books__][______._][______._][______._][______._]
+                    [______._][______._][______._][__Cats__][______._]
+                    [______._][_Frames_][______._][______._][______._]
+                    [______._][______._][______._][_Plants_][______._]""");
+            case 11 -> System.out.println("""
+                    [______._][______._][_Plants_][______._][______._]
+                    [______._][_Books__][______._][______._][______._]
+                    [_Games__][______._][______._][______._][______._]
+                    [______._][______._][_Frames_][______._][______._]
+                    [______._][______._][______._][______._][__Cats__]
+                    [______._][______._][______._][Trophies][______._]""");
+            case 12 -> System.out.println("""
+                    [______._][______._][_Books__][______._][______._]
+                    [______._][_Plants_][______._][______._][______._]
+                    [______._][______._][_Frames_][______._][______._]
+                    [______._][______._][______._][Trophies][______._]
+                    [______._][______._][______._][______._][_Games__]
+                    [__Cats__][______._][______._][______._][______._]""");
         }
     }
 
@@ -748,19 +721,18 @@ public class Cli implements View {
         showHand();
         System.out.println("Which position do you wish to swap?");
         List<Integer> itemSwapped = askIndex();
-        if (iClientInputHandler.sortHand(itemSwapped.get(0), itemSwapped.get(1))) {
-            System.out.println("Card order changed.");
+        if (!itemSwapped.get(0).equals(itemSwapped.get(1))) {
+            if (iClientInputHandler.sortHand(itemSwapped.get(0), itemSwapped.get(1))) {
+                System.out.println("Card order changed.");
+            }
+        } else {
+            System.out.println("Same position. Swap failed.");
         }
     }
 
     public List<Integer> askIndex() {
         boolean sortConfirm;
         int position1 = 1, position2 = 2;
-        //TODO: Controllo che pos1 e pos2 siano diversi per evitare scambio della stessa posizione
-        // (che si puo fare, ma vogliamo evitare di far perdere tempo al server)
-
-        //Ma se qualcuno non vuole più cambiare la carta? Penso che pos1 == pos2 sia un buon modo per
-        //uscire da askSort().
 
         do {
             do {
@@ -787,9 +759,6 @@ public class Cli implements View {
                 }
             } while (position2 < 1 || position2 > JSONConverter.currentPlayerHand.size());
 
-//            if (position1 == position2){
-//                System.out.println("Same position! Please try again.");
-//            }
             System.out.println("You have chosen to swap " + JSONConverter.currentPlayerHand.get(position1 - 1) + " and " +
                     JSONConverter.currentPlayerHand.get(position2 - 1));
             System.out.println("Confirm your choice:");
@@ -844,6 +813,8 @@ public class Cli implements View {
     }
 
     public void handleChatMessage(String option) throws RemoteException {
+        String message = readLine();
+
         String usernameString = option.substring(5);
         String regex = "\\[(.*?)\\]";
         String[] matches = usernameString.split(regex);
@@ -851,13 +822,12 @@ public class Cli implements View {
         if (matches.length > 1){
             // esiste username = playerName
             String playerName = matches[1];
+            //TODO: sendChatMessage to a player
+            //iClientInputHandler.sendChatMessage(message, playerName);
         } else {
             // non contiene username
+            iClientInputHandler.sendChatMessage(message);
         }
-
-        String message = readLine();
-        //TODO:
-        iClientInputHandler.sendChatMessage(message);
 
     }
 
