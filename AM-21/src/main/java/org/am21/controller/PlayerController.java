@@ -162,6 +162,7 @@ public class PlayerController {
             //TODO: add VV update hand
             return true;
         }
+
         sendMessage(ServerMessage.DeSel_Null);
         return false;
     }
@@ -303,10 +304,12 @@ public class PlayerController {
      * @param m ServerMessage
      */
     void sendMessage(ServerMessage m){
-        try {
-            clientInput.callBack.sendMessageToClient(String.valueOf(m));
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
+        if(clientInput.callBack!=null) {
+            try {
+                clientInput.callBack.sendMessageToClient(m.value());
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

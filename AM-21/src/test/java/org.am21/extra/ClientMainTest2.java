@@ -30,7 +30,7 @@ public class ClientMainTest2 {
         }
         /*System.out.println(clientInputHandler);
         System.out.println(clientChatHandler);
-        clientInputHandler.logIn("ade");
+        clientInputHandler.login("ade");
         clientInputHandler.joinGame(2);*/
 
 

@@ -18,12 +18,15 @@ public class GameController {
      * @param userName
      * @param playerController
      */
-    public static void joinGame(int matchID, String userName, PlayerController playerController) {
+    public static boolean joinGame(int matchID, String userName, PlayerController playerController) {
         synchronized (GameManager.playerMatchMap) {
             synchronized (GameManager.matchList) {
-                joinGameHelper(matchID, userName, playerController);
+                if(joinGameHelper(matchID, userName, playerController)){
+                    return true;
+                }
             }
         }
+        return false;
     }
 
     /**
@@ -32,21 +35,23 @@ public class GameController {
      * @param userName
      * @param playerController
      */
-    private static void joinGameHelper(int matchID, String userName, PlayerController playerController) {
-        if (GameManager.matchList.get(matchID) == null) {
+    private static boolean joinGameHelper(int matchID, String userName, PlayerController playerController) {
+        if (GameManager.matchList.size()<(matchID+1) || GameManager.matchList.get(matchID) == null) {
             //System.out.println("Server >  The specified match does not exist.");
             sendMessage(playerController,ServerMessage.FindM_No);
-            return;
+            return false;
         }
 
         if (GameManager.matchList.get(matchID).gameState == GameState.GameGoing) {
             if (!GameManager.playerMatchMap.containsKey(userName)) {
                 //System.out.println("Message from the server: the player not exists in any match.");
                 sendMessage(playerController,ServerMessage.PExists_No);
+                return false;
             } else {
                 if (!GameManager.matchList.get(matchID).addPlayer(playerController.getPlayer())) {
                     //System.out.println("Message from the server: the match is full.");
                     sendMessage(playerController,ServerMessage.FullM);
+                    return false;
                 }
             }
             //if the match is not started, the player join the match
@@ -54,10 +59,13 @@ public class GameController {
             if (!GameManager.matchList.get(matchID).addPlayer(playerController.getPlayer())) {
                 //System.out.println("Message from the server: the match is full.");
                 sendMessage(playerController,ServerMessage.FullM);
+                return false;
             }
+            sendMessage(playerController,ServerMessage.FindM_Ok);
+            return true;
         }
+        return false;
 
-        sendMessage(playerController,ServerMessage.FindM_Ok);
     }
 
     /**
@@ -67,14 +75,17 @@ public class GameController {
      * @param playerNum
      * @param playerController
      */
-    public static void createMatch(String userName, Integer createMatchRequestCount, int playerNum, PlayerController playerController) {
+    public static boolean createMatch(String userName, Integer createMatchRequestCount, int playerNum, PlayerController playerController) {
         synchronized (GameManager.playerMatchMap) {
             synchronized (GameManager.matchList) {
-                createMatchHelper(userName, createMatchRequestCount, playerNum, playerController);
-                //System.out.println("Message from the server: the match is created.");
-                sendMessage(playerController,ServerMessage.CreateM_Ok);
+                if(createMatchHelper(userName, createMatchRequestCount, playerNum, playerController)) {
+                    //System.out.println("Message from the server: the match is created.");
+                    sendMessage(playerController, ServerMessage.CreateM_Ok);
+                    return true;
+                }
             }
         }
+        return false;
     }
 
     /**
@@ -84,7 +95,7 @@ public class GameController {
      * @param playerNum
      * @param playerController
      */
-    private static void createMatchHelper(String userName, Integer createMatchRequestCount, int playerNum, PlayerController playerController) {
+    private static boolean createMatchHelper(String userName, Integer createMatchRequestCount, int playerNum, PlayerController playerController) {
         if (GameManager.playerMatchMap.containsKey(userName) && createMatchRequestCount == 0) {
             /*System.out.println("Message from the server: the player already exists in a match. " +
                     "Create a new match will cause the player leave the current match." +
@@ -93,13 +104,23 @@ public class GameController {
             createMatchRequestCount = 1;
         } else if (GameManager.playerMatchMap.containsKey(userName) && createMatchRequestCount == 1) {
             createMatchRequestCount = 0;
-            GameManager.createMatch(playerNum, playerController);
-            sendMessage(playerController,ServerMessage.CreateM_Ok);
+            if(GameManager.createMatch(playerNum, playerController)){
+                sendMessage(playerController,ServerMessage.CreateM_Ok);
+                return true;
+            }
+
+
             //TODO:player leave the current match
         } else if (!GameManager.playerMatchMap.containsKey(userName)) {
-            GameManager.createMatch(playerNum, playerController);
-            sendMessage(playerController,ServerMessage.CreateM_Ok);
+            if(GameManager.createMatch(playerNum, playerController)){
+
+                sendMessage(playerController,ServerMessage.CreateM_Ok);
+                return true;
+            }
+
+
         }
+        return false;
     }
 
     public static boolean removePlayerFromMatch(PlayerController ctrl,int matchID){
@@ -117,7 +138,7 @@ public class GameController {
      */
     private static void sendMessage(PlayerController pc, ServerMessage m){
         try {
-            pc.clientInput.callBack.sendMessageToClient(String.valueOf(m));
+            pc.clientInput.callBack.sendMessageToClient(m.value());
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }

@@ -16,6 +16,9 @@ public class GameManager {
     public static final List<Match> matchList = new ArrayList<Match>();
     public static final List<Player> players = new ArrayList<>();
 
+    //TODO: for testing
+    public static int client_connected=0;
+
     public GameManager(GameController controller) {
 
     }
@@ -29,23 +32,24 @@ public class GameManager {
         players.remove(player);
     }
 
-    public static void createMatch(int playerNum, PlayerController playerController) {
+    public static boolean createMatch(int playerNum, PlayerController playerController) {
         synchronized (matchList) {
             if (playerNum < 2 || playerNum > 4) {
 
                 //System.out.println("Exceeded players number limit. Try again.");
                 try {
-                    playerController.clientInput.callBack.sendMessageToClient(String.valueOf(ServerMessage.PExceed));
+                    playerController.clientInput.callBack.sendMessageToClient(ServerMessage.PExceed.value());
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);
                 }
-                return;
+                return false;
             }
 
             Match match = new Match(playerNum);
             matchList.add(match);
             match.matchID = matchList.indexOf(match);
             match.addPlayer(playerController.getPlayer());
+            return true;
         }
     }
 

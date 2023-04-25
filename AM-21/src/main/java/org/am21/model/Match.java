@@ -14,6 +14,7 @@ import org.am21.utilities.GameGear;
 import org.am21.utilities.MyTimer;
 
 import java.rmi.RemoteException;
+import java.rmi.server.ServerNotActiveException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,6 +98,14 @@ public class Match {
                 //VirtualViewHelper.setPlayers(this);
                 //notifyVirtualView();
                 checkRoom();
+                //If, after checkRoom(), the match did not start, send Client to Waiting Phase
+                if(gameState==GameState.WaitingPlayers){
+                    try {
+                        player.getController().clientInput.callBack.notifyToWait();
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 return true;
             }
             return false;
@@ -177,10 +186,13 @@ public class Match {
             for (CommonGoal goal : commonGoals) {
                 if (goal.checkGoal(player.getShelf())) {
                     // Give player points/scoreToken
-                    try {
-                        player.getController().clientInput.callBack.sendMessageToClient("Match > "+player.getNickname()+" acquired "+goal.tokenStack.get(0) +" points");
-                    } catch (RemoteException e) {
-                        throw new RuntimeException(e);
+                    //Server Message: announce how many points the player's got
+                    if(player.getController().clientInput.callBack!=null) {
+                        try {
+                            player.getController().clientInput.callBack.sendMessageToClient("Match > " + player.getNickname() + " acquired " + goal.tokenStack.get(0) + " points");
+                        } catch (RemoteException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                     goal.commonGoalAchieved(player);
                 }
@@ -320,7 +332,14 @@ public class Match {
         setGamePhase(GamePhase.Selection);
         //TODO: test it
         VirtualViewHelper.buildVirtualView(this);
-        notifyVirtualView();
+        for(Player p: playerList){
+            try {
+                p.getController().clientInput.callBack.notifyStart();
+            } catch (RemoteException | ServerNotActiveException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
     }
 
     /**
@@ -381,11 +400,14 @@ public class Match {
 
     }
     public void sendMessageToAll(ServerMessage message){
+
         for(Player p:playerList){
-            try {
-                p.getController().clientInput.callBack.sendMessageToClient(String.valueOf(message));
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
+            if(p.getController().clientInput.callBack!=null) {
+                try {
+                    p.getController().clientInput.callBack.sendMessageToClient(message.value());
+                } catch (RemoteException e) {
+                    throw new RuntimeException();
+                }
             }
 
         }

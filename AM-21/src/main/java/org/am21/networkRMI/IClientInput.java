@@ -15,10 +15,9 @@ public interface IClientInput extends Remote {
 
     boolean checkPlayerActionPhase() throws RemoteException,ServerNotActiveException;
 
-    boolean logIn(String username) throws RemoteException, ServerNotActiveException;
+    boolean logIn(String username,IClientCallBack clientCallBack) throws RemoteException, ServerNotActiveException;
 
-
-    void createMatch(int playerNum) throws RemoteException, ServerNotActiveException;
+    boolean createMatch(int playerNum) throws RemoteException, ServerNotActiveException;
 
 
     boolean selectCell(int row, int col) throws RemoteException,ServerNotActiveException;

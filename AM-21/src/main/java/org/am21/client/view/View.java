@@ -7,26 +7,29 @@ import java.rmi.server.ServerNotActiveException;
 public interface View {
     //String chooseView();
 
-    void askLogin() throws ServerNotActiveException, RemoteException;
-    void askMenuAction() throws ServerNotActiveException, RemoteException;
-    void askCreateMatch() throws ServerNotActiveException, RemoteException;
+    boolean askLogin() throws ServerNotActiveException, RemoteException;
+    boolean askMenuAction() throws ServerNotActiveException, RemoteException;
+    boolean askCreateMatch() throws ServerNotActiveException, RemoteException;
     int askMaxSeats() throws RemoteException;
-    void askJoinMatch() throws ServerNotActiveException, RemoteException;
-    void askLeaveMatch() throws RemoteException;
-    void askExitGame() throws RemoteException;
+    boolean askJoinMatch() throws ServerNotActiveException, RemoteException;
+    boolean askLeaveMatch() throws RemoteException;
+    boolean askExitGame() throws RemoteException;
     void showCommonGoals() throws RemoteException;
     void showPersonalGoal() throws RemoteException;
     void showCurrentPlayer() throws RemoteException;
     void showShelf() throws RemoteException;
     void showBoard() throws RemoteException;
     void showPlayersStats() throws RemoteException;
-    void askPlayerMove() throws RemoteException, ServerNotActiveException;
+    boolean askPlayerMove() throws RemoteException, ServerNotActiveException;
     void askSelection() throws ServerNotActiveException, RemoteException;
     void askDeselection() throws ServerNotActiveException, RemoteException;
     void askInsertion() throws ServerNotActiveException, RemoteException;
     void handleChatMessage(String option) throws RemoteException;
     void showEndGameToken();
     void showTimer();
+
+    void showMatchList() throws RemoteException;
+
     void showMatchSetup() throws RemoteException;
     void askShowObject() throws RemoteException;
     void showOnlinePlayer() throws RemoteException;

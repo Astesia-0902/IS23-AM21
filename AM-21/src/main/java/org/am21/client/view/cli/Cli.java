@@ -26,6 +26,9 @@ public class Cli implements View {
     private static final int BOARD_ROW = 6;
     private static final int BOARD_COLUMN = 5;
 
+    private boolean CANCEL_WAIT =false;
+    private boolean CANCEL_PLAY=false;
+
     public Cli() throws RemoteException {
         this.clientCallBack = new ClientCallBack();
         //TODO: keep it separate from constructor to avoid test destruction :)
@@ -54,9 +57,22 @@ public class Cli implements View {
         return input;
     }
 
-    public void init() throws ExecutionException, MalformedURLException, NotBoundException, RemoteException {
+    public void init() {
         System.out.println("Welcome to MyShelfie Board Game!");
-        askServerInfo();
+        askToContinue();
+        try {
+            askServerInfo();
+            while(!askLogin());
+            askToContinue();
+            goToMenu();
+        } catch (ServerNotActiveException | MalformedURLException | NotBoundException | RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void askToContinue(){
+        System.out.print("Press 'Enter' to continue");
+        readLine();
+        System.out.println("--------------------------------------------------");
     }
 
     public void initPlayer(String username) {
@@ -73,7 +89,7 @@ public class Cli implements View {
         boolean validInput;
 
         do {
-            System.out.println("Enter the server address: [" + defaultAddress + "]");
+            System.out.print("Enter the server address: [" + defaultAddress + "]");
             String address = readLine();
 
             if (address.equals("")) {
@@ -89,7 +105,7 @@ public class Cli implements View {
         } while (!validInput);
 
         do {
-            System.out.println("Enter the server Port: [" + defaultPort + "]");
+            System.out.print("Enter the server Port: [" + defaultPort + "]");
             String port = readLine();
 
             if (port.equals("")) {
@@ -104,71 +120,106 @@ public class Cli implements View {
             }
         } while (!validInput);
 
-        System.out.println(serverInfo.get("address"));
-        System.out.println(serverInfo.get("port"));
-        System.out.println("rmi://" + serverInfo.get("address") + ":"
-                + serverInfo.get("port") + "/ClientInputHandler");
+        //System.out.println(serverInfo.get("address"));
+        //System.out.println(serverInfo.get("port"));
+        //System.out.println("rmi://" + serverInfo.get("address") + ":"+ serverInfo.get("port") + "/ClientInputHandler");
 
         iClientInputHandler = (IClientInput) Naming.lookup("rmi://" + serverInfo.get("address") + ":"
                 + serverInfo.get("port") + "/ClientInputHandler");
-//        ClientGameController.IClientInputHandler = iClientInputHandler;
+        //TODO: registerCallBack is here
         iClientInputHandler.registerCallBack(clientCallBack);
-        System.out.println("Successfully joined at " + serverInfo.get("address")
+        System.out.println("Connected to " + serverInfo.get("address")
                     + ":" + serverInfo.get("port"));
     }
 
-    //    public void clearCli(){
-//        System.out.println("\033[H\033[2J");
-//        System.out.flush();
-//    }
+    /*
+    public void clearCli(){
+       System.out.println("\033[H\033[2J");
+        System.out.flush();
+    }
+    */
 
+    /**
+     * Registration of the User in the Game Server and association to CallBack
+     * @return
+     * @throws ServerNotActiveException
+     * @throws RemoteException
+     */
     @Override
-    public void askLogin() throws ServerNotActiveException, RemoteException {
-        boolean usernameAccepted;
+    public boolean askLogin() throws ServerNotActiveException, RemoteException {
+        System.out.print("Enter the username: ");
+        String username = readLine();
+        if(iClientInputHandler.logIn(username, clientCallBack)){
+            this.username=username;
+            return true;
+        }
+        return false;
+    }
 
-        do {
-            System.out.print("Enter the username: ");
-            String username = readLine();
-            usernameAccepted = iClientInputHandler.logIn(username);
+    public void goToMenu() throws ServerNotActiveException, RemoteException {
+        while(!askMenuAction());
+    }
 
-            if(usernameAccepted){
-                this.username=username;
-                askMenuAction();
-            }
-        } while (!usernameAccepted);
+    public void goToWaitingRoom() throws RemoteException {
+        while (!askWaitingAction()&&!CANCEL_WAIT);
+        CANCEL_WAIT =false;
+    }
+
+    public void goToMatchRoom() throws ServerNotActiveException, RemoteException {
+        while(!askPlayerMove() && !CANCEL_PLAY);
+        CANCEL_PLAY =false;
+    }
+
+    public void setCANCEL_WAIT(boolean CANCEL_WAIT) {
+        this.CANCEL_WAIT = CANCEL_WAIT;
+    }
+
+    public void setCANCEL_PLAY(boolean CANCEL_PLAY) {
+        this.CANCEL_PLAY = CANCEL_PLAY;
     }
 
     @Override
-    public void askMenuAction() throws ServerNotActiveException, RemoteException {
-        System.out.println("""
+    public boolean askMenuAction() throws ServerNotActiveException, RemoteException {
+        System.out.print("""
+                -----------------------------------------------------------
                 Menu Option:
                 create - Create a new match.
                 join - Join a match.
                 exit - Exit game.
                 To send a message to a online player type ‘/chat[nickname]:’ followed by your message in the console.
+                -----------------------------------------------------------
                 """);
         String option = "";
-        while (!option.equals("exit")) {
-            System.out.print("Enter the option you wish to select: ");
-            option = readLine();
-            if (option.startsWith("/chat")){
-                handleChatMessage(option);
-            } else {
-                switch (option) {
-                    case "create" -> askCreateMatch();
-                    case "join" -> askJoinMatch();
-                    case "exit" -> askExitGame();
-                    default -> System.out.println("Invalid command! Please try again.");
+        System.out.println("Enter the option you wish to select: ");
+        option = readLine();
+        if (option.startsWith("/chat")){
+            handleChatMessage(option);
+        } else {
+            switch (option) {
+                case "create" -> {
+                    if(askCreateMatch()) return true;
                 }
+                case "join" -> {
+                    if(askJoinMatch()) return true;
+                }
+                case "exit" -> {
+                    if(askExitGame()) return true;
+                }
+                default -> System.out.println("Invalid command! Please try again.");
             }
         }
+        askToContinue();
+        return false;
     }
 
     @Override
-    public void askCreateMatch() throws ServerNotActiveException, RemoteException {
+    public boolean askCreateMatch() throws ServerNotActiveException, RemoteException {
         System.out.println("Room generation in  progress...");
         int playerNumber = askMaxSeats();
-        iClientInputHandler.createMatch(playerNumber);
+        if (iClientInputHandler.createMatch(playerNumber)) {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -189,7 +240,7 @@ public class Cli implements View {
     }
 
     @Override
-    public void askJoinMatch() throws ServerNotActiveException, RemoteException {
+    public boolean askJoinMatch() throws ServerNotActiveException, RemoteException {
         //TODO: CLI display> Match_List
         int matchID;
 
@@ -198,22 +249,27 @@ public class Cli implements View {
             matchID = Integer.parseInt(readLine());
             if(iClientInputHandler.joinGame(matchID)){
                 System.out.println("Selected Room [" + matchID + "].");
-                askWaitingAction();
+                return true;
             }else{
                 System.out.println("Invalid number! Please try again.");
-                askMenuAction();
             }
         } catch (NumberFormatException e){
             System.out.println("Invalid input! Please try again.");
         }
+        return false;
+    }
+    @Override
+    public void showMatchList() throws RemoteException {
+        //TODO: add method in ClientIH that will use CB to return the match list
     }
 
     /**
      * Showcase the Commands available during Waiting Players
+     *
+     * @return
      */
-    private void askWaitingAction() throws RemoteException {
-        System.out.println("The match has not started yet. Waiting for more players to join... [" +
-                JSONConverter.players.size() + "]seats available");
+    private boolean askWaitingAction() throws RemoteException {
+        System.out.println("The match has not started yet. Waiting for more players to join... ");
         System.out.println("""
                 These are the commands available:
                 leave - Leave Match.
@@ -238,6 +294,7 @@ public class Cli implements View {
                 }
             }
         }
+        return false;
     }
 
 
@@ -347,15 +404,17 @@ public class Cli implements View {
     }
 
     @Override
-    public void askLeaveMatch() throws RemoteException {
+    public boolean askLeaveMatch() throws RemoteException {
         //TODO: fixe the null point
         iClientInputHandler.leaveMatch();
         System.out.println("See you soon. Bye.");
+        return false;
     }
 
     @Override
-    public void askExitGame() {
+    public boolean askExitGame() {
 
+        return false;
     }
 
     @Override
@@ -617,6 +676,7 @@ public class Cli implements View {
                 }
             } while (selectColumn < 0 || selectColumn > BOARD_COLUMN);
 
+            //TODO: la conferma o retry è gia presente in askSelection(), quindi questo è ridondante
             System.out.println("The coordinates you have chosen are: [" + selectRow + ", " +
                     selectColumn + "] - " + showItemInCell(selectRow, selectColumn));
             System.out.println("""
@@ -844,13 +904,13 @@ public class Cli implements View {
     }
 
     @Override
-    public void askPlayerMove() throws RemoteException, ServerNotActiveException {
+    public boolean askPlayerMove() throws RemoteException, ServerNotActiveException {
         System.out.println("What do you wish to do? These are the commands available:");
         showCommandMenu();
         String option = "";
-        while (!option.equals("leave") && !option.equals("exit")) {
-            System.out.println("Enter the command you wish to use:");
-            option = readLine();
+
+        System.out.println("Enter the command you wish to use:");
+        option = readLine();
 
             if (option.startsWith("/chat")){
                 handleChatMessage(option);
@@ -859,11 +919,20 @@ public class Cli implements View {
                     case "select" -> askSelection();
                     case "deselect" -> askDeselection();
                     case "show" -> askShowObject();
-                    case "leave" -> askLeaveMatch();
-                    case "exit" -> askExitGame();
+                    case "leave" -> {
+                        if (askLeaveMatch()) {
+                            return true;
+                        }
+                    }
+                    case "exit" -> {
+                        if (askExitGame()) {
+                            return true;
+                        }
+                    }
                 }
             }
-        }
+
+        return false;
     }
 
     @Override

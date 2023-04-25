@@ -4,6 +4,7 @@ import org.am21.client.view.JSONConverter;
 import org.am21.client.view.cli.Cli;
 
 import java.rmi.RemoteException;
+import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
 
 /**
@@ -11,14 +12,14 @@ import java.rmi.server.UnicastRemoteObject;
  */
 public class ClientCallBack extends UnicastRemoteObject implements IClientCallBack{
     public Cli cli;
-    public ClientCallBack() throws RemoteException {
-
-    }
+    public ClientCallBack() throws RemoteException {}
 
     @Override
     public void sendMessageToClient(String message) throws RemoteException {
-        //TODO:Print the message from server
-        cli.printer(message);
+        if(cli!=null){
+            //TODO:Print the message from server
+            cli.printer(message);
+        }
     }
 
     /**
@@ -43,11 +44,22 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
      * @throws RemoteException
      */
     @Override
-    public void notifyStart() throws RemoteException{
-        //TODO: Method invocation in CLI (for example: showMatchSetup) which will print the game first setup:
-        //      Filled Board, 2 Common Goals, Player's Personal Goal
-        //      Furthermore, if the Client nickname correspond to JSONConverter.currentPlayer(String),
-        //      then the CLI will invoke showCurrentPlayer()
-        cli.showMatchSetup();
+    public void notifyStart() throws RemoteException, ServerNotActiveException {
+        if(cli!=null) {
+            //TODO: Method invocation in CLI (for example: showMatchSetup) which will print the game first setup:
+            //      Filled Board, 2 Common Goals, Player's Personal Goal
+            //      Furthermore, if the Client nickname correspond to JSONConverter.currentPlayer(String),
+            //      then the CLI will invoke showCurrentPlayer()
+            cli.setCANCEL_WAIT(true);
+            cli.showMatchSetup();
+            cli.goToMatchRoom();
+        }
+    }
+
+    @Override
+    public void notifyToWait() throws RemoteException {
+        if(cli!=null){
+            cli.goToWaitingRoom();
+        }
     }
 }

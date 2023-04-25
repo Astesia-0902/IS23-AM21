@@ -56,7 +56,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      * @throws ServerNotActiveException
      */
     @Override
-    public boolean logIn(String username) throws RemoteException, ServerNotActiveException {
+    public boolean logIn(String username, IClientCallBack clientCallBack) throws RemoteException, ServerNotActiveException {
         userHost = getClientHost();
         this.userName = username;
         playerController = new PlayerController(username, this);
@@ -66,18 +66,23 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
                 GameManager.players.add(playerController.getPlayer());
             }
         }
-        this.callBack.sendMessageToClient(ServerMessage.Login_Ok+username);
+
+        playerController.clientInput.callBack.sendMessageToClient(ServerMessage.Login_Ok.value()+username);
         return true;
     }
 
     /**
      * @param playerNum
+     * @return
      * @throws RemoteException
      * @throws ServerNotActiveException
      */
     @Override
-    public void createMatch(int playerNum) throws RemoteException, ServerNotActiveException {
-        GameController.createMatch(userName, createMatchRequestCount, playerNum, playerController);
+    public boolean createMatch(int playerNum) throws RemoteException, ServerNotActiveException {
+        if(GameController.createMatch(userName, createMatchRequestCount, playerNum, playerController)){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -88,8 +93,10 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      */
     @Override
     public boolean joinGame(int matchID) throws RemoteException, ServerNotActiveException {
-        GameController.joinGame(matchID, userName, playerController);
-        return true;
+        if(GameController.joinGame(matchID, userName, playerController)){
+            return true;
+        }
+        return false;
     }
 
 //    public void startMatch(){
@@ -130,7 +137,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         if (!checkPlayerActionPhase() && playerController.unselectCards()) {
             return true;
         }
-        this.callBack.sendMessageToClient(String.valueOf(ServerMessage.DeSel_No));
+
         return false;
     }
 
@@ -171,10 +178,16 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         return playerController.getPlayer().getMatch().getVirtualView();
     }
 
+    /**
+     * This method is called after the login of the player
+     * @param callBack
+     * @throws RemoteException
+     */
     @Override
     public void registerCallBack(IClientCallBack callBack) throws RemoteException {
         this.callBack = callBack;
-        System.out.println("Client Callback registered ");
+        GameManager.client_connected++;
+        System.out.println("Client Callback registered:"+ GameManager.client_connected);
     }
 
     @Override
