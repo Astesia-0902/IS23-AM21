@@ -28,6 +28,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     public ClientInputHandler() throws RemoteException {
     }
 
+    //TODO: Check if the ip address and port are valid
 
 //        Get the IP address of the client
 //        System.out.println("Hello, I am " + getClientHost() + ":" + getClientPort());

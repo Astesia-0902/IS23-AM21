@@ -23,6 +23,7 @@ public class JSONConverter {
     public static String gameState;
     public static List<String> currentPlayerHand;
     public static boolean endGameToken;
+    //TODO: Match_List
 
     /**
      * Once the JSON is received, it is parsed and the data is stored in the corresponding variables
