@@ -1,4 +1,4 @@
-package org.am21.game;
+package org.am21.controller;
 
 import org.am21.client.view.cli.InputReadTask;
 import org.am21.model.GameManager;
@@ -9,25 +9,29 @@ import org.am21.model.enumer.UserStatus;
 import org.am21.networkRMI.ClientInputHandler;
 import org.am21.networkRMI.IClientInput;
 
+import java.net.MalformedURLException;
+import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
-public class GameAppTest {
+public class ServerPrototype {
+    public static int number = 0;
     private static Thread inputThread;
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws RemoteException {
         try {
 
+            LocateRegistry.createRegistry(1234);
             LocateRegistry.createRegistry(8807);
-            IClientInput IClientInputHandler = new ClientInputHandler();
-            Naming.bind("rmi://localhost:8807/ClientInputHandler", IClientInputHandler);
+
+            Lobby guardian = new Welcome();
+            Naming.bind("rmi://localhost:1234/Welcome",guardian);
 
             System.out.println("Server is ready");
-            while (true) {
+            while (true){
                 String input = readLine();
                 if (input.equals("reset")) {
                     resetServer();
@@ -39,21 +43,34 @@ public class GameAppTest {
                 if (input.equals("ml")) {
                     printMatchList();
                 }
-
                 //Thread.sleep(1000);
             }
 
-
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
     }
 
-    private static void welcomeNewClient(){
-
-
+    public static String genNewRoot(){
+        number++;
+        return String.valueOf(number);
     }
 
+    public static String newBind(String root){
+        String path="";
+        path+="rmi://localhost:8807/";
+        path+=root;
+        return path;
+    }
+
+    public static void welcomeNewClient(String path,IClientInput cIH) throws MalformedURLException, AlreadyBoundException, RemoteException {
+            Naming.bind(path,cIH);
+    }
+
+    public static void done() throws RemoteException, MalformedURLException, AlreadyBoundException {
+        IClientInput cIH = new ClientInputHandler();
+        welcomeNewClient(newBind(genNewRoot()),cIH);
+    }
 
     private static String readLine() {
         FutureTask<String> futureTask = new FutureTask<>(new InputReadTask());
@@ -77,6 +94,7 @@ public class GameAppTest {
         GameManager.playerMatchMap.clear();
         GameManager.client_connected = 0;
         GameManager.players.clear();
+        ServerPrototype.number=0;
 
     }
 

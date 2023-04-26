@@ -53,7 +53,7 @@ public class ChatManager {
                 tmp--;
             }
         }
-        lastTenMex+="< Recent Chat Messages >\n";
+        lastTenMex+="\n< Recent Chat Messages >\n";
         for(int i=tmp;i<chatMessages.size();i++){
             lastTenMex+=chatMessages.get(i);
             if(i==chatMessages.size()-1){

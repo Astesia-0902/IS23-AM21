@@ -2,15 +2,20 @@ package org.am21.client.view.cli;
 
 import org.am21.client.view.JSONConverter;
 import org.am21.client.view.View;
+import org.am21.controller.Lobby;
 import org.am21.networkRMI.ClientCallBack;
 import org.am21.networkRMI.IClientInput;
 
 import java.net.MalformedURLException;
+import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
@@ -38,6 +43,8 @@ public class Cli implements View {
     private boolean GAME_ON =false;
 
     private boolean RESET=false;
+
+    private Lobby lobby;
 
 
     public Cli() throws RemoteException {
@@ -74,7 +81,6 @@ public class Cli implements View {
         try {
             askServerInfo();
             askLogin();
-            askToContinue();
             askMenuAction();
         } catch (ServerNotActiveException | MalformedURLException | NotBoundException | RemoteException e) {
             throw new RuntimeException(e);
@@ -93,6 +99,15 @@ public class Cli implements View {
     }
 
     public void askServerInfo() throws MalformedURLException, NotBoundException, RemoteException {
+        lobby = (Lobby)Naming.lookup("rmi://localhost:1234/Welcome");
+        String root = null;
+        try {
+            root = lobby.connect();
+        } catch (AlreadyBoundException e) {
+            throw new RuntimeException(e);
+        }
+
+
         Map<String, String> serverInfo = new HashMap<>();
         String defaultAddress = "localhost";
         String defaultPort = "8807";
@@ -135,7 +150,7 @@ public class Cli implements View {
         //System.out.println("rmi://" + serverInfo.get("address") + ":"+ serverInfo.get("port") + "/ClientInputHandler");
 
         iClientInputHandler = (IClientInput) Naming.lookup("rmi://" + serverInfo.get("address") + ":"
-                + serverInfo.get("port") + "/ClientInputHandler");
+                + serverInfo.get("port") + "/"+root);
         //TODO: registerCallBack is here
         iClientInputHandler.registerCallBack(clientCallBack);
         System.out.println("Connected to " + serverInfo.get("address")
