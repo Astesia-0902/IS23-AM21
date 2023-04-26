@@ -8,19 +8,19 @@ public enum ServerMessage {
     //Login phase
     Login_Ok("Server > Login successful.\nServer > Hi "),
     Login_No("Server > Access denied. This username is already taken, please enter a new one..."),
-    ListP("Server > This is list of player online: "),
+    ListP("Server > List of online players: "),
 
     //Create match phase
     PExists("Server > The player already exists in match. In order to create a new match, you need to abandon the current one. Do you wish to continue?"),
     PExceed("Server > Exceeded player number limit. Try again"),
-    CreateM_Ok("Server > Create match successful"),
-    CreateM_No("Server > Create match failed"),
+    CreateM_Ok("Server > Match successfully created"),
+    CreateM_No("Server > Failed to create a new Match"),
 
 
     //Join match phase
-    FindM_Ok("Server > Match is found"),
+    FindM_Ok("Server > Match found"),
     FindM_No("Server > The room does not exists. Please try again"),
-    FullM("Server > The room is full"),
+    FullM("Server > This room is full"),
     PExists_No("Server > The player does not exist in any room. Try to create a new one"),
 
     //Match initialization phase

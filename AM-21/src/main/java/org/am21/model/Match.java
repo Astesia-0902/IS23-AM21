@@ -44,7 +44,7 @@ public class Match {
         gameState = GameState.WaitingPlayers;
         commonGoals = new ArrayList<>(2);
         chatManager = new ChatManager(this);
-        virtualView=new VirtualView();
+        virtualView = new VirtualView();
     }
 
     /**
@@ -65,6 +65,7 @@ public class Match {
 
     /**
      * Change GamePhase
+     *
      * @param phase new GamePhase
      */
     public void setGamePhase(GamePhase phase) {
@@ -79,6 +80,7 @@ public class Match {
      * Add player to this match.
      * And, eventually, when there are enough players,
      * it will call the method to initialize the match {@link #initializeMatch()}
+     *
      * @param player player that need to be added to the match
      * @return true if the addition is successful, otherwise false
      */
@@ -99,7 +101,7 @@ public class Match {
                 //notifyVirtualView();
                 checkRoom();
                 //If, after checkRoom(), the match did not start, send Client to Waiting Phase
-                if(gameState==GameState.WaitingPlayers){
+                if (gameState == GameState.WaitingPlayers) {
                     try {
                         player.getController().clientInput.callBack.notifyToWait();
                     } catch (RemoteException e) {
@@ -118,6 +120,7 @@ public class Match {
      * - Update PlayerList<br>
      * - Update Player's game items<br>
      * - Update PlayerMatchMap<br>
+     *
      * @param player player who left the match
      * @return true if the operation is successful, otherwise false
      */
@@ -134,6 +137,8 @@ public class Match {
                 }
                 checkRoom();
                 //TODO: update VV PLayersList and Player Score, Shelf List...
+
+                sendTextToAll(player.getNickname() + " left the match");
                 return true;
             }
             return false;
@@ -179,6 +184,7 @@ public class Match {
 
     /**
      * This method check if the player has completed any Goal
+     *
      * @param player player that need to check
      */
     public void checkCommonGoals(Player player) {
@@ -187,7 +193,7 @@ public class Match {
                 if (goal.checkGoal(player.getShelf())) {
                     // Give player points/scoreToken
                     //Server Message: announce how many points the player's got
-                    if(player.getController().clientInput.callBack!=null) {
+                    if (player.getController().clientInput.callBack != null) {
                         try {
                             player.getController().clientInput.callBack.sendMessageToClient("Match > " + player.getNickname() + " acquired " + goal.tokenStack.get(0) + " points");
                         } catch (RemoteException e) {
@@ -263,6 +269,10 @@ public class Match {
      * If it is {@link GameState#Ready}: it calls {@link #startFirstRound()}
      */
     public void checkRoom() {
+        if (playerList.size() == 0) {
+            gameState = GameState.Closed;
+            return;
+        }
         if (playerList.size() < maxSeats) {
             if (!gameState.equals(GameState.WaitingPlayers)) {
                 endMatch();
@@ -312,7 +322,7 @@ public class Match {
 
         //Initialization of the board
         board = new Board(this);
-        if(board.firstSetup()){
+        if (board.firstSetup()) {
             sendMessageToAll(BB_Ok);
         } else {
             sendMessageToAll(BB_No);
@@ -332,7 +342,7 @@ public class Match {
         setGamePhase(GamePhase.Selection);
         //TODO: test it
         VirtualViewHelper.buildVirtualView(this);
-        for(Player p: playerList){
+        for (Player p : playerList) {
             try {
                 p.getController().clientInput.callBack.notifyStart();
             } catch (RemoteException | ServerNotActiveException e) {
@@ -352,6 +362,7 @@ public class Match {
 
     /**
      * Get the JSON of the virtual view
+     *
      * @return the JSON of the virtual view
      */
 
@@ -366,7 +377,7 @@ public class Match {
 
         for (Player p : playerList) {
             //TODO: Watch out for test
-            if(p.getController().clientInput.callBack!=null){
+            if (p.getController().clientInput.callBack != null) {
                 try {
                     p.getController().clientInput.callBack.sendVirtualView(getVirtualView());
                 } catch (RemoteException e) {
@@ -380,35 +391,43 @@ public class Match {
      * This method will decide the absolute winner of the match
      * If multiple players have the same highest score, then there is no winner.
      */
-    public void decideWinner(){
-        Player tiePlayer=null;
-        Player topPlayer=null;
-        int maxScore=0;
-        for(Player p: playerList){
-            if(p.getPlayerScore()>maxScore){
+    public void decideWinner() {
+        Player tiePlayer = null;
+        Player topPlayer = null;
+        int maxScore = 0;
+        for (Player p : playerList) {
+            if (p.getPlayerScore() > maxScore) {
                 topPlayer = p;
                 maxScore = p.getPlayerScore();
-            }else if(p.getPlayerScore()==maxScore){
-                tiePlayer=p;
+            } else if (p.getPlayerScore() == maxScore) {
+                tiePlayer = p;
             }
         }
-        if(topPlayer!=null&&tiePlayer!=null&&tiePlayer.getPlayerScore()==topPlayer.getPlayerScore()){
-            winner=null;
-        }else{
-            winner=topPlayer;
+        if (topPlayer != null && tiePlayer != null && tiePlayer.getPlayerScore() == topPlayer.getPlayerScore()) {
+            winner = null;
+        } else {
+            winner = topPlayer;
         }
 
     }
-    public void sendMessageToAll(ServerMessage message){
 
-        for(Player p:playerList){
-            if(p.getController().clientInput.callBack!=null) {
+    public void sendMessageToAll(ServerMessage message) {
 
-                GameManager.sendCommunication(p.getController(),message);
+        for (Player p : playerList) {
+            if (p.getController().clientInput.callBack != null) {
+                GameManager.sendCommunication(p.getController(), message);
             }
 
         }
 
+    }
+
+    public void sendTextToAll(String message) {
+        for (Player p : playerList) {
+            if (p.getController().clientInput.callBack != null) {
+                GameManager.sendTextCommunication(p.getController(), message);
+            }
+        }
     }
 
 }

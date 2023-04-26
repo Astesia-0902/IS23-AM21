@@ -63,5 +63,15 @@ public class GameManager {
         }
     }
 
+    public static void sendTextCommunication(PlayerController pc, String m){
+        if(SERVER_COMM) {
+            try {
+                pc.clientInput.callBack.sendMessageToClient(m);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
 }
 

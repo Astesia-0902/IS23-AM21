@@ -18,7 +18,7 @@ public class Cli implements View {
     String username;
     private Thread inputThread;
     private IClientInput iClientInputHandler;
-    private ClientCallBack clientCallBack;
+    private final ClientCallBack clientCallBack;
     private String player;
     private int playerIndex;
     private int personalGoal;
@@ -27,8 +27,17 @@ public class Cli implements View {
     private static final int BOARD_ROW = 6;
     private static final int BOARD_COLUMN = 5;
 
-    private boolean CANCEL_WAIT =false;
-    private boolean CANCEL_PLAY=false;
+    /**
+     * If true askMenuAction
+     */
+    private boolean GO_TO_MENU =true;
+
+    /**
+     * If true askPlayerMove, if false askWaitingAction
+     */
+    private boolean GAME_ON =false;
+
+    private boolean RESET=false;
 
 
     public Cli() throws RemoteException {
@@ -64,9 +73,9 @@ public class Cli implements View {
         askToContinue();
         try {
             askServerInfo();
-            while(!askLogin());
+            askLogin();
             askToContinue();
-            goToMenu();
+            askMenuAction();
         } catch (ServerNotActiveException | MalformedURLException | NotBoundException | RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -142,82 +151,162 @@ public class Cli implements View {
 
     /**
      * Registration of the User in the Game Server and association to CallBack
-     * @return
+     *
      * @throws ServerNotActiveException
      * @throws RemoteException
      */
     @Override
-    public boolean askLogin() throws ServerNotActiveException, RemoteException {
-        System.out.print("Enter the username: ");
-        String username = readLine();
-        if(iClientInputHandler.logIn(username, clientCallBack)){
-            this.username=username;
-            return true;
+    public void askLogin() throws ServerNotActiveException, RemoteException {
+        while(true) {
+            System.out.print("Enter the username: ");
+            String username = readLine();
+            if (iClientInputHandler.logIn(username, clientCallBack)) {
+                this.username = username;
+                return;
+            }
         }
-        return false;
     }
 
-    public void goToMenu() throws ServerNotActiveException, RemoteException {
-        while(!askMenuAction());
+
+    public void setGO_TO_MENU(boolean GO_TO_MENU) {
+        this.GO_TO_MENU = GO_TO_MENU;
     }
 
-    public void goToWaitingRoom() throws RemoteException {
-        while (!askWaitingAction()&&!CANCEL_WAIT);
-        CANCEL_WAIT =false;
+    public void setGAME_ON(boolean GAME_ON) {
+        this.GAME_ON = GAME_ON;
     }
 
-    public void goToMatchRoom() throws ServerNotActiveException, RemoteException {
-        while(!askPlayerMove() && !CANCEL_PLAY);
-        CANCEL_PLAY =false;
+    public void setRESET(boolean RESET) {
+        this.RESET = RESET;
     }
 
-    public void setCANCEL_WAIT(boolean CANCEL_WAIT) {
-        this.CANCEL_WAIT = CANCEL_WAIT;
-    }
-
-    public void setCANCEL_PLAY(boolean CANCEL_PLAY) {
-        this.CANCEL_PLAY = CANCEL_PLAY;
+    public void redirect() throws ServerNotActiveException, RemoteException {
+        askMenuAction();
+        askWaitingAction();
+        askPlayerMove();
     }
 
     @Override
-    public boolean askMenuAction() throws ServerNotActiveException, RemoteException {
-        System.out.print("""
-                -----------------------------------------------------------
-                Menu Option:
-                create - Create a new match.
-                join - Join a match.
-                exit - Exit game.
-                To send a message to a online player type ‘/chat[nickname]:’ followed by your message in the console.
-                -----------------------------------------------------------
-                """);
-        String option = "";
-        System.out.println("Enter the option you wish to select: ");
-        option = readLine();
-        if (option.startsWith("/chat")){
-            handleChatMessage(option);
-        } else {
-            switch (option) {
-                case "create" -> {
-                    if(askCreateMatch()) return true;
+    public void askMenuAction() throws ServerNotActiveException, RemoteException {
+        while(GO_TO_MENU) {
+            System.out.print("""
+                    -----------------------------------------------------------
+                    Menu Option:
+                    create - Create a new match.
+                    join - Join a match.
+                    exit - Exit game.
+                    To send a message to a online player type ‘/chat[nickname]’ in the console.
+                    -----------------------------------------------------------
+                    """);
+            String option = "";
+            System.out.println("Enter the option you wish to select: ");
+            option = readLine();
+            if (option.startsWith("/chat")) {
+                handleChatMessage(option);
+            } else {
+                switch (option) {
+                    case "create" -> {if (askCreateMatch())redirect();}
+                    case "join" -> {if (askJoinMatch())redirect();}
+                    case "exit" -> {if (askExitGame())return;}
+                    default -> System.out.println("Invalid command! Please try again.");
                 }
-                case "join" -> {
-                    if(askJoinMatch()) return true;
+            }
+            askToContinue();
+        }
+    }
+
+    /**
+     * Showcase the Commands available during Waiting Players
+     *
+     * @return
+     */
+    public void askWaitingAction() throws RemoteException, ServerNotActiveException {
+        while(!GAME_ON&&!GO_TO_MENU) {
+            System.out.println("The match has not started yet. Waiting for more players to join... ");
+            System.out.println("""
+                    These are the commands available:
+                    leave - Leave Match.
+                    rules - Read Game Rules.
+                    online - Show Online Players.
+                    To send a message in the Match type ‘/chat’ in the console.
+                    To send a message to a online player type ‘/chat[nickname]’ in the console.
+                    """);
+
+            String option = "";
+            System.out.print("Enter the option you wish to select: ");
+            option = readLine();
+            if (option.startsWith("/chat")) {
+                handleChatMessage(option);
+            } else {
+                switch (option) {
+                    case "leave" -> { if(askLeaveMatch())redirect();}
+                    case "rules" -> showGameRules();
+                    case "online" -> showOnlinePlayer();
+                    default -> System.out.println("Invalid command! Please try again.");
                 }
-                case "exit" -> {
-                    if(askExitGame()) return true;
-                }
-                default -> System.out.println("Invalid command! Please try again.");
             }
         }
-        askToContinue();
-        return false;
+    }
+    private void showCommandMenu() {
+        if (!JSONConverter.gamePhase.equals("Insertion")) {
+            System.out.println("""
+                    select - Select an item on the board.
+                    deselect - Deselect the cards.
+                    sort - Change selected items order(at least 2 items selected).
+                    insert - Insert in the shelves.
+                    show - Show Game Object(Hand, Goals, Board, Shelf, ...).
+                    leave - Leave Match.
+                    exit - Exit Game.
+                    To send a message in the Match type ‘/chat’ in the console.
+                    To send a message to a online player type ‘/chat[nickname]’ in the console.
+                    """);
+        } else {
+            System.out.println("""
+                    sort - Change selected items order(at least 2 items selected).
+                    insert - Insert in the shelves.
+                    show - Show Game Object(Hand, Goals, Board, Shelf, ...).
+                    leave - Leave Match.
+                    exit - Exit Game.
+                    To send a message in the Match type ‘/chat:’ followed by your message in the console.
+                    To send a message to a online player type ‘/chat[nickname]:’ followed by your message in the console.
+                    """);
+        }
+
+
+    }
+
+    @Override
+    public void askPlayerMove() throws RemoteException, ServerNotActiveException {
+        while(GAME_ON&&!GO_TO_MENU) {
+            System.out.println("What do you wish to do? These are the commands available:");
+            showCommandMenu();
+            String option = "";
+            System.out.println("Enter the command you wish to use:");
+            option = readLine();
+            if (option.startsWith("/chat")) {
+                handleChatMessage(option);
+            } else {
+                switch (option) {
+                    case "select" -> askSelection();
+                    case "deselect" -> askDeselection();
+                    case "show" -> askShowObject();
+                    case "leave" -> {if (askLeaveMatch())redirect();}
+                    case "exit" -> {if (askExitGame())return;}
+                }
+            }
+        }
     }
 
     @Override
     public boolean askCreateMatch() throws ServerNotActiveException, RemoteException {
-        System.out.println("Room generation in  progress...");
+
         int playerNumber = askMaxSeats();
-        return iClientInputHandler.createMatch(playerNumber);
+        askToContinue();
+        if(iClientInputHandler.createMatch(playerNumber)) {
+            askToContinue();
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -225,7 +314,7 @@ public class Cli implements View {
         int playerNumber = 0;
         do {
             try {
-                System.out.print("Please select the number of players [2 to 4]: ");
+                System.out.print("Please select the number of players for this match [2 to 4]: ");
                 playerNumber = Integer.parseInt(readLine());
                 if (playerNumber < 2 || playerNumber > 4){
                     System.out.println("Invalid number! Please try again.");
@@ -234,14 +323,15 @@ public class Cli implements View {
                 System.out.println("Invalid input! Please try again.");
             }
         } while (playerNumber < 2 || playerNumber > 4);
+        System.out.println("Selected "+playerNumber+" players.");
         return playerNumber;
     }
 
     @Override
     public boolean askJoinMatch() throws ServerNotActiveException, RemoteException {
         //TODO: CLI display> Match_List
+        iClientInputHandler.printMatchList();
         int matchID;
-
         try {
             System.out.print("Please enter the room number: ");
             matchID = Integer.parseInt(readLine());
@@ -262,41 +352,6 @@ public class Cli implements View {
     }
 
     /**
-     * Showcase the Commands available during Waiting Players
-     *
-     * @return
-     */
-    private boolean askWaitingAction() throws RemoteException {
-        System.out.println("The match has not started yet. Waiting for more players to join... ");
-        System.out.println("""
-                These are the commands available:
-                leave - Leave Match.
-                rules - Read Game Rules.
-                online - Show Online Players.
-                To send a message in the Match type ‘/chat:’ followed by your message in the console.
-                To send a message to a online player type ‘/chat[nickname]:’ followed by your message in the console.
-                """);
-
-        String option = "";
-        while (!option.equals("exit")) {
-            System.out.print("Enter the option you wish to select: ");
-            option = readLine();
-            if (option.startsWith("/chat")){
-                handleChatMessage(option);
-            } else {
-                switch (option) {
-                    case "leave" -> askLeaveMatch();
-                    case "rules" -> showGameRules();
-                    case "online" -> showOnlinePlayer();
-                    default -> System.out.println("Invalid command! Please try again.");
-                }
-            }
-        }
-        return false;
-    }
-
-
-    /**
      * Called by CALLBACK
      * Displays the initial setup:
      * - Filled Board
@@ -315,112 +370,33 @@ public class Cli implements View {
         System.out.println("The match has started!");
         showCurrentPlayer();
     }
-    private void showGameRules() {
-        System.out.println("""
-                Goal of the game:
-                Players take item tiles from the living room and place them in their bookshelves to score points;
-                the game ends when a player completely fills their bookshelf. The player with more points at
-                the end will win the game. There are 4 ways to score points:
-                1. Personal Goal card
-                    The personal goal card grants points if you match the highlighted spaces with
-                    the corresponding item tiles.
-                    Example: In the illustrated situation, at the end of the game the tile disposal
-                    shows 3 matches, that is worth 4 points.
-                2. Common Goal cards
-                    The common goal cards grant points to the players who achieve the illustrated
-                    pattern. See the last page for a detailed descriptions of the common goal cards.
-                    Example: In a 3-player game on both Common Goal cards will be stacked
-                    the 4-, 6-, 8- scoring tokens (from bottom to top).
-                3. Adjacent Item tiles
-                    Groups of adjacent item tiles of the same type on your bookshelf grant
-                    points depending on how many tiles are connected (with one side touching).
-                    Note: Item tiles with the same background color are considered to be of the same type.
-                    Example: In the situation above, at the end of the game there are 5 groups of
-                    adjacent item tiles of the same type:
-                    8 Plant tiles: 8 pt
-                    4 Trophy tiles: 3 pt
-                    5 Cat tiles: 5 pt
-                    4 Frame tiles: 3 pt
-                    3 Boardgame tiles: 2 pt
-                    Total:
-                    21 points
-                4. Gane-end trigger
-                    The first player who completely fills their bookshelf scores 1 additional point.
-                """);
-        System.out.println("""
-                Gameplay:
-                The game is divided in turns that take place in a clockwise order starting from the first player.
-                During your turn, you must take 1, 2 or 3 item tiles from the living room board, following these rules:
-                The tiles you take must be adjacent to each other and form a straight line.
-                All the tiles you take must have at least one side free (not touching directly other tiles) at the
-                beginning of your turn (i.e. you cannot take a tile that becomes free after your first pick).
-                Then, you must place all the tiles you’ve picked into 1 column of your bookshelf. You can decide
-                the order, but you cannot place tiles in more than 1 column in a single turn.
-                Note: You cannot take tiles if you don’t have enough available spaces in your bookshelf.
-                """);
-        System.out.println("""
-                Refilling the living room:
-                The living room will be refiled when, at the end of your turn, on the board there are only item tiles
-                without any other adjacent tile, i.e. the next player can only take single tiles.
-                Put the item tiles left on the board back into the bag. Then, draw new item tiles from the bag and
-                place them randomly in all the spaces of the board (remember that spaces with dots are only available\s
-                in 3- or 4-player games).
-                """);
-        System.out.println("""
-                Fulfilling a common goal:
-                If at the end of your turn you have achieved the requirements of a common goal card, take the topmost
-                available scoring token from that card. You can achieve and take scoring tokens from both common goal
-                cards in the same turn. You can only score points from common goal cards once per game, so you can’t
-                take more scoring tokens with the same back number. Players who achieve the common goals requirements
-                first will score more points than the other players, so try to be faster than your opponents!
-                """);
-        System.out.println("""
-                Game end:
-                The first player who fills all the spaces of their bookshelf takes the end game token. The game
-                continues until the player sitting to the right to the player holding the first player seat (if the end
-                of the game is triggered by the player sitting to the right to the first player, the game ends
-                immediately). Now you can proceed to the final scoring.
-                Each player will score:
-                    - The points indicated by the tokens they hold (scoring tokens and end game token);
-                    - 1/2/4/6/9/12 points for 1/2/3/4/5/6 item tiles in the exact position illustrated by their
-                      personal goal card;
-                    - 2/3/5/8 points for groups of 3/4/5/6+ item tiles of the same type adjacent on their bookshelf.
-                The player who scored most points wins the game. In case of a tie, the tied player sitting further
-                (clockwise) from the first player wins the game.
-                Scoring Example:
-                Example: Helena scores 12 points from scoring tokens, 6 points from her personal goal card, and
-                18 points from the groups of adjacent tiles in her bookshelf:
-                6 adjacent Trophy tiles: 8 points
-                5 adjacent Cat tiles: 5 points
-                5 adjacent Plants tiles: 5 points
-                4 matches on the personal goal: 6 points
-                Scoring tokens: 12 points
-                Total: 36 points
-                """);
-        showCommonGoals();
-
-    }
 
     @Override
     public boolean askLeaveMatch() throws RemoteException {
         //TODO: fixe the null point
-        iClientInputHandler.leaveMatch();
-        System.out.println("See you soon. Bye.");
+        if(iClientInputHandler.leaveMatch()){
+
+            return true;
+        }
         return false;
     }
 
     @Override
-    public boolean askExitGame() {
-
+    public boolean askExitGame() throws RemoteException {
+        if(iClientInputHandler.exitGame()){
+            System.exit(0);
+            return true;
+        }
         return false;
     }
 
     @Override
-    public void showCommonGoals(){
+    public void showCommonGoals()  {
         for (int i = 0; i < JSONConverter.commonGoal.size(); i++) {
             showGoalDescription(JSONConverter.commonGoal.get(i));
         }
         System.out.println("You received: " + JSONConverter.commonGoalScore.get(playerIndex) + " points.");
+
     }
 
     @Override
@@ -813,21 +789,25 @@ public class Cli implements View {
     }
 
     public void handleChatMessage(String option) throws RemoteException {
+        System.out.println("Write your message:");
         String message = readLine();
 
         String usernameString = option.substring(5);
-        String regex = "\\[(.*?)\\]";
+        String regex = "\\[|\\]";
         String[] matches = usernameString.split(regex);
-
-        if (matches.length > 1){
+        if (matches.length>1){
             // esiste username = playerName
             String playerName = matches[1];
-            //TODO: sendChatMessage to a player
-            //iClientInputHandler.sendChatMessage(message, playerName);
+            if(iClientInputHandler.sendPlayerMessage(message, playerName)){
+                System.out.println("Message sent to: "+playerName);
+            }
         } else {
             // non contiene username
-            iClientInputHandler.sendChatMessage(message);
+            if(!iClientInputHandler.sendChatMessage(message)) {
+                System.out.println("The message was not sent");
+            }
         }
+        askToContinue();
 
     }
 
@@ -843,66 +823,6 @@ public class Cli implements View {
     @Override
     public void showTimer() {
 
-    }
-
-    private void showCommandMenu() {
-        if (!JSONConverter.gamePhase.equals("Insertion")) {
-            System.out.println("""
-                    select - Select an item on the board.
-                    deselect - Deselect the cards.
-                    sort - Change selected items order(at least 2 items selected).
-                    insert - Insert in the shelves.
-                    show - Show Game Object(Hand, Goals, Board, Shelf, ...).
-                    leave - Leave Match.
-                    exit - Exit Game.
-                    To send a message in the Match type ‘/chat:’ followed by your message in the console.
-                    To send a message to a online player type ‘/chat[nickname]:’ followed by your message in the console.
-                    """);
-        } else {
-            System.out.println("""
-                    sort - Change selected items order(at least 2 items selected).
-                    insert - Insert in the shelves.
-                    show - Show Game Object(Hand, Goals, Board, Shelf, ...).
-                    leave - Leave Match.
-                    exit - Exit Game.
-                    To send a message in the Match type ‘/chat:’ followed by your message in the console.
-                    To send a message to a online player type ‘/chat[nickname]:’ followed by your message in the console.
-                    """);
-        }
-
-
-    }
-
-    @Override
-    public boolean askPlayerMove() throws RemoteException, ServerNotActiveException {
-        System.out.println("What do you wish to do? These are the commands available:");
-        showCommandMenu();
-        String option = "";
-
-        System.out.println("Enter the command you wish to use:");
-        option = readLine();
-
-            if (option.startsWith("/chat")){
-                handleChatMessage(option);
-            } else {
-                switch (option) {
-                    case "select" -> askSelection();
-                    case "deselect" -> askDeselection();
-                    case "show" -> askShowObject();
-                    case "leave" -> {
-                        if (askLeaveMatch()) {
-                            return true;
-                        }
-                    }
-                    case "exit" -> {
-                        if (askExitGame()) {
-                            return true;
-                        }
-                    }
-                }
-            }
-
-        return false;
     }
 
     @Override
@@ -943,6 +863,7 @@ public class Cli implements View {
     @Override
     public void showOnlinePlayer() throws RemoteException {
         iClientInputHandler.printOnlinePlayers();
+        askToContinue();
     }
     public void printer(String message){
         System.out.println(message);
@@ -998,5 +919,97 @@ public class Cli implements View {
                 System.out.println("CommonGoalXShape: Five tiles of the same type forming an X.");
                 break;
         }
+    }
+
+    private void showGameRules() {
+        System.out.println("""
+                Goal of the game:
+                Players take item tiles from the living room and place them in their bookshelves to score points;
+                the game ends when a player completely fills their bookshelf. The player with more points at
+                the end will win the game. There are 4 ways to score points:
+                1. Personal Goal card
+                    The personal goal card grants points if you match the highlighted spaces with
+                    the corresponding item tiles.
+                    Example: In the illustrated situation, at the end of the game the tile disposal
+                    shows 3 matches, that is worth 4 points.
+                2. Common Goal cards
+                    The common goal cards grant points to the players who achieve the illustrated
+                    pattern. See the last page for a detailed descriptions of the common goal cards.
+                    Example: In a 3-player game on both Common Goal cards will be stacked
+                    the 4-, 6-, 8- scoring tokens (from bottom to top).
+                3. Adjacent Item tiles
+                    Groups of adjacent item tiles of the same type on your bookshelf grant
+                    points depending on how many tiles are connected (with one side touching).
+                    Note: Item tiles with the same background color are considered to be of the same type.
+                    Example: In the situation above, at the end of the game there are 5 groups of
+                    adjacent item tiles of the same type:
+                    8 Plant tiles: 8 pt
+                    4 Trophy tiles: 3 pt
+                    5 Cat tiles: 5 pt
+                    4 Frame tiles: 3 pt
+                    3 Boardgame tiles: 2 pt
+                    Total:
+                    21 points
+                4. Gane-end trigger
+                    The first player who completely fills their bookshelf scores 1 additional point.
+                """);
+        askToContinue();
+        System.out.println("""
+                Gameplay:
+                The game is divided in turns that take place in a clockwise order starting from the first player.
+                During your turn, you must take 1, 2 or 3 item tiles from the living room board, following these rules:
+                The tiles you take must be adjacent to each other and form a straight line.
+                All the tiles you take must have at least one side free (not touching directly other tiles) at the
+                beginning of your turn (i.e. you cannot take a tile that becomes free after your first pick).
+                Then, you must place all the tiles you’ve picked into 1 column of your bookshelf. You can decide
+                the order, but you cannot place tiles in more than 1 column in a single turn.
+                Note: You cannot take tiles if you don’t have enough available spaces in your bookshelf.
+                """);
+        askToContinue();
+        System.out.println("""
+                Refilling the living room:
+                The living room will be refiled when, at the end of your turn, on the board there are only item tiles
+                without any other adjacent tile, i.e. the next player can only take single tiles.
+                Put the item tiles left on the board back into the bag. Then, draw new item tiles from the bag and
+                place them randomly in all the spaces of the board (remember that spaces with dots are only available\s
+                in 3- or 4-player games).
+                """);
+        askToContinue();
+        System.out.println("""
+                Fulfilling a common goal:
+                If at the end of your turn you have achieved the requirements of a common goal card, take the topmost
+                available scoring token from that card. You can achieve and take scoring tokens from both common goal
+                cards in the same turn. You can only score points from common goal cards once per game, so you can’t
+                take more scoring tokens with the same back number. Players who achieve the common goals requirements
+                first will score more points than the other players, so try to be faster than your opponents!
+                """);
+        askToContinue();
+        System.out.println("""
+                Game end:
+                The first player who fills all the spaces of their bookshelf takes the end game token. The game
+                continues until the player sitting to the right to the player holding the first player seat (if the end
+                of the game is triggered by the player sitting to the right to the first player, the game ends
+                immediately). Now you can proceed to the final scoring.
+                Each player will score:
+                    - The points indicated by the tokens they hold (scoring tokens and end game token);
+                    - 1/2/4/6/9/12 points for 1/2/3/4/5/6 item tiles in the exact position illustrated by their
+                      personal goal card;
+                    - 2/3/5/8 points for groups of 3/4/5/6+ item tiles of the same type adjacent on their bookshelf.
+                The player who scored most points wins the game. In case of a tie, the tied player sitting further
+                (clockwise) from the first player wins the game.
+                Scoring Example:
+                Example: Helena scores 12 points from scoring tokens, 6 points from her personal goal card, and
+                18 points from the groups of adjacent tiles in her bookshelf:
+                6 adjacent Trophy tiles: 8 points
+                5 adjacent Cat tiles: 5 points
+                5 adjacent Plants tiles: 5 points
+                4 matches on the personal goal: 6 points
+                Scoring tokens: 12 points
+                Total: 36 points
+                """);
+        //TODO: Print all CommonGoals description
+        //showCommonGoals();
+        askToContinue();
+
     }
 }

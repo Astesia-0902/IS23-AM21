@@ -4,7 +4,6 @@ import org.am21.client.view.JSONConverter;
 import org.am21.client.view.cli.Cli;
 
 import java.rmi.RemoteException;
-import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
 
 /**
@@ -44,22 +43,32 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
      * @throws RemoteException
      */
     @Override
-    public void notifyStart() throws RemoteException, ServerNotActiveException {
+    public void notifyStart() throws RemoteException {
         if(cli!=null) {
             //TODO: Method invocation in CLI (for example: showMatchSetup) which will print the game first setup:
             //      Filled Board, 2 Common Goals, Player's Personal Goal
             //      Furthermore, if the Client nickname correspond to JSONConverter.currentPlayer(String),
             //      then the CLI will invoke showCurrentPlayer()
-            cli.setCANCEL_WAIT(true);
             cli.showMatchSetup();
-            cli.goToMatchRoom();
+            cli.setGO_TO_MENU(false);
+            cli.setGAME_ON(true);
+
         }
     }
 
     @Override
     public void notifyToWait() throws RemoteException {
         if(cli!=null){
-            cli.goToWaitingRoom();
+            cli.setGAME_ON(false);
+            cli.setGO_TO_MENU(false);
+        }
+    }
+
+    @Override
+    public void notifyGoToMenu() throws RemoteException {
+        if(cli!=null){
+            cli.setGO_TO_MENU(true);
+            cli.setGAME_ON(false);
         }
     }
 }

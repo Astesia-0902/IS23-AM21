@@ -105,7 +105,6 @@ public class GameController {
         } else if (GameManager.playerMatchMap.containsKey(userName) && createMatchRequestCount == 1) {
             createMatchRequestCount = 0;
             if(GameManager.createMatch(playerNum, playerController)){
-                GameManager.sendCommunication(playerController,ServerMessage.CreateM_Ok);
                 return true;
             }else{
                 //System.out.println("Exceeded players number limit. Try again.");
@@ -118,7 +117,6 @@ public class GameController {
         } else if (!GameManager.playerMatchMap.containsKey(userName)) {
             if(GameManager.createMatch(playerNum, playerController)){
 
-                GameManager.sendCommunication(playerController,ServerMessage.CreateM_Ok);
                 return true;
             }else{
                 //System.out.println("Exceeded players number limit. Try again.");
@@ -133,7 +131,25 @@ public class GameController {
     public static boolean removePlayerFromMatch(PlayerController ctrl,int matchID){
         if(GameManager.playerMatchMap.containsKey(ctrl.getPlayer().getNickname())){
                 GameManager.matchList.get(matchID).removePlayer(ctrl.getPlayer());
+                //TODO: add a method that check if the match is close then delete instance
                 return true;
+        }
+        return false;
+    }
+
+    /**
+     * This method is called when the CLIENT want to EXIT The GAME.
+     * The existence of the player is cancelled from the GAME.
+     * --Note: Before calling this method, removePlayerFromMatch() was already called.
+     *
+     * @param ctrl
+     * @return
+     */
+    public static boolean cancelPlayer(PlayerController ctrl){
+        if(GameManager.players.contains(ctrl.getPlayer())){
+            GameManager.players.remove(GameManager.players.indexOf(ctrl.getPlayer()));
+            GameManager.sendTextCommunication(ctrl,"Server > "+ctrl.getPlayer().getNickname()+" left the game");
+            return true;
         }
         return false;
     }

@@ -61,6 +61,9 @@ public class JSONConverter {
      * @return the index of the player in the list
      */
     public static int getPlayerIndex(String player) {
-        return players.indexOf(player);
+        if(players!=null) {
+            return players.indexOf(player);
+        }
+        return 0;
     }
 }

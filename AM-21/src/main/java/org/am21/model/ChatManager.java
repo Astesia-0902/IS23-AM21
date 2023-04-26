@@ -40,4 +40,31 @@ public class ChatManager {
     public List<String> getChatMessages() {
         return chatMessages;
     }
+
+    public void sendChat(String message, String sender) throws RemoteException {
+        this.message = message;
+        this.sender = sender;
+        chatMessages.add(sender + ": " + message);
+        String lastTenMex="";
+        int tmp = chatMessages.size();
+
+        for(int t=0;t<10;t++){
+            if(tmp>0){
+                tmp--;
+            }
+        }
+        lastTenMex+="< Recent Chat Messages >\n";
+        for(int i=tmp;i<chatMessages.size();i++){
+            lastTenMex+=chatMessages.get(i);
+            if(i==chatMessages.size()-1){
+                lastTenMex+=" >> NEW  ";
+            }
+            lastTenMex+="\n";
+
+        }
+        for(Player p: match.playerList){
+            p.getController().clientInput.callBack.sendMessageToClient(lastTenMex);
+        }
+
+    }
 }

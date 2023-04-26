@@ -30,12 +30,18 @@ public interface IClientInput extends Remote {
 
     boolean leaveMatch() throws RemoteException;
 
+    boolean exitGame() throws RemoteException;
+
     String getVirtualView() throws RemoteException;
 
     void registerCallBack(IClientCallBack callBack) throws RemoteException;
 
-    void sendChatMessage(String message) throws RemoteException;
+    boolean sendChatMessage(String message) throws RemoteException;
+
+    boolean sendPlayerMessage(String message,String receiver) throws RemoteException;
 
     void printOnlinePlayers() throws RemoteException;
+
+    void printMatchList() throws RemoteException;
 }
 

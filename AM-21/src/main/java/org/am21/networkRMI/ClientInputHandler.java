@@ -3,6 +3,7 @@ package org.am21.networkRMI;
 import org.am21.controller.GameController;
 import org.am21.controller.PlayerController;
 import org.am21.model.GameManager;
+import org.am21.model.Match;
 import org.am21.model.Player;
 import org.am21.model.enumer.ServerMessage;
 import org.am21.model.enumer.UserStatus;
@@ -22,6 +23,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     /**
      * Creates and exports a new UnicastRemoteObject object using an
      * anonymous port.
+     *
      * @throws RemoteException if failed to export object
      * @since JDK1.1
      */
@@ -67,7 +69,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
             }
         }
 
-        playerController.clientInput.callBack.sendMessageToClient(ServerMessage.Login_Ok.value()+username);
+        playerController.clientInput.callBack.sendMessageToClient(ServerMessage.Login_Ok.value() + username);
         return true;
     }
 
@@ -79,7 +81,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      */
     @Override
     public boolean createMatch(int playerNum) throws RemoteException, ServerNotActiveException {
-        if(GameController.createMatch(userName, createMatchRequestCount, playerNum, playerController)){
+        if (GameController.createMatch(userName, createMatchRequestCount, playerNum, playerController)) {
             return true;
         }
         return false;
@@ -93,7 +95,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      */
     @Override
     public boolean joinGame(int matchID) throws RemoteException, ServerNotActiveException {
-        if(GameController.joinGame(matchID, userName, playerController)){
+        if (GameController.joinGame(matchID, userName, playerController)) {
             return true;
         }
         return false;
@@ -162,8 +164,24 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     @Override
     public boolean leaveMatch() throws RemoteException {
         if (GameController.removePlayerFromMatch(playerController, playerController.getPlayer().getMatch().matchID)) {
+            this.callBack.notifyGoToMenu();
             return true;
         }
+        return false;
+    }
+
+    @Override
+    public boolean exitGame() throws RemoteException {
+
+        if (playerController.getPlayer().getMatch() != null) {
+
+            GameController.removePlayerFromMatch(playerController, playerController.getPlayer().getMatch().matchID);
+        }
+        //When Player Exit The Game, every info abound the Player is cancelled
+        if (GameController.cancelPlayer(playerController)) {
+            return true;
+        }
+
         return false;
     }
 
@@ -180,6 +198,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
 
     /**
      * This method is called after the login of the player
+     *
      * @param callBack
      * @throws RemoteException
      */
@@ -187,24 +206,67 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     public void registerCallBack(IClientCallBack callBack) throws RemoteException {
         this.callBack = callBack;
         GameManager.client_connected++;
-        System.out.println("Client Callback registered:"+ GameManager.client_connected);
+        System.out.println("Client Callback registered:" + GameManager.client_connected);
+    }
+
+    /**
+     * This method contact player's match ChatManager to send a message
+     * @param message
+     * @return false if the player is not in a match, so the message was not sent, otherwise true
+     * @throws RemoteException
+     */
+    @Override
+    public boolean sendChatMessage(String message) throws RemoteException {
+        Player p = playerController.getPlayer();
+        if (p.getMatch() != null) {
+            p.getMatch().chatManager.sendChat(message, p.getNickname());
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public void sendChatMessage(String message) throws RemoteException {
+    public boolean sendPlayerMessage(String message, String receiver) throws RemoteException {
+        String sender = playerController.getPlayer().getNickname();
+        synchronized (GameManager.players) {
+            for (Player p : GameManager.players) {
+                if (p.getNickname().equals(receiver)) {
+                    GameManager.sendTextCommunication(playerController, sender + " > \"" + message + "\"\n");
+                    return true;
+                }
+            }
 
+        }
+        return false;
     }
-    @Override
-    public void printOnlinePlayers() throws RemoteException{
-        String message="";
-        this.callBack.sendMessageToClient(String.valueOf(ServerMessage.ListP));
-        for(Player p:GameManager.players){
-            if(p.getStatus()==UserStatus.Online || p.getStatus()==UserStatus.GameMember){
-                message+=("["+p.getNickname()+"] ");
 
+    @Override
+    public void printOnlinePlayers() throws RemoteException {
+        String message = "";
+        this.callBack.sendMessageToClient(ServerMessage.ListP.value());
+        synchronized (GameManager.players) {
+            for (Player p : GameManager.players) {
+                if (p.getStatus() == UserStatus.Online || p.getStatus() == UserStatus.GameMember) {
+                    message += ("[" + p.getNickname() + " | "+p.getStatus()+" ] \n");
+
+                }
             }
         }
         callBack.sendMessageToClient(message);
 
+    }
+
+    @Override
+    public void printMatchList() throws RemoteException {
+        String message = "";
+        this.callBack.sendMessageToClient("Match List: ");
+        synchronized (GameManager.matchList) {
+            if (GameManager.matchList.size() > 0) {
+                for (Match m : GameManager.matchList) {
+                    message += ("[ID: " + m.matchID + " | " + m.gameState + " | Players: (" + m.playerList.size() + "/" + m.maxSeats + ")]\n");
+                }
+            }
+        }
+        this.callBack.sendMessageToClient(message);
     }
 }
