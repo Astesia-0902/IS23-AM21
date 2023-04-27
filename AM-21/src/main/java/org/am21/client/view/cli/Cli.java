@@ -12,25 +12,21 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
 public class Cli implements View {
-    String username;
+    private String username;
     private Thread inputThread;
     private IClientInput iClientInputHandler;
     private final ClientCallBack clientCallBack;
     private String player;
     private int playerIndex;
-    private int personalGoal;
     private static final int SHELF_ROW = 6;
     private static final int SHELF_COLUMN = 5;
-    private static final int BOARD_ROW = 6;
-    private static final int BOARD_COLUMN = 5;
+    private static final int BOARD_ROW = 9;
+    private static final int BOARD_COLUMN = 9;
 
     /**
      * If true askMenuAction
@@ -41,7 +37,6 @@ public class Cli implements View {
      * If true askPlayerMove, if false askWaitingAction
      */
     private boolean GAME_ON =false;
-
     private boolean RESET=false;
 
     private Lobby lobby;
@@ -95,7 +90,6 @@ public class Cli implements View {
     public void initPlayer(String username) {
         playerIndex = JSONConverter.getPlayerIndex(username);
         player = JSONConverter.players.get(playerIndex);
-        personalGoal = JSONConverter.personalGoal;
     }
 
     public void askServerInfo() throws MalformedURLException, NotBoundException, RemoteException {
@@ -124,7 +118,7 @@ public class Cli implements View {
                 serverInfo.put("address", address);
                 validInput = true;
             } else {
-                System.out.println("Invalid address!");
+                System.out.println(Color.RED + "Invalid address!" + Color.RESET);
                 validInput = false;
             }
         } while (!validInput);
@@ -140,7 +134,7 @@ public class Cli implements View {
                 serverInfo.put("port", port);
                 validInput = true;
             } else {
-                System.out.println("Invalid port!");
+                System.out.println(Color.RED + "Invalid port!" + Color.RESET);
                 validInput = false;
             }
         } while (!validInput);
@@ -213,9 +207,8 @@ public class Cli implements View {
                     To send a message to a online player type ‘/chat[nickname]’ in the console.
                     -----------------------------------------------------------
                     """);
-            String option = "";
             System.out.println("Enter the option you wish to select: ");
-            option = readLine();
+            String option = readLine();
             if (option.startsWith("/chat")) {
                 handleChatMessage(option);
             } else {
@@ -223,7 +216,7 @@ public class Cli implements View {
                     case "create" -> {if (askCreateMatch())redirect();}
                     case "join" -> {if (askJoinMatch())redirect();}
                     case "exit" -> {if (askExitGame())return;}
-                    default -> System.out.println("Invalid command! Please try again.");
+                    default -> System.out.println(Color.RED + "Invalid command! Please try again." + Color.RESET);
                 }
             }
             askToContinue();
@@ -247,9 +240,8 @@ public class Cli implements View {
                     To send a message to a online player type ‘/chat[nickname]’ in the console.
                     """);
 
-            String option = "";
             System.out.print("Enter the option you wish to select: ");
-            option = readLine();
+            String option = readLine();
             if (option.startsWith("/chat")) {
                 handleChatMessage(option);
             } else {
@@ -257,7 +249,7 @@ public class Cli implements View {
                     case "leave" -> { if(askLeaveMatch())redirect();}
                     case "rules" -> showGameRules();
                     case "online" -> showOnlinePlayer();
-                    default -> System.out.println("Invalid command! Please try again.");
+                    default -> System.out.println(Color.RED + "Invalid command! Please try again." + Color.RESET);
                 }
             }
         }
@@ -295,9 +287,8 @@ public class Cli implements View {
         while(GAME_ON&&!GO_TO_MENU) {
             System.out.println("What do you wish to do? These are the commands available:");
             showCommandMenu();
-            String option = "";
             System.out.println("Enter the command you wish to use:");
-            option = readLine();
+            String option = readLine();
             if (option.startsWith("/chat")) {
                 handleChatMessage(option);
             } else {
@@ -314,7 +305,6 @@ public class Cli implements View {
 
     @Override
     public boolean askCreateMatch() throws ServerNotActiveException, RemoteException {
-
         int playerNumber = askMaxSeats();
         askToContinue();
         if(iClientInputHandler.createMatch(playerNumber)) {
@@ -332,10 +322,10 @@ public class Cli implements View {
                 System.out.print("Please select the number of players for this match [2 to 4]: ");
                 playerNumber = Integer.parseInt(readLine());
                 if (playerNumber < 2 || playerNumber > 4){
-                    System.out.println("Invalid number! Please try again.");
+                    System.out.println(Color.RED + "Invalid number! Please try again." + Color.RESET);
                 }
             } catch (NumberFormatException e){
-                System.out.println("Invalid input! Please try again.");
+                System.out.println(Color.RED + "Invalid input! Please try again." + Color.RESET);
             }
         } while (playerNumber < 2 || playerNumber > 4);
         System.out.println("Selected "+playerNumber+" players.");
@@ -344,8 +334,7 @@ public class Cli implements View {
 
     @Override
     public boolean askJoinMatch() throws ServerNotActiveException, RemoteException {
-        //TODO: CLI display> Match_List
-        iClientInputHandler.printMatchList();
+        showMatchList();
         int matchID;
         try {
             System.out.print("Please enter the room number: ");
@@ -354,16 +343,16 @@ public class Cli implements View {
                 System.out.println("Selected Room [" + matchID + "].");
                 return true;
             }else{
-                System.out.println("Invalid number! Please try again.");
+                System.out.println(Color.RED + "Invalid number! Please try again." + Color.RESET);
             }
         } catch (NumberFormatException e){
-            System.out.println("Invalid input! Please try again.");
+            System.out.println(Color.RED + "Invalid input! Please try again." + Color.RESET);
         }
         return false;
     }
     @Override
     public void showMatchList() throws RemoteException {
-        //TODO: add method in ClientIH that will use CB to return the match list
+        iClientInputHandler.printMatchList();
     }
 
     /**
@@ -389,12 +378,7 @@ public class Cli implements View {
 
     @Override
     public boolean askLeaveMatch() throws RemoteException {
-        //TODO: fixe the null point
-        if(iClientInputHandler.leaveMatch()){
-
-            return true;
-        }
-        return false;
+        return iClientInputHandler.leaveMatch();
     }
 
     @Override
@@ -410,99 +394,88 @@ public class Cli implements View {
     public void showCommonGoals()  {
         for (int i = 0; i < JSONConverter.commonGoal.size(); i++) {
             showGoalDescription(JSONConverter.commonGoal.get(i));
+            System.out.println(Color.YELLOW + "Top score of this Common Goal: " + Color.RESET +
+                    JSONConverter.commonGoalScore.get(i) + " points.");
         }
-        System.out.println("You received: " + JSONConverter.commonGoalScore.get(playerIndex) + " points.");
-
     }
 
     @Override
     public void showPersonalGoal() {
-        System.out.println(player + "'s PersonalGoal:");
-        switch (personalGoal) {
-            case 1 -> System.out.println("""
-                    [_Plants_][______._][_Frames_][______._][______._]
-                    [______._][______._][______._][______._][__Cats__]
-                    [______._][______._][______._][_Books__][______._]
-                    [______._][_Games__][______._][______._][______._]
-                    [______._][______._][______._][______._][______._]
-                    [______._][______._][Trophies][______._][______._]""");
-            case 2 -> System.out.println("""
-                    [______._][______._][______._][______._][______._]
-                    [______._][_Plants_][______._][______._][______._]
-                    [__Cats__][______._][_Games__][______._][______._]
-                    [______._][______._][______._][______._][_Books__]
-                    [______._][______._][______._][Trophies][______._]
-                    [______._][______._][______._][______._][_Frames_]""");
-            case 3 -> System.out.println("""
-                    [______._][______._][______._][______._][______._]
-                    [_Frames_][______._][______._][_Games__][______._]
-                    [______._][______._][_Plants_][______._][______._]
-                    [______._][__Cats__][______._][______._][Trophies]
-                    [______._][______._][______._][______._][______._]
-                    [_Books__][______._][______._][______._][______._]""");
-            case 4 -> System.out.println("""
-                    [______._][______._][______._][______._][_Games__]
-                    [______._][______._][______._][______._][______._]
-                    [Trophies][______._][_Frames_][______._][______._]
-                    [______._][______._][______._][_Plants_][______._]
-                    [______._][_Books__][__Cats__][______._][______._]
-                    [______._][______._][______._][______._][______._]""");
-            case 5 -> System.out.println("""
-                    [______._][______._][______._][______._][______._]
-                    [______._][Trophies][______._][______._][______._]
-                    [______._][______._][______._][______._][______._]
-                    [______._][_Frames_][_Books__][______._][______._]
-                    [______._][______._][______._][______._][_Plants_]
-                    [_Games__][______._][______._][__Cats__][______._]""");
-            case 6 -> System.out.println("""
-                    [______._][______._][Trophies][______._][__Cats__]
-                    [______._][______._][______._][______._][______._]
-                    [______._][______._][______._][_Books__][______._]
-                    [______._][______._][______._][______._][______._]
-                    [______._][_Games__][______._][_Frames_][______._]
-                    [_Plants_][______._][______._][______._][______._]""");
-            case 7 -> System.out.println("""
-                    [__Cats__][______._][______._][______._][______._]
-                    [______._][______._][______._][_Frames_][______._]
-                    [______._][_Plants_][______._][______._][______._]
-                    [Trophies][______._][______._][______._][______._]
-                    [______._][______._][______._][______._][_Games__]
-                    [______._][______._][_Books__][______._][______._]""");
-            case 8 -> System.out.println("""
-                    [______._][______._][______._][______._][_Frames_]
-                    [______._][__Cats__][______._][______._][______._]
-                    [______._][______._][Trophies][______._][______._]
-                    [_Plants_][______._][______._][______._][______._]
-                    [______._][______._][______._][_Books__][______._]
-                    [______._][______._][______._][_Games__][______._]""");
-            case 9 -> System.out.println("""
-                    [______._][______._][_Games__][______._][______._]
-                    [______._][______._][______._][______._][______._]
-                    [______._][______._][__Cats__][______._][______._]
-                    [______._][______._][______._][______._][_Books__]
-                    [______._][Trophies][______._][______._][_Plants_]
-                    [_Frames_][______._][______._][______._][______._]""");
-            case 10 -> System.out.println("""
-                    [______._][______._][______._][______._][Trophies]
-                    [______._][_Games__][______._][______._][______._]
-                    [_Books__][______._][______._][______._][______._]
-                    [______._][______._][______._][__Cats__][______._]
-                    [______._][_Frames_][______._][______._][______._]
-                    [______._][______._][______._][_Plants_][______._]""");
-            case 11 -> System.out.println("""
-                    [______._][______._][_Plants_][______._][______._]
-                    [______._][_Books__][______._][______._][______._]
-                    [_Games__][______._][______._][______._][______._]
-                    [______._][______._][_Frames_][______._][______._]
-                    [______._][______._][______._][______._][__Cats__]
-                    [______._][______._][______._][Trophies][______._]""");
-            case 12 -> System.out.println("""
-                    [______._][______._][_Books__][______._][______._]
-                    [______._][_Plants_][______._][______._][______._]
-                    [______._][______._][_Frames_][______._][______._]
-                    [______._][______._][______._][Trophies][______._]
-                    [______._][______._][______._][______._][_Games__]
-                    [__Cats__][______._][______._][______._][______._]""");
+
+        System.out.println(username + "'s PersonalGoal:");
+        switch (JSONConverter.personalGoal) {
+            case 1 -> System.out.println("[_"+Color.PLANTS+"_][______._][_"+Color.FRAMES+"_][______._][______._]\n"+
+                                        "[______._][______._][______._][______._][__"+Color.CATS+"__]\n"+
+                                        "[______._][______._][______._][_"+Color.BOOKS+"__][______._]\n"+
+                                        "[______._][_"+Color.GAMES+"__][______._][______._][______._]\n"+
+                                        "[______._][______._][______._][______._][______._]\n"+
+                                         "[______._][______._]["+Color.TROPHIES+"][______._][______._]");
+            case 2 -> System.out.println("[______._][______._][______._][______._][______._]\n" +
+                                         "[______._][_"+Color.PLANTS+"_][______._][______._][______._]\n" +
+                                         "[__"+Color.CATS+"__][______._][_"+Color.GAMES+"__][______._][______._]\n" +
+                                         "[______._][______._][______._][______._][_"+Color.BOOKS+"__]\n" +
+                                         "[______._][______._][______._]["+Color.TROPHIES+"][______._]\n" +
+                                         "[______._][______._][______._][______._][_"+Color.FRAMES+"_]");
+            case 3 -> System.out.println("[______._][______._][______._][______._][______._]\n" +
+                                         "[_"+Color.FRAMES+"_][______._][______._][_"+Color.GAMES+"__][______._]\n" +
+                                         "[______._][______._][_"+Color.PLANTS+"_][______._][______._]\n" +
+                                         "[______._][__"+Color.CATS+"__][______._][______._]["+Color.TROPHIES+"]\n" +
+                                         "[______._][______._][______._][______._][______._]\n" +
+                                         "[_"+Color.BOOKS+"__][______._][______._][______._][______._]");
+            case 4 -> System.out.println("[______._][______._][______._][______._][_"+Color.GAMES+"__]\n" +
+                                         "[______._][______._][______._][______._][______._]\n" +
+                                         "["+Color.TROPHIES+"][______._][_"+Color.FRAMES+"_][______._][______._]\n" +
+                                         "[______._][______._][______._][_"+Color.PLANTS+"_][______._]\n" +
+                                         "[______._][_"+Color.BOOKS+"__][__"+Color.CATS+"__][______._][______._]\n" +
+                                         "[______._][______._][______._][______._][______._]");
+            case 5 -> System.out.println("[______._][______._][______._][______._][______._]\n" +
+                                         "[______._]["+Color.TROPHIES+"][______._][______._][______._]\n" +
+                                         "[______._][______._][______._][______._][______._]\n" +
+                                         "[______._][_"+Color.FRAMES+"_][_"+Color.BOOKS+"__][______._][______._]\n" +
+                                         "[______._][______._][______._][______._][_"+Color.PLANTS+"_]\n" +
+                                         "[_"+Color.GAMES+"__][______._][______._][__"+Color.CATS+"__][______._]");
+            case 6 -> System.out.println("[______._][______._]["+Color.TROPHIES+"][______._][__"+Color.CATS+"__]\n" +
+                                         "[______._][______._][______._][______._][______._]\n" +
+                                         "[______._][______._][______._][_"+Color.BOOKS+"__][______._]\n" +
+                                         "[______._][______._][______._][______._][______._]\n" +
+                                         "[______._][_"+Color.GAMES+"__][______._][_"+Color.FRAMES+"_][______._]\n" +
+                                         "[_"+Color.PLANTS+"_][______._][______._][______._][______._]");
+            case 7 -> System.out.println("[__"+Color.CATS+"__][______._][______._][______._][______._]\n" +
+                                         "[______._][______._][______._][_"+Color.FRAMES+"_][______._]\n" +
+                                         "[______._][_"+Color.PLANTS+"_][______._][______._][______._]\n" +
+                                         "["+Color.TROPHIES+"][______._][______._][______._][______._]\n" +
+                                         "[______._][______._][______._][______._][_"+Color.GAMES+"__]\n" +
+                                         "[______._][______._][_"+Color.BOOKS+"__][______._][______._]");
+            case 8 -> System.out.println("[______._][______._][______._][______._][_"+Color.FRAMES+"_]\n" +
+                                         "[______._][__"+Color.CATS+"__][______._][______._][______._]\n" +
+                                         "[______._][______._]["+Color.TROPHIES+"][______._][______._]\n" +
+                                         "[_"+Color.PLANTS+"_][______._][______._][______._][______._]\n" +
+                                         "[______._][______._][______._][_"+Color.BOOKS+"__][______._]\n" +
+                                         "[______._][______._][______._][_"+Color.GAMES+"__][______._]");
+            case 9 -> System.out.println("[______._][______._][_"+Color.GAMES+"__][______._][______._]\n" +
+                                         "[______._][______._][______._][______._][______._]\n" +
+                                         "[______._][______._][__"+Color.CATS+"__][______._][______._]\n" +
+                                         "[______._][______._][______._][______._][_"+Color.BOOKS+"__]\n" +
+                                         "[______._]["+Color.TROPHIES+"][______._][______._][_"+Color.PLANTS+"_]\n" +
+                                         "[_"+Color.FRAMES+"_][______._][______._][______._][______._]");
+            case 10 -> System.out.println("[______._][______._][______._][______._]["+Color.TROPHIES+"]\n" +
+                                          "[______._][_"+Color.GAMES+"__][______._][______._][______._]\n" +
+                                          "[_"+Color.BOOKS+"__][______._][______._][______._][______._]\n" +
+                                          "[______._][______._][______._][__"+Color.CATS+"__][______._]\n" +
+                                          "[______._][_"+Color.FRAMES+"_][______._][______._][______._]\n" +
+                                          "[______._][______._][______._][_"+Color.PLANTS+"_][______._]");
+            case 11 -> System.out.println("[______._][______._][_"+Color.PLANTS+"_][______._][______._]\n" +
+                                          "[______._][_"+Color.BOOKS+"__][______._][______._][______._]\n" +
+                                          "[_"+Color.GAMES+"__][______._][______._][______._][______._]\n" +
+                                          "[______._][______._][_"+Color.FRAMES+"_][______._][______._]\n" +
+                                          "[______._][______._][______._][______._][__"+Color.CATS+"__]\n" +
+                                          "[______._][______._][______._]["+Color.TROPHIES+"][______._]");
+            case 12 -> System.out.println("[______._][______._][_"+Color.BOOKS+"__][______._][______._]\n" +
+                                          "[______._][_"+Color.PLANTS+"_][______._][______._][______._]\n" +
+                                          "[______._][______._][_"+Color.FRAMES+"_][______._][______._]\n" +
+                                          "[______._][______._][______._]["+Color.TROPHIES+"][______._]\n" +
+                                          "[______._][______._][______._][______._][_"+Color.GAMES+"__]\n" +
+                                          "[__"+Color.CATS+"__][______._][______._][______._][______._]");
         }
     }
 
@@ -518,13 +491,17 @@ public class Cli implements View {
     @Override
     public void showShelf() {
         System.out.println(player + "'s Shelf:");
+        for (int j = 0; j < SHELF_COLUMN; j++) {
+            System.out.print("      " + j +"      ");
+        }
+        System.out.println();
         for (String[][] userShelf : JSONConverter.shelf) {
             for (int i = 0; i < SHELF_ROW; i++) {
                 for (int j = 0; j < SHELF_COLUMN; j++) {
-                    String item = userShelf[i][j] == null? "[______._] " : userShelf[i][j];
-                    System.out.println("[" + item + "] ");
+                    String item = userShelf[i][j] == null? "_________._" : checkColorItem(userShelf[i][j]);
+                    System.out.print("[" + item + "]");
                 }
-                System.out.println("\n");
+                System.out.println();
             }
         }
     }
@@ -533,22 +510,45 @@ public class Cli implements View {
     public void showBoard() {
         String[][] board = JSONConverter.virtualBoard;
         System.out.println("Board:");
+        System.out.print("  ");
+        for (int j = 0; j < BOARD_COLUMN; j++) {
+            System.out.print("      " + j +"       ");
+        }
+        System.out.println();
         for(int i = 0; i < BOARD_ROW; i++){
+            System.out.print(i);
             for(int j = 0; j < BOARD_COLUMN; j++){
-                String item = (board[i][j] == null? "[______._] " : board[i][j]);
-                System.out.println("[" + item + "] ");
+                String item = board[i][j] == null? "_________._" : checkColorItem(board[i][j]);
+                System.out.print(" [" + item + "]");
             }
-            System.out.println("\n");
+            System.out.println();
         }
     }
 
+    public String checkColorItem(String item){
+        switch (item.substring(0, item.length()-3)){
+            case "__Cats__":
+                return Color.GREEN_BOLD + item + Color.RESET;
+            case "_Books__":
+                return Color.WHITE_BOLD + item + Color.RESET;
+            case "_Games__":
+                return Color.YELLOW_BOLD + item + Color.RESET;
+            case "_Frames_":
+                return Color.BLUE_BOLD + item + Color.RESET;
+            case "Trophies":
+                return Color.CYAN_BOLD + item + Color.RESET;
+            case "_Plants_":
+                return Color.MAGENTA_BOLD + item + Color.RESET;
+        }
+        return item;
+    }
     @Override
     public void showPlayersStats() {
         List<String> playerList = JSONConverter.players;
         List<Integer> scoreList = JSONConverter.scores;
         for (int i = 0; i < playerList.size(); i++) {
-            System.out.println(playerList.get(i) + "'s stats: ");
-            System.out.println(playerList.get(i) + "'s score: " + scoreList.get(i));
+            System.out.println(Color.YELLOW + playerList.get(i) + "'s stats: ");
+            System.out.println(playerList.get(i) + "'s score: " + Color.RESET + scoreList.get(i));
             showShelf();
         }
     }
@@ -619,25 +619,25 @@ public class Cli implements View {
         do {
             do {
                 try {
-                    System.out.print("row (0 to " + BOARD_ROW + "): ");
+                    System.out.print("row (0 to " + (BOARD_ROW - 1) + "): ");
                     selectRow = Integer.parseInt(readLine());
                     if (selectRow < 0 || selectRow > BOARD_ROW) {
-                        System.out.println("Invalid number! Please try again.");
+                        System.out.println(Color.RED + "Invalid number! Please try again." + Color.RESET);
                     }
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid input! Please try again.");
+                } catch (NumberFormatException e){
+                    System.out.println(Color.RED + "Invalid input! Please try again." + Color.RESET);
                 }
             } while (selectRow < 0 || selectRow > BOARD_ROW);
 
             do {
                 try {
-                    System.out.print("column (0 to " + BOARD_COLUMN + "): ");
+                    System.out.print("column (0 to " + (BOARD_COLUMN - 1) + "): ");
                     selectColumn = Integer.parseInt(readLine());
                     if (selectColumn < 0 || selectColumn > BOARD_COLUMN) {
-                        System.out.println("Invalid number! Please try again.");
+                        System.out.println(Color.RED + "Invalid number! Please try again." + Color.RESET);
                     }
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid input! Please try again.");
+                } catch (NumberFormatException e){
+                    System.out.println(Color.RED + "Invalid input! Please try again." + Color.RESET);
                 }
             } while (selectColumn < 0 || selectColumn > BOARD_COLUMN);
 
@@ -732,10 +732,10 @@ public class Cli implements View {
                     System.out.print("position1 (1 to " + JSONConverter.currentPlayerHand.size() + "): ");
                     position1 = Integer.parseInt(readLine());
                     if (position1 < 1 || position1 > JSONConverter.currentPlayerHand.size()) {
-                        System.out.println("Invalid number! Please try again.");
+                        System.out.println(Color.RED + "Invalid number! Please try again." + Color.RESET);
                     }
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid input! Please try again.");
+                } catch (NumberFormatException e){
+                    System.out.println(Color.RED + "Invalid input! Please try again." + Color.RESET);
                 }
             } while (position1 < 1 || position1 > JSONConverter.currentPlayerHand.size());
 
@@ -744,10 +744,10 @@ public class Cli implements View {
                     System.out.print("position2 (1 to " + JSONConverter.currentPlayerHand.size() + "): ");
                     position2 = Integer.parseInt(readLine());
                     if (position2 < 1 || position2 > JSONConverter.currentPlayerHand.size()) {
-                        System.out.println("Invalid number! Please try again.");
+                        System.out.println(Color.RED + "Invalid number! Please try again." + Color.RESET);
                     }
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid input! Please try again.");
+                } catch (NumberFormatException e){
+                    System.out.println(Color.RED + "Invalid input! Please try again." + Color.RESET);
                 }
             } while (position2 < 1 || position2 > JSONConverter.currentPlayerHand.size());
 
@@ -784,13 +784,13 @@ public class Cli implements View {
          do {
             do {
                 try {
-                    System.out.print("Column (0 to " + SHELF_COLUMN + "): ");
+                    System.out.print("Column (0 to " + (SHELF_COLUMN - 1) + "): ");
                     column = Integer.parseInt(readLine());
                     if (column < 0 || column > SHELF_COLUMN) {
-                        System.out.println("Invalid number! Please try again.");
+                        System.out.println(Color.RED + "Invalid number! Please try again." + Color.RESET);
                     }
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid input! Please try again.");
+                } catch (NumberFormatException e){
+                    System.out.println(Color.RED + "Invalid input! Please try again." + Color.RESET);
                 }
             } while (column < 0 || column > SHELF_COLUMN);
              System.out.println("""
@@ -805,20 +805,16 @@ public class Cli implements View {
     }
 
     public void handleChatMessage(String option) throws RemoteException {
-        System.out.println("Write your message:");
-        String message = readLine();
-
+        String message = option.substring(option.lastIndexOf(" ") + 1);
         String usernameString = option.substring(5);
         String regex = "\\[|\\]";
         String[] matches = usernameString.split(regex);
-        if (matches.length>1){
-            // esiste username = playerName
+        if (matches.length > 1){
             String playerName = matches[1];
             if(iClientInputHandler.sendPlayerMessage(message, playerName)){
                 System.out.println("Message sent to: "+playerName);
             }
         } else {
-            // non contiene username
             if(!iClientInputHandler.sendChatMessage(message)) {
                 System.out.println("The message was not sent");
             }
@@ -888,57 +884,57 @@ public class Cli implements View {
     public void showGoalDescription(String CommonGoalCard) {
         switch (CommonGoalCard){
             case "CommonGoal2Lines":
-                System.out.println("CommonGoal2Lines: Two columns each formed by 6 different types of tiles.");
+                System.out.println(Color.YELLOW_BOLD + "CommonGoal2Lines: Two columns each formed by 6 different types of tiles." + Color.RESET);
                 break;
             case "CommonGoal2Columns":
-                System.out.println("CommonGoal2Columns: Two lines each formed by 5 different types of tiles. " +
-                        "One line can show the same or a different combination of the other line.");
+                System.out.println(Color.YELLOW_BOLD + "CommonGoal2Columns: Two lines each formed by 5 different types of tiles. " +
+                        "One line can show the same or a different combination of the other line." + Color.RESET);
                 break;
             case "CommonGoal3Column":
-                System.out.println("CommonGoal3Column: Three columns each formed by 6 tiles of maximum three " +
-                        "different types. One column can show the same or a different combination of another column.");
+                System.out.println(Color.YELLOW_BOLD + "CommonGoal3Column: Three columns each formed by 6 tiles of maximum three " +
+                        "different types. One column can show the same or a different combination of another column." + Color.RESET);
                 break;
             case "CommonGoal4Lines":
-                System.out.println("CommonGoal4Lines: Four lines each formed by 5 tiles of maximum three " +
-                        "different types. One line can show the same or a different combination of another line.");
+                System.out.println(Color.YELLOW_BOLD + "CommonGoal4Lines: Four lines each formed by 5 tiles of maximum three " +
+                        "different types. One line can show the same or a different combination of another line." + Color.RESET);
                 break;
             case "CommonGoal8Tiles":
-                System.out.println("CommonGoal8Tiles: Eight tiles of the same type. " +
-                        "There’s no restriction about the position of these tiles.");
+                System.out.println(Color.YELLOW_BOLD + "CommonGoal8Tiles: Eight tiles of the same type. " +
+                        "There’s no restriction about the position of these tiles." + Color.RESET);
                 break;
             case "CommonGoalCorner":
-                System.out.println("CommonGoalCorner: Four tiles of the same type in the four corners of " +
-                        "the bookshelf.");
+                System.out.println(Color.YELLOW_BOLD + "CommonGoalCorner: Four tiles of the same type in the four corners of " +
+                        "the bookshelf." + Color.RESET);
                 break;
             case "CommonGoalDiagonal":
-                System.out.println("CommonGoalDiagonal: Five tiles of the same type forming a diagonal.");
+                System.out.println(Color.YELLOW_BOLD + "CommonGoalDiagonal: Five tiles of the same type forming a diagonal." + Color.RESET);
                 break;
             case "CommonGoalSquare":
-                System.out.println("CommonGoalSquare: Two groups each containing 4 tiles of the same type in a 2x2 " +
-                        "square. The tiles of one square can be different from those of the other square.");
+                System.out.println(Color.YELLOW_BOLD + "CommonGoalSquare: Two groups each containing 4 tiles of the same type in a 2x2 " +
+                        "square. The tiles of one square can be different from those of the other square." + Color.RESET);
             case "CommonGoalStairs":
-                System.out.println("CommonGoalStairs: Five columns of increasing or decreasing height. " +
+                System.out.println(Color.YELLOW_BOLD + "CommonGoalStairs: Five columns of increasing or decreasing height. " +
                         "Starting from the first column on the left or on the right, " +
-                        "each next column must be made of exactly one more tile. Tiles can be of any type.");
+                        "each next column must be made of exactly one more tile. Tiles can be of any type." + Color.RESET);
                 break;
             case "CommonGoal4Group":
-                System.out.println("CommonGoal4Group: Four groups each containing at least 4 tiles of the same type " +
+                System.out.println(Color.YELLOW_BOLD + "CommonGoal4Group: Four groups each containing at least 4 tiles of the same type " +
                         "(not necessarily in the depicted shape). The tiles of one group can be different " +
-                        "from those of another group.");
+                        "from those of another group." + Color.RESET);
                 break;
             case "CommonGoal6Group":
-                System.out.println("CommonGoal6Group: Six groups each containing at least 2 tiles of the same type " +
+                System.out.println(Color.YELLOW_BOLD + "CommonGoal6Group: Six groups each containing at least 2 tiles of the same type " +
                         "(not necessarily in the depicted shape). The tiles of one group can be different " +
-                        "from those of another group.");
+                        "from those of another group." + Color.RESET);
                 break;
             case "CommonGoalXShape":
-                System.out.println("CommonGoalXShape: Five tiles of the same type forming an X.");
+                System.out.println(Color.YELLOW_BOLD + "CommonGoalXShape: Five tiles of the same type forming an X." + Color.RESET);
                 break;
         }
     }
 
     private void showGameRules() {
-        System.out.println("""
+        System.out.println(Color.YELLOW_BOLD + """
                 Goal of the game:
                 Players take item tiles from the living room and place them in their bookshelves to score points;
                 the game ends when a player completely fills their bookshelf. The player with more points at
@@ -968,9 +964,9 @@ public class Cli implements View {
                     21 points
                 4. Gane-end trigger
                     The first player who completely fills their bookshelf scores 1 additional point.
-                """);
+                """ + Color.RESET);
         askToContinue();
-        System.out.println("""
+        System.out.println(Color.YELLOW_BOLD + """
                 Gameplay:
                 The game is divided in turns that take place in a clockwise order starting from the first player.
                 During your turn, you must take 1, 2 or 3 item tiles from the living room board, following these rules:
@@ -980,27 +976,27 @@ public class Cli implements View {
                 Then, you must place all the tiles you’ve picked into 1 column of your bookshelf. You can decide
                 the order, but you cannot place tiles in more than 1 column in a single turn.
                 Note: You cannot take tiles if you don’t have enough available spaces in your bookshelf.
-                """);
+                """ + Color.RESET);
         askToContinue();
-        System.out.println("""
+        System.out.println(Color.YELLOW_BOLD + """
                 Refilling the living room:
                 The living room will be refiled when, at the end of your turn, on the board there are only item tiles
                 without any other adjacent tile, i.e. the next player can only take single tiles.
                 Put the item tiles left on the board back into the bag. Then, draw new item tiles from the bag and
                 place them randomly in all the spaces of the board (remember that spaces with dots are only available\s
                 in 3- or 4-player games).
-                """);
+                """ + Color.RESET);
         askToContinue();
-        System.out.println("""
+        System.out.println(Color.YELLOW_BOLD + """
                 Fulfilling a common goal:
                 If at the end of your turn you have achieved the requirements of a common goal card, take the topmost
                 available scoring token from that card. You can achieve and take scoring tokens from both common goal
                 cards in the same turn. You can only score points from common goal cards once per game, so you can’t
                 take more scoring tokens with the same back number. Players who achieve the common goals requirements
                 first will score more points than the other players, so try to be faster than your opponents!
-                """);
+                """ + Color.RESET);
         askToContinue();
-        System.out.println("""
+        System.out.println(Color.YELLOW_BOLD + """
                 Game end:
                 The first player who fills all the spaces of their bookshelf takes the end game token. The game
                 continues until the player sitting to the right to the player holding the first player seat (if the end
@@ -1022,9 +1018,16 @@ public class Cli implements View {
                 4 matches on the personal goal: 6 points
                 Scoring tokens: 12 points
                 Total: 36 points
-                """);
-        //TODO: Print all CommonGoals description
-        //showCommonGoals();
+                """ + Color.RESET);
+
+        List<String> commonGoalList = new ArrayList<>();
+        Collections.addAll(commonGoalList, "CommonGoal2Lines","CommonGoal2Columns", "CommonGoal3Column",
+                "CommonGoal4Lines", "CommonGoal8Tiles", "CommonGoalCorner", "CommonGoalDiagonal", "CommonGoalSquare",
+                "CommonGoalStairs", "CommonGoal4Group", "CommonGoal6Group", "CommonGoalXShape");
+
+        for (String s : commonGoalList) {
+            showGoalDescription(s);
+        }
         askToContinue();
 
     }

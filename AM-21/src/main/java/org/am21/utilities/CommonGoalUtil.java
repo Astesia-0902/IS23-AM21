@@ -16,7 +16,7 @@ public class CommonGoalUtil {
      */
     public static List<CommonGoal> getCommonGoals(int numPlayer) {
         initializeMap(commonGoalHashMap, numPlayer);
-        List<CommonGoal> res = new ArrayList<CommonGoal>(2);
+        List<CommonGoal> res = new ArrayList<CommonGoal>();
         int firstGoal = (int) (Math.random() * 12);
         res.add(commonGoalHashMap.get(firstGoal));
         int secondGoal = (int) (Math.random() * 12);
