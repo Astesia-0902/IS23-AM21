@@ -226,4 +226,13 @@ public class VirtualViewHelper {
     public static String getPersonalGoalJSON(VirtualView virtualView) {
         return JSON.toJSONString(virtualView.getPersonalGoals());
     }
+
+    /**
+     * This method will print the virtual view in JSON format
+     * @param match the match
+     */
+    public static void printJSON(Match match) {
+        String json = getJSONVirtualView(match.virtualView);
+        System.out.println(json);
+    }
 }

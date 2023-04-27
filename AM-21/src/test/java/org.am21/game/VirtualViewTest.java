@@ -5,6 +5,7 @@ import org.am21.model.Match;
 import org.am21.model.enumer.GamePhase;
 import org.am21.model.enumer.GameState;
 import org.am21.networkRMI.ClientInputHandler;
+import org.am21.utilities.VirtualViewHelper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,6 +58,8 @@ public class VirtualViewTest {
         m.addPlayer(c1.getPlayer());
         m.addPlayer(c1.getPlayer());
         //Match Started
+
+        VirtualViewHelper.printJSON(m);
 
         assertNotNull(m.virtualView.board);
         assertNotNull(m.virtualView.matchID);
