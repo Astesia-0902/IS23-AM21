@@ -206,8 +206,7 @@ public class Cli implements View {
                     exit - Exit game.
                     To send a message to a online player type ‘/chat[nickname]’ in the console.
                     -----------------------------------------------------------
-                    """);
-            System.out.println("Enter the option you wish to select: ");
+                    Enter the option you wish to select:\040""");
             String option = readLine();
             if (option.startsWith("/chat")) {
                 handleChatMessage(option);
@@ -231,16 +230,16 @@ public class Cli implements View {
     public void askWaitingAction() throws RemoteException, ServerNotActiveException {
         while(!GAME_ON&&!GO_TO_MENU) {
             System.out.println("The match has not started yet. Waiting for more players to join... ");
-            System.out.println("""
+            System.out.print("""
                     These are the commands available:
                     leave - Leave Match.
                     rules - Read Game Rules.
                     online - Show Online Players.
                     To send a message in the Match type ‘/chat’ in the console.
                     To send a message to a online player type ‘/chat[nickname]’ in the console.
-                    """);
+                    
+                    "Enter the option you wish to select:\040""");
 
-            System.out.print("Enter the option you wish to select: ");
             String option = readLine();
             if (option.startsWith("/chat")) {
                 handleChatMessage(option);
@@ -251,6 +250,7 @@ public class Cli implements View {
                     case "online" -> showOnlinePlayer();
                     default -> System.out.println(Color.RED + "Invalid command! Please try again." + Color.RESET);
                 }
+                askToContinue();
             }
         }
     }
@@ -287,7 +287,7 @@ public class Cli implements View {
         while(GAME_ON&&!GO_TO_MENU) {
             System.out.println("What do you wish to do? These are the commands available:");
             showCommandMenu();
-            System.out.println("Enter the command you wish to use:");
+            System.out.print("Enter the command you wish to use: ");
             String option = readLine();
             if (option.startsWith("/chat")) {
                 handleChatMessage(option);
@@ -394,16 +394,17 @@ public class Cli implements View {
 
     @Override
     public void showCommonGoals()  {
+        System.out.println("Common Goals:");
         for (int i = 0; i < JSONConverter.commonGoal.size(); i++) {
             showGoalDescription(JSONConverter.commonGoal.get(i));
             System.out.println(Color.YELLOW + "Top score of this Common Goal: " + Color.RESET +
-                    JSONConverter.commonGoalScore.get(i) + " points.");
+                               JSONConverter.commonGoalScore.get(i) + " points.");
         }
+        System.out.println();
     }
 
     @Override
     public void showPersonalGoal() {
-
         System.out.println(username + "'s PersonalGoal:");
         switch (JSONConverter.personalGoal) {
             case 1 -> System.out.println("[_"+Color.PLANTS+"_][______._][_"+Color.FRAMES+"_][______._][______._]\n"+
@@ -479,6 +480,7 @@ public class Cli implements View {
                                           "[______._][______._][______._][______._][_"+Color.GAMES+"__]\n" +
                                           "[__"+Color.CATS+"__][______._][______._][______._][______._]");
         }
+        System.out.println();
     }
 
     @Override
@@ -506,6 +508,7 @@ public class Cli implements View {
                 System.out.println();
             }
         }
+        System.out.println();
     }
 
     @Override
@@ -525,6 +528,7 @@ public class Cli implements View {
             }
             System.out.println();
         }
+        System.out.println();
     }
 
     public String checkColorItem(String item){
@@ -534,29 +538,29 @@ public class Cli implements View {
             case "__Cats__":
                 index1 = item.indexOf("Cats");
                 itemType =item.substring(0, index1) + Color.CATS + item.substring(index1+"Cats".length(), index2)+
-                        Color.GREEN_BOLD+item.substring(index2)+Color.RESET;
+                        Color.GREEN_BOLD_BRIGHT+item.substring(index2)+Color.RESET;
                 return itemType;
             case "_Books__":
                 index1 = item.indexOf("Books");
                 itemType =item.substring(0, index1) + Color.BOOKS + item.substring(index1+"Books".length(), index2)+
-                        Color.WHITE_BOLD+item.substring(index2)+Color.RESET;
+                        Color.WHITE_BOLD_BRIGHT+item.substring(index2)+Color.RESET;
                 return itemType;
             case "_Games__":
                 index1 = item.indexOf("Games");
                 itemType =item.substring(0, index1) + Color.GAMES + item.substring(index1+"Games".length(), index2)+
-                        Color.YELLOW_BOLD+item.substring(index2)+Color.RESET;
+                        Color.YELLOW_BOLD_BRIGHT+item.substring(index2)+Color.RESET;
                 return itemType;
             case "_Frames_":
                 index1 = item.indexOf("Frames");
                 itemType =item.substring(0, index1) + Color.FRAMES + item.substring(index1+"Frames".length(), index2)+
-                        Color.BLUE_BOLD+item.substring(index2)+Color.RESET;
+                        Color.BLUE_BOLD_BRIGHT+item.substring(index2)+Color.RESET;
                 return itemType;
             case "Trophies":
-                return Color.CYAN_BOLD + item + Color.RESET;
+                return Color.CYAN_BOLD_BRIGHT + item + Color.RESET;
             case "_Plants_":
                 index1 = item.indexOf("Plants");
                 itemType =item.substring(0, index1) + Color.PLANTS + item.substring(index1+"Plants".length(), index2)+
-                        Color.MAGENTA_BOLD+item.substring(index2)+Color.RESET;
+                        Color.MAGENTA_BOLD_BRIGHT+item.substring(index2)+Color.RESET;
                 return itemType;
         }
         return item;
@@ -571,13 +575,13 @@ public class Cli implements View {
             showShelf();
         }
         showCurrentPlayer();
+        System.out.println();
     }
 
     @Override
     public void askSelection() throws ServerNotActiveException, RemoteException {
         if (!JSONConverter.gamePhase.equals("Insertion")) {
                 System.out.println("Select a cell on the board");
-                showBoard();
                 boolean selectionConfirm;
                 do {
                     String confirm = "";
@@ -630,6 +634,7 @@ public class Cli implements View {
     }
 
     public List<Integer> askCoordinates() {
+        showBoard();
         System.out.println("Enter the coordinates you wish to select [row, column].");
         int selectRow = 0, selectColumn = 0;
         do {
@@ -774,11 +779,13 @@ public class Cli implements View {
     public boolean showHand() {
         System.out.println(player +" have in hand:");
         if (JSONConverter.currentPlayerHand.isEmpty()){
+            System.out.println();
             return false;
         }
         for (int i = 0; i < JSONConverter.currentPlayerHand.size(); i++) {
             System.out.println(JSONConverter.currentPlayerHand.get(i));
         }
+        System.out.println();
         return true;
     }
 
@@ -835,6 +842,7 @@ public class Cli implements View {
         } else {
             System.out.println("EndGame Token has not been taken.");
         }
+        System.out.println();
     }
 
     @Override
@@ -843,8 +851,12 @@ public class Cli implements View {
     }
 
     @Override
-    public void askShowObject() {
-        System.out.println("""
+    public void askShowObject() throws RemoteException {
+
+
+        String object = "";
+        while (!object.equals("n")){
+            System.out.print("""
                 List of Objects:
                 hand - Show selected items.
                 pgoal - See your Personal Goal.
@@ -854,13 +866,11 @@ public class Cli implements View {
                 stats - See Players Stats.
                 rules - See Game Rules.
                 end - Show if the Endgame Token is taken (if it is, then it's the last round).
+                online - Show Online Players
                 timer - Show timer.
                 n - Cancel your choice.
-                """);
-
-        String object = "";
-        while (!object.equals("n")){
-            System.out.print("Enter the object you wish to be shown: ");
+                
+                Enter the object you wish to be shown:\040""");
             object = readLine();
             switch (object) {
                 case "hand" -> showHand();
@@ -871,16 +881,18 @@ public class Cli implements View {
                 case "stats" -> showPlayersStats();
                 case "rules" -> showGameRules();
                 case "end" -> showEndGameToken();
+                case "online" -> showOnlinePlayer();
                 case "timer" -> showTimer();
                 default -> System.out.println("The [" + object + "] cannot be found! Please try again.");
             }
+            askToContinue();
         }
     }
 
     @Override
     public void showOnlinePlayer() throws RemoteException {
         iClientInputHandler.printOnlinePlayers();
-        askToContinue();
+        System.out.println();
     }
     public void printer(String message){
         System.out.println(message);
@@ -889,51 +901,68 @@ public class Cli implements View {
     public void showGoalDescription(String CommonGoalCard) {
         switch (CommonGoalCard){
             case "CommonGoal2Lines":
-                System.out.println(Color.YELLOW_BOLD + "CommonGoal2Lines: Two columns each formed by 6 different types of tiles." + Color.RESET);
+                System.out.println(Color.YELLOW_BOLD + """
+                        * CommonGoal2Lines: Two columns each formed by 6 different types of tiles.""" + Color.RESET);
                 break;
             case "CommonGoal2Columns":
-                System.out.println(Color.YELLOW_BOLD + "CommonGoal2Columns: Two lines each formed by 5 different types of tiles. " +
-                        "One line can show the same or a different combination of the other line." + Color.RESET);
+                System.out.println(Color.YELLOW_BOLD + """
+                        * CommonGoal2Columns: Two lines each formed by 5 different types of tiles. One line can show the
+                          same or a different combination of the other line.""" + Color.RESET);
                 break;
             case "CommonGoal3Column":
-                System.out.println(Color.YELLOW_BOLD + "CommonGoal3Column: Three columns each formed by 6 tiles of maximum three " +
-                        "different types. One column can show the same or a different combination of another column." + Color.RESET);
+                System.out.println(Color.YELLOW_BOLD + """
+                        * CommonGoal3Column: Three columns each formed by 6 tiles of maximum three different types. One
+                          column can show the same or a different combination of another column.""" +
+                        Color.RESET);
                 break;
             case "CommonGoal4Lines":
-                System.out.println(Color.YELLOW_BOLD + "CommonGoal4Lines: Four lines each formed by 5 tiles of maximum three " +
-                        "different types. One line can show the same or a different combination of another line." + Color.RESET);
+                System.out.println(Color.YELLOW_BOLD + """
+                        * CommonGoal4Lines: Four lines each formed by 5 tiles of maximum three different types. One line
+                          can show the same or a different combination of another line.""" +
+                        Color.RESET);
                 break;
             case "CommonGoal8Tiles":
-                System.out.println(Color.YELLOW_BOLD + "CommonGoal8Tiles: Eight tiles of the same type. " +
-                        "There’s no restriction about the position of these tiles." + Color.RESET);
+                System.out.println(Color.YELLOW_BOLD + """
+                        * CommonGoal8Tiles: Eight tiles of the same type. There’s no restriction about the position of
+                          these tiles.""" + Color.RESET);
                 break;
             case "CommonGoalCorner":
-                System.out.println(Color.YELLOW_BOLD + "CommonGoalCorner: Four tiles of the same type in the four corners of " +
-                        "the bookshelf." + Color.RESET);
+                System.out.println(Color.YELLOW_BOLD + """
+                        * CommonGoalCorner: Four tiles of the same type in the four corners of the bookshelf.""" +
+                        Color.RESET);
                 break;
             case "CommonGoalDiagonal":
-                System.out.println(Color.YELLOW_BOLD + "CommonGoalDiagonal: Five tiles of the same type forming a diagonal." + Color.RESET);
+                System.out.println(Color.YELLOW_BOLD + """
+                        * CommonGoalDiagonal: Five tiles of the same type forming a diagonal.""" + Color.RESET);
                 break;
             case "CommonGoalSquare":
-                System.out.println(Color.YELLOW_BOLD + "CommonGoalSquare: Two groups each containing 4 tiles of the same type in a 2x2 " +
-                        "square. The tiles of one square can be different from those of the other square." + Color.RESET);
+                System.out.println(Color.YELLOW_BOLD + """
+                        * CommonGoalSquare: Two groups each containing 4 tiles of the same type in a 2x2 square. The
+                          tiles of one square can be different from those of the other square.""" +
+                        Color.RESET);
+                break;
             case "CommonGoalStairs":
-                System.out.println(Color.YELLOW_BOLD + "CommonGoalStairs: Five columns of increasing or decreasing height. " +
-                        "Starting from the first column on the left or on the right, " +
-                        "each next column must be made of exactly one more tile. Tiles can be of any type." + Color.RESET);
+                System.out.println(Color.YELLOW_BOLD + """
+                        * CommonGoalStairs: Five columns of increasing or decreasing height. Starting from the first
+                          column on the left or on the right, each next column must be made of exactly one more tile.
+                          Tiles can be of any type.""" +
+                        Color.RESET);
                 break;
             case "CommonGoal4Group":
-                System.out.println(Color.YELLOW_BOLD + "CommonGoal4Group: Four groups each containing at least 4 tiles of the same type " +
-                        "(not necessarily in the depicted shape). The tiles of one group can be different " +
-                        "from those of another group." + Color.RESET);
+                System.out.println(Color.YELLOW_BOLD + """
+                        * CommonGoal4Group: Four groups each containing at least 4 tiles of the same type (not necessarily
+                          in the depicted shape). The tiles of one group can be different from those of another group."""
+                        + Color.RESET);
                 break;
             case "CommonGoal6Group":
-                System.out.println(Color.YELLOW_BOLD + "CommonGoal6Group: Six groups each containing at least 2 tiles of the same type " +
-                        "(not necessarily in the depicted shape). The tiles of one group can be different " +
-                        "from those of another group." + Color.RESET);
+                System.out.println(Color.YELLOW_BOLD + """
+                        * CommonGoal6Group: Six groups each containing at least 2 tiles of the same type (not necessarily
+                          in the depicted shape). The tiles of one group can be different from those of another group."""
+                        + Color.RESET);
                 break;
             case "CommonGoalXShape":
-                System.out.println(Color.YELLOW_BOLD + "CommonGoalXShape: Five tiles of the same type forming an X." + Color.RESET);
+                System.out.println(Color.YELLOW_BOLD +
+                        "* CommonGoalXShape: Five tiles of the same type forming an X." + Color.RESET);
                 break;
         }
     }
@@ -941,25 +970,25 @@ public class Cli implements View {
     private void showGameRules() {
         System.out.println(Color.YELLOW_BOLD + """
                 Goal of the game:
-                Players take item tiles from the living room and place them in their bookshelves to score points;
-                the game ends when a player completely fills their bookshelf. The player with more points at
-                the end will win the game. There are 4 ways to score points:
+                Players take item tiles from the living room and place them in their bookshelves to score points; the
+                game ends when a player completely fills their bookshelf. The player with more points at the end will 
+                win the game. There are 4 ways to score points:
                 1. Personal Goal card
-                    The personal goal card grants points if you match the highlighted spaces with
-                    the corresponding item tiles.
-                    Example: In the illustrated situation, at the end of the game the tile disposal
-                    shows 3 matches, that is worth 4 points.
+                    The personal goal card grants points if you match the highlighted spaces with the corresponding item
+                    tiles.
+                    Example: In the illustrated situation, at the end of the game the tile disposal shows 3 matches,
+                    that is worth 4 points.
                 2. Common Goal cards
-                    The common goal cards grant points to the players who achieve the illustrated
-                    pattern. See the last page for a detailed descriptions of the common goal cards.
-                    Example: In a 3-player game on both Common Goal cards will be stacked
-                    the 4-, 6-, 8- scoring tokens (from bottom to top).
+                    The common goal cards grant points to the players who achieve the illustrated pattern. See the last
+                    page for a detailed descriptions of the common goal cards.
+                    Example: In a 3-player game on both Common Goal cards will be stacked the 4-, 6-, 8- scoring tokens
+                    (from bottom to top).
                 3. Adjacent Item tiles
-                    Groups of adjacent item tiles of the same type on your bookshelf grant
-                    points depending on how many tiles are connected (with one side touching).
+                    Groups of adjacent item tiles of the same type on your bookshelf grant points depending on how many
+                    tiles are connected (with one side touching).
                     Note: Item tiles with the same background color are considered to be of the same type.
-                    Example: In the situation above, at the end of the game there are 5 groups of
-                    adjacent item tiles of the same type:
+                    Example: In the situation above, at the end of the game there are 5 groups of adjacent item tiles of
+                    the same type:
                     8 Plant tiles: 8 pt
                     4 Trophy tiles: 3 pt
                     5 Cat tiles: 5 pt
@@ -1030,10 +1059,10 @@ public class Cli implements View {
                 "CommonGoal4Lines", "CommonGoal8Tiles", "CommonGoalCorner", "CommonGoalDiagonal", "CommonGoalSquare",
                 "CommonGoalStairs", "CommonGoal4Group", "CommonGoal6Group", "CommonGoalXShape");
 
+        System.out.println(Color.YELLOW_BOLD + "Common Goals:");
         for (String s : commonGoalList) {
             showGoalDescription(s);
         }
-        askToContinue();
-
+        System.out.println();
     }
 }
