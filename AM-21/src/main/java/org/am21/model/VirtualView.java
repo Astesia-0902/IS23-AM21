@@ -16,8 +16,15 @@ import java.util.List;
  * This class will be serialized and sent to the client
  */
 public class VirtualView implements Serializable {
+
+
     public int matchID;
+
+
     public String[][] board;
+
+
+
     //since we don't process the goal logic in the client side, we don't need to send the goal to the client
     //so we use a integer to map the goal picture
     public List<String> commonGoals;
@@ -26,9 +33,13 @@ public class VirtualView implements Serializable {
     public List<String> currentPlayerHand;
     public List<Integer> scores;
     public List<String[][]> shelves;
+
+
     public List<Integer> personalGoals;
     public String currentPlayer;
     public String gamePhase;
+
+    //TODO: gameState maybe not needed for visualization
     public String gameState;
     public boolean endGameToken;
 

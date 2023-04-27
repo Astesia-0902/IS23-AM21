@@ -5,15 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dd2f3e9a-b514-48f2-995d-660d696de66e" name="Changes" comment="update Cli">
-      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/Lobby.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/ServerPrototype.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/Welcome.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/cli/Cli.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/cli/Cli.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/ServerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/ServerMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/ChatManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/ChatManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/VirtualView.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/VirtualView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/VirtualViewHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/VirtualViewHelper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientInputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientInputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/GameAppTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/GameAppTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/GameTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/GameTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/VirtualViewTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/VirtualViewTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230422/BagTest/ns-5/sources/source-4.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230422/BagTest/ns-5/sources/source-4.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230422/GameTest/ns-6/sources/source-4.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230422/GameTest/ns-6/sources/source-4.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_deliveries/report/20230422/PlayerTest/ns-5/sources/source-4.html" beforeDir="false" afterPath="$PROJECT_DIR$/_deliveries/report/20230422/PlayerTest/ns-5/sources/source-4.html" afterDir="false" />
     </list>
     <list id="19ab3365-554c-40d9-959c-e6407d37c953" name="Changes by jef" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -274,7 +276,7 @@
       <module name="IS23-AM21" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.am21.model.*" />
+          <option name="PATTERN" value="org.am21.utilities.*" />
           <option name="ENABLED" value="true" />
         </pattern>
         <pattern>
@@ -410,6 +412,38 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="VirtualViewTest.testAfterStart" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="IS23-AM21" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.am21.game.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.am21.game" />
+      <option name="MAIN_CLASS_NAME" value="org.am21.game.VirtualViewTest" />
+      <option name="METHOD_NAME" value="testAfterStart" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VirtualViewTest.testBeforeStart" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="IS23-AM21" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.am21.game.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.am21.game" />
+      <option name="MAIN_CLASS_NAME" value="org.am21.game.VirtualViewTest" />
+      <option name="METHOD_NAME" value="testBeforeStart" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="WrongModelTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="IS23-AM21" />
       <extension name="coverage">
@@ -441,11 +475,15 @@
       <item itemvalue="JUnit.PersonalGoalTest" />
       <item itemvalue="JUnit.BagTest" />
       <item itemvalue="JUnit.GameTest" />
+      <item itemvalue="JUnit.VirtualViewTest.testAfterStart" />
+      <item itemvalue="JUnit.VirtualViewTest.testBeforeStart" />
       <item itemvalue="JUnit.WrongModelTest" />
       <item itemvalue="JUnit.GameTest.testCreateAndJoinMatch" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.VirtualViewTest.testAfterStart" />
+        <item itemvalue="JUnit.VirtualViewTest.testBeforeStart" />
         <item itemvalue="JUnit.WrongModelTest" />
         <item itemvalue="JUnit.GameTest.testCreateAndJoinMatch" />
       </list>
@@ -520,6 +558,8 @@
       <workItem from="1682528990051" duration="9228000" />
       <workItem from="1682538264689" duration="295000" />
       <workItem from="1682538675635" duration="9579000" />
+      <workItem from="1682550087796" duration="1964000" />
+      <workItem from="1682576425125" duration="7639000" />
     </task>
     <task id="LOCAL-00001" summary="update scoringToken test">
       <created>1680516093577</created>
@@ -626,6 +666,15 @@
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/VirtualViewTest.java</url>
+          <line>54</line>
+          <properties class="org.am21.game.VirtualViewTest" method="testAfterStart">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="16" />
         </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.NullPointerException" package="java.lang" />

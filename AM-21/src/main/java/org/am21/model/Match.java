@@ -8,10 +8,7 @@ import org.am21.model.enumer.ServerMessage;
 import org.am21.model.enumer.UserStatus;
 import org.am21.model.items.Board;
 import org.am21.model.items.Shelf;
-import org.am21.utilities.CardUtil;
-import org.am21.utilities.CommonGoalUtil;
-import org.am21.utilities.GameGear;
-import org.am21.utilities.MyTimer;
+import org.am21.utilities.*;
 
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
@@ -98,10 +95,10 @@ public class Match {
                 //System.out.println("Game > " + player.getNickname() + " added to the match N." + this.matchID);
                 //Update virtual view
                 //VirtualViewHelper.setPlayers(this);
-                //notifyVirtualView();
+                //updatePlayersVirtualView();
                 checkRoom();
                 //If, after checkRoom(), the match did not start, send Client to Waiting Phase
-                if (gameState == GameState.WaitingPlayers) {
+                if (gameState == GameState.WaitingPlayers&&player.getController().clientInput.callBack!=null) {
                     try {
                         player.getController().clientInput.callBack.notifyToWait();
                     } catch (RemoteException e) {
@@ -342,7 +339,9 @@ public class Match {
         setGamePhase(GamePhase.Selection);
         //TODO: test it
         VirtualViewHelper.buildVirtualView(this);
+        updatePlayersVirtualView();
         for (Player p : playerList) {
+            if(p.getController().clientInput.callBack==null) continue;
             try {
                 p.getController().clientInput.callBack.notifyStart();
             } catch (RemoteException | ServerNotActiveException e) {
@@ -358,6 +357,8 @@ public class Match {
     public void nextTurn() {
         currentPlayer = playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats);
         setGamePhase(GamePhase.Selection);
+
+
     }
 
     /**
@@ -367,13 +368,14 @@ public class Match {
      */
 
     public String getVirtualView() {
-        return VirtualViewHelper.getVirtualViewJSON(virtualView);
+        return VirtualViewHelper.getJSONVirtualView(virtualView);
     }
 
     /**
-     * notify all the players of the virtual view
+     * Update each player with the new version of the virtual view
+     * When? When the match begins, when the turn of a player ends
      */
-    public void notifyVirtualView() {
+    public void updatePlayersVirtualView() {
 
         for (Player p : playerList) {
             //TODO: Watch out for test
@@ -386,6 +388,8 @@ public class Match {
             }
         }
     }
+
+    //TODO: updatePlayersVVCurrentPlayerHand
 
     /**
      * This method will decide the absolute winner of the match
@@ -411,6 +415,10 @@ public class Match {
 
     }
 
+    /**
+     * Send a pre-defined Server Message to each player of this match
+     * @param message
+     */
     public void sendMessageToAll(ServerMessage message) {
 
         for (Player p : playerList) {
@@ -422,6 +430,10 @@ public class Match {
 
     }
 
+    /**
+     * Send a text message to each player of this match
+     * @param message
+     */
     public void sendTextToAll(String message) {
         for (Player p : playerList) {
             if (p.getController().clientInput.callBack != null) {

@@ -61,6 +61,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     public boolean logIn(String username, IClientCallBack clientCallBack) throws RemoteException, ServerNotActiveException {
         userHost = getClientHost();
         this.userName = username;
+        //TODO: separate CIH from playerController constructor (RMI not needed for model & controller testing)
         playerController = new PlayerController(username, this);
         //TODO:the same username is not allowed to log in(same name not allowed)
         synchronized (GameManager.players) {

@@ -378,11 +378,12 @@ public class Cli implements View {
     public void showMatchSetup() {
         //TODO: Redo better
 
-        initPlayer(username);
+
         showBoard();
         showCommonGoals();
         showPersonalGoal();
         System.out.println("The match has started!");
+        initPlayer(username);
         showCurrentPlayer();
     }
 
@@ -534,7 +535,7 @@ public class Cli implements View {
         System.out.println("Board:");
         for(int i = 0; i < BOARD_ROW; i++){
             for(int j = 0; j < BOARD_COLUMN; j++){
-                String item = board[i][j] == null? "[______._] " : board[i][j];
+                String item = (board[i][j] == null? "[______._] " : board[i][j]);
                 System.out.println("[" + item + "] ");
             }
             System.out.println("\n");

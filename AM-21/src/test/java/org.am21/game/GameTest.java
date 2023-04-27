@@ -101,9 +101,10 @@ public class GameTest {
 
 
 
+    //TODO: CIH(RMI) is not needed for testing
     //TODO: Check Match.checkCommonGoals()
     //TODO: Check Match.checkPersonalGOal()
     //TODO: Check Match.checkShelfPoints()
-    //TODO: Full simulation of a game with ClientInputHandler, GameController, Match , GameManager
+    //TODO: Full simulation of a game with GameController, Match , GameManager
     //TODO: Verify the declaration of the winner
 }

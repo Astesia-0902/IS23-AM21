@@ -1,6 +1,9 @@
-package org.am21.model;
+package org.am21.utilities;
 
 import com.alibaba.fastjson2.JSON;
+import org.am21.model.Match;
+import org.am21.model.Player;
+import org.am21.model.VirtualView;
 import org.am21.model.items.Shelf;
 
 import java.util.ArrayList;
@@ -19,9 +22,9 @@ public class VirtualViewHelper {
     public static void buildVirtualView(Match match) {
         match.virtualView = new VirtualView();
         setMatchID(match);
-        setBoard(match);
-        setPlayers(match);
-        setCurrentPlayer(match);
+        setVirtualBoard(match);
+        setVirtualPlayersData(match);
+        setVirtualCurrentPlayer(match);
         setCommonGoal(match);
         setGamePhase(match);
         setCommonGoalScore(match);
@@ -36,7 +39,7 @@ public class VirtualViewHelper {
      *
      * @param match the match
      */
-    private static void setPlayers(Match match) {
+    private static void setVirtualPlayersData(Match match) {
         List<String> players = new ArrayList<>();
         List<Integer> personalGoals = new ArrayList<>();
         List<Integer> scores = new ArrayList<>();
@@ -48,7 +51,7 @@ public class VirtualViewHelper {
             int goalID = Integer.parseInt(temp);
             personalGoals.add(goalID);
             scores.add(player.getPlayerScore());
-            shelves.add(buildShelves(player.getShelf()));
+            shelves.add(buildVirtualShelves(player.getShelf()));
         }
         match.virtualView.setPlayers(players);
         match.virtualView.setPersonalGoals(personalGoals);
@@ -60,7 +63,7 @@ public class VirtualViewHelper {
      * This method will set the scores of each player to the virtual view
      * @param match the match
      */
-    public static void setScores(Match match) {
+    public static void setVirtualScores(Match match) {
         List<Integer> scores = new ArrayList<>();
         for (Player player : match.playerList) {
             scores.add(player.getPlayerScore());
@@ -69,15 +72,15 @@ public class VirtualViewHelper {
     }
 
     /**
-     * This method will set the scores of each player to the virtual view
+     * This method will set the shelves of each player to the virtual view
      * recommend to use this method when each round ends
      *
      * @param match the match
      */
-    public static void setShelves(Match match) {
+    public static void setVirtualShelves(Match match) {
         List<String[][]> shelves = new ArrayList<>();
         for (Player player : match.playerList) {
-            shelves.add(buildShelves(player.getShelf()));
+            shelves.add(buildVirtualShelves(player.getShelf()));
         }
         match.virtualView.setShelves(shelves);
     }
@@ -88,7 +91,7 @@ public class VirtualViewHelper {
      * @param shelf the shelves
      * @return the virtual view
      */
-    private static String[][] buildShelves(Shelf shelf) {
+    private static String[][] buildVirtualShelves(Shelf shelf) {
         String[][] tempShelf = new String[Shelf.SHELF_ROW][Shelf.SHELF_COLUMN];
         for (int i = 0; i < Shelf.SHELF_ROW; i++) {
             for (int j = 0; j < Shelf.SHELF_COLUMN; j++) {
@@ -106,7 +109,7 @@ public class VirtualViewHelper {
      *
      * @param match the match
      */
-    public static void setBoard(Match match) {
+    public static void setVirtualBoard(Match match) {
         int row = match.board.gRow;
         int column = match.board.gColumn;
         String[][] board = new String[row][column];
@@ -123,16 +126,14 @@ public class VirtualViewHelper {
     /**
      * This method will set the common goal to the virtual view
      * call this method every time the round starts
-     *
      * @param match the match
      */
-    public static void setCurrentPlayer(Match match) {
+    public static void setVirtualCurrentPlayer(Match match) {
         match.virtualView.setCurrentPlayer(match.currentPlayer.getNickname());
     }
 
     /**
      * set the current player's hand to the virtual view
-     *
      * @param match the match
      */
     public static void setCurrentPlayerHand(Match match) {
@@ -154,7 +155,6 @@ public class VirtualViewHelper {
     /**
      * This method will set the common goal to the virtual view
      * call this method only when the match starts
-     *
      * @param match the match
      */
     private static void setCommonGoal(Match match) {
@@ -195,7 +195,7 @@ public class VirtualViewHelper {
      * @param virtualView the virtual view
      * @return the virtual view in JSON format
      */
-    public static String getVirtualViewJSON(VirtualView virtualView) {
+    public static String getJSONVirtualView(VirtualView virtualView) {
         return JSON.toJSONString(virtualView);
     }
 
