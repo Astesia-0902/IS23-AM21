@@ -295,6 +295,8 @@ public class Cli implements View {
                 switch (option) {
                     case "select" -> askSelection();
                     case "deselect" -> askDeselection();
+                    case "insert" -> askInsertion();
+                    case "sort" -> askSort();
                     case "show" -> askShowObject();
                     case "leave" -> {if (askLeaveMatch())redirect();}
                     case "exit" -> {if (askExitGame())return;}
@@ -526,19 +528,36 @@ public class Cli implements View {
     }
 
     public String checkColorItem(String item){
+        int index1, index2 = item.length()-3;
+        String itemType;
         switch (item.substring(0, item.length()-3)){
             case "__Cats__":
-                return Color.GREEN_BOLD + item + Color.RESET;
+                index1 = item.indexOf("Cats");
+                itemType =item.substring(0, index1) + Color.CATS + item.substring(index1+"Cats".length(), index2)+
+                        Color.GREEN_BOLD+item.substring(index2)+Color.RESET;
+                return itemType;
             case "_Books__":
-                return Color.WHITE_BOLD + item + Color.RESET;
+                index1 = item.indexOf("Books");
+                itemType =item.substring(0, index1) + Color.BOOKS + item.substring(index1+"Books".length(), index2)+
+                        Color.WHITE_BOLD+item.substring(index2)+Color.RESET;
+                return itemType;
             case "_Games__":
-                return Color.YELLOW_BOLD + item + Color.RESET;
+                index1 = item.indexOf("Games");
+                itemType =item.substring(0, index1) + Color.GAMES + item.substring(index1+"Games".length(), index2)+
+                        Color.YELLOW_BOLD+item.substring(index2)+Color.RESET;
+                return itemType;
             case "_Frames_":
-                return Color.BLUE_BOLD + item + Color.RESET;
+                index1 = item.indexOf("Frames");
+                itemType =item.substring(0, index1) + Color.FRAMES + item.substring(index1+"Frames".length(), index2)+
+                        Color.BLUE_BOLD+item.substring(index2)+Color.RESET;
+                return itemType;
             case "Trophies":
                 return Color.CYAN_BOLD + item + Color.RESET;
             case "_Plants_":
-                return Color.MAGENTA_BOLD + item + Color.RESET;
+                index1 = item.indexOf("Plants");
+                itemType =item.substring(0, index1) + Color.PLANTS + item.substring(index1+"Plants".length(), index2)+
+                        Color.MAGENTA_BOLD+item.substring(index2)+Color.RESET;
+                return itemType;
         }
         return item;
     }
@@ -547,16 +566,18 @@ public class Cli implements View {
         List<String> playerList = JSONConverter.players;
         List<Integer> scoreList = JSONConverter.scores;
         for (int i = 0; i < playerList.size(); i++) {
-            System.out.println(Color.YELLOW + playerList.get(i) + "'s stats: ");
-            System.out.println(playerList.get(i) + "'s score: " + Color.RESET + scoreList.get(i));
+            System.out.println(playerList.get(i) + "'s stats: ");
+            System.out.println(playerList.get(i) + "'s score: " + scoreList.get(i));
             showShelf();
         }
+        showCurrentPlayer();
     }
 
     @Override
     public void askSelection() throws ServerNotActiveException, RemoteException {
         if (!JSONConverter.gamePhase.equals("Insertion")) {
                 System.out.println("Select a cell on the board");
+                showBoard();
                 boolean selectionConfirm;
                 do {
                     String confirm = "";
@@ -567,10 +588,10 @@ public class Cli implements View {
                             y - Confirm you choice.
                             n - Cancel your choice.
                             r - Retry again.
-                            show - See a Game Object(Board, Shelf, Goals, ...)
-                            """);
+                            show - See a Game Object(Board, Shelf, Goals, ...)""");
 
                     while (!confirm.equals("y")) {
+                        System.out.print("Enter the option you wish to select: ");
                         confirm = readLine();
                         switch (confirm) {
                             case "y":
@@ -578,10 +599,7 @@ public class Cli implements View {
                                 int column = coordinates.get(1);
                                 if (iClientInputHandler.selectCell(row, column)) {
                                     //System.out.println("Selection Successful!");
-                                    System.out.print("Item selected: ");
-                                    showItemInCell(row, column);
-                                } else {
-                                    confirm = "r";
+                                    System.out.println("Item selected: " + showItemInCell(row, column));
                                 }
                                 break;
                             case "n":
@@ -606,51 +624,38 @@ public class Cli implements View {
                             Do you want to continue with selection?
                             1. Yes.
                             0. No.""");
-                    selectionConfirm = Boolean.parseBoolean(readLine());
+                    selectionConfirm = "1".equals(readLine());
                 } while (selectionConfirm);
         }
     }
 
     public List<Integer> askCoordinates() {
         System.out.println("Enter the coordinates you wish to select [row, column].");
-        boolean selectConfirm;
         int selectRow = 0, selectColumn = 0;
+        do {
+            try {
+                System.out.print("row (0 to " + (BOARD_ROW - 1) + "): ");
+                selectRow = Integer.parseInt(readLine());
+                if (selectRow < 0 || selectRow > BOARD_ROW) {
+                    System.out.println(Color.RED + "Invalid number! Please try again." + Color.RESET);
+                }
+            } catch (NumberFormatException e){
+                System.out.println(Color.RED + "Invalid input! Please try again." + Color.RESET);
+            }
+        } while (selectRow < 0 || selectRow > BOARD_ROW);
 
         do {
-            do {
-                try {
-                    System.out.print("row (0 to " + (BOARD_ROW - 1) + "): ");
-                    selectRow = Integer.parseInt(readLine());
-                    if (selectRow < 0 || selectRow > BOARD_ROW) {
-                        System.out.println(Color.RED + "Invalid number! Please try again." + Color.RESET);
-                    }
-                } catch (NumberFormatException e){
-                    System.out.println(Color.RED + "Invalid input! Please try again." + Color.RESET);
+            try {
+                System.out.print("column (0 to " + (BOARD_COLUMN - 1) + "): ");
+                selectColumn = Integer.parseInt(readLine());
+                if (selectColumn < 0 || selectColumn > BOARD_COLUMN) {
+                    System.out.println(Color.RED + "Invalid number! Please try again." + Color.RESET);
                 }
-            } while (selectRow < 0 || selectRow > BOARD_ROW);
+            } catch (NumberFormatException e){
+                System.out.println(Color.RED + "Invalid input! Please try again." + Color.RESET);
+            }
+        } while (selectColumn < 0 || selectColumn > BOARD_COLUMN);
 
-            do {
-                try {
-                    System.out.print("column (0 to " + (BOARD_COLUMN - 1) + "): ");
-                    selectColumn = Integer.parseInt(readLine());
-                    if (selectColumn < 0 || selectColumn > BOARD_COLUMN) {
-                        System.out.println(Color.RED + "Invalid number! Please try again." + Color.RESET);
-                    }
-                } catch (NumberFormatException e){
-                    System.out.println(Color.RED + "Invalid input! Please try again." + Color.RESET);
-                }
-            } while (selectColumn < 0 || selectColumn > BOARD_COLUMN);
-
-            //TODO: la conferma o retry è gia presente in askSelection(), quindi questo è ridondante
-            System.out.println("The coordinates you have chosen are: [" + selectRow + ", " +
-                    selectColumn + "] - " + showItemInCell(selectRow, selectColumn));
-            System.out.println("""
-            Confirm your choice:
-            1. Confirm.
-            0. Re-select.""");
-
-            selectConfirm = Boolean.parseBoolean(readLine());
-        } while(!selectConfirm);
         List<Integer> coordinates = new ArrayList<>();
         coordinates.add(selectRow);
         coordinates.add(selectColumn);
@@ -670,7 +675,7 @@ public class Cli implements View {
                     1. Yes.
                     0. No.""");
 
-            boolean deselectConfirm = Boolean.parseBoolean(readLine());
+            boolean deselectConfirm = "1".equals(readLine());
             if (deselectConfirm) {
                 iClientInputHandler.deselectCards();
             }
@@ -704,7 +709,7 @@ public class Cli implements View {
                 }
             }
         } else {
-            System.out.println("You can’t insert cards if you did not select any cards!");
+            System.out.println(Color.RED + "You can’t insert cards if you did not select any cards!" + Color.RESET);
         }
     }
 
@@ -757,7 +762,7 @@ public class Cli implements View {
             System.out.println("1. Confirm.");
             System.out.println("0. Re-select.");
 
-            sortConfirm = Boolean.parseBoolean(readLine());
+            sortConfirm ="1".equals(readLine());
         } while(!sortConfirm);
         List<Integer> index = new ArrayList<>();
         index.add(position1 - 1);
@@ -799,7 +804,7 @@ public class Cli implements View {
             1. Confirm.
             0. Re-select.""");
 
-            columnConfirm = Boolean.parseBoolean(readLine());
+            columnConfirm = "1".equals(readLine());
         } while (!columnConfirm);
         return column;
     }
