@@ -21,14 +21,14 @@ public class VirtualViewHelper {
      */
     public static void buildVirtualView(Match match) {
         match.virtualView = new VirtualView();
-        setMatchID(match);
+        virtualizeMatchID(match);
         setVirtualBoard(match);
-        setVirtualPlayersData(match);
+        virtualizePlayersData(match);
         setVirtualCurrentPlayer(match);
         setCommonGoal(match);
         setGamePhase(match);
         setCommonGoalScore(match);
-        setCurrentPlayerHand(match);
+        virtualizeCurrentPlayerHand(match);
         setGamePhase(match);
         setGameState(match);
     }
@@ -39,7 +39,7 @@ public class VirtualViewHelper {
      *
      * @param match the match
      */
-    private static void setVirtualPlayersData(Match match) {
+    private static void virtualizePlayersData(Match match) {
         List<String> players = new ArrayList<>();
         List<Integer> personalGoals = new ArrayList<>();
         List<Integer> scores = new ArrayList<>();
@@ -132,18 +132,6 @@ public class VirtualViewHelper {
         match.virtualView.setCurrentPlayer(match.currentPlayer.getNickname());
     }
 
-    /**
-     * set the current player's hand to the virtual view
-     * @param match the match
-     */
-    public static void setCurrentPlayerHand(Match match) {
-        List<String> hand = new ArrayList<>();
-        for (int i = 0; i < match.currentPlayer.getHand().getSlot().size(); i++) {
-            hand.add(match.currentPlayer.getHand().getSlot().get(i).item.getNameCard());
-        }
-        match.virtualView.setCurrentPlayerHand(hand);
-    }
-
     private static void setGamePhase(Match match) {
         match.virtualView.setGamePhase(match.gamePhase.toString());
     }
@@ -184,7 +172,7 @@ public class VirtualViewHelper {
         match.virtualView.setEndGameToken(match.isEndGameToken());
     }
 
-    private static void setMatchID(Match match) {
+    public static void virtualizeMatchID(Match match) {
         match.virtualView.setMatchID(match.matchID);
     }
 
@@ -195,35 +183,35 @@ public class VirtualViewHelper {
      * @param virtualView the virtual view
      * @return the virtual view in JSON format
      */
-    public static String getJSONVirtualView(VirtualView virtualView) {
+    public static String convertVirtualViewToJSON(VirtualView virtualView) {
         return JSON.toJSONString(virtualView);
     }
 
-    public static String getPlayerNicknameListJSON(VirtualView virtualView) {
+    public static String convertVirtualPlayerNicknameListToJSON(VirtualView virtualView) {
         return JSON.toJSONString(virtualView.getPlayers());
     }
 
-    public static String getScoreListJSON(VirtualView virtualView) {
+    public static String convertVirtualScoreListToJSON(VirtualView virtualView) {
         return JSON.toJSONString(virtualView.getScores());
     }
 
-    public static String getShelfListJSON(VirtualView virtualView) {
+    public static String convertVirtualShelfListToJSON(VirtualView virtualView) {
         return JSON.toJSONString(virtualView.getShelves());
     }
 
-    public static String getBoardJSON(VirtualView virtualView) {
+    public static String convertVirtualBoardToJSON(VirtualView virtualView) {
         return JSON.toJSONString(virtualView.getBoard());
     }
 
-    public static String getCurrentPlayerJSON(VirtualView virtualView) {
+    public static String convertVirtualCurrentPlayerToJSON(VirtualView virtualView) {
         return JSON.toJSONString(virtualView.getCurrentPlayer());
     }
 
-    public static String getCommonGoalJSON(VirtualView virtualView) {
+    public static String convertVirtualCommonGoalToJSON(VirtualView virtualView) {
         return JSON.toJSONString(virtualView.getCommonGoals());
     }
 
-    public static String getPersonalGoalJSON(VirtualView virtualView) {
+    public static String convertVirtualPersonalGoalToJSON(VirtualView virtualView) {
         return JSON.toJSONString(virtualView.getPersonalGoals());
     }
 
@@ -232,7 +220,28 @@ public class VirtualViewHelper {
      * @param match the match
      */
     public static void printJSON(Match match) {
-        String json = getJSONVirtualView(match.virtualView);
+        String json = convertVirtualViewToJSON(match.virtualView);
         System.out.println(json);
+    }
+
+    public static void printJSONHand(Match match){
+        String json = convertVirtualHandToJSON(match.virtualView);
+        System.out.println(json);
+    }
+
+    public static String convertVirtualHandToJSON(VirtualView virtualView) {
+        return JSON.toJSONString(virtualView.getCurrentPlayerHand());
+    }
+
+    /**
+     * Virtualize current player's hand in String
+     * @param match the match
+     */
+    public static void virtualizeCurrentPlayerHand(Match match) {
+        List<String> hand = new ArrayList<>();
+        for (int i = 0; i < match.currentPlayer.getHand().getSlot().size(); i++) {
+            hand.add(match.currentPlayer.getHand().getSlot().get(i).item.getNameCard());
+        }
+        match.virtualView.setCurrentPlayerHand(hand);
     }
 }

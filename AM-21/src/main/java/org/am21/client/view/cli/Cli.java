@@ -2,7 +2,7 @@ package org.am21.client.view.cli;
 
 import org.am21.client.view.JSONConverter;
 import org.am21.client.view.View;
-import org.am21.controller.Lobby;
+import org.am21.networkRMI.Lobby;
 import org.am21.networkRMI.ClientCallBack;
 import org.am21.networkRMI.IClientInput;
 
@@ -37,7 +37,10 @@ public class Cli implements View {
      * If true askPlayerMove, if false askWaitingAction
      */
     private boolean GAME_ON =false;
-    private boolean RESET=false;
+    private boolean WAIT =false;
+
+    private boolean START = false;
+    private int matchID;
 
     private Lobby lobby;
 
@@ -63,7 +66,8 @@ public class Cli implements View {
             input = futureTask.get();
         } catch (InterruptedException e) {
             futureTask.cancel(true);
-            Thread.currentThread().interrupt();
+            //Thread.currentThread().interrupt();
+            inputThread.interrupt();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
@@ -76,6 +80,7 @@ public class Cli implements View {
         try {
             askServerInfo();
             askLogin();
+            askToContinue();
             askMenuAction();
         } catch (ServerNotActiveException | MalformedURLException | NotBoundException | RemoteException e) {
             throw new RuntimeException(e);
@@ -169,6 +174,10 @@ public class Cli implements View {
         while(true) {
             System.out.print("Enter the username: ");
             String username = readLine();
+            if(username.equals("")){
+                System.out.println(Color.RED+"You didn't choose a username. Try again"+Color.RESET);
+                continue;
+            }
             if (iClientInputHandler.logIn(username, clientCallBack)) {
                 this.username = username;
                 return;
@@ -185,11 +194,26 @@ public class Cli implements View {
         this.GAME_ON = GAME_ON;
     }
 
-    public void setRESET(boolean RESET) {
-        this.RESET = RESET;
+    public void setWAIT(boolean WAIT) {
+        this.WAIT = WAIT;
+    }
+
+    public void setMatchID(int matchID) {
+        this.matchID = matchID;
+    }
+
+    public void setSTART(boolean START) {
+        this.START = START;
+        if(START) {
+            System.out.println(Color.RED + "\nPress 'Enter'\n" + Color.RESET);
+        }
     }
 
     public void redirect() throws ServerNotActiveException, RemoteException {
+        if(START){
+            showMatchSetup();
+            setSTART(false);
+        }
         askMenuAction();
         askWaitingAction();
         askPlayerMove();
@@ -218,7 +242,7 @@ public class Cli implements View {
                     default -> System.out.println(Color.RED + "Invalid command! Please try again." + Color.RESET);
                 }
             }
-            askToContinue();
+            //askToContinue();
         }
     }
 
@@ -229,8 +253,11 @@ public class Cli implements View {
      */
     public void askWaitingAction() throws RemoteException, ServerNotActiveException {
         while(!GAME_ON&&!GO_TO_MENU) {
-            System.out.println("The match has not started yet. Waiting for more players to join... ");
-            System.out.print("""
+            System.out.println("-------------------------------------------------------------\n"+
+                                Color.WHITE_BOLD_BRIGHT+"\t\t {| Room "+matchID+" |}"+Color.RESET);
+
+            System.out.println("""
+                    The match has not started yet.\nWaiting for more players to join...
                     These are the commands available:
                     leave - Leave Match.
                     rules - Read Game Rules.
@@ -238,11 +265,13 @@ public class Cli implements View {
                     To send a message in the Match type ‘/chat’ in the console.
                     To send a message to a online player type ‘/chat[nickname]’ in the console.
                     
-                    "Enter the option you wish to select:\040""");
+                    Enter the option you wish to select:\040""");
 
             String option = readLine();
             if (option.startsWith("/chat")) {
                 handleChatMessage(option);
+            }else if(option.equals("")){
+                redirect();
             } else {
                 switch (option) {
                     case "leave" -> { if(askLeaveMatch())redirect();}
@@ -285,7 +314,9 @@ public class Cli implements View {
     @Override
     public void askPlayerMove() throws RemoteException, ServerNotActiveException {
         while(GAME_ON&&!GO_TO_MENU) {
-            System.out.println("What do you wish to do? These are the commands available:");
+            System.out.println("""
+                    ----------------------------------------------------------------
+                    What do you wish to do? These are the commands available:""");
             showCommandMenu();
             System.out.print("Enter the command you wish to use: ");
             String option = readLine();
@@ -321,7 +352,7 @@ public class Cli implements View {
         int playerNumber = 0;
         do {
             try {
-                System.out.print("Please select the number of players for this match [2 to 4]: ");
+                System.out.println("Please select the number of players for this match [2 to 4]: ");
                 playerNumber = Integer.parseInt(readLine());
                 if (playerNumber < 2 || playerNumber > 4){
                     System.out.println(Color.RED + "Invalid number! Please try again." + Color.RESET);
@@ -341,8 +372,9 @@ public class Cli implements View {
         try {
             System.out.print("Please enter the room number: ");
             matchID = Integer.parseInt(readLine());
+            System.out.println("Selected Room [" + matchID + "].");
             if(iClientInputHandler.joinGame(matchID)){
-                System.out.println("Selected Room [" + matchID + "].");
+                //askToContinue();
                 return true;
             }else{
                 System.out.println(Color.RED + "Invalid number! Please try again." + Color.RESET);
@@ -368,12 +400,10 @@ public class Cli implements View {
     @Override
     public void showMatchSetup() {
         //TODO: Redo better
-
-
         showBoard();
         showCommonGoals();
         showPersonalGoal();
-        System.out.println("The match has started!");
+        System.out.println(Color.WHITE_BOLD_BRIGHT+"The match has started!"+Color.RESET);
         initPlayer(username);
         showCurrentPlayer();
     }
@@ -397,10 +427,12 @@ public class Cli implements View {
         System.out.println("Common Goals:");
         for (int i = 0; i < JSONConverter.commonGoal.size(); i++) {
             showGoalDescription(JSONConverter.commonGoal.get(i));
-            System.out.println(Color.YELLOW + "Top score of this Common Goal: " + Color.RESET +
+            System.out.println(Color.YELLOW + "> Top score of this Common Goal: " + Color.RESET +
                                JSONConverter.commonGoalScore.get(i) + " points.");
         }
         System.out.println();
+        askToContinue();
+
     }
 
     @Override
@@ -481,17 +513,20 @@ public class Cli implements View {
                                           "[__"+Color.CATS+"__][______._][______._][______._][______._]");
         }
         System.out.println();
+        askToContinue();
     }
 
     @Override
     public void showCurrentPlayer() {
         if(JSONConverter.currentPlayer.equals(player)){
-            System.out.println("Hey "+player+"! It's your turn");
+            System.out.println(Color.RED+"[!] > Hey "+player+"!!! It's your turn!!!"+Color.RESET);
         }else{
             System.out.println("It's "+ JSONConverter.currentPlayer+"'s turn. ");
         }
+        askToContinue();
     }
 
+    //TODO: stampa tutte le shelf, dovrebbe stampare una shelf alla volta
     @Override
     public void showShelf() {
         System.out.println(player + "'s Shelf:");
@@ -529,41 +564,42 @@ public class Cli implements View {
             System.out.println();
         }
         System.out.println();
+        askToContinue();
     }
 
     public String checkColorItem(String item){
         int index1, index2 = item.length()-3;
-        String itemType;
+        String itemType=item;
         switch (item.substring(0, item.length()-3)){
             case "__Cats__":
                 index1 = item.indexOf("Cats");
                 itemType =item.substring(0, index1) + Color.CATS + item.substring(index1+"Cats".length(), index2)+
                         Color.GREEN_BOLD_BRIGHT+item.substring(index2)+Color.RESET;
-                return itemType;
+                break;
             case "_Books__":
                 index1 = item.indexOf("Books");
                 itemType =item.substring(0, index1) + Color.BOOKS + item.substring(index1+"Books".length(), index2)+
                         Color.WHITE_BOLD_BRIGHT+item.substring(index2)+Color.RESET;
-                return itemType;
+                break;
             case "_Games__":
                 index1 = item.indexOf("Games");
                 itemType =item.substring(0, index1) + Color.GAMES + item.substring(index1+"Games".length(), index2)+
                         Color.YELLOW_BOLD_BRIGHT+item.substring(index2)+Color.RESET;
-                return itemType;
+                break;
             case "_Frames_":
                 index1 = item.indexOf("Frames");
                 itemType =item.substring(0, index1) + Color.FRAMES + item.substring(index1+"Frames".length(), index2)+
                         Color.BLUE_BOLD_BRIGHT+item.substring(index2)+Color.RESET;
-                return itemType;
+                break;
             case "Trophies":
                 return Color.CYAN_BOLD_BRIGHT + item + Color.RESET;
             case "_Plants_":
                 index1 = item.indexOf("Plants");
                 itemType =item.substring(0, index1) + Color.PLANTS + item.substring(index1+"Plants".length(), index2)+
                         Color.MAGENTA_BOLD_BRIGHT+item.substring(index2)+Color.RESET;
-                return itemType;
+                break;
         }
-        return item;
+        return itemType;
     }
     @Override
     public void showPlayersStats() {
@@ -589,10 +625,10 @@ public class Cli implements View {
 
                     System.out.println("""
                             Now you can:
-                            y - Confirm you choice.
-                            n - Cancel your choice.
-                            r - Retry again.
-                            show - See a Game Object(Board, Shelf, Goals, ...)""");
+                            y --> Confirm you choice.
+                            r --> Retry again.
+                            show --> See a Game Object(Board, Shelf, Goals, ...).
+                            n --> Cancel and exit selection).""");
 
                     while (!confirm.equals("y")) {
                         System.out.print("Enter the option you wish to select: ");
@@ -602,8 +638,8 @@ public class Cli implements View {
                                 int row = coordinates.get(0);
                                 int column = coordinates.get(1);
                                 if (iClientInputHandler.selectCell(row, column)) {
-                                    //System.out.println("Selection Successful!");
-                                    System.out.println("Item selected: " + showItemInCell(row, column));
+                                    System.out.println(Color.YELLOW+"Item selected: "+showItemInCell(row,column)+Color.RESET);
+                                    showHand();
                                 }
                                 break;
                             case "n":
@@ -626,20 +662,23 @@ public class Cli implements View {
 
                     System.out.println("""
                             Do you want to continue with selection?
-                            1. Yes.
-                            0. No.""");
-                    selectionConfirm = "1".equals(readLine());
+                              y   --> Yes.
+                            'any' --> No.""");
+                    selectionConfirm = "y".equals(readLine());
                 } while (selectionConfirm);
+        }else{
+
         }
+
     }
 
-    public List<Integer> askCoordinates() {
+    public List<Integer> askCoordinatesOLD() {
         showBoard();
         System.out.println("Enter the coordinates you wish to select [row, column].");
         int selectRow = 0, selectColumn = 0;
         do {
             try {
-                System.out.print("row (0 to " + (BOARD_ROW - 1) + "): ");
+                System.out.print("ROW (0 to " + (BOARD_ROW - 1) + "): ");
                 selectRow = Integer.parseInt(readLine());
                 if (selectRow < 0 || selectRow > BOARD_ROW) {
                     System.out.println(Color.RED + "Invalid number! Please try again." + Color.RESET);
@@ -651,7 +690,7 @@ public class Cli implements View {
 
         do {
             try {
-                System.out.print("column (0 to " + (BOARD_COLUMN - 1) + "): ");
+                System.out.print("COLUMN (0 to " + (BOARD_COLUMN - 1) + "): ");
                 selectColumn = Integer.parseInt(readLine());
                 if (selectColumn < 0 || selectColumn > BOARD_COLUMN) {
                     System.out.println(Color.RED + "Invalid number! Please try again." + Color.RESET);
@@ -666,6 +705,38 @@ public class Cli implements View {
         coordinates.add(selectColumn);
         return coordinates;
     }
+    public List<Integer> askCoordinates() {
+        showBoard();
+        System.out.println("Enter the coordinates you wish to select [row, column].");
+        List<Integer> coordinates = new ArrayList<>();
+        coordinates.add(askTheIndex("ROW",0, BOARD_ROW));
+        coordinates.add(askTheIndex("COLUMN",0, BOARD_COLUMN));
+        return coordinates;
+    }
+
+    /**
+     * Ask a single index
+     * Used for:{@link #askCoordinates()} or {@link #askIndex()} or {@link #askColumn()}
+     * @param type  "ROW" or "COLUMN" or "Position1" or "Position2"
+     * @param lower_limit
+     * @param upper_limit
+     * @return Index(ROW,COLUMN,Position according to type)
+     */
+    public int askTheIndex(String type, int lower_limit, int upper_limit){
+        int select=0;
+        do {
+            try {
+                System.out.print(type +" ("+lower_limit+" to " + (upper_limit - 1) + "): ");
+                select = Integer.parseInt(readLine());
+                if (select < lower_limit || select > upper_limit) {
+                    System.out.println(Color.RED + "Invalid number! Please try again." + Color.RESET);
+                }
+            } catch (NumberFormatException e){
+                System.out.println(Color.RED + "Invalid input! Please try again." + Color.RESET);
+            }
+        } while (select < lower_limit || select > upper_limit);
+        return select;
+    }
 
     public String showItemInCell(int row, int column) {
         return JSONConverter.virtualBoard[row][column];
@@ -677,15 +748,15 @@ public class Cli implements View {
             showHand();
             System.out.println("""
                     Are you sure to cancel all of your selection?
-                    1. Yes.
-                    0. No.""");
+                      y   --> Yes.
+                    'any' --> No.""");
 
-            boolean deselectConfirm = "1".equals(readLine());
+            boolean deselectConfirm = "y".equals(readLine());
             if (deselectConfirm) {
                 iClientInputHandler.deselectCards();
             }
         } else {
-            System.out.println("The conditions to use this command are not respected. Try again");
+            System.out.println(Color.RED +"The conditions to use this command are not respected. Try again"+ Color.RESET);
         }
     }
 
@@ -700,7 +771,7 @@ public class Cli implements View {
                         sort - Change the order of your cards.
                         show - Look at game board objects.
                         go - Go directly to insertion.
-                        n - Cancel your choice.
+                        n - Cancel and exit insertion.
                         """);
                 option = readLine();
                 switch (option) {
@@ -709,7 +780,11 @@ public class Cli implements View {
                     case "go" -> {
                         showShelf();
                         int column = askColumn();
-                        iClientInputHandler.insertInColumn(column);
+                        if(iClientInputHandler.insertInColumn(column)){
+                            System.out.println(Color.YELLOW+"Inserted in: "+column+Color.RESET);
+                            showShelf();
+                        }
+                        return;
                     }
                 }
             }
@@ -732,7 +807,7 @@ public class Cli implements View {
         }
     }
 
-    public List<Integer> askIndex() {
+    public List<Integer> askIndexOLD() {
         boolean sortConfirm;
         int position1 = 1, position2 = 2;
 
@@ -776,8 +851,28 @@ public class Cli implements View {
         return index;
     }
 
+    public List<Integer> askIndex(){
+        boolean sortConfirm;
+        int position1, position2;
+        do {
+            position1 = askTheIndex("Position1", 1, JSONConverter.currentPlayerHand.size()+1);
+            position2 = askTheIndex("Position2", 1, JSONConverter.currentPlayerHand.size()+1);
+            System.out.println("You have chosen to swap " + JSONConverter.currentPlayerHand.get(position1 - 1) + " and " +
+                    JSONConverter.currentPlayerHand.get(position2 - 1));
+            System.out.println("Confirm your choice?");
+            System.out.println("  y  --> Yes");
+            System.out.println("'any'--> Retry");
+            sortConfirm ="y".equals(readLine());
+        } while(!sortConfirm);
+        List<Integer> index = new ArrayList<>();
+        index.add(position1 - 1);
+        index.add(position2 - 1);
+
+        return index;
+    }
+
     public boolean showHand() {
-        System.out.println(player +" have in hand:");
+        System.out.println(player +" has in hand:");
         if (JSONConverter.currentPlayerHand.isEmpty()){
             System.out.println();
             return false;
@@ -789,7 +884,7 @@ public class Cli implements View {
         return true;
     }
 
-    public int askColumn() {
+    public int askColumnOLD() {
         System.out.println("In which column would you like to insert the cards?");
         boolean columnConfirm;
         int column = 0;
@@ -815,6 +910,26 @@ public class Cli implements View {
         } while (!columnConfirm);
         return column;
     }
+
+    public int askColumn() {
+        System.out.println("In which column would you like to insert the cards?");
+        boolean columnConfirm;
+        int column;
+        do {
+            column = askTheIndex("COLUMN",0,SHELF_COLUMN);
+            System.out.println("""
+            You have chosen Column: \040""" + column +
+                    """
+            Do you confirm?
+              y   --> Yes.
+            'any' --> Retry""");
+
+            columnConfirm = "y".equals(readLine());
+        } while (!columnConfirm);
+        return column;
+    }
+
+
 
     public void handleChatMessage(String option) throws RemoteException {
         String message = option.substring(option.lastIndexOf(" ") + 1);
@@ -852,8 +967,6 @@ public class Cli implements View {
 
     @Override
     public void askShowObject() throws RemoteException {
-
-
         String object = "";
         while (!object.equals("n")){
             System.out.print("""
@@ -868,7 +981,7 @@ public class Cli implements View {
                 end - Show if the Endgame Token is taken (if it is, then it's the last round).
                 online - Show Online Players
                 timer - Show timer.
-                n - Cancel your choice.
+                n - Cancel and go back.
                 
                 Enter the object you wish to be shown:\040""");
             object = readLine();
@@ -883,6 +996,7 @@ public class Cli implements View {
                 case "end" -> showEndGameToken();
                 case "online" -> showOnlinePlayer();
                 case "timer" -> showTimer();
+                case "n" ->{}
                 default -> System.out.println("The [" + object + "] cannot be found! Please try again.");
             }
             askToContinue();
@@ -893,81 +1007,97 @@ public class Cli implements View {
     public void showOnlinePlayer() throws RemoteException {
         iClientInputHandler.printOnlinePlayers();
         System.out.println();
+        //askToContinue();
     }
     public void printer(String message){
         System.out.println(message);
     }
 
+    @Override
     public void showGoalDescription(String CommonGoalCard) {
         switch (CommonGoalCard){
             case "CommonGoal2Lines":
                 System.out.println(Color.YELLOW_BOLD + """
-                        * CommonGoal2Lines: Two columns each formed by 6 different types of tiles.""" + Color.RESET);
+                        * CommonGoal2Lines: \nTwo columns each formed by 6 different types of tiles.""" + Color.RESET);
                 break;
             case "CommonGoal2Columns":
                 System.out.println(Color.YELLOW_BOLD + """
-                        * CommonGoal2Columns: Two lines each formed by 5 different types of tiles. One line can show the
-                          same or a different combination of the other line.""" + Color.RESET);
+                        * CommonGoal2Columns: \nTwo lines each formed by 5 different types of tiles. 
+                        One line can show the same or a different combination of the other line.""" + Color.RESET);
                 break;
             case "CommonGoal3Column":
                 System.out.println(Color.YELLOW_BOLD + """
-                        * CommonGoal3Column: Three columns each formed by 6 tiles of maximum three different types. One
-                          column can show the same or a different combination of another column.""" +
+                        * CommonGoal3Column:
+                        Three columns each formed by 6 tiles of maximum three different types. 
+                        One column can show the same or a different combination of another column.""" +
                         Color.RESET);
                 break;
             case "CommonGoal4Lines":
                 System.out.println(Color.YELLOW_BOLD + """
-                        * CommonGoal4Lines: Four lines each formed by 5 tiles of maximum three different types. One line
-                          can show the same or a different combination of another line.""" +
+                        * CommonGoal4Lines:
+                        Four lines each formed by 5 tiles of maximum three different types. 
+                        One line can show the same or a different combination of another line.""" +
                         Color.RESET);
                 break;
             case "CommonGoal8Tiles":
                 System.out.println(Color.YELLOW_BOLD + """
-                        * CommonGoal8Tiles: Eight tiles of the same type. There’s no restriction about the position of
-                          these tiles.""" + Color.RESET);
+                        * CommonGoal8Tiles:
+                        Eight tiles of the same type. 
+                        There’s no restriction about the position of these tiles.""" + Color.RESET);
                 break;
             case "CommonGoalCorner":
                 System.out.println(Color.YELLOW_BOLD + """
-                        * CommonGoalCorner: Four tiles of the same type in the four corners of the bookshelf.""" +
+                        * CommonGoalCorner:
+                        Four tiles of the same type in the four corners of the bookshelf.""" +
                         Color.RESET);
                 break;
             case "CommonGoalDiagonal":
                 System.out.println(Color.YELLOW_BOLD + """
-                        * CommonGoalDiagonal: Five tiles of the same type forming a diagonal.""" + Color.RESET);
+                        * CommonGoalDiagonal:
+                        Five tiles of the same type forming a diagonal.""" + Color.RESET);
                 break;
             case "CommonGoalSquare":
                 System.out.println(Color.YELLOW_BOLD + """
-                        * CommonGoalSquare: Two groups each containing 4 tiles of the same type in a 2x2 square. The
-                          tiles of one square can be different from those of the other square.""" +
+                        * CommonGoalSquare:
+                        Two groups each containing 4 tiles of the same type in a 2x2 square.
+                        The tiles of one square can be different from those of the other square.""" +
                         Color.RESET);
                 break;
             case "CommonGoalStairs":
                 System.out.println(Color.YELLOW_BOLD + """
-                        * CommonGoalStairs: Five columns of increasing or decreasing height. Starting from the first
-                          column on the left or on the right, each next column must be made of exactly one more tile.
-                          Tiles can be of any type.""" +
+                        * CommonGoalStairs:
+                        Five columns of increasing or decreasing height.
+                        Starting from the first column on the left or on the right,
+                        each next column must be made of exactly one more tile.
+                        Tiles can be of any type.""" +
                         Color.RESET);
                 break;
             case "CommonGoal4Group":
                 System.out.println(Color.YELLOW_BOLD + """
-                        * CommonGoal4Group: Four groups each containing at least 4 tiles of the same type (not necessarily
-                          in the depicted shape). The tiles of one group can be different from those of another group."""
+                        * CommonGoal4Group:
+                        Four groups each containing at least 4 tiles of the same type 
+                        (not necessarily in the depicted shape). 
+                        The tiles of one group can be different from those of another group."""
                         + Color.RESET);
                 break;
             case "CommonGoal6Group":
                 System.out.println(Color.YELLOW_BOLD + """
-                        * CommonGoal6Group: Six groups each containing at least 2 tiles of the same type (not necessarily
-                          in the depicted shape). The tiles of one group can be different from those of another group."""
+                        * CommonGoal6Group:
+                        Six groups each containing at least 2 tiles of the same type
+                        (not necessarily in the depicted shape). 
+                        The tiles of one group can be different from those of another group."""
                         + Color.RESET);
                 break;
             case "CommonGoalXShape":
-                System.out.println(Color.YELLOW_BOLD +
-                        "* CommonGoalXShape: Five tiles of the same type forming an X." + Color.RESET);
+                System.out.println(Color.YELLOW_BOLD +"""
+                        * CommonGoalXShape:
+                        Five tiles of the same type forming an X.""" + Color.RESET);
                 break;
         }
     }
 
-    private void showGameRules() {
+    @Override
+    public void showGameRules() {
         System.out.println(Color.YELLOW_BOLD + """
                 Goal of the game:
                 Players take item tiles from the living room and place them in their bookshelves to score points; the

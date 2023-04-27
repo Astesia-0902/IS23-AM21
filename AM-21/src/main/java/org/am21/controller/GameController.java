@@ -56,12 +56,13 @@ public class GameController {
             }
             //if the match is not started, the player join the match
         } else if (GameManager.matchList.get(matchID).gameState == GameState.WaitingPlayers) {
+            GameManager.sendCommunication(playerController,ServerMessage.FindM_Ok);
             if (!GameManager.matchList.get(matchID).addPlayer(playerController.getPlayer())) {
                 //System.out.println("Message from the server: the match is full.");
                 GameManager.sendCommunication(playerController,ServerMessage.FullM);
                 return false;
             }
-            GameManager.sendCommunication(playerController,ServerMessage.FindM_Ok);
+
             return true;
         }
         return false;

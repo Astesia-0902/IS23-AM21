@@ -146,4 +146,5 @@ public class VirtualView implements Serializable {
     public void setGameState(String gameState) {
         this.gameState = gameState;
     }
+
 }

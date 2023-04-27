@@ -6,30 +6,31 @@ public enum ServerMessage {
     Connection_No("Server > Connection failed"),
 
     //Login phase
-    Login_Ok("Server > Login successful.\nServer > Hi "),
+    Login_Ok(SColor.CYAN+"Server > Login successful."+ SColor.RESET+"\nServer > Hi "),
     Login_No("Server > Access denied. This username is already taken, please enter a new one..."),
-    ListP("Server > List of online players: "),
+    ListP("Server > List of online players" +
+            ": "),
 
     //Create match phase
     PExists("Server > The player already exists in match. In order to create a new match, you need to abandon the current one. Do you wish to continue?"),
     PExceed("Server > Exceeded player number limit. Try again"),
-    CreateM_Ok("Server > Match successfully created"),
+    CreateM_Ok(SColor.CYAN+"Server > Match successfully created"+SColor.RESET),
     CreateM_No("Server > Failed to create a new Match"),
 
 
     //Join match phase
-    FindM_Ok("Server > Match found"),
+    FindM_Ok(SColor.CYAN+"Server > Match found"+SColor.RESET),
     FindM_No("Server > The room does not exists. Please try again"),
     FullM("Server > This room is full"),
     PExists_No("Server > The player does not exist in any room. Try to create a new one"),
 
     //Match initialization phase
-    BB("Server > The match is about to start. Building game board... Please wait"),
-    BB_Ok("Server > Board build successful"),
+    BB(SColor.RED_BOLD+"\nServer[!]> The match is about to start. Building game board..."+SColor.RESET),
+    BB_Ok(SColor.CYAN+"Server > Board successfully built"+SColor.RESET),
     BB_No("Server > Board build failed"),
 
     //Game phase (Selection phase)
-    Selection_Ok("Server > Selection successful"),
+    Selection_Ok(SColor.CYAN+"Server > Selection successful"+SColor.RESET),
     Selection_No("Server > Selection failed"),
     Cell_Empty("Server > The cell is empty"),
     Cell_Illegal("Server > You selected an illegal cell"),
@@ -52,7 +53,7 @@ public enum ServerMessage {
 
     //Game phase (Sort phase)
     Sort_No("Server > Not enough cards in your hand"),
-    Sort_Index("Server > Index out of border"),
+    Sort_Index_NO("Server > Index out of border"),
     Sort_Ok("Server > Order changed"),
 
 

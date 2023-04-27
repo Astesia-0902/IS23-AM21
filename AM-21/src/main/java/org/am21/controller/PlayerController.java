@@ -9,6 +9,7 @@ import org.am21.model.items.Board;
 import org.am21.model.items.Hand;
 import org.am21.networkRMI.ClientInputHandler;
 import org.am21.utilities.CardPointer;
+import org.am21.utilities.VirtualViewHelper;
 
 
 /**
@@ -89,6 +90,7 @@ public class PlayerController {
         }
         if(player.getShelf().insertLimit == hand.getSlot().size()){
             // Limit reached
+            GameManager.sendCommunication(this,ServerMessage.Hand_Full);
             //System.out.println("Shelf > Cannot pick more item");
             //System.out.println("Shelf > Hand["+hand.getSlot().size()+"]-Limit ["+player.shelves.insertLimit +"]");
             return false;
@@ -124,13 +126,14 @@ public class PlayerController {
                     return false;
                 }
             }
-            else {
-                GameManager.sendCommunication(this,ServerMessage.Hand_Full);
-            }
             //Tutti i controlli passati: posso inserirlo nella hand
             //salvo le coordinate e il riferimento dell'item nella hand*/
             hand.memCard(board.getCell(r, c), r, c);
             //TODO: add VV update hand
+            //Virtualize HAND after each Selection
+            VirtualViewHelper.virtualizeCurrentPlayerHand(player.getMatch());
+            VirtualViewHelper.printJSONHand(player.getMatch());
+            player.getMatch().updateVirtualHand();
 //            System.out.println("Match > Item selected: [" + tmpBoard.getCellItem(r, c).getNameCard() + "]");
 //
             return true;
@@ -156,6 +159,8 @@ public class PlayerController {
             hand.clearHand();
             GameManager.sendCommunication(this,ServerMessage.DeSel_Ok);
             //TODO: add VV update hand
+            VirtualViewHelper.virtualizeCurrentPlayerHand(player.getMatch());
+            player.getMatch().updateVirtualHand();
             return true;
         }
 
@@ -209,10 +214,11 @@ public class PlayerController {
         if(!isMyTurn(player)) {
             return false;
         }
+        System.out.println("QAAA");
         if(player.getMatch().gamePhase == GamePhase.Insertion){
-//            System.out.println(player.getName()+" > Column: ["+col+"]");
+            System.out.println(player.getNickname()+" > Column: ["+col+"]");
             if(player.getShelf().slotCol.get(col) < hand.getSlot().size()){
-                //System.out.println("Shelf[!] > Not enough space in this column");
+                System.out.println("Shelf[!] > Not enough space in this column");
                 /*
                 for(int x: player.shelves.slotCol){
                     System.out.print("["+x+"]");
@@ -224,7 +230,7 @@ public class PlayerController {
                 for(int i=hand.getSlot().size(),s=0;i>0;i--,s++){
                     //Inserting one card at the time
                     if(player.getShelf().insertInColumn(hand.getSlot().get(s).item,col)){
-                        //System.out.println("Shelf > Insert...");
+                        System.out.println("Shelf > Insert...");
 
                     }else{
                         //If one of the card cannot be put indide the column
@@ -238,7 +244,11 @@ public class PlayerController {
                 player.getShelf().checkLimit();
                 //GameGear.printThisShelf(player.shelves);
                 callEndInsertion();
+                System.out.println(" quiii");
                 //TODO: add VV update Shelf, Hand, GamePhase
+                VirtualViewHelper.virtualizeCurrentPlayerHand(player.getMatch());
+                player.getMatch().updateVirtualHand();
+                System.out.println("ANCHEEE quiii");
                 return true;
             }
         }
@@ -256,6 +266,8 @@ public class PlayerController {
     public boolean changeHandOrder(int i,int j){
         if(isMyTurn(player) && hand.changeOrder(i,j)){
             //TODO: add VV update hand
+            VirtualViewHelper.virtualizeCurrentPlayerHand(player.getMatch());
+            player.getMatch().updateVirtualHand();
             GameManager.sendCommunication(this,ServerMessage.Sort_Ok);
             return true;
         }
@@ -283,6 +295,7 @@ public class PlayerController {
         if(player.getMatch().gamePhase==GamePhase.Insertion) {
             player.getMatch().setGamePhase(GamePhase.GoalChecking);
             player.getMatch().checkCommonGoals(player);
+            System.out.println("shit qui non va bene");
             //TODO: Add VV update GamePhase, CommonGoal Scores, Player score
         }
     }

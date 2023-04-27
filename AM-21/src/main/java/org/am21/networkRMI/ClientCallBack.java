@@ -43,13 +43,16 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
      * @throws RemoteException
      */
     @Override
-    public void notifyStart() throws RemoteException {
+    public void notifyStart(int id) throws RemoteException {
         if(cli!=null) {
             //TODO: Method invocation in CLI (for example: showMatchSetup) which will print the game first setup:
             //      Filled Board, 2 Common Goals, Player's Personal Goal
             //      Furthermore, if the Client nickname correspond to JSONConverter.currentPlayer(String),
             //      then the CLI will invoke showCurrentPlayer()
-            cli.showMatchSetup();
+
+            //cli.showMatchSetup();
+            cli.setMatchID(id);
+            cli.setSTART(true);
             cli.setGO_TO_MENU(false);
             cli.setGAME_ON(true);
 
@@ -57,8 +60,10 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     }
 
     @Override
-    public void notifyToWait() throws RemoteException {
+    public void notifyToWait(int id) throws RemoteException {
         if(cli!=null){
+            cli.setMatchID(id);
+
             cli.setGAME_ON(false);
             cli.setGO_TO_MENU(false);
         }
@@ -70,5 +75,10 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
             cli.setGO_TO_MENU(true);
             cli.setGAME_ON(false);
         }
+    }
+
+    @Override
+    public void sendVirtualHand(String JSONHand) throws RemoteException {
+        JSONConverter.convertHand(JSONHand);
     }
 }

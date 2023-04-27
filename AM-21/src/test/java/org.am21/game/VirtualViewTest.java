@@ -59,8 +59,6 @@ public class VirtualViewTest {
         m.addPlayer(c1.getPlayer());
         //Match Started
 
-        VirtualViewHelper.printJSON(m);
-
         assertNotNull(m.virtualView.board);
         assertNotNull(m.virtualView.matchID);
         assertNotNull(m.virtualView.commonGoals);
@@ -77,6 +75,8 @@ public class VirtualViewTest {
         assertEquals(GameState.GameGoing.toString(),m.virtualView.gameState);
         assertEquals(GamePhase.Selection.toString(),m.virtualView.gamePhase);
         assertEquals(m.chairman.getNickname(),m.virtualView.currentPlayer);
+
+        VirtualViewHelper.printJSON(m);
 
 
     }

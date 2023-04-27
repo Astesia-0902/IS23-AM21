@@ -79,7 +79,7 @@ public class Hand {
             //System.out.println("Hand > Order Changed");
             return true;
         }
-        GameManager.sendCommunication(player.getController(),ServerMessage.Sort_Index);
+        GameManager.sendCommunication(player.getController(),ServerMessage.Sort_Index_NO);
 
         return false;
     }

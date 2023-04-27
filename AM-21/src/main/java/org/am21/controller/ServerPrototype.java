@@ -8,10 +8,13 @@ import org.am21.model.enumer.ServerMessage;
 import org.am21.model.enumer.UserStatus;
 import org.am21.networkRMI.ClientInputHandler;
 import org.am21.networkRMI.IClientInput;
+import org.am21.networkRMI.Lobby;
+import org.am21.networkRMI.Welcome;
 
 import java.net.MalformedURLException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.util.concurrent.ExecutionException;
@@ -43,12 +46,27 @@ public class ServerPrototype {
                 if (input.equals("ml")) {
                     printMatchList();
                 }
+                if(input.equals("bl")){
+                    printBindList();
+                }
                 //Thread.sleep(1000);
             }
 
         } catch (Exception ignored) {
 
         }
+    }
+
+    private static void printBindList() {
+        if(number==0) {
+            System.out.println("No bind yet");
+            return;}
+        for(int i=number; i>0 ;i--){
+            String path="";
+            path+="rmi://localhost:8807/";
+            System.out.println((path+i));
+        }
+
     }
 
     public static String genNewRoot(){
@@ -94,6 +112,20 @@ public class ServerPrototype {
         GameManager.playerMatchMap.clear();
         GameManager.client_connected = 0;
         GameManager.players.clear();
+
+        for(int i=number; i>0 ;i--){
+            String path="";
+            path+="rmi://localhost:8807/";
+            try {
+                Naming.unbind(path+i);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            } catch (NotBoundException e) {
+                throw new RuntimeException(e);
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            }
+        }
         ServerPrototype.number=0;
 
     }

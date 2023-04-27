@@ -165,6 +165,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     @Override
     public boolean leaveMatch() throws RemoteException {
         if (GameController.removePlayerFromMatch(playerController, playerController.getPlayer().getMatch().matchID)) {
+            this.callBack.sendMessageToClient("Server > Leaving Room...");
             this.callBack.notifyGoToMenu();
             return true;
         }
@@ -194,7 +195,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      */
     @Override
     public String getVirtualView() throws RemoteException {
-        return playerController.getPlayer().getMatch().getVirtualView();
+        return playerController.getPlayer().getMatch().getJSONVirtualView();
     }
 
     /**
@@ -247,7 +248,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     @Override
     public void printOnlinePlayers() throws RemoteException {
         String message = "";
-        this.callBack.sendMessageToClient(ServerMessage.ListP.value());
+        message+=ServerMessage.ListP.value()+"\n";
         synchronized (GameManager.players) {
             for (Player p : GameManager.players) {
                 if (p.getStatus() == UserStatus.Online || p.getStatus() == UserStatus.GameMember) {
@@ -263,7 +264,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     @Override
     public void printMatchList() throws RemoteException {
         String message = "";
-        this.callBack.sendMessageToClient("Match List: ");
+        message+="Match List:\n";
         synchronized (GameManager.matchList) {
             if (GameManager.matchList.size() > 0) {
                 for (Match m : GameManager.matchList) {

@@ -2,10 +2,7 @@ package org.am21.model;
 
 import org.am21.model.Cards.CommonGoal;
 import org.am21.model.Cards.PersonalGoalCard;
-import org.am21.model.enumer.GamePhase;
-import org.am21.model.enumer.GameState;
-import org.am21.model.enumer.ServerMessage;
-import org.am21.model.enumer.UserStatus;
+import org.am21.model.enumer.*;
 import org.am21.model.items.Board;
 import org.am21.model.items.Shelf;
 import org.am21.utilities.*;
@@ -84,6 +81,7 @@ public class Match {
     public boolean addPlayer(Player player) {
         synchronized (playerList) {
             if (playerList.size() < maxSeats) {
+                sendTextToAll(SColor.YELLOW_BOLD_BRIGHT+"Server > "+player.getNickname()+" joined the match."+SColor.RESET);
                 playerList.add(player);
                 player.setStatus(UserStatus.GameMember);
                 player.setMatch(this);
@@ -98,13 +96,16 @@ public class Match {
                 //updatePlayersVirtualView();
                 checkRoom();
                 //If, after checkRoom(), the match did not start, send Client to Waiting Phase
-                if (gameState == GameState.WaitingPlayers&&player.getController().clientInput.callBack!=null) {
+                if (gameState == GameState.WaitingPlayers && player.getController().clientInput.callBack != null) {
                     try {
-                        player.getController().clientInput.callBack.notifyToWait();
+                        VirtualViewHelper.virtualizeMatchID(this);
+
+                        player.getController().clientInput.callBack.notifyToWait(matchID);
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
                 }
+
                 return true;
             }
             return false;
@@ -341,9 +342,9 @@ public class Match {
         VirtualViewHelper.buildVirtualView(this);
         updatePlayersVirtualView();
         for (Player p : playerList) {
-            if(p.getController().clientInput.callBack==null) continue;
+            if (p.getController().clientInput.callBack == null) continue;
             try {
-                p.getController().clientInput.callBack.notifyStart();
+                p.getController().clientInput.callBack.notifyStart(matchID);
             } catch (RemoteException | ServerNotActiveException e) {
                 throw new RuntimeException(e);
             }
@@ -367,8 +368,12 @@ public class Match {
      * @return the JSON of the virtual view
      */
 
-    public String getVirtualView() {
-        return VirtualViewHelper.getJSONVirtualView(virtualView);
+    public String getJSONVirtualView() {
+        return VirtualViewHelper.convertVirtualViewToJSON(virtualView);
+    }
+
+    public String getJSONHand(){
+        return VirtualViewHelper.convertVirtualHandToJSON(virtualView);
     }
 
     /**
@@ -381,7 +386,7 @@ public class Match {
             //TODO: Watch out for test
             if (p.getController().clientInput.callBack != null) {
                 try {
-                    p.getController().clientInput.callBack.sendVirtualView(getVirtualView());
+                    p.getController().clientInput.callBack.sendVirtualView(getJSONVirtualView());
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);
                 }
@@ -417,13 +422,16 @@ public class Match {
 
     /**
      * Send a pre-defined Server Message to each player of this match
+     *
      * @param message
      */
     public void sendMessageToAll(ServerMessage message) {
 
         for (Player p : playerList) {
             if (p.getController().clientInput.callBack != null) {
+
                 GameManager.sendCommunication(p.getController(), message);
+
             }
 
         }
@@ -432,6 +440,7 @@ public class Match {
 
     /**
      * Send a text message to each player of this match
+     *
      * @param message
      */
     public void sendTextToAll(String message) {
@@ -440,6 +449,23 @@ public class Match {
                 GameManager.sendTextCommunication(p.getController(), message);
             }
         }
+    }
+
+    /**
+     * Update each player view with the new JSONHand
+     */
+    public void updateVirtualHand(){
+        for (Player p : playerList) {
+            //TODO: Watch out for test
+            if (p.getController().clientInput.callBack != null) {
+                try {
+                    p.getController().clientInput.callBack.sendVirtualHand(getJSONHand());
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
     }
 
 }

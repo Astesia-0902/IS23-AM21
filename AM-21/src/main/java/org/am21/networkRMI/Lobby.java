@@ -1,4 +1,4 @@
-package org.am21.controller;
+package org.am21.networkRMI;
 
 import java.net.MalformedURLException;
 import java.rmi.AlreadyBoundException;

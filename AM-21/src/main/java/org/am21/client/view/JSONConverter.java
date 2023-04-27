@@ -10,6 +10,8 @@ import java.util.List;
  * You can find the virtual view data in this class
  */
 public class JSONConverter {
+
+
     public static int matchID;
     public static String[][] virtualBoard;
     public static List<String> players;
@@ -17,13 +19,13 @@ public class JSONConverter {
     public static List<Integer> scores;
     public static List<String> commonGoal;
     public static List<Integer> commonGoalScore;
+    //TODO: personalGoal should be a list, each slot for a player, the index should also correspond
     public static int personalGoal;
     public static List<String[][]> shelf;
     public static String gamePhase;
     public static String gameState;
     public static List<String> currentPlayerHand;
     public static boolean endGameToken;
-    //TODO: Match_List
 
     /**
      * Once the JSON is received, it is parsed and the data is stored in the corresponding variables
@@ -65,5 +67,11 @@ public class JSONConverter {
             return players.indexOf(player);
         }
         return 0;
+    }
+
+    public static void convertHand(String jsonHand) {
+        JSONArray jsonObject = JSONObject.parseArray(jsonHand);
+        currentPlayerHand = jsonObject.toJavaList(String.class);
+
     }
 }
