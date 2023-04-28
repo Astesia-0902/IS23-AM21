@@ -85,6 +85,8 @@ public class VirtualViewHelper {
         match.virtualView.setShelves(shelves);
     }
 
+    //TODO: setShelf that update just currentPlayer shelf (called at the end of his turn)
+
     /**
      * This method will build a shelves to the virtual view
      *

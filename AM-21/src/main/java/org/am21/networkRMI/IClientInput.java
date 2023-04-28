@@ -22,6 +22,8 @@ public interface IClientInput extends Remote {
 
     boolean selectCell(int row, int col) throws RemoteException,ServerNotActiveException;
 
+    boolean confirmSelection() throws RemoteException, ServerNotActiveException;
+
     boolean insertInColumn(int colNum) throws RemoteException,ServerNotActiveException;
 
     boolean deselectCards() throws RemoteException,ServerNotActiveException;

@@ -20,28 +20,32 @@ public class VirtualView implements Serializable {
 
     public int matchID;
 
-
+    // These need update at the end of each turn
     public String[][] board;
-
-
-
-    //since we don't process the goal logic in the client side, we don't need to send the goal to the client
-    //so we use a integer to map the goal picture
-    public List<String> commonGoals;
     public List<Integer> commonGoalScores;
-    public List<String> players;
     public List<String> currentPlayerHand;
     public List<Integer> scores;
     public List<String[][]> shelves;
+    public String currentPlayer;
+    public boolean endGameToken;
+    //---------------------------------------
+
+
+    //Since we don't process the goal logic on the client side, we don't need to send the goal to the client.
+    //We are going to use an integer to map the goal picture
+    public List<String> commonGoals;
+    //Need update if someone leaves the match
+    public List<String> players;
+
+
 
 
     public List<Integer> personalGoals;
-    public String currentPlayer;
-    public String gamePhase;
 
-    //TODO: gameState maybe not needed for visualization
+    //TODO: gameState and gamePhase maybe not needed for visualization (maybe should be just server work)
+    public String gamePhase;
     public String gameState;
-    public boolean endGameToken;
+
 
     public boolean isEndGameToken() {
         return endGameToken;

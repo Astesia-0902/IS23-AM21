@@ -120,6 +120,13 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         }
         return false;
     }
+    @Override
+    public boolean confirmSelection() throws RemoteException, ServerNotActiveException {
+        if(!checkPlayerActionPhase() && playerController.callEndSelection()){
+            return true;
+        }
+        return false;
+    }
 
     /**
      * @param colNum

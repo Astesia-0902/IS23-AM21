@@ -214,11 +214,10 @@ public class PlayerController {
         if(!isMyTurn(player)) {
             return false;
         }
-        System.out.println("QAAA");
         if(player.getMatch().gamePhase == GamePhase.Insertion){
-            System.out.println(player.getNickname()+" > Column: ["+col+"]");
+            //System.out.println(player.getNickname()+" > Column: ["+col+"]");
             if(player.getShelf().slotCol.get(col) < hand.getSlot().size()){
-                System.out.println("Shelf[!] > Not enough space in this column");
+                //System.out.println("Shelf[!] > Not enough space in this column");
                 /*
                 for(int x: player.shelves.slotCol){
                     System.out.print("["+x+"]");
@@ -230,7 +229,7 @@ public class PlayerController {
                 for(int i=hand.getSlot().size(),s=0;i>0;i--,s++){
                     //Inserting one card at the time
                     if(player.getShelf().insertInColumn(hand.getSlot().get(s).item,col)){
-                        System.out.println("Shelf > Insert...");
+                        //System.out.println("Shelf > Insert...");
 
                     }else{
                         //If one of the card cannot be put indide the column
@@ -244,11 +243,9 @@ public class PlayerController {
                 player.getShelf().checkLimit();
                 //GameGear.printThisShelf(player.shelves);
                 callEndInsertion();
-                System.out.println(" quiii");
                 //TODO: add VV update Shelf, Hand, GamePhase
                 VirtualViewHelper.virtualizeCurrentPlayerHand(player.getMatch());
                 player.getMatch().updateVirtualHand();
-                System.out.println("ANCHEEE quiii");
                 return true;
             }
         }
@@ -295,7 +292,6 @@ public class PlayerController {
         if(player.getMatch().gamePhase==GamePhase.Insertion) {
             player.getMatch().setGamePhase(GamePhase.GoalChecking);
             player.getMatch().checkCommonGoals(player);
-            System.out.println("shit qui non va bene");
             //TODO: Add VV update GamePhase, CommonGoal Scores, Player score
         }
     }

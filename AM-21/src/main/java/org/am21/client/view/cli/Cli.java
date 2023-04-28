@@ -544,6 +544,7 @@ public class Cli implements View {
             }
         }
         System.out.println();
+        askToContinue();
     }
 
     @Override
@@ -778,11 +779,17 @@ public class Cli implements View {
                     case "sort" -> askSort();
                     case "show" -> askShowObject();
                     case "go" -> {
-                        showShelf();
-                        int column = askColumn();
-                        if(iClientInputHandler.insertInColumn(column)){
-                            System.out.println(Color.YELLOW+"Inserted in: "+column+Color.RESET);
+                        if(iClientInputHandler.confirmSelection()){
                             showShelf();
+                            int column = askColumn();
+                            if(iClientInputHandler.insertInColumn(column)){
+                                System.out.println(Color.YELLOW+"Inserted in: "+column+Color.RESET);
+                                showShelf();
+
+                            }
+
+                        }else{
+                            System.out.println(Color.RED+"Selection Confirm failed"+Color.RESET);
                         }
                         return;
                     }
@@ -918,8 +925,7 @@ public class Cli implements View {
         do {
             column = askTheIndex("COLUMN",0,SHELF_COLUMN);
             System.out.println("""
-            You have chosen Column: \040""" + column +
-                    """
+            You have chosen Column: """ + column + """
             Do you confirm?
               y   --> Yes.
             'any' --> Retry""");
