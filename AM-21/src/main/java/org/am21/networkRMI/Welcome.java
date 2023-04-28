@@ -17,7 +17,4 @@ public class Welcome extends UnicastRemoteObject implements Lobby {
 
 
     }
-
-
-
 }

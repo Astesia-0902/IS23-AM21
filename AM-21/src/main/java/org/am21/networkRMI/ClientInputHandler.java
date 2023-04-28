@@ -248,7 +248,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         synchronized (GameManager.players) {
             for (Player p : GameManager.players) {
                 if (p.getNickname().equals(receiver)) {
-                    GameManager.sendTextCommunication(p.getController(),"------------------------------------------");
+                    GameManager.sendTextCommunication(p.getController(),"\n------------------------------------------");
                     GameManager.sendTextCommunication(p.getController(),"\n"+ sender + "[!] > \"" + message + "\"");
                     GameManager.sendTextCommunication(p.getController(),"------------------------------------------\n");
 

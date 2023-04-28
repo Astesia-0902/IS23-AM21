@@ -7,8 +7,11 @@ public enum Color {
     // Regular Colors. Normal color, no bold, background color etc.
     RED("\033[0;31m"),      // RED
     YELLOW("\033[0;33m"),   // YELLOW
+    CYAN("\033[0;36m"),     // CYAN
 
     YELLOW_BOLD("\033[1;33m"),  // YELLOW
+    WHITE_BOLD("\033[1;37m"),   // WHITE
+    BLUE_BOLD("\033[1;34m"),    // BLUE
 
     GREEN_BOLD_BRIGHT("\033[1;92m"),    // GREEN
     YELLOW_BOLD_BRIGHT("\033[1;93m"),   // YELLOW
