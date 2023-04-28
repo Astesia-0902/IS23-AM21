@@ -1,4 +1,4 @@
-package org.am21.client.view.cli;
+package org.am21.client.view.TUI;
 
 public enum Color {
     //Color end string, color reset

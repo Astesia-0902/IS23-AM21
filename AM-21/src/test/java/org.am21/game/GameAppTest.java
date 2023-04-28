@@ -1,6 +1,6 @@
 package org.am21.game;
 
-import org.am21.client.view.cli.InputReadTask;
+import org.am21.client.view.TUI.InputReadTask;
 import org.am21.model.GameManager;
 import org.am21.model.Match;
 import org.am21.model.Player;

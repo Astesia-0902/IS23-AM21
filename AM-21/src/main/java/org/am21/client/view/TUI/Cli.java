@@ -1,5 +1,6 @@
-package org.am21.client.view.cli;
+package org.am21.client.view.TUI;
 
+import org.am21.client.LocalStorage;
 import org.am21.client.view.JSONConverter;
 import org.am21.client.view.View;
 import org.am21.networkRMI.Lobby;
@@ -17,6 +18,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
 public class Cli implements View {
+    private LocalStorage disk;
     private String username;
     private Thread inputThread;
     private IClientInput iClientInputHandler;
@@ -45,10 +47,12 @@ public class Cli implements View {
     private Lobby lobby;
 
 
-    public Cli() throws RemoteException {
+    public Cli(LocalStorage disk) throws RemoteException {
+        this.disk = disk;
         this.clientCallBack = new ClientCallBack();
         //TODO: keep it separate from constructor to avoid test destruction :)
         this.clientCallBack.cli = this;
+        this.clientCallBack.disk = this.disk;
     }
 
     /**
@@ -99,7 +103,7 @@ public class Cli implements View {
 
     public void askServerInfo() throws MalformedURLException, NotBoundException, RemoteException {
         lobby = (Lobby)Naming.lookup("rmi://localhost:1234/Welcome");
-        String root = null;
+        String root;
         try {
             root = lobby.connect();
         } catch (AlreadyBoundException e) {
@@ -225,9 +229,10 @@ public class Cli implements View {
             System.out.print("""
                     -----------------------------------------------------------
                     Menu Option:
-                    create - Create a new match.
-                    join - Join a match.
-                    exit - Exit game.
+                    create --> Create a new match.
+                    join   --> Join a match.
+                    online --> Show Online Players
+                    exit   --> Exit game.
                     To send a message to a online player type ‘/chat[nickname]’ in the console.
                     -----------------------------------------------------------
                     Enter the option you wish to select:\040""");
@@ -238,6 +243,7 @@ public class Cli implements View {
                 switch (option) {
                     case "create" -> {if (askCreateMatch())redirect();}
                     case "join" -> {if (askJoinMatch())redirect();}
+                    case "online" -> {showOnlinePlayer();askToContinue();}
                     case "exit" -> {if (askExitGame())return;}
                     default -> System.out.println(Color.RED + "Invalid command! Please try again." + Color.RESET);
                 }
@@ -322,7 +328,9 @@ public class Cli implements View {
             String option = readLine();
             if (option.startsWith("/chat")) {
                 handleChatMessage(option);
-            } else {
+            } else if(option.equals("")){
+                redirect();
+            }else {
                 switch (option) {
                     case "select" -> askSelection();
                     case "deselect" -> askDeselection();
@@ -374,7 +382,7 @@ public class Cli implements View {
             matchID = Integer.parseInt(readLine());
             System.out.println("Selected Room [" + matchID + "].");
             if(iClientInputHandler.joinGame(matchID)){
-                //askToContinue();
+                askToContinue();
                 return true;
             }else{
                 System.out.println(Color.RED + "Invalid number! Please try again." + Color.RESET);
@@ -382,6 +390,7 @@ public class Cli implements View {
         } catch (NumberFormatException e){
             System.out.println(Color.RED + "Invalid input! Please try again." + Color.RESET);
         }
+        askToContinue();
         return false;
     }
     @Override
@@ -642,6 +651,7 @@ public class Cli implements View {
                                     System.out.println(Color.YELLOW+"Item selected: "+showItemInCell(row,column)+Color.RESET);
                                     showHand();
                                 }
+                                askToContinue();
                                 break;
                             case "n":
                                 return;
@@ -783,9 +793,10 @@ public class Cli implements View {
                             showShelf();
                             int column = askColumn();
                             if(iClientInputHandler.insertInColumn(column)){
-                                System.out.println(Color.YELLOW+"Inserted in: "+column+Color.RESET);
                                 showShelf();
-
+                                System.out.println(Color.YELLOW+"Inserted in: "+column+Color.RESET);
+                                askToContinue();
+                                iClientInputHandler.endTurn();
                             }
 
                         }else{
@@ -925,8 +936,8 @@ public class Cli implements View {
         do {
             column = askTheIndex("COLUMN",0,SHELF_COLUMN);
             System.out.println("""
-            You have chosen Column: """ + column + """
-            Do you confirm?
+            You have chosen Column:\t""" + column + """
+            \nDo you confirm?
               y   --> Yes.
             'any' --> Retry""");
 
@@ -949,7 +960,7 @@ public class Cli implements View {
             }
         } else {
             if(!iClientInputHandler.sendChatMessage(message)) {
-                System.out.println("The message was not sent");
+                System.out.println(Color.RED+"The message was not sent"+Color.RESET);
             }
         }
         askToContinue();

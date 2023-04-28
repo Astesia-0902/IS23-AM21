@@ -32,9 +32,10 @@ public class JSONConverter {
      * the key strings of get methods are generated automatically,
      * check them first when you get a wrong answer
      *
-     * @param json the JSON string received from the server
+     * @param json        the JSON string received from the server
+     * @param playerIndex
      */
-    public static void setViewVariables(String json) {
+    public static void setFullViewVariables(String json,int playerIndex) {
         JSONObject jsonObject = JSONObject.parseObject(json);
         virtualBoard = jsonObject.getObject("board", String[][].class);
         players = jsonObject.getJSONArray("players").toJavaList(String.class);
@@ -42,7 +43,12 @@ public class JSONConverter {
         scores = jsonObject.getJSONArray("scores").toJavaList(Integer.class);
         commonGoal = jsonObject.getJSONArray("commonGoals").toJavaList(String.class);
         commonGoalScore = jsonObject.getJSONArray("commonGoalScores").toJavaList(Integer.class);
-        personalGoal = jsonObject.getJSONArray("personalGoals").toJavaList(Integer.class).get(getPlayerIndex(currentPlayer));
+
+
+        personalGoal = jsonObject.getJSONArray("personalGoals").toJavaList(Integer.class).get(playerIndex);
+
+
+
         JSONArray temp = jsonObject.getJSONArray("shelves");
         shelf = new java.util.ArrayList<>();
         for(int i = 0; i < temp.size(); i++) {

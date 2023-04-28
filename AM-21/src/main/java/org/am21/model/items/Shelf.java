@@ -101,7 +101,7 @@ public class Shelf extends Grid {
      */
     public boolean insertInColumn(ItemCard item, int col){
 
-        if(this.getMatrix()[slotCol.get(col)-1][col]==null && slotCol.get(col)>0){
+        if(slotCol.get(col)>0&&this.getMatrix()[slotCol.get(col)-1][col]==null){
             this.getMatrix()[slotCol.get(col)-1][col]= item;
             this.slotCol.set(col,slotCol.get(col)-1);
             return true;

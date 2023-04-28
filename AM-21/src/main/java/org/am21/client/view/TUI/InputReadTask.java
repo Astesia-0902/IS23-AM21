@@ -1,4 +1,4 @@
-package org.am21.client.view.cli;
+package org.am21.client.view.TUI;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

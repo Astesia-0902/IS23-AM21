@@ -76,7 +76,7 @@ public class PlayerTest {
         assertFalse(c1.selectCell(5,5));
         assertTrue(c1.selectCell(1,4));
 
-        m.setGamePhase(GamePhase.GoalChecking);
+        m.setGamePhase(GamePhase.Default);
         assertFalse(c1.selectCell(1,4));
 
         assertFalse(c2.selectCell(1,4));
@@ -179,6 +179,9 @@ public class PlayerTest {
         c1.getPlayer().getShelf().insertInColumn(new ItemCard("Generic"),0);
         c1.getPlayer().getShelf().insertInColumn(new ItemCard("Generic"),0);
         c1.getPlayer().getShelf().insertInColumn(new ItemCard("Generic"),0);
+        c1.getPlayer().getShelf().insertInColumn(new ItemCard("Generic"),0);
+        c1.getHand().getSlot().add(new CardPointer(0,0));
+        //Ritorna vero perche non ho nulla in mano(devo simulare la mano :( )
         assertFalse(c1.tryToInsert(0));
 
     }

@@ -139,6 +139,14 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         }
         return false;
     }
+    @Override
+    public boolean endTurn() throws RemoteException, ServerNotActiveException {
+        if(!checkPlayerActionPhase() ){
+            playerController.callEndInsertion();
+            return true;
+        }
+        return false;
+    }
 
     /**
      * @throws ServerNotActiveException

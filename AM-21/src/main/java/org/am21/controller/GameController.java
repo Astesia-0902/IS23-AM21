@@ -1,7 +1,9 @@
 package org.am21.controller;
 
 import org.am21.model.GameManager;
+import org.am21.model.Player;
 import org.am21.model.enumer.GameState;
+import org.am21.model.enumer.SC;
 import org.am21.model.enumer.ServerMessage;
 
 import java.rmi.RemoteException;
@@ -149,7 +151,12 @@ public class GameController {
     public static boolean cancelPlayer(PlayerController ctrl){
         if(GameManager.players.contains(ctrl.getPlayer())){
             GameManager.players.remove(GameManager.players.indexOf(ctrl.getPlayer()));
-            GameManager.sendTextCommunication(ctrl,"Server > "+ctrl.getPlayer().getNickname()+" left the game");
+            GameManager.sendTextCommunication(ctrl, SC.WHITE_BB+"\nServer > Game Closed"+SC.RST);
+            for(Player p:GameManager.players) {
+                if(p.getController().clientInput.callBack!=null) {
+                    GameManager.sendTextCommunication(p.getController(),SC.YELLOW_BB+"\nServer > "+ctrl.getPlayer().getNickname()+" left the game"+SC.RST+"Press 'Enter'");
+                }
+            }
             return true;
         }
         return false;

@@ -6,7 +6,7 @@ public enum ServerMessage {
     Connection_No("Server > Connection failed"),
 
     //Login phase
-    Login_Ok(SColor.CYAN+"Server > Login successful."+ SColor.RESET+"\nServer > Hi "),
+    Login_Ok(SC.CYAN+"Server > Login successful."+ SC.RST +"\nServer > Hi "),
     Login_No("Server > Access denied. This username is already taken, please enter a new one..."),
     ListP("Server > List of online players" +
             ": "),
@@ -14,23 +14,23 @@ public enum ServerMessage {
     //Create match phase
     PExists("Server > The player already exists in match. In order to create a new match, you need to abandon the current one. Do you wish to continue?"),
     PExceed("Server > Exceeded player number limit. Try again"),
-    CreateM_Ok(SColor.CYAN+"Server > Match successfully created"+SColor.RESET),
+    CreateM_Ok(SC.CYAN+"Server > Match successfully created"+ SC.RST),
     CreateM_No("Server > Failed to create a new Match"),
 
 
     //Join match phase
-    FindM_Ok(SColor.CYAN+"Server > Match found"+SColor.RESET),
+    FindM_Ok(SC.CYAN+"Server > Match found"+ SC.RST),
     FindM_No("Server > The room does not exists. Please try again"),
     FullM("Server > This room is full"),
     PExists_No("Server > The player does not exist in any room. Try to create a new one"),
 
     //Match initialization phase
-    BB(SColor.RED_BOLD+"\nServer[!]> The match is about to start. Building game board..."+SColor.RESET),
-    BB_Ok(SColor.CYAN+"Server > Board successfully built"+SColor.RESET),
+    BB(SC.RED_B +"\nServer[!]> The match is about to start. Building game board..."+ SC.RST),
+    BB_Ok(SC.CYAN+"Server > Board successfully built"+ SC.RST),
     BB_No("Server > Board build failed"),
 
     //Game phase (Selection phase)
-    Selection_Ok(SColor.CYAN+"Server > Selection successful"+SColor.RESET),
+    Selection_Ok(SC.CYAN+"Server > Selection successful"+ SC.RST),
     Selection_No("Server > Selection failed"),
     Cell_Empty("Server > The cell is empty"),
     Cell_Illegal("Server > You selected an illegal cell"),

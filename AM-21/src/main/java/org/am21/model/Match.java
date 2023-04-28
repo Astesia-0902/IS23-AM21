@@ -81,7 +81,7 @@ public class Match {
     public boolean addPlayer(Player player) {
         synchronized (playerList) {
             if (playerList.size() < maxSeats) {
-                sendTextToAll(SColor.YELLOW_BOLD_BRIGHT+"Server > "+player.getNickname()+" joined the match."+SColor.RESET);
+                sendTextToAll(SC.YELLOW_BB +"Server > "+player.getNickname()+" joined the match."+ SC.RST);
                 playerList.add(player);
                 player.setStatus(UserStatus.GameMember);
                 player.setMatch(this);
@@ -133,10 +133,9 @@ public class Match {
                 synchronized (GameManager.playerMatchMap) {
                     GameManager.playerMatchMap.remove(player.getNickname());
                 }
+                sendTextToAll(SC.YELLOW_BB+"\nServer > "+player.getNickname() + " left the match"+SC.RST);
                 checkRoom();
                 //TODO: update VV PLayersList and Player Score, Shelf List...
-
-                sendTextToAll(player.getNickname() + " left the match");
                 return true;
             }
             return false;
@@ -146,25 +145,37 @@ public class Match {
     /**
      * This method is called at the end of each player's turn
      */
-    private void callEndTurnRoutine() {
+    public void callEndTurnRoutine() {
+        //Check if currentPlayer has achieved any Common goal
+        checkCommonGoals(currentPlayer);
+        //TODO: Add VV update CommonGoal Scores, Player score
+        VirtualViewHelper.updateVirtualScores(this);
+        VirtualViewHelper.updateCommonGoalScore(this);
+
         //Check if last round is completed
         if (gameState == GameState.LastRound &&
                 playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats) == firstToComplete) {
             //Calculate Personal Goal Points for each player
             checkPersonalGoals();
             checkShelfPoints();
+            //TODO: add VV update Players scores
             endMatch();
         } else {
+            //Not End Game
             if (board.checkBoard()) {
-                System.out.println("Match > Board need refill");
-                GameGear.printThisBoard(board);
-                //refill
+                //System.out.println("Match > Board need refill");
+                //GameGear.printThisBoard(board);
+
+                //Refill Board
                 if (board.bag.refillBoard()) {
-                    GameGear.printThisBoard(board);
+                    //GameGear.printThisBoard(board);
+                    //TODO: update VV board
 
                 }
             }
 
+
+            // Check if the CurrentPlayer is the first to complete his shelf
             if (currentPlayer.getShelf().getTotSlotAvail() == 0 && gameState != GameState.LastRound) {
                 //System.out.println("Match > Congratulations! " + currentPlayer.getNickname() + " has completed the shelves first");
                 this.setEndGameToken(false);
@@ -172,10 +183,10 @@ public class Match {
                 firstToComplete = currentPlayer;
                 firstToComplete.setPlayerScore(firstToComplete.getPlayerScore() + 1);
                 gameState = GameState.LastRound;
-                //TODO: update VV Gamestate,endgametoken, player score
+                //TODO: update VV Endgame token, player score
             }
             this.nextTurn();
-            //TODO: Add VV update BOard, GamePhase, CurrentPlayer.
+            //TODO: Add VV update CurrentPlayer.
             //      notify all at end
         }
     }
@@ -186,7 +197,6 @@ public class Match {
      * @param player player that need to check
      */
     public void checkCommonGoals(Player player) {
-        if (gamePhase == GamePhase.GoalChecking) {
             for (CommonGoal goal : commonGoals) {
                 if (goal.checkGoal(player.getShelf())) {
                     // Give player points/scoreToken
@@ -199,11 +209,10 @@ public class Match {
                         }
                     }
                     goal.commonGoalAchieved(player);
+                    sendTextToAll(SC.YELLOW_BB +"Server > "+player.getNickname()+" achieved a Common Goal!"+SC.RST
+                    +"\nPress 'Enter'\n");
                 }
             }
-            setGamePhase(GamePhase.EndTurn);
-            this.callEndTurnRoutine();
-        }
     }
 
     /**
@@ -242,12 +251,20 @@ public class Match {
         //GameGear.viewFinalStats(this);
 
         //Removing players from the match
-        for (Player player : playerList) {
-            player.setStatus(UserStatus.Online);
-            player.setMatch(null);
-            player.setShelf(null);
+        for (Player p : playerList) {
+
+            try {
+                if(p.getController().clientInput.callBack!=null){
+                    p.getController().clientInput.callBack.notifyEndMatch();
+                }
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+            p.setStatus(UserStatus.Online);
+            p.setMatch(null);
+            p.setShelf(null);
             synchronized (GameManager.playerMatchMap) {
-                GameManager.playerMatchMap.remove(player.getNickname());
+                GameManager.playerMatchMap.remove(p.getNickname());
             }
         }
         //Maybe not necessary, at end match instance will be deleted
@@ -356,9 +373,16 @@ public class Match {
      * This method set up the next turn
      */
     public void nextTurn() {
+        sendTextToAll(SC.YELLOW_BB +"\nServer > "+currentPlayer.getNickname()+" ended his turn"+SC.RST);
         currentPlayer = playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats);
         setGamePhase(GamePhase.Selection);
-
+        try {
+            if(currentPlayer.getController().clientInput.callBack!=null) {
+                currentPlayer.getController().clientInput.callBack.sendMessageToClient(SC.RED_B + "Server[!] > " + currentPlayer.getNickname() + "! It's your turn"+SC.RST);
+            }
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
@@ -386,7 +410,7 @@ public class Match {
             //TODO: Watch out for test
             if (p.getController().clientInput.callBack != null) {
                 try {
-                    p.getController().clientInput.callBack.sendVirtualView(getJSONVirtualView());
+                    p.getController().clientInput.callBack.sendVirtualView(getJSONVirtualView(), playerList.indexOf(p));
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);
                 }
@@ -467,5 +491,6 @@ public class Match {
         }
 
     }
+
 
 }

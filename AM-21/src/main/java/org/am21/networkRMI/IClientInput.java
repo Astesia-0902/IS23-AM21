@@ -45,5 +45,7 @@ public interface IClientInput extends Remote {
     void printOnlinePlayers() throws RemoteException;
 
     void printMatchList() throws RemoteException;
+
+    boolean endTurn() throws RemoteException, ServerNotActiveException;
 }
 

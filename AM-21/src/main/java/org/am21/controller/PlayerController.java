@@ -242,9 +242,11 @@ public class PlayerController {
                 hand.clearHand();
                 player.getShelf().checkLimit();
                 //GameGear.printThisShelf(player.shelves);
-                callEndInsertion();
+                //TODO : attento call end insertion dovrebbe essere atomico e chiamato dal client se tryToInsert va a buon fine
+                //callEndInsertion();
                 //TODO: add VV update Shelf, Hand, GamePhase
                 VirtualViewHelper.virtualizeCurrentPlayerHand(player.getMatch());
+                VirtualViewHelper.updateVirtualShelves(player.getMatch());
                 player.getMatch().updateVirtualHand();
                 return true;
             }
@@ -290,9 +292,8 @@ public class PlayerController {
      */
     public void callEndInsertion(){
         if(player.getMatch().gamePhase==GamePhase.Insertion) {
-            player.getMatch().setGamePhase(GamePhase.GoalChecking);
-            player.getMatch().checkCommonGoals(player);
-            //TODO: Add VV update GamePhase, CommonGoal Scores, Player score
+            player.getMatch().setGamePhase(GamePhase.Default);
+            player.getMatch().callEndTurnRoutine();
         }
     }
 

@@ -1,8 +1,8 @@
 package org.am21.model.enumer;
 
-public enum SColor {
+public enum SC {
     //Color end string, color reset
-    RESET("\033[0m"),
+    RST("\033[0m"),
 
     // Regular Colors. Normal color, no bold, background color etc.
     RED("\033[0;31m"),      // RED
@@ -13,15 +13,16 @@ public enum SColor {
     CYAN("\033[0;36m"),     // CYAN
     WHITE("\033[0;37m"),    // WHITE
 
-    BLACK_BOLD("\033[1;30m"),   // BLACK
-    RED_BOLD("\033[1;31m"),     // RED
-    GREEN_BOLD("\033[1;32m"),   // GREEN
+    BLACK_B("\033[1;30m"),   // BLACK
+    RED_B("\033[1;31m"),     // RED
+    GREEN_B("\033[1;32m"),   // GREEN
     YELLOW_BOLD("\033[1;33m"),  // YELLOW
     BLUE_BOLD("\033[1;34m"),    // BLUE
     MAGENTA_BOLD("\033[1;35m"), // MAGENTA
     CYAN_BOLD("\033[1;36m"),    // CYAN
-    WHITE_BOLD("\033[1;37m"),   // WHITE
-    YELLOW_BOLD_BRIGHT("\033[1;93m"),   // YELLOW
+    WHITE_B("\033[1;37m"),   // WHITE
+    WHITE_BB("\033[1;97m"),
+    YELLOW_BB("\033[1;93m"),   // YELLOW
 
     CATS("\033[1;32mCats\033[0m"),
     BOOKS("\033[1;37mBooks\033[0m"),
@@ -31,7 +32,7 @@ public enum SColor {
     PLANTS("\033[1;35mPlants\033[0m");
     private final String code;
 
-    SColor(String code) {
+    SC(String code) {
         this.code = code;
     }
 

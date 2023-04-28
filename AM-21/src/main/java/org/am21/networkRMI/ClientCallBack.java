@@ -1,7 +1,9 @@
 package org.am21.networkRMI;
 
+import org.am21.client.LocalStorage;
 import org.am21.client.view.JSONConverter;
-import org.am21.client.view.cli.Cli;
+import org.am21.client.view.TUI.Cli;
+import org.am21.model.enumer.SC;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -11,6 +13,8 @@ import java.rmi.server.UnicastRemoteObject;
  */
 public class ClientCallBack extends UnicastRemoteObject implements IClientCallBack{
     public Cli cli;
+
+    public LocalStorage disk;
     public ClientCallBack() throws RemoteException {}
 
     @Override
@@ -28,9 +32,9 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
      * @throws RemoteException
      */
     @Override
-    public void sendVirtualView(String virtualView) throws RemoteException {
+    public void sendVirtualView(String virtualView, int pIndex) throws RemoteException {
         //TODO:Update the virtual view
-        JSONConverter.setViewVariables(virtualView);
+        JSONConverter.setFullViewVariables(virtualView,pIndex );
     }
 
     @Override
@@ -50,7 +54,6 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
             //      Furthermore, if the Client nickname correspond to JSONConverter.currentPlayer(String),
             //      then the CLI will invoke showCurrentPlayer()
 
-            //cli.showMatchSetup();
             cli.setMatchID(id);
             cli.setSTART(true);
             cli.setGO_TO_MENU(false);
@@ -74,6 +77,15 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
         if(cli!=null){
             cli.setGO_TO_MENU(true);
             cli.setGAME_ON(false);
+        }
+    }
+
+    @Override
+    public void notifyEndMatch() throws RemoteException{
+        if(cli!=null){
+            cli.setGO_TO_MENU(true);
+            cli.setGAME_ON(false);
+            cli.printer(SC.WHITE_BB+"\nServer > The match ended. Good Bye!\n"+SC.RST+"Press 'Enter'\n");
         }
     }
 

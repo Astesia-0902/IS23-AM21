@@ -1,13 +1,15 @@
 package org.am21.game;
 
-import org.am21.client.view.cli.Cli;
+import org.am21.client.LocalStorage;
+import org.am21.client.view.TUI.Cli;
 
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
 
 public class CLITest {
     public static void main(String[] args) throws RemoteException {
-        Cli cli = new Cli();
+        LocalStorage disk = new LocalStorage();
+        Cli cli = new Cli(disk);
 
         setUp(cli);
 

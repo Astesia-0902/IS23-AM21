@@ -22,12 +22,12 @@ public class VirtualViewHelper {
     public static void buildVirtualView(Match match) {
         match.virtualView = new VirtualView();
         virtualizeMatchID(match);
-        setVirtualBoard(match);
+        updateVirtualBoard(match);
         virtualizePlayersData(match);
         setVirtualCurrentPlayer(match);
         setCommonGoal(match);
         setGamePhase(match);
-        setCommonGoalScore(match);
+        updateCommonGoalScore(match);
         virtualizeCurrentPlayerHand(match);
         setGamePhase(match);
         setGameState(match);
@@ -49,7 +49,7 @@ public class VirtualViewHelper {
             int stringLength = player.getMyPersonalGoal().getNameCard().length();
             String temp = player.getMyPersonalGoal().getNameCard().substring(stringLength - 2, stringLength);
             int goalID = Integer.parseInt(temp);
-            personalGoals.add(goalID);
+            personalGoals.add(goalID);  //PersonalGoal
             scores.add(player.getPlayerScore());
             shelves.add(buildVirtualShelves(player.getShelf()));
         }
@@ -63,7 +63,7 @@ public class VirtualViewHelper {
      * This method will set the scores of each player to the virtual view
      * @param match the match
      */
-    public static void setVirtualScores(Match match) {
+    public static void updateVirtualScores(Match match) {
         List<Integer> scores = new ArrayList<>();
         for (Player player : match.playerList) {
             scores.add(player.getPlayerScore());
@@ -77,7 +77,7 @@ public class VirtualViewHelper {
      *
      * @param match the match
      */
-    public static void setVirtualShelves(Match match) {
+    public static void updateVirtualShelves(Match match) {
         List<String[][]> shelves = new ArrayList<>();
         for (Player player : match.playerList) {
             shelves.add(buildVirtualShelves(player.getShelf()));
@@ -111,7 +111,7 @@ public class VirtualViewHelper {
      *
      * @param match the match
      */
-    public static void setVirtualBoard(Match match) {
+    public static void updateVirtualBoard(Match match) {
         int row = match.board.gRow;
         int column = match.board.gColumn;
         String[][] board = new String[row][column];
@@ -161,7 +161,7 @@ public class VirtualViewHelper {
      *
      * @param match the match
      */
-    public static void setCommonGoalScore(Match match) {
+    public static void updateCommonGoalScore(Match match) {
         List<Integer> commonGoalScore = new ArrayList<>();
         for (int i = 0; i < match.commonGoals.size(); i++) {
             commonGoalScore.add(match.commonGoals.get(i).tokenStack.get(0));

@@ -1,6 +1,6 @@
-package org.am21.client.view.gui;
+package org.am21.client.view.GUI;
 
-import org.am21.client.view.gui.component.BackGroundPanel;
+import org.am21.client.view.GUI.component.BackGroundPanel;
 import org.am21.utilities.PathUtil;
 
 import javax.imageio.ImageIO;
