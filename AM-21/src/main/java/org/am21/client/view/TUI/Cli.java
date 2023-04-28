@@ -230,7 +230,7 @@ public class Cli implements View {
                     Menu Option:
                     create --> Create a new match.
                     join   --> Join a match.
-                    online --> Show Online Players
+                    online --> Show Online Players.
                     exit   --> Exit game.
                     To send a message to a online player type ‘/chat[nickname]’ in the console.
                     -----------------------------------------------------------
@@ -257,7 +257,7 @@ public class Cli implements View {
      * @return
      */
     public void askWaitingAction() throws RemoteException, ServerNotActiveException {
-        while(!GAME_ON&&!GO_TO_MENU) {
+        while (!GAME_ON && !GO_TO_MENU) {
             System.out.println("-----------------------------------------------------------\n"+
                                 Color.WHITE_BOLD + "\t\t {| Room " + matchID + " |}"+Color.RESET);
 
@@ -316,7 +316,8 @@ public class Cli implements View {
 
     @Override
     public void askPlayerMove() throws RemoteException, ServerNotActiveException {
-        while(GAME_ON&&!GO_TO_MENU) {
+        //TODO: notify when the command is not found
+        while (GAME_ON && !GO_TO_MENU) {
             System.out.println("""
                     -----------------------------------------------------------
                     What do you wish to do? These are the commands available:""");
@@ -329,7 +330,7 @@ public class Cli implements View {
                 handleChatMessage(option);
             } else if(option.equals("")){
                 redirect();
-            }else {
+            } else {
                 switch (option) {
                     case "select" -> askSelection();
                     case "deselect" -> askDeselection();
@@ -368,7 +369,7 @@ public class Cli implements View {
                 System.out.println(Color.RED + "Invalid input! Please try again." + Color.RESET);
             }
         } while (playerNumber < 2 || playerNumber > 4);
-        System.out.println("Selected "+playerNumber+" players.");
+        System.out.println("Selected " + playerNumber +" players.");
         return playerNumber;
     }
 
@@ -441,8 +442,8 @@ public class Cli implements View {
             showGoalDescription(JSONConverter.commonGoal.get(i));
             System.out.println(Color.YELLOW + "> Top score of this Common Goal: " + Color.RESET +
                                JSONConverter.commonGoalScore.get(i) + " points.");
+            System.out.println();
         }
-        System.out.println();
     }
 
     @Override
@@ -450,10 +451,10 @@ public class Cli implements View {
         System.out.println(username + "'s PersonalGoal:");
         switch (JSONConverter.personalGoal) {
             case 1 -> System.out.println("[_"+Color.PLANTS+"_][______._][_"+Color.FRAMES+"_][______._][______._]\n"+
-                                        "[______._][______._][______._][______._][__"+Color.CATS+"__]\n"+
-                                        "[______._][______._][______._][_"+Color.BOOKS+"__][______._]\n"+
-                                        "[______._][_"+Color.GAMES+"__][______._][______._][______._]\n"+
-                                        "[______._][______._][______._][______._][______._]\n"+
+                                         "[______._][______._][______._][______._][__"+Color.CATS+"__]\n"+
+                                         "[______._][______._][______._][_"+Color.BOOKS+"__][______._]\n"+
+                                         "[______._][_"+Color.GAMES+"__][______._][______._][______._]\n"+
+                                         "[______._][______._][______._][______._][______._]\n"+
                                          "[______._][______._]["+Color.TROPHIES+"][______._][______._]");
             case 2 -> System.out.println("[______._][______._][______._][______._][______._]\n" +
                                          "[______._][_"+Color.PLANTS+"_][______._][______._][______._]\n" +
@@ -532,6 +533,7 @@ public class Cli implements View {
         }else{
             System.out.println(Color.CYAN + "It's "+ JSONConverter.currentPlayer+"'s turn." + Color.RESET);
         }
+        System.out.println();
     }
 
     @Override
@@ -539,7 +541,7 @@ public class Cli implements View {
         for (int k = 0; k < JSONConverter.shelf.size(); k++) {
             String[][] userShelf = JSONConverter.shelf.get(k);
             if (JSONConverter.currentPlayer.equals(JSONConverter.players.get(k))) {
-                System.out.println("My's Shelf:");
+                System.out.println("My Shelf:");
             } else {
                 System.out.println(JSONConverter.players.get(k) + "'s Shelf:");
             }
@@ -556,8 +558,6 @@ public class Cli implements View {
             }
             System.out.println();
         }
-
-        System.out.println();
     }
 
     @Override
@@ -622,11 +622,14 @@ public class Cli implements View {
         List<String> playerList = JSONConverter.players;
         List<Integer> scoreList = JSONConverter.scores;
         for (int i = 0; i < playerList.size(); i++) {
-            System.out.println(playerList.get(i) + "'s stats: ");
-            System.out.println(playerList.get(i) + "'s score: " + scoreList.get(i));
-            showShelf();
+            System.out.println("> " + playerList.get(i) + "'s stats: ");
+            System.out.println("  " + "SCORE:\t" + scoreList.get(i));
+            System.out.println("  " + "STATUS:\t");
         }
+        System.out.println();
+        showShelf();
         showCurrentPlayer();
+        showHand();
         System.out.println();
     }
 
@@ -707,10 +710,10 @@ public class Cli implements View {
      * @return Index(ROW,COLUMN,Position according to type)
      */
     public int askTheIndex(String type, int lower_limit, int upper_limit){
-        int select=0;
+        int select = 0;
         do {
             try {
-                System.out.print(type +" ("+lower_limit+" to " + (upper_limit - 1) + "): ");
+                System.out.print(type + " (" + lower_limit + " to " + (upper_limit - 1) + "): ");
                 select = Integer.parseInt(readLine());
                 if (select < lower_limit || select > upper_limit) {
                     System.out.println(Color.RED + "Invalid number! Please try again." + Color.RESET);
@@ -810,8 +813,8 @@ public class Cli implements View {
         boolean sortConfirm;
         int position1, position2;
         do {
-            position1 = askTheIndex("Position1", 1, JSONConverter.currentPlayerHand.size()+1);
-            position2 = askTheIndex("Position2", 1, JSONConverter.currentPlayerHand.size()+1);
+            position1 = askTheIndex("Position1", 1, JSONConverter.currentPlayerHand.size() + 1);
+            position2 = askTheIndex("Position2", 1, JSONConverter.currentPlayerHand.size() + 1);
             System.out.println("You have chosen to swap " +
                                JSONConverter.currentPlayerHand.get(position1 - 1).replace("_","") +
                                " and " +
@@ -819,12 +822,12 @@ public class Cli implements View {
             System.out.print("""
             -----------------------------------------------------------
             Confirm your choice?
-            y     --> Yes
-            'any' --> Retry
+            y     --> Yes.
+            'any' --> Retry.
             -----------------------------------------------------------
             Enter the option you wish to select:\040""");
             sortConfirm ="y".equals(readLine());
-        } while(!sortConfirm);
+        } while (!sortConfirm);
         List<Integer> index = new ArrayList<>();
         index.add(position1 - 1);
         index.add(position2 - 1);
@@ -882,7 +885,6 @@ public class Cli implements View {
             }
         }
         askToContinue();
-
     }
 
     @Override
@@ -905,19 +907,20 @@ public class Cli implements View {
         String object = "";
         while (!object.equals("n")){
             System.out.print("""
+                -----------------------------------------------------------
                 List of Objects:
-                hand - Show selected items.
-                pgoal - See your Personal Goal.
-                cgoal - See Common Goals.
-                shelf - See your shelf and the insertion limit.
-                board - See Living Room Board.
-                stats - See Players Stats.
-                rules - See Game Rules.
-                end - Show if the Endgame Token is taken (if it is, then it's the last round).
-                online - Show Online Players
-                timer - Show timer.
-                n - Cancel and go back.
-                
+                hand   --> Show selected items.
+                pgoal  --> See your Personal Goal.
+                cgoal  --> See Common Goals.
+                shelf  --> See your shelf and the insertion limit.
+                board  --> See Living Room Board.
+                stats  --> See Players Stats.
+                rules  --> See Game Rules.
+                end    --> Show if the Endgame Token is taken (if it is, then it's the last round).
+                online --> Show Online Players.
+                timer  --> Show timer.
+                n      --> Cancel and go back.
+                -----------------------------------------------------------
                 Enter the object you wish to be shown:\040""");
             object = readLine();
             switch (object) {
@@ -941,8 +944,6 @@ public class Cli implements View {
     @Override
     public void showOnlinePlayer() throws RemoteException {
         iClientInputHandler.printOnlinePlayers();
-        System.out.println();
-        //askToContinue();
     }
     public void printer(String message){
         System.out.println(message);

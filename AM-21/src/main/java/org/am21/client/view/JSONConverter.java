@@ -20,6 +20,7 @@ public class JSONConverter {
     public static List<String> commonGoal;
     public static List<Integer> commonGoalScore;
     //TODO: personalGoal should be a list, each slot for a player, the index should also correspond
+    //TODO: userStatus
     public static int personalGoal;
     public static List<String[][]> shelf;
     public static String gamePhase;
