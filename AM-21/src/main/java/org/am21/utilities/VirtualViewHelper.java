@@ -22,10 +22,10 @@ public class VirtualViewHelper {
     public static void buildVirtualView(Match match) {
         match.virtualView = new VirtualView();
         virtualizeMatchID(match);
-        updateVirtualBoard(match);
+        virtualizeBoard(match);
         virtualizePlayersData(match);
-        setVirtualCurrentPlayer(match);
-        setCommonGoal(match);
+        virtualizeCurrentPlayer(match);
+        virtualizeCommonGoal(match);
         setGamePhase(match);
         updateCommonGoalScore(match);
         virtualizeCurrentPlayerHand(match);
@@ -51,7 +51,7 @@ public class VirtualViewHelper {
             int goalID = Integer.parseInt(temp);
             personalGoals.add(goalID);  //PersonalGoal
             scores.add(player.getPlayerScore());
-            shelves.add(buildVirtualShelves(player.getShelf()));
+            shelves.add(virtualizeShelves(player.getShelf()));
         }
         match.virtualView.setPlayers(players);
         match.virtualView.setPersonalGoals(personalGoals);
@@ -80,20 +80,20 @@ public class VirtualViewHelper {
     public static void updateVirtualShelves(Match match) {
         List<String[][]> shelves = new ArrayList<>();
         for (Player player : match.playerList) {
-            shelves.add(buildVirtualShelves(player.getShelf()));
+            shelves.add(virtualizeShelves(player.getShelf()));
         }
         match.virtualView.setShelves(shelves);
     }
 
-    //TODO: setShelf that update just currentPlayer shelf (called at the end of his turn)
+    //TODO: setShelf that update just currentPlayer shelves (called at the end of his turn)
 
     /**
-     * This method will build a shelves to the virtual view
+     * This method will virtualize the shelves and put them in the Virtual View
      *
      * @param shelf the shelves
      * @return the virtual view
      */
-    private static String[][] buildVirtualShelves(Shelf shelf) {
+    private static String[][] virtualizeShelves(Shelf shelf) {
         String[][] tempShelf = new String[Shelf.SHELF_ROW][Shelf.SHELF_COLUMN];
         for (int i = 0; i < Shelf.SHELF_ROW; i++) {
             for (int j = 0; j < Shelf.SHELF_COLUMN; j++) {
@@ -106,12 +106,16 @@ public class VirtualViewHelper {
     }
 
     /**
-     * This method will set the board to the virtual view
-     * Call this method once the board changes
+     * This method will virtualize the Board.
+     * Code:
+     * - null -> empty cell
+     * - value -> ItemName
+     * -
+     * Call this method for setup or for update.
      *
      * @param match the match
      */
-    public static void updateVirtualBoard(Match match) {
+    public static void virtualizeBoard(Match match) {
         int row = match.board.gRow;
         int column = match.board.gColumn;
         String[][] board = new String[row][column];
@@ -130,7 +134,7 @@ public class VirtualViewHelper {
      * call this method every time the round starts
      * @param match the match
      */
-    public static void setVirtualCurrentPlayer(Match match) {
+    public static void virtualizeCurrentPlayer(Match match) {
         match.virtualView.setCurrentPlayer(match.currentPlayer.getNickname());
     }
 
@@ -147,7 +151,7 @@ public class VirtualViewHelper {
      * call this method only when the match starts
      * @param match the match
      */
-    private static void setCommonGoal(Match match) {
+    private static void virtualizeCommonGoal(Match match) {
         List<String> commonGoal = new ArrayList<>();
         for (int i = 0; i < match.commonGoals.size(); i++) {
             commonGoal.add(match.commonGoals.get(i).getNameCard());
@@ -170,7 +174,7 @@ public class VirtualViewHelper {
     }
 
     //TODO: set the end game token
-    public static void setEndGame(Match match) {
+    public static void virtualizeEndGame(Match match) {
         match.virtualView.setEndGameToken(match.isEndGameToken());
     }
 
@@ -231,12 +235,22 @@ public class VirtualViewHelper {
         System.out.println(json);
     }
 
+    public static void printJSONBSH(Match m){
+        String json="";
+        json+= convertVirtualBoardToJSON(m.virtualView);
+        json+= convertVirtualShelfListToJSON(m.virtualView);
+        json+= convertVirtualHandToJSON(m.virtualView);
+        System.out.println(json);
+
+    }
+
     public static String convertVirtualHandToJSON(VirtualView virtualView) {
         return JSON.toJSONString(virtualView.getCurrentPlayerHand());
     }
 
     /**
      * Virtualize current player's hand in String
+     * Can be used for setup or for update
      * @param match the match
      */
     public static void virtualizeCurrentPlayerHand(Match match) {

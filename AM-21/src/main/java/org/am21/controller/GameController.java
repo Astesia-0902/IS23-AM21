@@ -103,6 +103,7 @@ public class GameController {
             /*System.out.println("Message from the server: the player already exists in a match. " +
                     "Create a new match will cause the player leave the current match." +
                     "Do you want to continue?");*/
+            //TODO:
             GameManager.sendCommunication(playerController,ServerMessage.PExists);
             createMatchRequestCount = 1;
         } else if (GameManager.playerMatchMap.containsKey(userName) && createMatchRequestCount == 1) {
@@ -154,7 +155,8 @@ public class GameController {
             GameManager.sendTextCommunication(ctrl, SC.WHITE_BB+"\nServer > Game Closed"+SC.RST);
             for(Player p:GameManager.players) {
                 if(p.getController().clientInput.callBack!=null) {
-                    GameManager.sendTextCommunication(p.getController(),SC.YELLOW_BB+"\nServer > "+ctrl.getPlayer().getNickname()+" left the game"+SC.RST+"Press 'Enter'");
+                    GameManager.sendTextCommunication(p.getController(),SC.YELLOW_BB+"\nServer > "
+                            +ctrl.getPlayer().getNickname()+" left the game\n"+SC.RST+"Press 'Enter'");
                 }
             }
             return true;

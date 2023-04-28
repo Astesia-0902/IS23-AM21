@@ -11,8 +11,7 @@ import java.util.concurrent.ExecutionException;
 
 public class ClientApp {
     public static void main(String[] args) throws MalformedURLException, NotBoundException, ServerNotActiveException, ExecutionException, RemoteException {
-        LocalStorage disk = new LocalStorage();
-        Cli cli = new Cli(disk);
+        Cli cli = new Cli();
 
         run(cli);
         //runCliTest(cli);

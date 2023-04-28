@@ -16,4 +16,8 @@ public interface IClientCallBack extends Remote {
     void notifyEndMatch() throws RemoteException;
 
     void sendVirtualHand(String JSONHand) throws RemoteException;
+
+    void sendVirtualBoard(String jsonBoard) throws RemoteException;
+
+    void sendVirtualShelves(String jsonShelves) throws RemoteException;
 }

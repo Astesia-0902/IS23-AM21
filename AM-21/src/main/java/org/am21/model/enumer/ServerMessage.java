@@ -7,12 +7,11 @@ public enum ServerMessage {
 
     //Login phase
     Login_Ok(SC.CYAN+"Server > Login successful."+ SC.RST +"\nServer > Hi "),
-    Login_No("Server > Access denied. This username is already taken, please enter a new one..."),
     ListP("Server > List of online players" +
             ": "),
 
     //Create match phase
-    PExists("Server > The player already exists in match. In order to create a new match, you need to abandon the current one. Do you wish to continue?"),
+    PExists("Server > The player already exists in match.\nIn order to create a new match, you need to abandon the current one.\nDo you wish to continue?"),
     PExceed("Server > Exceeded player number limit. Try again"),
     CreateM_Ok(SC.CYAN+"Server > Match successfully created"+ SC.RST),
     CreateM_No("Server > Failed to create a new Match"),
@@ -34,9 +33,9 @@ public enum ServerMessage {
     Selection_No("Server > Selection failed"),
     Cell_Empty("Server > The cell is empty"),
     Cell_Illegal("Server > You selected an illegal cell"),
-    Cell_Selected("Server > You have already selected this cell"),
-    Cell_Free("Server > The cell was not selectable. Pick an item which has a free side"),
-    Cell_Orthogonal("Server > The cell was not selectable. Pick an item which is adjacent and in line with the other selected items"),
+    ReSelected("Server > You have already selected this cell"),
+    No_Free("Server > The cell was not selectable. Pick an item which has a free side"),
+    No_Orthogonal("Server > The cell was not selectable. Pick an item which is adjacent and in line with the other selected items"),
     Hand_Full("Server > You reached the limit of items you could pick"),
 
     //Game phase (Deselection phase)
@@ -58,13 +57,6 @@ public enum ServerMessage {
 
 
     //Game phase (Show object phase)
-    TheseAreTheCommonGoals(""),
-    ThisIsYourPersonalGoal(""),
-    HereIsTheBoard(""),
-    HereIsTheShelf(""),
-    HereIsTheCommonGoal(""),
-    HereIsThePersonalGoal(""),
-    HereIsThePlayersStats(""),
 
     //Game phase (Goal achievement phase)
     YouMatchedAnItem(""),
@@ -79,12 +71,8 @@ public enum ServerMessage {
     //Help Command phase
 
     //Game phase (Game over phase)
-    GameOver(""),
-    YouWon(""),
-    YouAreTheSecond(""),
-    YouAreTheThird(""),
-    YouAreTheFourth(""),
-    HereIsTheEndGameToken(""),
+    GameOver("Server > GAME OVER"),
+    YouWon("Server > Congratulation! The winner is "),
 
     //Leave match phase
     UserLeave("Server > User left the game"),
@@ -92,14 +80,13 @@ public enum ServerMessage {
 
     //Exit game phase
     SUD("Server > Saving user data"),
-    WaitingForPlayers(""),
+    GoodBye("Server > Bye! See you again"),
 
     //Any phase
-    ItIsYourTurn(""),
-    NotYourTurn(""),
-    RunOutOfTime(""),
-    WrongPhase(""),
-    Error("Error");
+    Error("Error"),
+
+    //NOt your turn
+    NotYourTurn(SC.RED_B+"Server > Wait. It's not your turn"+SC.RST);
 
     private final String replyMessage;
 

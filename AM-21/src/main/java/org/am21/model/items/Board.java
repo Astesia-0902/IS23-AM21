@@ -109,7 +109,7 @@ public class Board extends Grid {
 
             return true;
         } else {
-            match.sendMessageToAll(ServerMessage.Cell_Free);
+            match.sendMessageToAll(ServerMessage.No_Free);
             return false;
         }
     }

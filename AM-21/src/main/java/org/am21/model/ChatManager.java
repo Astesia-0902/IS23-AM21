@@ -57,7 +57,7 @@ public class ChatManager {
         for(int i=tmp;i<chatMessages.size();i++){
             lastTenMex+=chatMessages.get(i);
             if(i==chatMessages.size()-1){
-                lastTenMex+=" >> NEW  ";
+                lastTenMex+=" >> NEW\n\nPress 'Enter'";
             }
             lastTenMex+="\n";
 

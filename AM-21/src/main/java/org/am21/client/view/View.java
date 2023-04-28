@@ -17,7 +17,10 @@ public interface View {
     void showCommonGoals();
     void showPersonalGoal() throws RemoteException;
     void showCurrentPlayer() throws RemoteException;
-    void showShelf() throws RemoteException;
+    void showPlayerShelf() throws RemoteException;
+
+    void showEveryShelf() throws RemoteException;
+
     void showBoard() throws RemoteException;
     void showPlayersStats() throws RemoteException;
     void askPlayerMove() throws RemoteException, ServerNotActiveException;

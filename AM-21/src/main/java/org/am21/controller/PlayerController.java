@@ -85,7 +85,7 @@ public class PlayerController {
 //        System.out.println(player.getName() + " > Select: [" + r + "][" + c + "]");
         // verify if it is player turn or if it is the right phase
         if(!isMyTurn(player)||player.getMatch().gamePhase != GamePhase.Selection) {
-
+            GameManager.sendCommunication(this,ServerMessage.NotYourTurn);
             return false;
         }
         if(player.getShelf().insertLimit == hand.getSlot().size()){
@@ -109,7 +109,7 @@ public class PlayerController {
                     if ((r == tmp.x) && (c == tmp.y)) {
                         //Gia selezionato
                         //System.out.println("Board[!] > Already selected. Try again.");
-                        GameManager.sendCommunication(this,ServerMessage.Cell_Selected);
+                        GameManager.sendCommunication(this,ServerMessage.ReSelected);
                         return false;
                     }
                 }
@@ -122,7 +122,7 @@ public class PlayerController {
                    so they are valid for Orthogonality check*/
                 if (!board.isOrthogonal(r, c, hand)) {
                     //System.out.println("Board > Not Orthogonal ["+r+","+c+"]");
-                    GameManager.sendCommunication(this,ServerMessage.Cell_Orthogonal);
+                    GameManager.sendCommunication(this,ServerMessage.No_Orthogonal);
                     return false;
                 }
             }
@@ -134,8 +134,8 @@ public class PlayerController {
             VirtualViewHelper.virtualizeCurrentPlayerHand(player.getMatch());
             VirtualViewHelper.printJSONHand(player.getMatch());
             player.getMatch().updateVirtualHand();
-//            System.out.println("Match > Item selected: [" + tmpBoard.getCellItem(r, c).getNameCard() + "]");
-//
+            //System.out.println("Match > Item selected: [" + tmpBoard.getCellItem(r, c).getNameCard() + "]");
+
             return true;
         }
 
@@ -180,6 +180,7 @@ public class PlayerController {
         player.getMatch().setGamePhase(GamePhase.Insertion);
         moveAllToHand();
         //TODO: add VV update GamePhase and Board
+        VirtualViewHelper.virtualizeBoard(player.getMatch());
 
         return true;
     }
@@ -217,6 +218,7 @@ public class PlayerController {
         if(player.getMatch().gamePhase == GamePhase.Insertion){
             //System.out.println(player.getNickname()+" > Column: ["+col+"]");
             if(player.getShelf().slotCol.get(col) < hand.getSlot().size()){
+                GameManager.sendCommunication(this,ServerMessage.Hand_Full);
                 //System.out.println("Shelf[!] > Not enough space in this column");
                 /*
                 for(int x: player.shelves.slotCol){
@@ -232,7 +234,8 @@ public class PlayerController {
                         //System.out.println("Shelf > Insert...");
 
                     }else{
-                        //If one of the card cannot be put indide the column
+                        //If one of the card cannot be put inside the column
+                        //No need for reply
                         return false;
                     }
 
@@ -245,9 +248,11 @@ public class PlayerController {
                 //TODO : attento call end insertion dovrebbe essere atomico e chiamato dal client se tryToInsert va a buon fine
                 //callEndInsertion();
                 //TODO: add VV update Shelf, Hand, GamePhase
+                VirtualViewHelper.virtualizeBoard(player.getMatch());
                 VirtualViewHelper.virtualizeCurrentPlayerHand(player.getMatch());
                 VirtualViewHelper.updateVirtualShelves(player.getMatch());
-                player.getMatch().updateVirtualHand();
+                player.getMatch().updatePlayersVirtualView();
+                VirtualViewHelper.printJSONBSH(player.getMatch());
                 return true;
             }
         }

@@ -49,6 +49,22 @@ public class GameManager {
     }
 
     /**
+     * This method check if there is a nickname is already picked by someone else.
+     * @param name
+     * @return
+     */
+    public static boolean checkNameSake(String name){
+        synchronized (GameManager.players){
+            for(Player p: players){
+                if(name.equals(p.getNickname())){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
      * function to call server message
      * @param pc PlayerController
      * @param m ServerMessage

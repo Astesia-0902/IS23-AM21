@@ -1,7 +1,6 @@
 package org.am21.networkRMI;
 
-import org.am21.client.LocalStorage;
-import org.am21.client.view.JSONConverter;
+import org.am21.client.view.Storage;
 import org.am21.client.view.TUI.Cli;
 import org.am21.model.enumer.SC;
 
@@ -14,7 +13,6 @@ import java.rmi.server.UnicastRemoteObject;
 public class ClientCallBack extends UnicastRemoteObject implements IClientCallBack{
     public Cli cli;
 
-    public LocalStorage disk;
     public ClientCallBack() throws RemoteException {}
 
     @Override
@@ -34,7 +32,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     @Override
     public void sendVirtualView(String virtualView, int pIndex) throws RemoteException {
         //TODO:Update the virtual view
-        JSONConverter.setFullViewVariables(virtualView,pIndex );
+        Storage.setFullViewVariables(virtualView,pIndex );
     }
 
     @Override
@@ -51,7 +49,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
         if(cli!=null) {
             //TODO: Method invocation in CLI (for example: showMatchSetup) which will print the game first setup:
             //      Filled Board, 2 Common Goals, Player's Personal Goal
-            //      Furthermore, if the Client nickname correspond to JSONConverter.currentPlayer(String),
+            //      Furthermore, if the Client nickname correspond to Storage.currentPlayer(String),
             //      then the CLI will invoke showCurrentPlayer()
 
             cli.setMatchID(id);
@@ -91,6 +89,17 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
 
     @Override
     public void sendVirtualHand(String JSONHand) throws RemoteException {
-        JSONConverter.convertHand(JSONHand);
+        Storage.convertBackHand(JSONHand);
+    }
+
+
+    @Override
+    public void sendVirtualBoard(String jsonBoard) throws RemoteException {
+        Storage.convertBackBoard(jsonBoard);
+    }
+
+    @Override
+    public void sendVirtualShelves(String jsonShelves) throws RemoteException {
+        Storage.convertBackShelves(jsonShelves);
     }
 }

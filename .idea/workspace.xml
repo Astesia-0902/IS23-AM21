@@ -4,12 +4,44 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dd2f3e9a-b514-48f2-995d-660d696de66e" name="Changes" comment="fixed bug Cli">
+    <list default="true" id="dd2f3e9a-b514-48f2-995d-660d696de66e" name="Changes" comment="update Cli">
+      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/Storage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_04_2023_00_07__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_04_2023_00_07__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_25_04_2023_01_06__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_25_04_2023_01_06__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_25_04_2023_17_03__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_25_04_2023_17_03__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_04_2023_00_02__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_04_2023_00_02__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_04_2023_11_29__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_04_2023_11_29__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_04_2023_11_57__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_04_2023_11_57__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_04_2023_14_54__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_27_04_2023_14_54__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_28_04_2023_12_38__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_28_04_2023_12_38__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_28_04_2023_16_35__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_28_04_2023_16_35__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_28_04_2023_16_35__Changes_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_28_04_2023_16_35__Changes_1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/JSONConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/JSONConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/ClientApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/ClientApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/LocalStorage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/JSONConverter.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/Cli.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/Cli.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/View.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/PlayerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/PlayerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/ChatManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/ChatManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/GameManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/enumer/ServerMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/enumer/ServerMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientCallBack.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientCallBack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientInputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientInputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/IClientCallBack.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/IClientCallBack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/VirtualViewHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/VirtualViewHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/CLITest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/CLITest.java" afterDir="false" />
     </list>
     <list id="19ab3365-554c-40d9-959c-e6407d37c953" name="Changes by jef" comment="" />
+    <list id="64e1bfe8-5cd0-4a7d-8217-c090321f1a9a" name="Changes by maoyh" comment="">
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/enumer/ServerMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/enumer/ServerMessage.java" afterDir="false" />
+    </list>
+    <list id="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" name="Changes by ximeng" comment="">
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/Cli.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/Cli.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,6 +70,77 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/enumer/ServerMessage.java">
+      <ranges>
+        <range start1="9" end1="10" start2="9" end2="10" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="14" end1="15" start2="14" end2="15" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="36" end1="39" start2="36" end2="39" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="60" end1="67" start2="60" end2="60" changelist="64e1bfe8-5cd0-4a7d-8217-c090321f1a9a" />
+        <range start1="81" end1="87" start2="74" end2="76" changelist="64e1bfe8-5cd0-4a7d-8217-c090321f1a9a" />
+        <range start1="94" end1="95" start2="83" end2="84" changelist="64e1bfe8-5cd0-4a7d-8217-c090321f1a9a" />
+        <range start1="97" end1="102" start2="86" end2="90" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/Cli.java">
+      <ranges>
+        <range start1="2" end1="4" start2="2" end2="3" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="20" end1="21" start2="19" end2="19" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="22" end1="22" start2="20" end2="21" changelist="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" />
+        <range start1="26" end1="26" start2="25" end2="26" changelist="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" />
+        <range start1="48" end1="50" start2="48" end2="49" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="53" end1="54" start2="52" end2="53" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="80" end1="81" start2="79" end2="80" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="98" end1="100" start2="97" end2="99" changelist="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" />
+        <range start1="227" end1="237" start2="226" end2="227" changelist="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" />
+        <range start1="249" end1="250" start2="239" end2="239" changelist="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" />
+        <range start1="263" end1="274" start2="252" end2="253" changelist="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" />
+        <range start1="291" end1="303" start2="270" end2="272" changelist="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" />
+        <range start1="304" end1="313" start2="273" end2="274" changelist="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" />
+        <range start1="341" end1="341" start2="302" end2="303" changelist="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" />
+        <range start1="414" end1="415" start2="376" end2="376" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="440" end1="442" start2="401" end2="403" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="443" end1="444" start2="404" end2="405" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="445" end1="445" start2="406" end2="407" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="451" end1="524" start2="413" end2="426" changelist="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" />
+        <range start1="530" end1="532" start2="432" end2="434" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="533" end1="534" start2="435" end2="436" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="537" end1="537" start2="439" end2="457" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="539" end1="547" start2="459" end2="463" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="564" end1="565" start2="480" end2="481" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="584" end1="584" start2="500" end2="501" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="621" end1="623" start2="538" end2="540" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="629" end1="630" start2="546" end2="547" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="637" end1="643" start2="554" end2="559" changelist="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" />
+        <range start1="644" end1="677" start2="560" end2="585" changelist="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" />
+        <range start1="678" end1="692" start2="586" end2="589" changelist="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" />
+        <range start1="728" end1="729" start2="625" end2="626" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="733" end1="742" start2="630" end2="632" changelist="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" />
+        <range start1="743" end1="750" start2="633" end2="636" changelist="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" />
+        <range start1="759" end1="768" start2="645" end2="646" changelist="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" />
+        <range start1="774" end1="775" start2="652" end2="653" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="777" end1="778" start2="655" end2="656" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="815" end1="817" start2="693" end2="695" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="818" end1="819" start2="696" end2="697" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="820" end1="828" start2="698" end2="700" changelist="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" />
+        <range start1="838" end1="840" start2="710" end2="712" changelist="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" />
+        <range start1="843" end1="846" start2="715" end2="718" changelist="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" />
+        <range start1="859" end1="865" start2="731" end2="732" changelist="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" />
+        <range start1="872" end1="873" start2="739" end2="740" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="891" end1="893" start2="758" end2="760" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="894" end1="895" start2="761" end2="762" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="908" end1="924" start2="775" end2="776" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="929" end1="930" start2="781" end2="782" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="954" end1="1063" start2="806" end2="818" changelist="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" />
+        <range start1="1068" end1="1099" start2="823" end2="824" changelist="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" />
+        <range start1="1100" end1="1111" start2="825" end2="826" changelist="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" />
+        <range start1="1112" end1="1120" start2="827" end2="828" changelist="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" />
+        <range start1="1121" end1="1129" start2="829" end2="830" changelist="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" />
+        <range start1="1130" end1="1153" start2="831" end2="832" changelist="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" />
+        <range start1="1154" end1="1155" start2="833" end2="833" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+      </ranges>
+    </file>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -716,21 +819,6 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="13" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/PlayerController.java</url>
-          <line>133</line>
-          <option name="timeStamp" value="22" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/PlayerController.java</url>
-          <line>134</line>
-          <option name="timeStamp" value="23" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/PlayerController.java</url>
-          <line>135</line>
-          <option name="timeStamp" value="24" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>
@@ -752,16 +840,19 @@
     <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/IS23_AM21$ShelfTest.ic" NAME="ShelfTest Coverage Results" MODIFIED="1681234399840" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>org.am21.model.items.Shelf</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IS23_AM21$PlayerTest_unfinishedGameSimulation.ic" NAME="PlayerTest.unfinishedGameSimulation Coverage Results" MODIFIED="1680734516188" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>org.am21.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IS23_AM21$PlayerTest__1_.ic" NAME="PlayerTest (1) Coverage Results" MODIFIED="1680734477813" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>org.am21.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/IS23_AM21$MatchTest.ic" NAME="MatchTest Coverage Results" MODIFIED="1682199892824" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>org.am21.model.Match</FILTER>
       <FILTER>org.am21.model.Player</FILTER>
       <FILTER>org.am21.controller.PlayerController</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/IS23_AM21$PlayerControllerTest_selectionSimulation.ic" NAME="PlayerControllerTest.selectionSimulation Coverage Results" MODIFIED="1680467526674" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>org.am21.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/IS23_AM21$PlayerControllerTest_randomSimulation.ic" NAME="PlayerControllerTest.randomSimulation Coverage Results" MODIFIED="1680449427731" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>org.am21.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/IS23_AM21$PlayerTest.ic" NAME="PlayerTest Coverage Results" MODIFIED="1681245462567" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>org.am21.controller.PlayerController</FILTER>
@@ -770,34 +861,28 @@
       <FILTER>org.am21.model.items.Board</FILTER>
       <FILTER>org.am21.model.items.Shelf</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/IS23_AM21$WrongModelTest_runner.ic" NAME="WrongModelTest.runner Coverage Results" MODIFIED="1680734633906" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>org.am21.extra.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/IS23_AM21$ShelfTest.ic" NAME="ShelfTest Coverage Results" MODIFIED="1681234399840" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>org.am21.model.items.Shelf</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/IS23_AM21$PlayerTest__1_.ic" NAME="PlayerTest (1) Coverage Results" MODIFIED="1680734477813" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/IS23_AM21$PlayerControllerTest.ic" NAME="PlayerControllerTest Coverage Results" MODIFIED="1680447627787" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/IS23_AM21$MatchTest_run.ic" NAME="MatchTest.run Coverage Results" MODIFIED="1680507582967" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>org.am21.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/IS23_AM21$PlayerControllerTest.ic" NAME="PlayerControllerTest Coverage Results" MODIFIED="1680447627787" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/IS23_AM21$BagTest.ic" NAME="BagTest Coverage Results" MODIFIED="1681165337612" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>org.am21.model.items.Bag</FILTER>
       <FILTER>org.am21.utilities.BoardUtil</FILTER>
       <FILTER>org.am21.utilities.CardUtil</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/IS23_AM21$PlayerTest_unfinishedGameSimulation.ic" NAME="PlayerTest.unfinishedGameSimulation Coverage Results" MODIFIED="1680734516188" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>org.am21.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/IS23_AM21$GameTest.ic" NAME="GameTest Coverage Results" MODIFIED="1682200260552" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>org.am21.model.*</FILTER>
+    <SUITE FILE_PATH="coverage/IS23_AM21$BoardTest_testOccupation.ic" NAME="BoardTest.testOccupation Coverage Results" MODIFIED="1680734659047" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>org.am21.board.*</FILTER>
-      <FILTER>org.am21.controller.*</FILTER>
-      <FILTER>org.am21.utilities.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/IS23_AM21$WrongModelTest_testPlayerList.ic" NAME="WrongModelTest.testPlayerList Coverage Results" MODIFIED="1680734614689" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>org.am21.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/IS23_AM21$MatchTest_run.ic" NAME="MatchTest.run Coverage Results" MODIFIED="1680507582967" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/IS23_AM21$WrongModelTest_runner.ic" NAME="WrongModelTest.runner Coverage Results" MODIFIED="1680734633906" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>org.am21.extra.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IS23_AM21$PlayerControllerTest_randomSimulation.ic" NAME="PlayerControllerTest.randomSimulation Coverage Results" MODIFIED="1680449427731" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>org.am21.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IS23_AM21$PlayerControllerTest_selectionSimulation.ic" NAME="PlayerControllerTest.selectionSimulation Coverage Results" MODIFIED="1680467526674" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>org.am21.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/IS23_AM21$CommonGoalTest.ic" NAME="CommonGoalTest Coverage Results" MODIFIED="1681165866156" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
@@ -810,14 +895,17 @@
       <FILTER>org.am21.model.Cards.CommonGoal</FILTER>
       <FILTER>org.am21.model.Cards.CommonGoals.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/IS23_AM21$GameTest.ic" NAME="GameTest Coverage Results" MODIFIED="1682200260552" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>org.am21.model.*</FILTER>
+      <FILTER>org.am21.board.*</FILTER>
+      <FILTER>org.am21.controller.*</FILTER>
+      <FILTER>org.am21.utilities.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/IS23_AM21$BoardTest.ic" NAME="BoardTest Coverage Results" MODIFIED="1681165499235" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>org.am21.model.items.Board</FILTER>
       <FILTER>org.am21.model.items.Bag</FILTER>
       <FILTER>org.am21.utilities.BoardUtil</FILTER>
       <FILTER>org.am21.model.items.Grid</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/IS23_AM21$BoardTest_testOccupation.ic" NAME="BoardTest.testOccupation Coverage Results" MODIFIED="1680734659047" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>org.am21.board.*</FILTER>
     </SUITE>
   </component>
 </project>

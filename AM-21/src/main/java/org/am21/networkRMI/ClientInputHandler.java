@@ -59,12 +59,16 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      */
     @Override
     public boolean logIn(String username, IClientCallBack clientCallBack) throws RemoteException, ServerNotActiveException {
+        if(GameManager.checkNameSake(username)){
+           return false;
+        }
         userHost = getClientHost();
         this.userName = username;
         //TODO: separate CIH from playerController constructor (RMI not needed for model & controller testing)
         playerController = new PlayerController(username, this);
         //TODO:the same username is not allowed to log in(same name not allowed)
         synchronized (GameManager.players) {
+
             if (!GameManager.players.contains(playerController.getPlayer())) {
                 GameManager.players.add(playerController.getPlayer());
             }
@@ -102,11 +106,6 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         return false;
     }
 
-//    public void startMatch(){
-//        if(GameManager.playerMatchMap.containsKey(playerController.player.getName())){
-//            GameManager.matchList.get(GameManager.playerMatchMap.get(playerController.player.getName())).matchStart();
-//        }
-//    }
 
     /**
      * @param row

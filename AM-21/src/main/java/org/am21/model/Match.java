@@ -5,7 +5,10 @@ import org.am21.model.Cards.PersonalGoalCard;
 import org.am21.model.enumer.*;
 import org.am21.model.items.Board;
 import org.am21.model.items.Shelf;
-import org.am21.utilities.*;
+import org.am21.utilities.CardUtil;
+import org.am21.utilities.CommonGoalUtil;
+import org.am21.utilities.MyTimer;
+import org.am21.utilities.VirtualViewHelper;
 
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
@@ -81,7 +84,7 @@ public class Match {
     public boolean addPlayer(Player player) {
         synchronized (playerList) {
             if (playerList.size() < maxSeats) {
-                sendTextToAll(SC.YELLOW_BB +"Server > "+player.getNickname()+" joined the match."+ SC.RST);
+                sendTextToAll(SC.YELLOW_BB +"\nServer > "+player.getNickname()+" joined the match."+ SC.RST);
                 playerList.add(player);
                 player.setStatus(UserStatus.GameMember);
                 player.setMatch(this);
@@ -136,6 +139,7 @@ public class Match {
                 sendTextToAll(SC.YELLOW_BB+"\nServer > "+player.getNickname() + " left the match"+SC.RST);
                 checkRoom();
                 //TODO: update VV PLayersList and Player Score, Shelf List...
+                //TODO: watch out what if shelf is null
                 return true;
             }
             return false;
@@ -159,6 +163,7 @@ public class Match {
             checkPersonalGoals();
             checkShelfPoints();
             //TODO: add VV update Players scores
+            VirtualViewHelper.updateVirtualScores(this);
             endMatch();
         } else {
             //Not End Game
@@ -170,24 +175,29 @@ public class Match {
                 if (board.bag.refillBoard()) {
                     //GameGear.printThisBoard(board);
                     //TODO: update VV board
+                    VirtualViewHelper.virtualizeBoard(this);
 
                 }
             }
 
 
-            // Check if the CurrentPlayer is the first to complete his shelf
+            // Check if the CurrentPlayer is the first to complete his shelves
             if (currentPlayer.getShelf().getTotSlotAvail() == 0 && gameState != GameState.LastRound) {
                 //System.out.println("Match > Congratulations! " + currentPlayer.getNickname() + " has completed the shelves first");
                 this.setEndGameToken(false);
-                //System.out.println("Match > EndGame Token assigned");
+                //System.out.println("Match > virtualizeEndGame Token assigned");
                 firstToComplete = currentPlayer;
                 firstToComplete.setPlayerScore(firstToComplete.getPlayerScore() + 1);
                 gameState = GameState.LastRound;
                 //TODO: update VV Endgame token, player score
+                VirtualViewHelper.updateVirtualScores(this);
+                VirtualViewHelper.virtualizeEndGame(this);
             }
             this.nextTurn();
             //TODO: Add VV update CurrentPlayer.
             //      notify all at end
+            VirtualViewHelper.virtualizeCurrentPlayer(this);
+            updatePlayersVirtualView();
         }
     }
 
@@ -386,19 +396,7 @@ public class Match {
 
     }
 
-    /**
-     * Get the JSON of the virtual view
-     *
-     * @return the JSON of the virtual view
-     */
 
-    public String getJSONVirtualView() {
-        return VirtualViewHelper.convertVirtualViewToJSON(virtualView);
-    }
-
-    public String getJSONHand(){
-        return VirtualViewHelper.convertVirtualHandToJSON(virtualView);
-    }
 
     /**
      * Update each player with the new version of the virtual view
@@ -491,6 +489,38 @@ public class Match {
         }
 
     }
+
+    /**
+     * Get the JSON of the virtual view
+     *
+     * @return the JSON of the virtual view
+     */
+
+    public String getJSONVirtualView() {
+        return VirtualViewHelper.convertVirtualViewToJSON(virtualView);
+    }
+
+    public String getJSONHand(){
+        return VirtualViewHelper.convertVirtualHandToJSON(virtualView);
+    }
+
+    /*public String getJSONBoardShelfHand() {
+        List<String> final_file=new ArrayList<>();
+        Collections.addAll(final_file,VirtualViewHelper.convertVirtualBoardToJSON(virtualView),
+                VirtualViewHelper.convertVirtualShelfListToJSON(virtualView),
+                VirtualViewHelper.convertVirtualHandToJSON(virtualView));
+        return JSON.toJSONString(final_file);
+    }*/
+
+    public String getJSONBoard(){
+        return VirtualViewHelper.convertVirtualBoardToJSON(virtualView);
+
+    }
+
+    public  String getJSONShelves(){
+        return VirtualViewHelper.convertVirtualShelfListToJSON(virtualView);
+    }
+
 
 
 }
