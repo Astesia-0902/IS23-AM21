@@ -8,13 +8,22 @@ public enum Color {
 
     RED_BG("\u001B[41m"),
     WHITE_BG("\u001B[47m"),
-    RED_BRIGHT("\033[0;91m"),
     RED_BB("\033[1;91m"),
 
     // Regular Colors. Normal color, no bold, background color etc.
     RED("\033[0;31m"),      // RED
     YELLOW("\033[0;33m"),   // YELLOW
     CYAN("\033[0;36m"),     // CYAN
+
+    // High Intensity
+    BLACK_BRIGHT("\033[0;90m"),     // BLACK
+    RED_BRIGHT("\033[0;91m"),       // RED
+    GREEN_BRIGHT("\033[0;92m"),     // GREEN
+    YELLOW_BRIGHT("\033[0;93m"),    // YELLOW
+    BLUE_BRIGHT("\033[0;94m"),      // BLUE
+    MAGENTA_BRIGHT("\033[0;95m"),   // MAGENTA
+    CYAN_BRIGHT("\033[0;96m"),      // CYAN
+    WHITE_BRIGHT("\033[0;97m"),     // WHITE
 
     YELLOW_BOLD("\033[1;33m"),  // YELLOW
     WHITE_BOLD("\033[1;37m"),   // WHITE
