@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.am21.client.view.TUI.Color;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -595,4 +597,29 @@ public class Storage {
             To send a message to an online player type ‘/chat[nickname]’ followed by a 'space' and your message.""";
 
 
+
+    public static List<String> tips = new ArrayList<>();
+    static {
+        Collections.addAll(tips,
+                Color.YELLOW+"--Tip: Use abbreviation 'se' to SELECT"+Color.RESET,
+                Color.YELLOW+"--Tip: Use command abbreviation 'se' to SELECT"+Color.RESET,
+                Color.YELLOW+"--Tip: Use command abbreviation 'in' to INSERT"+Color.RESET,
+                Color.YELLOW+"--Tip: Use command abbreviation 'so' to SORT"+Color.RESET,
+                Color.YELLOW+"--Rule: You can only select items with at least one free side"+Color.RESET,
+                Color.YELLOW+"--Rule: The number of items you can select depends on the Shelf Limitations (at most 3)"+Color.RESET,
+                Color.YELLOW+"--Tip: See your Personal Goal and try to achieve more points"+Color.RESET,
+                Color.YELLOW+"--Tip: See the Common Goals and try to achieve more points"+Color.RESET,
+                Color.YELLOW+"--Tip: You can delete all your selections by using 'deselect' command"+Color.RESET,
+                Color.YELLOW+"--Tip: Use command abbreviation 'de' to DESELECT"+Color.RESET,
+                Color.YELLOW+"--Tip: Use command abbreviation 'sh' to SHOW OBJECT"+Color.RESET,
+                Color.YELLOW+"--Tip: Use command abbreviation 'se' to SELECT"+Color.RESET,
+                Color.YELLOW+"--Tip: Use command abbreviation 'se' to SELECT"+Color.RESET,
+                Color.YELLOW+"--Tip: Use command abbreviation 'se' to SELECT"+Color.RESET,
+                Color.YELLOW+"--Tip: Use command abbreviation 'se' to SELECT"+Color.RESET,
+                Color.YELLOW+"--Tip: Use command abbreviation 'se' to SELECT"+Color.RESET,
+                Color.YELLOW+"--Tip: Use command abbreviation 'se' to SELECT"+Color.RESET,
+                Color.YELLOW+"--Tip: Use command abbreviation 'se' to SELECT"+Color.RESET,
+                Color.YELLOW+"--Tip: Use command abbreviation 'se' to SELECT"+Color.RESET
+                );
+    }
 }

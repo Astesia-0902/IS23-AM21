@@ -908,6 +908,7 @@ public class Cli implements View {
         //TODO: notify when the command is not found
         while (GAME_ON && !GO_TO_MENU) {
             showCommandMenu();
+            showRandomTip();
             System.out.print("""
                     -----------------------------------------------------------
                     Enter the command you wish to use:\040""");
@@ -933,5 +934,11 @@ public class Cli implements View {
                 }
             }
         }
+    }
+
+    private void showRandomTip() {
+        String tip=Storage.tips.get((int) (Math.random() * Storage.tips.size()));
+        System.out.println(tip);
+
     }
 }

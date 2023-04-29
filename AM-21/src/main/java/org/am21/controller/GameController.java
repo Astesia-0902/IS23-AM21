@@ -151,12 +151,14 @@ public class GameController {
      */
     public static boolean cancelPlayer(PlayerController ctrl){
         if(GameManager.players.contains(ctrl.getPlayer())){
-            GameManager.players.remove(GameManager.players.indexOf(ctrl.getPlayer()));
             GameManager.sendTextCommunication(ctrl, SC.WHITE_BB+"\nServer > Game Closed"+SC.RST);
-            for(Player p:GameManager.players) {
-                if(p.getController().clientInput.callBack!=null) {
-                    GameManager.sendTextCommunication(p.getController(),SC.YELLOW_BB+"\nServer > "
-                            +ctrl.getPlayer().getNickname()+" left the game\n"+SC.RST+"Press 'Enter'");
+            GameManager.players.remove(GameManager.players.indexOf(ctrl.getPlayer()));
+            if(GameManager.players.size()>0) {
+                for (Player p : GameManager.players) {
+                    if (p.getController().clientInput.callBack != null) {
+                        GameManager.sendTextCommunication(p.getController(), SC.YELLOW_BB + "\nServer > "
+                                + ctrl.getPlayer().getNickname() + " left the game\n" + SC.RST + "Press 'Enter'");
+                    }
                 }
             }
             return true;
