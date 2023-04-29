@@ -16,7 +16,10 @@ public interface View {
     boolean askExitGame() throws RemoteException;
     void showCommonGoals();
     void showPersonalGoal() throws RemoteException;
-    void showCurrentPlayer() throws RemoteException;
+    void announceCurrentPlayer() throws RemoteException;
+
+    void showWhoIsPlaying();
+
     void showPlayerShelf() throws RemoteException;
 
     void showEveryShelf() throws RemoteException;

@@ -29,7 +29,9 @@ public class VirtualView implements Serializable {
     public String currentPlayer;
     public boolean endGameToken;
     //---------------------------------------
-
+    //TODO: Newsletter
+    //TODO: Chat History
+    //---------------
 
     //Since we don't process the goal logic on the client side, we don't need to send the goal to the client.
     //We are going to use an integer to map the goal picture

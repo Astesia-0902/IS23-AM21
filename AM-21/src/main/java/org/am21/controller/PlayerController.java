@@ -132,7 +132,8 @@ public class PlayerController {
             //Virtualize HAND after each Selection
             VirtualViewHelper.virtualizeCurrentPlayerHand(player.getMatch());
             VirtualViewHelper.virtualizeBoard(player.getMatch());
-            VirtualViewHelper.printJSONHand(player.getMatch());
+            //TODO: for debug
+            //  VirtualViewHelper.printJSONHand(player.getMatch());
             //player.getMatch().updateVirtualHand();
             player.getMatch().updatePlayersVirtualView();
             GameManager.sendCommunication(this,ServerMessage.Selection_Ok);
@@ -255,7 +256,7 @@ public class PlayerController {
                 VirtualViewHelper.updateVirtualShelves(player.getMatch());
                 player.getMatch().updatePlayersVirtualView();
                 //TODO: for DEBUG
-                //VirtualViewHelper.printJSONBSH(player.getMatch());
+                //  VirtualViewHelper.printJSONBSH(player.getMatch());
                 return true;
             }
         }

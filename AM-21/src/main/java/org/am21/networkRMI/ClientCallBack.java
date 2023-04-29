@@ -33,6 +33,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     public void sendVirtualView(String virtualView, int pIndex) throws RemoteException {
         //TODO:Update the virtual view
         Storage.setFullViewVariables(virtualView,pIndex );
+        cli.checkTurn();
     }
 
     @Override
@@ -50,7 +51,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
             //TODO: Method invocation in CLI (for example: showMatchSetup) which will print the game first setup:
             //      Filled Board, 2 Common Goals, Player's Personal Goal
             //      Furthermore, if the Client nickname correspond to Storage.currentPlayer(String),
-            //      then the CLI will invoke showCurrentPlayer()
+            //      then the CLI will invoke announceCurrentPlayer()
 
             cli.setMatchID(id);
             cli.setSTART(true);

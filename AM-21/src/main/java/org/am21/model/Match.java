@@ -400,7 +400,7 @@ public class Match {
 
     /**
      * Update each player with the new version of the virtual view
-     * When? When the match begins, when the turn of a player ends
+     * When? When the match begins and when the turn of a player ends
      */
     public void updatePlayersVirtualView() {
 

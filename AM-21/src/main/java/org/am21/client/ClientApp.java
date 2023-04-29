@@ -65,7 +65,7 @@ public class ClientApp {
                     case "info": cli.askServerInfo(); break;
                     //TODO:case "scg":cli.showCommonGoals();break;
                     //TODO:case "spg":cli.showCommonGoals();break;
-                    //TODO:case "scp":cli.showCurrentPlayer();break;
+                    //TODO:case "scp":cli.announceCurrentPlayer();break;
                     case "exit":break fine;
                     default: System.out.println("Invalid command, please try again"); break;
 

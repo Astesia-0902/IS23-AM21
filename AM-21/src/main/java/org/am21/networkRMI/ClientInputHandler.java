@@ -67,15 +67,24 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         userHost = getClientHost();
         this.userName = username;
         //TODO: separate CIH from playerController constructor (RMI not needed for model & controller testing)
-        playerController = new PlayerController(username, this);
-        //TODO:the same username is not allowed to log in(same name not allowed)
-        synchronized (GameManager.players) {
 
+        playerController = new PlayerController(username, this);
+
+        synchronized (GameManager.players) {
+            if(GameManager.players.size()>0) {
+                for (Player p : GameManager.players) {
+                    if (p.getController().clientInput.callBack != null) {
+                        GameManager.sendTextCommunication(p.getController(), SC.YELLOW_BB + "\nServer > "
+                                + username + " joined the game\n" + SC.RST + "Press 'Enter'");
+                    }
+                }
+            }
             if (!GameManager.players.contains(playerController.getPlayer())) {
                 GameManager.players.add(playerController.getPlayer());
             }
         }
         callBack.sendMessageToClient(ServerMessage.Login_Ok.value() + username);
+
         return true;
     }
 

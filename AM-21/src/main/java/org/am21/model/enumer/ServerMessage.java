@@ -43,7 +43,7 @@ public enum ServerMessage {
     DeSel_Ok("Server > Deselection successful"),
     //TODO: maybe not necessary
     // DeSel_No("Server > Deselection failed"),
-    DeSel_Null("Server > You did not select any card yet. Deselection is not necessary"),
+    DeSel_Null(SC.RED+"Server > You did not select any card yet. Deselection is not necessary"+SC.RST),
 
     //Game phase (Insertion phase)
     WhichCellWriteTheCoordinates(""),
