@@ -5,6 +5,7 @@ import org.am21.controller.PlayerController;
 import org.am21.model.GameManager;
 import org.am21.model.Match;
 import org.am21.model.Player;
+import org.am21.model.enumer.SC;
 import org.am21.model.enumer.ServerMessage;
 import org.am21.model.enumer.UserStatus;
 
@@ -59,8 +60,9 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      */
     @Override
     public boolean logIn(String username, IClientCallBack clientCallBack) throws RemoteException, ServerNotActiveException {
-        if(GameManager.checkNameSake(username)){
-           return false;
+        if (GameManager.checkNameSake(username)) {
+            callBack.sendMessageToClient(SC.RED_B + ServerMessage.Login_No.value() + SC.RST);
+            return false;
         }
         userHost = getClientHost();
         this.userName = username;
@@ -73,8 +75,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
                 GameManager.players.add(playerController.getPlayer());
             }
         }
-
-        playerController.clientInput.callBack.sendMessageToClient(ServerMessage.Login_Ok.value() + username);
+        callBack.sendMessageToClient(ServerMessage.Login_Ok.value() + username);
         return true;
     }
 
@@ -119,9 +120,10 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         }
         return false;
     }
+
     @Override
     public boolean confirmSelection() throws RemoteException, ServerNotActiveException {
-        if(!checkPlayerActionPhase() && playerController.callEndSelection()){
+        if (!checkPlayerActionPhase() && playerController.callEndSelection()) {
             return true;
         }
         return false;
@@ -138,9 +140,10 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         }
         return false;
     }
+
     @Override
     public boolean endTurn() throws RemoteException, ServerNotActiveException {
-        if(!checkPlayerActionPhase() ){
+        if (!checkPlayerActionPhase()) {
             playerController.callEndInsertion();
             return true;
         }
@@ -227,6 +230,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
 
     /**
      * This method contact player's match ChatManager to send a message
+     *
      * @param message
      * @return false if the player is not in a match, so the message was not sent, otherwise true
      * @throws RemoteException
@@ -247,9 +251,9 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         synchronized (GameManager.players) {
             for (Player p : GameManager.players) {
                 if (p.getNickname().equals(receiver)) {
-                    GameManager.sendTextCommunication(p.getController(),"\n------------------------------------------");
-                    GameManager.sendTextCommunication(p.getController(),"\n"+ sender + "[!] > \"" + message + "\"");
-                    GameManager.sendTextCommunication(p.getController(),"------------------------------------------\n");
+                    GameManager.sendTextCommunication(p.getController(), "\n------------------------------------------");
+                    GameManager.sendTextCommunication(p.getController(), "\n" + sender + "[!] > \"" + message + "\"");
+                    GameManager.sendTextCommunication(p.getController(), "------------------------------------------\n");
 
                     return true;
                 }
@@ -262,11 +266,11 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     @Override
     public void printOnlinePlayers() throws RemoteException {
         String message = "";
-        message+=ServerMessage.ListP.value()+"\n";
+        message += ServerMessage.ListP.value() + "\n";
         synchronized (GameManager.players) {
             for (Player p : GameManager.players) {
                 if (p.getStatus() == UserStatus.Online || p.getStatus() == UserStatus.GameMember) {
-                    message += ("[" + p.getNickname() + " | "+p.getStatus()+" ] \n");
+                    message += ("[" + p.getNickname() + " | " + p.getStatus() + " ] \n");
 
                 }
             }
@@ -278,7 +282,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     @Override
     public void printMatchList() throws RemoteException {
         String message = "";
-        message+="Match List:\n";
+        message += "Match List:\n";
         synchronized (GameManager.matchList) {
             if (GameManager.matchList.size() > 0) {
                 for (Match m : GameManager.matchList) {

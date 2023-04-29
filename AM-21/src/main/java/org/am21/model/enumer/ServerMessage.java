@@ -7,6 +7,7 @@ public enum ServerMessage {
 
     //Login phase
     Login_Ok(SC.CYAN+"Server > Login successful."+ SC.RST +"\nServer > Hi "),
+    Login_No(SC.RED_B+"Server > Access denied.\nThis username is already taken, please enter a new one..."+SC.RST),
     ListP("Server > List of online players" +
             ": "),
 

@@ -87,6 +87,113 @@ public class Storage {
         JSONArray jsonArray = JSONObject.parseArray(jsonShelves);
         virtualBoard = (String[][]) jsonArray.toArray();
     }
+    public static final String MYSHELFIE="" +
+            " __  __       ____  _          _  __ _\n" +
+            "|  \\/  |_   _/ ___|| |__   ___| |/ _(_) ___\n" +
+            "| |\\/| | | | \\___ \\| '_ \\ / _ \\ | |_| |/ _ \\\n" +
+            "| |  | | |_| |___) | | | |  __/ |  _| |  __/\n" +
+            "|_|  |_|\\__, |____/|_| |_|\\___|_|_| |_|\\___|\n" +
+            "        |___/\n";
+
+
+    public static final String MYSHELFIE2="" +
+            "                                                                .&%&&&&&                                                                              \n" +
+            "  (,,*/%       (***/&                               ,&&&..&,&&%                                         #&&%                               \n" +
+            "  &,&&&&.      &&&&*..                             &&&&. .&&&&&.   ,&&&,.                     &&&..  ,&&....#&&                            \n" +
+            "   &%&&,       #&&&.                               &&&&.  #&&..     /&(.                      (&#. (&&.. &&&.&&.                           \n" +
+            "   &%&&&.     /&&&&.                                .&&&.           (&&.                      #&#. .&&. #&&&&&&.                           \n" +
+            "   &(&#&&.   #&%(&&.      ,&&&&&..   .&&&..          %&&&&&         #&&.                      #&#. /&&.   ....                             \n" +
+            "   %*%%.%%. %&&.,&&.         .&&&   .&&&.              &&&&&&&      %&&&&&&&&*&               (&#. ,.&.      ,&&&.                         \n" +
+            "   %,%%. %%%%&. ,%&.          &&&&&&&&..                  %&&&&&    %%%&&...%%%&.   &,&&&&&   /&#.  *&&. #%   ....    &#%%&&&              \n" +
+            "   #,%%.  %%%. *.%%.           /.%%%%.                      %%%%%.  %%%%.    %%%. %%%.     %& /%#. ,..%%.... ,%%%.  .%..    %%.            \n" +
+            "   (.%%. #%%%. %,%%.   .%*%%    .%%,.             %#%%%*,    %%%..  %%%.    .%%.  /%%%%%%%%%../%(.    #%%.   %%##  /%%%%%%%%%%.            \n" +
+            "   /.%%.  .... %*%%.  ,#%%%%%. ,%%.              %%%%%%%%.  %%%%#.  %%#.    %##.  /%#.   #### /#(.     %%,   %%##. #%#.   %%%#             \n" +
+            "   %.%%#       ###%.  *%#%..#%%%%.                %##%%((#%#####.   ###.    .##.  #%##   (###.*#(.    %%#.   ####.  %##,  (%#%.            \n" +
+            "  #######.   /######(  /#######..                   .(*#####,#..   #####.  #####.   .#####*...####   %####.  ####.   .###%##..";
+
+
+    public static final String MYSHELFIE3="" +
+            "\n" +
+            "                                                                                                                                                                                  \n" +
+            "                                                                                                                                                                                  \n" +
+            "MMMMMMMM               MMMMMMMM                                 SSSSSSSSSSSSSSS hhhhhhh                                 lllllll     ffffffffffffffff    iiii                      \n" +
+            "M:::::::M             M:::::::M                               SS:::::::::::::::Sh:::::h                                 l:::::l    f::::::::::::::::f  i::::i                     \n" +
+            "M::::::::M           M::::::::M                              S:::::SSSSSS::::::Sh:::::h                                 l:::::l   f::::::::::::::::::f  iiii                      \n" +
+            "M:::::::::M         M:::::::::M                              S:::::S     SSSSSSSh:::::h                                 l:::::l   f::::::fffffff:::::f                            \n" +
+            "M::::::::::M       M::::::::::Myyyyyyy           yyyyyyy     S:::::S             h::::h hhhhh           eeeeeeeeeeee     l::::l   f:::::f       ffffffiiiiiii     eeeeeeeeeeee    \n" +
+            "M:::::::::::M     M:::::::::::M y:::::y         y:::::y      S:::::S             h::::hh:::::hhh      ee::::::::::::ee   l::::l   f:::::f             i:::::i   ee::::::::::::ee  \n" +
+            "M:::::::M::::M   M::::M:::::::M  y:::::y       y:::::y        S::::SSSS          h::::::::::::::hh   e::::::eeeee:::::ee l::::l  f:::::::ffffff        i::::i  e::::::eeeee:::::ee\n" +
+            "M::::::M M::::M M::::M M::::::M   y:::::y     y:::::y          SS::::::SSSSS     h:::::::hhh::::::h e::::::e     e:::::e l::::l  f::::::::::::f        i::::i e::::::e     e:::::e\n" +
+            "M::::::M  M::::M::::M  M::::::M    y:::::y   y:::::y             SSS::::::::SS   h::::::h   h::::::he:::::::eeeee::::::e l::::l  f::::::::::::f        i::::i e:::::::eeeee::::::e\n" +
+            "M::::::M   M:::::::M   M::::::M     y:::::y y:::::y                 SSSSSS::::S  h:::::h     h:::::he:::::::::::::::::e  l::::l  f:::::::ffffff        i::::i e:::::::::::::::::e \n" +
+            "M::::::M    M:::::M    M::::::M      y:::::y:::::y                       S:::::S h:::::h     h:::::he::::::eeeeeeeeeee   l::::l   f:::::f              i::::i e::::::eeeeeeeeeee  \n" +
+            "M::::::M     MMMMM     M::::::M       y:::::::::y                        S:::::S h:::::h     h:::::he:::::::e            l::::l   f:::::f              i::::i e:::::::e           \n" +
+            "M::::::M               M::::::M        y:::::::y             SSSSSSS     S:::::S h:::::h     h:::::he::::::::e          l::::::l f:::::::f            i::::::ie::::::::e          \n" +
+            "M::::::M               M::::::M         y:::::y              S::::::SSSSSS:::::S h:::::h     h:::::h e::::::::eeeeeeee  l::::::l f:::::::f            i::::::i e::::::::eeeeeeee  \n" +
+            "M::::::M               M::::::M        y:::::y               S:::::::::::::::SS  h:::::h     h:::::h  ee:::::::::::::e  l::::::l f:::::::f            i::::::i  ee:::::::::::::e  \n" +
+            "MMMMMMMM               MMMMMMMM       y:::::y                 SSSSSSSSSSSSSSS    hhhhhhh     hhhhhhh    eeeeeeeeeeeeee  llllllll fffffffff            iiiiiiii    eeeeeeeeeeeeee  \n" +
+            "                                     y:::::y                                                                                                                                      \n" +
+            "                                    y:::::y                                                                                                                                       \n" +
+            "                                   y:::::y                                                                                                                                        \n" +
+            "                                  y:::::y                                                                                                                                         \n" +
+            "                                 yyyyyyy                                                                                                                                          \n" +
+            "                                                                                                                                                                                  \n" +
+            "                                                                                                                                                                                  \n";
+    public static final String MYSHELFIE4="\n" +
+            "      ___                                ___           ___           ___                         ___                       ___     \n" +
+            "     /\\  \\                              /\\__\\         /\\  \\         /\\__\\                       /\\__\\                     /\\__\\    \n" +
+            "    |::\\  \\         ___                /:/ _/_        \\:\\  \\       /:/ _/_                     /:/ _/_       ___         /:/ _/_   \n" +
+            "    |:|:\\  \\       /|  |              /:/ /\\  \\        \\:\\  \\     /:/ /\\__\\                   /:/ /\\__\\     /\\__\\       /:/ /\\__\\  \n" +
+            "  __|:|\\:\\  \\     |:|  |             /:/ /::\\  \\   ___ /::\\  \\   /:/ /:/ _/_   ___     ___   /:/ /:/  /    /:/__/      /:/ /:/ _/_ \n" +
+            " /::::|_\\:\\__\\    |:|  |            /:/_/:/\\:\\__\\ /\\  /:/\\:\\__\\ /:/_/:/ /\\__\\ /\\  \\   /\\__\\ /:/_/:/  /    /::\\  \\     /:/_/:/ /\\__\\\n" +
+            " \\:\\~~\\  \\/__/  __|:|__|            \\:\\/:/ /:/  / \\:\\/:/  \\/__/ \\:\\/:/ /:/  / \\:\\  \\ /:/  / \\:\\/:/  /     \\/\\:\\  \\__  \\:\\/:/ /:/  /\n" +
+            "  \\:\\  \\       /::::\\  \\             \\::/ /:/  /   \\::/__/       \\::/_/:/  /   \\:\\  /:/  /   \\::/__/       ~~\\:\\/\\__\\  \\::/_/:/  / \n" +
+            "   \\:\\  \\      ~~~~\\:\\  \\             \\/_/:/  /     \\:\\  \\        \\:\\/:/  /     \\:\\/:/  /     \\:\\  \\          \\::/  /   \\:\\/:/  /  \n" +
+            "    \\:\\__\\          \\:\\__\\              /:/  /       \\:\\__\\        \\::/  /       \\::/  /       \\:\\__\\         /:/  /     \\::/  /   \n" +
+            "     \\/__/           \\/__/              \\/__/         \\/__/         \\/__/         \\/__/         \\/__/         \\/__/       \\/__/    \n";
+
+    public static final String MYSHELFIE5="" +
+            "\n" +
+            " .----------------.  .----------------.    .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------. \n" +
+            "| .--------------. || .--------------. |  | .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |\n" +
+            "| | ____    ____ | || |  ____  ____  | |  | |    _______   | || |  ____  ____  | || |  _________   | || |   _____      | || |  _________   | || |     _____    | || |  _________   | |\n" +
+            "| ||_   \\  /   _|| || | |_  _||_  _| | |  | |   /  ___  |  | || | |_   ||   _| | || | |_   ___  |  | || |  |_   _|     | || | |_   ___  |  | || |    |_   _|   | || | |_   ___  |  | |\n" +
+            "| |  |   \\/   |  | || |   \\ \\  / /   | |  | |  |  (__ \\_|  | || |   | |__| |   | || |   | |_  \\_|  | || |    | |       | || |   | |_  \\_|  | || |      | |     | || |   | |_  \\_|  | |\n" +
+            "| |  | |\\  /| |  | || |    \\ \\/ /    | |  | |   '.___`-.   | || |   |  __  |   | || |   |  _|  _   | || |    | |   _   | || |   |  _|      | || |      | |     | || |   |  _|  _   | |\n" +
+            "| | _| |_\\/_| |_ | || |    _|  |_    | |  | |  |`\\____) |  | || |  _| |  | |_  | || |  _| |___/ |  | || |   _| |__/ |  | || |  _| |_       | || |     _| |_    | || |  _| |___/ |  | |\n" +
+            "| ||_____||_____|| || |   |______|   | |  | |  |_______.'  | || | |____||____| | || | |_________|  | || |  |________|  | || | |_____|      | || |    |_____|   | || | |_________|  | |\n" +
+            "| |              | || |              | |  | |              | || |              | || |              | || |              | || |              | || |              | || |              | |\n" +
+            "| '--------------' || '--------------' |  | '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |\n" +
+            " '----------------'  '----------------'    '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------' \n";
+
+    public static final String MYSHELFIE6="\n" +
+            " __       __                   ______   __                  __   ______   __           \n" +
+            "|  \\     /  \\                 /      \\ |  \\                |  \\ /      \\ |  \\          \n" +
+            "| $$\\   /  $$ __    __       |  $$$$$$\\| $$____    ______  | $$|  $$$$$$\\ \\$$  ______  \n" +
+            "| $$$\\ /  $$$|  \\  |  \\      | $$___\\$$| $$    \\  /      \\ | $$| $$_  \\$$|  \\ /      \\ \n" +
+            "| $$$$\\  $$$$| $$  | $$       \\$$    \\ | $$$$$$$\\|  $$$$$$\\| $$| $$ \\    | $$|  $$$$$$\\\n" +
+            "| $$\\$$ $$ $$| $$  | $$       _\\$$$$$$\\| $$  | $$| $$    $$| $$| $$$$    | $$| $$    $$\n" +
+            "| $$ \\$$$| $$| $$__/ $$      |  \\__| $$| $$  | $$| $$$$$$$$| $$| $$      | $$| $$$$$$$$\n" +
+            "| $$  \\$ | $$ \\$$    $$       \\$$    $$| $$  | $$ \\$$     \\| $$| $$      | $$ \\$$     \\\n" +
+            " \\$$      \\$$ _\\$$$$$$$        \\$$$$$$  \\$$   \\$$  \\$$$$$$$ \\$$ \\$$       \\$$  \\$$$$$$$\n" +
+            "             |  \\__| $$                                                                \n" +
+            "              \\$$    $$                                                                \n" +
+            "               \\$$$$$$                                                                 \n";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -390,6 +497,7 @@ public class Storage {
             join   --> Join a match.
             online --> Show Online Players.
             exit   --> Exit game.
+            help   --> Activate Or Deactivate Assist Mode
             To send a message to a online player type ‘/chat[nickname]’ in the console.
             -----------------------------------------------------------
             Enter the option you wish to select:\040""";
@@ -405,39 +513,40 @@ public class Storage {
             -----------------------------------------------------------
             Enter the option you wish to select:\040""";
     public static final String commandMenu1 = """
+            Use the select command to choose item you would like to pick:
             select   --> Select an item on the board.
-            deselect --> Deselect the cards.
-            sort     --> Change selected items order(at least 2 items selected).
-            insert   --> Insert in the shelves.
             show     --> Show Game Object(Hand, Goals, Board, Shelf, ...).
             leave    --> Leave Match.
             exit     --> Exit Game.
-            To send a message in the Match type ‘/chat:’ followed by your message in the console.
-            To send a message to a online player type ‘/chat[nickname]:’ followed by your message in the console.""";
+            To send a message in the Match group type ‘/chat’ followed by a 'space' and your message.
+            To send a message to an online player type ‘/chat[nickname]’ followed by a 'space' and your message.""";
     public static final String commandMenu2 = """
-            sort   --> Change selected items order(at least 2 items selected).
-            insert --> Insert in the shelves.
-            show   --> Show Game Object(Hand, Goals, Board, Shelf, ...).
-            leave  --> Leave Match.
-            exit   --> Exit Game.
-            To send a message in the Match type ‘/chat:’ followed by your message in the console.
-            To send a message to a online player type ‘/chat[nickname]:’ followed by your message in the console.""";
+            Would you like to SELECT another item OR try to INSERT:
+            select   --> Select another item on the board.
+            sort     --> Change selected items order(at least 2 items selected).
+            deselect --> Deselect all your selection.
+            insert   --> Save your selections and Insert in the shelf.
+            show     --> Show Game Object(Hand, Goals, Board, Shelf, ...).
+            leave    --> Leave Match.
+            exit     --> Exit Game.
+            To send a message in the Match group type ‘/chat’ followed by a 'space' and your message.
+            To send a message to an online player type ‘/chat[nickname]’ followed by a 'space' and your message.""";
     public static final String commandInsert = """
             -----------------------------------------------------------
             These are the commands available:
             sort --> Change the order of your cards.
             show --> Look at game board objects.
             go   --> Go directly to insertion.
-            n    --> Cancel and exit insertion.
+            n    --> Delete your choice and Exit Insertion.
             -----------------------------------------------------------
             Enter the option you wish to select:\040""";
     public static final String selectConfirm = """
             -----------------------------------------------------------
             Now you can:
-            y    --> Confirm you choice.
-            r    --> Retry again.
+            y    --> Confirm your choice.
+            r    --> Retry by selecting again.
             show --> See a Game Object(Board, Shelf, Goals, ...).
-            n    --> Cancel and exit selection).
+            n    --> Delete your choice and Exit Selection.
             -----------------------------------------------------------
             Enter the option you wish to select:\040""";
     public static final String anotherCard = """
@@ -467,4 +576,23 @@ public class Storage {
             'any' --> Retry.
             -----------------------------------------------------------
             Enter the option you wish to select:\040""";
+
+
+    /**
+     * For DEBUG or Test
+     */
+    public static final String commandMenuExtra = """
+            -----------------------------------------------------------
+            What do you wish to do? These are the commands available:
+            select   --> Select an item on the board.
+            deselect --> Deselect the cards.
+            sort     --> Change selected items order(at least 2 items selected).
+            insert   --> Insert in the shelves.
+            show     --> Show Game Object(Hand, Goals, Board, Shelf, ...).
+            leave    --> Leave Match.
+            exit     --> Exit Game.
+            To send a message in the Match group type ‘/chat’ followed by a 'space' and your message.
+            To send a message to an online player type ‘/chat[nickname]’ followed by a 'space' and your message.""";
+
+
 }

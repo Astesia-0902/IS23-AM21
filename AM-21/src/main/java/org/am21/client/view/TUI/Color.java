@@ -4,6 +4,13 @@ public enum Color {
     //Color end string, color reset
     RESET("\033[0m"),
 
+    //Background
+
+    RED_BG("\u001B[41m"),
+    WHITE_BG("\u001B[47m"),
+    RED_BRIGHT("\033[0;91m"),
+    RED_BB("\033[1;91m"),
+
     // Regular Colors. Normal color, no bold, background color etc.
     RED("\033[0;31m"),      // RED
     YELLOW("\033[0;33m"),   // YELLOW

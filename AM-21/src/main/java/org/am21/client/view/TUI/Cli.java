@@ -2,7 +2,6 @@ package org.am21.client.view.TUI;
 
 import org.am21.client.view.Storage;
 import org.am21.client.view.View;
-import org.am21.model.enumer.SC;
 import org.am21.networkRMI.ClientCallBack;
 import org.am21.networkRMI.IClientInput;
 import org.am21.networkRMI.Lobby;
@@ -33,15 +32,19 @@ public class Cli implements View {
     /**
      * If true askMenuAction
      */
-    private boolean GO_TO_MENU =true;
+    private boolean GO_TO_MENU = true;
 
     /**
      * If true askPlayerMove, if false askWaitingAction
      */
-    private boolean GAME_ON =false;
-    private boolean WAIT =false;
+    private boolean GAME_ON = false;
+
 
     private boolean START = false;
+
+    private boolean SEL_MODE = true;
+    private boolean NOT_SEL_YET = true;
+    private boolean BABY_PROTOCOL = true;
     private int matchID;
 
     private Lobby lobby;
@@ -57,7 +60,7 @@ public class Cli implements View {
      * Read a line from the standard input
      *
      * @return the string read from the input
-     * */
+     */
     public String readLine() {
         FutureTask<String> futureTask = new FutureTask<>(new InputReadTask());
         inputThread = new Thread(futureTask);
@@ -77,7 +80,7 @@ public class Cli implements View {
     }
 
     public void init() {
-        System.out.println("Welcome to MYSHELFIE Board Game!");
+        System.out.println(Storage.MYSHELFIE4);
         askToContinue();
         try {
             askServerInfo();
@@ -88,11 +91,35 @@ public class Cli implements View {
             throw new RuntimeException(e);
         }
     }
-    public void askToContinue(){
+
+    public void askToContinue() {
         System.out.print("Press 'Enter' to continue");
         readLine();
         System.out.println("-----------------------------------------------------------");
     }
+
+    public void askAssistMode() {
+        System.out.println("Would you like to activate or deactivate ASSIST MODE?" +
+                "--Tip: Keep Assist Mode active for an easier experience of the game\n" +
+                "> Press 'Enter' to activate it\n" +
+                "> Type 'off' to deactivate it\n" +
+                "::");
+        String input = readLine();
+        switch (input) {
+            case "" -> {
+                BABY_PROTOCOL = true;
+                System.out.println("ASSIST MODE ON!\n");
+            }
+            case "off" -> {
+                BABY_PROTOCOL = false;
+                System.out.println("ASSIST MODE OFF!\n");
+            }
+            default -> {
+                askAssistMode();
+            }
+        }
+    }
+
 
     public void initPlayer(String username) {
         playerIndex = Storage.getPlayerIndex(username);
@@ -100,7 +127,7 @@ public class Cli implements View {
     }
 
     public void askServerInfo() throws MalformedURLException, NotBoundException, RemoteException {
-        lobby = (Lobby)Naming.lookup("rmi://localhost:1234/Welcome");
+        lobby = (Lobby) Naming.lookup("rmi://localhost:1234/Welcome");
         String root;
         try {
             root = lobby.connect();
@@ -121,7 +148,7 @@ public class Cli implements View {
             if (address.equals("")) {
                 serverInfo.put("address", defaultAddress);
                 validInput = true;
-            } else if (address.equals("localhost")){
+            } else if (address.equals("localhost")) {
                 serverInfo.put("address", address);
                 validInput = true;
             } else {
@@ -137,7 +164,7 @@ public class Cli implements View {
             if (port.equals("")) {
                 serverInfo.put("port", defaultPort);
                 validInput = true;
-            } else if (port.equals("8807")){
+            } else if (port.equals("8807")) {
                 serverInfo.put("port", port);
                 validInput = true;
             } else {
@@ -151,11 +178,11 @@ public class Cli implements View {
         //System.out.println("rmi://" + serverInfo.get("address") + ":"+ serverInfo.get("port") + "/ClientInputHandler");
 
         iClientInputHandler = (IClientInput) Naming.lookup("rmi://" + serverInfo.get("address") + ":"
-                + serverInfo.get("port") + "/"+root);
+                + serverInfo.get("port") + "/" + root);
         //TODO: registerCallBack is here
         iClientInputHandler.registerCallBack(clientCallBack);
         System.out.println("Connected to " + serverInfo.get("address")
-                    + ":" + serverInfo.get("port"));
+                + ":" + serverInfo.get("port"));
     }
 
     /*
@@ -173,18 +200,16 @@ public class Cli implements View {
      */
     @Override
     public void askLogin() throws ServerNotActiveException, RemoteException {
-        while(true) {
+        while (true) {
             System.out.print("Enter the username: ");
             String username = readLine();
-            if(username.equals("")){
-                System.out.println(Color.RED+"You didn't choose a username. Try again"+Color.RESET);
+            if (username.equals("")) {
+                System.out.println(Color.RED + "You didn't choose a username. Try again" + Color.RESET);
                 continue;
             }
             if (iClientInputHandler.logIn(username, clientCallBack)) {
                 this.username = username;
                 return;
-            }else {
-                System.out.println(SC.RED_B+"Server > Access denied.\nThis username is already taken, please enter a new one..."+SC.RST);
             }
         }
     }
@@ -198,23 +223,19 @@ public class Cli implements View {
         this.GAME_ON = GAME_ON;
     }
 
-    public void setWAIT(boolean WAIT) {
-        this.WAIT = WAIT;
-    }
-
     public void setMatchID(int matchID) {
         this.matchID = matchID;
     }
 
     public void setSTART(boolean START) {
         this.START = START;
-        if(START) {
+        if (START) {
             System.out.println(Color.RED + "\nPress 'Enter'\n" + Color.RESET);
         }
     }
 
     public void redirect() throws ServerNotActiveException, RemoteException {
-        if(START){
+        if (START) {
             showMatchSetup();
             setSTART(false);
         }
@@ -225,17 +246,27 @@ public class Cli implements View {
 
     @Override
     public void askMenuAction() throws ServerNotActiveException, RemoteException {
-        while(GO_TO_MENU) {
+        while (GO_TO_MENU) {
             System.out.print(Storage.menuOption);
             String option = readLine();
             if (option.startsWith("/chat")) {
                 handleChatMessage(option);
             } else {
                 switch (option) {
-                    case "create" -> {if (askCreateMatch())redirect();}
-                    case "join" -> {if (askJoinMatch())redirect();}
-                    case "online" -> {showOnlinePlayer();askToContinue();}
-                    case "exit" -> {if (askExitGame())return;}
+                    case "create" -> {
+                        if (askCreateMatch()) redirect();
+                    }
+                    case "join" -> {
+                        if (askJoinMatch()) redirect();
+                    }
+                    case "online" -> {
+                        showOnlinePlayer();
+                        askToContinue();
+                    }
+                    case "exit" -> {
+                        if (askExitGame()) return;
+                    }
+                    case "help" -> askAssistMode();
                     default -> System.out.println(Color.RED + "Invalid command! Please try again." + Color.RESET);
                 }
             }
@@ -249,18 +280,20 @@ public class Cli implements View {
      */
     public void askWaitingAction() throws RemoteException, ServerNotActiveException {
         while (!GAME_ON && !GO_TO_MENU) {
-            System.out.println("-----------------------------------------------------------\n"+
-                                Color.WHITE_BOLD + "\t\t {| Room " + matchID + " |}"+Color.RESET);
+            System.out.println("-----------------------------------------------------------\n" +
+                    Color.WHITE_BOLD + "\t\t {| Room " + matchID + " |}" + Color.RESET);
 
             System.out.print(Storage.waitingAction);
             String option = readLine();
             if (option.startsWith("/chat")) {
                 handleChatMessage(option);
-            }else if(option.equals("")){
+            } else if (option.equals("")) {
                 redirect();
             } else {
                 switch (option) {
-                    case "leave" -> { if(askLeaveMatch())redirect();}
+                    case "leave" -> {
+                        if (askLeaveMatch()) redirect();
+                    }
                     case "rules" -> showGameRules();
                     case "online" -> showOnlinePlayer();
                     default -> System.out.println(Color.RED + "Invalid command! Please try again." + Color.RESET);
@@ -269,11 +302,16 @@ public class Cli implements View {
             }
         }
     }
+
     private void showCommandMenu() {
-        if (!Storage.gamePhase.equals("Insertion")) {
-            System.out.println(Storage.commandMenu1);
+        if (BABY_PROTOCOL) {
+            if (NOT_SEL_YET) {
+                System.out.println(Storage.commandMenu1);
+            } else {
+                System.out.println(Storage.commandMenu2);
+            }
         } else {
-            System.out.println(Storage.commandMenu2);
+            System.out.println(Storage.commandMenuExtra);
         }
     }
 
@@ -281,17 +319,14 @@ public class Cli implements View {
     public void askPlayerMove() throws RemoteException, ServerNotActiveException {
         //TODO: notify when the command is not found
         while (GAME_ON && !GO_TO_MENU) {
-            System.out.println("""
-                    -----------------------------------------------------------
-                    What do you wish to do? These are the commands available:""");
             showCommandMenu();
             System.out.print("""
-            -----------------------------------------------------------
-            Enter the command you wish to use:\040""");
+                    -----------------------------------------------------------
+                    Enter the command you wish to use:\040""");
             String option = readLine();
             if (option.startsWith("/chat")) {
                 handleChatMessage(option);
-            } else if(option.equals("")){
+            } else if (option.equals("")) {
                 redirect();
             } else {
                 switch (option) {
@@ -300,8 +335,12 @@ public class Cli implements View {
                     case "insert" -> askInsertion();
                     case "sort" -> askSort();
                     case "show" -> askShowObject();
-                    case "leave" -> {if (askLeaveMatch())redirect();}
-                    case "exit" -> {if (askExitGame())return;}
+                    case "leave" -> {
+                        if (askLeaveMatch()) redirect();
+                    }
+                    case "exit" -> {
+                        if (askExitGame()) return;
+                    }
                     default -> System.out.println(Color.RED + "Invalid command! Please try again." + Color.RESET);
                 }
             }
@@ -311,8 +350,8 @@ public class Cli implements View {
     @Override
     public boolean askCreateMatch() throws ServerNotActiveException, RemoteException {
         int playerNumber = askMaxSeats();
-        askToContinue();
-        if(iClientInputHandler.createMatch(playerNumber)) {
+        //askToContinue();
+        if (iClientInputHandler.createMatch(playerNumber)) {
             askToContinue();
             return true;
         }
@@ -326,14 +365,14 @@ public class Cli implements View {
             try {
                 System.out.print("Please select the number of players for this match [2 to 4]: ");
                 playerNumber = Integer.parseInt(readLine());
-                if (playerNumber < 2 || playerNumber > 4){
+                if (playerNumber < 2 || playerNumber > 4) {
                     System.out.println(Color.RED + "Invalid number! Please try again." + Color.RESET);
                 }
-            } catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.out.println(Color.RED + "Invalid input! Please try again." + Color.RESET);
             }
         } while (playerNumber < 2 || playerNumber > 4);
-        System.out.println("Selected " + playerNumber +" players.");
+        System.out.println("Selected " + playerNumber + " players.");
         return playerNumber;
     }
 
@@ -345,18 +384,19 @@ public class Cli implements View {
             System.out.print("Please enter the room number: ");
             matchID = Integer.parseInt(readLine());
             System.out.println("Selected Room [" + matchID + "].");
-            if(iClientInputHandler.joinGame(matchID)){
+            if (iClientInputHandler.joinGame(matchID)) {
                 askToContinue();
                 return true;
-            }else{
+            } else {
                 System.out.println(Color.RED + "Invalid number! Please try again." + Color.RESET);
             }
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             System.out.println(Color.RED + "Invalid input! Please try again." + Color.RESET);
         }
         askToContinue();
         return false;
     }
+
     @Override
     public void showMatchList() throws RemoteException {
         iClientInputHandler.printMatchList();
@@ -372,7 +412,6 @@ public class Cli implements View {
      */
     @Override
     public void showMatchSetup() {
-        //TODO: Redo better
         showBoard();
         askToContinue();
         showCommonGoals();
@@ -391,7 +430,7 @@ public class Cli implements View {
 
     @Override
     public boolean askExitGame() throws RemoteException {
-        if(iClientInputHandler.exitGame()){
+        if (iClientInputHandler.exitGame()) {
             System.exit(0);
             return true;
         }
@@ -399,12 +438,12 @@ public class Cli implements View {
     }
 
     @Override
-    public void showCommonGoals()  {
+    public void showCommonGoals() {
         System.out.println("Common Goals:");
         for (int i = 0; i < Storage.commonGoal.size(); i++) {
             showGoalDescription(Storage.commonGoal.get(i));
             System.out.println(Color.YELLOW + "> Top score of this Common Goal: " + Color.RESET +
-                               Storage.commonGoalScore.get(i) + " points.");
+                    Storage.commonGoalScore.get(i) + " points.");
             System.out.println();
             askToContinue();
         }
@@ -432,17 +471,17 @@ public class Cli implements View {
 
     @Override
     public void showCurrentPlayer() {
-        if(Storage.currentPlayer.equals(player)){
-            System.out.println(Color.RED + "[!] > Hey "+player+"!!! It's your turn!!!" + Color.RESET);
-        }else{
-            System.out.println(Color.CYAN + "It's "+ Storage.currentPlayer+"'s turn." + Color.RESET);
+        if (Storage.currentPlayer.equals(player)) {
+            System.out.println(Color.RED + "[!] > Hey " + player + "!!! It's your turn!!!" + Color.RESET);
+        } else {
+            System.out.println(Color.CYAN + "It's " + Storage.currentPlayer + "'s turn." + Color.RESET);
         }
         System.out.println();
     }
 
     @Override
     public void showPlayerShelf() throws RemoteException {
-        String[][] shelf= Storage.shelves.get(Storage.players.indexOf(username));
+        String[][] shelf = Storage.shelves.get(Storage.players.indexOf(username));
 
         System.out.println("Your Shelf:");
         for (int j = 0; j < SHELF_COLUMN; j++) {
@@ -484,58 +523,67 @@ public class Cli implements View {
         System.out.println("Board:");
         System.out.print("  ");
         for (int j = 0; j < BOARD_COLUMN; j++) {
-            System.out.print("      " + j +"       ");
+            System.out.print("      " + j + "       ");
         }
         System.out.println();
-        for(int i = 0; i < BOARD_ROW; i++){
+        for (int i = 0; i < BOARD_ROW; i++) {
             System.out.print(i);
-            for(int j = 0; j < BOARD_COLUMN; j++){
-                String item = board[i][j] == null? "_________._" : checkColorItem(board[i][j]);
-                System.out.print(" [" + item + "]");
+            for (int j = 0; j < BOARD_COLUMN; j++) {
+
+                //TODO: Questo è scritto male(troppi controlli sul null) da rifare pero funziona
+                if(board[i][j]!=null&&board[i][j].startsWith("*")){
+                    //If the cell is temporarily selected by the player
+                    String item = board[i][j].substring(1) == null ? "_________._" : checkColorItem(board[i][j].substring(1));
+                    System.out.print(" "+Color.WHITE_BG+"["+""+ item +Color.WHITE_BG+"]"+Color.RESET);
+                }else {
+                    String item = board[i][j] == null ? "_________._" : checkColorItem(board[i][j]);
+                    System.out.print(" [" + item + "]");
+                }
             }
             System.out.println();
         }
         System.out.println();
     }
 
-    public String checkColorItem(String item){
-        int index1, index2 = item.length()-3;
+    public String checkColorItem(String item) {
+        int index1, index2 = item.length() - 3;
 
-        String itemType=item;
+        String itemType = item;
         switch (item.substring(0, item.length() - 3)) {
             case "__Cats__" -> {
                 index1 = item.indexOf("Cats");
                 itemType = item.substring(0, index1) + Color.CATS + item.substring(index1 + "Cats".length(), index2) +
-                           Color.GREEN_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
+                        Color.GREEN_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
             }
             case "_Books__" -> {
                 index1 = item.indexOf("Books");
                 itemType = item.substring(0, index1) + Color.BOOKS + item.substring(index1 + "Books".length(), index2) +
-                           Color.WHITE_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
+                        Color.WHITE_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
             }
             case "_Games__" -> {
                 index1 = item.indexOf("Games");
                 itemType = item.substring(0, index1) + Color.GAMES + item.substring(index1 + "Games".length(), index2) +
-                           Color.YELLOW_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
+                        Color.YELLOW_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
             }
             case "_Frames_" -> {
                 index1 = item.indexOf("Frames");
                 itemType = item.substring(0, index1) + Color.FRAMES + item.substring(index1 + "Frames".length(), index2) +
-                           Color.BLUE_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
+                        Color.BLUE_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
             }
             case "Trophies" -> {
                 index1 = item.indexOf("Trophies");
                 itemType = item.substring(0, index1) + Color.TROPHIES + item.substring(index1 + "Trophies".length(), index2) +
-                           Color.CYAN_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
+                        Color.CYAN_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
             }
             case "_Plants_" -> {
                 index1 = item.indexOf("Plants");
                 itemType = item.substring(0, index1) + Color.PLANTS + item.substring(index1 + "Plants".length(), index2) +
-                           Color.MAGENTA_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
+                        Color.MAGENTA_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
             }
         }
         return itemType;
     }
+
     @Override
     public void showPlayersStats() {
         List<String> playerList = Storage.players;
@@ -568,8 +616,9 @@ public class Cli implements View {
                         int row = coordinates.get(0);
                         int column = coordinates.get(1);
                         if (iClientInputHandler.selectCell(row, column)) {
+                            NOT_SEL_YET = false;
                             System.out.println(Color.YELLOW + "Item selected: " +
-                                    showItemInCell(row,column).replace("_","") +
+                                    showItemInCell(row, column).replaceAll("_*", "") +
                                     Color.RESET);
                             showHand();
                         }
@@ -595,20 +644,21 @@ public class Cli implements View {
         showBoard();
         System.out.println("Enter the coordinates you wish to select [row, column].");
         List<Integer> coordinates = new ArrayList<>();
-        coordinates.add(askTheIndex("ROW",0, BOARD_ROW));
-        coordinates.add(askTheIndex("COLUMN",0, BOARD_COLUMN));
+        coordinates.add(askTheIndex("ROW", 0, BOARD_ROW));
+        coordinates.add(askTheIndex("COLUMN", 0, BOARD_COLUMN));
         return coordinates;
     }
 
     /**
      * Ask a single index
      * Used for:{@link #askCoordinates()} or {@link #askIndex()} or {@link #askColumn()}
-     * @param type  "ROW" or "COLUMN" or "Position1" or "Position2"
+     *
+     * @param type        "ROW" or "COLUMN" or "Position1" or "Position2"
      * @param lower_limit
      * @param upper_limit
-     * @return Index(ROW,COLUMN,Position according to type)
+     * @return Index(ROW, COLUMN, Position according to type)
      */
-    public int askTheIndex(String type, int lower_limit, int upper_limit){
+    public int askTheIndex(String type, int lower_limit, int upper_limit) {
         int select = 0;
         do {
             try {
@@ -617,7 +667,7 @@ public class Cli implements View {
                 if (select < lower_limit || select > upper_limit) {
                     System.out.println(Color.RED + "Invalid number! Please try again." + Color.RESET);
                 }
-            } catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.out.println(Color.RED + "Invalid input! Please try again." + Color.RESET);
             }
         } while (select < lower_limit || select > upper_limit);
@@ -635,7 +685,9 @@ public class Cli implements View {
 
         boolean deselectConfirm = "y".equals(readLine());
         if (deselectConfirm) {
-            iClientInputHandler.deselectCards();
+            if (iClientInputHandler.deselectCards()) {
+                NOT_SEL_YET = true;
+            }
         }
     }
 
@@ -644,23 +696,24 @@ public class Cli implements View {
         System.out.println("These are the cards you have selected:");
         if (showHand()) {
             String option = "";
-            while (!option.equals("n")){
+            while (!option.equals("n")) {
                 System.out.print(Storage.commandInsert);
                 option = readLine();
                 switch (option) {
                     case "sort" -> askSort();
                     case "show" -> askShowObject();
                     case "go" -> {
-                        if(iClientInputHandler.confirmSelection()){
+                        if (iClientInputHandler.confirmSelection()) {
                             showPlayerShelf();
                             int column = askColumn();
-                            if(iClientInputHandler.insertInColumn(column)){
+                            if (iClientInputHandler.insertInColumn(column)) {
                                 showPlayerShelf();
-                                System.out.println(Color.YELLOW + "Inserted in the column: " + column+Color.RESET);
+                                System.out.println(Color.YELLOW + "Inserted in the column: " + column + Color.RESET);
                                 askToContinue();
                                 iClientInputHandler.endTurn();
+                                NOT_SEL_YET=true;
                             }
-                        }else{
+                        } else {
                             System.out.println(Color.RED + "Selection Confirm failed" + Color.RESET);
                         }
                         return;
@@ -689,18 +742,18 @@ public class Cli implements View {
         }
     }
 
-    public List<Integer> askIndex(){
+    public List<Integer> askIndex() {
         boolean sortConfirm;
         int position1, position2;
         do {
             position1 = askTheIndex("Position1", 1, Storage.currentPlayerHand.size() + 1);
             position2 = askTheIndex("Position2", 1, Storage.currentPlayerHand.size() + 1);
             System.out.println("You have chosen to swap " +
-                               Storage.currentPlayerHand.get(position1 - 1).replace("_","") +
-                               " and " +
-                               Storage.currentPlayerHand.get(position2 - 1).replace("_",""));
+                    Storage.currentPlayerHand.get(position1 - 1).replace("_", "") +
+                    " and " +
+                    Storage.currentPlayerHand.get(position2 - 1).replace("_", ""));
             System.out.print(Storage.indexConfirm);
-            sortConfirm ="y".equals(readLine());
+            sortConfirm = "y".equals(readLine());
         } while (!sortConfirm);
         List<Integer> index = new ArrayList<>();
         index.add(position1 - 1);
@@ -710,14 +763,14 @@ public class Cli implements View {
     }
 
     public boolean showHand() {
-        System.out.print(Storage.currentPlayer +" has in hand: ");
-        if (Storage.currentPlayerHand.isEmpty()){
+        System.out.print(Storage.currentPlayer + " has in hand: ");
+        if (Storage.currentPlayerHand.isEmpty()) {
             System.out.println();
             return false;
         }
         for (int i = 0; i < Storage.currentPlayerHand.size(); i++) {
             System.out.print((i + 1) + ".[" +
-                    checkColorItem(Storage.currentPlayerHand.get(i)).replace("_","") + "]  ");
+                    checkColorItem(Storage.currentPlayerHand.get(i)).replace("_", "") + "]  ");
         }
         System.out.println();
         return true;
@@ -728,10 +781,10 @@ public class Cli implements View {
         boolean columnConfirm;
         int column;
         do {
-            column = askTheIndex("COLUMN",0,SHELF_COLUMN);
+            column = askTheIndex("COLUMN", 0, SHELF_COLUMN);
             System.out.print("""
-            -----------------------------------------------------------
-            You have chosen Column:\040""" + column + Storage.columnConfirm);
+                    -----------------------------------------------------------
+                    You have chosen Column:\040""" + column + Storage.columnConfirm);
 
             columnConfirm = "y".equals(readLine());
         } while (!columnConfirm);
@@ -743,13 +796,13 @@ public class Cli implements View {
         String usernameString = option.substring(5);
         String regex = "\\[|\\]";
         String[] matches = usernameString.split(regex);
-        if (matches.length > 1){
+        if (matches.length > 1) {
             String playerName = matches[1];
-            if(iClientInputHandler.sendPlayerMessage(message, playerName)){
+            if (iClientInputHandler.sendPlayerMessage(message, playerName)) {
                 System.out.println("Message sent to: " + playerName);
             }
         } else {
-            if(!iClientInputHandler.sendChatMessage(message)) {
+            if (!iClientInputHandler.sendChatMessage(message)) {
                 System.out.println(Color.RED + "The message was not sent" + Color.RESET);
             }
         }
@@ -758,7 +811,7 @@ public class Cli implements View {
 
     @Override
     public void showEndGameToken() {
-        if (Storage.endGameToken){
+        if (Storage.endGameToken) {
             System.out.println("virtualizeEndGame Token is taken, it's the last round!");
         } else {
             System.out.println("virtualizeEndGame Token has not been taken.");
@@ -774,7 +827,7 @@ public class Cli implements View {
     @Override
     public void askShowObject() throws RemoteException {
         String object = "";
-        while (!object.equals("n")){
+        while (!object.equals("n")) {
             System.out.print(Storage.listObjects);
             object = readLine();
             switch (object) {
@@ -788,7 +841,8 @@ public class Cli implements View {
                 case "end" -> showEndGameToken();
                 case "online" -> showOnlinePlayer();
                 case "timer" -> showTimer();
-                case "n" ->{}
+                case "n" -> {
+                }
                 default -> System.out.println("The [" + object + "] cannot be found! Please try again.");
             }
             askToContinue();
@@ -799,7 +853,8 @@ public class Cli implements View {
     public void showOnlinePlayer() throws RemoteException {
         iClientInputHandler.printOnlinePlayers();
     }
-    public void printer(String message){
+
+    public void printer(String message) {
         System.out.println(message);
     }
 
@@ -833,7 +888,7 @@ public class Cli implements View {
         askToContinue();
         System.out.println(Storage.gameEnd);
 
-        Collections.addAll(commonGoalList, "CommonGoal2Lines","CommonGoal2Columns", "CommonGoal3Column",
+        Collections.addAll(commonGoalList, "CommonGoal2Lines", "CommonGoal2Columns", "CommonGoal3Column",
                 "CommonGoal4Lines", "CommonGoal8Tiles", "CommonGoalCorner", "CommonGoalDiagonal", "CommonGoalSquare",
                 "CommonGoalStairs", "CommonGoal4Group", "CommonGoal6Group", "CommonGoalXShape");
 
@@ -842,5 +897,40 @@ public class Cli implements View {
             showGoalDescription(s);
         }
         System.out.println();
+    }
+
+
+    public void askPlayerMoveExpert() throws RemoteException, ServerNotActiveException {
+        //TODO: notify when the command is not found
+        while (GAME_ON && !GO_TO_MENU) {
+            System.out.println("""
+                    -----------------------------------------------------------
+                    What do you wish to do? These are the commands available:""");
+            showCommandMenu();
+            System.out.print("""
+                    -----------------------------------------------------------
+                    Enter the command you wish to use:\040""");
+            String option = readLine();
+            if (option.startsWith("/chat")) {
+                handleChatMessage(option);
+            } else if (option.equals("")) {
+                redirect();
+            } else {
+                switch (option) {
+                    case "select" -> askSelection();
+                    case "deselect" -> askDeselection();
+                    case "insert" -> askInsertion();
+                    case "sort" -> askSort();
+                    case "show" -> askShowObject();
+                    case "leave" -> {
+                        if (askLeaveMatch()) redirect();
+                    }
+                    case "exit" -> {
+                        if (askExitGame()) return;
+                    }
+                    default -> System.out.println(Color.RED + "Invalid command! Please try again." + Color.RESET);
+                }
+            }
+        }
     }
 }

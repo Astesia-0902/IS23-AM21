@@ -504,13 +504,6 @@ public class Match {
         return VirtualViewHelper.convertVirtualHandToJSON(virtualView);
     }
 
-    /*public String getJSONBoardShelfHand() {
-        List<String> final_file=new ArrayList<>();
-        Collections.addAll(final_file,VirtualViewHelper.convertVirtualBoardToJSON(virtualView),
-                VirtualViewHelper.convertVirtualShelfListToJSON(virtualView),
-                VirtualViewHelper.convertVirtualHandToJSON(virtualView));
-        return JSON.toJSONString(final_file);
-    }*/
 
     public String getJSONBoard(){
         return VirtualViewHelper.convertVirtualBoardToJSON(virtualView);
@@ -520,7 +513,6 @@ public class Match {
     public  String getJSONShelves(){
         return VirtualViewHelper.convertVirtualShelfListToJSON(virtualView);
     }
-
 
 
 }

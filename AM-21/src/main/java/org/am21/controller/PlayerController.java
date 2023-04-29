@@ -132,8 +132,10 @@ public class PlayerController {
             //TODO: add VV update hand
             //Virtualize HAND after each Selection
             VirtualViewHelper.virtualizeCurrentPlayerHand(player.getMatch());
+            VirtualViewHelper.virtualizeBoard(player.getMatch());
             VirtualViewHelper.printJSONHand(player.getMatch());
-            player.getMatch().updateVirtualHand();
+            //player.getMatch().updateVirtualHand();
+            player.getMatch().updatePlayersVirtualView();
             //System.out.println("Match > Item selected: [" + tmpBoard.getCellItem(r, c).getNameCard() + "]");
 
             return true;

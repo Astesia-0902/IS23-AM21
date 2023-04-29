@@ -110,7 +110,7 @@ public class VirtualViewHelper {
      * Code:
      * - null -> empty cell
      * - value -> ItemName
-     * -
+     * -*value -> Selected Cell
      * Call this method for setup or for update.
      *
      * @param match the match
@@ -118,15 +118,33 @@ public class VirtualViewHelper {
     public static void virtualizeBoard(Match match) {
         int row = match.board.gRow;
         int column = match.board.gColumn;
+        List<CardPointer> hl = match.currentPlayer.getHand().getSlot();
         String[][] board = new String[row][column];
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
                 if (match.board.getCell(i, j) != null) {
-                    board[i][j] = match.board.getCell(i, j).getNameCard();
+                    if(checkMark(hl,i,j)){
+                        board[i][j] = "*"+match.board.getCell(i,j).getNameCard();
+                    }else {
+                        board[i][j] = match.board.getCell(i, j).getNameCard();
+                    }
                 }
             }
         }
         match.virtualView.setBoard(board);
+    }
+
+    private static boolean checkMark(List<CardPointer> selected_items,int i,int j){
+        if(!selected_items.isEmpty()){
+            for(CardPointer item: selected_items){
+                if(item.x == i && item.y==j){
+                    return true;
+                }
+            }
+
+        }
+
+        return false;
     }
 
     /**
