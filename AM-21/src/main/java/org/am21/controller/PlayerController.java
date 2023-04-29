@@ -99,9 +99,8 @@ public class PlayerController {
         Board board = player.getMatch().board;
 
         if (board.isPlayable(r,c) && board.isOccupied(r,c) && board.hasFreeSide(r, c)) {
-            //System.out.println("Board > Cell selectable");
             /*If the cell is selectable then verify second condition*/
-            GameManager.sendCommunication(this,ServerMessage.Selection_Ok);
+
 
             if (hand.getSlot().size()>0)  {
                 //quando ci sono altre carte in mano, controllo se è gia stata selezionata
@@ -136,6 +135,7 @@ public class PlayerController {
             VirtualViewHelper.printJSONHand(player.getMatch());
             //player.getMatch().updateVirtualHand();
             player.getMatch().updatePlayersVirtualView();
+            GameManager.sendCommunication(this,ServerMessage.Selection_Ok);
             //System.out.println("Match > Item selected: [" + tmpBoard.getCellItem(r, c).getNameCard() + "]");
 
             return true;
@@ -254,7 +254,8 @@ public class PlayerController {
                 VirtualViewHelper.virtualizeCurrentPlayerHand(player.getMatch());
                 VirtualViewHelper.updateVirtualShelves(player.getMatch());
                 player.getMatch().updatePlayersVirtualView();
-                VirtualViewHelper.printJSONBSH(player.getMatch());
+                //TODO: for DEBUG
+                //VirtualViewHelper.printJSONBSH(player.getMatch());
                 return true;
             }
         }

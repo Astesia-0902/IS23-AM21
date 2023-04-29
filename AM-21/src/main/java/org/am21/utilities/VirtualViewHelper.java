@@ -109,8 +109,8 @@ public class VirtualViewHelper {
      * This method will virtualize the Board.
      * Code:
      * - null -> empty cell
-     * - value -> ItemName
-     * -*value -> Selected Cell
+     * - "value" -> ItemName
+     * - ">value" -> Selected Cell
      * Call this method for setup or for update.
      *
      * @param match the match
@@ -124,7 +124,7 @@ public class VirtualViewHelper {
             for (int j = 0; j < column; j++) {
                 if (match.board.getCell(i, j) != null) {
                     if(checkMark(hl,i,j)){
-                        board[i][j] = "*"+match.board.getCell(i,j).getNameCard();
+                        board[i][j] = ">"+match.board.getCell(i,j).getNameCard();
                     }else {
                         board[i][j] = match.board.getCell(i, j).getNameCard();
                     }

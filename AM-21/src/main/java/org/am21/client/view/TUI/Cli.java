@@ -100,7 +100,7 @@ public class Cli implements View {
 
     public void askAssistMode() {
         System.out.println("Would you like to activate or deactivate ASSIST MODE?" +
-                "--Tip: Keep Assist Mode active for an easier experience of the game\n" +
+                "\nTip: Keep Assist Mode active for an easier experience of the game\n" +
                 "> Press 'Enter' to activate it\n" +
                 "> Type 'off' to deactivate it\n" +
                 "::");
@@ -241,7 +241,11 @@ public class Cli implements View {
         }
         askMenuAction();
         askWaitingAction();
-        askPlayerMove();
+        if(BABY_PROTOCOL) {
+            askPlayerMove();
+        }else {
+            askPlayerMoveExpert();
+        }
     }
 
     @Override
@@ -531,7 +535,7 @@ public class Cli implements View {
             for (int j = 0; j < BOARD_COLUMN; j++) {
 
                 //TODO: Questo è scritto male(troppi controlli sul null) da rifare pero funziona
-                if(board[i][j]!=null&&board[i][j].startsWith("*")){
+                if(board[i][j]!=null&&board[i][j].startsWith(">")){
                     //If the cell is temporarily selected by the player
                     String item = board[i][j].substring(1) == null ? "_________._" : checkColorItem(board[i][j].substring(1));
                     System.out.print(" "+Color.WHITE_BG+"["+""+ item +Color.WHITE_BG+"]"+Color.RESET);
@@ -618,7 +622,7 @@ public class Cli implements View {
                         if (iClientInputHandler.selectCell(row, column)) {
                             NOT_SEL_YET = false;
                             System.out.println(Color.YELLOW + "Item selected: " +
-                                    showItemInCell(row, column).replaceAll("_*", "") +
+                                    showItemInCell(row, column).replace(">"+"_", "") +
                                     Color.RESET);
                             showHand();
                         }
@@ -903,9 +907,6 @@ public class Cli implements View {
     public void askPlayerMoveExpert() throws RemoteException, ServerNotActiveException {
         //TODO: notify when the command is not found
         while (GAME_ON && !GO_TO_MENU) {
-            System.out.println("""
-                    -----------------------------------------------------------
-                    What do you wish to do? These are the commands available:""");
             showCommandMenu();
             System.out.print("""
                     -----------------------------------------------------------
@@ -917,15 +918,15 @@ public class Cli implements View {
                 redirect();
             } else {
                 switch (option) {
-                    case "select" -> askSelection();
-                    case "deselect" -> askDeselection();
-                    case "insert" -> askInsertion();
-                    case "sort" -> askSort();
-                    case "show" -> askShowObject();
-                    case "leave" -> {
+                    case "select", "se" -> askSelection();
+                    case "deselect","de" -> askDeselection();
+                    case "insert","in" -> askInsertion();
+                    case "sort","so" -> askSort();
+                    case "show","sh" -> askShowObject();
+                    case "leave","le" -> {
                         if (askLeaveMatch()) redirect();
                     }
-                    case "exit" -> {
+                    case "exit","ex" -> {
                         if (askExitGame()) return;
                     }
                     default -> System.out.println(Color.RED + "Invalid command! Please try again." + Color.RESET);
