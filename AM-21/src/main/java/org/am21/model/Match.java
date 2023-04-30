@@ -28,7 +28,6 @@ public class Match {
     public List<Player> playerList;
     public int maxSeats;
     private Player firstToComplete;
-    //TODO:initialize the virtual view
     public VirtualView virtualView;
     public Player chairman;
     public ChatManager chatManager;
@@ -93,10 +92,6 @@ public class Match {
                 synchronized (GameManager.playerMatchMap) {
                     GameManager.playerMatchMap.put(player.getNickname(), matchID);
                 }
-                //System.out.println("Game > " + player.getNickname() + " added to the match N." + this.matchID);
-                //Update virtual view
-                //VirtualViewHelper.setPlayers(this);
-                //updatePlayersVirtualView();
                 checkRoom();
                 //If, after checkRoom(), the match did not start, send Client to Waiting Phase
                 if (gameState == GameState.WaitingPlayers && player.getController().clientInput.callBack != null) {
@@ -152,51 +147,44 @@ public class Match {
     public void callEndTurnRoutine() {
         //Check if currentPlayer has achieved any Common goal
         checkCommonGoals(currentPlayer);
-        //TODO: Add VV update CommonGoal Scores, Player score, CurrentPlayer's HiddenPoints
+        //Update Virtual View --> Private points, Players Scores, Common Goal Tokens
         VirtualViewHelper.updateHiddenPoints(this);
-        VirtualViewHelper.updateVirtualScores(this);
         VirtualViewHelper.updateCommonGoalScore(this);
 
         //Check if last round is completed
         if (gameState == GameState.LastRound &&
                 playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats) == firstToComplete) {
+            //GAME OVER(almost)
             //Calculate Personal Goal Points for each player
             checkPersonalGoals();
             checkShelfPoints();
-            //TODO: add VV update Players scores
             VirtualViewHelper.updateVirtualScores(this);
             endMatch();
         } else {
-            //Not End Game
+            //Not GAME OVER
+            // Check if the board need refill
             if (board.checkBoard()) {
-                //System.out.println("Match > Board need refill");
-                //GameGear.printThisBoard(board);
-
-                //Refill Board
                 if (board.bag.refillBoard()) {
-                    //GameGear.printThisBoard(board);
-                    //TODO: update VV board
+                    //Board refilled
+                    //Update Virtual View --> Board
                     VirtualViewHelper.virtualizeBoard(this);
 
                 }
             }
 
-
-            // Check if the CurrentPlayer is the first to complete his shelves
+            // Check if the CurrentPlayer is the first to complete his shelf
             if (currentPlayer.getShelf().getTotSlotAvail() == 0 && gameState != GameState.LastRound) {
+                //TODO: Server message
                 //System.out.println("Match > Congratulations! " + currentPlayer.getNickname() + " has completed the shelves first");
                 this.setEndGameToken(false);
                 //System.out.println("Match > virtualizeEndGame Token assigned");
                 firstToComplete = currentPlayer;
                 firstToComplete.setPlayerScore(firstToComplete.getPlayerScore() + 1);
                 gameState = GameState.LastRound;
-                //TODO: update VV Endgame token, player score
-                VirtualViewHelper.updateVirtualScores(this);
                 VirtualViewHelper.virtualizeEndGame(this);
             }
             this.nextTurn();
-            //TODO: Add VV update CurrentPlayer.
-            //      notify all at end
+            VirtualViewHelper.updateVirtualScores(this);
             VirtualViewHelper.virtualizeCurrentPlayer(this);
             updatePlayersVirtualView();
         }
@@ -259,8 +247,6 @@ public class Match {
     private boolean endMatch() {
         decideWinner();
         //Print the Final Stats of the Match
-        //GameGear.viewFinalStats(this);
-
         //Removing players from the match
         for (Player p : playerList) {
 
@@ -278,7 +264,7 @@ public class Match {
                 GameManager.playerMatchMap.remove(p.getNickname());
             }
         }
-        //Maybe not necessary, at end match instance will be deleted
+        //TODO: Maybe not necessary, at the end, match instance will be deleted
         playerList.clear();
         //System.out.println("Game > Room closed. See ya!");
         //temp
@@ -362,7 +348,6 @@ public class Match {
      */
     private void startFirstRound() {
         gameState = GameState.GameGoing;
-        //System.out.println("Game > The match of ID: " + matchID + " is starting!");
         currentPlayer = chairman;
         //System.out.println("Match > Player Turn: " + currentPlayer.getNickname());
         setGamePhase(GamePhase.Selection);
@@ -417,7 +402,6 @@ public class Match {
         }
     }
 
-    //TODO: updatePlayersVVCurrentPlayerHand
 
     /**
      * This method will decide the absolute winner of the match
@@ -449,16 +433,11 @@ public class Match {
      * @param message
      */
     public void sendMessageToAll(ServerMessage message) {
-
         for (Player p : playerList) {
             if (p.getController().clientInput.callBack != null) {
-
                 GameManager.sendCommunication(p.getController(), message);
-
             }
-
         }
-
     }
 
     /**
@@ -492,7 +471,6 @@ public class Match {
                 }
             }
         }
-
     }
 
     /**

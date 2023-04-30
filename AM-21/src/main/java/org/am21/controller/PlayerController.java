@@ -89,11 +89,11 @@ public class PlayerController {
             GameManager.sendCommunication(this,ServerMessage.NotYourTurn);
             return false;
         }
-        if(player.getShelf().insertLimit == hand.getSlot().size()){
+        if(player.getShelf().insertLimit == hand.getSelectedItems().size()){
             // Limit reached
             GameManager.sendCommunication(this,ServerMessage.Hand_Full);
             //System.out.println("Shelf > Cannot pick more item");
-            //System.out.println("Shelf > Hand["+hand.getSlot().size()+"]-Limit ["+player.shelves.insertLimit +"]");
+            //System.out.println("Shelf > Hand["+hand.getSelectedItems().size()+"]-Limit ["+player.shelves.insertLimit +"]");
             return false;
         }
 
@@ -103,9 +103,9 @@ public class PlayerController {
             /*If the cell is selectable then verify second condition*/
 
 
-            if (hand.getSlot().size()>0)  {
+            if (hand.getSelectedItems().size()>0)  {
                 //quando ci sono altre carte in mano, controllo se è gia stata selezionata
-                for (CardPointer tmp : hand.getSlot()) {
+                for (CardPointer tmp : hand.getSelectedItems()) {
                     if ((r == tmp.x) && (c == tmp.y)) {
                         //Gia selezionato
                         //System.out.println("Board[!] > Already selected. Try again.");
@@ -114,14 +114,7 @@ public class PlayerController {
                     }
                 }
 
-                //Iteriamo slot
-                //Condizione 2 (Ortogonalità):
-                //NewSelected Cell need to be adjacent to the other in slot.
-                //NewSelected Cell need to be in a straight line.
-                /*Coordinates have been filtered,
-                   so they are valid for Orthogonality check*/
                 if (!board.isOrthogonal(r, c, hand)) {
-                    //System.out.println("Board > Not Orthogonal ["+r+","+c+"]");
                     GameManager.sendCommunication(this,ServerMessage.No_Orthogonal);
                     return false;
                 }
@@ -129,13 +122,9 @@ public class PlayerController {
             //Tutti i controlli passati: posso inserirlo nella hand
             //salvo le coordinate e il riferimento dell'item nella hand*/
             hand.memCard(board.getCell(r, c), r, c);
-            //TODO: add VV update hand
             //Virtualize HAND after each Selection
             VirtualViewHelper.virtualizeCurrentPlayerHand(player.getMatch());
             VirtualViewHelper.virtualizeBoard(player.getMatch());
-            //TODO: for debug
-            //  VirtualViewHelper.printJSONHand(player.getMatch());
-            //player.getMatch().updateVirtualHand();
             player.getMatch().updatePlayersVirtualView();
             GameManager.sendCommunication(this,ServerMessage.Selection_Ok);
             //System.out.println("Match > Item selected: [" + tmpBoard.getCellItem(r, c).getNameCard() + "]");
@@ -161,7 +150,7 @@ public class PlayerController {
         if(!isMyTurn(player)) {
             return false;
         }
-        if(player.getMatch().gamePhase == GamePhase.Selection && hand.getSlot().size()>0) {
+        if(player.getMatch().gamePhase == GamePhase.Selection && hand.getSelectedItems().size()>0) {
             hand.clearHand();
             GameManager.sendCommunication(this,ServerMessage.DeSel_Ok);
             //Update Virtual View(Hand and Board)
@@ -202,7 +191,7 @@ public class PlayerController {
             return false;
         }
         if(player.getMatch().gamePhase == GamePhase.Insertion){
-            for(CardPointer card: hand.getSlot()){
+            for(CardPointer card: hand.getSelectedItems()){
                 if(player.getMatch().board.isOccupied(card.x,card.y)) {
                     player.getMatch().board.setCell(card.x, card.y, null);
                 }
@@ -223,46 +212,25 @@ public class PlayerController {
             return false;
         }
         if(player.getMatch().gamePhase == GamePhase.Insertion){
-            //System.out.println(player.getNickname()+" > Column: ["+col+"]");
-            if(player.getShelf().slotCol.get(col) < hand.getSlot().size()){
+            if(player.getShelf().slotCol.get(col) < hand.getSelectedItems().size()){
+                //The column has not enough space for insertion
                 GameManager.sendCommunication(this,ServerMessage.Hand_Full);
-                //System.out.println("Shelf[!] > Not enough space in this column");
-                /*
-                for(int x: player.shelves.slotCol){
-                    System.out.print("["+x+"]");
-                }
-                System.out.println("");*/
-                //System.out.println("Shelf > Limit: ["+player.shelves.insertLimit +"]");
                 return false;
             }else{
-                for(int i=hand.getSlot().size(),s=0;i>0;i--,s++){
-                    //Inserting one card at the time
-
-                    //TODO: inverti if e togli else
-                    if(player.getShelf().insertInColumn(hand.getSlot().get(s).item,col)){
-                        //System.out.println("Shelf > Insert...");
-
-                    }else{
-                        //If one of the card cannot be put inside the column
-                        //No need for reply
+                for(int i = hand.getSelectedItems().size(), s = 0; i>0; i--,s++){
+                    //Inserting one item at the time
+                    if(!player.getShelf().insertInColumn(hand.getSelectedItems().get(s).item,col)){
                         return false;
                     }
-
                 }
-                //Inserimento avvenuto, devo pulire hand
-                //e calcolare new InsertLimit
+                //The insertion is complete : Reset Hand and Check Shelf limit
                 hand.clearHand();
                 player.getShelf().checkLimit();
-                //GameGear.printThisShelf(player.shelves);
-                //TODO : attento call end insertion dovrebbe essere atomico e chiamato dal client se tryToInsert va a buon fine
-                //callEndInsertion();
-                //TODO: add VV update Shelf, Hand, GamePhase
+                //Update Virtual View --> Board, Hand, Shelf
                 VirtualViewHelper.virtualizeBoard(player.getMatch());
                 VirtualViewHelper.virtualizeCurrentPlayerHand(player.getMatch());
                 VirtualViewHelper.updateVirtualShelves(player.getMatch());
                 player.getMatch().updatePlayersVirtualView();
-                //TODO: for DEBUG
-                //  VirtualViewHelper.printJSONBSH(player.getMatch());
                 return true;
             }
         }
@@ -278,8 +246,8 @@ public class PlayerController {
      * @return
      */
     public boolean changeHandOrder(int i,int j){
-        if(isMyTurn(player) && hand.changeOrder(i,j)){
-            //TODO: add VV update hand
+        if(isMyTurn(player) && player.getMatch().gamePhase==GamePhase.Insertion && hand.changeOrder(i,j)){
+            // Virtual View Update --> Hand
             VirtualViewHelper.virtualizeCurrentPlayerHand(player.getMatch());
             player.getMatch().updateVirtualHand();
             GameManager.sendCommunication(this,ServerMessage.Sort_Ok);
@@ -295,7 +263,7 @@ public class PlayerController {
      */
     public boolean isMyTurn(Player player){
         if(player.getMatch().currentPlayer != player) {
-            //System.out.println("Match > Not your turn, "+ player.getName());
+            // Not player turn
             return false;
         }
         return true;

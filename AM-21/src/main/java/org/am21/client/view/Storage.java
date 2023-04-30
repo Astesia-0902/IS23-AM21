@@ -13,8 +13,13 @@ import java.util.List;
  * You can find the virtual view data in this class
  */
 public class Storage {
+    public static final int SHELF_ROW = 6;
+    public static final int SHELF_COLUMN = 5;
+    public static final int BOARD_ROW = 9;
+    public static final int BOARD_COLUMN = 9;
 
-
+    //----------------------------------------
+    //Virtual View
     public static int matchID;
     public static String[][] virtualBoard;
     public static List<String> players;
@@ -28,7 +33,7 @@ public class Storage {
     public static String gamePhase;
     public static List<String> currentPlayerHand;
     public static boolean endGameToken;
-
+    //------------------------------------------
 
     /**
      * Once the JSON is received, it is parsed and the data is stored in the corresponding variables
@@ -81,15 +86,6 @@ public class Storage {
 
     }
 
-    public static void convertBackBoard(String jsonBoard) {
-        JSONArray jsonArray = JSONObject.parseArray(jsonBoard);
-        virtualBoard = (String[][]) jsonArray.toArray();
-    }
-
-    public static void convertBackShelves(String jsonShelves) {
-        JSONArray jsonArray = JSONObject.parseArray(jsonShelves);
-        virtualBoard = (String[][]) jsonArray.toArray();
-    }
 
     public static final String MYSHELFIE = "" +
                                            " __  __       ____  _          _  __ _\n" +
@@ -271,8 +267,13 @@ public class Storage {
                                       "[______._][______._][______._][______._][_" + Color.GAMES + "__]\n" +
                                       "[__" + Color.CATS + "__][______._][______._][______._][______._]";
 
-    //TODO: Personal Goal Table for points(one for all)
-    public static final String PGTable="";
+    public static final String PGTable= """
+            \t\t__________________________
+            \t\t[V] 1 | 2 | 3 | 4 | 5 | 6 
+            \t\t v ---+---+---+---+---+---
+            \t\t[P] 1 | 2 | 4 | 6 | 9 | 12
+            \t\t¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+            """;
     public static final String CG2Columns = Color.YELLOW_BOLD + """
             * CommonGoal2Columns:
             _____
@@ -383,6 +384,49 @@ public class Storage {
             ¦ = ¦     ¦ = ¦
             ¯¯¯¯¯     ¯¯¯¯¯""" + Color.RESET;
 
+
+    public static HashMap<String,String> goalCommonMap = new HashMap<>();
+    static {
+        goalCommonMap.put("CommonGoal2Columns",CG2Columns);
+        goalCommonMap.put("CommonGoal2Lines",CG2Lines);
+        goalCommonMap.put("CommonGoal3Column",CG3Column);
+        goalCommonMap.put("CommonGoal4Lines",CG4Lines);
+        goalCommonMap.put("CommonGoal8Tiles",CG8Tiles);
+        goalCommonMap.put("CommonGoalCorner",CGCorner);
+        goalCommonMap.put("CommonGoalDiagonal",CGDiagonal);
+        goalCommonMap.put("CommonGoalSquare",CGSquare);
+        goalCommonMap.put("CommonGoalStairs",CGStairs);
+        goalCommonMap.put("CommonGoal4Group",CG4Group);
+        goalCommonMap.put("CommonGoal6Group",CG6Group);
+        goalCommonMap.put("CommonGoalXShape",CGXShape);
+    }
+
+    public static HashMap<Integer,String> goalPersonalMap = new HashMap<>();
+    static {
+        goalPersonalMap.put(1,PG1);
+        goalPersonalMap.put(2,PG2);
+        goalPersonalMap.put(3,PG3);
+        goalPersonalMap.put(4,PG4);
+        goalPersonalMap.put(5,PG5);
+        goalPersonalMap.put(6,PG6);
+        goalPersonalMap.put(7,PG7);
+        goalPersonalMap.put(8,PG8);
+        goalPersonalMap.put(9,PG9);
+        goalPersonalMap.put(10,PG10);
+        goalPersonalMap.put(11,PG11);
+        goalPersonalMap.put(12,PG12);
+    }
+
+
+
+
+
+
+
+
+
+
+
     public static final String goalOfTheGame = Color.YELLOW_BOLD + """
             Goal of the game:
             Players take item tiles from the living room and place them in their bookshelves to score points; the
@@ -469,15 +513,15 @@ public class Storage {
             -----------------------------------------------------------
             [Commands] Try to use of these commands to have a see any of these elements:
               hand    --> Show selected items.
-              pgoal   --> See your Personal Goal.
-              cgoal   --> See Common Goals.
-              shelf   --> See your shelves and the insertion limit.
-              board   --> See Board.
+              pgoal   --> See your Personal Goal and try to match the items type.
+              cgoal   --> See Common Goals and try to achieve more points.
+              shelf   --> See your shelves and the insertion limit (Default Limit: 3).
+              board   --> See Board in more detail.
               stats   --> See All PLAYERS STATS(Shelf and Scores).
               rules   --> See Game Rules (to clarify any doubt).
               end     --> Show if the Endgame Token is taken (if it is, then it's the last round).
               online  --> Show a list of Online Players, so you can chat with them.
-              timer   --> Show timer.
+              timer   --> Show timer. (Not installed)
              'Enter'  --> Go Back to Play.
             -----------------------------------------------------------
             Type the commands you wish to use:\040""";
@@ -502,6 +546,7 @@ public class Storage {
             To send a message to a online player type ‘/chat[nickname]’ in the console.""";
 
     public static final String commandMenu0 = """
+            -----------------------------------------------------------
             [Commands] Wait for your turn. Meanwhile, you can spectate typing 'show':
               show     --> Show Game Object in more detail(Goals, Board, Shelf, ...).
               more     --> More Options: Leave Match, Exit Game, Help (Assist Mode).
@@ -509,6 +554,7 @@ public class Storage {
             To send a message to an online player type ‘/chat[nickname]’ followed by a 'space' and your message.""";
 
     public static final String commandMenu1 = """
+            -----------------------------------------------------------
             [Commands] Use the 'select' command to SELECT item you would like to pick:
               select   --> Select an item on the board.
               show     --> Show Game Object in more detail(Selected items, Goals, Board, Shelf, ...).
@@ -516,9 +562,9 @@ public class Storage {
             To send a message in the Match group type ‘/chat’ followed by a 'space' and your message.
             To send a message to an online player type ‘/chat[nickname]’ followed by a 'space' and your message.""";
     public static final String commandMenu2 = """
+            -----------------------------------------------------------
             [Commands] Now you can SELECT another item OR INSERT the items in the Shelf:
               select   --> Select another item on the board.
-              sort     --> Change selected items order(at least 2 items selected).
               deselect --> Deselect all your selection.
               insert   --> Save your selections and Insert in the shelf.
               show     --> Show Game Object in more detail(Selected items, Goals, Board, Shelf, ...).
@@ -528,7 +574,7 @@ public class Storage {
     public static final String commandInsert = """
             -----------------------------------------------------------
             [Commands] You can SORT the items you chose before INSERTING in the Shelf:
-               sort    --> Change the ORDER of your cards.
+               sort    --> Change the ORDER of Insertion of your items.
                show    --> Show Game OBJECT in more detail(GOALS,SHELF,...).
               insert   --> INSERT directly into the SHELF
                 n      --> EXIT Insertion.
@@ -589,14 +635,13 @@ public class Storage {
     public static final String commandMenuExtra = """
             -----------------------------------------------------------
             [Commands] What do you wish to do? These are the commands available:
-              select   --> Select an item on the board.
+              select   --> SELECT an item on the board.
              deselect  --> Deselect the cards.
-               sort    --> Change selected items order(at least 2 items selected).
-              insert   --> Insert in the shelves.
-               show    --> Show Game Object in more detail(Selected Items, Goals, Board, Shelf, ...).
+              insert   --> INSERT in the shelves.
+               show    --> Show Game OBJECT in more detail(Selected Items, Goals, Board, Shelf, ...).
                more    --> More Options: Leave Match, Exit Game, Help (Assist Mode).
-            To send a message in the Match group type ‘/chat’ followed by a 'space' and your message.
-            To send a message to an online player type ‘/chat[nickname]’ followed by a 'space' and your message.""";
+            Type ‘/chat’ followed by a 'space' and a message, to CHAT in the Match group.
+            Type ‘/chat[nickname]’ followed by a 'space' and a message, to TEXT an online player.""";
 
 
 
@@ -764,73 +809,14 @@ public class Storage {
         PGoals.put(12, miniPG12);
     }
 
-    public static final String[] miniCG1={
-            "¦ [=][=]  ¦",
-            "¦ [=][=]  ¦",
-            "¦   x2    ¦"
-    };
-    public static final String[] miniCG2={
-            "¦ :  [≠]  ¦",
-            "¦ :  6H   ¦",
-            "¦ :  x2   ¦"
-    };
-    public static final String[] miniCG3={
-            "¦ :  [=]  ¦",
-            "¦ :  4H   ¦",
-            "¦ :  x2   ¦"
-    };
-    public static final String[] miniCG4={
-            "¦   [=]   ¦",
-            "¦   [=]   ¦",
-            "¦    x6   ¦"
-    };
-    public static final String[] miniCG5={
-            "¦ :   3*≠ ¦",
-            "¦ :   6H  ¦",
-            "¦ :   x3  ¦"
-    };
-    public static final String[] miniCG6={
-            "¦ 5W  [≠] ¦",
-            "¦- - - - -¦",
-            "¦   x2    ¦"
-    };
-    public static final String[] miniCG7={
-            "¦ 5W  3*≠ ¦",
-            "¦- - - - -¦",
-            "¦   x4    ¦"
-    };
-    public static final String[] miniCG8={
-            "¦[=]---[=]¦",
-            "¦ ¦     ¦ ¦",
-            "¦[=]---[=]¦"
-    };
-    public static final String[] miniCG9={
-            "¦ 8 x [=] ¦",
-            "¦   . .   ¦",
-            "¦  : : :  ¦"
-    };
-    public static final String[] miniCG10={
-            "¦[=]   [=]¦",
-            "¦   [=]   ¦",
-            "¦[=]   [=]¦"
-    };
-    public static final String[] miniCG11={
-            "¦[=]    5D¦",
-            "¦   [=]   ¦",
-            "¦      [=]¦"
-    };
-    public static final String[] miniCG12={
-            "¦¯¯|15/20x¦",
-            "¦¯¯|¯¯|   ¦",
-            "¦??|¯¯|¯¯|¦"
-    };
 
     public static final String GROUP_POINTS= """
-             --------------------------
-            ¦ 3 [=]: (2)  ¦ 5 [=]: (5) ¦  
-             --------------------------
-            ¦ 4 [=]: (3)  ¦ 6+[=]: (8) ¦
-            ---------------------------
+            Points given based on the numbers of item of the same type near each other 
+            \t\t-----------------------------
+            \t\t¦ 3 [=] > (2) ¦ 5 [=] > (5) ¦  
+            \t\t-----------------------------
+            \t\t¦ 4 [=] > (3) ¦ 6+[=] > (8) ¦
+            \t\t-----------------------------
             """;
 
 

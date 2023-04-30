@@ -154,13 +154,13 @@ public class BoardTest {
 
         Hand h = new Hand(new PlayerController("",null).getPlayer());
 
-        h.getSlot().add(new CardPointer(3,3));
-        h.getSlot().get(0).item= new ItemCard("none");
+        h.getSelectedItems().add(new CardPointer(3,3));
+        h.getSelectedItems().get(0).item= new ItemCard("none");
 
         assertTrue(board.isOrthogonal(3,4,h));
 
-        h.getSlot().add((new CardPointer(3,4)));
-        h.getSlot().get(0).item = new ItemCard("none");
+        h.getSelectedItems().add((new CardPointer(3,4)));
+        h.getSelectedItems().get(0).item = new ItemCard("none");
 
         assertFalse(board.isOrthogonal(4,4,h));
 

@@ -131,7 +131,7 @@ public class Board extends Grid {
         boolean one_adjacent=false;
         boolean inline = true;
 
-        for (CardPointer card : pHand.getSlot()) {
+        for (CardPointer card : pHand.getSelectedItems()) {
             a = Math.abs(r - card.x);
             b = Math.abs(c - card.y);
             /*System.out.print("Board > Coordinates difference: ");

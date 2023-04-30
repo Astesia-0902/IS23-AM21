@@ -52,8 +52,8 @@ public class GameGear {
     }
     public static void showHand(Hand hand){
         System.out.println("--------");
-        System.out.println("Match  > "+hand.player.getNickname() + "'s Hand["+ hand.getSlot().size()+"]:");
-        for(CardPointer x : hand.getSlot()) {
+        System.out.println("Match  > "+hand.player.getNickname() + "'s Hand["+ hand.getSelectedItems().size()+"]:");
+        for(CardPointer x : hand.getSelectedItems()) {
             if(x.item.getNameCard()!=null){
                 System.out.print("["+x.item.getNameCard()+"]");
             }

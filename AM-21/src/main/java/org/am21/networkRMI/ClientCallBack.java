@@ -32,8 +32,10 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     @Override
     public void sendVirtualView(String virtualView, int pIndex) throws RemoteException {
         //TODO:Update the virtual view
-        Storage.setFullViewVariables(virtualView,pIndex );
-        cli.checkTurn();
+        if(cli!=null){
+            Storage.setFullViewVariables(virtualView,pIndex );
+            cli.checkTurn();
+        }
     }
 
     @Override
@@ -48,16 +50,10 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     @Override
     public void notifyStart(int id) throws RemoteException {
         if(cli!=null) {
-            //TODO: Method invocation in CLI (for example: showMatchSetup) which will print the game first setup:
-            //      Filled Board, 2 Common Goals, Player's Personal Goal
-            //      Furthermore, if the Client nickname correspond to Storage.currentPlayer(String),
-            //      then the CLI will invoke announceCurrentPlayer()
-
             cli.setMatchID(id);
             cli.setSTART(true);
             cli.setGO_TO_MENU(false);
             cli.setGAME_ON(true);
-
         }
     }
 
@@ -65,7 +61,6 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     public void notifyToWait(int id) throws RemoteException {
         if(cli!=null){
             cli.setMatchID(id);
-
             cli.setGAME_ON(false);
             cli.setGO_TO_MENU(false);
         }
@@ -84,7 +79,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
         if(cli!=null){
             cli.setGO_TO_MENU(true);
             cli.setGAME_ON(false);
-            cli.printer(SC.WHITE_BB+"\nServer > The match ended. Good Bye!\n"+SC.RST+"Press 'Enter'\n");
+            cli.printer(SC.WHITE_BB+"\nServer > The match ended. Good Bye! Press 'Enter'"+SC.RST);
         }
     }
 

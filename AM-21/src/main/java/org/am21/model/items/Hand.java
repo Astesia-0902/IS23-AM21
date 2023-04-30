@@ -20,7 +20,7 @@ import java.util.Collections;
  */
 public class Hand {
     public Player player;
-    private ArrayList<CardPointer> slot;
+    private ArrayList<CardPointer> selectedItems;
 
     /**
      *
@@ -28,20 +28,20 @@ public class Hand {
      */
     public Hand(Player player){
         this.player = player;
-        this.slot = new ArrayList<>();
+        this.selectedItems = new ArrayList<>();
     }
 
     /**
      *
      * @return
      */
-    public ArrayList<CardPointer> getSlot() {
-        return slot;
+    public ArrayList<CardPointer> getSelectedItems() {
+        return selectedItems;
     }
 
     /**
      * Create a temporary Coordinates object for data setting.
-     * Then add it to the slot list.
+     * Then add it to the selectedItems list.
      * @param item
      * @param r
      * @param c
@@ -50,32 +50,33 @@ public class Hand {
 
         CardPointer tmp = new CardPointer(r,c);
         tmp.item = item;
-        this.slot.add(tmp);
+        this.selectedItems.add(tmp);
     }
 
     /**
-     * Clearing all items in slot list when the player trigger 'Deselection'
+     * Clearing all items in selectedItems list when the player trigger 'Deselection'
      */
     public void clearHand(){
-        this.slot.clear();
+        this.selectedItems.clear();
     }
 
 
     /**
-     * function for order changing between 2 element in slot
+     * function for order changing between 2 element in selectedItems
      * Used during Insertion Phase
      * @param i is position 1
      * @param j is position 2
      */
     public boolean changeOrder(int i, int j){
-        int limit =getSlot().size();
+        //TODO : reorganize and move to Player Controller
+        int limit = getSelectedItems().size();
         if(limit<=1){
 
             GameManager.sendCommunication(player.getController(),ServerMessage.Sort_No);
             return false;
         }
         if(i>=0 && i<limit && j>=0 && j<limit && limit>1){
-            Collections.swap(slot, i, j);
+            Collections.swap(selectedItems, i, j);
             //System.out.println("Hand > Order Changed");
             return true;
         }

@@ -97,8 +97,8 @@ public class Gear {
                 /*System.out.print("Board > Selection difference: ");
                 System.out.print("["+a+"]");
                 System.out.println("["+b+"]");*/
-                int numGen=(int) (Math.random() * (ctrl.getHand().getSlot().size()));
-                tmp = ctrl.getHand().getSlot().get(numGen);
+                int numGen=(int) (Math.random() * (ctrl.getHand().getSelectedItems().size()));
+                tmp = ctrl.getHand().getSelectedItems().get(numGen);
                 a = a + tmp.x;
                 b = b + tmp.y;
                 if(a<0 || a>8 || b<0 || b>8){

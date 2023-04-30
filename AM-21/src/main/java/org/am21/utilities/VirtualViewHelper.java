@@ -122,7 +122,7 @@ public class VirtualViewHelper {
     public static void virtualizeBoard(Match match) {
         int row = match.board.gRow;
         int column = match.board.gColumn;
-        List<CardPointer> hl = match.currentPlayer.getHand().getSlot();
+        List<CardPointer> hl = match.currentPlayer.getHand().getSelectedItems();
         String[][] board = new String[row][column];
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
@@ -285,8 +285,8 @@ public class VirtualViewHelper {
      */
     public static void virtualizeCurrentPlayerHand(Match match) {
         List<String> hand = new ArrayList<>();
-        for (int i = 0; i < match.currentPlayer.getHand().getSlot().size(); i++) {
-            hand.add(match.currentPlayer.getHand().getSlot().get(i).item.getNameCard());
+        for (int i = 0; i < match.currentPlayer.getHand().getSelectedItems().size(); i++) {
+            hand.add(match.currentPlayer.getHand().getSelectedItems().get(i).item.getNameCard());
         }
         match.virtualView.setCurrentPlayerHand(hand);
     }

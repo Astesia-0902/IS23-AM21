@@ -109,7 +109,7 @@ public class PlayerTest {
         c1.selectCell(1,3);
         assertTrue(c1.unselectCards());
 
-        assertEquals(0, c1.getHand().getSlot().size());
+        assertEquals(0, c1.getHand().getSelectedItems().size());
 
     }
 
@@ -150,13 +150,14 @@ public class PlayerTest {
     void testChangeHandOrder(){
         c1.selectCell(1,4);
         c1.selectCell(1,3);
-        CardPointer t= c1.getHand().getSlot().get(0);
-        CardPointer f= c1.getHand().getSlot().get(1);
+        CardPointer t= c1.getHand().getSelectedItems().get(0);
+        CardPointer f= c1.getHand().getSelectedItems().get(1);
+        c1.callEndSelection();
         assertFalse(c1.changeHandOrder(1,2));
         c1.changeHandOrder(0,1);
 
-        assertTrue(c1.getHand().getSlot().get(1).equals(t));
-        assertTrue(c1.getHand().getSlot().get(0).equals(f));
+        assertTrue(c1.getHand().getSelectedItems().get(1).equals(t));
+        assertTrue(c1.getHand().getSelectedItems().get(0).equals(f));
     }
 
     /**
@@ -180,7 +181,7 @@ public class PlayerTest {
         c1.getPlayer().getShelf().insertInColumn(new ItemCard("Generic"),0);
         c1.getPlayer().getShelf().insertInColumn(new ItemCard("Generic"),0);
         c1.getPlayer().getShelf().insertInColumn(new ItemCard("Generic"),0);
-        c1.getHand().getSlot().add(new CardPointer(0,0));
+        c1.getHand().getSelectedItems().add(new CardPointer(0,0));
         //Ritorna vero perche non ho nulla in mano(devo simulare la mano :( )
         assertFalse(c1.tryToInsert(0));
 
