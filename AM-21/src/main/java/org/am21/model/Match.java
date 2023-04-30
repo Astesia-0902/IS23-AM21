@@ -388,7 +388,7 @@ public class Match {
         setGamePhase(GamePhase.Selection);
         try {
             if(currentPlayer.getController().clientInput.callBack!=null) {
-                currentPlayer.getController().clientInput.callBack.sendMessageToClient(SC.RED_B + "Server[!] > " + currentPlayer.getNickname() + "! It's your turn"+SC.RST);
+                currentPlayer.getController().clientInput.callBack.sendMessageToClient(SC.RED_B + "Server[!] > " + currentPlayer.getNickname() + "! It's your turn. Press 'Enter'"+SC.RST);
             }
         } catch (RemoteException e) {
             throw new RuntimeException(e);

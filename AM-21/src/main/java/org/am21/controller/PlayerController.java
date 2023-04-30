@@ -163,7 +163,8 @@ public class PlayerController {
             GameManager.sendCommunication(this,ServerMessage.DeSel_Ok);
             //TODO: add VV update hand
             VirtualViewHelper.virtualizeCurrentPlayerHand(player.getMatch());
-            player.getMatch().updateVirtualHand();
+            VirtualViewHelper.virtualizeBoard(player.getMatch());
+            player.getMatch().updatePlayersVirtualView();
             return true;
         }
 

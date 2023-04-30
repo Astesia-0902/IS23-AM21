@@ -74,7 +74,7 @@ public class GameManager {
             try {
                 pc.clientInput.callBack.sendMessageToClient(m.value());
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                System.out.println("player not exists");
             }
         }
     }
@@ -84,7 +84,7 @@ public class GameManager {
             try {
                 pc.clientInput.callBack.sendMessageToClient(m);
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                System.out.println("player not exists");
             }
         }
     }

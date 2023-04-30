@@ -269,6 +269,8 @@ public class Storage {
                                       "[______._][______._][______._][______._][_" + Color.GAMES + "__]\n" +
                                       "[__" + Color.CATS + "__][______._][______._][______._][______._]";
 
+    //TODO: Personal Goal Table for points(one for all)
+    public static final String PGTable="";
     public static final String CG2Columns = Color.YELLOW_BOLD + """
             * CommonGoal2Columns:
             _____
@@ -483,11 +485,17 @@ public class Storage {
               create   --> Create a new match.
               join     --> Join a match.
               online   --> Show Online Players.
+<<<<<<< Updated upstream
               exit     --> Exit game.
               help     --> Activate Or Deactivate Assist Mode
             To send a message to a online player type ‘/chat[nickname]’ in the console.
             -----------------------------------------------------------
             Enter the Command you wish to use:\040""";
+=======
+               exit    --> Exit game.
+               help    --> Activate Or Deactivate Assist Mode
+            To send a message to a online player type ‘/chat[nickname]’ in the console.""";
+>>>>>>> Stashed changes
     public static final String waitingAction = """
             The match has not started yet. Please wait more players to join...
             -----------------------------------------------------------
@@ -496,9 +504,7 @@ public class Storage {
               rules    --> Read Game Rules.
               online   --> Show Online Players.
             To send a message in the Match type ‘/chat’ in the console.
-            To send a message to a online player type ‘/chat[nickname]’ in the console.
-            -----------------------------------------------------------
-            Enter the Command you wish to use:\040""";
+            To send a message to a online player type ‘/chat[nickname]’ in the console.""";
 
     public static final String commandMenu0 = """
             [Commands] Wait for your turn. Meanwhile, you can spectate typing 'show':
@@ -506,6 +512,7 @@ public class Storage {
               more     --> More Options: Leave Match, Exit Game, Help (Assist Mode).
             To send a message in the Match group type ‘/chat’ followed by a 'space' and your message.
             To send a message to an online player type ‘/chat[nickname]’ followed by a 'space' and your message.""";
+<<<<<<< Updated upstream
     public static final String commandMenu1 = "[Commands] Use the 'select' command to " + Color.WHITE_UNDERLINED +
                                               "SELECT" + Color.RESET + " item you would like to pick:\n" +
                                               "  select   --> Select an item on the board.\n" +
@@ -541,6 +548,41 @@ public class Storage {
                 r      --> Retry by selecting again.
               show     --> See a Game Object in more detail(Board, Shelf, Goals, ...).
                 n      --> Delete your choice and Exit Selection.
+=======
+    public static final String commandMenu1 = """
+            [Commands] Use the 'select' command to SELECT item you would like to pick:
+              select   --> Select an item on the board.
+              show     --> Show Game Object in more detail(Selected items, Goals, Board, Shelf, ...).
+              more     --> More Options: Leave Match, Exit Game, Help (Assist Mode)
+            To send a message in the Match group type ‘/chat’ followed by a 'space' and your message.
+            To send a message to an online player type ‘/chat[nickname]’ followed by a 'space' and your message.""";
+    public static final String commandMenu2 = """
+            [Commands] Now you can SELECT another item OR INSERT the items in the Shelf:
+              select   --> Select another item on the board.
+              sort     --> Change selected items order(at least 2 items selected).
+              deselect --> Deselect all your selection.
+              insert   --> Save your selections and Insert in the shelf.
+              show     --> Show Game Object in more detail(Selected items, Goals, Board, Shelf, ...).
+              more     --> More Options: Leave Match, Exit Game, Help (Assist Mode)
+            To send a message in the Match group type ‘/chat’ followed by a 'space' and your message.
+            To send a message to an online player type ‘/chat[nickname]’ followed by a 'space' and your message.""";
+    public static final String commandInsert = """
+            -----------------------------------------------------------
+            [Commands] You can SORT the items you chose before INSERTING in the Shelf:
+               sort    --> Change the ORDER of your cards.
+               show    --> Show Game OBJECT in more detail(GOALS,SHELF,...).
+              insert   --> INSERT directly into the SHELF
+                n      --> EXIT Insertion.
+            -----------------------------------------------------------
+            Enter the option you wish to select:\040""";
+    public static final String selectConfirm = """
+            -----------------------------------------------------------
+            [Commands] You can CONFIRM, REMAKE or DELETE your choice. If needed, you could also view some OBJECT... 
+                y      --> CONFIRM your choice.
+                r      --> RETRY by selecting again.
+               show    --> See a Game OBJECT in more detail(Board, Shelf, Goals, ...).
+                n      --> DELETE your choice and EXIT Selection.
+>>>>>>> Stashed changes
             -----------------------------------------------------------
             Enter the option you wish to select:\040""";
     public static final String anotherCard = """
@@ -552,7 +594,7 @@ public class Storage {
             Enter the option you wish to select:\040""";
     public static final String deselectConfirm = """
             -----------------------------------------------------------
-            [Commands] Are you sure to delete all of your selection?
+            [Commands] Are you sure to delete all of your selections?
                 y      --> Yes. I am sure.
             'Anything' --> No.
             -----------------------------------------------------------
@@ -597,7 +639,11 @@ public class Storage {
             To send a message to an online player type ‘/chat[nickname]’ followed by a 'space' and your message.""";
 
 
+<<<<<<< Updated upstream
     public static final int SEL_TIPS = 14;
+=======
+    public static final int SEL_TIPS=15;
+>>>>>>> Stashed changes
     public static List<String> tips = new ArrayList<>();
 
     static {
@@ -609,11 +655,12 @@ public class Storage {
                 Color.YELLOW + "--Rule: Each turn, you have to insert all of your selections in just ONE column of the shelf" + Color.RESET,
                 Color.YELLOW + "--Rule: If there is enough space in your shelf, you can select at most 3 items each turn" + Color.RESET,
                 Color.YELLOW + "--Rule: Multiple item with the same color near each other in the shelf, will guarantee you more points at the end of the match" + Color.RESET,
-                Color.YELLOW + "--Tip: See the Common Goals and try to achieve more points" + Color.RESET,
-                Color.YELLOW + "--Tip: See your Personal Goal and try to achieve more points" + Color.RESET,
+                Color.YELLOW + "--Tip: See the Common Goals and try to achieve more points (Use 'show' then 'cgoal' commands)" + Color.RESET,
+                Color.YELLOW + "--Tip: See your Personal Goal and try to achieve more points (Use 'show' the 'pgoal' commands)" + Color.RESET,
                 Color.YELLOW + "--Tip: Use command abbreviation 'sh' to SHOW OBJECT" + Color.RESET,
-                Color.YELLOW + "--Tip: Use command abbreviation 'le' to LEAVE this match" + Color.RESET,
-                Color.YELLOW + "--Tip: Use command abbreviation 'ex' to EXIT from MyShelfie" + Color.RESET,
+                Color.YELLOW + "--Tip: Use command abbreviation 'mo' to open More OPTIONS" + Color.RESET,
+                Color.YELLOW + "--Tip: Open More Options and then use command abbreviation 'le' to LEAVE this Match" + Color.RESET,
+                Color.YELLOW + "--Tip: Open More Options and then use command abbreviation 'ex' to EXIT from MyShelfie" + Color.RESET,
                 Color.YELLOW + "--Tip: Each match has his own chat group" + Color.RESET,
                 Color.YELLOW + "--Tip: You can text any ONLINE player, even the ones who are not in this match" + Color.RESET,
 
@@ -622,15 +669,7 @@ public class Storage {
                 Color.YELLOW + "--Tip: You can delete all your selections by using 'deselect' command" + Color.RESET,
                 Color.YELLOW + "--Tip: Use command abbreviation 'in' to INSERT" + Color.RESET,
                 Color.YELLOW + "--Tip: Use command abbreviation 'so' to SORT" + Color.RESET,
-                Color.YELLOW + "--Tip: Use command abbreviation 'de' to DESELECT" + Color.RESET,
-                Color.YELLOW + "--Tip: Use command abbreviation 'se' to SELECT" + Color.RESET,
-                Color.YELLOW + "--Tip: Use command abbreviation 'se' to SELECT" + Color.RESET,
-                Color.YELLOW + "--Tip: Use command abbreviation 'se' to SELECT" + Color.RESET,
-                Color.YELLOW + "--Tip: Use command abbreviation 'se' to SELECT" + Color.RESET,
-                Color.YELLOW + "--Tip: Use command abbreviation 'se' to SELECT" + Color.RESET,
-                Color.YELLOW + "--Tip: Use command abbreviation 'se' to SELECT" + Color.RESET,
-                Color.YELLOW + "--Tip: Use command abbreviation 'se' to SELECT" + Color.RESET,
-                Color.YELLOW + "--Tip: Use command abbreviation 'se' to SELECT" + Color.RESET
+                Color.YELLOW + "--Tip: Use command abbreviation 'de' to DESELECT" + Color.RESET
         );
     }
 
@@ -766,6 +805,70 @@ public class Storage {
         PGoals.put(11, miniPG11);
         PGoals.put(12, miniPG12);
     }
+
+    public static final String[] miniCG1={
+            "| [=][=]  |",
+            "| [=][=]  |",
+            "|   x2    |"
+    };
+    public static final String[] miniCG2={
+            "| :  [!]  |",
+            "| :  6H   |",
+            "| :  x2   |"
+    };
+    public static final String[] miniCG3={
+            "| :  [=]  |",
+            "| :  4H   |",
+            "| :  x2   |"
+    };
+    public static final String[] miniCG4={
+            "|   [=]   |",
+            "|   [=]   |",
+            "|    x6   |"
+    };
+    public static final String[] miniCG5={
+            "| :   3*! |",
+            "| :   6H  |",
+            "| :   x3  |"
+    };
+    public static final String[] miniCG6={
+            "| 5W  [!] |",
+            "|- - - - -|",
+            "|   x2    |"
+    };
+    public static final String[] miniCG7={
+            "| 5W  3*! |",
+            "|- - - - -|",
+            "|   x4    |"
+    };
+    public static final String[] miniCG8={
+            "|[=]---[=]|",
+            "| :     : |",
+            "|[=]---[=]|"
+    };
+    public static final String[] miniCG9={
+            "| 8 x [=] |",
+            "|   . .   |",
+            "|  : : :  |"
+    };
+    public static final String[] miniCG10={
+            "|[=]   [=]|",
+            "|   [=]   |",
+            "|[=]   [=]|"
+    };
+    public static final String[] miniCG11={
+            "|[=] 5x[=]|",
+            "|   [=]   |",
+            "|      [=]|"
+    };
+    public static final String[] miniCG12={
+            "|¯¯|15/20x|",
+            "|¯¯|¯¯|   |",
+            "|??|¯¯|¯¯||"
+    };
+
+
+
 
 
 }

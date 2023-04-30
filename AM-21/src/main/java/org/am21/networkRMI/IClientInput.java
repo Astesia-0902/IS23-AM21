@@ -6,7 +6,6 @@ import java.rmi.server.ServerNotActiveException;
 
 /**
  * Interface for RMI communication, any class that will be used by the client must implement this interface
- * @author JiaLiang Ding
  * @version 1.0
  */
 public interface IClientInput extends Remote {

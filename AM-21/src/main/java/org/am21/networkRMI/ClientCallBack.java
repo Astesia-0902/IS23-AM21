@@ -94,13 +94,4 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     }
 
 
-    @Override
-    public void sendVirtualBoard(String jsonBoard) throws RemoteException {
-        Storage.convertBackBoard(jsonBoard);
-    }
-
-    @Override
-    public void sendVirtualShelves(String jsonShelves) throws RemoteException {
-        Storage.convertBackShelves(jsonShelves);
-    }
 }
