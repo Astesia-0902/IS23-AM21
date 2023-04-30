@@ -257,7 +257,7 @@ public class Cli implements View {
             System.out.println(Storage.menuOption);
             showRandomTip();
             System.out.print("-----------------------------------------------------------\n" +
-                    "Enter the Command you wish to use: ");
+                             "Enter the Command you wish to use: ");
             String option = readLine();
             if (option.startsWith("/chat")) {
                 handleChatMessage(option);
@@ -295,7 +295,7 @@ public class Cli implements View {
             System.out.println(Storage.waitingAction);
             showRandomTip();
             System.out.print("-----------------------------------------------------------\n"
-                    +"Enter the Command you wish to use: ");
+                             + "Enter the Command you wish to use: ");
             String option = readLine();
             if (option.startsWith("/chat")) {
                 handleChatMessage(option);
@@ -332,12 +332,6 @@ public class Cli implements View {
     @Override
     public void askPlayerMove() throws RemoteException, ServerNotActiveException {
         while (GAME_ON && !GO_TO_MENU) {
-            Storage.reset_display();
-            displayMiniBoard();
-            displayMiniShelf();
-            if(SEL_MODE) displayMiniHand();
-            displayMiniPGoal(Storage.personalGoal);
-            displayMiniCGoal();
             showDisplay();
             showWhoIsPlaying();
             showCommandMenu();
@@ -363,7 +357,6 @@ public class Cli implements View {
                     default -> System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
                                                   + Color.RESET);
                 }
-                //askToContinue();
             }
         }
     }
@@ -469,8 +462,9 @@ public class Cli implements View {
             }
             case "exit", "e" -> askExitGame();
             case "help", "h" -> askAssistMode();
-            default -> {
-            }
+            case "" -> {return;}
+            default -> System.out.println(Color.RED + "The [" + command + "] cannot be found! Please try again."
+                                          + Color.RESET);
         }
     }
 
@@ -576,16 +570,16 @@ public class Cli implements View {
         }
         System.out.println();
         for (int i = 0; i < BOARD_ROW; i++) {
-            System.out.print(i);
+            System.out.print(i + " ");
             for (int j = 0; j < BOARD_COLUMN; j++) {
                 if (board[i][j] != null && board[i][j].startsWith(">")) {
                     //If the cell is temporarily selected by the player
                     String item = checkColorItem(board[i][j].substring(1));
-                    System.out.print(" " + Color.WHITE_BG + "[" + "" + item.replace
-                            ("_", Color.WHITE_BG + "_") + Color.WHITE_BG + "]" + Color.RESET);
+                    System.out.print(Color.WHITE_BG + "[" + "" + item.replace
+                            ("_", Color.WHITE_BG + "_") + Color.WHITE_BG + "] " + Color.RESET);
                 } else {
                     String item = board[i][j] == null ? "_________._" : checkColorItem(board[i][j]);
-                    System.out.print(" [" + item + "]");
+                    System.out.print("[" + item + "] ");
                 }
             }
             System.out.print(" ");
@@ -624,9 +618,7 @@ public class Cli implements View {
                            Color.BLUE_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
             }
             case "Trophies" -> {
-                index1 = item.indexOf("Trophies");
-                itemType = item.substring(0, index1) + Color.TROPHIES + item.substring(index1 + "Trophies".length(), index2) +
-                           Color.CYAN_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
+                itemType = Color.CYAN_BOLD_BRIGHT + item + Color.RESET;
             }
             case "_Plants_" -> {
                 index1 = item.indexOf("Plants");
@@ -671,8 +663,8 @@ public class Cli implements View {
                         if (iClientInputHandler.selectCell(row, column)) {
                             NOT_SEL_YET = false;
                             System.out.println(Color.YELLOW + "Item selected: " +
-                                               showItemInCell(row, column).replace(">" + "_", "") +
-                                               Color.RESET);
+                                               showItemInCell(row, column).replace(">", "").
+                                                       replace("_", "") + Color.RESET);
                             showHand();
                         }
                         askToContinue();
@@ -762,21 +754,28 @@ public class Cli implements View {
                 switch (option) {
                     case "sort" -> askSort();
                     case "show" -> askShowObject();
-                    case "insert","in" -> {
+                    case "insert", "in" -> {
                         if (iClientInputHandler.confirmSelection()) {
                             showPlayerShelf();
                             int column = askColumn();
-                            if (iClientInputHandler.insertInColumn(column)) {
-                                showPlayerShelf();
-                                System.out.println(Color.YELLOW + "Inserted in the column: " + column + Color.RESET);
-                                askToContinue();
-                                iClientInputHandler.endTurn();
-                                NOT_SEL_YET = true;
-                                SEL_MODE = false;
+                            if (column != -1) {
+                                if (iClientInputHandler.insertInColumn(column)) {
+                                    showPlayerShelf();
+                                    System.out.println(Color.YELLOW + "Inserted in the column: " + column + Color.RESET);
+                                    askToContinue();
+                                    iClientInputHandler.endTurn();
+                                    NOT_SEL_YET = true;
+                                    SEL_MODE = false;
+                                }
+                            } else {
+                                System.out.println("Selection canceled.");
                             }
                         } else {
                             System.out.println(Color.RED + "Selection Confirm failed" + Color.RESET);
                         }
+                        return;
+                    }
+                    case "n" -> {
                         return;
                     }
                     default -> System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
@@ -794,7 +793,9 @@ public class Cli implements View {
         if (showHand()) {
             System.out.println("Which position do you wish to swap?");
             List<Integer> itemSwapped = askIndex();
-            if (!itemSwapped.get(0).equals(itemSwapped.get(1))) {
+            if (itemSwapped == null) {
+                System.out.println("Selection canceled.");
+            } else if (!itemSwapped.get(0).equals(itemSwapped.get(1))) {
                 if (iClientInputHandler.sortHand(itemSwapped.get(0), itemSwapped.get(1))) {
                     System.out.println("Card order changed.");
                 }
@@ -807,23 +808,30 @@ public class Cli implements View {
     }
 
     public List<Integer> askIndex() {
-        boolean sortConfirm;
+        String sortConfirm;
         int position1, position2;
-        do {
-            position1 = askTheIndex("Position1", 1, Storage.currentPlayerHand.size() + 1);
-            position2 = askTheIndex("Position2", 1, Storage.currentPlayerHand.size() + 1);
-            System.out.println("You have chosen to swap " +
-                               Storage.currentPlayerHand.get(position1 - 1).replace("_", "") +
-                               " and " +
-                               Storage.currentPlayerHand.get(position2 - 1).replace("_", ""));
-            System.out.print(Storage.indexConfirm);
-            sortConfirm = "y".equals(readLine());
-        } while (!sortConfirm);
-        List<Integer> index = new ArrayList<>();
-        index.add(position1 - 1);
-        index.add(position2 - 1);
+        position1 = askTheIndex("Position1", 1, Storage.currentPlayerHand.size() + 1);
+        position2 = askTheIndex("Position2", 1, Storage.currentPlayerHand.size() + 1);
+        System.out.println("You have chosen to swap " +
+                           Storage.currentPlayerHand.get(position1 - 1).replace("_", "") +
+                           " and " +
+                           Storage.currentPlayerHand.get(position2 - 1).replace("_", ""));
+        System.out.print(Storage.indexConfirm);
+        sortConfirm = readLine();
+        switch (sortConfirm) {
+            case "y":
+                List<Integer> index = new ArrayList<>();
+                index.add(position1 - 1);
+                index.add(position2 - 1);
 
-        return index;
+                return index;
+            case "r":
+                askIndex();
+                break;
+            case "n":
+                return null;
+        }
+        return null;
     }
 
     public boolean showHand() {
@@ -842,17 +850,25 @@ public class Cli implements View {
 
     public int askColumn() {
         System.out.println("In which column would you like to insert the cards?");
-        boolean columnConfirm;
+        String columnConfirm;
         int column;
-        do {
-            column = askTheIndex("COLUMN", 0, SHELF_COLUMN);
-            System.out.print("""
-                                     -----------------------------------------------------------
-                                     You have chosen Column:\040""" + column +"\n"+ Storage.columnConfirm);
+        column = askTheIndex("COLUMN", 0, SHELF_COLUMN);
+        System.out.print("""
+                                 -----------------------------------------------------------
+                                 You have chosen Column:\040""" + column + "\n" + Storage.columnConfirm);
 
-            columnConfirm = "y".equals(readLine());
-        } while (!columnConfirm);
-        return column;
+        columnConfirm = readLine();
+        switch (columnConfirm) {
+            case "y":
+                return column;
+            case "r":
+                askColumn();
+                break;
+            case "n":
+                return -1;
+
+        }
+        return -1;
     }
 
     public void handleChatMessage(String option) throws RemoteException {
@@ -905,7 +921,9 @@ public class Cli implements View {
                 case "end" -> showEndGameToken();
                 case "online" -> showOnlinePlayer();
                 case "timer" -> showTimer();
-                case "" -> {return;}
+                case "" -> {
+                    return;
+                }
                 default -> System.out.println(Color.RED + "The [" + object + "] cannot be found! Please try again."
                                               + Color.RESET);
             }
@@ -967,12 +985,6 @@ public class Cli implements View {
 
     public void askPlayerMoveExpert() throws RemoteException, ServerNotActiveException {
         while (GAME_ON && !GO_TO_MENU) {
-            Storage.reset_display();
-            displayMiniBoard();
-            displayMiniShelf();
-            if(SEL_MODE) displayMiniHand();
-            displayMiniPGoal(Storage.personalGoal);
-            displayMiniCGoal();
             showDisplay();
             showWhoIsPlaying();
             showCommandMenu();
@@ -1025,7 +1037,7 @@ public class Cli implements View {
         String[][] board = Storage.virtualBoard;
         //System.out.print("  ");
 
-        display.set(0,display.get(0)+"\t\t\t{Board}\t\t\t\t\t\t\t");
+        display.set(0, display.get(0) + "\t\t\t{Board}\t\t\t\t\t\t\t");
         //System.out.println();
         for (int i = 0; i < BOARD_ROW; i++) {
             //System.out.print(i);
@@ -1036,7 +1048,7 @@ public class Cli implements View {
                     //If the cell is temporarily selected by the player
                     String item = giveMeColor(board[i][j].substring(1));
                     //System.out.print("" + Color.WHITE_BG + "[" + "" + item + Color.WHITE_BG + "]" + Color.RESET);
-                    display.set(i+1,display.get(i+1)+" "+ Color.WHITE_BG + "[" + "" + item + Color.WHITE_BG + "]" + Color.RESET);
+                    display.set(i + 1, display.get(i + 1) + " " + Color.WHITE_BG + "[" + "" + item + Color.WHITE_BG + "]" + Color.RESET);
 
                 } else {
                     String item = board[i][j] == null ? " " : giveMeColor(board[i][j]);
@@ -1094,7 +1106,7 @@ public class Cli implements View {
     public void displayMiniShelf() {
         String[][] shelf = Storage.shelves.get(Storage.players.indexOf(username));
         List<String> display = Storage.current_display;
-        display.set(3,display.get(3)+"  {Your Shelf}\t");
+        display.set(3, display.get(3) + "  {Your Shelf}\t");
         //System.out.println();
         for (int i = 0; i < SHELF_ROW; i++) {
             for (int j = 0; j < SHELF_COLUMN; j++) {
@@ -1105,7 +1117,7 @@ public class Cli implements View {
             //System.out.println();
             display.set(4 + i, display.get(4 + i) + " \t");
         }
-        display.set(10,display.get(10)+"\t");
+        display.set(10, display.get(10) + "\t");
         for (int j = 0; j < SHELF_COLUMN; j++) {
             //System.out.print(" " + j + " ");
             display.set(10, display.get(10) + " " + j + " ");
@@ -1119,37 +1131,34 @@ public class Cli implements View {
     public void displayMiniHand() {
         List<String> display = Storage.current_display;
 
-        display.set(0,display.get(0)+"{Selected cards}\t");
-        display.set(1,display.get(1)+"   ");
+        display.set(0, display.get(0) + "{Selected cards}\t");
+        display.set(1, display.get(1) + "   ");
 
         /*display.set(1, display.get(1) + "|\t");
         display.set(2,display.get(2)+"         |\t");*/
-        for(int i=0;i<3;i++){
-            if(i<Storage.currentPlayerHand.size()) {
+        for (int i = 0; i < 3; i++) {
+            if (i < Storage.currentPlayerHand.size()) {
                 String item = giveMeColor(Storage.currentPlayerHand.get(i));
                 display.set(1, display.get(1) + "[" + item + "]");
-            }else{
-                display.set(1, display.get(1) + "   ");
-
+            } else {
+                display.set(1, display.get(1) + "[ ]");
             }
         }
-
-
     }
 
-    public void displayMiniPGoal(int pID){
+    public void displayMiniPGoal(int pID) {
         List<String> display = Storage.current_display;
         String[] tmp = Storage.PGoals.get(pID);
-        display.set(3,display.get(3)+"\t{PersonalGoal} \t");
+        display.set(3, display.get(3) + "\t{PersonalGoal} \t");
 
-        for(int i=4;i<Storage.current_display.size()-1;i++){
-            display.set(i,display.get(i)+tmp[i-4]+" \t");
+        for (int i = 4; i < Storage.current_display.size() - 1; i++) {
+            display.set(i, display.get(i) + tmp[i - 4] + " \t");
         }
         for (int j = 0; j < SHELF_COLUMN; j++) {
             //System.out.print(" " + j + " ");
-            display.set(10,display.get(10)+" " + j + " ");
+            display.set(10, display.get(10) + " " + j + " ");
         }
-        display.set(10,display.get(10)+"  \t");
+        display.set(10, display.get(10) + "  \t");
         Storage.current_display = display;
     }
 
@@ -1159,15 +1168,18 @@ public class Cli implements View {
      */
     public void displayMiniCGoal2() {
         List<String> display = Storage.current_display;
-        display.set(3,display.get(3)+"\t{CommonGoals}");
-        int k=4;
-        display.set(7,display.get(7)+" ----------- ");
+        display.set(3, display.get(3) + "\t{CommonGoals}");
+        int k = 4;
+        display.set(7, display.get(7) + " ----------- ");
         for (int t = 0; t < Storage.commonGoal.size(); t++) {
-            if(t==0){k=4;}
-            else if(t==1){k=8;}
-            String[] tmp=giveMeCGoal(Storage.commonGoal.get(t));
-            for(int i=0+k;i<tmp.length+k;i++){
-                display.set(i,display.get(i)+" "+tmp[i-k]+"   ");
+            if (t == 0) {
+                k = 4;
+            } else if (t == 1) {
+                k = 8;
+            }
+            String[] tmp = giveMeCGoal(Storage.commonGoal.get(t));
+            for (int i = 0 + k; i < tmp.length + k; i++) {
+                display.set(i, display.get(i) + " " + tmp[i - k] + "   ");
             }
         }
 
@@ -1176,24 +1188,51 @@ public class Cli implements View {
 
     /**
      * Used by {@link #displayMiniCGoal2()} to return the Icon of the CommonGoal
+     *
      * @param cGoal
      * @return
      */
-    public String[] giveMeCGoal(String cGoal){
+    public String[] giveMeCGoal(String cGoal) {
         switch (cGoal) {
-            case "CommonGoal2Columns" -> {return Storage.miniCG2;}
-            case "CommonGoal2Lines" -> {return (Storage.miniCG6);}
-            case "CommonGoal3Column" -> {return (Storage.miniCG5);}
-            case "CommonGoal4Lines" -> {return (Storage.miniCG7);}
-            case "CommonGoal8Tiles" -> {return (Storage.miniCG9);}
-            case "CommonGoalCorner" -> {return (Storage.miniCG8);}
-            case "CommonGoalDiagonal" -> {return (Storage.miniCG11);}
-            case "CommonGoalSquare" -> {return (Storage.miniCG1);}
-            case "CommonGoalStairs" -> {return (Storage.miniCG12);}
-            case "CommonGoal4Group" -> {return (Storage.miniCG3);}
-            case "CommonGoal6Group" -> {return (Storage.miniCG4);}
-            case "CommonGoalXShape" -> {return (Storage.miniCG10);}
-            default -> {return new String[]{"Error","Error","Error"};}
+            case "CommonGoal2Columns" -> {
+                return Storage.miniCG2;
+            }
+            case "CommonGoal2Lines" -> {
+                return (Storage.miniCG6);
+            }
+            case "CommonGoal3Column" -> {
+                return (Storage.miniCG5);
+            }
+            case "CommonGoal4Lines" -> {
+                return (Storage.miniCG7);
+            }
+            case "CommonGoal8Tiles" -> {
+                return (Storage.miniCG9);
+            }
+            case "CommonGoalCorner" -> {
+                return (Storage.miniCG8);
+            }
+            case "CommonGoalDiagonal" -> {
+                return (Storage.miniCG11);
+            }
+            case "CommonGoalSquare" -> {
+                return (Storage.miniCG1);
+            }
+            case "CommonGoalStairs" -> {
+                return (Storage.miniCG12);
+            }
+            case "CommonGoal4Group" -> {
+                return (Storage.miniCG3);
+            }
+            case "CommonGoal6Group" -> {
+                return (Storage.miniCG4);
+            }
+            case "CommonGoalXShape" -> {
+                return (Storage.miniCG10);
+            }
+            default -> {
+                return new String[]{"Error", "Error", "Error"};
+            }
         }
     }
 
@@ -1203,8 +1242,14 @@ public class Cli implements View {
      * But then it was extended to the Current Player display too.
      * There too much stuff going on?
      */
-    public void showDisplay(){
-        for(int i=0; i<Storage.current_display.size();i++) {
+    public void showDisplay() {
+        Storage.reset_display();
+        displayMiniBoard();
+        displayMiniShelf();
+        if (SEL_MODE) displayMiniHand();
+        displayMiniPGoal(Storage.personalGoal);
+        displayMiniCGoal();
+        for (int i = 0; i < Storage.current_display.size(); i++) {
             System.out.println(Storage.current_display.get(i));
         }
         //System.out.println();
@@ -1215,10 +1260,10 @@ public class Cli implements View {
         List<String> display = Storage.current_display;
         List<String> cgoal = Storage.commonGoal;
         List<Integer> scores = Storage.commonGoalScore;
-        display.set(5, display.get(5) + "\t {CommonGoals}");
+        display.set(5, display.get(5) + " {CommonGoals}");
 
         for (int i = 0; i < cgoal.size(); i++) {
-            display.set(i + 6, display.get(i + 6) + "\t>" + cgoal.get(i) + ":\t" + scores.get(i));
+            display.set(i + 6, display.get(i + 6) + ">" + cgoal.get(i) + ": \t" + scores.get(i));
         }
         Storage.current_display = display;
     }

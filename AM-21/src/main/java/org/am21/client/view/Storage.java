@@ -559,13 +559,15 @@ public class Storage {
             -----------------------------------------------------------
             [Commands] Confirm your choice?
                 y      --> Yes.
-            'Anything' --> Retry.
+                r      --> Retry.
+                n      --> DELETE your choice and EXIT Index Selection.
             -----------------------------------------------------------
             Enter the option you wish to select:\040""";
     public static final String columnConfirm = """
             [Commands] Do you confirm this is the column you wish to insert into?
                 y      --> Yes.
-            'Anything' --> Retry.
+                r      --> Retry.
+                n      --> DELETE your choice and EXIT Insertion.
             -----------------------------------------------------------
             Enter the option you wish to select:\040""";
 
@@ -574,7 +576,7 @@ public class Storage {
               leave    --> LEAVE the Match (if you leave, the match will end for everyone).
               exit     --> EXIT from the Game MyShelfie.
               help     --> Activate or Deactivate Assist Mode.
-             'Enter'   --> Go Back to play.
+              'Enter'  --> Go Back to Play.
             -----------------------------------------------------------
             Enter the command you wish to use:\040""";
 
