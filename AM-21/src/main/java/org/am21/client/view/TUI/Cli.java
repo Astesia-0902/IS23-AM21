@@ -76,7 +76,7 @@ public class Cli implements View {
         return input;
     }
 
-    public void interruptThread(){
+    public void interruptThread() {
         Thread.currentThread().interrupt();
     }
 
@@ -112,11 +112,11 @@ public class Cli implements View {
         switch (input) {
             case "" -> {
                 BABY_PROTOCOL = true;
-                System.out.println(Color.CYAN+"ASSIST MODE ON!\n"+Color.RESET);
+                System.out.println(Color.CYAN + "ASSIST MODE ON!\n" + Color.RESET);
             }
             case "off" -> {
                 BABY_PROTOCOL = false;
-                System.out.println(Color.RED+"ASSIST MODE OFF!\n"+Color.RESET);
+                System.out.println(Color.RED + "ASSIST MODE OFF!\n" + Color.RESET);
             }
             default -> askAssistMode();
         }
@@ -260,20 +260,20 @@ public class Cli implements View {
                 handleChatMessage(option);
             } else {
                 switch (option) {
-                    case "create","c" -> {
+                    case "create", "c" -> {
                         if (askCreateMatch()) redirect();
                     }
-                    case "join","j" -> {
+                    case "join", "j" -> {
                         if (askJoinMatch()) redirect();
                     }
-                    case "online","o" -> {
+                    case "online", "o" -> {
                         showOnlinePlayer();
                         askToContinue();
                     }
-                    case "exit","e" -> {
+                    case "exit", "e" -> {
                         if (askExitGame()) return;
                     }
-                    case "help","h" -> askAssistMode();
+                    case "help", "h" -> askAssistMode();
                     default -> System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
                                                   + Color.RESET);
                 }
@@ -297,11 +297,11 @@ public class Cli implements View {
                 redirect();
             } else {
                 switch (option) {
-                    case "leave","le" -> {
+                    case "leave", "le" -> {
                         if (askLeaveMatch()) redirect();
                     }
-                    case "rules","ru" -> showGameRules();
-                    case "online","on" -> showOnlinePlayer();
+                    case "rules", "ru" -> showGameRules();
+                    case "online", "on" -> showOnlinePlayer();
                     default -> System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
                                                   + Color.RESET);
                 }
@@ -312,9 +312,9 @@ public class Cli implements View {
 
     private void showCommandMenu() {
         if (BABY_PROTOCOL) {
-            if(!SEL_MODE){
+            if (!SEL_MODE) {
                 System.out.println(Storage.commandMenu0);
-            }else {
+            } else {
                 if (NOT_SEL_YET) System.out.println(Storage.commandMenu1);
                 else System.out.println(Storage.commandMenu2);
             }
@@ -325,13 +325,8 @@ public class Cli implements View {
 
     @Override
     public void askPlayerMove() throws RemoteException, ServerNotActiveException {
-        //TODO: notify when the command is not found
         while (GAME_ON && !GO_TO_MENU) {
             showWhoIsPlaying();
-            Storage.reset_display();
-            displayMiniBoard();
-            displayMiniShelf();
-            displayMiniPGoal(Storage.personalGoal);
             showDisplay();
             showCommandMenu();
             showRandomTip();
@@ -345,15 +340,18 @@ public class Cli implements View {
                 redirect();
             } else {
                 switch (option) {
-                    case "select","se" -> askSelection();
-                    case "deselect","de" -> askDeselection();
-                    case "insert","in" -> askInsertion();
-                    case "sort","so" -> askSort();
-                    case "show","sh" -> askShowObject();
-                    case "more","mo"->{askMoreOptions();}
+                    case "select", "se" -> askSelection();
+                    case "deselect", "de" -> askDeselection();
+                    case "insert", "in" -> askInsertion();
+                    case "sort", "so" -> askSort();
+                    case "show", "sh" -> askShowObject();
+                    case "more", "mo" -> {
+                        askMoreOptions();
+                    }
                     default -> System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
                                                   + Color.RESET);
                 }
+                askToContinue();
             }
         }
     }
@@ -454,10 +452,13 @@ public class Cli implements View {
         System.out.print(Storage.MoreOptions);
         command = readLine();
         switch (command) {
-            case "leave","l" ->{if(askLeaveMatch())redirect();}
-            case "exit","e" ->askExitGame();
-            case "help","h" ->askAssistMode();
-            default -> {}
+            case "leave", "l" -> {
+                if (askLeaveMatch()) redirect();
+            }
+            case "exit", "e" -> askExitGame();
+            case "help", "h" -> askAssistMode();
+            default -> {
+            }
         }
     }
 
@@ -505,10 +506,10 @@ public class Cli implements View {
 
     @Override
     public void showWhoIsPlaying() {
-        if(Storage.currentPlayer.equals(username)){
-            System.out.println(Color.RED_BRIGHT+"{| Your Turn |}"+Color.RESET);
-        }else {
-            System.out.println(Color.BLUE_BRIGHT+"{| "+Storage.currentPlayer+"'s Turn |}"+Color.RESET);
+        if (Storage.currentPlayer.equals(username)) {
+            System.out.println(Color.RED_BRIGHT + "{| Your Turn |}" + Color.RESET);
+        } else {
+            System.out.println(Color.BLUE_BRIGHT + "{| " + Storage.currentPlayer + "'s Turn |}" + Color.RESET);
         }
 
     }
@@ -534,7 +535,7 @@ public class Cli implements View {
     }
 
     @Override
-    public void showEveryShelf(){
+    public void showEveryShelf() {
         for (int k = 0; k < Storage.shelves.size(); k++) {
             String[][] userShelf = Storage.shelves.get(k);
             System.out.println(Storage.players.get(k) + "'s Shelf:");
@@ -724,13 +725,16 @@ public class Cli implements View {
 
     @Override
     public void askDeselection() throws ServerNotActiveException, RemoteException {
-        showHand();
-        System.out.print(Storage.deselectConfirm);
+        if (showHand()) {
+            System.out.println(Color.RED + "You haven't select cards yet." + Color.RESET);
+        } else {
+            System.out.print(Storage.deselectConfirm);
 
-        boolean deselectConfirm = "y".equals(readLine());
-        if (deselectConfirm) {
-            if (iClientInputHandler.deselectCards()) {
-                NOT_SEL_YET = true;
+            boolean deselectConfirm = "y".equals(readLine());
+            if (deselectConfirm) {
+                if (iClientInputHandler.deselectCards()) {
+                    NOT_SEL_YET = true;
+                }
             }
         }
     }
@@ -744,9 +748,9 @@ public class Cli implements View {
                 System.out.print(Storage.commandInsert);
                 option = readLine();
                 switch (option) {
-                    case "sort" -> askSort();
-                    case "show" -> askShowObject();
-                    case "go" -> {
+                    case "sort", "so" -> askSort();
+                    case "show", "sh" -> askShowObject();
+                    case "inset", "in" -> {
                         if (iClientInputHandler.confirmSelection()) {
                             showPlayerShelf();
                             int column = askColumn();
@@ -756,7 +760,7 @@ public class Cli implements View {
                                 askToContinue();
                                 iClientInputHandler.endTurn();
                                 NOT_SEL_YET = true;
-                                SEL_MODE=false;
+                                SEL_MODE = false;
                             }
                         } else {
                             System.out.println(Color.RED + "Selection Confirm failed" + Color.RESET);
@@ -766,6 +770,7 @@ public class Cli implements View {
                     default -> System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
                                                   + Color.RESET);
                 }
+                askToContinue();
             }
         } else {
             System.out.println(Color.RED + "You can’t insert cards if you did not select any cards!" + Color.RESET);
@@ -888,7 +893,8 @@ public class Cli implements View {
                 case "end" -> showEndGameToken();
                 case "online" -> showOnlinePlayer();
                 case "timer" -> showTimer();
-                case "back" -> {}
+                case "back" -> {
+                }
                 default -> System.out.println(Color.RED + "The [" + object + "] cannot be found! Please try again."
                                               + Color.RESET);
             }
@@ -951,14 +957,9 @@ public class Cli implements View {
 
 
     public void askPlayerMoveExpert() throws RemoteException, ServerNotActiveException {
-        //TODO: notify when the command is not found
         while (GAME_ON && !GO_TO_MENU) {
             showWhoIsPlaying();
-            if(!SEL_MODE) {
-                Storage.reset_display();
-                displayMiniBoard();
-                displayMiniShelf();
-                displayMiniPGoal(Storage.personalGoal);
+            if (!SEL_MODE) {
                 showDisplay();
             }
             showCommandMenu();
@@ -984,89 +985,91 @@ public class Cli implements View {
                     case "exit", "ex" -> {
                         if (askExitGame()) return;
                     }
-                    default -> System.out.println(Color.RED + "Invalid command! Please try again." + Color.RESET);
+                    default -> System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
+                                                  + Color.RESET);
                 }
+                askToContinue();
             }
         }
     }
 
-    public void checkTurn(){
-        if(Storage.currentPlayer.equals(username)) SEL_MODE=true;
-        else SEL_MODE=false;
+    public void checkTurn() {
+        if (Storage.currentPlayer.equals(username)) SEL_MODE = true;
+        else SEL_MODE = false;
 
     }
 
     private void showRandomTip() {
         int max;
-        if(NOT_SEL_YET)max=Storage.SEL_TIPS;
-        else max=Storage.tips.size();
+        if (NOT_SEL_YET) max = Storage.SEL_TIPS;
+        else max = Storage.tips.size();
         String tip = Storage.tips.get((int) (Math.random() * max));
         System.out.println(tip);
     }
 
-    public void displayMiniBoard(){
+    public void displayMiniBoard() {
         List<String> display = Storage.current_display;
         String[][] board = Storage.virtualBoard;
         //System.out.print("  ");
-        display.set(0,display.get(0)+"\t\t\t{Board}\t\t\t");
+        display.set(0, display.get(0) + "\t\t\t{Board}\t\t\t");
         //System.out.println();
         for (int i = 0; i < BOARD_ROW; i++) {
             //System.out.print(i);
-            display.set(i+1,display.get(i+1)+ i);
+            display.set(i + 1, display.get(i + 1) + i);
 
             for (int j = 0; j < BOARD_COLUMN; j++) {
                 if (board[i][j] != null && board[i][j].startsWith(">")) {
                     //If the cell is temporarily selected by the player
                     String item = giveMeColor(board[i][j].substring(1));
                     //System.out.print("" + Color.WHITE_BG + "[" + "" + item + Color.WHITE_BG + "]" + Color.RESET);
-                    display.set(i+1,display.get(i+1)+"" + Color.WHITE_BG + "[" + "" + item + Color.WHITE_BG + "]" + Color.RESET);
-
+                    display.set(i + 1, display.get(i + 1) + "" + Color.WHITE_BG + " [" + "" + item + Color.WHITE_BG +
+                                       "]" + Color.RESET);
                 } else {
                     String item = board[i][j] == null ? " " : giveMeColor(board[i][j]);
                     //System.out.print(" [" + item + "]");
-                    display.set(i+1,display.get(i+1)+" [" + item + "]");
+                    display.set(i + 1, display.get(i + 1) + " [" + item + "]");
                 }
             }
             //System.out.print(" ");
-            display.set(i+1,display.get(i+1)+" ");
-            display.set(i+1,display.get(i+1)+i+"|\t");
+            display.set(i + 1, display.get(i + 1) + " ");
+            display.set(i + 1, display.get(i + 1) + i + "|\t");
             //System.out.println(i);
         }
         //System.out.print("  ");
-        display.set(10,display.get(10)+"  ");
+        display.set(10, display.get(10) + "  ");
 
         for (int j = 0; j < BOARD_COLUMN; j++) {
             //System.out.print(" " + j + "  ");
-            display.set(10,display.get(10)+" " + j + "  ");
+            display.set(10, display.get(10) + " " + j + "  ");
 
         }
-        display.set(10,display.get(10)+"   ");
+        display.set(10, display.get(10) + "   ");
         //System.out.println();
-        Storage.current_display=display;
+        Storage.current_display = display;
     }
 
-    public String giveMeColor(String item){
+    public String giveMeColor(String item) {
         String itemType = item;
         switch (item.substring(0, item.length() - 3)) {
             case "__Cats__" -> {
-                itemType =  "\033[1;92m*\033[0m";
+                itemType = "\033[1;92m*\033[0m";
             }
             case "_Books__" -> {
 
                 itemType = "\033[1;97m*\033[0m";
             }
             case "_Games__" -> {
-                itemType="\033[1;93m*\033[0m";
+                itemType = "\033[1;93m*\033[0m";
             }
             case "_Frames_" -> {
                 itemType = "\033[1;94m*\033[0m";
             }
             case "Trophies" -> {
 
-                itemType ="\033[1;96m*\033[0m";
+                itemType = "\033[1;96m*\033[0m";
             }
             case "_Plants_" -> {
-                itemType ="\033[1;95m*\033[0m";
+                itemType = "\033[1;95m*\033[0m";
             }
         }
         return itemType;
@@ -1074,51 +1077,67 @@ public class Cli implements View {
 
     }
 
-    public void displayMiniShelf(){
+    public void displayMiniShelf() {
         String[][] shelf = Storage.shelves.get(Storage.players.indexOf(username));
         List<String> display = Storage.current_display;
-        display.set(3,display.get(3)+"  {Your Shelf} \t");
+        display.set(3, display.get(3) + "  {Your Shelf} \t");
         //System.out.println();
         for (int i = 0; i < SHELF_ROW; i++) {
             for (int j = 0; j < SHELF_COLUMN; j++) {
                 String item = shelf[i][j] == null ? " " : giveMeColor(shelf[i][j]);
                 //System.out.print("[" + item + "]");
-                display.set(4+i,display.get(4+i)+"[" + item + "]");
+                display.set(4 + i, display.get(4 + i) + "[" + item + "]");
             }
             //System.out.println();
-            display.set(4+i,display.get(4+i)+" \t");
+            display.set(4 + i, display.get(4 + i) + " \t");
         }
-        display.set(10,display.get(10)+"  \t");
+        display.set(10, display.get(10) + "  \t");
         for (int j = 0; j < SHELF_COLUMN; j++) {
             //System.out.print(" " + j + " ");
-            display.set(10,display.get(10)+" " + j + " ");
+            display.set(10, display.get(10) + " " + j + " ");
         }
         //System.out.println();
-        display.set(10,display.get(10)+" \t");
+        display.set(10, display.get(10) + " \t");
 
         Storage.current_display = display;
     }
 
-    public void showDisplay(){
-        for(int i=0; i<Storage.current_display.size();i++) {
+    public void showDisplay() {
+        Storage.reset_display();
+        displayMiniBoard();
+        displayMiniShelf();
+        displayMiniPGoal(Storage.personalGoal);
+        displayMiniCgoal();
+        for (int i = 0; i < Storage.current_display.size(); i++) {
             System.out.println(Storage.current_display.get(i));
         }
         //System.out.println();
     }
 
-    public void displayMiniPGoal(int pID){
+    public void displayMiniPGoal(int pID) {
         List<String> display = Storage.current_display;
         String[] tmp = Storage.PGoals.get(pID);
-        display.set(3,display.get(3)+" \t {PersonalGoal}");
+        display.set(3, display.get(3) + " \t {PersonalGoal}");
 
-        for(int i=4;i<Storage.current_display.size()-1;i++){
-            display.set(i,display.get(i)+tmp[i-4]);
+        for (int i = 4; i < Storage.current_display.size() - 1; i++) {
+            display.set(i, display.get(i) + tmp[i - 4] + "\t");
         }
         for (int j = 0; j < SHELF_COLUMN; j++) {
             //System.out.print(" " + j + " ");
-            display.set(10,display.get(10)+" " + j + " ");
+            display.set(10, display.get(10) + " " + j + " ");
         }
         Storage.current_display = display;
     }
 
+    public void displayMiniCgoal() {
+        List<String> display = Storage.current_display;
+        List<String> cgoal = Storage.commonGoal;
+        List<Integer> scores = Storage.commonGoalScore;
+        display.set(5, display.get(5) + "\t {CommonGoals}");
+
+        for (int i = 0; i < cgoal.size(); i++) {
+            display.set(i + 6, display.get(i + 6) + "\t>" + cgoal.get(i) + ":\t" + scores.get(i));
+        }
+        Storage.current_display = display;
+    }
 }

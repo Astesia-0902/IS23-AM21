@@ -15,6 +15,8 @@ public enum Color {
     YELLOW("\033[0;33m"),   // YELLOW
     CYAN("\033[0;36m"),     // CYAN
 
+    WHITE_UNDERLINED("\033[4;37m"),     // WHITE
+
     // High Intensity
     BLACK_BRIGHT("\033[0;90m"),     // BLACK
     RED_BRIGHT("\033[0;91m"),       // RED
