@@ -332,16 +332,12 @@ public class Cli implements View {
     @Override
     public void askPlayerMove() throws RemoteException, ServerNotActiveException {
         while (GAME_ON && !GO_TO_MENU) {
-<<<<<<< Updated upstream
-            showWhoIsPlaying();
-=======
             Storage.reset_display();
             displayMiniBoard();
             displayMiniShelf();
             if(SEL_MODE) displayMiniHand();
             displayMiniPGoal(Storage.personalGoal);
             displayMiniCGoal();
->>>>>>> Stashed changes
             showDisplay();
             showWhoIsPlaying();
             showCommandMenu();
@@ -765,15 +761,9 @@ public class Cli implements View {
                 System.out.print(Storage.commandInsert);
                 option = readLine();
                 switch (option) {
-<<<<<<< Updated upstream
-                    case "sort", "so" -> askSort();
-                    case "show", "sh" -> askShowObject();
-                    case "inset", "in" -> {
-=======
                     case "sort" -> askSort();
                     case "show" -> askShowObject();
                     case "insert","in" -> {
->>>>>>> Stashed changes
                         if (iClientInputHandler.confirmSelection()) {
                             showPlayerShelf();
                             int column = askColumn();
@@ -988,12 +978,6 @@ public class Cli implements View {
             displayMiniCGoal();
             showDisplay();
             showWhoIsPlaying();
-<<<<<<< Updated upstream
-            if (!SEL_MODE) {
-                showDisplay();
-            }
-=======
->>>>>>> Stashed changes
             showCommandMenu();
             showRandomTip();
             System.out.print("""
@@ -1043,11 +1027,8 @@ public class Cli implements View {
         List<String> display = Storage.current_display;
         String[][] board = Storage.virtualBoard;
         //System.out.print("  ");
-<<<<<<< Updated upstream
-        display.set(0, display.get(0) + "\t\t\t{Board}\t\t\t");
-=======
+
         display.set(0,display.get(0)+"\t\t\t{Board}\t\t\t\t\t\t\t");
->>>>>>> Stashed changes
         //System.out.println();
         for (int i = 0; i < BOARD_ROW; i++) {
             //System.out.print(i);
@@ -1058,13 +1039,8 @@ public class Cli implements View {
                     //If the cell is temporarily selected by the player
                     String item = giveMeColor(board[i][j].substring(1));
                     //System.out.print("" + Color.WHITE_BG + "[" + "" + item + Color.WHITE_BG + "]" + Color.RESET);
-<<<<<<< Updated upstream
-                    display.set(i + 1, display.get(i + 1) + "" + Color.WHITE_BG + " [" + "" + item + Color.WHITE_BG +
-                                       "]" + Color.RESET);
-=======
                     display.set(i+1,display.get(i+1)+" "+ Color.WHITE_BG + "[" + "" + item + Color.WHITE_BG + "]" + Color.RESET);
 
->>>>>>> Stashed changes
                 } else {
                     String item = board[i][j] == null ? " " : giveMeColor(board[i][j]);
                     //System.out.print(" [" + item + "]");
@@ -1121,11 +1097,7 @@ public class Cli implements View {
     public void displayMiniShelf() {
         String[][] shelf = Storage.shelves.get(Storage.players.indexOf(username));
         List<String> display = Storage.current_display;
-<<<<<<< Updated upstream
-        display.set(3, display.get(3) + "  {Your Shelf} \t");
-=======
         display.set(3,display.get(3)+"  {Your Shelf}\t");
->>>>>>> Stashed changes
         //System.out.println();
         for (int i = 0; i < SHELF_ROW; i++) {
             for (int j = 0; j < SHELF_COLUMN; j++) {
@@ -1136,11 +1108,7 @@ public class Cli implements View {
             //System.out.println();
             display.set(4 + i, display.get(4 + i) + " \t");
         }
-<<<<<<< Updated upstream
-        display.set(10, display.get(10) + "  \t");
-=======
         display.set(10,display.get(10)+"\t");
->>>>>>> Stashed changes
         for (int j = 0; j < SHELF_COLUMN; j++) {
             //System.out.print(" " + j + " ");
             display.set(10, display.get(10) + " " + j + " ");
@@ -1151,15 +1119,6 @@ public class Cli implements View {
         Storage.current_display = display;
     }
 
-<<<<<<< Updated upstream
-    public void showDisplay() {
-        Storage.reset_display();
-        displayMiniBoard();
-        displayMiniShelf();
-        displayMiniPGoal(Storage.personalGoal);
-        displayMiniCgoal();
-        for (int i = 0; i < Storage.current_display.size(); i++) {
-=======
     public void displayMiniHand() {
         List<String> display = Storage.current_display;
 
@@ -1197,7 +1156,11 @@ public class Cli implements View {
         Storage.current_display = display;
     }
 
-    public void displayMiniCGoal() {
+    /**
+     * Potentially add the icons of the Common Goals to the display
+     * -> Not active right now
+     */
+    public void displayMiniCGoal2() {
         List<String> display = Storage.current_display;
         display.set(3,display.get(3)+"\t{CommonGoals}");
         int k=4;
@@ -1214,6 +1177,11 @@ public class Cli implements View {
         Storage.current_display = display;
     }
 
+    /**
+     * Used by {@link #displayMiniCGoal2()} to return the Icon of the CommonGoal
+     * @param cGoal
+     * @return
+     */
     public String[] giveMeCGoal(String cGoal){
         switch (cGoal) {
             case "CommonGoal2Columns" -> {return Storage.miniCG2;}
@@ -1232,31 +1200,21 @@ public class Cli implements View {
         }
     }
 
+    /**
+     * The first idea was to display in real time the progression of the Game
+     * to ONLY the player that were not playing, so while they were waiting they could watch at something more lively
+     * But then it was extended to the Current Player display too.
+     * There too much stuff going on?
+     */
     public void showDisplay(){
         for(int i=0; i<Storage.current_display.size();i++) {
->>>>>>> Stashed changes
             System.out.println(Storage.current_display.get(i));
         }
         //System.out.println();
     }
 
-<<<<<<< Updated upstream
-    public void displayMiniPGoal(int pID) {
-        List<String> display = Storage.current_display;
-        String[] tmp = Storage.PGoals.get(pID);
-        display.set(3, display.get(3) + " \t {PersonalGoal}");
 
-        for (int i = 4; i < Storage.current_display.size() - 1; i++) {
-            display.set(i, display.get(i) + tmp[i - 4] + "\t");
-        }
-        for (int j = 0; j < SHELF_COLUMN; j++) {
-            //System.out.print(" " + j + " ");
-            display.set(10, display.get(10) + " " + j + " ");
-        }
-        Storage.current_display = display;
-    }
-
-    public void displayMiniCgoal() {
+    public void displayMiniCGoal() {
         List<String> display = Storage.current_display;
         List<String> cgoal = Storage.commonGoal;
         List<Integer> scores = Storage.commonGoalScore;
@@ -1267,6 +1225,4 @@ public class Cli implements View {
         }
         Storage.current_display = display;
     }
-=======
->>>>>>> Stashed changes
 }

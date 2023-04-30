@@ -485,17 +485,10 @@ public class Storage {
               create   --> Create a new match.
               join     --> Join a match.
               online   --> Show Online Players.
-<<<<<<< Updated upstream
-              exit     --> Exit game.
-              help     --> Activate Or Deactivate Assist Mode
-            To send a message to a online player type ‘/chat[nickname]’ in the console.
-            -----------------------------------------------------------
-            Enter the Command you wish to use:\040""";
-=======
                exit    --> Exit game.
                help    --> Activate Or Deactivate Assist Mode
             To send a message to a online player type ‘/chat[nickname]’ in the console.""";
->>>>>>> Stashed changes
+
     public static final String waitingAction = """
             The match has not started yet. Please wait more players to join...
             -----------------------------------------------------------
@@ -512,43 +505,7 @@ public class Storage {
               more     --> More Options: Leave Match, Exit Game, Help (Assist Mode).
             To send a message in the Match group type ‘/chat’ followed by a 'space' and your message.
             To send a message to an online player type ‘/chat[nickname]’ followed by a 'space' and your message.""";
-<<<<<<< Updated upstream
-    public static final String commandMenu1 = "[Commands] Use the 'select' command to " + Color.WHITE_UNDERLINED +
-                                              "SELECT" + Color.RESET + " item you would like to pick:\n" +
-                                              "  select   --> Select an item on the board.\n" +
-                                              "  show     --> Show Game Object in more detail(Selected items, Goals, Board, Shelf, ...).\n" +
-                                              "  more     --> More Options: Leave Match, Exit Game, Help (Assist Mode).\n" +
-                                              "To send a message in the Match group type ‘/chat’ followed by a 'space' and your message.\n" +
-                                              "To send a message to an online player type ‘/chat[nickname]’ followed by a 'space' and your message.";
-    public static final String commandMenu2 = "[Commands] Now you can " + Color.WHITE_UNDERLINED + "SELECT" +
-                                              Color.RESET + " another item OR " + Color.WHITE_UNDERLINED + "INSERT" +
-                                              Color.RESET + " the items in the Shelf:\n" +
-                                              "  select   --> Select another item on the board.\n" +
-                                              "  sort     --> Change selected items order(at least 2 items selected).\n" +
-                                              "  deselect --> Deselect all your selection.\n" +
-                                              "  insert   --> Save your selections and Insert in the shelf.\n" +
-                                              "  show     --> Show Game Object in more detail(Selected items, Goals, Board, Shelf, ...).\n" +
-                                              "  more     --> More Options: Leave Match, Exit Game, Help (Assist Mode).\n" +
-                                              "To send a message in the Match group type ‘/chat’ followed by a 'space' and your message.\n" +
-                                              "To send a message to an online player type ‘/chat[nickname]’ followed by a 'space' and your message.";
-    public static final String commandInsert = "-----------------------------------------------------------\n" +
-                                               "[Commands] You can " + Color.WHITE_UNDERLINED + "SORT" + Color.RESET +
-                                               " the items you chose before " + Color.WHITE_UNDERLINED + "INSERTING" +
-                                               Color.RESET + " in the Shelf:\n" +
-                                               "  sort     --> Change the order of your cards.\n" +
-                                               "  show     --> Show Game Objects in more detail(GOALS,SHELF,...).\n" +
-                                               "  insert   --> INSERT directly into the SHELF.\n" +
-                                               "  n        --> Exit Insertion.\n" +
-                                               "-----------------------------------------------------------\n" +
-                                               "Enter the option you wish to select: ";
-    public static final String selectConfirm = """
-            -----------------------------------------------------------
-            [Commands] Now you can:
-                y      --> Confirm your choice.
-                r      --> Retry by selecting again.
-              show     --> See a Game Object in more detail(Board, Shelf, Goals, ...).
-                n      --> Delete your choice and Exit Selection.
-=======
+
     public static final String commandMenu1 = """
             [Commands] Use the 'select' command to SELECT item you would like to pick:
               select   --> Select an item on the board.
@@ -582,7 +539,6 @@ public class Storage {
                 r      --> RETRY by selecting again.
                show    --> See a Game OBJECT in more detail(Board, Shelf, Goals, ...).
                 n      --> DELETE your choice and EXIT Selection.
->>>>>>> Stashed changes
             -----------------------------------------------------------
             Enter the option you wish to select:\040""";
     public static final String anotherCard = """
@@ -639,11 +595,9 @@ public class Storage {
             To send a message to an online player type ‘/chat[nickname]’ followed by a 'space' and your message.""";
 
 
-<<<<<<< Updated upstream
-    public static final int SEL_TIPS = 14;
-=======
+
     public static final int SEL_TIPS=15;
->>>>>>> Stashed changes
+
     public static List<String> tips = new ArrayList<>();
 
     static {
