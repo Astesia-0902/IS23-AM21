@@ -2,9 +2,9 @@ package org.am21.model;
 
 import org.am21.controller.PlayerController;
 import org.am21.model.Cards.PersonalGoalCard;
+import org.am21.model.enumer.UserStatus;
 import org.am21.model.items.Hand;
 import org.am21.model.items.Shelf;
-import org.am21.model.enumer.UserStatus;
 
 /**
  * This class represent the player model with all its data
@@ -20,9 +20,14 @@ public class Player {
     private PlayerController controller;
     private Match match;
     /**
-     * A player score is visible by everyone during the game
+     * A player score is visible by everyone during the game (CommonGoal tokens and Final Score)
      */
     private int playerScore;
+    /**
+     * Personal goal points (0-12)
+     */
+    private int hiddenPoints;
+
 
     /**
      * Constructor for player's data initialization
@@ -37,6 +42,7 @@ public class Player {
         this.controller = controller;
         this.status = UserStatus.Online;
         this.playerScore = 0;
+        this.hiddenPoints=0;
         this.myPersonalGoal = null;
         this.shelf = null;
         this.match = null;
@@ -119,5 +125,13 @@ public class Player {
     public void setController(PlayerController controller) {
 
         this.controller = controller;
+    }
+
+    public int getHiddenPoints() {
+        return hiddenPoints;
+    }
+
+    public void setHiddenPoints(int hiddenPoints) {
+        this.hiddenPoints = hiddenPoints;
     }
 }

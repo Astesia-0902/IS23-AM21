@@ -237,6 +237,8 @@ public class PlayerController {
             }else{
                 for(int i=hand.getSlot().size(),s=0;i>0;i--,s++){
                     //Inserting one card at the time
+
+                    //TODO: inverti if e togli else
                     if(player.getShelf().insertInColumn(hand.getSlot().get(s).item,col)){
                         //System.out.println("Shelf > Insert...");
 
@@ -306,6 +308,8 @@ public class PlayerController {
     public void callEndInsertion(){
         if(player.getMatch().gamePhase==GamePhase.Insertion) {
             player.getMatch().setGamePhase(GamePhase.Default);
+            //At the end of each turn, Player's hiddenPoints get updated (0-12)
+            player.setHiddenPoints(player.getMyPersonalGoal().calculatePoints());
             player.getMatch().callEndTurnRoutine();
         }
     }

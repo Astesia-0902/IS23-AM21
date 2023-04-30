@@ -24,10 +24,17 @@ public class VirtualView implements Serializable {
     public String[][] board;
     public List<Integer> commonGoalScores;
     public List<String> currentPlayerHand;
-    public List<Integer> scores;
+
     public List<String[][]> shelves;
     public String currentPlayer;
     public boolean endGameToken;
+
+    public List<Integer> shelfPoints;
+    public List<Integer> scores;
+    public List<Integer> hiddenPoints;
+    //TODO: Each String[] showcase the points gained by the player for each category
+    //  It's string it's going to be printed directly by the CLI, no need to process
+    public List<String[]> gameResults;
     //---------------------------------------
     //TODO: Newsletter
     //TODO: Chat History
@@ -48,6 +55,22 @@ public class VirtualView implements Serializable {
     public String gamePhase;
     public String gameState;
 
+
+    public List<Integer> getShelfPoints() {
+        return shelfPoints;
+    }
+
+    public void setShelfPoints(List<Integer> shelfPoints) {
+        this.shelfPoints = shelfPoints;
+    }
+
+    public List<Integer> getHiddenPoints() {
+        return hiddenPoints;
+    }
+
+    public void setHiddenPoints(List<Integer> hiddenPoints) {
+        this.hiddenPoints = hiddenPoints;
+    }
 
     public boolean isEndGameToken() {
         return endGameToken;

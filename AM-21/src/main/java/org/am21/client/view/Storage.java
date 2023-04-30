@@ -20,6 +20,7 @@ public class Storage {
     public static List<String> players;
     public static String currentPlayer;
     public static List<Integer> scores;
+    public static List<Integer> hiddenPoints;
     public static List<String> commonGoal;
     public static List<Integer> commonGoalScore;
     public static int personalGoal;
@@ -43,6 +44,7 @@ public class Storage {
         players = jsonObject.getJSONArray("players").toJavaList(String.class);
         currentPlayer = jsonObject.getString("currentPlayer");
         scores = jsonObject.getJSONArray("scores").toJavaList(Integer.class);
+        hiddenPoints = jsonObject.getJSONArray("hiddenPoints").toJavaList(Integer.class);
         commonGoal = jsonObject.getJSONArray("commonGoals").toJavaList(String.class);
         commonGoalScore = jsonObject.getJSONArray("commonGoalScores").toJavaList(Integer.class);
 
@@ -763,67 +765,73 @@ public class Storage {
     }
 
     public static final String[] miniCG1={
-            "| [=][=]  |",
-            "| [=][=]  |",
-            "|   x2    |"
+            "¦ [=][=]  ¦",
+            "¦ [=][=]  ¦",
+            "¦   x2    ¦"
     };
     public static final String[] miniCG2={
-            "| :  [!]  |",
-            "| :  6H   |",
-            "| :  x2   |"
+            "¦ :  [≠]  ¦",
+            "¦ :  6H   ¦",
+            "¦ :  x2   ¦"
     };
     public static final String[] miniCG3={
-            "| :  [=]  |",
-            "| :  4H   |",
-            "| :  x2   |"
+            "¦ :  [=]  ¦",
+            "¦ :  4H   ¦",
+            "¦ :  x2   ¦"
     };
     public static final String[] miniCG4={
-            "|   [=]   |",
-            "|   [=]   |",
-            "|    x6   |"
+            "¦   [=]   ¦",
+            "¦   [=]   ¦",
+            "¦    x6   ¦"
     };
     public static final String[] miniCG5={
-            "| :   3*! |",
-            "| :   6H  |",
-            "| :   x3  |"
+            "¦ :   3*≠ ¦",
+            "¦ :   6H  ¦",
+            "¦ :   x3  ¦"
     };
     public static final String[] miniCG6={
-            "| 5W  [!] |",
-            "|- - - - -|",
-            "|   x2    |"
+            "¦ 5W  [≠] ¦",
+            "¦- - - - -¦",
+            "¦   x2    ¦"
     };
     public static final String[] miniCG7={
-            "| 5W  3*! |",
-            "|- - - - -|",
-            "|   x4    |"
+            "¦ 5W  3*≠ ¦",
+            "¦- - - - -¦",
+            "¦   x4    ¦"
     };
     public static final String[] miniCG8={
-            "|[=]---[=]|",
-            "| :     : |",
-            "|[=]---[=]|"
+            "¦[=]---[=]¦",
+            "¦ ¦     ¦ ¦",
+            "¦[=]---[=]¦"
     };
     public static final String[] miniCG9={
-            "| 8 x [=] |",
-            "|   . .   |",
-            "|  : : :  |"
+            "¦ 8 x [=] ¦",
+            "¦   . .   ¦",
+            "¦  : : :  ¦"
     };
     public static final String[] miniCG10={
-            "|[=]   [=]|",
-            "|   [=]   |",
-            "|[=]   [=]|"
+            "¦[=]   [=]¦",
+            "¦   [=]   ¦",
+            "¦[=]   [=]¦"
     };
     public static final String[] miniCG11={
-            "|[=] 5x[=]|",
-            "|   [=]   |",
-            "|      [=]|"
+            "¦[=]    5D¦",
+            "¦   [=]   ¦",
+            "¦      [=]¦"
     };
     public static final String[] miniCG12={
-            "|¯¯|15/20x|",
-            "|¯¯|¯¯|   |",
-            "|??|¯¯|¯¯||"
+            "¦¯¯|15/20x¦",
+            "¦¯¯|¯¯|   ¦",
+            "¦??|¯¯|¯¯|¦"
     };
 
-
+    public static final String GROUP_POINTS= """
+             --------------------------
+            ¦ 3 [=]: (2)  ¦ 5 [=]: (5) ¦  
+             --------------------------
+            ¦ 4 [=]: (3)  ¦ 6+[=]: (8) ¦
+            ---------------------------
+            """;
 
 
 

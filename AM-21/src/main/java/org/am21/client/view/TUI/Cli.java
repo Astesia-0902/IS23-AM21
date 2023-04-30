@@ -497,6 +497,7 @@ public class Cli implements View {
             case 11 -> System.out.println(Storage.PG11);
             case 12 -> System.out.println(Storage.PG12);
         }
+        showPersonalPoints();
         System.out.println();
     }
 
@@ -524,7 +525,11 @@ public class Cli implements View {
     public void showPlayerShelf() {
 
         String[][] shelf = Storage.shelves.get(Storage.players.indexOf(username));
-
+        System.out.println("--------------------------------------------");
+        System.out.println("Group Points Table: ");
+        System.out.print(Storage.GROUP_POINTS);
+        System.out.println(Color.YELLOW+"--Tip: See Game Rules for more info"+Color.RESET);
+        askToContinue();
         System.out.println("Your Shelf:");
         for (int j = 0; j < SHELF_COLUMN; j++) {
             System.out.print("      " + j + "      ");
@@ -576,7 +581,7 @@ public class Cli implements View {
                     //If the cell is temporarily selected by the player
                     String item = checkColorItem(board[i][j].substring(1));
                     System.out.print(Color.WHITE_BG + "[" + "" + item.replace
-                            ("_", Color.WHITE_BG + "_") + Color.WHITE_BG + "] " + Color.RESET);
+                            ("_", Color.WHITE_BG + "_") + Color.WHITE_BG + "]"+ Color.RESET+" ");
                 } else {
                     String item = board[i][j] == null ? "_________._" : checkColorItem(board[i][j]);
                     System.out.print("[" + item + "] ");
@@ -636,8 +641,9 @@ public class Cli implements View {
         for (int i = 0; i < playerList.size(); i++) {
             System.out.println("> " + playerList.get(i) + "'s stats: ");
             System.out.println("  " + "SCORE:\t" + scoreList.get(i));
-            System.out.println("  " + "STATUS:\t");
+            System.out.println("  " + "STATUS:\t");     //Needed if the Connection resilience is implemented
         }
+        askToContinue();
         System.out.println();
         showEveryShelf();
         announceCurrentPlayer();
@@ -691,7 +697,7 @@ public class Cli implements View {
 
     public List<Integer> askCoordinates() {
         showBoard();
-        System.out.println("Type the coordinates you wish to select ONE AT THE TIME first ROW then COLUMN.");
+        System.out.println("Type the coordinates you wish to select ONE AT THE TIME (first ROW, then COLUMN).");
         List<Integer> coordinates = new ArrayList<>();
         coordinates.add(askTheIndex("ROW", 0, BOARD_ROW));
         coordinates.add(askTheIndex("COLUMN", 0, BOARD_COLUMN));
@@ -708,7 +714,7 @@ public class Cli implements View {
      * @return Index(ROW, COLUMN, Position according to type)
      */
     public int askTheIndex(String type, int lower_limit, int upper_limit) {
-        int select = 0;
+        int select = -1;
         do {
             try {
                 System.out.print(type + " (" + lower_limit + " to " + (upper_limit - 1) + "): ");
@@ -835,7 +841,7 @@ public class Cli implements View {
     }
 
     public boolean showHand() {
-        System.out.print(Storage.currentPlayer + " has in hand: ");
+        System.out.print(Storage.currentPlayer + " has selected: ");
         if (Storage.currentPlayerHand.isEmpty()) {
             System.out.println("Nothing");
             return false;
@@ -1106,7 +1112,7 @@ public class Cli implements View {
     public void displayMiniShelf() {
         String[][] shelf = Storage.shelves.get(Storage.players.indexOf(username));
         List<String> display = Storage.current_display;
-        display.set(3, display.get(3) + "  {Your Shelf}\t");
+        display.set(3, display.get(3) + "  {Your Shelf}\t ");
         //System.out.println();
         for (int i = 0; i < SHELF_ROW; i++) {
             for (int j = 0; j < SHELF_COLUMN; j++) {
@@ -1115,15 +1121,15 @@ public class Cli implements View {
                 display.set(4 + i, display.get(4 + i) + "[" + item + "]");
             }
             //System.out.println();
-            display.set(4 + i, display.get(4 + i) + " \t");
+            display.set(4 + i, display.get(4 + i) + "  \t");
         }
-        display.set(10, display.get(10) + "\t");
+        display.set(10, display.get(10) + " \t");
         for (int j = 0; j < SHELF_COLUMN; j++) {
             //System.out.print(" " + j + " ");
             display.set(10, display.get(10) + " " + j + " ");
         }
         //System.out.println();
-        display.set(10, display.get(10) + " \t");
+        display.set(10, display.get(10) + "  \t");
 
         Storage.current_display = display;
     }
@@ -1144,6 +1150,8 @@ public class Cli implements View {
                 display.set(1, display.get(1) + "[ ]");
             }
         }
+        display.set(1,display.get(1) + "\t\t");
+        display.set(2,display.get(2) + "\t\t\t\t\t");
     }
 
     public void displayMiniPGoal(int pID) {
@@ -1159,7 +1167,7 @@ public class Cli implements View {
             display.set(10, display.get(10) + " " + j + " ");
         }
         display.set(10, display.get(10) + "  \t");
-        Storage.current_display = display;
+        //Storage.current_display = display;
     }
 
     /**
@@ -1260,11 +1268,22 @@ public class Cli implements View {
         List<String> display = Storage.current_display;
         List<String> cgoal = Storage.commonGoal;
         List<Integer> scores = Storage.commonGoalScore;
-        display.set(5, display.get(5) + " {CommonGoals}");
+        //display.set(0, display.get(0) + " {CommonGoals}");
 
         for (int i = 0; i < cgoal.size(); i++) {
-            display.set(i + 6, display.get(i + 6) + ">" + cgoal.get(i) + ": \t" + scores.get(i));
+            display.set(i , display.get(i) + "{" + cgoal.get(i) + "}" + ": [" + scores.get(i) + "]");
         }
         Storage.current_display = display;
+    }
+
+    /**
+     * Mi è venuto mal di testa quindi non l'ho scritto ottimizzato
+     * TODO: Da  riscrivere :)
+     */
+    public void showPersonalPoints(){
+        int index=Storage.getPlayerIndex(username);
+        int points=Storage.hiddenPoints.get(index);
+        System.out.println("Personal Goal's points (Private): "+points);
+
     }
 }

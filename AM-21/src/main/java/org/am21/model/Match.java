@@ -152,7 +152,8 @@ public class Match {
     public void callEndTurnRoutine() {
         //Check if currentPlayer has achieved any Common goal
         checkCommonGoals(currentPlayer);
-        //TODO: Add VV update CommonGoal Scores, Player score
+        //TODO: Add VV update CommonGoal Scores, Player score, CurrentPlayer's HiddenPoints
+        VirtualViewHelper.updateHiddenPoints(this);
         VirtualViewHelper.updateVirtualScores(this);
         VirtualViewHelper.updateCommonGoalScore(this);
 
@@ -213,7 +214,7 @@ public class Match {
                     //Server Message: announce how many points the player's got
                     if (player.getController().clientInput.callBack != null) {
                         try {
-                            player.getController().clientInput.callBack.sendMessageToClient("Match > " + player.getNickname() + " acquired " + goal.tokenStack.get(0) + " points");
+                            player.getController().clientInput.callBack.sendMessageToClient("Server > " + player.getNickname() + " acquired " + goal.tokenStack.get(0) + " points");
                         } catch (RemoteException e) {
                             throw new RuntimeException(e);
                         }
@@ -383,7 +384,7 @@ public class Match {
      * This method set up the next turn
      */
     public void nextTurn() {
-        sendTextToAll(SC.YELLOW_BB +"\nServer > "+currentPlayer.getNickname()+" ended his turn"+SC.RST,true );
+        sendTextToAll(SC.YELLOW_BB +"\nServer > "+currentPlayer.getNickname()+" ended his turn"+SC.RST,false );
         currentPlayer = playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats);
         setGamePhase(GamePhase.Selection);
         try {

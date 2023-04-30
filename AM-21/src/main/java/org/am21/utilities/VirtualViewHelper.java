@@ -43,6 +43,7 @@ public class VirtualViewHelper {
         List<String> players = new ArrayList<>();
         List<Integer> personalGoals = new ArrayList<>();
         List<Integer> scores = new ArrayList<>();
+        List<Integer> hiddenPoints = new ArrayList<>();
         List<String[][]> shelves = new ArrayList<>();
         for (Player player : match.playerList) {
             players.add(player.getNickname());
@@ -52,11 +53,13 @@ public class VirtualViewHelper {
             personalGoals.add(goalID);  //PersonalGoal
             scores.add(player.getPlayerScore());
             shelves.add(virtualizeShelves(player.getShelf()));
+            hiddenPoints.add(player.getHiddenPoints());
         }
         match.virtualView.setPlayers(players);
         match.virtualView.setPersonalGoals(personalGoals);
         match.virtualView.setShelves(shelves);
         match.virtualView.setScores(scores);
+        match.virtualView.setHiddenPoints(hiddenPoints);
     }
 
     /**
@@ -286,5 +289,21 @@ public class VirtualViewHelper {
             hand.add(match.currentPlayer.getHand().getSlot().get(i).item.getNameCard());
         }
         match.virtualView.setCurrentPlayerHand(hand);
+    }
+
+    /**
+     * Update only the hidden points of the current player at the end of each turn
+     * @param m
+     */
+    public static void updateHiddenPoints(Match m){
+        if(m.virtualView.hiddenPoints!=null){
+            int index = m.playerList.indexOf(m.currentPlayer);
+            m.virtualView.getHiddenPoints().set(index,m.currentPlayer.getHiddenPoints());
+        }
+    }
+
+    public static void virtualizeShelfPoints(Match m){
+
+
     }
 }

@@ -71,20 +71,13 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         playerController = new PlayerController(username, this);
 
         synchronized (GameManager.players) {
-            if(GameManager.players.size()>0) {
-                for (Player p : GameManager.players) {
-                    if (p.getController().clientInput.callBack != null) {
-                        GameManager.sendTextCommunication(p.getController(), SC.YELLOW_BB + "\nServer > "
-                                + username + " joined the game. Press 'Enter'"+ SC.RST);
-                    }
-                }
-            }
             if (!GameManager.players.contains(playerController.getPlayer())) {
                 GameManager.players.add(playerController.getPlayer());
             }
         }
         callBack.sendMessageToClient(ServerMessage.Login_Ok.value() + username);
-
+        //DEBUG
+        System.out.println(username + " joined the game");
         return true;
     }
 
@@ -234,7 +227,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     public void registerCallBack(IClientCallBack callBack) throws RemoteException {
         this.callBack = callBack;
         GameManager.client_connected++;
-        System.out.println("Client Callback registered:" + GameManager.client_connected);
+        //System.out.println("Client Callback registered:" + GameManager.client_connected);
     }
 
     /**
