@@ -75,7 +75,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
                 for (Player p : GameManager.players) {
                     if (p.getController().clientInput.callBack != null) {
                         GameManager.sendTextCommunication(p.getController(), SC.YELLOW_BB + "\nServer > "
-                                + username + " joined the game\n" + SC.RST + "Press 'Enter'");
+                                + username + " joined the game. Press 'Enter'"+ SC.RST);
                     }
                 }
             }

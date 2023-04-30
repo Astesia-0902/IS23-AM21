@@ -476,14 +476,14 @@ public class Storage {
               end     --> Show if the Endgame Token is taken (if it is, then it's the last round).
               online  --> Show a list of Online Players, so you can chat with them.
               timer   --> Show timer.
-              back    --> Go Back to Play.
+             'Enter'  --> Go Back to Play.
             -----------------------------------------------------------
             Type the commands you wish to use:\040""";
     public static final String menuOption = """
             -----------------------------------------------------------
             [Commands] Menu Option:
               create   --> Create a new match.
-              join     --> Join a match.
+               join    --> Join a match.
               online   --> Show Online Players.
                exit    --> Exit game.
                help    --> Activate Or Deactivate Assist Mode
@@ -534,8 +534,8 @@ public class Storage {
             Enter the option you wish to select:\040""";
     public static final String selectConfirm = """
             -----------------------------------------------------------
-            [Commands] You can CONFIRM, REMAKE or DELETE your choice. If needed, you could also view some OBJECT... 
-                y      --> CONFIRM your choice.
+            [Commands] You can CONFIRM, REMAKE or DELETE your Selection. If needed, you could also view some OBJECT... 
+                y      --> CONFIRM your Selection.
                 r      --> RETRY by selecting again.
                show    --> See a Game OBJECT in more detail(Board, Shelf, Goals, ...).
                 n      --> DELETE your choice and EXIT Selection.

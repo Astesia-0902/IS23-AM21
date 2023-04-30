@@ -61,6 +61,7 @@ public class VirtualViewHelper {
 
     /**
      * This method will set the scores of each player to the virtual view
+     *
      * @param match the match
      */
     public static void updateVirtualScores(Match match) {
@@ -123,9 +124,9 @@ public class VirtualViewHelper {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
                 if (match.board.getCell(i, j) != null) {
-                    if(checkMark(hl,i,j)){
-                        board[i][j] = ">"+match.board.getCell(i,j).getNameCard();
-                    }else {
+                    if (checkMark(hl, i, j)) {
+                        board[i][j] = ">" + match.board.getCell(i, j).getNameCard();
+                    } else {
                         board[i][j] = match.board.getCell(i, j).getNameCard();
                     }
                 }
@@ -134,10 +135,10 @@ public class VirtualViewHelper {
         match.virtualView.setBoard(board);
     }
 
-    private static boolean checkMark(List<CardPointer> selected_items,int i,int j){
-        if(!selected_items.isEmpty()){
-            for(CardPointer item: selected_items){
-                if(item.x == i && item.y==j){
+    private static boolean checkMark(List<CardPointer> selected_items, int i, int j) {
+        if (!selected_items.isEmpty()) {
+            for (CardPointer item : selected_items) {
+                if (item.x == i && item.y == j) {
                     return true;
                 }
             }
@@ -150,6 +151,7 @@ public class VirtualViewHelper {
     /**
      * This method will set the common goal to the virtual view
      * call this method every time the round starts
+     *
      * @param match the match
      */
     public static void virtualizeCurrentPlayer(Match match) {
@@ -167,6 +169,7 @@ public class VirtualViewHelper {
     /**
      * This method will set the common goal to the virtual view
      * call this method only when the match starts
+     *
      * @param match the match
      */
     private static void virtualizeCommonGoal(Match match) {
@@ -186,7 +189,11 @@ public class VirtualViewHelper {
     public static void updateCommonGoalScore(Match match) {
         List<Integer> commonGoalScore = new ArrayList<>();
         for (int i = 0; i < match.commonGoals.size(); i++) {
-            commonGoalScore.add(match.commonGoals.get(i).tokenStack.get(0));
+            if (match.commonGoals.get(i).tokenStack.size() == 0) {
+                commonGoalScore.add(0);
+            }else {
+                commonGoalScore.add(match.commonGoals.get(i).tokenStack.get(0));
+            }
         }
         match.virtualView.setCommonGoalScores(commonGoalScore);
     }
@@ -241,6 +248,7 @@ public class VirtualViewHelper {
 
     /**
      * This method will print the virtual view in JSON format
+     *
      * @param match the match
      */
     public static void printJSON(Match match) {
@@ -248,16 +256,16 @@ public class VirtualViewHelper {
         System.out.println(json);
     }
 
-    public static void printJSONHand(Match match){
+    public static void printJSONHand(Match match) {
         String json = convertVirtualHandToJSON(match.virtualView);
         System.out.println(json);
     }
 
-    public static void printJSONBSH(Match m){
-        String json="";
-        json+= convertVirtualBoardToJSON(m.virtualView);
-        json+= convertVirtualShelfListToJSON(m.virtualView);
-        json+= convertVirtualHandToJSON(m.virtualView);
+    public static void printJSONBSH(Match m) {
+        String json = "";
+        json += convertVirtualBoardToJSON(m.virtualView);
+        json += convertVirtualShelfListToJSON(m.virtualView);
+        json += convertVirtualHandToJSON(m.virtualView);
         System.out.println(json);
 
     }
@@ -269,6 +277,7 @@ public class VirtualViewHelper {
     /**
      * Virtualize current player's hand in String
      * Can be used for setup or for update
+     *
      * @param match the match
      */
     public static void virtualizeCurrentPlayerHand(Match match) {

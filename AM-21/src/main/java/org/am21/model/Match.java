@@ -84,7 +84,7 @@ public class Match {
     public boolean addPlayer(Player player) {
         synchronized (playerList) {
             if (playerList.size() < maxSeats) {
-                sendTextToAll(SC.YELLOW_BB +"\nServer > "+player.getNickname()+" joined the match."+ SC.RST);
+                sendTextToAll(SC.YELLOW_BB +"\nServer > "+player.getNickname()+" joined the match."+ SC.RST,true );
                 playerList.add(player);
                 player.setStatus(UserStatus.GameMember);
                 player.setMatch(this);
@@ -136,7 +136,7 @@ public class Match {
                 synchronized (GameManager.playerMatchMap) {
                     GameManager.playerMatchMap.remove(player.getNickname());
                 }
-                sendTextToAll(SC.YELLOW_BB+"\nServer > "+player.getNickname() + " left the match"+SC.RST);
+                sendTextToAll(SC.YELLOW_BB+"\nServer > "+player.getNickname() + " left the match"+SC.RST,true );
                 checkRoom();
                 //TODO: update VV PLayersList and Player Score, Shelf List...
                 //TODO: watch out what if shelf is null
@@ -219,8 +219,8 @@ public class Match {
                         }
                     }
                     goal.commonGoalAchieved(player);
-                    sendTextToAll(SC.YELLOW_BB +"Server > "+player.getNickname()+" achieved a Common Goal!"+SC.RST
-                    +"\nPress 'Enter'\n");
+                    sendTextToAll(SC.YELLOW_BB +"Server > "+player.getNickname()+" achieved a Common Goal!"
+                    +" Press 'Enter'\n"+SC.RST,true );
                 }
             }
     }
@@ -383,7 +383,7 @@ public class Match {
      * This method set up the next turn
      */
     public void nextTurn() {
-        sendTextToAll(SC.YELLOW_BB +"\nServer > "+currentPlayer.getNickname()+" ended his turn"+SC.RST);
+        sendTextToAll(SC.YELLOW_BB +"\nServer > "+currentPlayer.getNickname()+" ended his turn"+SC.RST,true );
         currentPlayer = playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats);
         setGamePhase(GamePhase.Selection);
         try {
@@ -464,9 +464,13 @@ public class Match {
      * Send a text message to each player of this match
      *
      * @param message
+     * @param includeCurrentPlayer if false the message is not sent to the currentPlayer
      */
-    public void sendTextToAll(String message) {
+    public void sendTextToAll(String message,boolean includeCurrentPlayer) {
         for (Player p : playerList) {
+            if(!includeCurrentPlayer && p.equals(currentPlayer)){
+                continue;
+            }
             if (p.getController().clientInput.callBack != null) {
                 GameManager.sendTextCommunication(p.getController(), message);
             }
@@ -502,16 +506,6 @@ public class Match {
 
     public String getJSONHand(){
         return VirtualViewHelper.convertVirtualHandToJSON(virtualView);
-    }
-
-
-    public String getJSONBoard(){
-        return VirtualViewHelper.convertVirtualBoardToJSON(virtualView);
-
-    }
-
-    public  String getJSONShelves(){
-        return VirtualViewHelper.convertVirtualShelfListToJSON(virtualView);
     }
 
 

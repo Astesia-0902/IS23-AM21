@@ -256,8 +256,8 @@ public class Cli implements View {
         while (GO_TO_MENU) {
             System.out.println(Storage.menuOption);
             showRandomTip();
-            System.out.println("-----------------------------------------------------------\n" +
-                    "Enter the Command you wish to use:");
+            System.out.print("-----------------------------------------------------------\n" +
+                    "Enter the Command you wish to use: ");
             String option = readLine();
             if (option.startsWith("/chat")) {
                 handleChatMessage(option);
@@ -294,7 +294,7 @@ public class Cli implements View {
 
             System.out.println(Storage.waitingAction);
             showRandomTip();
-            System.out.println("-----------------------------------------------------------\n"
+            System.out.print("-----------------------------------------------------------\n"
                     +"Enter the Command you wish to use: ");
             String option = readLine();
             if (option.startsWith("/chat")) {
@@ -363,7 +363,7 @@ public class Cli implements View {
                     default -> System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
                                                   + Color.RESET);
                 }
-                askToContinue();
+                //askToContinue();
             }
         }
     }
@@ -578,7 +578,6 @@ public class Cli implements View {
         for (int i = 0; i < BOARD_ROW; i++) {
             System.out.print(i);
             for (int j = 0; j < BOARD_COLUMN; j++) {
-                //TODO: Questo è scritto male(troppi controlli sul null) da rifare pero funziona
                 if (board[i][j] != null && board[i][j].startsWith(">")) {
                     //If the cell is temporarily selected by the player
                     String item = checkColorItem(board[i][j].substring(1));
@@ -738,8 +737,8 @@ public class Cli implements View {
 
     @Override
     public void askDeselection() throws ServerNotActiveException, RemoteException {
-        if (showHand()) {
-            System.out.println(Color.RED + "You haven't select cards yet." + Color.RESET);
+        if (BABY_PROTOCOL && !showHand()) {
+            System.out.println(Color.RED + "You have not selected any card yet." + Color.RESET);
         } else {
             System.out.print(Storage.deselectConfirm);
 
@@ -830,7 +829,7 @@ public class Cli implements View {
     public boolean showHand() {
         System.out.print(Storage.currentPlayer + " has in hand: ");
         if (Storage.currentPlayerHand.isEmpty()) {
-            System.out.println();
+            System.out.println("Nothing");
             return false;
         }
         for (int i = 0; i < Storage.currentPlayerHand.size(); i++) {
@@ -891,8 +890,8 @@ public class Cli implements View {
 
     @Override
     public void askShowObject() throws RemoteException {
-        String object = "";
-        while (!object.equals("back")) {
+        String object = "new_command";
+        while (!object.equals("")) {
             System.out.print(Storage.listObjects);
             object = readLine();
             switch (object) {
@@ -906,8 +905,7 @@ public class Cli implements View {
                 case "end" -> showEndGameToken();
                 case "online" -> showOnlinePlayer();
                 case "timer" -> showTimer();
-                case "back" -> {
-                }
+                case "" -> {return;}
                 default -> System.out.println(Color.RED + "The [" + object + "] cannot be found! Please try again."
                                               + Color.RESET);
             }
@@ -960,7 +958,6 @@ public class Cli implements View {
         Collections.addAll(commonGoalList, "CommonGoal2Lines", "CommonGoal2Columns", "CommonGoal3Column",
                 "CommonGoal4Lines", "CommonGoal8Tiles", "CommonGoalCorner", "CommonGoalDiagonal", "CommonGoalSquare",
                 "CommonGoalStairs", "CommonGoal4Group", "CommonGoal6Group", "CommonGoalXShape");
-
         System.out.println(Color.YELLOW_BOLD + "Common Goals:");
         for (String s : commonGoalList) {
             showGoalDescription(s);
@@ -1122,7 +1119,7 @@ public class Cli implements View {
     public void displayMiniHand() {
         List<String> display = Storage.current_display;
 
-        display.set(0,display.get(0)+"\t{Selected cards}|\t");
+        display.set(0,display.get(0)+"{Selected cards}\t");
         display.set(1,display.get(1)+"   ");
 
         /*display.set(1, display.get(1) + "|\t");

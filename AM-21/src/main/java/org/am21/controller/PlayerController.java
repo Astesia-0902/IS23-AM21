@@ -4,6 +4,7 @@ import org.am21.model.Cards.PersonalGoalCard;
 import org.am21.model.GameManager;
 import org.am21.model.Player;
 import org.am21.model.enumer.GamePhase;
+import org.am21.model.enumer.SC;
 import org.am21.model.enumer.ServerMessage;
 import org.am21.model.items.Board;
 import org.am21.model.items.Hand;
@@ -139,6 +140,8 @@ public class PlayerController {
             GameManager.sendCommunication(this,ServerMessage.Selection_Ok);
             //System.out.println("Match > Item selected: [" + tmpBoard.getCellItem(r, c).getNameCard() + "]");
 
+            player.getMatch().sendTextToAll("\n"+
+                    SC.YELLOW+player.getNickname()+" selected the cell ["+r+","+c+"]. Press 'Enter'."+SC.RST,false );
             return true;
         }
 
@@ -161,7 +164,7 @@ public class PlayerController {
         if(player.getMatch().gamePhase == GamePhase.Selection && hand.getSlot().size()>0) {
             hand.clearHand();
             GameManager.sendCommunication(this,ServerMessage.DeSel_Ok);
-            //TODO: add VV update hand
+            //Update Virtual View(Hand and Board)
             VirtualViewHelper.virtualizeCurrentPlayerHand(player.getMatch());
             VirtualViewHelper.virtualizeBoard(player.getMatch());
             player.getMatch().updatePlayersVirtualView();

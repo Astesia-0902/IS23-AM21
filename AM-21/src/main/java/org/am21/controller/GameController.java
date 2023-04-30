@@ -157,7 +157,7 @@ public class GameController {
                 for (Player p : GameManager.players) {
                     if (p.getController().clientInput.callBack != null) {
                         GameManager.sendTextCommunication(p.getController(), SC.YELLOW_BB + "\nServer > "
-                                + ctrl.getPlayer().getNickname() + " left the game\n" + SC.RST + "Press 'Enter'");
+                                + ctrl.getPlayer().getNickname() + " left the game. Press 'Enter'\n"+SC.RST);
                     }
                 }
             }
