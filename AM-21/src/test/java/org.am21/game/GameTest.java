@@ -71,7 +71,7 @@ public class GameTest {
         assertTrue(m.currentPlayer.getController().selectCell(1,4));
         assertTrue(m.currentPlayer.getController().selectCell(1,3));
         //Deselect
-        assertTrue(m.currentPlayer.getController().unselectCards());
+        assertTrue(m.currentPlayer.getController().clearSelectedCards());
         //Select other cards
         assertTrue(m.currentPlayer.getController().selectCell(4,1));
         assertTrue(m.currentPlayer.getController().selectCell(5,1));

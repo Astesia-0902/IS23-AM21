@@ -156,7 +156,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      * @throws ServerNotActiveException
      */
     public boolean deselectCards() throws RemoteException, ServerNotActiveException {
-        if (!checkPlayerActionPhase() && playerController.unselectCards()) {
+        if (!checkPlayerActionPhase() && playerController.clearSelectedCards()) {
             return true;
         }
 
@@ -253,9 +253,9 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         synchronized (GameManager.players) {
             for (Player p : GameManager.players) {
                 if (p.getNickname().equals(receiver)) {
-                    GameManager.sendTextCommunication(p.getController(), "\n------------------------------------------");
-                    GameManager.sendTextCommunication(p.getController(), "\n" + sender + "[!] > \"" + message + "\"");
-                    GameManager.sendTextCommunication(p.getController(), "------------------------------------------\n");
+                    GameManager.sendTextReply(p.getController(), "\n------------------------------------------");
+                    GameManager.sendTextReply(p.getController(), "\n" + sender + "[!] > \"" + message + "\"");
+                    GameManager.sendTextReply(p.getController(), "------------------------------------------\n");
 
                     return true;
                 }

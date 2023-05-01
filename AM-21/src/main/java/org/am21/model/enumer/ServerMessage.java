@@ -39,7 +39,9 @@ public enum ServerMessage {
     No_Orthogonal("Server > The cell was not selectable. Pick an item which is adjacent and in line with the other selected items"),
     Hand_Full("Server > You reached the limit of items you could pick"),
 
+
     //Game phase (Deselection phase)
+
     DeSel_Ok("Server > Deselection successful"),
     //TODO: maybe not necessary
     // DeSel_No("Server > Deselection failed"),
@@ -50,6 +52,8 @@ public enum ServerMessage {
     YouCanNotInsertCardsIfYouDidNotSelectAny(""),
     SelectColumnToInsert(""),
     ColumnNotAvailable(""),
+    ColNo("Server > This column has not enough slot available. Choose another one."),
+
 
     //Game phase (Sort phase)
     Sort_No("Server > Not enough cards in your hand"),

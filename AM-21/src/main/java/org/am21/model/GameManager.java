@@ -65,11 +65,11 @@ public class GameManager {
     }
 
     /**
-     * function to call server message
+     * Whenever the server has to reply to a player action with a pre-defined message
      * @param pc PlayerController
      * @param m ServerMessage
      */
-    public static void sendCommunication(PlayerController pc, ServerMessage m){
+    public static void sendReply(PlayerController pc, ServerMessage m){
         if(SERVER_COMM) {
             try {
                 pc.clientInput.callBack.sendMessageToClient(m.value());
@@ -79,7 +79,7 @@ public class GameManager {
         }
     }
 
-    public static void sendTextCommunication(PlayerController pc, String m){
+    public static void sendTextReply(PlayerController pc, String m){
         if(SERVER_COMM) {
             try {
                 pc.clientInput.callBack.sendMessageToClient(m);

@@ -224,6 +224,7 @@ class MatchTest {
         m.addPlayer(c1.getPlayer());
         m.addPlayer(c2.getPlayer());
         m.currentPlayer=c1.getPlayer();
+        c1.selectCell(4,1); //Need a card in my hand to call end selection
         Shelf s=c1.getPlayer().getShelf();
         c1.callEndSelection();
         //Simulate full insertion of the shelves
@@ -240,6 +241,7 @@ class MatchTest {
         assertTrue(m.gameState==GameState.LastRound);
         assertFalse(m.isEndGameToken());
         assertEquals(m.getFirstToComplete(),c1.getPlayer());
+        c2.selectCell(5,1);
         c2.callEndSelection();
         c2.callEndInsertion();
         assertTrue(m.gameState==GameState.Closed);

@@ -120,18 +120,19 @@ public class Board extends Grid {
      * The selected tiles need to be on a Straight Line
      * And the new card needs to be adjacent to one of the old cards
      * <p>
+     *
      * @param r
      * @param c
-     * @param pHand
+     * @param selItems
      * @return true if the conditions are respected, otherwise false
      */
-    public boolean isOrthogonal(int r, int c, Hand pHand) {
+    public boolean isOrthogonal(int r, int c, List<CardPointer> selItems) {
         int a;
         int b;
         boolean one_adjacent=false;
         boolean inline = true;
 
-        for (CardPointer card : pHand.getSelectedItems()) {
+        for (CardPointer card : selItems) {
             a = Math.abs(r - card.x);
             b = Math.abs(c - card.y);
             /*System.out.print("Board > Coordinates difference: ");

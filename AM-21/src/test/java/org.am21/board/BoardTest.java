@@ -157,12 +157,12 @@ public class BoardTest {
         h.getSelectedItems().add(new CardPointer(3,3));
         h.getSelectedItems().get(0).item= new ItemCard("none");
 
-        assertTrue(board.isOrthogonal(3,4,h));
+        assertTrue(board.isOrthogonal(3,4,h.getSelectedItems()));
 
         h.getSelectedItems().add((new CardPointer(3,4)));
         h.getSelectedItems().get(0).item = new ItemCard("none");
 
-        assertFalse(board.isOrthogonal(4,4,h));
+        assertFalse(board.isOrthogonal(4,4,h.getSelectedItems()));
 
     }
 
@@ -238,7 +238,7 @@ public class BoardTest {
         assertTrue(c.selectCell(5,4));
         assertTrue(c.selectCell(3,4));
 
-        c.unselectCards();
+        c.clearSelectedCards();
         //Change order
         assertTrue(c.selectCell(3,4));
         assertFalse(c.selectCell(5,4));
@@ -272,7 +272,7 @@ public class BoardTest {
         assertTrue(c.selectCell(3,4));
         assertFalse(c.selectCell(4,5));
 
-        c.unselectCards();
+        c.clearSelectedCards();
         //Change Order
         assertTrue(c.selectCell(3,4));
         assertFalse(c.selectCell(4,5));

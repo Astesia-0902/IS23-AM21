@@ -539,9 +539,9 @@ public class Storage {
             The match has not started yet. Please wait more players to join...
             -----------------------------------------------------------
             [Commands] These are the commands available:
-              leave    --> Leave Match.
               rules    --> Read Game Rules.
               online   --> Show Online Players.
+              more     --> More Options: Leave Match, Exit Game, Help (Assist Mode).
             To send a message in the Match type ‘/chat’ in the console.
             To send a message to a online player type ‘/chat[nickname]’ in the console.""";
 
@@ -565,7 +565,7 @@ public class Storage {
             -----------------------------------------------------------
             [Commands] Now you can SELECT another item OR INSERT the items in the Shelf:
               select   --> Select another item on the board.
-              deselect --> Deselect all your selection.
+              clear    --> Deselect all your selections.
               insert   --> Save your selections and Insert in the shelf.
               show     --> Show Game Object in more detail(Selected items, Goals, Board, Shelf, ...).
               more     --> More Options: Leave Match, Exit Game, Help (Assist Mode)
@@ -573,11 +573,11 @@ public class Storage {
             To send a message to an online player type ‘/chat[nickname]’ followed by a 'space' and your message.""";
     public static final String commandInsert = """
             -----------------------------------------------------------
-            [Commands] You can SORT the items you chose before INSERTING in the Shelf:
+            [Commands] You can SORT the items before INSERTING them in the Shelf:
                sort    --> Change the ORDER of Insertion of your items.
                show    --> Show Game OBJECT in more detail(GOALS,SHELF,...).
               insert   --> INSERT directly into the SHELF
-              leave    --> LEAVE the Match (if you leave, the match will end for everyone).
+               more    --> More Options: Leave Match, Exit Game, Help (Assist Mode)
             -----------------------------------------------------------
             Enter the option you wish to select:\040""";
     public static final String selectConfirm = """
@@ -614,7 +614,7 @@ public class Storage {
     public static final String columnConfirm = """
             [Commands] Do you confirm this is the column you wish to insert into?
                 y      --> Yes.
-                r      --> Retry.
+                r      --> Retry to choose the column again.
                 n      --> DELETE your choice and EXIT (Go back to SORT or SHOW).
             -----------------------------------------------------------
             Enter the option you wish to select:\040""";
@@ -629,7 +629,7 @@ public class Storage {
               leave    --> LEAVE the Match (if you leave, the match will end for everyone).
               exit     --> EXIT from the Game MyShelfie.
               help     --> Activate or Deactivate Assist Mode.
-              'Enter'  --> Go Back to Play.
+             'Enter'   --> Go Back.
             -----------------------------------------------------------
             Enter the command you wish to use:\040""";
 
@@ -641,7 +641,7 @@ public class Storage {
             -----------------------------------------------------------
             [Commands] What do you wish to do? These are the commands available:
               select   --> SELECT an item on the board.
-             deselect  --> Deselect the cards.
+              clear    --> Deselect the cards.
               insert   --> INSERT in the shelves.
                show    --> Show Game OBJECT in more detail(Selected Items, Goals, Board, Shelf, ...).
                more    --> More Options: Leave Match, Exit Game, Help (Assist Mode).
@@ -650,34 +650,60 @@ public class Storage {
 
 
 
-    public static final int SEL_TIPS=15;
+    public static final int MENU_TIPS=7;
+    public static final int WAIT_TIPS=10;
+    public static final int SEL_TIPS=32;
 
     public static List<String> tips = new ArrayList<>();
 
     static {
         Collections.addAll(tips,
+                //----------------MENU-------------------------------------------------------------------
+                Color.YELLOW + "--Tip: You can text any ONLINE player." + Color.RESET,
+                Color.YELLOW + "--Tip: Use command abbreviation 'c' to CREATE a new Match" + Color.RESET,
+                Color.YELLOW + "--Tip: Use command abbreviation 'j' to JOIN a existing Match" + Color.RESET,
+                Color.YELLOW + "--Tip: Use command abbreviation 'on' to showcase ONLINE Players" + Color.RESET,
+                Color.YELLOW + "--Tip: Use command abbreviation 'h' to change Assist Mode Setting" + Color.RESET,
+                Color.YELLOW + "--Rule: A match can be played by at least 2 players and at most 4" + Color.RESET,
+                Color.YELLOW + "--Rule: The creator of a match can decide the number of players" + Color.RESET,
+                //-----------------WAITING------------------------------------------------------
+                Color.YELLOW + "--Tip: Read the Game Rules to solve any doubts." + Color.RESET,
+                Color.YELLOW + "--Tip: You can text any ONLINE player, even the ones who are not in this match" + Color.RESET,
+                Color.YELLOW + "--Tip: Each match has his own chat group" + Color.RESET,
                 //------------------SELECTED-0-ITEM -----------------------------------------------------------------
                 Color.YELLOW + "--Tip: Use command abbreviation 'se' to SELECT" + Color.RESET,
                 Color.YELLOW + "--Rule: You can only select items with at least one free side" + Color.RESET,
                 Color.YELLOW + "--Rule: If there is enough space in your shelf, you can select at most 3 items" + Color.RESET,
                 Color.YELLOW + "--Rule: Each turn, you have to insert all of your selections in just ONE column of the shelf" + Color.RESET,
                 Color.YELLOW + "--Rule: If there is enough space in your shelf, you can select at most 3 items each turn" + Color.RESET,
-                Color.YELLOW + "--Rule: Multiple item with the same color near each other in the shelf, will guarantee you more points at the end of the match" + Color.RESET,
+                Color.YELLOW + "--Rule: MULTIPLE items with the SAME COLOR NEAR each other in the shelf, will guarantee you MORE POINTS at the end of the match" + Color.RESET,
                 Color.YELLOW + "--Tip: See the Common Goals and try to achieve more points (Use 'show' then 'cgoal' commands)" + Color.RESET,
                 Color.YELLOW + "--Tip: See your Personal Goal and try to achieve more points (Use 'show' the 'pgoal' commands)" + Color.RESET,
                 Color.YELLOW + "--Tip: Use command abbreviation 'sh' to SHOW OBJECT" + Color.RESET,
                 Color.YELLOW + "--Tip: Use command abbreviation 'mo' to open More OPTIONS" + Color.RESET,
-                Color.YELLOW + "--Tip: Open More Options and then use command abbreviation 'le' to LEAVE this Match" + Color.RESET,
-                Color.YELLOW + "--Tip: Open More Options and then use command abbreviation 'ex' to EXIT from MyShelfie" + Color.RESET,
-                Color.YELLOW + "--Tip: Each match has his own chat group" + Color.RESET,
-                Color.YELLOW + "--Tip: You can text any ONLINE player, even the ones who are not in this match" + Color.RESET,
-
+                Color.YELLOW + "--Rule: Personal Goal Points are Private, only you can see them" + Color.RESET,
+                Color.YELLOW + "--Rule: Personal Goal Points are not cumulative, they will be added, only at the end, to the final Score" + Color.RESET,
+                Color.YELLOW + "--Rule: A Player cannot achieve the same Common Goal a second time" + Color.RESET,
+                Color.YELLOW + "--Tip: You will get HIGHER Points if you achieve a Common Goal before everybody else" + Color.RESET,
+                Color.YELLOW + "--Tip: You can't select more item in Diagonal, just on the same straight line" + Color.RESET,
+                Color.YELLOW + "--Tip: Use 'show' command to see Game parts like SHELF, BOARD, GOALS, etc. in more detail" + Color.RESET,
+                Color.YELLOW + "--Tip: You can see other players score and Shelf situation by using 'show' the 'stats" + Color.RESET,
+                Color.YELLOW + "--Rule: Complete the SHELF and obtain Endgame Token (+1 point)" + Color.RESET,
+                Color.YELLOW + "--Rule: The first to complete his/her shelf will initiate the Last Round" + Color.RESET,
+                Color.YELLOW + "--Rule: When the Last Round ends the Match will also and the winner will be announced if there is one" + Color.RESET,
+                Color.YELLOW + "--Rule: The top score player is THE winner, no Draws" + Color.RESET,
+                Color.YELLOW + "--Tip: See the Group Points System using 'show' then 'shelf' command" + Color.RESET,
                 //------------------SELECTED--------------------------------------------------------------------------------//
                 Color.YELLOW + "--Rule: You can decide the insertion order of the items using the command 'sort'" + Color.RESET,
-                Color.YELLOW + "--Tip: You can delete all your selections by using 'deselect' command" + Color.RESET,
+                Color.YELLOW + "--Tip: You can delete all your selections by using 'clear' command" + Color.RESET,
                 Color.YELLOW + "--Tip: Use command abbreviation 'in' to INSERT" + Color.RESET,
                 Color.YELLOW + "--Tip: Use command abbreviation 'so' to SORT" + Color.RESET,
-                Color.YELLOW + "--Tip: Use command abbreviation 'de' to DESELECT" + Color.RESET
+                Color.YELLOW + "--Tip: Use command abbreviation 'cl' to CLEAR all your selections" + Color.RESET,
+                Color.YELLOW + "--Tip: When you select an already selected item, you'll deselect it" + Color.RESET,
+                Color.YELLOW + "--Rule: The items selected can be inserted in ONLY one column" + Color.RESET,
+                Color.YELLOW + "--Rule: After 'insert' command, if you Confirm your Selections, you can't change your cards anymore " + Color.RESET
+
+
         );
     }
 

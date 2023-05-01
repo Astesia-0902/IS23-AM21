@@ -39,28 +39,28 @@ public class GameController {
     private static boolean joinGameHelper(int matchID, String userName, PlayerController playerController) {
         if (GameManager.matchList.size()<(matchID+1) || GameManager.matchList.get(matchID) == null) {
             //System.out.println("Server >  The specified match does not exist.");
-            GameManager.sendCommunication(playerController,ServerMessage.FindM_No);
+            GameManager.sendReply(playerController,ServerMessage.FindM_No);
             return false;
         }
 
         if (GameManager.matchList.get(matchID).gameState == GameState.GameGoing) {
             if (!GameManager.playerMatchMap.containsKey(userName)) {
                 //System.out.println("Message from the server: the player not exists in any match.");
-                GameManager.sendCommunication(playerController,ServerMessage.PExists_No);
+                GameManager.sendReply(playerController,ServerMessage.PExists_No);
                 return false;
             } else {
                 if (!GameManager.matchList.get(matchID).addPlayer(playerController.getPlayer())) {
                     //System.out.println("Message from the server: the match is full.");
-                    GameManager.sendCommunication(playerController,ServerMessage.FullM);
+                    GameManager.sendReply(playerController,ServerMessage.FullM);
                     return false;
                 }
             }
             //if the match is not started, the player join the match
         } else if (GameManager.matchList.get(matchID).gameState == GameState.WaitingPlayers) {
-            GameManager.sendCommunication(playerController,ServerMessage.FindM_Ok);
+            GameManager.sendReply(playerController,ServerMessage.FindM_Ok);
             if (!GameManager.matchList.get(matchID).addPlayer(playerController.getPlayer())) {
                 //System.out.println("Message from the server: the match is full.");
-                GameManager.sendCommunication(playerController,ServerMessage.FullM);
+                GameManager.sendReply(playerController,ServerMessage.FullM);
                 return false;
             }
 
@@ -82,7 +82,7 @@ public class GameController {
             synchronized (GameManager.matchList) {
                 if(createMatchHelper(userName, createMatchRequestCount, playerNum, playerController)) {
                     //System.out.println("Message from the server: the match is created.");
-                    GameManager.sendCommunication(playerController, ServerMessage.CreateM_Ok);
+                    GameManager.sendReply(playerController, ServerMessage.CreateM_Ok);
                     return true;
                 }
             }
@@ -103,7 +103,7 @@ public class GameController {
                     "Create a new match will cause the player leave the current match." +
                     "Do you want to continue?");*/
             //TODO:
-            GameManager.sendCommunication(playerController,ServerMessage.PExists);
+            GameManager.sendReply(playerController,ServerMessage.PExists);
             createMatchRequestCount = 1;
         } else if (GameManager.playerMatchMap.containsKey(userName) && createMatchRequestCount == 1) {
             createMatchRequestCount = 0;
@@ -111,7 +111,7 @@ public class GameController {
                 return true;
             }else{
                 //System.out.println("Exceeded players number limit. Try again.");
-                GameManager.sendCommunication(playerController,ServerMessage.PExceed);
+                GameManager.sendReply(playerController,ServerMessage.PExceed);
 
             }
 
@@ -123,7 +123,7 @@ public class GameController {
                 return true;
             }else{
                 //System.out.println("Exceeded players number limit. Try again.");
-                GameManager.sendCommunication(playerController,ServerMessage.PExceed);
+                GameManager.sendReply(playerController,ServerMessage.PExceed);
             }
 
 
@@ -150,7 +150,7 @@ public class GameController {
      */
     public static boolean cancelPlayer(PlayerController ctrl){
         if(GameManager.players.contains(ctrl.getPlayer())){
-            GameManager.sendTextCommunication(ctrl, SC.WHITE_BB+"\nServer > Game Closed"+SC.RST);
+            GameManager.sendTextReply(ctrl, SC.WHITE_BB+"\nServer > Game Closed"+SC.RST);
             GameManager.players.remove(GameManager.players.indexOf(ctrl.getPlayer()));
             return true;
         }

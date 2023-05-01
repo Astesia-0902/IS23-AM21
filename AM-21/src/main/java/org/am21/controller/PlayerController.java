@@ -12,6 +12,9 @@ import org.am21.networkRMI.ClientInputHandler;
 import org.am21.utilities.CardPointer;
 import org.am21.utilities.VirtualViewHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * @version 1.0
@@ -24,10 +27,9 @@ public class PlayerController {
     /**
      * PlayerController constructor is initialized by ClientGameController, when ClientInputHandler login.
      * It will create the player and add his reference
-     *
      */
-    public PlayerController(String nickname, ClientInputHandler clientInput){
-        this.player = new Player(nickname,this);
+    public PlayerController(String nickname, ClientInputHandler clientInput) {
+        this.player = new Player(nickname, this);
         this.hand = new Hand(this.player);
         this.player.setHand(this.hand);
         this.clientInput = clientInput;
@@ -51,9 +53,10 @@ public class PlayerController {
 
     /**
      * Command to set player's nickname
+     *
      * @param newName
      */
-    public void changeName(String newName){
+    public void changeName(String newName) {
 
         player.setNickname(newName);
     }
@@ -63,11 +66,10 @@ public class PlayerController {
      * !Implementation incomplete due to Lack of View Component!
      * @return
      */
-    public PersonalGoalCard viewPersonalGoal(){
+    public PersonalGoalCard viewPersonalGoal() {
 
         return player.getMyPersonalGoal();
     }
-
 
 
     /**
@@ -75,70 +77,100 @@ public class PlayerController {
      * the command will memorize the item position and reference in the PlayerHand
      * if is Selectable(at least one item adjacent)
      * and if is Orthogonal to the other selected cards
-     *
+     * <p>
      * To revisit
      *
      * @param r
      * @param c
      * @return false : Selection failed
      */
-    public boolean selectCell(int r,int c){
-//        System.out.println(player.getName() + " > Select: [" + r + "][" + c + "]");
-        // verify if it is player turn or if it is the right phase
-        if(!isMyTurn(player)||player.getMatch().gamePhase != GamePhase.Selection) {
-            GameManager.sendCommunication(this,ServerMessage.NotYourTurn);
-            return false;
-        }
-        if(player.getShelf().insertLimit == hand.getSelectedItems().size()){
-            // Limit reached
-            GameManager.sendCommunication(this,ServerMessage.Hand_Full);
-            //System.out.println("Shelf > Cannot pick more item");
-            //System.out.println("Shelf > Hand["+hand.getSelectedItems().size()+"]-Limit ["+player.shelves.insertLimit +"]");
+    public boolean selectCell(int r, int c) {
+        if (!isMyTurn(player) || !isGamePhase(GamePhase.Selection)) {
             return false;
         }
 
         Board board = player.getMatch().board;
 
-        if (board.isPlayable(r,c) && board.isOccupied(r,c) && board.hasFreeSide(r, c)) {
+        if (board.isPlayable(r, c) && board.isOccupied(r, c) && board.hasFreeSide(r, c)) {
             /*If the cell is selectable then verify second condition*/
-
-
-            if (hand.getSelectedItems().size()>0)  {
-                //quando ci sono altre carte in mano, controllo se è gia stata selezionata
-                for (CardPointer tmp : hand.getSelectedItems()) {
-                    if ((r == tmp.x) && (c == tmp.y)) {
-                        //Gia selezionato
-                        //System.out.println("Board[!] > Already selected. Try again.");
-                        GameManager.sendCommunication(this,ServerMessage.ReSelected);
+            if (hand.getSelectedItems().size() > 0) {
+                //Check if the item is already selected
+                CardPointer item = isAlreadySelected(r,c);
+                if(item!=null){
+                    //Item already selected
+                    //TODO: NEW: if a player select an already selected cell, it will deselect it
+                    if(!deselectCell(item)){
+                        //The other cards do not respect the conditions, they will be cleared
+                        clearSelectedCards();
+                    }else {
+                        player.getMatch().selectionUpdate();
+                        GameManager.sendReply(this,ServerMessage.DeSel_Ok);
+                    }
+                    return false;
+                    //Need VV update
+                }else {
+                    //Check Orthogonality
+                    if (!board.isOrthogonal(r, c, hand.getSelectedItems())) {
+                        GameManager.sendReply(this, ServerMessage.No_Orthogonal);
                         return false;
                     }
                 }
-
-                if (!board.isOrthogonal(r, c, hand)) {
-                    GameManager.sendCommunication(this,ServerMessage.No_Orthogonal);
-                    return false;
-                }
+            }
+            if (player.getShelf().insertLimit == hand.getSelectedItems().size()) {
+                // Limit reached
+                GameManager.sendReply(this, ServerMessage.Hand_Full);
+                return false;
             }
             //Tutti i controlli passati: posso inserirlo nella hand
             //salvo le coordinate e il riferimento dell'item nella hand*/
             hand.memCard(board.getCell(r, c), r, c);
-            //Virtualize HAND after each Selection
-            VirtualViewHelper.virtualizeCurrentPlayerHand(player.getMatch());
-            VirtualViewHelper.virtualizeBoard(player.getMatch());
-            player.getMatch().updatePlayersVirtualView();
-            GameManager.sendCommunication(this,ServerMessage.Selection_Ok);
-            //System.out.println("Match > Item selected: [" + tmpBoard.getCellItem(r, c).getNameCard() + "]");
-
-            player.getMatch().sendTextToAll("\n"+
-                    SC.YELLOW+player.getNickname()+" selected the cell ["+r+","+c+"]. Press 'Enter'."+SC.RST,false );
+            //Virtualize HAND and board after each Selection and Sent to the players
+            player.getMatch().selectionUpdate();
+            GameManager.sendReply(this, ServerMessage.Selection_Ok);
+            player.getMatch().sendTextToAll("\n" +
+                    SC.YELLOW + player.getNickname() + " selected the cell [" + r + "," + c + "]. Press 'Enter'." + SC.RST, false);
             return true;
         }
 
-        GameManager.sendCommunication(this,ServerMessage.Selection_No);
+        GameManager.sendReply(this, ServerMessage.Selection_No);
         //Questo messaggio sara tolto e messo in ClientInputHandler o nelle funzioni dei test
 //            System.out.println("Match > Selection Failed");
 
         return false;
+    }
+
+
+    /**
+     * This method is called exclusively by {@link #selectCell(int, int)}
+     * After the deselection, it needs to check the other selected items.
+     * There is no need to check orthogonality again, because the items in the Hand.selectedItems are already
+     * all confirmed to be in line. The characteristic that need to be controlled is if they are still adjacent
+     *
+     * @return true if just one card is deselected, false if other cards needs to be deselected
+     */
+    private boolean deselectCell(CardPointer item) {
+        //TODO: to test
+        if (hand.getSelectedItems().size() > 2) {
+            //Re-selected item removed
+            hand.getSelectedItems().remove(item);
+            //Check the other, Copy the hand elements
+            Board board_ref = player.getMatch().board;
+            List<CardPointer> copy = new ArrayList<>(hand.getSelectedItems());
+            for (CardPointer x : hand.getSelectedItems()) {
+                copy.remove(x);
+                if (board_ref.isOrthogonal(x.x, x.y, copy)) {
+                    //La carta va bene
+                    copy.add(x);
+                } else {
+                    //If I find an item which is not orthogonal --> return false
+                    return false;
+                }
+            }
+            //The selected cell is removed and the other are okay
+        }else{
+            hand.getSelectedItems().remove(item);
+        }
+        return true;
     }
 
     /**
@@ -146,21 +178,19 @@ public class PlayerController {
      * During Selection Phase:
      * Clear Hand. The Player need to reselect all the cells
      */
-    public boolean unselectCards(){
-        if(!isMyTurn(player)) {
+    public boolean clearSelectedCards() {
+        if (!isMyTurn(player)) {
             return false;
         }
-        if(player.getMatch().gamePhase == GamePhase.Selection && hand.getSelectedItems().size()>0) {
+        if (player.getMatch().gamePhase == GamePhase.Selection && hand.getSelectedItems().size() > 0) {
             hand.clearHand();
-            GameManager.sendCommunication(this,ServerMessage.DeSel_Ok);
+            GameManager.sendReply(this, ServerMessage.DeSel_Ok);
             //Update Virtual View(Hand and Board)
-            VirtualViewHelper.virtualizeCurrentPlayerHand(player.getMatch());
-            VirtualViewHelper.virtualizeBoard(player.getMatch());
-            player.getMatch().updatePlayersVirtualView();
+            player.getMatch().selectionUpdate();
             return true;
         }
 
-        GameManager.sendCommunication(this,ServerMessage.DeSel_Null);
+        GameManager.sendReply(this, ServerMessage.DeSel_Null);
         return false;
     }
 
@@ -169,30 +199,37 @@ public class PlayerController {
      * Or by the timer
      * It will ask the match to change TurnPhase in Insertion
      */
-    public boolean callEndSelection(){
-        if(!isMyTurn(player)) {
+    public boolean callEndSelection() {
+        if (!isMyTurn(player)) {
+            return false;
+        }
+        if (hand.getSelectedItems().size() == 0) {
+            //TODO: test
+            //Cannot confirm selection there are no selected items
             return false;
         }
         player.getMatch().setGamePhase(GamePhase.Insertion);
         moveAllToHand();
-        //TODO: add VV update GamePhase and Board
+        //Update Virtual View --> Board
         VirtualViewHelper.virtualizeBoard(player.getMatch());
-
+        player.getMatch().updatePlayersView();
         return true;
     }
 
     /**
      * During Insertion Phase.
      * Item in hand will be removed from Board through slot iteration.
+     * (Emulate the human action of PICKING the items from the board)
+     *
      * @return true if the items has been removed all from the board
      */
-    public boolean moveAllToHand(){
-        if(!isMyTurn(player)) {
+    public boolean moveAllToHand() {
+        if (!isMyTurn(player)) {
             return false;
         }
-        if(player.getMatch().gamePhase == GamePhase.Insertion){
-            for(CardPointer card: hand.getSelectedItems()){
-                if(player.getMatch().board.isOccupied(card.x,card.y)) {
+        if (player.getMatch().gamePhase == GamePhase.Insertion) {
+            for (CardPointer card : hand.getSelectedItems()) {
+                if (player.getMatch().board.isOccupied(card.x, card.y)) {
                     player.getMatch().board.setCell(card.x, card.y, null);
                 }
             }
@@ -204,37 +241,33 @@ public class PlayerController {
 
     /**
      * Request for the Shelf to insert all the selected cards in a column(col)
+     *
      * @param col
      * @return true if the insertion is successful
      */
-    public boolean tryToInsert(int col){
-        if(!isMyTurn(player)) {
+    public boolean tryToInsert(int col) {
+        if (!isMyTurn(player) || !isGamePhase(GamePhase.Insertion) || isHandEmpty()) {
             return false;
         }
-        if(player.getMatch().gamePhase == GamePhase.Insertion){
-            if(player.getShelf().slotCol.get(col) < hand.getSelectedItems().size()){
-                //The column has not enough space for insertion
-                GameManager.sendCommunication(this,ServerMessage.Hand_Full);
-                return false;
-            }else{
-                for(int i = hand.getSelectedItems().size(), s = 0; i>0; i--,s++){
-                    //Inserting one item at the time
-                    if(!player.getShelf().insertInColumn(hand.getSelectedItems().get(s).item,col)){
-                        return false;
-                    }
+        if (player.getShelf().slotCol.get(col) < hand.getSelectedItems().size()) {
+            //The column has not enough space for insertion
+            GameManager.sendReply(this, ServerMessage.ColNo);
+            return false;
+        } else {
+            for (int i = hand.getSelectedItems().size(), s = 0; i > 0; i--, s++) {
+                //Inserting one item at the time
+                if (!player.getShelf().insertInColumn(hand.getSelectedItems().get(s).item, col)) {
+                    return false;
                 }
-                //The insertion is complete : Reset Hand and Check Shelf limit
-                hand.clearHand();
-                player.getShelf().checkLimit();
-                //Update Virtual View --> Board, Hand, Shelf
-                VirtualViewHelper.virtualizeBoard(player.getMatch());
-                VirtualViewHelper.virtualizeCurrentPlayerHand(player.getMatch());
-                VirtualViewHelper.updateVirtualShelves(player.getMatch());
-                player.getMatch().updatePlayersVirtualView();
-                return true;
             }
+            //The insertion is complete : Reset Hand and Check Shelf limit
+            hand.clearHand();
+            player.getShelf().checkLimit();
+            //Update Virtual View --> Board, Hand, Shelf
+            player.getMatch().insertionUpdate();
+            return true;
         }
-        return false;
+
     }
 
 
@@ -245,12 +278,11 @@ public class PlayerController {
      * @param j is position 2
      * @return
      */
-    public boolean changeHandOrder(int i,int j){
-        if(isMyTurn(player) && player.getMatch().gamePhase==GamePhase.Insertion && hand.changeOrder(i,j)){
+    public boolean changeHandOrder(int i, int j) {
+        if (isMyTurn(player) && player.getMatch().gamePhase == GamePhase.Insertion && hand.changeOrder(i, j)) {
             // Virtual View Update --> Hand
-            VirtualViewHelper.virtualizeCurrentPlayerHand(player.getMatch());
-            player.getMatch().updateVirtualHand();
-            GameManager.sendCommunication(this,ServerMessage.Sort_Ok);
+            player.getMatch().sortUpdate();
+            GameManager.sendReply(this, ServerMessage.Sort_Ok);
             return true;
         }
         return false;
@@ -258,23 +290,38 @@ public class PlayerController {
 
     /**
      * Verify if is the current Player correspond with the one calling this method
+     *
      * @param player
      * @return
      */
-    public boolean isMyTurn(Player player){
-        if(player.getMatch().currentPlayer != player) {
+    public boolean isMyTurn(Player player) {
+        if (player.getMatch().currentPlayer != player) {
             // Not player turn
+            GameManager.sendReply(this, ServerMessage.NotYourTurn);
             return false;
         }
         return true;
     }
 
     /**
+     * Control if the game phase is the same of the one you want
      *
+     * @param gamePhase is the phase needed to be
+     * @return true if the gamePhase is the same of the match game phase
+     */
+    public boolean isGamePhase(GamePhase gamePhase) {
+        if (player.getMatch().gamePhase == gamePhase) {
+            return true;
+        }
+        //TODO: message of wrong phase
+        return false;
+    }
+
+    /**
      * @return
      */
-    public void callEndInsertion(){
-        if(player.getMatch().gamePhase==GamePhase.Insertion) {
+    public void callEndInsertion() {
+        if (player.getMatch().gamePhase == GamePhase.Insertion) {
             player.getMatch().setGamePhase(GamePhase.Default);
             //At the end of each turn, Player's hiddenPoints get updated (0-12)
             player.setHiddenPoints(player.getMyPersonalGoal().calculatePoints());
@@ -284,11 +331,35 @@ public class PlayerController {
 
     /**
      * Method to add points to current player's Score
+     *
      * @param points
      */
-    public void addScore(int points){
-        player.setPlayerScore(player.getPlayerScore()+points);
+    public void addScore(int points) {
+        player.setPlayerScore(player.getPlayerScore() + points);
     }
 
+    public boolean isHandEmpty(){
+        if(hand.getSelectedItems().size()==0){
+            return true;
+        }
+        //TODO: server message: No card selected
+        return false;
+    }
+
+    /**
+     * Check if the cell is already selected by iterating the hand
+     * @param r coordinate x of the board
+     * @param c coordinate y of the board
+     * @return the CardPointer of the item already selected, otherwise null
+     */
+    public CardPointer isAlreadySelected(int r, int c){
+        for (CardPointer item : hand.getSelectedItems()) {
+            if ((r == item.x) && (c == item.y)) {
+                GameManager.sendReply(this, ServerMessage.ReSelected);
+                return item;
+            }
+        }//TODO: test
+        return null;
+    }
 
 }

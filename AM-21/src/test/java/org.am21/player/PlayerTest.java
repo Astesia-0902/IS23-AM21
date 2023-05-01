@@ -107,7 +107,7 @@ public class PlayerTest {
     void testUnselectCards(){
         c1.selectCell(1,4);
         c1.selectCell(1,3);
-        assertTrue(c1.unselectCards());
+        assertTrue(c1.clearSelectedCards());
 
         assertEquals(0, c1.getHand().getSelectedItems().size());
 
@@ -138,6 +138,7 @@ public class PlayerTest {
      */
     @Test
     void testCallingPhases(){
+        c1.selectCell(4,1);
         c1.callEndSelection();
         assertTrue(m.gamePhase.equals(GamePhase.Insertion));
         c1.callEndInsertion();
@@ -164,6 +165,7 @@ public class PlayerTest {
      * Setup:
      * 1: Wrong phase
      * 2: Trying to insert in a column where there is not slot available
+     * 3: Try to insert in the shelf without selecting--> TODO
      */
     @Test
     void testTryToInsert(){

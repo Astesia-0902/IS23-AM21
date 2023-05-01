@@ -49,7 +49,7 @@ public class VirtualViewTest {
      * Test VirtualView attributes values
      * after the match began (after startFirstRound())
      * - VirtualViewHelper.buildVirtualView(m)
-     * - updatePlayersVirtualView()
+     * - updatePlayersView()
      * are called
      */
     @Test

@@ -156,8 +156,10 @@ public class Match {
                 playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats) == firstToComplete) {
             //GAME OVER(almost)
             //Calculate Personal Goal Points for each player
+
             checkPersonalGoals();
             checkShelfPoints();
+
             VirtualViewHelper.updateVirtualScores(this);
             endMatch();
         } else {
@@ -186,7 +188,7 @@ public class Match {
             this.nextTurn();
             VirtualViewHelper.updateVirtualScores(this);
             VirtualViewHelper.virtualizeCurrentPlayer(this);
-            updatePlayersVirtualView();
+            updatePlayersView();
         }
     }
 
@@ -223,6 +225,9 @@ public class Match {
      * So each time a checkGoal is called, the points will be removed from player's score
      * and new points will be added thank to calculatePoints().
      * This way, the personal goal can be called individually at the end of each turn.
+     * //TODO: This method called at end of a match
+     *      now at the end of each turn the player calculate the the personal points
+     *      so there is no need for check but just transcription
      */
     public void checkPersonalGoals() {
         for (Player p : playerList) {
@@ -353,7 +358,7 @@ public class Match {
         setGamePhase(GamePhase.Selection);
         //TODO: test it
         VirtualViewHelper.buildVirtualView(this);
-        updatePlayersVirtualView();
+        updatePlayersView();
         for (Player p : playerList) {
             if (p.getController().clientInput.callBack == null) continue;
             try {
@@ -388,7 +393,7 @@ public class Match {
      * Update each player with the new version of the virtual view
      * When? When the match begins and when the turn of a player ends
      */
-    public void updatePlayersVirtualView() {
+    public void updatePlayersView() {
 
         for (Player p : playerList) {
             //TODO: Watch out for test
@@ -435,7 +440,7 @@ public class Match {
     public void sendMessageToAll(ServerMessage message) {
         for (Player p : playerList) {
             if (p.getController().clientInput.callBack != null) {
-                GameManager.sendCommunication(p.getController(), message);
+                GameManager.sendReply(p.getController(), message);
             }
         }
     }
@@ -452,7 +457,7 @@ public class Match {
                 continue;
             }
             if (p.getController().clientInput.callBack != null) {
-                GameManager.sendTextCommunication(p.getController(), message);
+                GameManager.sendTextReply(p.getController(), message);
             }
         }
     }
@@ -485,6 +490,39 @@ public class Match {
 
     public String getJSONHand(){
         return VirtualViewHelper.convertVirtualHandToJSON(virtualView);
+    }
+
+    /**
+     * This method is called at the end of a SelectCell, DeselectCell or ClearSelectedCards
+     */
+    public void selectionUpdate(){
+        VirtualViewHelper.virtualizeCurrentPlayerHand(this);
+        VirtualViewHelper.virtualizeBoard(this);
+        updatePlayersView();
+
+    }
+
+    /**
+     * Maybe not necessary, can be merged with end turn update
+     */
+    public void insertionUpdate(){
+        VirtualViewHelper.virtualizeBoard(this);
+        VirtualViewHelper.virtualizeCurrentPlayerHand(this);
+        VirtualViewHelper.updateVirtualShelves(this);
+        updatePlayersView();
+
+    }
+
+    public void sortUpdate(){
+        VirtualViewHelper.virtualizeCurrentPlayerHand(this);
+        updateVirtualHand();
+    }
+
+    public void endTurnUpdate(){
+        VirtualViewHelper.virtualizeBoard(this);
+        VirtualViewHelper.virtualizeCurrentPlayerHand(this);
+        VirtualViewHelper.virtualizeCurrentPlayer(this);
+
     }
 
 
