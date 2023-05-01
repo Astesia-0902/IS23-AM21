@@ -30,9 +30,9 @@ public class Storage {
     public static List<Integer> commonGoalScore;
     public static int personalGoal;
     public static List<String[][]> shelves;
-    public static String gamePhase;
     public static List<String> currentPlayerHand;
     public static boolean endGameToken;
+    public static List<String> gameResults;
     //------------------------------------------
 
     /**
@@ -60,10 +60,11 @@ public class Storage {
         for (int i = 0; i < temp.size(); i++) {
             shelves.add(temp.getObject(i, String[][].class));
         }
-        gamePhase = jsonObject.getString("gamePhase");
         currentPlayerHand = jsonObject.getJSONArray("currentPlayerHand").toJavaList(String.class);
         matchID = jsonObject.getInteger("matchID");
         endGameToken = jsonObject.getBoolean("endGameToken");
+
+        gameResults = jsonObject.getJSONArray("gameResults").toJavaList(String.class);
     }
 
     /**
@@ -849,6 +850,9 @@ public class Storage {
             \t\t¦ 4 [=] > (3) ¦ 6+[=] > (8) ¦
             \t\t-----------------------------
             """;
+
+
+
 
 
 

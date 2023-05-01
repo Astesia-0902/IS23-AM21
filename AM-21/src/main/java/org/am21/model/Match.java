@@ -83,7 +83,7 @@ public class Match {
     public boolean addPlayer(Player player) {
         synchronized (playerList) {
             if (playerList.size() < maxSeats) {
-                sendTextToAll(SC.YELLOW_BB +"\nServer > "+player.getNickname()+" joined the match."+ SC.RST,true );
+                sendTextToAll(SC.YELLOW_BB + "\nServer > " + player.getNickname() + " joined the match." + SC.RST, true);
                 playerList.add(player);
                 player.setStatus(UserStatus.GameMember);
                 player.setMatch(this);
@@ -131,7 +131,7 @@ public class Match {
                 synchronized (GameManager.playerMatchMap) {
                     GameManager.playerMatchMap.remove(player.getNickname());
                 }
-                sendTextToAll(SC.YELLOW_BB+"\nServer > "+player.getNickname() + " left the match"+SC.RST,true );
+                sendTextToAll(SC.YELLOW_BB + "\nServer > " + player.getNickname() + " left the match" + SC.RST, true);
                 checkRoom();
                 //TODO: update VV PLayersList and Player Score, Shelf List...
                 //TODO: watch out what if shelf is null
@@ -157,10 +157,7 @@ public class Match {
             //GAME OVER(almost)
             //Calculate Personal Goal Points for each player
 
-            checkPersonalGoals();
-            checkShelfPoints();
 
-            VirtualViewHelper.updateVirtualScores(this);
             endMatch();
         } else {
             //Not GAME OVER
@@ -198,48 +195,57 @@ public class Match {
      * @param player player that need to check
      */
     public void checkCommonGoals(Player player) {
-            for (CommonGoal goal : commonGoals) {
-                if (goal.checkGoal(player.getShelf())) {
-                    // Give player points/scoreToken
-                    //Server Message: announce how many points the player's got
-                    if (player.getController().clientInput.callBack != null) {
-                        try {
-                            player.getController().clientInput.callBack.sendMessageToClient("Server > " + player.getNickname() + " acquired " + goal.tokenStack.get(0) + " points");
-                        } catch (RemoteException e) {
-                            throw new RuntimeException(e);
-                        }
+        for (CommonGoal goal : commonGoals) {
+            if (goal.checkGoal(player.getShelf())) {
+                // Give player points/scoreToken
+                //Server Message: announce how many points the player's got
+                if (player.getController().clientInput.callBack != null) {
+                    try {
+                        player.getController().clientInput.callBack.sendMessageToClient("Server > " + player.getNickname() + " acquired " + goal.tokenStack.get(0) + " points");
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
                     }
-                    goal.commonGoalAchieved(player);
-                    sendTextToAll(SC.YELLOW_BB +"Server > "+player.getNickname()+" achieved a Common Goal!"
-                    +" Press 'Enter'\n"+SC.RST,true );
                 }
+                goal.commonGoalAchieved(player);
+                sendTextToAll(SC.YELLOW_BB + "Server > " + player.getNickname() + " achieved a Common Goal!"
+                        + " Press 'Enter'\n" + SC.RST, true);
             }
+        }
     }
 
     /**
-     * Sequence for Personal Goal Check
-     * Called after the last round (Current Setup)
-     * Otherwise(Alternative setup):
-     * We need to change the Personal Goal Card setup.
-     * - Add new Integer that store old Points
-     * So each time a checkGoal is called, the points will be removed from player's score
-     * and new points will be added thank to calculatePoints().
-     * This way, the personal goal can be called individually at the end of each turn.
-     * //TODO: This method called at end of a match
-     *      now at the end of each turn the player calculate the the personal points
-     *      so there is no need for check but just transcription
+     *TODO: rewrite better
+     * @return
      */
-    public void checkPersonalGoals() {
-        for (Player p : playerList) {
-            p.getController().addScore(p.getMyPersonalGoal().calculatePoints());
+    public List<String> checkGamePoints() {
+        Player p;
+        List<String> res = new ArrayList<>(playerList.size());
+        String gameRes ="";
+        for (int i = 0; i < playerList.size(); i++) {
+            p = playerList.get(i);
+            int common =p.getPlayerScore();
+            int personal = p.getHiddenPoints();
+            int group = p.getShelf().getGroupPoints();
+            int total = common+personal+group;
+            res.add("* "+p.getNickname()+" Score:\n"+
+                    "+ " + common + " Common points\n"+
+                    "+ " + personal+ " Personal points\n"+
+                    "+ " + group + " Group points\n"
+                    );
+            if(p.equals(firstToComplete)){
+                res.set(i,res.get(i)+"+ 1 Endgame Token\n");
+            }
+            res.set(i,res.get(i)+"Total: "+total+"\n");
+
+            p.getController().addScore(personal+group);
         }
+        //Per string TODO da canc
+        for(String x : res){
+            gameRes+=x;
+        }
+        return res;
     }
 
-    public void checkShelfPoints() {
-        for (Player p : playerList) {
-            p.getController().addScore(p.getShelf().getGroupPoints());
-        }
-    }
 
     /**
      * This method is called when the match ends.
@@ -250,13 +256,23 @@ public class Match {
      * - Remove all the players from the match
      */
     private boolean endMatch() {
+        List<String> gameRes = checkGamePoints();
+        VirtualViewHelper.updateVirtualScores(this);
         decideWinner();
+        if(winner!=null){
+            gameRes.add("\n The winner is "+ winner.getNickname() +"!!\n");
+        }else {
+            gameRes.add("\n No winner for this match!\n");
+        }
+        VirtualViewHelper.virtualizeGameResults(this,gameRes);
+        updatePlayersView();
+
         //Print the Final Stats of the Match
         //Removing players from the match
         for (Player p : playerList) {
 
             try {
-                if(p.getController().clientInput.callBack!=null){
+                if (p.getController().clientInput.callBack != null) {
                     p.getController().clientInput.callBack.notifyEndMatch();
                 }
             } catch (RemoteException e) {
@@ -374,19 +390,18 @@ public class Match {
      * This method set up the next turn
      */
     public void nextTurn() {
-        sendTextToAll(SC.YELLOW_BB +"\nServer > "+currentPlayer.getNickname()+" ended his turn"+SC.RST,false );
+        sendTextToAll(SC.YELLOW_BB + "\nServer > " + currentPlayer.getNickname() + " ended his turn" + SC.RST, false);
         currentPlayer = playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats);
         setGamePhase(GamePhase.Selection);
         try {
-            if(currentPlayer.getController().clientInput.callBack!=null) {
-                currentPlayer.getController().clientInput.callBack.sendMessageToClient(SC.RED_B + "Server[!] > " + currentPlayer.getNickname() + "! It's your turn. Press 'Enter'"+SC.RST);
+            if (currentPlayer.getController().clientInput.callBack != null) {
+                currentPlayer.getController().clientInput.callBack.sendMessageToClient(SC.RED_B + "Server[!] > " + currentPlayer.getNickname() + "! It's your turn. Press 'Enter'" + SC.RST);
             }
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
 
     }
-
 
 
     /**
@@ -451,9 +466,9 @@ public class Match {
      * @param message
      * @param includeCurrentPlayer if false the message is not sent to the currentPlayer
      */
-    public void sendTextToAll(String message,boolean includeCurrentPlayer) {
+    public void sendTextToAll(String message, boolean includeCurrentPlayer) {
         for (Player p : playerList) {
-            if(!includeCurrentPlayer && p.equals(currentPlayer)){
+            if (!includeCurrentPlayer && p.equals(currentPlayer)) {
                 continue;
             }
             if (p.getController().clientInput.callBack != null) {
@@ -465,7 +480,7 @@ public class Match {
     /**
      * Update each player view with the new JSONHand
      */
-    public void updateVirtualHand(){
+    public void updateVirtualHand() {
         for (Player p : playerList) {
             //TODO: Watch out for test
             if (p.getController().clientInput.callBack != null) {
@@ -488,14 +503,14 @@ public class Match {
         return VirtualViewHelper.convertVirtualViewToJSON(virtualView);
     }
 
-    public String getJSONHand(){
+    public String getJSONHand() {
         return VirtualViewHelper.convertVirtualHandToJSON(virtualView);
     }
 
     /**
      * This method is called at the end of a SelectCell, DeselectCell or ClearSelectedCards
      */
-    public void selectionUpdate(){
+    public void selectionUpdate() {
         VirtualViewHelper.virtualizeCurrentPlayerHand(this);
         VirtualViewHelper.virtualizeBoard(this);
         updatePlayersView();
@@ -505,7 +520,7 @@ public class Match {
     /**
      * Maybe not necessary, can be merged with end turn update
      */
-    public void insertionUpdate(){
+    public void insertionUpdate() {
         VirtualViewHelper.virtualizeBoard(this);
         VirtualViewHelper.virtualizeCurrentPlayerHand(this);
         VirtualViewHelper.updateVirtualShelves(this);
@@ -513,12 +528,12 @@ public class Match {
 
     }
 
-    public void sortUpdate(){
+    public void sortUpdate() {
         VirtualViewHelper.virtualizeCurrentPlayerHand(this);
         updateVirtualHand();
     }
 
-    public void endTurnUpdate(){
+    public void endTurnUpdate() {
         VirtualViewHelper.virtualizeBoard(this);
         VirtualViewHelper.virtualizeCurrentPlayerHand(this);
         VirtualViewHelper.virtualizeCurrentPlayer(this);

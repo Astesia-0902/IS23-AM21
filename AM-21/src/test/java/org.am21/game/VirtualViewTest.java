@@ -2,8 +2,6 @@ package org.am21.game;
 
 import org.am21.controller.PlayerController;
 import org.am21.model.Match;
-import org.am21.model.enumer.GamePhase;
-import org.am21.model.enumer.GameState;
 import org.am21.networkRMI.ClientInputHandler;
 import org.am21.utilities.VirtualViewHelper;
 import org.junit.jupiter.api.AfterEach;
@@ -68,12 +66,9 @@ public class VirtualViewTest {
         assertNotNull(m.virtualView.currentPlayerHand);
         assertNotNull(m.virtualView.shelves);
         assertNotNull(m.virtualView.personalGoals);
-        assertNotNull(m.virtualView.gamePhase);
-        assertNotNull(m.virtualView.gameState);
+
         assertNotNull(m.virtualView.endGameToken);
 
-        assertEquals(GameState.GameGoing.toString(),m.virtualView.gameState);
-        assertEquals(GamePhase.Selection.toString(),m.virtualView.gamePhase);
         assertEquals(m.chairman.getNickname(),m.virtualView.currentPlayer);
 
         VirtualViewHelper.printJSON(m);

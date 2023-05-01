@@ -49,6 +49,9 @@ public class ServerPrototype {
                 if(input.equals("bl")){
                     printBindList();
                 }
+                if(input.equals("end")){
+                    System.exit(0);
+                }
                 //Thread.sleep(1000);
             }
 

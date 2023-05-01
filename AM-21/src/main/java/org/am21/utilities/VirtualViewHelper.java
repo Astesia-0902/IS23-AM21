@@ -26,11 +26,8 @@ public class VirtualViewHelper {
         virtualizePlayersData(match);
         virtualizeCurrentPlayer(match);
         virtualizeCommonGoal(match);
-        setGamePhase(match);
         updateCommonGoalScore(match);
         virtualizeCurrentPlayerHand(match);
-        setGamePhase(match);
-        setGameState(match);
     }
 
     /**
@@ -45,6 +42,7 @@ public class VirtualViewHelper {
         List<Integer> scores = new ArrayList<>();
         List<Integer> hiddenPoints = new ArrayList<>();
         List<String[][]> shelves = new ArrayList<>();
+        List<String> tmp = new ArrayList<>();
         for (Player player : match.playerList) {
             players.add(player.getNickname());
             int stringLength = player.getMyPersonalGoal().getNameCard().length();
@@ -54,12 +52,15 @@ public class VirtualViewHelper {
             scores.add(player.getPlayerScore());
             shelves.add(virtualizeShelves(player.getShelf()));
             hiddenPoints.add(player.getHiddenPoints());
+            tmp.add("");
         }
         match.virtualView.setPlayers(players);
         match.virtualView.setPersonalGoals(personalGoals);
         match.virtualView.setShelves(shelves);
         match.virtualView.setScores(scores);
         match.virtualView.setHiddenPoints(hiddenPoints);
+
+        match.virtualView.gameResults=tmp;
     }
 
     /**
@@ -161,14 +162,6 @@ public class VirtualViewHelper {
         match.virtualView.setCurrentPlayer(match.currentPlayer.getNickname());
     }
 
-    private static void setGamePhase(Match match) {
-        match.virtualView.setGamePhase(match.gamePhase.toString());
-    }
-
-    private static void setGameState(Match match) {
-        match.virtualView.setGameState(match.gameState.toString());
-    }
-
     /**
      * This method will set the common goal to the virtual view
      * call this method only when the match starts
@@ -194,7 +187,7 @@ public class VirtualViewHelper {
         for (int i = 0; i < match.commonGoals.size(); i++) {
             if (match.commonGoals.get(i).tokenStack.size() == 0) {
                 commonGoalScore.add(0);
-            }else {
+            } else {
                 commonGoalScore.add(match.commonGoals.get(i).tokenStack.get(0));
             }
         }
@@ -293,17 +286,21 @@ public class VirtualViewHelper {
 
     /**
      * Update only the hidden points of the current player at the end of each turn
+     *
      * @param m
      */
-    public static void updateHiddenPoints(Match m){
-        if(m.virtualView.hiddenPoints!=null){
+    public static void updateHiddenPoints(Match m) {
+        if (m.virtualView.hiddenPoints != null) {
             int index = m.playerList.indexOf(m.currentPlayer);
-            m.virtualView.getHiddenPoints().set(index,m.currentPlayer.getHiddenPoints());
+            m.virtualView.getHiddenPoints().set(index, m.currentPlayer.getHiddenPoints());
         }
     }
 
-    public static void virtualizeShelfPoints(Match m){
+    public static void virtualizeGameResults(Match m,List<String> gR){
+        m.virtualView.gameResults=gR;
+    }
 
-
+    public static String convertGameResultsToJSON(VirtualView virtualView){
+        return JSON.toJSONString(virtualView.gameResults);
     }
 }

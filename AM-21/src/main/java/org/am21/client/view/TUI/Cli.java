@@ -1074,7 +1074,7 @@ public class Cli implements View {
         else if(!GAME_ON) {max = Storage.WAIT_TIPS;min=MENU_TIPS;}
         else if (GAME_ON&&NOT_SEL_YET){ max = Storage.SEL_TIPS;min=WAIT_TIPS;}
         else {max = Storage.tips.size();min=WAIT_TIPS;}
-        String tip = Storage.tips.get((int) (Math.random() * max)+min);
+        String tip = Storage.tips.get((int) (Math.random() * max-min)+min);
         System.out.println(tip);
     }
 
@@ -1234,6 +1234,14 @@ public class Cli implements View {
         int index = Storage.getPlayerIndex(username);
         int points = Storage.hiddenPoints.get(index);
         System.out.println("Personal Goal's points (Private): " + points);
+
+    }
+
+    public void showGameResults(){
+        for(String r: gameResults){
+            System.out.println(r);
+            askToContinue();
+        }
 
     }
 }

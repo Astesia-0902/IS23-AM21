@@ -28,13 +28,11 @@ public class VirtualView implements Serializable {
     public List<String[][]> shelves;
     public String currentPlayer;
     public boolean endGameToken;
-
-    public List<Integer> shelfPoints;
     public List<Integer> scores;
     public List<Integer> hiddenPoints;
     //TODO: Each String[] showcase the points gained by the player for each category
     //  It's string it's going to be printed directly by the CLI, no need to process
-    public List<String[]> gameResults;
+    public List<String> gameResults;
     //---------------------------------------
     //TODO: Newsletter
     //TODO: Chat History
@@ -51,18 +49,6 @@ public class VirtualView implements Serializable {
 
     public List<Integer> personalGoals;
 
-    //TODO: gameState and gamePhase maybe not needed for visualization (maybe should be just server work)
-    public String gamePhase;
-    public String gameState;
-
-
-    public List<Integer> getShelfPoints() {
-        return shelfPoints;
-    }
-
-    public void setShelfPoints(List<Integer> shelfPoints) {
-        this.shelfPoints = shelfPoints;
-    }
 
     public List<Integer> getHiddenPoints() {
         return hiddenPoints;
@@ -104,13 +90,6 @@ public class VirtualView implements Serializable {
         this.matchID = matchID;
     }
 
-    public String getGamePhase() {
-        return gamePhase;
-    }
-
-    public void setGamePhase(String gamePhase) {
-        this.gamePhase = gamePhase;
-    }
 
     public String getCurrentPlayer() {
         return currentPlayer;
@@ -168,12 +147,5 @@ public class VirtualView implements Serializable {
         this.commonGoals = commonGoals;
     }
 
-    public String getGameState() {
-        return gameState;
-    }
-
-    public void setGameState(String gameState) {
-        this.gameState = gameState;
-    }
 
 }

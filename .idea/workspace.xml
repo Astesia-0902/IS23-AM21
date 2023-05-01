@@ -5,23 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dd2f3e9a-b514-48f2-995d-660d696de66e" name="Changes" comment="fixed bug Cli">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_30_04_2023_15_37__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_30_04_2023_15_37__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/Storage.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/Storage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/Cli.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/Cli.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/PlayerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/PlayerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/GameManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/ServerPrototype.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/ServerPrototype.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/enumer/ServerMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/enumer/ServerMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Hand.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Hand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientInputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientInputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/board/BoardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/board/BoardTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/GameTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/GameTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/MatchTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/MatchTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/VirtualView.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/VirtualView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientCallBack.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientCallBack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/VirtualViewHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/VirtualViewHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/extra/WrongModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/extra/WrongModelTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/VirtualViewTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/VirtualViewTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/player/PlayerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/player/PlayerTest.java" afterDir="false" />
     </list>
     <list id="19ab3365-554c-40d9-959c-e6407d37c953" name="Changes by jef" comment="" />
     <list id="64e1bfe8-5cd0-4a7d-8217-c090321f1a9a" name="Changes by maoyh" comment="" />
@@ -116,7 +109,7 @@
       <recent name="org.am21.utilities" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Proto">
+  <component name="RunManager" selected="JUnit.WrongModelTest.runner4">
     <configuration name="CLITest1" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.am21.game.CLITest" />
       <module name="IS23-AM21" />
@@ -443,6 +436,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="WrongModelTest.runner4" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="IS23-AM21" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.am21.extra.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.am21.extra" />
+      <option name="MAIN_CLASS_NAME" value="org.am21.extra.WrongModelTest" />
+      <option name="METHOD_NAME" value="runner4" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.CLITest1" />
       <item itemvalue="Application.CLITest2" />
@@ -462,9 +471,11 @@
       <item itemvalue="JUnit.BagTest" />
       <item itemvalue="JUnit.GameTest" />
       <item itemvalue="JUnit.VirtualViewTest" />
+      <item itemvalue="JUnit.WrongModelTest.runner4" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.WrongModelTest.runner4" />
         <item itemvalue="Application.LoginInterface" />
         <item itemvalue="Application.LivingRoomBoard" />
       </list>
@@ -545,6 +556,9 @@
       <workItem from="1682758859302" duration="9977000" />
       <workItem from="1682787043290" duration="22037000" />
       <workItem from="1682878310093" duration="11231000" />
+      <workItem from="1682957891838" duration="605000" />
+      <workItem from="1682967167468" duration="458000" />
+      <workItem from="1682974046451" duration="7198000" />
     </task>
     <task id="LOCAL-00001" summary="update scoringToken test">
       <created>1680516093577</created>
@@ -670,7 +684,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/VirtualViewTest.java</url>
-          <line>55</line>
+          <line>53</line>
           <properties class="org.am21.game.VirtualViewTest" method="testAfterStart">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
@@ -681,11 +695,6 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="13" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/MatchTest.java</url>
-          <line>240</line>
-          <option name="timeStamp" value="28" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>
