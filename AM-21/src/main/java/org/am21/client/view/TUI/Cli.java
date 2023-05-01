@@ -753,46 +753,47 @@ public class Cli implements View {
      */
     @Override
     public void askInsertion() throws ServerNotActiveException, RemoteException {
-        System.out.println("These are the cards you have selected:");
-        if (showHand()) {
-            String option = "";
-            while (!option.equals("n")) {
-                System.out.print(Storage.commandInsert);
-                option = readLine();
-                switch (option) {
-                    case "sort" -> askSort();
-                    case "show" -> askShowObject();
-                    case "insert", "in" -> {
-                        if (iClientInputHandler.confirmSelection()) {
-                            showPlayerShelf();
-                            int column = askColumn();
-                            if (column != -1) {
-                                if (iClientInputHandler.insertInColumn(column)) {
-                                    showPlayerShelf();
-                                    System.out.println(Color.YELLOW + "Inserted in the column: " + column + Color.RESET);
-                                    askToContinue();
-                                    iClientInputHandler.endTurn();
-                                    NOT_SEL_YET = true;
-                                    SEL_MODE = false;
+        if (iClientInputHandler.confirmSelection()) {
+            System.out.println("These are the cards you have selected:");
+            if (showHand()) {
+                System.out.println(Storage.insertionConfirm);
+                boolean confirm = "y".equals(readLine());
+                if (confirm) {
+                    String option = "";
+                    while (!option.equals("leave")) {
+                        System.out.print(Storage.commandInsert);
+                        option = readLine();
+                        switch (option) {
+                            case "sort" -> askSort();
+                            case "show" -> askShowObject();
+                            case "insert", "in" -> {
+                                showPlayerShelf();
+                                int column = askColumn();
+                                if(column!= -1) {
+                                    if (iClientInputHandler.insertInColumn(column)) {
+                                        showPlayerShelf();
+                                        System.out.println(Color.YELLOW + "Inserted in the column: " + column + Color.RESET);
+                                        askToContinue();
+                                        iClientInputHandler.endTurn();
+                                        NOT_SEL_YET = true;
+                                        SEL_MODE = false;
+                                    }
                                 }
-                            } else {
-                                System.out.println("Selection canceled.");
                             }
-                        } else {
-                            System.out.println(Color.RED + "Selection Confirm failed" + Color.RESET);
+                            case "leave", "le" -> {if (askLeaveMatch())  redirect();}
+                            default -> System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
+                                                          + Color.RESET);
                         }
-                        return;
+                        askToContinue();
                     }
-                    case "n" -> {
-                        return;
-                    }
-                    default -> System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
-                                                  + Color.RESET);
+                } else {
+                    System.out.println(Color.RED + "Insertion canceled." + Color.RESET);
                 }
-                askToContinue();
+            } else {
+                System.out.println(Color.RED + "You can’t insert cards if you did not select any cards!" + Color.RESET);
             }
         } else {
-            System.out.println(Color.RED + "You can’t insert cards if you did not select any cards!" + Color.RESET);
+            System.out.println(Color.RED + "Selection Confirm failed" + Color.RESET);
         }
     }
 
@@ -838,6 +839,9 @@ public class Cli implements View {
                 break;
             case "n":
                 return null;
+            default:
+                System.out.println(Color.RED + "Invalid command! Please try again." + Color.RESET);
+                break;
         }
         return null;
     }
@@ -866,7 +870,7 @@ public class Cli implements View {
      * Its task it to get the number of the column in which the player wish to insert the items
      * @return  number of the column designated
      */
-    public int askColumn() {
+    public int askColumn() throws RemoteException, ServerNotActiveException {
         System.out.println("In which column would you like to insert the cards?");
         String columnConfirm;
         int column;
@@ -884,7 +888,10 @@ public class Cli implements View {
                 break;
             case "n":
                 return -1;
-
+            default:
+                System.out.println(Color.RED + "Invalid command! Please try again." + Color.RESET);
+                askColumn();
+            break;
         }
         return -1;
     }

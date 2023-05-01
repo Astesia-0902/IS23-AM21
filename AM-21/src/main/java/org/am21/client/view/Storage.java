@@ -577,7 +577,7 @@ public class Storage {
                sort    --> Change the ORDER of Insertion of your items.
                show    --> Show Game OBJECT in more detail(GOALS,SHELF,...).
               insert   --> INSERT directly into the SHELF
-                n      --> EXIT Insertion.
+              leave    --> LEAVE the Match (if you leave, the match will end for everyone).
             -----------------------------------------------------------
             Enter the option you wish to select:\040""";
     public static final String selectConfirm = """
@@ -615,10 +615,15 @@ public class Storage {
             [Commands] Do you confirm this is the column you wish to insert into?
                 y      --> Yes.
                 r      --> Retry.
-                n      --> DELETE your choice and EXIT Insertion.
+                n      --> DELETE your choice and EXIT (Go back to SORT or SHOW).
             -----------------------------------------------------------
             Enter the option you wish to select:\040""";
-
+    public static final String insertionConfirm = """
+            [Commands] Are you sure? If you go on you can't go back to selection!
+                y      --> Yes. I am sure.
+            'Anything' --> No.
+            -----------------------------------------------------------
+            Enter the option you wish to select:\040""";
     public static final String MoreOptions = """
             [Commands] These are the option available.
               leave    --> LEAVE the Match (if you leave, the match will end for everyone).
