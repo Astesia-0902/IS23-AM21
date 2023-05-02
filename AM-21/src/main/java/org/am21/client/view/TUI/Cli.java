@@ -229,6 +229,14 @@ public class Cli implements View {
         }
     }
 
+    public boolean isEND() {
+        return END;
+    }
+
+    public void setEND(boolean END) {
+        this.END = END;
+    }
+
     /**
      * A switcher used to move through the 3 MAIN STATE of the CLI:
      * MENU, WAITING ROOM, GAMEPLAY
@@ -509,7 +517,7 @@ public class Cli implements View {
                 System.out.print(Color.BLUE_BRIGHT + " |  " + name + "  | " + Color.RESET);
             }
         }
-        System.out.println("\n\n");
+        System.out.println();
     }
 
     @Override
@@ -666,7 +674,7 @@ public class Cli implements View {
                 showHand();
             }
             askToContinue();
-            showBoard();
+            showDisplay();
             System.out.print(Storage.anotherCard);
             selectionConfirm = "".equals(readLine());
         } while (selectionConfirm);
@@ -766,8 +774,8 @@ public class Cli implements View {
                                     if (iClientInputHandler.insertInColumn(column)) {
                                         showPlayerShelf();
                                         System.out.println(Color.YELLOW + "Inserted in the column: " + column + Color.RESET);
-                                        askToContinue();
                                         iClientInputHandler.endTurn();
+                                        //askToContinue();
                                         NOT_SEL_YET = true;
                                         SEL_MODE = false;
                                         return;

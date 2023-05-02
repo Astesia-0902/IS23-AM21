@@ -78,7 +78,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     public void notifyEndMatch() throws RemoteException{
         if(cli!=null){
 
-            cli.showGameResults();
+            cli.setEND(true);
             cli.setGO_TO_MENU(true);
             cli.setGAME_ON(false);
             cli.printer(SC.WHITE_BB+"\nServer > The match ended. Good Bye! Press 'Enter'"+SC.RST);

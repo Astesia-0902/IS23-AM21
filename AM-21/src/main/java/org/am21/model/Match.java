@@ -180,6 +180,7 @@ public class Match {
                 firstToComplete.setPlayerScore(firstToComplete.getPlayerScore() + 1);
                 gameState = GameState.LastRound;
                 VirtualViewHelper.virtualizeEndGame(this);
+                sendMessageToAll(LastRound);
             }
             this.nextTurn();
             VirtualViewHelper.updateVirtualScores(this);
@@ -219,7 +220,6 @@ public class Match {
     public List<String> checkGamePoints() {
         Player p;
         List<String> res = new ArrayList<>(playerList.size());
-        String gameRes ="";
         for (int i = 0; i < playerList.size(); i++) {
             p = playerList.get(i);
             int common =p.getPlayerScore();
@@ -237,10 +237,6 @@ public class Match {
             res.set(i,res.get(i)+"Total: "+total+"\n");
 
             p.getController().addScore(personal+group);
-        }
-        //Per string TODO da canc
-        for(String x : res){
-            gameRes+=x;
         }
         return res;
     }

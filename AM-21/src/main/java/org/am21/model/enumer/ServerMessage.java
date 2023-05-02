@@ -76,6 +76,7 @@ public enum ServerMessage {
     //Help Command phase
 
     //Game phase (Game over phase)
+    LastRound(SC.RED_B+"Server > It's the Last Round"+SC.RST),
     GameOver("Server > GAME OVER"),
     YouWon("Server > Congratulation! The winner is "),
 

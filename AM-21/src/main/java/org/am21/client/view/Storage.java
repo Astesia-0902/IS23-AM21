@@ -575,8 +575,8 @@ public class Storage {
     public static final String anotherCard = """
             -----------------------------------------------------------
             [Commands] Do you wish to select another card?
-            'Anything' --> Yes. I want to SELECT AGAIN.
-                 y     --> No.
+              'Enter'  --> Yes. I want to SELECT AGAIN.
+            'Anything' --> No.
             -----------------------------------------------------------
             Enter the option you wish to select:\040""";
     public static final String deselectConfirm = """
