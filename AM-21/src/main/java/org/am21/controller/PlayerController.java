@@ -128,7 +128,7 @@ public class PlayerController {
             player.getMatch().selectionUpdate();
             GameManager.sendReply(this, ServerMessage.Selection_Ok);
             player.getMatch().sendTextToAll("\n" +
-                    SC.YELLOW + player.getNickname() + " selected the cell [" + r + "," + c + "]. Press 'Enter'." + SC.RST, false);
+                    SC.YELLOW + player.getNickname() + " selected the cell [" + r + "," + c + "]." + SC.RST, false);
             return true;
         }
 

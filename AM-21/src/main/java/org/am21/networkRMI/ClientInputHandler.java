@@ -295,5 +295,17 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         this.callBack.sendMessageToClient(message);
     }
 
+    //TODO: method
+
+    /**
+     * This method is used to open the group chat
+     * There should be an option for sending a text
+     * @throws RemoteException
+     */
+    @Override
+    public void openChat()throws RemoteException{
+
+    }
+
 
 }

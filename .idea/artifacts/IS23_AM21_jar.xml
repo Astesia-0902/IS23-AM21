@@ -1,0 +1,23 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="IS23-AM21:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/IS23_AM21_jar</output-path>
+    <root id="archive" name="IS23-AM21.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="IS23-AM21" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/json/json/20230227/json-20230227.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/alibaba/fastjson/2.0.25/fastjson-2.0.25.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/alibaba/fastjson2/fastjson2-extension/2.0.25/fastjson2-extension-2.0.25.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/alibaba/fastjson2/fastjson2/2.0.25/fastjson2-2.0.25.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-commons/1.9.2/junit-platform-commons-1.9.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/testng/testng/7.7.1/testng-7.7.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/beust/jcommander/1.82/jcommander-1.82.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.36/slf4j-api-1.7.36.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-api/5.9.2/junit-jupiter-api-5.9.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/webjars/jquery/3.6.1/jquery-3.6.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

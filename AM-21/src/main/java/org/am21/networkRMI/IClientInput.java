@@ -46,5 +46,8 @@ public interface IClientInput extends Remote {
     void printMatchList() throws RemoteException;
 
     boolean endTurn() throws RemoteException, ServerNotActiveException;
+
+    //TODO:
+    void openChat()throws RemoteException;
 }
 

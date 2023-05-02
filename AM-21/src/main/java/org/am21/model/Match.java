@@ -157,7 +157,6 @@ public class Match {
             //GAME OVER(almost)
             //Calculate Personal Goal Points for each player
 
-
             endMatch();
         } else {
             //Not GAME OVER

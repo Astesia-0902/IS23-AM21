@@ -88,15 +88,6 @@ public class Storage {
     }
 
 
-    public static final String MYSHELFIE = "" +
-                                           " __  __       ____  _          _  __ _\n" +
-                                           "|  \\/  |_   _/ ___|| |__   ___| |/ _(_) ___\n" +
-                                           "| |\\/| | | | \\___ \\| '_ \\ / _ \\ | |_| |/ _ \\\n" +
-                                           "| |  | | |_| |___) | | | |  __/ |  _| |  __/\n" +
-                                           "|_|  |_|\\__, |____/|_| |_|\\___|_|_| |_|\\___|\n" +
-                                           "        |___/\n";
-
-
     public static final String MYSHELFIE2 = "" +
                                             "                                                                .&%&&&&&                                                                              \n" +
                                             "  (,,*/%       (***/&                               ,&&&..&,&&%                                         #&&%                               \n" +
@@ -417,15 +408,6 @@ public class Storage {
         goalPersonalMap.put(11,PG11);
         goalPersonalMap.put(12,PG12);
     }
-
-
-
-
-
-
-
-
-
 
 
     public static final String goalOfTheGame = Color.YELLOW_BOLD + """

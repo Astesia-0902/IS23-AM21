@@ -26,20 +26,16 @@ public class Cli implements View {
     private final ClientCallBack clientCallBack;
     private String player;
     private final List<String> commonGoalList = new ArrayList<>();
-
-    /**
-     * If true askMenuAction
-     */
+    //If true askMenuAction
     private boolean GO_TO_MENU = true;
-
-    /**
-     * If true askPlayerMove, if false askWaitingAction
-     */
+    //If true askPlayerMove, if false askWaitingAction
     private boolean GAME_ON = false;
     private boolean START = false;
     private boolean SEL_MODE = true;
     private boolean NOT_SEL_YET = true;
     private boolean BABY_PROTOCOL = true;
+    //If true GoToEndRoom
+    private boolean END = false;
     private int matchID;
 
     public Cli() throws RemoteException {
@@ -245,6 +241,8 @@ public class Cli implements View {
         if (START) {
             showMatchSetup();
             setSTART(false);
+        }else if(END){
+            goToEndRoom();
         }
         askMenuAction();
         askWaitingAction();
@@ -1231,8 +1229,16 @@ public class Cli implements View {
     public void showGameResults() {
         for (String r : gameResults) {
             System.out.println(r);
-            //askToContinue();
+            askToContinue();
         }
-
     }
+
+    public void goToEndRoom() throws ServerNotActiveException, RemoteException {
+        System.out.println("The match ended. Press 'anything' to see the results");
+        readLine();
+        showGameResults();
+        askToContinue();
+        redirect();
+    }
+
 }

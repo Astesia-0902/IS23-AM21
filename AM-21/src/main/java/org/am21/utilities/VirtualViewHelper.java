@@ -28,6 +28,7 @@ public class VirtualViewHelper {
         virtualizeCommonGoal(match);
         updateCommonGoalScore(match);
         virtualizeCurrentPlayerHand(match);
+        virtualizeEndGame(match);
     }
 
     /**
