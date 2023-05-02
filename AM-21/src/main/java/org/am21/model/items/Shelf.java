@@ -18,18 +18,19 @@ public class Shelf extends Grid {
     /**
      * Numbers of items insertable in the shelves each turn. Starting limit: 3. It's diminishable.
      */
-    public int insertLimit=3;
-    public final static int STD_LIMIT =3;
-    public final static int SHELF_ROW = 6 ;
+    public int insertLimit = 3;
+    public final static int STD_LIMIT = 3;
+    public final static int SHELF_ROW = 6;
     public final static int SHELF_COLUMN = 5;
 
-    private final static HashMap<Integer,Integer> pointsMap=new HashMap<>();
+    private final static HashMap<Integer, Integer> pointsMap = new HashMap<>();
+
     static {
-        pointsMap.put(0,0);
-        pointsMap.put(3,2);
-        pointsMap.put(4,3);
-        pointsMap.put(5,5);
-        pointsMap.put(6,8);
+        pointsMap.put(0, 0);
+        pointsMap.put(3, 2);
+        pointsMap.put(4, 3);
+        pointsMap.put(5, 5);
+        pointsMap.put(6, 8);
     }
 
 
@@ -38,13 +39,14 @@ public class Shelf extends Grid {
      * Initialize the grid with superclass
      * Create array, each elem count slot available for each column
      * Row-Index-0 is on the top of the shelves
+     *
      * @param player
      */
-    public Shelf(Player player){
+    public Shelf(Player player) {
         super(SHELF_ROW, SHELF_COLUMN);
         this.player = player;
         this.slotCol = new ArrayList<>();
-        for(int i = 0; i< SHELF_COLUMN; i++){
+        for (int i = 0; i < SHELF_COLUMN; i++) {
             slotCol.add(SHELF_ROW);
         }
 
@@ -54,56 +56,57 @@ public class Shelf extends Grid {
      * Calculate the min Limit for hand Capacity
      * Example: If there are only column with 2 slots available,
      * then 'handLimit' = 2
+     *
      * @return
      */
-    public void checkLimit(){
+    public void checkLimit() {
 /*        System.out.println("Shelf > Slot available each column");
         for(int x: player.shelves.slotCol){
             System.out.print("["+x+"]");
         }
         System.out.println("");*/
-        int max=0;
+        int max = 0;
 //        System.out.println("Shelf > Elaboration Limit... ");
 //        System.out.println("OldLimit:"+this.insertLimit);
-        for(int j = 0; j< SHELF_COLUMN; j++){
-            if(this.slotCol.get(j)>max){
+        for (int j = 0; j < SHELF_COLUMN; j++) {
+            if (this.slotCol.get(j) > max) {
                 max = this.slotCol.get(j);
             }
         }
-        if(max>= STD_LIMIT){
-            this.insertLimit= STD_LIMIT;
-        }else{
-            this.insertLimit=max;
+        if (max >= STD_LIMIT) {
+            this.insertLimit = STD_LIMIT;
+        } else {
+            this.insertLimit = max;
         }
 
     }
 
     /**
      * number of slot available in total
+     *
      * @return Number of Total space available in this shelves
-     * */
+     */
     public int getTotSlotAvail() {
-        int sum=0;
-        for(int x: this.slotCol)
-            sum = sum+x;
+        int sum = 0;
+        for (int x : this.slotCol)
+            sum = sum + x;
         return sum;
     }
-
-
 
 
     /**
      * Insert an itemCard in the column, then decrease the count
      * in column (col)
+     *
      * @param item
      * @param col
      * @return true if insertion has been successful
      */
-    public boolean insertInColumn(ItemCard item, int col){
+    public boolean insertInColumn(ItemCard item, int col) {
 
-        if(slotCol.get(col)>0&&this.getMatrix()[slotCol.get(col)-1][col]==null){
-            this.getMatrix()[slotCol.get(col)-1][col]= item;
-            this.slotCol.set(col,slotCol.get(col)-1);
+        if (slotCol.get(col) > 0 && this.getMatrix()[slotCol.get(col) - 1][col] == null) {
+            this.getMatrix()[slotCol.get(col) - 1][col] = item;
+            this.slotCol.set(col, slotCol.get(col) - 1);
             return true;
         }
 
@@ -116,45 +119,47 @@ public class Shelf extends Grid {
      * It will calculate the points according to a table.
      * Having multiple item of the same type adjacent
      * give different amount of points.
-     *
-     *  */
-    public int getGroupPoints(){
+     */
+    public int getGroupPoints() {
         boolean[][] visited = new boolean[SHELF_ROW][SHELF_COLUMN];
-        int points=0;
+        int points = 0;
 
-        for(int r = 0; r< SHELF_ROW; r++){
-            for(int c = 0; c< SHELF_COLUMN; c++){
-                if(!isOccupied(r,c) || visited[r][c]){
+        for (int r = 0; r < SHELF_ROW; r++) {
+            for (int c = 0; c < SHELF_COLUMN; c++) {
+                if (!isOccupied(r, c) || visited[r][c]) {
                     continue;
                 }
-                points += pointsTable(colorCounter(r,c,visited,1,getItemType(r,c)));
+                points += pointsTable(colorCounter(r, c, visited, 1, getItemType(r, c)));
             }
         }
         return points;
     }
 
-    public int colorCounter(int r,int c, boolean[][] visited,int depth,String type){
-        int newDepth=depth;
-        visited[r][c]=true;
+    public int colorCounter(int r, int c, boolean[][] visited, int depth, String type) {
+        int newDepth = depth;
+        visited[r][c] = true;
 
-        if(r>0&&!visited[r-1][c] && isOccupied(r-1,c)&&getItemType(r-1,c).equals(type)){
-            newDepth=colorCounter(r-1,c,visited,newDepth+1,type);
+        if (r > 0 && !visited[r - 1][c] && isOccupied(r - 1, c) && getItemType(r - 1, c).equals(type)) {
+            newDepth = colorCounter(r - 1, c, visited, newDepth + 1, type);
         }
-        if(r+1< SHELF_ROW &&!visited[r+1][c]&&isOccupied(r+1,c)&&getItemType(r+1,c).equals(type)){
-            newDepth=colorCounter(r+1,c,visited,newDepth+1,type);
+        if (r + 1 < SHELF_ROW && !visited[r + 1][c] && isOccupied(r + 1, c) && getItemType(r + 1, c).equals(type)) {
+            newDepth = colorCounter(r + 1, c, visited, newDepth + 1, type);
         }
-        if(c>0&&!visited[r][c-1]&&isOccupied(r,c-1)&&getItemType(r,c-1).equals(type)){
-            newDepth=colorCounter(r,c-1,visited,newDepth+1,type);
+        if (c > 0 && !visited[r][c - 1] && isOccupied(r, c - 1) && getItemType(r, c - 1).equals(type)) {
+            newDepth = colorCounter(r, c - 1, visited, newDepth + 1, type);
         }
-        if(c+1< SHELF_COLUMN &&!visited[r][c+1]&&isOccupied(r,c+1)&&getItemType(r,c+1).equals(type)){
-            newDepth=colorCounter(r,c+1,visited,newDepth+1,type);
+        if (c + 1 < SHELF_COLUMN && !visited[r][c + 1] && isOccupied(r, c + 1) && getItemType(r, c + 1).equals(type)) {
+            newDepth = colorCounter(r, c + 1, visited, newDepth + 1, type);
         }
         return newDepth;
     }
 
-    public int pointsTable(int nItem){
-        if(nItem<3){nItem=0;}
-        else if(nItem>6){nItem=6;}
+    public int pointsTable(int nItem) {
+        if (nItem < 3) {
+            nItem = 0;
+        } else if (nItem > 6) {
+            nItem = 6;
+        }
 
         return pointsMap.get(nItem);
     }
@@ -203,7 +208,7 @@ public class Shelf extends Grid {
                      li.next();
                      }*//*
 
-                    *//* count  all element of the list (check the duplicate)*//*
+ *//* count  all element of the list (check the duplicate)*//*
 
                     for(int i=0; i<common.size();i++)
                     {
