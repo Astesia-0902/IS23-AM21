@@ -254,11 +254,8 @@ public class Cli implements View {
         }
         askMenuAction();
         askWaitingAction();
-        if (BABY_PROTOCOL) {
-            askPlayerMove();
-        } else {
-            askPlayerMoveExpert();
-        }
+        askPlayerMove();
+
     }
 
     @Override
@@ -508,14 +505,16 @@ public class Cli implements View {
     @Override
     public void showWhoIsPlaying() {
         for (String name : Storage.players) {
-
-            if (name.equals(username) && Storage.currentPlayer.equals(username)) {
-                System.out.print(Color.RED_BRIGHT + " |  You  | " + Color.RESET);
-            } else if (currentPlayer.equals(name)) {
-                System.out.print(Color.RED_BRIGHT + " | " + Storage.currentPlayer + " | " + Color.RESET);
-            } else {
-                System.out.print(Color.BLUE_BRIGHT + " |  " + name + "  | " + Color.RESET);
+            String tmp=name;
+            if(name.equals(username)){
+                tmp="YOU";
             }
+            if(name.equals(currentPlayer)){
+                System.out.print(Color.RED_BB+" {[ "+tmp+" ]} "+Color.RESET);
+            }else {
+                System.out.print(Color.WHITE_BOLD+" [ "+tmp+" ] "+Color.RESET);
+            }
+
         }
         System.out.println();
     }
@@ -764,7 +763,7 @@ public class Cli implements View {
                         switch (option) {
                             case "sort", "so" -> askSort();
                             case "show", "sh" -> askShowObject();
-                            case "insert", "in" -> {
+                            case "" -> {
                                 showPlayerShelf();
                                 int column;
                                 do {
@@ -774,8 +773,10 @@ public class Cli implements View {
                                     if (iClientInputHandler.insertInColumn(column)) {
                                         showPlayerShelf();
                                         System.out.println(Color.YELLOW + "Inserted in the column: " + column + Color.RESET);
-                                        iClientInputHandler.endTurn();
-                                        //askToContinue();
+                                        if(iClientInputHandler.endTurn()){
+                                            System.out.println(Color.YELLOW +"- End Turn -"+ Color.RESET);
+                                        }
+                                        askToContinue();
                                         NOT_SEL_YET = true;
                                         SEL_MODE = false;
                                         return;
@@ -1022,40 +1023,6 @@ public class Cli implements View {
         System.out.println();
     }
 
-    /**
-     * Just for Debug
-     *
-     * @throws RemoteException
-     * @throws ServerNotActiveException
-     */
-    public void askPlayerMoveExpert() throws RemoteException, ServerNotActiveException {
-        while (GAME_ON && !GO_TO_MENU) {
-            showDisplay();
-            showWhoIsPlaying();
-            showCommandMenu();
-            showRandomTip();
-            System.out.print("""
-                    -----------------------------------------------------------
-                    Enter the command you wish to use:\040""");
-            String option = readLine();
-            if (option.startsWith("/chat")) {
-                handleChatMessage(option);
-            } else if (option.equals("")) {
-                redirect();
-            } else {
-                switch (option) {
-                    case "select", "se" -> askSelection();
-                    case "clear", "cl" -> askDeselection();
-                    case "insert", "in" -> askInsertion();
-                    case "show", "sh" -> askShowObject();
-                    case "more", "mo" -> askMoreOptions();
-                    default -> System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
-                            + Color.RESET);
-                }
-            }
-        }
-    }
-
     public void checkTurn() {
         SEL_MODE = Storage.currentPlayer.equals(username);
 
@@ -1251,7 +1218,7 @@ public class Cli implements View {
         System.out.println("The match ended. Press 'anything' to see the results");
         readLine();
         showGameResults();
-        askToContinue();
+        setEND(false);
         redirect();
     }
 

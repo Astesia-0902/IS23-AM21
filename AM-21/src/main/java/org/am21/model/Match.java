@@ -155,7 +155,6 @@ public class Match {
         if (gameState == GameState.LastRound &&
                 playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats) == firstToComplete) {
             //GAME OVER(almost)
-            //Calculate Personal Goal Points for each player
 
             endMatch();
         } else {

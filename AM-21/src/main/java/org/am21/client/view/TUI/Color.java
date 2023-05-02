@@ -8,6 +8,7 @@ public enum Color {
 
     RED_BG("\u001B[41m"),
     WHITE_BG("\u001B[47m"),
+    WHITE_BGB("\033[0;107m"),
     RED_BB("\033[1;91m"),
 
     // Regular Colors. Normal color, no bold, background color etc.

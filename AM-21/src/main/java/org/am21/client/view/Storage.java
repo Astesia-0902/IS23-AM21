@@ -559,7 +559,7 @@ public class Storage {
             [Commands] You can SORT the items before INSERTING them in the Shelf:
                sort    --> Change the ORDER of Insertion of your items.
                show    --> Show Game OBJECT in more detail(GOALS,SHELF,...).
-              insert   --> INSERT directly into the SHELF
+              'Enter'  --> INSERT directly into the SHELF
                more    --> More Options: Leave Match, Exit Game, Help (Assist Mode)
             -----------------------------------------------------------
             Enter the option you wish to select:\040""";
