@@ -195,7 +195,7 @@ public class Match {
      */
     public void checkCommonGoals(Player player) {
         for (CommonGoal goal : commonGoals) {
-            if (goal.checkGoal(player.getShelf())) {
+            if (goal.checkGoal(player.getShelf()) && !goal.achievedPlayers.contains(player)) {
                 // Give player points/scoreToken
                 //Server Message: announce how many points the player's got
                 if (player.getController().clientInput.callBack != null) {

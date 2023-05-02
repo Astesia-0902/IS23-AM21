@@ -174,10 +174,10 @@ public class Cli implements View {
         } while (!validInput);
 
         iClientInputHandler = (IClientInput) Naming.lookup("rmi://" + serverInfo.get("address") + ":"
-                                                           + serverInfo.get("port") + "/" + root);
+                + serverInfo.get("port") + "/" + root);
         iClientInputHandler.registerCallBack(clientCallBack);
         System.out.println("Connected to " + serverInfo.get("address")
-                           + ":" + serverInfo.get("port"));
+                + ":" + serverInfo.get("port"));
     }
 
     /*
@@ -241,7 +241,7 @@ public class Cli implements View {
         if (START) {
             showMatchSetup();
             setSTART(false);
-        }else if(END){
+        } else if (END) {
             goToEndRoom();
         }
         askMenuAction();
@@ -259,7 +259,7 @@ public class Cli implements View {
             System.out.println(Storage.menuOption);
             showRandomTip();
             System.out.print("-----------------------------------------------------------\n" +
-                             "Enter the Command you wish to use: ");
+                    "Enter the Command you wish to use: ");
             String option = readLine();
             if (option.startsWith("/chat")) {
                 handleChatMessage(option);
@@ -280,7 +280,7 @@ public class Cli implements View {
                     }
                     case "help", "h", "he" -> askAssistMode();
                     default -> System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
-                                                  + Color.RESET);
+                            + Color.RESET);
                 }
             }
         }
@@ -292,12 +292,12 @@ public class Cli implements View {
     public void askWaitingAction() throws RemoteException, ServerNotActiveException {
         while (!GAME_ON && !GO_TO_MENU) {
             System.out.println("-----------------------------------------------------------\n" +
-                               Color.WHITE_BRIGHT + " {| Room " + matchID + " |}" + Color.RESET);
+                    Color.WHITE_BRIGHT + " {| Room " + matchID + " |}" + Color.RESET);
 
             System.out.println(Storage.waitingAction);
             showRandomTip();
             System.out.print("-----------------------------------------------------------\n"
-                             + "Enter the Command you wish to use: ");
+                    + "Enter the Command you wish to use: ");
             String option = readLine();
             if (option.startsWith("/chat")) {
                 handleChatMessage(option);
@@ -309,7 +309,7 @@ public class Cli implements View {
                     case "online", "on" -> showOnlinePlayer();
                     case "more", "mo" -> askMoreOptions();
                     default -> System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
-                                                  + Color.RESET);
+                            + Color.RESET);
                 }
                 askToContinue();
             }
@@ -353,7 +353,7 @@ public class Cli implements View {
                     case "show", "sh" -> askShowObject();
                     case "more", "mo" -> askMoreOptions();
                     default -> System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
-                                                  + Color.RESET);
+                            + Color.RESET);
                 }
             }
         }
@@ -429,6 +429,7 @@ public class Cli implements View {
         showPersonalGoal();
         askToContinue();
         System.out.println(Color.BLUE_BOLD + "The match has started!" + Color.RESET);
+        showWhoIsPlaying();
         initPlayer(username);
         announceCurrentPlayer();
         askToContinue();
@@ -461,7 +462,7 @@ public class Cli implements View {
             case "" -> {
             }
             default -> System.out.println(Color.RED + "The [" + command + "] cannot be found! Please try again."
-                                          + Color.RESET);
+                    + Color.RESET);
         }
     }
 
@@ -471,7 +472,7 @@ public class Cli implements View {
         for (int i = 0; i < Storage.commonGoal.size(); i++) {
             showGoalDescription(Storage.commonGoal.get(i));
             System.out.println(Color.YELLOW + "> Top score of this Common Goal: " + Color.RESET +
-                               Storage.commonGoalScore.get(i) + " points.");
+                    Storage.commonGoalScore.get(i) + " points.");
             System.out.println();
             askToContinue();
         }
@@ -498,12 +499,17 @@ public class Cli implements View {
 
     @Override
     public void showWhoIsPlaying() {
-        if (Storage.currentPlayer.equals(username)) {
-            System.out.println(Color.RED_BRIGHT + "{| Your Turn |}" + Color.RESET);
-        } else {
-            System.out.println(Color.BLUE_BRIGHT + "{| " + Storage.currentPlayer + "'s Turn |}" + Color.RESET);
-        }
+        for (String name : Storage.players) {
 
+            if (name.equals(username) && Storage.currentPlayer.equals(username)) {
+                System.out.print(Color.RED_BRIGHT + " |  You  | " + Color.RESET);
+            } else if (currentPlayer.equals(name)) {
+                System.out.print(Color.RED_BRIGHT + " | " + Storage.currentPlayer + " | " + Color.RESET);
+            } else {
+                System.out.print(Color.BLUE_BRIGHT + " |  " + name + "  | " + Color.RESET);
+            }
+        }
+        System.out.println("\n\n");
     }
 
     @Override
@@ -592,22 +598,22 @@ public class Cli implements View {
             case "__Cats__" -> {
                 index1 = item.indexOf("Cats");
                 itemType = item.substring(0, index1) + Color.CATS + item.substring(index1 + "Cats".length(), index2) +
-                           Color.GREEN_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
+                        Color.GREEN_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
             }
             case "_Books__" -> {
                 index1 = item.indexOf("Books");
                 itemType = item.substring(0, index1) + Color.BOOKS + item.substring(index1 + "Books".length(), index2) +
-                           Color.WHITE_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
+                        Color.WHITE_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
             }
             case "_Games__" -> {
                 index1 = item.indexOf("Games");
                 itemType = item.substring(0, index1) + Color.GAMES + item.substring(index1 + "Games".length(), index2) +
-                           Color.YELLOW_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
+                        Color.YELLOW_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
             }
             case "_Frames_" -> {
                 index1 = item.indexOf("Frames");
                 itemType = item.substring(0, index1) + Color.FRAMES + item.substring(index1 + "Frames".length(), index2) +
-                           Color.BLUE_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
+                        Color.BLUE_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
             }
             case "Trophies" -> {
                 itemType = Color.CYAN_BOLD_BRIGHT + item + Color.RESET;
@@ -615,7 +621,7 @@ public class Cli implements View {
             case "_Plants_" -> {
                 index1 = item.indexOf("Plants");
                 itemType = item.substring(0, index1) + Color.PLANTS + item.substring(index1 + "Plants".length(), index2) +
-                           Color.MAGENTA_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
+                        Color.MAGENTA_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
             }
         }
         return itemType;
@@ -655,14 +661,14 @@ public class Cli implements View {
             if (iClientInputHandler.selectCell(row, column)) {
                 NOT_SEL_YET = false;
                 System.out.println(Color.YELLOW + "Item selected: " +
-                                   showItemInCell(row, column).replace(">", "").
-                                           replace("_", "") + Color.RESET);
+                        showItemInCell(row, column).replace(">", "").
+                                replace("_", "") + Color.RESET);
                 showHand();
             }
             askToContinue();
             showBoard();
             System.out.print(Storage.anotherCard);
-            selectionConfirm = "y".equals(readLine());
+            selectionConfirm = "".equals(readLine());
         } while (selectionConfirm);
     }
 
@@ -773,7 +779,7 @@ public class Cli implements View {
                             }
                             default ->
                                     System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
-                                                       + Color.RESET);
+                                            + Color.RESET);
                         }
                         //askToContinue();
                     }
@@ -813,9 +819,9 @@ public class Cli implements View {
         position1 = askTheIndex("Position1", 1, Storage.currentPlayerHand.size() + 1);
         position2 = askTheIndex("Position2", 1, Storage.currentPlayerHand.size() + 1);
         System.out.println("You have chosen to swap " +
-                           Storage.currentPlayerHand.get(position1 - 1).replace("_", "") +
-                           " and " +
-                           Storage.currentPlayerHand.get(position2 - 1).replace("_", ""));
+                Storage.currentPlayerHand.get(position1 - 1).replace("_", "") +
+                " and " +
+                Storage.currentPlayerHand.get(position2 - 1).replace("_", ""));
         System.out.print(Storage.indexConfirm);
         sortConfirm = readLine();
         switch (sortConfirm) {
@@ -851,8 +857,8 @@ public class Cli implements View {
         do {
 
             System.out.print("""
-                                     -----------------------------------------------------------
-                                     You have chosen Column:\040""" + column + "\n" + Storage.columnConfirm);
+                    -----------------------------------------------------------
+                    You have chosen Column:\040""" + column + "\n" + Storage.columnConfirm);
 
             columnConfirm = readLine();
             switch (columnConfirm) {
@@ -901,7 +907,7 @@ public class Cli implements View {
         }
         for (int i = 0; i < Storage.currentPlayerHand.size(); i++) {
             System.out.print((i + 1) + ".[" +
-                             checkColorItem(Storage.currentPlayerHand.get(i)).replace("_", "") + "]  ");
+                    checkColorItem(Storage.currentPlayerHand.get(i)).replace("_", "") + "]  ");
         }
         System.out.println();
         return true;
@@ -953,7 +959,7 @@ public class Cli implements View {
                     return;
                 }
                 default -> System.out.println(Color.RED + "The [" + object + "] cannot be found! Please try again."
-                                              + Color.RESET);
+                        + Color.RESET);
             }
             askToContinue();
         }
@@ -1036,7 +1042,7 @@ public class Cli implements View {
                     case "show", "sh" -> askShowObject();
                     case "more", "mo" -> askMoreOptions();
                     default -> System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
-                                                  + Color.RESET);
+                            + Color.RESET);
                 }
             }
         }

@@ -575,8 +575,8 @@ public class Storage {
     public static final String anotherCard = """
             -----------------------------------------------------------
             [Commands] Do you wish to select another card?
-                y      --> Yes. I want to SELECT AGAIN.
-            'Anything' --> No.
+            'Anything' --> Yes. I want to SELECT AGAIN.
+                 y     --> No.
             -----------------------------------------------------------
             Enter the option you wish to select:\040""";
     public static final String deselectConfirm = """
@@ -671,7 +671,7 @@ public class Storage {
                 Color.YELLOW + "--Tip: You can't select more item in Diagonal, just on the same straight line" + Color.RESET,
                 Color.YELLOW + "--Tip: Use 'show' command to see Game parts like SHELF, BOARD, GOALS, etc. in more detail" + Color.RESET,
                 Color.YELLOW + "--Tip: You can see other players score and Shelf situation by using 'show' the 'stats" + Color.RESET,
-                Color.YELLOW + "--Rule: Complete the SHELF and obtain Endgame Token (+1 point)" + Color.RESET,
+                Color.YELLOW + "--Rule: Complete the SHELF FIRST and obtain Endgame Token (+1 point)" + Color.RESET,
                 Color.YELLOW + "--Rule: The first to complete his/her shelf will initiate the Last Round" + Color.RESET,
                 Color.YELLOW + "--Rule: When the Last Round ends the Match will also and the winner will be announced if there is one" + Color.RESET,
                 Color.YELLOW + "--Rule: The top score player is THE winner, no Draws" + Color.RESET,

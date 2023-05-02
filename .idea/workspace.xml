@@ -10,23 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dd2f3e9a-b514-48f2-995d-660d696de66e" name="Changes" comment="fixed bug Cli">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/IS23_AM21_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/IS23_AM21_jar2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_01_05_2023_19_01__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_01_05_2023_19_01__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/Storage.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/Storage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/Cli.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/Cli.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/PlayerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/PlayerController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientInputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientInputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/IClientCallBack.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/IClientCallBack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/IClientInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/IClientInput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/VirtualViewHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/VirtualViewHelper.java" afterDir="false" />
     </list>
     <list id="19ab3365-554c-40d9-959c-e6407d37c953" name="Changes by jef" comment="" />
     <list id="64e1bfe8-5cd0-4a7d-8217-c090321f1a9a" name="Changes by maoyh" comment="" />
-    <list id="42cde9f1-cb4a-4a50-a56c-2af346c1cc75" name="Changes by ximeng" comment="" />
+    <list id="b2e4de6f-8294-4cfb-a98d-407cb9150283" name="Changes by ximeng" comment="">
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/Cli.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/Cli.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -59,11 +52,44 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/Cli.java">
+      <ranges>
+        <range start1="176" end1="177" start2="176" end2="177" changelist="b2e4de6f-8294-4cfb-a98d-407cb9150283" />
+        <range start1="179" end1="180" start2="179" end2="180" changelist="b2e4de6f-8294-4cfb-a98d-407cb9150283" />
+        <range start1="243" end1="244" start2="243" end2="244" changelist="b2e4de6f-8294-4cfb-a98d-407cb9150283" />
+        <range start1="261" end1="262" start2="261" end2="262" changelist="b2e4de6f-8294-4cfb-a98d-407cb9150283" />
+        <range start1="282" end1="283" start2="282" end2="283" changelist="b2e4de6f-8294-4cfb-a98d-407cb9150283" />
+        <range start1="294" end1="295" start2="294" end2="295" changelist="b2e4de6f-8294-4cfb-a98d-407cb9150283" />
+        <range start1="299" end1="300" start2="299" end2="300" changelist="b2e4de6f-8294-4cfb-a98d-407cb9150283" />
+        <range start1="311" end1="312" start2="311" end2="312" changelist="b2e4de6f-8294-4cfb-a98d-407cb9150283" />
+        <range start1="355" end1="356" start2="355" end2="356" changelist="b2e4de6f-8294-4cfb-a98d-407cb9150283" />
+        <range start1="431" end1="431" start2="431" end2="432" changelist="b2e4de6f-8294-4cfb-a98d-407cb9150283" />
+        <range start1="463" end1="464" start2="464" end2="465" changelist="b2e4de6f-8294-4cfb-a98d-407cb9150283" />
+        <range start1="473" end1="474" start2="474" end2="475" changelist="b2e4de6f-8294-4cfb-a98d-407cb9150283" />
+        <range start1="500" end1="504" start2="501" end2="510" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="505" end1="506" start2="511" end2="512" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="594" end1="595" start2="600" end2="601" changelist="b2e4de6f-8294-4cfb-a98d-407cb9150283" />
+        <range start1="599" end1="600" start2="605" end2="606" changelist="b2e4de6f-8294-4cfb-a98d-407cb9150283" />
+        <range start1="604" end1="605" start2="610" end2="611" changelist="b2e4de6f-8294-4cfb-a98d-407cb9150283" />
+        <range start1="609" end1="610" start2="615" end2="616" changelist="b2e4de6f-8294-4cfb-a98d-407cb9150283" />
+        <range start1="617" end1="618" start2="623" end2="624" changelist="b2e4de6f-8294-4cfb-a98d-407cb9150283" />
+        <range start1="657" end1="659" start2="663" end2="665" changelist="b2e4de6f-8294-4cfb-a98d-407cb9150283" />
+        <range start1="664" end1="665" start2="670" end2="671" changelist="dd2f3e9a-b514-48f2-995d-660d696de66e" />
+        <range start1="775" end1="776" start2="781" end2="782" changelist="b2e4de6f-8294-4cfb-a98d-407cb9150283" />
+        <range start1="815" end1="818" start2="821" end2="824" changelist="b2e4de6f-8294-4cfb-a98d-407cb9150283" />
+        <range start1="853" end1="855" start2="859" end2="861" changelist="b2e4de6f-8294-4cfb-a98d-407cb9150283" />
+        <range start1="903" end1="904" start2="909" end2="910" changelist="b2e4de6f-8294-4cfb-a98d-407cb9150283" />
+        <range start1="955" end1="956" start2="961" end2="962" changelist="b2e4de6f-8294-4cfb-a98d-407cb9150283" />
+        <range start1="1038" end1="1039" start2="1044" end2="1045" changelist="b2e4de6f-8294-4cfb-a98d-407cb9150283" />
+      </ranges>
+    </file>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectId" id="2NFD0XR5dL3DHYxwIaU5VQWdQAW" />
   <component name="ProjectViewState">
@@ -117,7 +143,7 @@
       <recent name="org.am21.utilities" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.CLITest2">
+  <component name="RunManager" selected="JUnit.MatchTest">
     <configuration name="CLITest1" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.am21.game.CLITest" />
       <module name="IS23-AM21" />
@@ -567,7 +593,7 @@
       <workItem from="1682957891838" duration="605000" />
       <workItem from="1682967167468" duration="458000" />
       <workItem from="1682974046451" duration="7198000" />
-      <workItem from="1683032880678" duration="5057000" />
+      <workItem from="1683032880678" duration="13839000" />
     </task>
     <task id="LOCAL-00001" summary="update scoringToken test">
       <created>1680516093577</created>
@@ -699,6 +725,15 @@
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Cards/CommonGoal.java</url>
+          <line>29</line>
+          <properties class="org.am21.model.Cards.CommonGoal" method="checkGoal">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="17" />
         </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.NullPointerException" package="java.lang" />
