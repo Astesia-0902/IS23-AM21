@@ -10,9 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dd2f3e9a-b514-48f2-995d-660d696de66e" name="Changes" comment="update Cli">
-      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/ServerInfoInterface.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/LoginListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/ServerInfoListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/LoginInterface2.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/LoginInterface2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/imgs/icon tool/server (2).png" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/imgs/icon tool/server (2).png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/imgs/icon tool/server (3).png" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/imgs/icon tool/server (3).png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/imgs/icon tool/user.png" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/imgs/icon tool/user.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/LoginInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/LoginInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/LoginInterface2.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/ServerInfoInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/ServerInfoInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/PathUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/PathUtil.java" afterDir="false" />
     </list>
     <list id="19ab3365-554c-40d9-959c-e6407d37c953" name="Changes by jef" comment="" />
     <list id="64e1bfe8-5cd0-4a7d-8217-c090321f1a9a" name="Changes by maoyh" comment="" />
@@ -104,10 +111,11 @@
       <recent name="org.am21.test" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.am21.client.view.GUI" />
       <recent name="org.am21.utilities" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.ServerInfoInterface">
+  <component name="RunManager" selected="Application.LoginInterface2">
     <configuration name="CLITest1" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.am21.game.CLITest" />
       <module name="IS23-AM21" />
@@ -149,7 +157,7 @@
       <module name="IS23-AM21" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.am21.client.view.GUI.*" />
+          <option name="PATTERN" value="org.am21.client.view.GUI.LoginListener" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -162,7 +170,7 @@
       <module name="IS23-AM21" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.am21.client.view.GUI.*" />
+          <option name="PATTERN" value="org.am21.client.view.GUI.LoginListener" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -170,12 +178,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LoginInterface2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.am21.client.view.GUI.LoginInterface2" />
+    <configuration name="LoginInterfaceOlD" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.am21.client.view.GUI.LoginInterfaceOlD" />
       <module name="IS23-AM21" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.am21.client.view.GUI.*" />
+          <option name="PATTERN" value="org.am21.client.view.GUI.LoginListener" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -195,7 +203,7 @@
       <module name="IS23-AM21" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.am21.client.view.GUI.*" />
+          <option name="PATTERN" value="org.am21.client.view.GUI.LoginListener" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -484,10 +492,10 @@
       <item itemvalue="Application.CLITest5" />
       <item itemvalue="Application.ServerTest" />
       <item itemvalue="Application.Proto" />
+      <item itemvalue="Application.LoginInterfaceOlD" />
       <item itemvalue="Application.ServerInfoInterface" />
       <item itemvalue="Application.LoginInterface2" />
       <item itemvalue="Application.LivingRoomBoard" />
-      <item itemvalue="Application.LoginInterface" />
       <item itemvalue="JUnit.MatchTest" />
       <item itemvalue="JUnit.CommonGoalTest" />
       <item itemvalue="JUnit.BoardTest" />
@@ -501,9 +509,9 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.ServerInfoInterface" />
         <item itemvalue="Application.LoginInterface2" />
-        <item itemvalue="Application.LoginInterface" />
+        <item itemvalue="Application.ServerInfoInterface" />
+        <item itemvalue="Application.LoginInterfaceOlD" />
         <item itemvalue="JUnit.WrongModelTest.runner4" />
         <item itemvalue="Application.LivingRoomBoard" />
       </list>
