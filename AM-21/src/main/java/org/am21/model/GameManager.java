@@ -1,5 +1,6 @@
 package org.am21.model;
 
+import org.am21.controller.CommunicationController;
 import org.am21.controller.GameController;
 import org.am21.controller.PlayerController;
 import org.am21.model.enumer.ServerMessage;
@@ -13,6 +14,7 @@ public class GameManager {
     public static boolean SERVER_COMM=true;
 
     public static GameManager game;
+    public CommunicationController commCtrl;
     //Key: player name, Value: match id
     public static final HashMap<String, Integer> playerMatchMap = new HashMap<String, Integer>();
     public static final List<Match> matchList = new ArrayList<Match>();
@@ -75,6 +77,10 @@ public class GameManager {
     public static void sendReply(PlayerController pc, ServerMessage m){
         if(SERVER_COMM) {
             try {
+                //TODO: new protocol
+                game.commCtrl.sendMessageToClient(m.value(),pc);
+
+                //OLD RMI
                 pc.clientInput.callBack.sendMessageToClient(m.value());
             } catch (RemoteException e) {
                 System.out.println("player not exists");
@@ -85,6 +91,9 @@ public class GameManager {
     public static void sendTextReply(PlayerController pc, String m){
         if(SERVER_COMM) {
             try {
+                //TODO: new Protocol
+                game.commCtrl.sendMessageToClient(m,pc);
+                //OLD RMI
                 pc.clientInput.callBack.sendMessageToClient(m);
             } catch (RemoteException e) {
                 System.out.println("player not exists");

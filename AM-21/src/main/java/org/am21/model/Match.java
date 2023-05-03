@@ -1,5 +1,6 @@
 package org.am21.model;
 
+import org.am21.controller.CommunicationController;
 import org.am21.model.Cards.CommonGoal;
 import org.am21.model.Cards.PersonalGoalCard;
 import org.am21.model.enumer.*;
@@ -34,8 +35,10 @@ public class Match {
     public ChatManager chatManager;
     public MyTimer timer;
     public Player winner;
+    public CommunicationController commCtrl;
 
     public Match(int maxSeats) {
+        this.commCtrl=GameManager.game.commCtrl;
         this.maxSeats = maxSeats;
         playerList = new ArrayList<>(maxSeats);
         gameState = GameState.WaitingPlayers;
@@ -116,9 +119,13 @@ public class Match {
                 }
                 checkRoom();
                 //If, after checkRoom(), the match did not start, send Client to Waiting Phase
-                if (gameState == GameState.WaitingPlayers && player.getController().clientInput.callBack != null) {
-                    try {
+                if (gameState == GameState.WaitingPlayers && player.getController().clientInput.callBack!=null) {
 
+                    try {
+                        //TODO: NEW Protocol
+                        //New Communication Protocol
+                        commCtrl.notifyToWait(VirtualViewHelper.convertMatchInfoToJSON(this),player.getController());
+                        //OLD RMI only
                         player.getController().clientInput.callBack.notifyToWait(VirtualViewHelper.convertMatchInfoToJSON(this));
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
@@ -222,7 +229,12 @@ public class Match {
                 //Server Message: announce how many points the player's got
                 if (player.getController().clientInput.callBack != null) {
                     try {
-                        player.getController().clientInput.callBack.sendMessageToClient("Server > " + player.getNickname() + " acquired " + goal.tokenStack.get(0) + " points");
+                        //TODO: New protocl
+                        commCtrl.sendMessageToClient(
+                                "Server > " + player.getNickname() + " acquired " + goal.tokenStack.get(0) + " points",player.getController());
+                        //OLD RMI only
+                        player.getController().clientInput.callBack.sendMessageToClient(
+                                "Server > " + player.getNickname() + " acquired " + goal.tokenStack.get(0) + " points");
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
@@ -289,6 +301,9 @@ public class Match {
 
             try {
                 if (p.getController().clientInput.callBack != null) {
+                    //TODO: new protocol
+                    commCtrl.notifyEndMatch(p.getController());
+                    //OLD RMI
                     p.getController().clientInput.callBack.notifyEndMatch();
                 }
             } catch (RemoteException e) {
@@ -392,9 +407,14 @@ public class Match {
         VirtualViewHelper.buildVirtualView(this);
         updatePlayersView();
         for (Player p : playerList) {
-            if (p.getController().clientInput.callBack == null) continue;
+
             try {
-                p.getController().clientInput.callBack.notifyStart(matchID);
+                if (p.getController().clientInput.callBack != null) {
+                    //TODO: new protocol
+                    commCtrl.notifyStart(matchID,p.getController());
+                    //OLD RMI
+                    p.getController().clientInput.callBack.notifyStart(matchID);
+                }
             } catch (RemoteException | ServerNotActiveException e) {
                 throw new RuntimeException(e);
             }
@@ -411,7 +431,12 @@ public class Match {
         setGamePhase(GamePhase.Selection);
         try {
             if (currentPlayer.getController().clientInput.callBack != null) {
-                currentPlayer.getController().clientInput.callBack.sendMessageToClient(SC.RED_B + "Server[!] > " + currentPlayer.getNickname() + "! It's your turn. Press 'Enter'" + SC.RST);
+                String message = SC.RED_B + "Server[!] > " + currentPlayer.getNickname() + "! It's your turn. Press 'Enter'" + SC.RST;
+                //TODO: new Protocol
+                commCtrl.sendMessageToClient(message,currentPlayer.getController());
+
+                //OLD RMI
+                currentPlayer.getController().clientInput.callBack.sendMessageToClient(message);
             }
         } catch (RemoteException e) {
             throw new RuntimeException(e);
@@ -430,6 +455,9 @@ public class Match {
             //TODO: Watch out for test
             if (p.getController().clientInput.callBack != null) {
                 try {
+                    //TODO: new Protocol
+                    commCtrl.sendVirtualView(getJSONVirtualView(), playerList.indexOf(p),p.getController());
+                    //OLD RMI
                     p.getController().clientInput.callBack.sendVirtualView(getJSONVirtualView(), playerList.indexOf(p));
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);
@@ -501,6 +529,10 @@ public class Match {
             //TODO: Watch out for test
             if (p.getController().clientInput.callBack != null) {
                 try {
+                    //TODO: new Protocol
+                    commCtrl.sendVirtualHand(getJSONHand(),p.getController());
+
+                    //OLD RMI
                     p.getController().clientInput.callBack.sendVirtualHand(getJSONHand());
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);

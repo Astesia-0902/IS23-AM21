@@ -81,7 +81,7 @@ public class LoginInterface {
             }
         };
         nicknameField.setForeground(new Color(255, 255, 240));
-        nicknameField.setFont(new Font("Times New Roman", Font.BOLD, 23));
+        nicknameField.setFont(new Font("Serif", Font.BOLD, 23));
         nicknameField.setBackground(new Color(222, 184, 135));
         nicknameField.setBorder(new CompoundBorder(new MatteBorder(0, 0, 6, 5,
                 new Color(139, 69, 19)), new EmptyBorder(0, 50, 0, 0)));

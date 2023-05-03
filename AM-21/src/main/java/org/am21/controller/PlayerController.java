@@ -24,6 +24,11 @@ public class PlayerController {
     private Player player;
     private Hand hand;
     public ClientInputHandler clientInput;
+    /**
+     * True: RMI
+     * False: Socket
+     */
+    public boolean connectionType;
 
     /**
      * PlayerController constructor is initialized by ClientGameController, when ClientInputHandler login.

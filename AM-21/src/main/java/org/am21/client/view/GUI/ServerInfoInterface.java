@@ -85,7 +85,7 @@ public class ServerInfoInterface {
         };
         addressField.setText("localhost");
         addressField.setForeground(new Color(255, 255, 240));
-        addressField.setFont(new Font("Times New Roman", Font.BOLD, 23));
+        addressField.setFont(new Font("Serif", Font.BOLD, 23));
         addressField.setBackground(new Color(222, 184, 135));
         addressField.setBorder(new CompoundBorder(new MatteBorder(0, 0, 6, 5,
                 new Color(139, 69, 19)), new EmptyBorder(0, 50, 0, 0)));
@@ -103,7 +103,7 @@ public class ServerInfoInterface {
         };
         portField.setText("8803");
         portField.setForeground(new Color(255, 255, 240));
-        portField.setFont(new Font("Times New Roman", Font.BOLD, 23));
+        portField.setFont(new Font("Serif", Font.BOLD, 23));
         portField.setBorder(new CompoundBorder(new MatteBorder(0, 0, 6, 5,
                 new Color(139, 69, 19)), new EmptyBorder(0, 50, 0, 0)));
         portField.setBackground(new Color(222, 184, 135));

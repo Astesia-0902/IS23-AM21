@@ -246,13 +246,14 @@ public class Cli implements View {
      */
 
     public void redirect() throws ServerNotActiveException, RemoteException {
+        if (END) {
+            goToEndRoom();
+        }
         if (START) {
             showMatchSetup();
             setSTART(false);
         }
-        if (END) {
-            goToEndRoom();
-        }
+
         askMenuAction();
         askWaitingAction();
         askPlayerMove();
