@@ -18,8 +18,9 @@ public class Shelf extends Grid {
     /**
      * Numbers of items insertable in the shelves each turn. Starting limit: 3. It's diminishable.
      */
-    public int insertLimit = 3;
-    public final static int STD_LIMIT = 3;
+    public int insertLimit = STD_LIMIT;
+    //TODO: at the end STD_LIMIT should be final
+    public static int STD_LIMIT = 3;
     public final static int SHELF_ROW = 6;
     public final static int SHELF_COLUMN = 5;
 

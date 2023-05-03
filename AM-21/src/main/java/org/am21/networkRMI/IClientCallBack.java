@@ -9,7 +9,9 @@ public interface IClientCallBack extends Remote {
     void sendVirtualView(String virtualView, int pIndex) throws RemoteException;
     void sendChatMessage(String message) throws RemoteException;
     void notifyStart(int id) throws RemoteException, ServerNotActiveException;
-    void notifyToWait(int id) throws RemoteException;
+    void notifyToWait(String info) throws RemoteException;
+
+
     void notifyGoToMenu() throws RemoteException;
     void notifyEndMatch() throws RemoteException;
     void sendVirtualHand(String JSONHand) throws RemoteException;

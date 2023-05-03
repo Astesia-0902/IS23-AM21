@@ -58,9 +58,10 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     }
 
     @Override
-    public void notifyToWait(int id) throws RemoteException {
+    public void notifyToWait(String jsonInfo) throws RemoteException {
         if(cli!=null){
-            cli.setMatchID(id);
+            //cli.setMatchID(id);
+            Storage.convertBackMatchInfo(jsonInfo);
             cli.setGAME_ON(false);
             cli.setGO_TO_MENU(false);
         }

@@ -304,4 +304,15 @@ public class VirtualViewHelper {
     public static String convertGameResultsToJSON(VirtualView virtualView){
         return JSON.toJSONString(virtualView.gameResults);
     }
+
+    public static String convertMatchInfoToJSON(Match m){
+        List<Object> info = new ArrayList<>();
+        info.add(m.virtualView.getMatchID());
+        info.add(m.virtualView.getMaxSeats());
+        info.add(m.virtualView.getAdmin());
+
+        return JSON.toJSONString(info);
+
+
+    }
 }

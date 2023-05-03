@@ -21,6 +21,8 @@ public class Storage {
     //----------------------------------------
     //Virtual View
     public static int matchID;
+    public static int maxSeats;
+    public static String admin;
     public static String[][] virtualBoard;
     public static List<String> players;
     public static String currentPlayer;
@@ -62,6 +64,7 @@ public class Storage {
         }
         currentPlayerHand = jsonObject.getJSONArray("currentPlayerHand").toJavaList(String.class);
         matchID = jsonObject.getInteger("matchID");
+        admin = jsonObject.getString("admin");
         endGameToken = jsonObject.getBoolean("endGameToken");
 
         gameResults = jsonObject.getJSONArray("gameResults").toJavaList(String.class);
@@ -84,6 +87,14 @@ public class Storage {
     public static void convertBackHand(String jsonHand) {
         JSONArray jsonArray = JSONObject.parseArray(jsonHand);
         currentPlayerHand = jsonArray.toJavaList(String.class);
+    }
+
+    public static void convertBackMatchInfo(String jsonInfo){
+        JSONArray jsonArray = JSONObject.parseArray(jsonInfo);
+        List<String> tmp = jsonArray.toJavaList(String.class);
+        matchID = Integer.parseInt(tmp.get(0));
+        maxSeats = Integer.parseInt(tmp.get(1));
+        admin = tmp.get(2);
 
     }
 
@@ -174,84 +185,84 @@ public class Storage {
                                             "               \\$$$$$$                                                                 \n";
 
 
-    public static final String PG1 = "    0         1         2         3         4\n" +
+    public static final String PG1 = "    1         2         3         4         5\n" +
                                      "[_" + Color.PLANTS + "_][______._][_" + Color.FRAMES + "_][______._][______._]\n" +
                                      "[______._][______._][______._][______._][__" + Color.CATS + "__]\n" +
                                      "[______._][______._][______._][_" + Color.BOOKS + "__][______._]\n" +
                                      "[______._][_" + Color.GAMES + "__][______._][______._][______._]\n" +
                                      "[______._][______._][______._][______._][______._]\n" +
                                      "[______._][______._][" + Color.TROPHIES + "][______._][______._]";
-    public static final String PG2 = "    0         1         2         3         4\n" +
+    public static final String PG2 = "    1         2         3         4         5\n" +
                                      "[______._][______._][______._][______._][______._]\n" +
                                      "[______._][_" + Color.PLANTS + "_][______._][______._][______._]\n" +
                                      "[__" + Color.CATS + "__][______._][_" + Color.GAMES + "__][______._][______._]\n" +
                                      "[______._][______._][______._][______._][_" + Color.BOOKS + "__]\n" +
                                      "[______._][______._][______._][" + Color.TROPHIES + "][______._]\n" +
                                      "[______._][______._][______._][______._][_" + Color.FRAMES + "_]";
-    public static final String PG3 = "    0         1         2         3         4\n" +
+    public static final String PG3 = "    1         2         3         4         5\n" +
                                      "[______._][______._][______._][______._][______._]\n" +
                                      "[_" + Color.FRAMES + "_][______._][______._][_" + Color.GAMES + "__][______._]\n" +
                                      "[______._][______._][_" + Color.PLANTS + "_][______._][______._]\n" +
                                      "[______._][__" + Color.CATS + "__][______._][______._][" + Color.TROPHIES + "]\n" +
                                      "[______._][______._][______._][______._][______._]\n" +
                                      "[_" + Color.BOOKS + "__][______._][______._][______._][______._]";
-    public static final String PG4 = "    0         1         2         3         4\n" +
+    public static final String PG4 = "    1         2         3         4         5\n" +
                                      "[______._][______._][______._][______._][_" + Color.GAMES + "__]\n" +
                                      "[______._][______._][______._][______._][______._]\n" +
                                      "[" + Color.TROPHIES + "][______._][_" + Color.FRAMES + "_][______._][______._]\n" +
                                      "[______._][______._][______._][_" + Color.PLANTS + "_][______._]\n" +
                                      "[______._][_" + Color.BOOKS + "__][__" + Color.CATS + "__][______._][______._]\n" +
                                      "[______._][______._][______._][______._][______._]";
-    public static final String PG5 = "    0         1         2         3         4\n" +
+    public static final String PG5 = "    1         2         3         4         5\n" +
                                      "[______._][______._][______._][______._][______._]\n" +
                                      "[______._][" + Color.TROPHIES + "][______._][______._][______._]\n" +
                                      "[______._][______._][______._][______._][______._]\n" +
                                      "[______._][_" + Color.FRAMES + "_][_" + Color.BOOKS + "__][______._][______._]\n" +
                                      "[______._][______._][______._][______._][_" + Color.PLANTS + "_]\n" +
                                      "[_" + Color.GAMES + "__][______._][______._][__" + Color.CATS + "__][______._]";
-    public static final String PG6 = "    0         1         2         3         4\n" +
+    public static final String PG6 = "    1         2         3         4         5\n" +
                                      "[______._][______._][" + Color.TROPHIES + "][______._][__" + Color.CATS + "__]\n" +
                                      "[______._][______._][______._][______._][______._]\n" +
                                      "[______._][______._][______._][_" + Color.BOOKS + "__][______._]\n" +
                                      "[______._][______._][______._][______._][______._]\n" +
                                      "[______._][_" + Color.GAMES + "__][______._][_" + Color.FRAMES + "_][______._]\n" +
                                      "[_" + Color.PLANTS + "_][______._][______._][______._][______._]";
-    public static final String PG7 = "    0         1         2         3         4\n" +
+    public static final String PG7 = "    1         2         3         4         5\n" +
                                      "[__" + Color.CATS + "__][______._][______._][______._][______._]\n" +
                                      "[______._][______._][______._][_" + Color.FRAMES + "_][______._]\n" +
                                      "[______._][_" + Color.PLANTS + "_][______._][______._][______._]\n" +
                                      "[" + Color.TROPHIES + "][______._][______._][______._][______._]\n" +
                                      "[______._][______._][______._][______._][_" + Color.GAMES + "__]\n" +
                                      "[______._][______._][_" + Color.BOOKS + "__][______._][______._]";
-    public static final String PG8 = "    0         1         2         3         4\n" +
+    public static final String PG8 = "    1         2         3         4         5\n" +
                                      "[______._][______._][______._][______._][_" + Color.FRAMES + "_]\n" +
                                      "[______._][__" + Color.CATS + "__][______._][______._][______._]\n" +
                                      "[______._][______._][" + Color.TROPHIES + "][______._][______._]\n" +
                                      "[_" + Color.PLANTS + "_][______._][______._][______._][______._]\n" +
                                      "[______._][______._][______._][_" + Color.BOOKS + "__][______._]\n" +
                                      "[______._][______._][______._][_" + Color.GAMES + "__][______._]";
-    public static final String PG9 = "    0         1         2         3         4\n" +
+    public static final String PG9 = "    1         2         3         4         5\n" +
                                      "[______._][______._][_" + Color.GAMES + "__][______._][______._]\n" +
                                      "[______._][______._][______._][______._][______._]\n" +
                                      "[______._][______._][__" + Color.CATS + "__][______._][______._]\n" +
                                      "[______._][______._][______._][______._][_" + Color.BOOKS + "__]\n" +
                                      "[______._][" + Color.TROPHIES + "][______._][______._][_" + Color.PLANTS + "_]\n" +
                                      "[_" + Color.FRAMES + "_][______._][______._][______._][______._]";
-    public static final String PG10 = "    0         1         2         3         4\n" +
+    public static final String PG10 = "    1         2         3         4         5\n" +
                                       "[______._][______._][______._][______._][" + Color.TROPHIES + "]\n" +
                                       "[______._][_" + Color.GAMES + "__][______._][______._][______._]\n" +
                                       "[_" + Color.BOOKS + "__][______._][______._][______._][______._]\n" +
                                       "[______._][______._][______._][__" + Color.CATS + "__][______._]\n" +
                                       "[______._][_" + Color.FRAMES + "_][______._][______._][______._]\n" +
                                       "[______._][______._][______._][_" + Color.PLANTS + "_][______._]";
-    public static final String PG11 = "    0         1         2         3         4\n" +
+    public static final String PG11 = "    1         2         3         4         5\n" +
                                       "[______._][______._][_" + Color.PLANTS + "_][______._][______._]\n" +
                                       "[______._][_" + Color.BOOKS + "__][______._][______._][______._]\n" +
                                       "[_" + Color.GAMES + "__][______._][______._][______._][______._]\n" +
                                       "[______._][______._][_" + Color.FRAMES + "_][______._][______._]\n" +
                                       "[______._][______._][______._][______._][__" + Color.CATS + "__]\n" +
                                       "[______._][______._][______._][" + Color.TROPHIES + "][______._]";
-    public static final String PG12 = "    0         1         2         3         4\n" +
+    public static final String PG12 = "    1         2         3         4         5\n" +
                                       "[______._][______._][_" + Color.BOOKS + "__][______._][______._]\n" +
                                       "[______._][_" + Color.PLANTS + "_][______._][______._][______._]\n" +
                                       "[______._][______._][_" + Color.FRAMES + "_][______._][______._]\n" +
@@ -524,6 +535,7 @@ public class Storage {
             [Commands] These are the commands available:
               rules    --> Read Game Rules.
               online   --> Show Online Players.
+             settings  --> Settings: Change Max Number of Players for this Room, Change Insertion Limit
               more     --> More Options: Leave Match, Exit Game, Help (Assist Mode).
             To send a message in the Match type ‘/chat’ in the console.
             To send a message to a online player type ‘/chat[nickname]’ in the console.""";

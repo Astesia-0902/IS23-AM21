@@ -140,9 +140,9 @@ public class Board extends Grid {
             System.out.println("["+b+"]");*/
             //Check if the new item is adjacent at least to one item in the hand
             //Check if the new item is in line
-            if (a == 0 && (b > 0 && b <= 2)) {
+            if (a == 0 && (b > 0 && b <= (Shelf.STD_LIMIT-1))) {
                 if(b==1)one_adjacent=true;
-            } else if (b == 0 && (a > 0 && a <= 2)) {
+            } else if (b == 0 && (a > 0 && a <= (Shelf.STD_LIMIT-1))) {
                 if(a==1)one_adjacent=true;
             } else {
                 inline = false;

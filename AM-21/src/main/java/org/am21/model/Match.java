@@ -19,6 +19,7 @@ import static org.am21.model.enumer.ServerMessage.*;
 
 public class Match {
     public int matchID;
+    public Player admin;
     public List<CommonGoal> commonGoals;
     private boolean endGameToken = true;
     public Board board;
@@ -41,6 +42,9 @@ public class Match {
         commonGoals = new ArrayList<>(2);
         chatManager = new ChatManager(this);
         virtualView = new VirtualView();
+        virtualView.setMatchID(this.matchID);
+        virtualView.setMaxSeats(maxSeats);
+
     }
 
     /**
@@ -96,9 +100,8 @@ public class Match {
                 //If, after checkRoom(), the match did not start, send Client to Waiting Phase
                 if (gameState == GameState.WaitingPlayers && player.getController().clientInput.callBack != null) {
                     try {
-                        VirtualViewHelper.virtualizeMatchID(this);
 
-                        player.getController().clientInput.callBack.notifyToWait(matchID);
+                        player.getController().clientInput.callBack.notifyToWait(VirtualViewHelper.convertMatchInfoToJSON(this));
                     } catch (RemoteException e) {
                         throw new RuntimeException(e);
                     }
@@ -109,6 +112,7 @@ public class Match {
             return false;
         }
     }
+
 
     /**
      * This method allows to safely remove the player from the match.

@@ -114,9 +114,8 @@ public class GameController {
                 GameManager.sendReply(playerController,ServerMessage.PExceed);
 
             }
-
-
             //TODO:player leave the current match
+
         } else if (!GameManager.playerMatchMap.containsKey(userName)) {
             if(GameManager.createMatch(playerNum, playerController)){
 

@@ -43,7 +43,10 @@ public class GameManager {
             Match match = new Match(playerNum);
             matchList.add(match);
             match.matchID = matchList.indexOf(match);
+            match.admin=playerController.getPlayer();
+            match.virtualView.setAdmin(playerController.getPlayer().getNickname());
             match.addPlayer(playerController.getPlayer());
+
             return true;
         }
     }

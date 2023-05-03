@@ -19,6 +19,8 @@ public class VirtualView implements Serializable {
 
 
     public int matchID;
+    public String admin;
+    public int maxSeats;
 
     // These need update at the end of each turn
     public String[][] board;
@@ -49,6 +51,13 @@ public class VirtualView implements Serializable {
 
     public List<Integer> personalGoals;
 
+    public int getMaxSeats() {
+        return maxSeats;
+    }
+
+    public void setMaxSeats(int maxSeats) {
+        this.maxSeats = maxSeats;
+    }
 
     public List<Integer> getHiddenPoints() {
         return hiddenPoints;
@@ -147,5 +156,20 @@ public class VirtualView implements Serializable {
         this.commonGoals = commonGoals;
     }
 
+    public String getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(String admin) {
+        this.admin = admin;
+    }
+
+    public List<String> getGameResults() {
+        return gameResults;
+    }
+
+    public void setGameResults(List<String> gameResults) {
+        this.gameResults = gameResults;
+    }
 
 }

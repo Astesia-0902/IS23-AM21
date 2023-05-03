@@ -296,9 +296,9 @@ public class Cli implements View {
      */
     public void askWaitingAction() throws RemoteException, ServerNotActiveException {
         while (!GAME_ON && !GO_TO_MENU) {
-            System.out.println("-----------------------------------------------------------\n" +
+            System.out.print("-----------------------------------------------------------\n" +
                                Color.WHITE_BRIGHT + " {| Room " + matchID + " |}" + Color.RESET);
-
+            System.out.println(Color.WHITE_BOLD+"   [ Admin: "+admin+" ]"+Color.RESET);
             System.out.println(Storage.waitingAction);
             showRandomTip();
             System.out.print("-----------------------------------------------------------\n"
@@ -312,6 +312,7 @@ public class Cli implements View {
                 switch (option) {
                     case "rules", "ru" -> showGameRules();
                     case "online", "on" -> showOnlinePlayer();
+                    case "settings","se" -> askSettings();
                     case "more", "mo" -> askMoreOptions();
                     default -> System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
                                                   + Color.RESET);
@@ -319,6 +320,44 @@ public class Cli implements View {
                 askToContinue();
             }
         }
+    }
+
+    public void askSettings() {
+        System.out.println("""
+                [Commands] Commands available to change settings:
+                  size     --> Change the number of players who can play in this match
+                  limit    --> (TEMP for Testing) Change the Insertion Limit (Max 6)
+                Enter the command you wish to use:
+                """);
+        String setting = readLine();
+        switch (setting){
+            case "size","si"->{
+                try {
+                    if(iClientInputHandler.changeMatchSeats(askTheIndex("MAX number of players",2,4))){
+                        System.out.println("Number of Seats available changed");
+                    }else {
+                        System.out.println("Operation failed: Only the admin are allowed to change settings");
+                    }
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            case "limit","li" ->{
+                try {
+                    if(iClientInputHandler.changeInsertLimit(askTheIndex("Insertion Limit",3,SHELF_ROW))){
+                        System.out.println("Limit changed");
+                    }else {
+                        System.out.println("Operation failed: Only the admin are allowed to change settings");
+
+                    }
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            default -> {}
+
+        }
+
     }
 
     private void showCommandMenu() {
@@ -504,15 +543,25 @@ public class Cli implements View {
 
     @Override
     public void showWhoIsPlaying() {
-        System.out.print("> Player List: ");
+        System.out.print("> Players: ");
         for (String name : Storage.players) {
             if (name.equals(username) && Storage.currentPlayer.equals(username)) {
-                System.out.print(Color.YELLOW_BRIGHT + " |  You  | " + Color.RESET);
+                System.out.print(Color.YELLOW_BRIGHT + " [  You  ] " + Color.RESET);
             } else if (currentPlayer.equals(name)) {
-                System.out.print(Color.YELLOW_BRIGHT + " | " + Storage.currentPlayer + " | " + Color.RESET);
+                System.out.print(Color.YELLOW_BRIGHT + " [ " + Storage.currentPlayer + " ] " + Color.RESET);
             } else {
-                System.out.print(" |  " + name + "  | ");
+                System.out.print(" [  " + name + "  ] ");
             }
+            /*String tmp = name;
+            if (name.equals(username)) {
+                tmp = "YOU";
+            }
+            if (name.equals(currentPlayer)) {
+                System.out.print(Color.RED_BB + " {[ " + tmp + " ]} " + Color.RESET);
+            } else {
+                System.out.print(Color.WHITE_BOLD + " [ " + tmp + " ] " + Color.RESET);
+            }*/
+
         }
         System.out.println();
     }
@@ -523,9 +572,6 @@ public class Cli implements View {
         String[][] shelf = Storage.shelves.get(Storage.players.indexOf(username));
         System.out.println("----------------------------------------------------");
         System.out.println("Your Shelf:");
-        for (int j = 0; j < Storage.SHELF_COLUMN; j++) {
-            System.out.print("      " + j + "      ");
-        }
         System.out.println();
         for (int i = 0; i < Storage.SHELF_ROW; i++) {
             for (int j = 0; j < Storage.SHELF_COLUMN; j++) {
@@ -533,6 +579,9 @@ public class Cli implements View {
                 System.out.print("[" + item + "]");
             }
             System.out.println();
+        }
+        for (int j = 1; j <= Storage.SHELF_COLUMN; j++) {
+            System.out.print("      " + j + "      ");
         }
         System.out.println();
     }
@@ -548,9 +597,6 @@ public class Cli implements View {
         for (int k = 0; k < Storage.shelves.size(); k++) {
             String[][] userShelf = Storage.shelves.get(k);
             System.out.println(Storage.players.get(k) + "'s Shelf:");
-            for (int j = 0; j < SHELF_COLUMN; j++) {
-                System.out.print("      " + j + "      ");
-            }
             System.out.println();
             for (int i = 0; i < Storage.SHELF_ROW; i++) {
                 for (int j = 0; j < SHELF_COLUMN; j++) {
@@ -558,6 +604,9 @@ public class Cli implements View {
                     System.out.print("[" + item + "]");
                 }
                 System.out.println();
+            }
+            for (int j = 1; j <= SHELF_COLUMN; j++) {
+                System.out.print("      " + j + "      ");
             }
             System.out.println();
         }
@@ -567,13 +616,13 @@ public class Cli implements View {
     public void showBoard() {
         String[][] board = Storage.virtualBoard;
         System.out.println("Board:");
-        System.out.print("  ");
-        for (int j = 0; j < Storage.BOARD_COLUMN; j++) {
+        System.out.print("    ");
+        for (int j = 1; j <=Storage.BOARD_COLUMN; j++) {
             System.out.print("      " + j + "       ");
         }
         System.out.println();
         for (int i = 0; i < Storage.BOARD_ROW; i++) {
-            System.out.print(i + " ");
+            System.out.print(Color.WHITE_BOLD_BRIGHT + " " + i+1 + "  " + Color.RESET);
             for (int j = 0; j < Storage.BOARD_COLUMN; j++) {
                 if (board[i][j] != null && board[i][j].startsWith(">")) {
                     //If the cell is temporarily selected by the player
@@ -586,10 +635,10 @@ public class Cli implements View {
                 }
             }
             System.out.print(" ");
-            System.out.println(i);
+            System.out.println(Color.WHITE_BOLD_BRIGHT + String.valueOf(i+1) + Color.RESET);
         }
-        System.out.print("  ");
-        for (int j = 0; j < Storage.BOARD_COLUMN; j++) {
+        System.out.print("    ");
+        for (int j = 1; j <= Storage.BOARD_COLUMN; j++) {
             System.out.print("      " + j + "       ");
         }
         System.out.println();
@@ -661,8 +710,8 @@ public class Cli implements View {
         boolean selectionConfirm;
         do {
             List<Integer> coordinates = askCoordinates();
-            int row = coordinates.get(0);
-            int column = coordinates.get(1);
+            int row = coordinates.get(0)-1;
+            int column = coordinates.get(1)-1;
             if (iClientInputHandler.selectCell(row, column)) {
                 NOT_SEL_YET = false;
                 System.out.println(Color.YELLOW + "Item selected: " +
@@ -687,8 +736,8 @@ public class Cli implements View {
         showBoard();
         System.out.println("Type the coordinates you wish to select ONE AT THE TIME (first ROW, then COLUMN).");
         List<Integer> coordinates = new ArrayList<>();
-        coordinates.add(askTheIndex("ROW", 0, Storage.BOARD_ROW));
-        coordinates.add(askTheIndex("COLUMN", 0, Storage.BOARD_COLUMN));
+        coordinates.add(askTheIndex("ROW", 1, Storage.BOARD_ROW));
+        coordinates.add(askTheIndex("COLUMN", 1, Storage.BOARD_COLUMN));
         return coordinates;
     }
 
@@ -705,7 +754,7 @@ public class Cli implements View {
         int select = -1;
         do {
             try {
-                System.out.print(type + " (" + lower_limit + " to " + (upper_limit - 1) + "): ");
+                System.out.print(type + " (" + lower_limit + " to " + (upper_limit) + "): ");
                 select = Integer.parseInt(readLine());
                 if (select < lower_limit || select > upper_limit) {
                     System.out.println(Color.RED + "Invalid number! Please try again." + Color.RESET);
@@ -768,11 +817,11 @@ public class Cli implements View {
                                     column = askColumn();
                                 } while (column == -2);
                                 if (column != -1) {
-                                    if (iClientInputHandler.insertInColumn(column)) {
+                                    if (iClientInputHandler.insertInColumn(column - 1)) {
                                         showPlayerShelf();
                                         System.out.println(Color.YELLOW + "Inserted in the column: " + column + Color.RESET);
-                                        if(iClientInputHandler.endTurn()){
-                                            System.out.println(Color.YELLOW +"- End Turn -"+ Color.RESET);
+                                        if (iClientInputHandler.endTurn()) {
+                                            System.out.println(Color.YELLOW + "- End Turn -" + Color.RESET);
                                         }
                                         askToContinue();
                                         NOT_SEL_YET = true;
@@ -860,7 +909,7 @@ public class Cli implements View {
         System.out.println("In which column would you like to insert the cards?");
         String columnConfirm;
         int column;
-        column = askTheIndex("COLUMN", 0, SHELF_COLUMN);
+        column = askTheIndex("COLUMN", 1, SHELF_COLUMN + 1);
         do {
 
             System.out.print("""
@@ -870,7 +919,7 @@ public class Cli implements View {
             columnConfirm = readLine();
             switch (columnConfirm) {
                 case "y":
-                    return column;
+                    return (column);
                 case "r":
                     return -2;
                 case "n":
@@ -1156,7 +1205,7 @@ public class Cli implements View {
             display.set(4 + i, display.get(4 + i) + "  \t");
         }
         display.set(10, display.get(10) + " \t");
-        for (int j = 0; j < SHELF_COLUMN; j++) {
+        for (int j = 1; j <= SHELF_COLUMN; j++) {
             display.set(10, display.get(10) + " " + j + " ");
         }
         display.set(10, display.get(10) + "  \t");
@@ -1193,7 +1242,7 @@ public class Cli implements View {
         for (int i = 4; i < Storage.current_display.size() - 1; i++) {
             display.set(i, display.get(i) + tmp[i - 4] + " \t");
         }
-        for (int j = 0; j < SHELF_COLUMN; j++) {
+        for (int j = 1; j <= SHELF_COLUMN; j++) {
             display.set(10, display.get(10) + " " + j + " ");
         }
         display.set(10, display.get(10) + "  \t");

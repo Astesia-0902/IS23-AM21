@@ -8,6 +8,7 @@ import org.am21.model.Player;
 import org.am21.model.enumer.SC;
 import org.am21.model.enumer.ServerMessage;
 import org.am21.model.enumer.UserStatus;
+import org.am21.model.items.Shelf;
 
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
@@ -305,6 +306,36 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     @Override
     public void openChat()throws RemoteException{
 
+    }
+
+    @Override
+    public boolean changeMatchSeats(int newMaxSeats) throws RemoteException{
+        if(playerController.getPlayer().getMatch().admin.equals(playerController.getPlayer())) {
+            playerController.getPlayer().getMatch().maxSeats = newMaxSeats;
+            Thread td = new Thread(){
+                @Override
+                public void run() {
+                    super.run();
+                    playerController.getPlayer().getMatch().checkRoom();
+                }
+            };
+            td.start();
+            td.interrupt();
+            return true;
+        }
+        return false;
+    }
+
+
+    //TODO: to be deleted when the game is complete, this method is just for accelerate testing
+    @Override
+    public boolean changeInsertLimit(int newLimit) throws RemoteException{
+        if(playerController.getPlayer().getMatch().admin.equals(playerController.getPlayer())){
+            Shelf.STD_LIMIT=newLimit;
+            return true;
+        }
+
+        return false;
     }
 
 
