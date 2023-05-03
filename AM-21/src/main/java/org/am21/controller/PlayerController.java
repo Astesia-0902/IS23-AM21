@@ -8,6 +8,7 @@ import org.am21.model.enumer.SC;
 import org.am21.model.enumer.ServerMessage;
 import org.am21.model.items.Board;
 import org.am21.model.items.Hand;
+import org.am21.model.items.Shelf;
 import org.am21.networkRMI.ClientInputHandler;
 import org.am21.utilities.CardPointer;
 import org.am21.utilities.VirtualViewHelper;
@@ -246,7 +247,7 @@ public class PlayerController {
      * @return true if the insertion is successful
      */
     public boolean tryToInsert(int col) {
-        if (!isMyTurn(player) || !isGamePhase(GamePhase.Insertion) || isHandEmpty()) {
+        if (!isMyTurn(player) || !isGamePhase(GamePhase.Insertion) || isHandEmpty() && col>=0 && col<Shelf.SHELF_COLUMN) {
             return false;
         }
         if (player.getShelf().slotCol.get(col) < hand.getSelectedItems().size()) {

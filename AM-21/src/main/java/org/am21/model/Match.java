@@ -76,6 +76,24 @@ public class Match {
         this.gameState = gameState;
     }
 
+    public boolean changeSeats(Player p,int maxSeats){
+        if(gameState.equals(GameState.WaitingPlayers) && p.equals(admin) && maxSeats>1 && maxSeats<5){
+            this.maxSeats = maxSeats;
+            Thread td = new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    checkRoom();
+                }
+            };
+            td.start();
+            return true;
+        }
+        return false;
+    }
+
+
+
     /**
      * Add player to this match.
      * And, eventually, when there are enough players,

@@ -249,7 +249,8 @@ public class Cli implements View {
         if (START) {
             showMatchSetup();
             setSTART(false);
-        } else if (END) {
+        }
+        if (END) {
             goToEndRoom();
         }
         askMenuAction();
@@ -314,21 +315,22 @@ public class Cli implements View {
                     case "online", "on" -> showOnlinePlayer();
                     case "settings","se" -> askSettings();
                     case "more", "mo" -> askMoreOptions();
-                    default -> System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
+                    default -> {System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
                                                   + Color.RESET);
+                                //continue;
+                    }
                 }
-                askToContinue();
+                //askToContinue();
             }
         }
     }
 
     public void askSettings() {
-        System.out.println("""
+        System.out.print("""
                 [Commands] Commands available to change settings:
                   size     --> Change the number of players who can play in this match
                   limit    --> (TEMP for Testing) Change the Insertion Limit (Max 6)
-                Enter the command you wish to use:
-                """);
+                Enter the command you wish to use: """);
         String setting = readLine();
         switch (setting){
             case "size","si"->{
@@ -341,11 +343,13 @@ public class Cli implements View {
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);
                 }
+                askToContinue();
             }
             case "limit","li" ->{
                 try {
                     if(iClientInputHandler.changeInsertLimit(askTheIndex("Insertion Limit",3,SHELF_ROW))){
-                        System.out.println("Limit changed");
+                        System.out.println("Limit changed for the whole server");
+
                     }else {
                         System.out.println("Operation failed: Only the admin are allowed to change settings");
 
@@ -353,6 +357,7 @@ public class Cli implements View {
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);
                 }
+                askToContinue();
             }
             default -> {}
 
@@ -622,7 +627,7 @@ public class Cli implements View {
         }
         System.out.println();
         for (int i = 0; i < Storage.BOARD_ROW; i++) {
-            System.out.print(Color.WHITE_BOLD_BRIGHT + " " + i+1 + "  " + Color.RESET);
+            System.out.print(Color.WHITE_BOLD_BRIGHT + " " + (i+1) + "  " + Color.RESET);
             for (int j = 0; j < Storage.BOARD_COLUMN; j++) {
                 if (board[i][j] != null && board[i][j].startsWith(">")) {
                     //If the cell is temporarily selected by the player
@@ -795,8 +800,7 @@ public class Cli implements View {
     @Override
     public void askInsertion() throws ServerNotActiveException, RemoteException {
         if (showHand()) {
-
-            System.out.println("These are the cards you have selected:");
+            //System.out.println("These are the cards you have selected.");
 
             System.out.print(Storage.insertionConfirm);
             boolean confirm = "y".equals(readLine());
@@ -848,6 +852,7 @@ public class Cli implements View {
         } else {
             System.out.println(Color.RED + "You can’t insert cards if you did not select any cards!" + Color.RESET);
         }
+        askToContinue();
     }
 
     public void askSort() throws ServerNotActiveException, RemoteException {
@@ -872,8 +877,8 @@ public class Cli implements View {
     public List<Integer> askIndex() {
         String sortConfirm;
         int position1, position2;
-        position1 = askTheIndex("Position1", 1, Storage.currentPlayerHand.size() + 1);
-        position2 = askTheIndex("Position2", 1, Storage.currentPlayerHand.size() + 1);
+        position1 = askTheIndex("Position1", 1, Storage.currentPlayerHand.size());
+        position2 = askTheIndex("Position2", 1, Storage.currentPlayerHand.size());
         System.out.println("You have chosen to swap " +
                            Storage.currentPlayerHand.get(position1 - 1).replace("_", "") +
                            " and " +
@@ -909,7 +914,7 @@ public class Cli implements View {
         System.out.println("In which column would you like to insert the cards?");
         String columnConfirm;
         int column;
-        column = askTheIndex("COLUMN", 1, SHELF_COLUMN + 1);
+        column = askTheIndex("COLUMN", 1, SHELF_COLUMN);
         do {
 
             System.out.print("""
@@ -1138,7 +1143,7 @@ public class Cli implements View {
 
         display.set(0, display.get(0) + "\t\t\t{Board}\t\t\t\t\t\t\t");
         for (int i = 0; i < Storage.BOARD_ROW; i++) {
-            display.set(i + 1, display.get(i + 1) + i);
+            display.set(i + 1, display.get(i + 1) + (i+1));
 
             for (int j = 0; j < Storage.BOARD_COLUMN; j++) {
                 if (board[i][j] != null && board[i][j].startsWith(">")) {
@@ -1151,11 +1156,11 @@ public class Cli implements View {
                 }
             }
             display.set(i + 1, display.get(i + 1) + " ");
-            display.set(i + 1, display.get(i + 1) + i + "|\t");
+            display.set(i + 1, display.get(i + 1) + (i+1) + "|\t");
         }
         display.set(10, display.get(10) + "  ");
 
-        for (int j = 0; j < Storage.BOARD_COLUMN; j++) {
+        for (int j = 1; j <= Storage.BOARD_COLUMN; j++) {
             display.set(10, display.get(10) + " " + j + "  ");
         }
         display.set(10, display.get(10) + "   ");

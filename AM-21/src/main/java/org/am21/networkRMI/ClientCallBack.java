@@ -82,6 +82,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
             cli.setEND(true);
             cli.setGO_TO_MENU(true);
             cli.setGAME_ON(false);
+            cli.setSTART(false);
             cli.printer(SC.WHITE_BB+"\nServer > The match ended. Good Bye! Press 'Enter'"+SC.RST);
         }
     }

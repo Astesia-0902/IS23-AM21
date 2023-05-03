@@ -301,40 +301,53 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     /**
      * This method is used to open the group chat
      * There should be an option for sending a text
+     *
      * @throws RemoteException
      */
     @Override
-    public void openChat()throws RemoteException{
+    public void openChat() throws RemoteException {
 
     }
 
     @Override
-    public boolean changeMatchSeats(int newMaxSeats) throws RemoteException{
-        if(playerController.getPlayer().getMatch().admin.equals(playerController.getPlayer())) {
-            playerController.getPlayer().getMatch().maxSeats = newMaxSeats;
-            Thread td = new Thread(){
-                @Override
-                public void run() {
-                    super.run();
-                    playerController.getPlayer().getMatch().checkRoom();
-                }
-            };
-            td.start();
-            td.interrupt();
-            return true;
+    public boolean changeMatchSeats(int newMaxSeats) throws RemoteException {
+        Player p = playerController.getPlayer();
+        synchronized (GameManager.playerMatchMap) {
+            if (GameManager.playerMatchMap.containsKey(p.getNickname())
+                    && p.getMatch().matchID==(GameManager.playerMatchMap.get(p.getNickname()))
+                    && p.getMatch().changeSeats(p, newMaxSeats)) {
+                return true;
+            }
         }
         return false;
+
     }
+
+
 
 
     //TODO: to be deleted when the game is complete, this method is just for accelerate testing
     @Override
-    public boolean changeInsertLimit(int newLimit) throws RemoteException{
-        if(playerController.getPlayer().getMatch().admin.equals(playerController.getPlayer())){
-            Shelf.STD_LIMIT=newLimit;
-            return true;
-        }
+    public boolean changeInsertLimit(int newLimit) throws RemoteException {
+        Player p = playerController.getPlayer();
+        synchronized (GameManager.playerMatchMap) {
+            if (GameManager.playerMatchMap.containsKey(p.getNickname())
+                    && p.getMatch().matchID==(GameManager.playerMatchMap.get(p.getNickname()))) {
+                if (p.getMatch().admin.equals(p)) {
+                    //Limit changed for the whole server
+                    Shelf.STD_LIMIT = newLimit;
+                    synchronized (GameManager.players){
+                        for(Player player:GameManager.players){
+                            if(player.getController().clientInput.callBack!=null){
+                                player.getController().clientInput.callBack.sendMessageToClient(SC.YELLOW+"\nServer > Insertion Limit changed to: "+newLimit+SC.RST);
+                            }
 
+                        }
+                    }
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
