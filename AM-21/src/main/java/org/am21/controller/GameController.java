@@ -14,7 +14,6 @@ import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
 
 public class GameController {
-    public static CommunicationController commCtrl;
 
     public GameController() throws RemoteException {
     }
@@ -41,12 +40,14 @@ public class GameController {
             return false;
         }
 
+        playerController.getPlayer().setNickname(username);
+
         synchronized (GameManager.players) {
             if (!GameManager.players.contains(playerController.getPlayer())) {
                 GameManager.players.add(playerController.getPlayer());
             }
         }
-        commCtrl.sendMessageToClient(ServerMessage.Login_Ok.value() + username, playerController);
+        CommunicationController.instance.sendMessageToClient(ServerMessage.Login_Ok.value() + username, playerController);
         //DEBUG
         System.out.println(username + " joined the game");
         return true;
@@ -216,8 +217,8 @@ public class GameController {
 
     public static boolean leaveMatch(PlayerController playerController) {
         if (GameController.removePlayerFromMatch(playerController, playerController.getPlayer().getMatch().matchID)) {
-            commCtrl.sendMessageToClient("Server > Leaving Room...", playerController);
-            commCtrl.notifyGoToMenu(playerController);
+            CommunicationController.instance.sendMessageToClient("Server > Leaving Room...", playerController);
+            CommunicationController.instance.notifyGoToMenu(playerController);
             return true;
         }
         return false;
@@ -288,7 +289,7 @@ public class GameController {
                 }
             }
         }
-        commCtrl.sendMessageToClient(message, playerController);
+        CommunicationController.instance.sendMessageToClient(message, playerController);
     }
 
     public static void printMatchList(PlayerController playerController) {
@@ -301,7 +302,7 @@ public class GameController {
                 }
             }
         }
-        commCtrl.sendMessageToClient(message, playerController);
+        CommunicationController.instance.sendMessageToClient(message, playerController);
     }
 
     public static boolean endTurn(PlayerController playerController) throws ServerNotActiveException {
@@ -336,7 +337,7 @@ public class GameController {
                     synchronized (GameManager.players) {
                         for (Player player : GameManager.players) {
                             if (player.getController() != null) {
-                                commCtrl.sendMessageToClient(SC.YELLOW + "\nServer > Insertion Limit changed to: " + newLimit + SC.RST, player.getController());
+                                CommunicationController.instance.sendMessageToClient(SC.YELLOW + "\nServer > Insertion Limit changed to: " + newLimit + SC.RST, player.getController());
                             }
                         }
                     }

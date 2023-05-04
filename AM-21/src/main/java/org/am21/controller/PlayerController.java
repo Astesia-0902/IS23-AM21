@@ -46,6 +46,14 @@ public class PlayerController {
         this.clientHandlerSocket = clientSocket;
     }
 
+    public PlayerController(String nickname, ClientInputHandler clientInput) {
+        this.player = new Player(nickname, this);
+        this.hand = new Hand(this.player);
+        this.player.setHand(this.hand);
+        this.clientInput = clientInput;
+        this.connectionType = ConnectionType.RMI;
+    }
+
     public Player getPlayer() {
         return player;
     }
@@ -75,6 +83,7 @@ public class PlayerController {
     /**
      * Command to see my own goal
      * !Implementation incomplete due to Lack of View Component!
+     *
      * @return
      */
     public PersonalGoalCard viewPersonalGoal() {
@@ -106,20 +115,20 @@ public class PlayerController {
             /*If the cell is selectable then verify second condition*/
             if (hand.getSelectedItems().size() > 0) {
                 //Check if the item is already selected
-                CardPointer item = isAlreadySelected(r,c);
-                if(item!=null){
+                CardPointer item = isAlreadySelected(r, c);
+                if (item != null) {
                     //Item already selected
                     //TODO: NEW: if a player select an already selected cell, it will deselect it
-                    if(!deselectCell(item)){
+                    if (!deselectCell(item)) {
                         //The other cards do not respect the conditions, they will be cleared
                         clearSelectedCards();
-                    }else {
+                    } else {
                         player.getMatch().selectionUpdate();
-                        GameManager.sendReply(this,ServerMessage.DeSel_Ok);
+                        GameManager.sendReply(this, ServerMessage.DeSel_Ok);
                     }
                     return false;
                     //Need VV update
-                }else {
+                } else {
                     //Check Orthogonality
                     if (!board.isOrthogonal(r, c, hand.getSelectedItems())) {
                         GameManager.sendReply(this, ServerMessage.No_Orthogonal);
@@ -178,7 +187,7 @@ public class PlayerController {
                 }
             }
             //The selected cell is removed and the other are okay
-        }else{
+        } else {
             hand.getSelectedItems().remove(item);
         }
         return true;
@@ -257,7 +266,7 @@ public class PlayerController {
      * @return true if the insertion is successful
      */
     public boolean tryToInsert(int col) {
-        if (!isMyTurn(player) || !isGamePhase(GamePhase.Insertion) || isHandEmpty() && col>=0 && col<Shelf.SHELF_COLUMN) {
+        if (!isMyTurn(player) || !isGamePhase(GamePhase.Insertion) || isHandEmpty() && col >= 0 && col < Shelf.SHELF_COLUMN) {
             return false;
         }
         if (player.getShelf().slotCol.get(col) < hand.getSelectedItems().size()) {
@@ -349,8 +358,8 @@ public class PlayerController {
         player.setPlayerScore(player.getPlayerScore() + points);
     }
 
-    public boolean isHandEmpty(){
-        if(hand.getSelectedItems().size()==0){
+    public boolean isHandEmpty() {
+        if (hand.getSelectedItems().size() == 0) {
             return true;
         }
         //TODO: server message: No card selected
@@ -359,11 +368,12 @@ public class PlayerController {
 
     /**
      * Check if the cell is already selected by iterating the hand
+     *
      * @param r coordinate x of the board
      * @param c coordinate y of the board
      * @return the CardPointer of the item already selected, otherwise null
      */
-    public CardPointer isAlreadySelected(int r, int c){
+    public CardPointer isAlreadySelected(int r, int c) {
         for (CardPointer item : hand.getSelectedItems()) {
             if ((r == item.x) && (c == item.y)) {
                 GameManager.sendReply(this, ServerMessage.ReSelected);

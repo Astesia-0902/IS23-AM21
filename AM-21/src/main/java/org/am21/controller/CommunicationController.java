@@ -6,6 +6,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
 
 public class CommunicationController implements ICommunication {
+    public static final CommunicationController instance = new CommunicationController();
 
     @Override
     public void sendMessageToClient(String message, PlayerController myPlayer) {

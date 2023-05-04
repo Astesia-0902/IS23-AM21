@@ -25,14 +25,14 @@ public class GameTest {
     GameManager game;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         try {
             ClientInputHandler client1_handler = new ClientInputHandler();
             ClientInputHandler client2_handler = new ClientInputHandler();
             client1_handler.callBack = new ClientCallBack();
             client2_handler.callBack = new ClientCallBack();
-            client1 = new PlayerController("A",client1_handler);
-            client2 = new PlayerController("B",client2_handler);
+            client1 = new PlayerController("A", client1_handler, null);
+            client2 = new PlayerController("B", client2_handler, null);
 
         } catch (RemoteException e) {
             throw new RuntimeException(e);
@@ -42,7 +42,7 @@ public class GameTest {
     }
 
     @AfterEach
-    void tearDown(){
+    void tearDown() {
         GameManager.matchList.clear();
         GameManager.playerMatchMap.clear();
 
@@ -52,29 +52,29 @@ public class GameTest {
      * Test the creation of a game with GameController
      */
     @Test
-    void testCreateAndJoinMatch(){
-        GameController.createMatch(client1.getPlayer().getNickname(),0,2,client1);
-        GameController.joinGame(0,client2.getPlayer().getNickname(),client2);
+    void testCreateAndJoinMatch() {
+        GameController.createMatch(client1.getPlayer().getNickname(), 0, 2, client1);
+        GameController.joinGame(0, client2.getPlayer().getNickname(), client2);
         assertNotNull(GameManager.matchList.get(0));
         assertNotNull(GameManager.playerMatchMap.get("A"));
         Match m = GameManager.matchList.get(0);
-        assertTrue(m.gameState== GameState.GameGoing);
+        assertTrue(m.gameState == GameState.GameGoing);
 
     }
 
     @Test
-    void testGameSimulation2Players(){
-        GameController.createMatch(client1.getPlayer().getNickname(),0,2,client1);
-        GameController.joinGame(0,client2.getPlayer().getNickname(),client2);
+    void testGameSimulation2Players() {
+        GameController.createMatch(client1.getPlayer().getNickname(), 0, 2, client1);
+        GameController.joinGame(0, client2.getPlayer().getNickname(), client2);
         Match m = GameManager.matchList.get(0);
         //Select x2
-        assertTrue(m.currentPlayer.getController().selectCell(1,4));
-        assertTrue(m.currentPlayer.getController().selectCell(1,3));
+        assertTrue(m.currentPlayer.getController().selectCell(1, 4));
+        assertTrue(m.currentPlayer.getController().selectCell(1, 3));
         //Deselect
         assertTrue(m.currentPlayer.getController().clearSelectedCards());
         //Select other cards
-        assertTrue(m.currentPlayer.getController().selectCell(4,1));
-        assertTrue(m.currentPlayer.getController().selectCell(5,1));
+        assertTrue(m.currentPlayer.getController().selectCell(4, 1));
+        assertTrue(m.currentPlayer.getController().selectCell(5, 1));
         //insert
         assertTrue(m.currentPlayer.getController().callEndSelection());
         assertTrue(m.currentPlayer.getController().tryToInsert(0));
@@ -82,23 +82,18 @@ public class GameTest {
         //next turn
 
         //Check insertion was successful
-        Player prevPlayer =m.playerList.get((m.playerList.indexOf(m.currentPlayer)+1)% m.maxSeats);
-        assertTrue(prevPlayer.getShelf().isOccupied(5,0));
-        assertTrue(prevPlayer.getShelf().isOccupied(4,0));
+        Player prevPlayer = m.playerList.get((m.playerList.indexOf(m.currentPlayer) + 1) % m.maxSeats);
+        assertTrue(prevPlayer.getShelf().isOccupied(5, 0));
+        assertTrue(prevPlayer.getShelf().isOccupied(4, 0));
 
-        assertTrue(m.currentPlayer.getController().selectCell(3,2));
-        assertTrue(m.currentPlayer.getController().selectCell(4,2));
-        assertTrue(m.currentPlayer.getController().selectCell(5,2));
+        assertTrue(m.currentPlayer.getController().selectCell(3, 2));
+        assertTrue(m.currentPlayer.getController().selectCell(4, 2));
+        assertTrue(m.currentPlayer.getController().selectCell(5, 2));
         m.currentPlayer.getController().callEndSelection();
         assertTrue(m.currentPlayer.getController().tryToInsert(0));
 
 
-
-
     }
-
-
-
 
 
     //TODO: CIH(RMI) is not needed for testing

@@ -12,15 +12,15 @@ import org.junit.jupiter.api.Test;
 
 class CardTest {
     @Test
-    void testCard(){
+    void testCard() {
         Match match = new Match(2);
 
-        PlayerController pCtrl1 = new PlayerController("Ambrogio",null);
+        PlayerController pCtrl1 = new PlayerController("Ambrogio", null, null);
         Player player1 = pCtrl1.getPlayer();
         match.addPlayer(player1);
         GameGear.printThisShelf(player1.getShelf());
 
-        PlayerController pCtrl2 = new PlayerController("Ambra",null);
+        PlayerController pCtrl2 = new PlayerController("Ambra", null, null);
         Player player2 = pCtrl2.getPlayer();
         match.addPlayer(player2);
         GameGear.printThisShelf(player2.getShelf());
@@ -32,11 +32,11 @@ class CardTest {
         System.out.println("\n----------------------\n");
         GameGear.printThisBoard(match.board);
         System.out.println("\n----------------------\n");
-        System.out.println("Match > PlayerTurn: "+ match.currentPlayer.getNickname());
+        System.out.println("Match > PlayerTurn: " + match.currentPlayer.getNickname());
         System.out.println("\n----------------------\n");
         GameGear.showHand(pCtrl1.getHand());
-        pCtrl1.selectCell(1,4);
-        pCtrl1.selectCell(1,5);
+        pCtrl1.selectCell(1, 4);
+        pCtrl1.selectCell(1, 5);
         GameGear.showHand(pCtrl1.getHand());
         pCtrl1.moveAllToHand();
 
@@ -51,14 +51,14 @@ class CardTest {
     }
 
     @DisplayName("Printf Shelf")
-    static void printPlayerPersonalGoal(Shelf shelf){
-        System.out.println("Match > "+shelf.player.getNickname()+"'s PersonalGoal:");
-        for(int i=0;i<6;i++){
-            for(int j=0;j<5;j++){
-                if(shelf.getMatrix()[i][j]==null){
+    static void printPlayerPersonalGoal(Shelf shelf) {
+        System.out.println("Match > " + shelf.player.getNickname() + "'s PersonalGoal:");
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (shelf.getMatrix()[i][j] == null) {
                     System.out.print("[______._]");
-                }else if(shelf.getMatrix()[i][j]!=null){
-                    System.out.print("["+ shelf.getMatrix()[i][j].getNameCard() +"]");
+                } else if (shelf.getMatrix()[i][j] != null) {
+                    System.out.print("[" + shelf.getMatrix()[i][j].getNameCard() + "]");
                 }
 
             }

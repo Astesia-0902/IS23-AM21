@@ -123,7 +123,7 @@ public class Match {
                     try {
                         //TODO: NEW Protocol
                         //New Communication Protocol
-                        GameController.commCtrl.notifyToWait(VirtualViewHelper.convertMatchInfoToJSON(this),player.getController());
+                        CommunicationController.instance.notifyToWait(VirtualViewHelper.convertMatchInfoToJSON(this),player.getController());
                         //OLD RMI only
                         player.getController().clientInput.callBack.notifyToWait(VirtualViewHelper.convertMatchInfoToJSON(this));
                     } catch (RemoteException e) {
@@ -229,7 +229,7 @@ public class Match {
                 if (player.getController().clientInput.callBack != null) {
                     try {
                         //TODO: New protocl
-                        GameController.commCtrl.sendMessageToClient(
+                        CommunicationController.instance.sendMessageToClient(
                                 "Server > " + player.getNickname() + " acquired " + goal.tokenStack.get(0) + " points",player.getController());
                         //OLD RMI only
                         player.getController().clientInput.callBack.sendMessageToClient(
@@ -301,7 +301,7 @@ public class Match {
             try {
                 if (p.getController().clientInput.callBack != null) {
                     //TODO: new protocol
-                    GameController.commCtrl.notifyEndMatch(p.getController());
+                    CommunicationController.instance.notifyEndMatch(p.getController());
                     //OLD RMI
                     p.getController().clientInput.callBack.notifyEndMatch();
                 }
@@ -410,7 +410,7 @@ public class Match {
             try {
                 if (p.getController().clientInput.callBack != null) {
                     //TODO: new protocol
-                    GameController.commCtrl.notifyStart(matchID,p.getController());
+                    CommunicationController.instance.notifyStart(matchID,p.getController());
                     //OLD RMI
                     p.getController().clientInput.callBack.notifyStart(matchID);
                 }
@@ -432,7 +432,7 @@ public class Match {
             if (currentPlayer.getController().clientInput.callBack != null) {
                 String message = SC.RED_B + "Server[!] > " + currentPlayer.getNickname() + "! It's your turn. Press 'Enter'" + SC.RST;
                 //TODO: new Protocol
-                GameController.commCtrl.sendMessageToClient(message,currentPlayer.getController());
+                CommunicationController.instance.sendMessageToClient(message,currentPlayer.getController());
 
                 //OLD RMI
                 currentPlayer.getController().clientInput.callBack.sendMessageToClient(message);
@@ -455,7 +455,7 @@ public class Match {
             if (p.getController().clientInput.callBack != null) {
                 try {
                     //TODO: new Protocol
-                    GameController.commCtrl.sendVirtualView(getJSONVirtualView(), playerList.indexOf(p),p.getController());
+                    CommunicationController.instance.sendVirtualView(getJSONVirtualView(), playerList.indexOf(p),p.getController());
                     //OLD RMI
                     p.getController().clientInput.callBack.sendVirtualView(getJSONVirtualView(), playerList.indexOf(p));
                 } catch (RemoteException e) {
@@ -529,7 +529,7 @@ public class Match {
             if (p.getController().clientInput.callBack != null) {
                 try {
                     //TODO: new Protocol
-                    GameController.commCtrl.sendVirtualHand(getJSONHand(),p.getController());
+                    CommunicationController.instance.sendVirtualHand(getJSONHand(),p.getController());
 
                     //OLD RMI
                     p.getController().clientInput.callBack.sendVirtualHand(getJSONHand());

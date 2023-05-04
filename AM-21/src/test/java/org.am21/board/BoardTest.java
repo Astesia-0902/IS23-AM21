@@ -25,13 +25,13 @@ public class BoardTest {
     private Match m;
     private Board board;
     private Bag bag;
-    private final static int seats=2;
+    private final static int seats = 2;
 
 
     @BeforeEach
     void setUp() {
 
-        m= new Match(seats);
+        m = new Match(seats);
         board = new Board(m);
         bag = board.bag;
         //clearBoard(board);
@@ -41,18 +41,19 @@ public class BoardTest {
 
     @AfterEach
     void tearDown() {
-        m=null;
-        board =null;
+        m = null;
+        board = null;
     }
 
     /**
      * Auxiliary Method for board reset
+     *
      * @param b is board
      */
-    public void clearBoard(Board b){
-        for(int i=0;i<Board.BOARD_ROW;i++) {
-            for(int j=0;j<Board.BOARD_COLUMN;j++){
-                b.setCell(i,j,null);
+    public void clearBoard(Board b) {
+        for (int i = 0; i < Board.BOARD_ROW; i++) {
+            for (int j = 0; j < Board.BOARD_COLUMN; j++) {
+                b.setCell(i, j, null);
 
             }
         }
@@ -64,10 +65,9 @@ public class BoardTest {
      * Test if the board size is 45.
      * Expect NotEquals, in fact the maxSeats is 2 ,
      * so it should be 29.
-     *
      */
     @Test
-    void testSize(){
+    void testSize() {
 
         assertNotEquals(45, board.getSize());
 
@@ -76,14 +76,13 @@ public class BoardTest {
     /**
      * Test if the new generated board is empty in a generic cell
      * And then test it after firstSetup() is called.
-     *
      */
     @Test
-    void testCell(){
+    void testCell() {
 
-        assertNull(board.getCell(5,5));
+        assertNull(board.getCell(5, 5));
         board.firstSetup();
-        assertNotNull(board.getCell(5,5));
+        assertNotNull(board.getCell(5, 5));
 
     }
 
@@ -92,11 +91,11 @@ public class BoardTest {
      * Test if, after an insertion, the cell is occupied
      */
     @Test
-    void testOccupation(){
-        board.setCell(5,5,new ItemCard("Leo"));
-        assertTrue(board.isOccupied(5,5));
+    void testOccupation() {
+        board.setCell(5, 5, new ItemCard("Leo"));
+        assertTrue(board.isOccupied(5, 5));
 
-        assertFalse(board.isOccupied(0,0));
+        assertFalse(board.isOccupied(0, 0));
     }
 
     /**
@@ -107,10 +106,10 @@ public class BoardTest {
      * Game Rule: Board need refill when every item has no adjacent
      */
     @Test
-    void testCheckBoardFalse(){
+    void testCheckBoardFalse() {
 
-        board.setCell(5,5,new ItemCard("Leo"));
-        board.setCell(5,4,new ItemCard("MiniLeo"));
+        board.setCell(5, 5, new ItemCard("Leo"));
+        board.setCell(5, 4, new ItemCard("MiniLeo"));
         assertFalse(board.checkBoard());
 
     }
@@ -123,10 +122,10 @@ public class BoardTest {
      * Game Rule: Board need refill when every item has no adjacent
      */
     @Test
-    void testCheckBoardTrue(){
+    void testCheckBoardTrue() {
 
-        board.setCell(5,5,new ItemCard("Leo"));
-        board.setCell(4,4,new ItemCard("MiniLeo"));
+        board.setCell(5, 5, new ItemCard("Leo"));
+        board.setCell(4, 4, new ItemCard("MiniLeo"));
         assertTrue(board.checkBoard());
 
     }
@@ -135,13 +134,13 @@ public class BoardTest {
      * Test if an item in a cell is isolated
      */
     @Test
-    void testIsAlone(){
+    void testIsAlone() {
 
-        board.setCell(5,5,new ItemCard("Koko"));
-        assertTrue(board.isAlone(5,5));
+        board.setCell(5, 5, new ItemCard("Koko"));
+        assertTrue(board.isAlone(5, 5));
 
-        board.setCell(4,5,new ItemCard("kiki"));
-        assertFalse(board.isAlone(5,5));
+        board.setCell(4, 5, new ItemCard("kiki"));
+        assertFalse(board.isAlone(5, 5));
 
     }
 
@@ -150,19 +149,19 @@ public class BoardTest {
      * Test if the card respect the selection condition when other cards have been already selected
      */
     @Test
-    void testIsOrthogonal(){
+    void testIsOrthogonal() {
 
-        Hand h = new Hand(new PlayerController("",null).getPlayer());
+        Hand h = new Hand(new PlayerController("", null, null).getPlayer());
 
-        h.getSelectedItems().add(new CardPointer(3,3));
-        h.getSelectedItems().get(0).item= new ItemCard("none");
-
-        assertTrue(board.isOrthogonal(3,4,h.getSelectedItems()));
-
-        h.getSelectedItems().add((new CardPointer(3,4)));
+        h.getSelectedItems().add(new CardPointer(3, 3));
         h.getSelectedItems().get(0).item = new ItemCard("none");
 
-        assertFalse(board.isOrthogonal(4,4,h.getSelectedItems()));
+        assertTrue(board.isOrthogonal(3, 4, h.getSelectedItems()));
+
+        h.getSelectedItems().add((new CardPointer(3, 4)));
+        h.getSelectedItems().get(0).item = new ItemCard("none");
+
+        assertFalse(board.isOrthogonal(4, 4, h.getSelectedItems()));
 
     }
 
@@ -175,40 +174,39 @@ public class BoardTest {
      * the cell is already verified in SelectCell() from PlayerController
      */
     @Test
-    void testHasFreeSide(){
+    void testHasFreeSide() {
 
-        board.setCell(5,5,new ItemCard("Ken"));
-        board.setCell(4,5,new ItemCard("BigKen"));
-        board.setCell(3,4,new ItemCard("LilKen"));
+        board.setCell(5, 5, new ItemCard("Ken"));
+        board.setCell(4, 5, new ItemCard("BigKen"));
+        board.setCell(3, 4, new ItemCard("LilKen"));
 
 
-        assertTrue(board.hasFreeSide(4,5));
-        assertFalse(board.hasFreeSide(0,0));
-        assertTrue(board.hasFreeSide(3,4));
+        assertTrue(board.hasFreeSide(4, 5));
+        assertFalse(board.hasFreeSide(0, 0));
+        assertTrue(board.hasFreeSide(3, 4));
 
     }
 
     /**
      * Test when a card is surrounded in every direction.
      * (3,4) Should not be selectable
-     *
      */
     @Test
-    void testHasFreeSideFalse(){
-        board.setCell(2,4,new ItemCard("Ken"));
-        board.setCell(3,3,new ItemCard("BigKen"));
-        board.setCell(3,4,new ItemCard("LilKen"));
-        board.setCell(3,5,new ItemCard("Ken"));
-        board.setCell(4,4,new ItemCard("BigKen"));
+    void testHasFreeSideFalse() {
+        board.setCell(2, 4, new ItemCard("Ken"));
+        board.setCell(3, 3, new ItemCard("BigKen"));
+        board.setCell(3, 4, new ItemCard("LilKen"));
+        board.setCell(3, 5, new ItemCard("Ken"));
+        board.setCell(4, 4, new ItemCard("BigKen"));
 
-        assertFalse(board.hasFreeSide(3,4));
+        assertFalse(board.hasFreeSide(3, 4));
     }
 
     @Test
-    void testIsPlayable(){
+    void testIsPlayable() {
 
-        assertTrue(board.isPlayable(5,5));
-        assertFalse(board.isPlayable(0,0));
+        assertTrue(board.isPlayable(5, 5));
+        assertFalse(board.isPlayable(0, 0));
     }
 
     /**
@@ -219,30 +217,30 @@ public class BoardTest {
     @Test
     void testIsOrthogonal2() throws RemoteException {
         Match m1 = new Match(2);
-        PlayerController c = new PlayerController("A",new ClientInputHandler());
-        PlayerController d = new PlayerController("B",new ClientInputHandler());
-        c.clientInput.callBack=new ClientCallBack();
-        d.clientInput.callBack=new ClientCallBack();
+        PlayerController c = new PlayerController("A", new ClientInputHandler(), null);
+        PlayerController d = new PlayerController("B", new ClientInputHandler(), null);
+        c.clientInput.callBack = new ClientCallBack();
+        d.clientInput.callBack = new ClientCallBack();
         m1.addPlayer(c.getPlayer());
         m1.addPlayer(d.getPlayer());
 
-        m1.currentPlayer=(c.getPlayer());
+        m1.currentPlayer = (c.getPlayer());
 
         clearBoard(m1.board);
 
-        m1.board.setCell(4,4,new ItemCard(ItemType.__Cats__+"1.1"));
-        m1.board.setCell(3,4,new ItemCard(ItemType.__Cats__+"1.1"));
-        m1.board.setCell(5,4,new ItemCard(ItemType.__Cats__+"1.1"));
+        m1.board.setCell(4, 4, new ItemCard(ItemType.__Cats__ + "1.1"));
+        m1.board.setCell(3, 4, new ItemCard(ItemType.__Cats__ + "1.1"));
+        m1.board.setCell(5, 4, new ItemCard(ItemType.__Cats__ + "1.1"));
 
-        assertTrue(c.selectCell(4,4));
-        assertTrue(c.selectCell(5,4));
-        assertTrue(c.selectCell(3,4));
+        assertTrue(c.selectCell(4, 4));
+        assertTrue(c.selectCell(5, 4));
+        assertTrue(c.selectCell(3, 4));
 
         c.clearSelectedCards();
         //Change order
-        assertTrue(c.selectCell(3,4));
-        assertFalse(c.selectCell(5,4));
-        assertTrue(c.selectCell(4,4));
+        assertTrue(c.selectCell(3, 4));
+        assertFalse(c.selectCell(5, 4));
+        assertTrue(c.selectCell(4, 4));
 
 
     }
@@ -255,28 +253,28 @@ public class BoardTest {
     @Test
     void testIsOrthogonal3() throws RemoteException {
         Match m1 = new Match(2);
-        PlayerController c = new PlayerController("A",new ClientInputHandler());
-        PlayerController d = new PlayerController("B",new ClientInputHandler());
-        c.clientInput.callBack=new ClientCallBack();
-        d.clientInput.callBack=new ClientCallBack();
+        PlayerController c = new PlayerController("A", new ClientInputHandler(), null);
+        PlayerController d = new PlayerController("B", new ClientInputHandler(), null);
+        c.clientInput.callBack = new ClientCallBack();
+        d.clientInput.callBack = new ClientCallBack();
         m1.addPlayer(c.getPlayer());
         m1.addPlayer(d.getPlayer());
 
-        m1.currentPlayer=(c.getPlayer());
+        m1.currentPlayer = (c.getPlayer());
         clearBoard(m1.board);
-        m1.board.setCell(4,4,new ItemCard(ItemType.__Cats__+"1.1"));
-        m1.board.setCell(3,4,new ItemCard(ItemType.__Cats__+"1.1"));
-        m1.board.setCell(4,5,new ItemCard(ItemType.__Cats__+"1.1"));
+        m1.board.setCell(4, 4, new ItemCard(ItemType.__Cats__ + "1.1"));
+        m1.board.setCell(3, 4, new ItemCard(ItemType.__Cats__ + "1.1"));
+        m1.board.setCell(4, 5, new ItemCard(ItemType.__Cats__ + "1.1"));
 
-        assertTrue(c.selectCell(4,4));
-        assertTrue(c.selectCell(3,4));
-        assertFalse(c.selectCell(4,5));
+        assertTrue(c.selectCell(4, 4));
+        assertTrue(c.selectCell(3, 4));
+        assertFalse(c.selectCell(4, 5));
 
         c.clearSelectedCards();
         //Change Order
-        assertTrue(c.selectCell(3,4));
-        assertFalse(c.selectCell(4,5));
-        assertTrue(c.selectCell(4,4));
+        assertTrue(c.selectCell(3, 4));
+        assertFalse(c.selectCell(4, 5));
+        assertTrue(c.selectCell(4, 4));
 
     }
 }

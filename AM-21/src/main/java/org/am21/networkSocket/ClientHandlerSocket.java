@@ -2,6 +2,7 @@ package org.am21.networkSocket;
 
 import org.am21.controller.GameController;
 import org.am21.controller.PlayerController;
+import org.am21.model.enumer.ConnectionType;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -19,6 +20,8 @@ public class ClientHandlerSocket extends Thread {
 
     public ClientHandlerSocket(Socket clientSocket) {
         this.clientSocket = clientSocket;
+        myPlayer = new PlayerController("", null, this);
+        myPlayer.connectionType = ConnectionType.SOCKET;
         try {
             in = new DataInputStream(clientSocket.getInputStream());
             out = new DataOutputStream(clientSocket.getOutputStream());

@@ -24,6 +24,8 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      * @since JDK1.1
      */
     public ClientInputHandler() throws RemoteException {
+        playerController = new PlayerController("",this);
+        playerController.connectionType = ConnectionType.RMI;
     }
 
     //TODO: Check if the ip address and port are valid

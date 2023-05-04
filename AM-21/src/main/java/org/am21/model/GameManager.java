@@ -82,7 +82,7 @@ public class GameManager {
         if (SERVER_COMM) {
             try {
                 //TODO: new protocol
-                GameController.commCtrl.sendMessageToClient(m.value(), pc);
+                CommunicationController.instance.sendMessageToClient(m.value(), pc);
 
                 //OLD RMI
                 pc.clientInput.callBack.sendMessageToClient(m.value());
@@ -96,7 +96,7 @@ public class GameManager {
         if (SERVER_COMM) {
             try {
                 //TODO: new Protocol
-                GameController.commCtrl.sendMessageToClient(m, pc);
+                CommunicationController.instance.sendMessageToClient(m, pc);
                 //OLD RMI
                 pc.clientInput.callBack.sendMessageToClient(m);
             } catch (RemoteException e) {

@@ -1,5 +1,6 @@
 package org.am21.model;
 
+import org.am21.controller.CommunicationController;
 import org.am21.controller.GameController;
 
 import java.rmi.RemoteException;
@@ -67,7 +68,7 @@ public class ChatManager {
 
         }
         for (Player p : match.playerList) {
-            GameController.commCtrl.sendMessageToClient(lastTenMex, p.getController());
+            CommunicationController.instance.sendMessageToClient(lastTenMex, p.getController());
         }
 
     }
