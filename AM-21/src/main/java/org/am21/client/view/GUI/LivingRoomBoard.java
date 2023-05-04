@@ -8,7 +8,7 @@ public class LivingRoomBoard {
         JFrame frame = new JFrame("Living room");
 
         frame.add(new BoardPanel());
-        frame.setBounds(0,0,1000,1000);
+        frame.setBounds(0,0,1500,1000);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
