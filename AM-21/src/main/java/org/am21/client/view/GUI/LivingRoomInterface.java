@@ -5,7 +5,7 @@ import org.am21.client.view.GUI.component.GamePanel;
 import javax.swing.*;
 import java.awt.*;
 
-public class LivingRoomInterface extends JFrame  {
+public class LivingRoomInterface extends JFrame {
 
     public GamePanel gamePanel;
     public LivingRoomInterface(){
@@ -15,9 +15,26 @@ public class LivingRoomInterface extends JFrame  {
 
 
         try{
+            //option menu
+            JMenuBar jmbLivingRoom = new JMenuBar();
+            JMenu jmOption = new JMenu("Option");
+            jmOption.setFont(new Font("DejaVu Sans",Font.PLAIN,16));
+            JMenuItem jmiRule = jmOption.add("Rule");
+            jmiRule.setFont(new Font("DejaVu Sans",Font.PLAIN,16));
+            //TODO:add Action listner
+            JMenuItem jmiHelp = jmOption.add("Help");
+            jmiHelp.setFont(new Font("DejaVu Sans",Font.PLAIN,16));
+            //TODO:add Action listner
+            JMenuItem jmiLeave = jmOption.add("Leave");
+            jmiLeave.setFont(new Font("DejaVu Sans",Font.PLAIN,16));
+            //TODO:add Action listner
+
+            this.setJMenuBar(jmbLivingRoom);
+
             //Board Panel interface
             this.gamePanel = new GamePanel();
             this.add(this.gamePanel);
+
             // item visualization
             this.setTitle("My Shelf Room");
             this.setLayout(null);
@@ -28,6 +45,7 @@ public class LivingRoomInterface extends JFrame  {
             this.setUndecorated(true);
             this.setExtendedState(JFrame.MAXIMIZED_BOTH);
             this.setVisible(true);
+            System.out.println(" your PC have: \nhigh:"+pcHeight+"\n wide:"+pcWidth);
 
 
 

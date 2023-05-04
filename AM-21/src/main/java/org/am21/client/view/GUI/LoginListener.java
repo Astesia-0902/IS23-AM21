@@ -7,50 +7,52 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class LoginListener implements MouseListener, MouseMotionListener, ActionListener {
-    LoginInterface loginInterface;
+    Gui gui;
     Point p = new Point();
 
-    public LoginListener(LoginInterface loginFrame) {
-        this.loginInterface = loginFrame;
-        loginFrame.closeLabel.addMouseListener(this);
-        loginFrame.minusLabel.addMouseListener(this);
-        loginFrame.nicknameField.addActionListener(this);
-        loginFrame.loginButton.addActionListener(this);
+    public LoginListener(Gui gui) {
+        this.gui = gui;
+        gui.loginInterface.addMouseMotionListener(this);
+        gui.loginInterface.addMouseListener(this);
+        gui.loginInterface.closeLabel.addMouseListener(this);
+        gui.loginInterface.minusLabel.addMouseListener(this);
+        gui.loginInterface.nicknameField.addActionListener(this);
+        gui.loginInterface.loginButton.addActionListener(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         // Press Login Button
-        if (e.getSource() == loginInterface.loginButton) {
+        if (e.getSource() == gui.loginInterface.loginButton) {
             // Get username
-            String username = loginInterface.nicknameField.getText().trim();
+            String username = gui.loginInterface.nicknameField.getText().trim();
 
             if (username.isEmpty()) {
-                loginInterface.nicknameField.setBorder(new CompoundBorder(new MatteBorder(0, 0, 6, 5,
+                gui.loginInterface.nicknameField.setBorder(new CompoundBorder(new MatteBorder(0, 0, 3, 3,
                         new Color(178, 34, 34)), new EmptyBorder(0, 50, 0, 0)));
             } else {
                 //TODO:ClientInputHandle...
                 //TODO: MainFrameListener...
 
                 // Login successful and close the login frame
-                loginInterface.frame.dispose();
+                gui.loginInterface.dispose();
             }
         }
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource() == loginInterface.closeLabel) {
-            loginInterface.frame.dispose();                         //close window
+        if (e.getSource() == gui.loginInterface.closeLabel) {
+            gui.loginInterface.dispose();                         //close window
         }
-        if (e.getSource() == loginInterface.minusLabel) {
-            loginInterface.frame.setExtendedState(Frame.ICONIFIED); // minimize window
+        if (e.getSource() == gui.loginInterface.minusLabel) {
+            gui.loginInterface.setExtendedState(Frame.ICONIFIED); // minimize window
         }
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (e.getSource() == loginInterface.frame) {
+        if (e.getSource() == gui.loginInterface) {
             p.x = e.getX();
             p.y = e.getY();
         }
@@ -63,40 +65,43 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        if (e.getSource() == loginInterface.closeLabel) {
-            loginInterface.closeLabel.setBackground(new Color(222, 184, 135));
-            loginInterface.closeLabel.setOpaque(true);
+        if (e.getSource() == gui.loginInterface.closeLabel) {
+            gui.loginInterface.closeLabel.setBackground(new Color(222, 184, 135));
+            gui.loginInterface.closeLabel.setOpaque(true);
 
         } else {
-            loginInterface.closeLabel.setBackground(null);
-            loginInterface.closeLabel.setOpaque(false);
+            gui.loginInterface.closeLabel.setBackground(null);
+            gui.loginInterface.closeLabel.setOpaque(false);
         }
-        if (e.getSource() == loginInterface.minusLabel) {
-            loginInterface.minusLabel.setBackground(new Color(222, 184, 135));
-            loginInterface.minusLabel.setOpaque(true);
+        if (e.getSource() == gui.loginInterface.minusLabel) {
+            gui.loginInterface.minusLabel.setBackground(new Color(222, 184, 135));
+            gui.loginInterface.minusLabel.setOpaque(true);
         } else {
-            loginInterface.minusLabel.setBackground(null);
-            loginInterface.minusLabel.setOpaque(false);
+            gui.loginInterface.minusLabel.setBackground(null);
+            gui.loginInterface.minusLabel.setOpaque(false);
         }
 
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        if (e.getSource() == loginInterface.closeLabel) {
-            loginInterface.closeLabel.setBackground(null);
-            loginInterface.closeLabel.setOpaque(false);
+        if (e.getSource() == gui.loginInterface.closeLabel) {
+            gui.loginInterface.closeLabel.setBackground(null);
+            gui.loginInterface.closeLabel.setOpaque(false);
         }
-        if (e.getSource() == loginInterface.minusLabel) {
-            loginInterface.minusLabel.setBackground(null);
-            loginInterface.minusLabel.setOpaque(false);
+        if (e.getSource() == gui.loginInterface.minusLabel) {
+            gui.loginInterface.minusLabel.setBackground(null);
+            gui.loginInterface.minusLabel.setOpaque(false);
         }
 
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-
+        if (e.getSource() == gui.loginInterface) {
+            Point panelPoint = gui.loginInterface.getLocation();
+            gui.loginInterface.setLocation(panelPoint.x + e.getX() - p.x, panelPoint.y + e.getY() - p.y);
+        }
     }
 
     @Override
