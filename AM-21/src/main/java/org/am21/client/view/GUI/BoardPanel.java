@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 public class BoardPanel extends JPanel {
 
+
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
         this.setBackground(Color.black);
