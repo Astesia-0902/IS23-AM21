@@ -3,13 +3,7 @@ package org.am21.networkRMI;
 import org.am21.controller.GameController;
 import org.am21.controller.PlayerController;
 import org.am21.model.GameManager;
-import org.am21.model.Match;
-import org.am21.model.Player;
-import org.am21.model.enumer.SC;
-import org.am21.model.enumer.ServerMessage;
-import org.am21.model.enumer.UserStatus;
-import org.am21.model.items.Shelf;
-
+import org.am21.model.enumer.ConnectionType;
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
@@ -46,40 +40,27 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         String userHost = getClientHost();
         synchronized (GameManager.playerMatchMap) {
             synchronized (GameManager.matchList) {
-                return GameManager.playerMatchMap.containsKey(userHost) &&
-                        userHost.equals(GameManager.matchList.
-                                get(GameManager.playerMatchMap.get(userHost)).currentPlayer.getHost());
+                return GameManager.playerMatchMap.containsKey(userName) &&
+                        userName.equals(GameManager.matchList.
+                                get(GameManager.playerMatchMap.get(userName)).currentPlayer.getNickname());
             }
         }
     }
 
     /**
-     * @param username
-     * @return
-     * @throws RemoteException
-     * @throws ServerNotActiveException
+     * @param username username
+     * @return true if login successfully, false if the username already exists.
+     * @throws RemoteException          if failed to export object
+     * @throws ServerNotActiveException if the client is not active
      */
     @Override
     public boolean logIn(String username, IClientCallBack clientCallBack) throws RemoteException, ServerNotActiveException {
-        if (GameManager.checkNameSake(username)) {
-            callBack.sendMessageToClient(SC.RED_B + ServerMessage.Login_No.value() + SC.RST);
-            return false;
-        }
+        playerController = new PlayerController(username, this, null);
+        playerController.connectionType = ConnectionType.RMI;
         userHost = getClientHost();
         this.userName = username;
         //TODO: separate CIH from playerController constructor (RMI not needed for model & controller testing)
-
-        playerController = new PlayerController(username, this);
-
-        synchronized (GameManager.players) {
-            if (!GameManager.players.contains(playerController.getPlayer())) {
-                GameManager.players.add(playerController.getPlayer());
-            }
-        }
-        callBack.sendMessageToClient(ServerMessage.Login_Ok.value() + username);
-        //DEBUG
-        System.out.println(username + " joined the game");
-        return true;
+        return GameController.login(username, playerController);
     }
 
     /**
@@ -90,17 +71,14 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      */
     @Override
     public boolean createMatch(int playerNum) throws RemoteException, ServerNotActiveException {
-        if (GameController.createMatch(userName, createMatchRequestCount, playerNum, playerController)) {
-            return true;
-        }
-        return false;
+        return GameController.createMatch(userName, createMatchRequestCount, playerNum, playerController);
     }
 
     /**
-     * @param matchID
-     * @return
-     * @throws RemoteException
-     * @throws ServerNotActiveException
+     * @param matchID matchID
+     * @return true if the operation is successful, false if the match is full
+     * @throws RemoteException if failed to export object
+     * @throws ServerNotActiveException if the client is not active
      */
     @Override
     public boolean joinGame(int matchID) throws RemoteException, ServerNotActiveException {
@@ -112,56 +90,37 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
 
 
     /**
-     * @param row
-     * @param col
-     * @return
-     * @throws ServerNotActiveException
+     * @param row row
+     * @param col column
+     * @return true if the operation is successful, false if the cell is not selectable
+     * @throws ServerNotActiveException if the client is not active
      */
     public boolean selectCell(int row, int col) throws RemoteException, ServerNotActiveException {
-        if (!checkPlayerActionPhase() && playerController.selectCell(row, col)) {
-            return true;
-        }
-        return false;
+        return GameController.selectCell(row, col, playerController);
     }
 
     @Override
     public boolean confirmSelection() throws RemoteException, ServerNotActiveException {
-        if (!checkPlayerActionPhase() && playerController.callEndSelection()) {
-            return true;
-        }
-        return false;
+        return GameController.confirmSelection(playerController);
     }
 
     /**
-     * @param colNum
-     * @return
-     * @throws ServerNotActiveException
+     * @param colNum column number
+     * @return true if the operation is successful, false if the column is full
+     * @throws ServerNotActiveException if the client is not active
      */
     public boolean insertInColumn(int colNum) throws RemoteException, ServerNotActiveException {
-        if (!checkPlayerActionPhase() && playerController.tryToInsert(colNum)) {
-            return true;
-        }
-        return false;
+        return GameController.insertInColumn(colNum, playerController);
     }
 
     @Override
     public boolean endTurn() throws RemoteException, ServerNotActiveException {
-        if (!checkPlayerActionPhase()) {
-            playerController.callEndInsertion();
-            return true;
-        }
-        return false;
+        return GameController.endTurn(playerController);
     }
 
-    /**
-     * @throws ServerNotActiveException
-     */
-    public boolean deselectCards() throws RemoteException, ServerNotActiveException {
-        if (!checkPlayerActionPhase() && playerController.clearSelectedCards()) {
-            return true;
-        }
 
-        return false;
+    public boolean deselectCards() throws RemoteException, ServerNotActiveException {
+        return GameController.deselectCards(playerController);
     }
 
     /**
@@ -171,10 +130,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      */
     @Override
     public boolean sortHand(int pos1, int pos2) throws RemoteException, ServerNotActiveException {
-        if (!checkPlayerActionPhase() && playerController.changeHandOrder(pos1, pos2)) {
-            return true;
-        }
-        return false;
+        return GameController.sortHand(pos1, pos2, playerController);
     }
 
     /**
@@ -184,27 +140,12 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      */
     @Override
     public boolean leaveMatch() throws RemoteException {
-        if (GameController.removePlayerFromMatch(playerController, playerController.getPlayer().getMatch().matchID)) {
-            this.callBack.sendMessageToClient("Server > Leaving Room...");
-            this.callBack.notifyGoToMenu();
-            return true;
-        }
-        return false;
+        return GameController.leaveMatch(playerController);
     }
 
     @Override
     public boolean exitGame() throws RemoteException {
-
-        if (playerController.getPlayer().getMatch() != null) {
-
-            GameController.removePlayerFromMatch(playerController, playerController.getPlayer().getMatch().matchID);
-        }
-        //When Player Exit The Game, every info abound the Player is cancelled
-        if (GameController.cancelPlayer(playerController)) {
-            return true;
-        }
-
-        return false;
+        return GameController.exitGame(playerController);
     }
 
     /**
@@ -215,7 +156,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      */
     @Override
     public String getVirtualView() throws RemoteException {
-        return playerController.getPlayer().getMatch().getJSONVirtualView();
+        return GameController.getVirtualView(playerController);
     }
 
     /**
@@ -226,8 +167,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      */
     @Override
     public void registerCallBack(IClientCallBack callBack) throws RemoteException {
-        this.callBack = callBack;
-        GameManager.client_connected++;
+        GameController.registerCallBack(callBack, playerController);
         //System.out.println("Client Callback registered:" + GameManager.client_connected);
     }
 
@@ -240,60 +180,22 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      */
     @Override
     public boolean sendChatMessage(String message) throws RemoteException {
-        Player p = playerController.getPlayer();
-        if (p.getMatch() != null) {
-            p.getMatch().chatManager.sendChat(message, p.getNickname());
-            return true;
-        }
-        return false;
+        return GameController.sendChatMessage(message, playerController);
     }
 
     @Override
     public boolean sendPlayerMessage(String message, String receiver) throws RemoteException {
-        String sender = playerController.getPlayer().getNickname();
-        synchronized (GameManager.players) {
-            for (Player p : GameManager.players) {
-                if (p.getNickname().equals(receiver)) {
-                    GameManager.sendTextReply(p.getController(), "\n------------------------------------------");
-                    GameManager.sendTextReply(p.getController(), "\n" + sender + "[!] > \"" + message + "\"");
-                    GameManager.sendTextReply(p.getController(), "------------------------------------------\n");
-
-                    return true;
-                }
-            }
-
-        }
-        return false;
+        return GameController.sendPlayerMessage(message, receiver, playerController);
     }
 
     @Override
     public void printOnlinePlayers() throws RemoteException {
-        String message = "";
-        message += ServerMessage.ListP.value() + "\n";
-        synchronized (GameManager.players) {
-            for (Player p : GameManager.players) {
-                if (p.getStatus() == UserStatus.Online || p.getStatus() == UserStatus.GameMember) {
-                    message += ("[" + p.getNickname() + " | " + p.getStatus() + " ] \n");
-
-                }
-            }
-        }
-        callBack.sendMessageToClient(message);
-
+        GameController.printOnlinePlayers(playerController);
     }
 
     @Override
     public void printMatchList() throws RemoteException {
-        String message = "";
-        message += "Match List:\n";
-        synchronized (GameManager.matchList) {
-            if (GameManager.matchList.size() > 0) {
-                for (Match m : GameManager.matchList) {
-                    message += ("[ID: " + m.matchID + " | " + m.gameState + " | Players: (" + m.playerList.size() + "/" + m.maxSeats + ")]\n");
-                }
-            }
-        }
-        this.callBack.sendMessageToClient(message);
+        GameController.printMatchList(playerController);
     }
 
     //TODO: method
@@ -311,44 +213,14 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
 
     @Override
     public boolean changeMatchSeats(int newMaxSeats) throws RemoteException {
-        Player p = playerController.getPlayer();
-        synchronized (GameManager.playerMatchMap) {
-            if (GameManager.playerMatchMap.containsKey(p.getNickname())
-                    && p.getMatch().matchID==(GameManager.playerMatchMap.get(p.getNickname()))
-                    && p.getMatch().changeSeats(p, newMaxSeats)) {
-                return true;
-            }
-        }
-        return false;
-
+        return GameController.changeMatchSeats(newMaxSeats, playerController);
     }
-
-
 
 
     //TODO: to be deleted when the game is complete, this method is just for accelerate testing
     @Override
     public boolean changeInsertLimit(int newLimit) throws RemoteException {
-        Player p = playerController.getPlayer();
-        synchronized (GameManager.playerMatchMap) {
-            if (GameManager.playerMatchMap.containsKey(p.getNickname())
-                    && p.getMatch().matchID==(GameManager.playerMatchMap.get(p.getNickname()))) {
-                if (p.getMatch().admin.equals(p)) {
-                    //Limit changed for the whole server
-                    Shelf.STD_LIMIT = newLimit;
-                    synchronized (GameManager.players){
-                        for(Player player:GameManager.players){
-                            if(player.getController().clientInput.callBack!=null){
-                                player.getController().clientInput.callBack.sendMessageToClient(SC.YELLOW+"\nServer > Insertion Limit changed to: "+newLimit+SC.RST);
-                            }
-
-                        }
-                    }
-                    return true;
-                }
-            }
-        }
-        return false;
+        return GameController.changeInsertLimit(newLimit, playerController);
     }
 
 

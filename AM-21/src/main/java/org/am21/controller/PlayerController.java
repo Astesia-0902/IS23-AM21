@@ -3,6 +3,7 @@ package org.am21.controller;
 import org.am21.model.Cards.PersonalGoalCard;
 import org.am21.model.GameManager;
 import org.am21.model.Player;
+import org.am21.model.enumer.ConnectionType;
 import org.am21.model.enumer.GamePhase;
 import org.am21.model.enumer.SC;
 import org.am21.model.enumer.ServerMessage;
@@ -10,9 +11,11 @@ import org.am21.model.items.Board;
 import org.am21.model.items.Hand;
 import org.am21.model.items.Shelf;
 import org.am21.networkRMI.ClientInputHandler;
+import org.am21.networkSocket.ClientHandlerSocket;
 import org.am21.utilities.CardPointer;
 import org.am21.utilities.VirtualViewHelper;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,21 +27,23 @@ public class PlayerController {
     private Player player;
     private Hand hand;
     public ClientInputHandler clientInput;
+    public ClientHandlerSocket clientHandlerSocket;
     /**
      * True: RMI
      * False: Socket
      */
-    public boolean connectionType;
+    public ConnectionType connectionType;
 
     /**
      * PlayerController constructor is initialized by ClientGameController, when ClientInputHandler login.
      * It will create the player and add his reference
      */
-    public PlayerController(String nickname, ClientInputHandler clientInput) {
+    public PlayerController(String nickname, ClientInputHandler clientInput, ClientHandlerSocket clientSocket) {
         this.player = new Player(nickname, this);
         this.hand = new Hand(this.player);
         this.player.setHand(this.hand);
         this.clientInput = clientInput;
+        this.clientHandlerSocket = clientSocket;
     }
 
     public Player getPlayer() {
@@ -369,3 +374,4 @@ public class PlayerController {
     }
 
 }
+

@@ -1,5 +1,7 @@
 package org.am21.model;
 
+import org.am21.controller.GameController;
+
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +22,9 @@ public class ChatManager {
 
     /**
      * send the message to all players
+     *
      * @param message the message
-     * @param sender the sender
+     * @param sender  the sender
      * @throws RemoteException if the remote call fails
      */
     public void sendMessage(String message, String sender) throws RemoteException {
@@ -29,12 +32,13 @@ public class ChatManager {
         this.sender = sender;
         chatMessages.add(sender + ": " + message);
         for (Player player : match.playerList) {
-            player.getController().clientInput.callBack.sendChatMessage(chatMessages.get(chatMessages.size() - 1));
+            GameController.sendChatMessage(chatMessages.get(chatMessages.size() - 1), player.getController());
         }
     }
 
     /**
      * Get the chat messages history
+     *
      * @return the chat messages history
      */
     public List<String> getChatMessages() {
@@ -45,25 +49,25 @@ public class ChatManager {
         this.message = message;
         this.sender = sender;
         chatMessages.add(sender + ": " + message);
-        String lastTenMex="";
+        String lastTenMex = "";
         int tmp = chatMessages.size();
 
-        for(int t=0;t<10;t++){
-            if(tmp>0){
+        for (int t = 0; t < 10; t++) {
+            if (tmp > 0) {
                 tmp--;
             }
         }
-        lastTenMex+="\n< Recent Chat Messages >\n";
-        for(int i=tmp;i<chatMessages.size();i++){
-            lastTenMex+=chatMessages.get(i);
-            if(i==chatMessages.size()-1){
-                lastTenMex+=" >> NEW\n\nPress 'Enter'";
+        lastTenMex += "\n< Recent Chat Messages >\n";
+        for (int i = tmp; i < chatMessages.size(); i++) {
+            lastTenMex += chatMessages.get(i);
+            if (i == chatMessages.size() - 1) {
+                lastTenMex += " >> NEW\n\nPress 'Enter'";
             }
-            lastTenMex+="\n";
+            lastTenMex += "\n";
 
         }
-        for(Player p: match.playerList){
-            p.getController().clientInput.callBack.sendMessageToClient(lastTenMex);
+        for (Player p : match.playerList) {
+            GameController.commCtrl.sendMessageToClient(lastTenMex, p.getController());
         }
 
     }
