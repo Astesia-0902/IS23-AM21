@@ -1,6 +1,5 @@
 package org.am21.client.view.GUI.component;
 
-import org.am21.utilities.PathUtil;
 
 import javax.swing.*;
 import java.awt.*;

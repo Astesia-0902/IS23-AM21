@@ -7,7 +7,7 @@ import java.rmi.server.ServerNotActiveException;
 public interface View {
     //String chooseView();
 
-    void askLogin() throws ServerNotActiveException, RemoteException;
+    void askLogin() throws Exception;
     void askMenuAction() throws ServerNotActiveException, RemoteException;
     boolean askCreateMatch() throws ServerNotActiveException, RemoteException;
     int askMaxSeats() throws RemoteException;
