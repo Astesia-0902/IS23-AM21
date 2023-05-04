@@ -9,6 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< Updated upstream
     <list default="true" id="dd2f3e9a-b514-48f2-995d-660d696de66e" name="Changes" comment="update GUI">
       <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/CommunicationInterface.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/CommunicationListener.java" afterDir="false" />
@@ -24,6 +25,12 @@
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/component/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/component/GamePanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/View.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/PathUtil.java" beforeDir="false" />
+=======
+    <list default="true" id="dd2f3e9a-b514-48f2-995d-660d696de66e" name="Changes" comment="update Cli">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/LivingRoomInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/LivingRoomInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/component/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/component/GamePanel.java" afterDir="false" />
+>>>>>>> Stashed changes
     </list>
     <list id="19ab3365-554c-40d9-959c-e6407d37c953" name="Changes by jef" comment="" />
     <list id="64e1bfe8-5cd0-4a7d-8217-c090321f1a9a" name="Changes by maoyh" comment="" />
@@ -513,8 +520,13 @@
         <item itemvalue="Application.Gui" />
         <item itemvalue="Application.ServerInfoInterface" />
         <item itemvalue="Application.LivingRoomInterface" />
-        <item itemvalue="Application.LivingRoomBoard" />
         <item itemvalue="Application.LoginInterface" />
+<<<<<<< Updated upstream
+=======
+        <item itemvalue="Application.LivingRoomBoard" />
+        <item itemvalue="Application.ServerInfoInterface" />
+        <item itemvalue="Application.LoginInterfaceOlD" />
+>>>>>>> Stashed changes
       </list>
     </recent_temporary>
   </component>
@@ -599,7 +611,7 @@
       <workItem from="1683032880678" duration="17679000" />
       <workItem from="1683053669471" duration="6104000" />
       <workItem from="1683113962047" duration="8537000" />
-      <workItem from="1683186128720" duration="12826000" />
+      <workItem from="1683186128720" duration="25831000" />
     </task>
     <task id="LOCAL-00001" summary="update scoringToken test">
       <created>1680516093577</created>
