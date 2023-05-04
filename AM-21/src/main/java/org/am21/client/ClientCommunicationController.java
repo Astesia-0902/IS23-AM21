@@ -27,9 +27,7 @@ public class ClientCommunicationController {
         if (ClientController.isRMI) {
             try {
                 return ClientController.iClientInputHandler.logIn(username, clientCallBack);
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            } catch (ServerNotActiveException e) {
+            } catch (RemoteException | ServerNotActiveException e) {
                 throw new RuntimeException(e);
             }
         } else {
@@ -201,10 +199,10 @@ public class ClientCommunicationController {
         }
     }
 
-    public boolean sendPlayerMessage(String message, String receiver) {
+    public boolean sendPlayerMessage(String message, String receiver,boolean refresh) {
         if (ClientController.isRMI) {
             try {
-                return ClientController.iClientInputHandler.sendPlayerMessage(message, receiver);
+                return ClientController.iClientInputHandler.sendPlayerMessage(message, receiver,refresh);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }

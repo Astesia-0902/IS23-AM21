@@ -5,7 +5,6 @@ import org.am21.controller.GameController;
 import org.am21.controller.PlayerController;
 import org.am21.model.enumer.ServerMessage;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -78,30 +77,22 @@ public class GameManager {
      * @param pc PlayerController
      * @param m  ServerMessage
      */
-    public static void sendReply(PlayerController pc, ServerMessage m) {
+    public static void sendReply(PlayerController pc, ServerMessage m,boolean refresh) {
         if (SERVER_COMM) {
-            try {
-                //TODO: new protocol
-                CommunicationController.instance.sendMessageToClient(m.value(), pc);
+            //TODO: new protocol
+            CommunicationController.instance.sendMessageToClient(m.value(),refresh , pc);
 
-                //OLD RMI
-                pc.clientInput.callBack.sendMessageToClient(m.value());
-            } catch (RemoteException e) {
-                System.out.println("player not exists");
-            }
+            //OLD RMI
+            //pc.clientInput.callBack.sendMessageToClient(m.value());
         }
     }
 
-    public static void sendTextReply(PlayerController pc, String m) {
+    public static void sendTextReply(PlayerController pc, String m,boolean refresh) {
         if (SERVER_COMM) {
-            try {
-                //TODO: new Protocol
-                CommunicationController.instance.sendMessageToClient(m, pc);
-                //OLD RMI
-                pc.clientInput.callBack.sendMessageToClient(m);
-            } catch (RemoteException e) {
-                System.out.println("player not exists");
-            }
+            //TODO: new Protocol
+            CommunicationController.instance.sendMessageToClient(m, refresh, pc);
+            //OLD RMI
+            //pc.clientInput.callBack.sendMessageToClient(m);
         }
     }
 

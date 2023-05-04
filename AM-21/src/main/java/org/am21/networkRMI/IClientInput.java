@@ -39,7 +39,7 @@ public interface IClientInput extends Remote {
 
     boolean sendChatMessage(String message) throws RemoteException;
 
-    boolean sendPlayerMessage(String message,String receiver) throws RemoteException;
+    boolean sendPlayerMessage(String message, String receiver, boolean refresh) throws RemoteException;
 
     void printOnlinePlayers() throws RemoteException;
 

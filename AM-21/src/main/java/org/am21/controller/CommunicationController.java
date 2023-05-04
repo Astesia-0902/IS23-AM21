@@ -1,6 +1,7 @@
 package org.am21.controller;
 
 import org.am21.model.enumer.ConnectionType;
+import org.am21.model.enumer.UserStatus;
 
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
@@ -9,16 +10,19 @@ public class CommunicationController implements ICommunication {
     public static final CommunicationController instance = new CommunicationController();
 
     @Override
-    public void sendMessageToClient(String message, PlayerController myPlayer) {
+    public void sendMessageToClient(String message,boolean refresh, PlayerController myPlayer) {
         if (myPlayer.connectionType == ConnectionType.RMI) {
             try {
-                myPlayer.clientInput.callBack.sendMessageToClient(message);
+                myPlayer.clientInput.callBack.sendMessageToClient(message,refresh);
             } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                //throw new RuntimeException(e);
+                myPlayer.getPlayer().setStatus(UserStatus.Offline);
             }
-        } else {
-            String messageToClient = "Message" + "|" + message;
-            myPlayer.clientHandlerSocket.callback(messageToClient);
+        } else if(myPlayer.connectionType == ConnectionType.SOCKET){
+
+                String messageToClient = "Message" + "|" + message;
+                myPlayer.clientHandlerSocket.callback(messageToClient);
+
         }
     }
 
@@ -30,7 +34,7 @@ public class CommunicationController implements ICommunication {
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
-        } else {
+        } else if(myPlayer.connectionType == ConnectionType.SOCKET){
             String messageToClient = "VirtualView" + "|" + virtualView + "|" + pIndex;
             myPlayer.clientHandlerSocket.callback(messageToClient);
         }
@@ -44,7 +48,7 @@ public class CommunicationController implements ICommunication {
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
-        } else {
+        } else if(myPlayer.connectionType == ConnectionType.SOCKET){
             String messageToClient = "ChatMessage" + "|" + message;
             myPlayer.clientHandlerSocket.callback(messageToClient);
         }
@@ -55,12 +59,10 @@ public class CommunicationController implements ICommunication {
         if (myPlayer.connectionType == ConnectionType.RMI) {
             try {
                 myPlayer.clientInput.callBack.notifyStart(id);
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            } catch (ServerNotActiveException e) {
+            } catch (RemoteException | ServerNotActiveException e) {
                 throw new RuntimeException(e);
             }
-        } else {
+        } else if(myPlayer.connectionType == ConnectionType.SOCKET){
             String messageToClient = "START" + "|" + id;
             myPlayer.clientHandlerSocket.callback(messageToClient);
         }
@@ -75,9 +77,10 @@ public class CommunicationController implements ICommunication {
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
-        } else {
-            String messageToClient = "WAIT" + "|" + info;
-            myPlayer.clientHandlerSocket.callback(messageToClient);
+        } else if(myPlayer.connectionType == ConnectionType.SOCKET){
+                String messageToClient = "WAIT" + "|" + info;
+                myPlayer.clientHandlerSocket.callback(messageToClient);
+
         }
     }
 
@@ -90,7 +93,7 @@ public class CommunicationController implements ICommunication {
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
-        } else {
+        } else if(myPlayer.connectionType == ConnectionType.SOCKET){
             String messageToClient = "GoToMenu";
             myPlayer.clientHandlerSocket.callback(messageToClient);
         }
@@ -104,7 +107,7 @@ public class CommunicationController implements ICommunication {
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
-        } else {
+        } else if(myPlayer.connectionType == ConnectionType.SOCKET){
             String messageToClient = "EndMatch";
             myPlayer.clientHandlerSocket.callback(messageToClient);
         }
@@ -118,7 +121,7 @@ public class CommunicationController implements ICommunication {
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
-        } else {
+        } else if(myPlayer.connectionType == ConnectionType.SOCKET){
             String messageToClient = "VirtualHand" + "|" + JSONHand;
             myPlayer.clientHandlerSocket.callback(messageToClient);
         }

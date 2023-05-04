@@ -42,13 +42,11 @@ public class SocketClient extends Thread {
         String[] messageArray = message.split("\\|");
         switch (messageArray[0]) {
             case "Message":
+            case "ChatMessage":
                 System.out.println(messageArray[1]);
                 break;
             case "VirtualView":
                 Storage.setFullViewVariables(messageArray[1], Integer.parseInt(messageArray[2]));
-                break;
-            case "ChatMessage":
-                System.out.println(messageArray[1]);
                 break;
             case "START":
                 System.out.println("Match started");

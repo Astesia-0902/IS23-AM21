@@ -25,7 +25,7 @@ public class ClientApp {
             cli.askMenuAction();
         } catch (RemoteException e) {
             throw new RuntimeException(e);
-        } catch (ServerNotActiveException e) {
+        } catch (ServerNotActiveException | MalformedURLException | NotBoundException e) {
             throw new RuntimeException(e);
         }
 
@@ -62,7 +62,7 @@ public class ClientApp {
                     case "join": cli.askJoinMatch(); break;
                     case "max": cli.askMaxSeats(); break;
                     case "leave": cli.askLeaveMatch(); break;
-                    case "info": cli.askServerInfo(); break;
+                    case "info": cli.askServerInfoRMI(); break;
                     //TODO:case "scg":cli.showCommonGoals();break;
                     //TODO:case "spg":cli.showCommonGoals();break;
                     //TODO:case "scp":cli.announceCurrentPlayer();break;

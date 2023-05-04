@@ -5,7 +5,6 @@ import org.am21.model.GameManager;
 import org.am21.model.Match;
 import org.am21.model.Player;
 import org.am21.model.enumer.ServerMessage;
-import org.am21.model.enumer.UserStatus;
 import org.am21.networkRMI.ClientInputHandler;
 import org.am21.networkRMI.IClientInput;
 import org.am21.networkRMI.Lobby;
@@ -41,7 +40,7 @@ public class ServerPrototype {
                     System.out.println("Server > Reset Done");
                 }
                 if (input.equals("pl")) {
-                    printOnlinePlayers();
+                    printPlayers();
                 }
                 if (input.equals("ml")) {
                     printMatchList();
@@ -121,11 +120,9 @@ public class ServerPrototype {
             path+="rmi://localhost:8807/";
             try {
                 Naming.unbind(path+i);
-            } catch (RemoteException e) {
+            } catch (RemoteException | MalformedURLException e) {
                 throw new RuntimeException(e);
             } catch (NotBoundException e) {
-                throw new RuntimeException(e);
-            } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -133,22 +130,21 @@ public class ServerPrototype {
 
     }
 
-    private static void printOnlinePlayers() {
+    private static void printPlayers() {
         String message = "";
         System.out.println(ServerMessage.ListP.value());
         synchronized (GameManager.players) {
             for (Player p : GameManager.players) {
-                if (p.getStatus() == UserStatus.Online || p.getStatus() == UserStatus.GameMember) {
-                    message += ("[" + p.getNickname() + " | "+p.getStatus()+" ]\n");
 
-                }
+                message += ("[" + p.getNickname() + " | "+p.getStatus()+" ]\n");
+
             }
         }
         System.out.println(message);
 
     }
 
-    private static void printMatchList() throws RemoteException {
+    private static void printMatchList()  {
         String message="";
         System.out.println("Match List: ");
         synchronized (GameManager.matchList) {

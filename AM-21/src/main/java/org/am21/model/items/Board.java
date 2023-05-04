@@ -91,7 +91,7 @@ public class Board extends Grid {
     public boolean hasFreeSide(int r, int c) {
 
         if (getMatrix()[r][c] == null) {
-            match.sendMessageToAll(ServerMessage.Cell_Illegal);
+            match.sendMessageToAll(ServerMessage.Cell_Illegal,false);
             //System.out.println("Board[!] > Out of boundaries: Cell doesn't exist. ");
             return false;
         }
@@ -109,7 +109,7 @@ public class Board extends Grid {
 
             return true;
         } else {
-            match.sendMessageToAll(ServerMessage.No_Free);
+            match.sendMessageToAll(ServerMessage.No_Free,false);
             return false;
         }
     }

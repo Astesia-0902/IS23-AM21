@@ -15,7 +15,6 @@ import org.am21.networkSocket.ClientHandlerSocket;
 import org.am21.utilities.CardPointer;
 import org.am21.utilities.VirtualViewHelper;
 
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,7 +107,6 @@ public class PlayerController {
         if (!isMyTurn(player) || !isGamePhase(GamePhase.Selection)) {
             return false;
         }
-
         Board board = player.getMatch().board;
 
         if (board.isPlayable(r, c) && board.isOccupied(r, c) && board.hasFreeSide(r, c)) {
@@ -124,21 +122,21 @@ public class PlayerController {
                         clearSelectedCards();
                     } else {
                         player.getMatch().selectionUpdate();
-                        GameManager.sendReply(this, ServerMessage.DeSel_Ok);
+                        GameManager.sendReply(this, ServerMessage.DeSel_Ok,false);
                     }
                     return false;
                     //Need VV update
                 } else {
                     //Check Orthogonality
                     if (!board.isOrthogonal(r, c, hand.getSelectedItems())) {
-                        GameManager.sendReply(this, ServerMessage.No_Orthogonal);
+                        GameManager.sendReply(this, ServerMessage.No_Orthogonal,false);
                         return false;
                     }
                 }
             }
             if (player.getShelf().insertLimit == hand.getSelectedItems().size()) {
                 // Limit reached
-                GameManager.sendReply(this, ServerMessage.Hand_Full);
+                GameManager.sendReply(this, ServerMessage.Hand_Full,false);
                 return false;
             }
             //Tutti i controlli passati: posso inserirlo nella hand
@@ -146,13 +144,13 @@ public class PlayerController {
             hand.memCard(board.getCell(r, c), r, c);
             //Virtualize HAND and board after each Selection and Sent to the players
             player.getMatch().selectionUpdate();
-            GameManager.sendReply(this, ServerMessage.Selection_Ok);
+            GameManager.sendReply(this, ServerMessage.Selection_Ok,false);
             player.getMatch().sendTextToAll("\n" +
-                    SC.YELLOW + player.getNickname() + " selected the cell [" + r + "," + c + "]." + SC.RST, false);
+                    SC.YELLOW + player.getNickname() + " selected the cell [" + r + "," + c + "]." + SC.RST, false,true);
             return true;
         }
 
-        GameManager.sendReply(this, ServerMessage.Selection_No);
+        GameManager.sendReply(this, ServerMessage.Selection_No,false);
         //Questo messaggio sara tolto e messo in ClientInputHandler o nelle funzioni dei test
 //            System.out.println("Match > Selection Failed");
 
@@ -204,13 +202,13 @@ public class PlayerController {
         }
         if (player.getMatch().gamePhase == GamePhase.Selection && hand.getSelectedItems().size() > 0) {
             hand.clearHand();
-            GameManager.sendReply(this, ServerMessage.DeSel_Ok);
+            GameManager.sendReply(this, ServerMessage.DeSel_Ok,false);
             //Update Virtual View(Hand and Board)
             player.getMatch().selectionUpdate();
             return true;
         }
 
-        GameManager.sendReply(this, ServerMessage.DeSel_Null);
+        GameManager.sendReply(this, ServerMessage.DeSel_Null,false);
         return false;
     }
 
@@ -271,7 +269,7 @@ public class PlayerController {
         }
         if (player.getShelf().slotCol.get(col) < hand.getSelectedItems().size()) {
             //The column has not enough space for insertion
-            GameManager.sendReply(this, ServerMessage.ColNo);
+            GameManager.sendReply(this, ServerMessage.ColNo,false);
             return false;
         } else {
             for (int i = hand.getSelectedItems().size(), s = 0; i > 0; i--, s++) {
@@ -302,7 +300,7 @@ public class PlayerController {
         if (isMyTurn(player) && player.getMatch().gamePhase == GamePhase.Insertion && hand.changeOrder(i, j)) {
             // Virtual View Update --> Hand
             player.getMatch().sortUpdate();
-            GameManager.sendReply(this, ServerMessage.Sort_Ok);
+            GameManager.sendReply(this, ServerMessage.Sort_Ok,false);
             return true;
         }
         return false;
@@ -317,7 +315,7 @@ public class PlayerController {
     public boolean isMyTurn(Player player) {
         if (player.getMatch().currentPlayer != player) {
             // Not player turn
-            GameManager.sendReply(this, ServerMessage.NotYourTurn);
+            GameManager.sendReply(this, ServerMessage.NotYourTurn,false);
             return false;
         }
         return true;
@@ -376,7 +374,7 @@ public class PlayerController {
     public CardPointer isAlreadySelected(int r, int c) {
         for (CardPointer item : hand.getSelectedItems()) {
             if ((r == item.x) && (c == item.y)) {
-                GameManager.sendReply(this, ServerMessage.ReSelected);
+                GameManager.sendReply(this, ServerMessage.ReSelected,false);
                 return item;
             }
         }//TODO: test

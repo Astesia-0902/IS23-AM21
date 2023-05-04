@@ -16,10 +16,13 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     public ClientCallBack() throws RemoteException {}
 
     @Override
-    public void sendMessageToClient(String message) throws RemoteException {
+    public void sendMessageToClient(String message,boolean refresh) throws RemoteException {
         if(cli!=null){
             //TODO:Print the message from server
             cli.printer(message);
+            if(refresh) {
+                cli.refresh(cli);
+            }
         }
     }
 
@@ -50,10 +53,10 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     @Override
     public void notifyStart(int id) throws RemoteException {
         if(cli!=null) {
-            cli.setMatchID(id);
-            cli.setSTART(true);
             cli.setGO_TO_MENU(false);
             cli.setGAME_ON(true);
+            cli.setSTART(true);
+            cli.refresh(cli);
         }
     }
 

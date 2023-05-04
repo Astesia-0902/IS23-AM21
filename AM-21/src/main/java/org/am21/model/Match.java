@@ -1,7 +1,6 @@
 package org.am21.model;
 
 import org.am21.controller.CommunicationController;
-import org.am21.controller.GameController;
 import org.am21.model.Cards.CommonGoal;
 import org.am21.model.Cards.PersonalGoalCard;
 import org.am21.model.enumer.*;
@@ -13,7 +12,6 @@ import org.am21.utilities.MyTimer;
 import org.am21.utilities.VirtualViewHelper;
 
 import java.rmi.RemoteException;
-import java.rmi.server.ServerNotActiveException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,7 +105,7 @@ public class Match {
     public boolean addPlayer(Player player) {
         synchronized (playerList) {
             if (playerList.size() < maxSeats) {
-                sendTextToAll(SC.YELLOW_BB + "\nServer > " + player.getNickname() + " joined the match." + SC.RST, true);
+                sendTextToAll(SC.YELLOW_BB + "\nServer > " + player.getNickname() + " joined the match." + SC.RST, true,true);
                 playerList.add(player);
                 player.setStatus(UserStatus.GameMember);
                 player.setMatch(this);
@@ -159,7 +157,7 @@ public class Match {
                 synchronized (GameManager.playerMatchMap) {
                     GameManager.playerMatchMap.remove(player.getNickname());
                 }
-                sendTextToAll(SC.YELLOW_BB + "\nServer > " + player.getNickname() + " left the match" + SC.RST, true);
+                sendTextToAll(SC.YELLOW_BB + "\nServer > " + player.getNickname() + " left the match" + SC.RST, true,true);
                 checkRoom();
                 //TODO: update VV PLayersList and Player Score, Shelf List...
                 //TODO: watch out what if shelf is null
@@ -207,7 +205,7 @@ public class Match {
                 firstToComplete.setPlayerScore(firstToComplete.getPlayerScore() + 1);
                 gameState = GameState.LastRound;
                 VirtualViewHelper.virtualizeEndGame(this);
-                sendMessageToAll(LastRound);
+                sendMessageToAll(LastRound,true);
             }
             this.nextTurn();
             VirtualViewHelper.updateVirtualScores(this);
@@ -227,20 +225,16 @@ public class Match {
                 // Give player points/scoreToken
                 //Server Message: announce how many points the player's got
                 if (player.getController().clientInput.callBack != null) {
-                    try {
-                        //TODO: New protocl
-                        CommunicationController.instance.sendMessageToClient(
-                                "Server > " + player.getNickname() + " acquired " + goal.tokenStack.get(0) + " points",player.getController());
-                        //OLD RMI only
-                        player.getController().clientInput.callBack.sendMessageToClient(
-                                "Server > " + player.getNickname() + " acquired " + goal.tokenStack.get(0) + " points");
-                    } catch (RemoteException e) {
-                        throw new RuntimeException(e);
-                    }
+                    //TODO: New protocl
+                    CommunicationController.instance.sendMessageToClient(
+                            "Server > " + player.getNickname() + " acquired " + goal.tokenStack.get(0) + " points",true , player.getController());
+                    //OLD RMI only
+                    //player.getController().clientInput.callBack.sendMessageToClient(
+                    //"Server > " + player.getNickname() + " acquired " + goal.tokenStack.get(0) + " points");
                 }
                 goal.commonGoalAchieved(player);
                 sendTextToAll(SC.YELLOW_BB + "Server > " + player.getNickname() + " achieved a Common Goal!"
-                        + " Press 'Enter'\n" + SC.RST, true);
+                        + " Press 'Enter'\n" + SC.RST, true,true);
             }
         }
     }
@@ -298,15 +292,11 @@ public class Match {
         //Removing players from the match
         for (Player p : playerList) {
 
-            try {
-                if (p.getController().clientInput.callBack != null) {
-                    //TODO: new protocol
-                    CommunicationController.instance.notifyEndMatch(p.getController());
-                    //OLD RMI
-                    p.getController().clientInput.callBack.notifyEndMatch();
-                }
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
+            if (p.getController().clientInput.callBack != null) {
+                //TODO: new protocol
+                CommunicationController.instance.notifyEndMatch(p.getController());
+                //OLD RMI
+                //p.getController().clientInput.callBack.notifyEndMatch();
             }
             p.setStatus(UserStatus.Online);
             p.setMatch(null);
@@ -381,14 +371,14 @@ public class Match {
         for (Player player : playerList) {
             GameManager.playerMatchMap.put(player.getNickname(), matchID);
         }
-        sendMessageToAll(BB);
+        sendMessageToAll(BB,false);
 
         //Initialization of the board
         board = new Board(this);
         if (board.firstSetup()) {
-            sendMessageToAll(BB_Ok);
+            sendMessageToAll(BB_Ok,false);
         } else {
-            sendMessageToAll(BB_No);
+            sendMessageToAll(BB_No,false);
         }
         setGameState(GameState.Ready);
     }
@@ -407,15 +397,11 @@ public class Match {
         updatePlayersView();
         for (Player p : playerList) {
 
-            try {
-                if (p.getController().clientInput.callBack != null) {
-                    //TODO: new protocol
-                    CommunicationController.instance.notifyStart(matchID,p.getController());
-                    //OLD RMI
-                    p.getController().clientInput.callBack.notifyStart(matchID);
-                }
-            } catch (RemoteException | ServerNotActiveException e) {
-                throw new RuntimeException(e);
+            if (p.getController().clientInput.callBack != null) {
+                //TODO: new protocol
+                CommunicationController.instance.notifyStart(matchID,p.getController());
+                //OLD RMI
+                //p.getController().clientInput.callBack.notifyStart(matchID);
             }
         }
 
@@ -425,20 +411,16 @@ public class Match {
      * This method set up the next turn
      */
     public void nextTurn() {
-        sendTextToAll(SC.YELLOW_BB + "\nServer > " + currentPlayer.getNickname() + " ended his turn" + SC.RST, false);
+        sendTextToAll(SC.YELLOW_BB + "\nServer > " + currentPlayer.getNickname() + " ended his turn" + SC.RST, false,true);
         currentPlayer = playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats);
         setGamePhase(GamePhase.Selection);
-        try {
-            if (currentPlayer.getController().clientInput.callBack != null) {
-                String message = SC.RED_B + "Server[!] > " + currentPlayer.getNickname() + "! It's your turn. Press 'Enter'" + SC.RST;
-                //TODO: new Protocol
-                CommunicationController.instance.sendMessageToClient(message,currentPlayer.getController());
+        if (currentPlayer.getController().clientInput.callBack != null) {
+            String message = SC.RED_B + "Server[!] > " + currentPlayer.getNickname() + "! It's your turn. Press 'Enter'" + SC.RST;
+            //TODO: new Protocol
+            CommunicationController.instance.sendMessageToClient(message,true , currentPlayer.getController());
 
-                //OLD RMI
-                currentPlayer.getController().clientInput.callBack.sendMessageToClient(message);
-            }
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
+            //OLD RMI
+            //currentPlayer.getController().clientInput.callBack.sendMessageToClient(message);
         }
 
     }
@@ -453,14 +435,10 @@ public class Match {
         for (Player p : playerList) {
             //TODO: Watch out for test
             if (p.getController().clientInput.callBack != null) {
-                try {
-                    //TODO: new Protocol
-                    CommunicationController.instance.sendVirtualView(getJSONVirtualView(), playerList.indexOf(p),p.getController());
-                    //OLD RMI
-                    p.getController().clientInput.callBack.sendVirtualView(getJSONVirtualView(), playerList.indexOf(p));
-                } catch (RemoteException e) {
-                    throw new RuntimeException(e);
-                }
+                //TODO: new Protocol
+                CommunicationController.instance.sendVirtualView(getJSONVirtualView(), playerList.indexOf(p),p.getController());
+                //OLD RMI
+                //p.getController().clientInput.callBack.sendVirtualView(getJSONVirtualView(), playerList.indexOf(p));
             }
         }
     }
@@ -495,10 +473,10 @@ public class Match {
      *
      * @param message
      */
-    public void sendMessageToAll(ServerMessage message) {
+    public void sendMessageToAll(ServerMessage message,boolean refresh) {
         for (Player p : playerList) {
             if (p.getController().clientInput.callBack != null) {
-                GameManager.sendReply(p.getController(), message);
+                GameManager.sendReply(p.getController(), message,refresh);
             }
         }
     }
@@ -509,13 +487,13 @@ public class Match {
      * @param message
      * @param includeCurrentPlayer if false the message is not sent to the currentPlayer
      */
-    public void sendTextToAll(String message, boolean includeCurrentPlayer) {
+    public void sendTextToAll(String message, boolean includeCurrentPlayer,boolean refresh) {
         for (Player p : playerList) {
             if (!includeCurrentPlayer && p.equals(currentPlayer)) {
                 continue;
             }
             if (p.getController().clientInput.callBack != null) {
-                GameManager.sendTextReply(p.getController(), message);
+                GameManager.sendTextReply(p.getController(), message,refresh);
             }
         }
     }
@@ -527,15 +505,11 @@ public class Match {
         for (Player p : playerList) {
             //TODO: Watch out for test
             if (p.getController().clientInput.callBack != null) {
-                try {
-                    //TODO: new Protocol
-                    CommunicationController.instance.sendVirtualHand(getJSONHand(),p.getController());
+                //TODO: new Protocol
+                CommunicationController.instance.sendVirtualHand(getJSONHand(),p.getController());
 
-                    //OLD RMI
-                    p.getController().clientInput.callBack.sendVirtualHand(getJSONHand());
-                } catch (RemoteException e) {
-                    throw new RuntimeException(e);
-                }
+                //OLD RMI
+                //p.getController().clientInput.callBack.sendVirtualHand(getJSONHand());
             }
         }
     }

@@ -2,7 +2,7 @@ package org.am21.controller;
 
 public interface ICommunication {
 
-    void sendMessageToClient(String message, PlayerController myPlayer);
+    void sendMessageToClient(String message,boolean refresh, PlayerController myPlayer);
 
     void sendVirtualView(String virtualView, int pIndex, PlayerController myPlayer);
 

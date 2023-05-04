@@ -47,7 +47,7 @@ public class GameController {
                 GameManager.players.add(playerController.getPlayer());
             }
         }
-        CommunicationController.instance.sendMessageToClient(ServerMessage.Login_Ok.value() + username, playerController);
+        CommunicationController.instance.sendMessageToClient(ServerMessage.Login_Ok.value() + username,false , playerController);
         //DEBUG
         System.out.println(username + " joined the game");
         return true;
@@ -80,28 +80,28 @@ public class GameController {
     private static boolean joinGameHelper(int matchID, String userName, PlayerController playerController) {
         if (GameManager.matchList.size() < (matchID + 1) || GameManager.matchList.get(matchID) == null) {
             //System.out.println("Server >  The specified match does not exist.");
-            GameManager.sendReply(playerController, ServerMessage.FindM_No);
+            GameManager.sendReply(playerController, ServerMessage.FindM_No,false);
             return false;
         }
 
         if (GameManager.matchList.get(matchID).gameState == GameState.GameGoing) {
             if (!GameManager.playerMatchMap.containsKey(userName)) {
                 //System.out.println("Message from the server: the player not exists in any match.");
-                GameManager.sendReply(playerController, ServerMessage.PExists_No);
+                GameManager.sendReply(playerController, ServerMessage.PExists_No,false);
                 return false;
             } else {
                 if (!GameManager.matchList.get(matchID).addPlayer(playerController.getPlayer())) {
                     //System.out.println("Message from the server: the match is full.");
-                    GameManager.sendReply(playerController, ServerMessage.FullM);
+                    GameManager.sendReply(playerController, ServerMessage.FullM,false);
                     return false;
                 }
             }
             //if the match is not started, the player join the match
         } else if (GameManager.matchList.get(matchID).gameState == GameState.WaitingPlayers) {
-            GameManager.sendReply(playerController, ServerMessage.FindM_Ok);
+            GameManager.sendReply(playerController, ServerMessage.FindM_Ok,false);
             if (!GameManager.matchList.get(matchID).addPlayer(playerController.getPlayer())) {
                 //System.out.println("Message from the server: the match is full.");
-                GameManager.sendReply(playerController, ServerMessage.FullM);
+                GameManager.sendReply(playerController, ServerMessage.FullM,false);
                 return false;
             }
 
@@ -122,7 +122,7 @@ public class GameController {
             synchronized (GameManager.matchList) {
                 if (createMatchHelper(userName, createMatchRequestCount, playerNum, playerController)) {
                     //System.out.println("Message from the server: the match is created.");
-                    GameManager.sendReply(playerController, ServerMessage.CreateM_Ok);
+                    GameManager.sendReply(playerController, ServerMessage.CreateM_Ok,false);
                     return true;
                 }
             }
@@ -142,7 +142,7 @@ public class GameController {
                     "Create a new match will cause the player leave the current match." +
                     "Do you want to continue?");*/
             //TODO:
-            GameManager.sendReply(playerController, ServerMessage.PExists);
+            GameManager.sendReply(playerController, ServerMessage.PExists,false);
             createMatchRequestCount = 1;
         } else if (GameManager.playerMatchMap.containsKey(userName) && createMatchRequestCount == 1) {
             createMatchRequestCount = 0;
@@ -150,7 +150,7 @@ public class GameController {
                 return true;
             } else {
                 //System.out.println("Exceeded players number limit. Try again.");
-                GameManager.sendReply(playerController, ServerMessage.PExceed);
+                GameManager.sendReply(playerController, ServerMessage.PExceed,false);
 
             }
             //TODO:player leave the current match
@@ -161,7 +161,7 @@ public class GameController {
                 return true;
             } else {
                 //System.out.println("Exceeded players number limit. Try again.");
-                GameManager.sendReply(playerController, ServerMessage.PExceed);
+                GameManager.sendReply(playerController, ServerMessage.PExceed,false);
             }
 
 
@@ -188,7 +188,7 @@ public class GameController {
      */
     public static boolean cancelPlayer(PlayerController ctrl) {
         if (GameManager.players.contains(ctrl.getPlayer())) {
-            GameManager.sendTextReply(ctrl, SC.WHITE_BB + "\nServer > Game Closed" + SC.RST);
+            GameManager.sendTextReply(ctrl, SC.WHITE_BB + "\nServer > Game Closed" + SC.RST,false);
             GameManager.players.remove(GameManager.players.indexOf(ctrl.getPlayer()));
             return true;
         }
@@ -196,28 +196,28 @@ public class GameController {
     }
 
     public static boolean selectCell(int row, int col, PlayerController playerController) throws ServerNotActiveException {
-        return !checkPlayerActionPhase(playerController.getPlayer().getNickname()) && playerController.selectCell(row, col);
+        return checkPlayerActionPhase(playerController.getPlayer().getNickname()) && playerController.selectCell(row, col);
     }
 
     public static boolean confirmSelection(PlayerController playerController) throws ServerNotActiveException {
-        return !checkPlayerActionPhase(playerController.getPlayer().getNickname()) && playerController.callEndSelection();
+        return checkPlayerActionPhase(playerController.getPlayer().getNickname()) && playerController.callEndSelection();
     }
 
     public static boolean insertInColumn(int colNum, PlayerController playerController) throws ServerNotActiveException {
-        return !checkPlayerActionPhase(playerController.getPlayer().getNickname()) && playerController.tryToInsert(colNum);
+        return checkPlayerActionPhase(playerController.getPlayer().getNickname()) && playerController.tryToInsert(colNum);
     }
 
     public static boolean deselectCards(PlayerController playerController) throws ServerNotActiveException {
-        return !checkPlayerActionPhase(playerController.getPlayer().getNickname()) && playerController.clearSelectedCards();
+        return checkPlayerActionPhase(playerController.getPlayer().getNickname()) && playerController.clearSelectedCards();
     }
 
     public static boolean sortHand(int pos1, int pos2, PlayerController playerController) throws ServerNotActiveException {
-        return !checkPlayerActionPhase(playerController.getPlayer().getNickname()) && playerController.changeHandOrder(pos1, pos2);
+        return checkPlayerActionPhase(playerController.getPlayer().getNickname()) && playerController.changeHandOrder(pos1, pos2);
     }
 
     public static boolean leaveMatch(PlayerController playerController) {
         if (GameController.removePlayerFromMatch(playerController, playerController.getPlayer().getMatch().matchID)) {
-            CommunicationController.instance.sendMessageToClient("Server > Leaving Room...", playerController);
+            CommunicationController.instance.sendMessageToClient("Server > Leaving Room...",true , playerController);
             CommunicationController.instance.notifyGoToMenu(playerController);
             return true;
         }
@@ -261,14 +261,14 @@ public class GameController {
         return false;
     }
 
-    public static boolean sendPlayerMessage(String message, String receiver, PlayerController playerController) {
+    public static boolean sendPlayerMessage(String message, String receiver, PlayerController playerController,boolean refresh) {
         String sender = playerController.getPlayer().getNickname();
         synchronized (GameManager.players) {
             for (Player p : GameManager.players) {
                 if (p.getNickname().equals(receiver)) {
-                    GameManager.sendTextReply(p.getController(), "\n------------------------------------------");
-                    GameManager.sendTextReply(p.getController(), "\n" + sender + "[!] > \"" + message + "\"");
-                    GameManager.sendTextReply(p.getController(), "------------------------------------------\n");
+                    GameManager.sendTextReply(p.getController(), "\n------------------------------------------",refresh);
+                    GameManager.sendTextReply(p.getController(), "\n" + sender + "[!] > \"" + message + "\"",refresh);
+                    GameManager.sendTextReply(p.getController(), "------------------------------------------\n",refresh);
 
                     return true;
                 }
@@ -289,7 +289,7 @@ public class GameController {
                 }
             }
         }
-        CommunicationController.instance.sendMessageToClient(message, playerController);
+        CommunicationController.instance.sendMessageToClient(message,false , playerController);
     }
 
     public static void printMatchList(PlayerController playerController) {
@@ -302,11 +302,11 @@ public class GameController {
                 }
             }
         }
-        CommunicationController.instance.sendMessageToClient(message, playerController);
+        CommunicationController.instance.sendMessageToClient(message,false , playerController);
     }
 
     public static boolean endTurn(PlayerController playerController) throws ServerNotActiveException {
-        if (!checkPlayerActionPhase(playerController.getPlayer().getNickname())) {
+        if (checkPlayerActionPhase(playerController.getPlayer().getNickname())) {
             playerController.callEndInsertion();
             return true;
         }
@@ -336,8 +336,8 @@ public class GameController {
                     Shelf.STD_LIMIT = newLimit;
                     synchronized (GameManager.players) {
                         for (Player player : GameManager.players) {
-                            if (player.getController() != null) {
-                                CommunicationController.instance.sendMessageToClient(SC.YELLOW + "\nServer > Insertion Limit changed to: " + newLimit + SC.RST, player.getController());
+                            if (player.getController() != null && player.getStatus()!=UserStatus.Offline) {
+                                CommunicationController.instance.sendMessageToClient(SC.YELLOW + "\nServer > Insertion Limit changed to: " + newLimit + SC.RST,true , player.getController());
                             }
                         }
                     }

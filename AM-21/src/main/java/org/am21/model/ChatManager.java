@@ -68,7 +68,7 @@ public class ChatManager {
 
         }
         for (Player p : match.playerList) {
-            CommunicationController.instance.sendMessageToClient(lastTenMex, p.getController());
+            CommunicationController.instance.sendMessageToClient(lastTenMex, true, p.getController());
         }
 
     }

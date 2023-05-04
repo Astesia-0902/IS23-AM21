@@ -2,7 +2,8 @@ package org.am21.client;
 
 import org.am21.networkRMI.IClientCallBack;
 
-public interface IClientCommunication {boolean joinGame(int matchID);
+public interface IClientCommunication {
+    boolean joinGame(int matchID);
 
     boolean checkPlayerActionPhase();
 

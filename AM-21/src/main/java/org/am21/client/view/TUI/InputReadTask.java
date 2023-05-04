@@ -16,7 +16,11 @@ public class InputReadTask implements Callable<String> {
         String input;
         // wait until there is data to complete a readLine()
         while (!bufferedReader.ready()){
-            Thread.sleep(200);
+            //Thread.sleep(200);
+            if(Cli.REFRESH){
+                Cli.REFRESH=false;
+                return "";
+            }
         }
         input = bufferedReader.readLine();
         return input;

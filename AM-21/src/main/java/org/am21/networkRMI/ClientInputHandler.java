@@ -186,8 +186,8 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     }
 
     @Override
-    public boolean sendPlayerMessage(String message, String receiver) throws RemoteException {
-        return GameController.sendPlayerMessage(message, receiver, playerController);
+    public boolean sendPlayerMessage(String message, String receiver,boolean refresh) throws RemoteException {
+        return GameController.sendPlayerMessage(message, receiver, playerController,refresh);
     }
 
     @Override
