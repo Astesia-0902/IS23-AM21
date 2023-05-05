@@ -1,5 +1,6 @@
 package org.am21.client.view.GUI;
 
+import org.am21.client.view.GUI.component.LivingRoomListener;
 import org.am21.client.view.View;
 
 import javax.swing.*;
@@ -12,6 +13,7 @@ public class Gui implements View {
     public LoginInterface loginInterface;
     public ServerInfoInterface serverInfoInterface;
 
+    public LivingRoomInterface livingRoomInterface;
 
     public Gui() {
 
@@ -42,6 +44,8 @@ public class Gui implements View {
 
     @Override
     public boolean askCreateMatch() throws ServerNotActiveException, RemoteException {
+        livingRoomInterface = new LivingRoomInterface();
+        new LivingRoomListener(this);
         return false;
     }
 

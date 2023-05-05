@@ -15,21 +15,6 @@ public class LivingRoomInterface extends JFrame {
 
 
         try{
-            //option menu
-            JMenuBar jmbLivingRoom = new JMenuBar();
-            JMenu jmOption = new JMenu("Option");
-            jmOption.setFont(new Font("DejaVu Sans",Font.PLAIN,16));
-            JMenuItem jmiRule = jmOption.add("Rule");
-            jmiRule.setFont(new Font("DejaVu Sans",Font.PLAIN,16));
-            //TODO:add Action listner
-            JMenuItem jmiHelp = jmOption.add("Help");
-            jmiHelp.setFont(new Font("DejaVu Sans",Font.PLAIN,16));
-            //TODO:add Action listner
-            JMenuItem jmiLeave = jmOption.add("Leave");
-            jmiLeave.setFont(new Font("DejaVu Sans",Font.PLAIN,16));
-            //TODO:add Action listner
-
-            this.setJMenuBar(jmbLivingRoom);
 
             //Board Panel interface
             this.gamePanel = new GamePanel();
@@ -48,7 +33,6 @@ public class LivingRoomInterface extends JFrame {
             System.out.println(" your PC have: \nhigh:"+pcHeight+"\n wide:"+pcWidth);
 
 
-
         }catch(Exception e){
             JOptionPane.showMessageDialog(this,"something is wrong, please renter\r\n\r\n"+e.toString(),"Waring",JOptionPane.ERROR_MESSAGE);
             System.exit(0);
@@ -56,7 +40,9 @@ public class LivingRoomInterface extends JFrame {
     }
 
     public static void main(String[] arg){
+
         new LivingRoomInterface();
+
     }
 
 }
