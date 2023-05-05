@@ -1,4 +1,4 @@
-package org.am21.client.view.GUI.component;
+package org.am21.client.view.GUI.utils;
 
 public class PathUtil {
     private static final String P_PATH = "AM-21/imgs/";

@@ -1,8 +1,8 @@
-package org.am21.client.view.GUI;
+package org.am21.client.view.GUI.Interface;
 
 import org.am21.client.view.GUI.component.BackGroundPanel;
 import org.am21.client.view.GUI.component.ButtonColorUI;
-import org.am21.client.view.GUI.component.PathUtil;
+import org.am21.client.view.GUI.utils.PathUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

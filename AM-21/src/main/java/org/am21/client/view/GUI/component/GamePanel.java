@@ -1,23 +1,19 @@
 package org.am21.client.view.GUI.component;
 
 
+import org.am21.client.view.GUI.utils.PathUtil;
+
 import javax.swing.*;
 import java.awt.*;
 
+import static org.am21.client.view.GUI.utils.PixelUtil.pcHeight;
+import static org.am21.client.view.GUI.utils.PixelUtil.pcWidth;
+
 public class GamePanel extends JPanel {
-    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    int pcWidth = (int) screenSize.getWidth();
-    int pcHeight = (int) screenSize.getHeight();
 
-    /*TODO:game procede*/
-    final int gridRows = 999;
-    final int gridColumns = 999;
-    final int gridSize = 55;
-
-    //menu
+    //menu TODO: complete
     private final JButton jmMenu;
     private ImageIcon imageIconMenu;
-
 
     private JMenuItem jmiRule;
     private JMenuItem jmiHelp;
@@ -37,9 +33,9 @@ public class GamePanel extends JPanel {
     private final JButton userC;
     private ImageIcon imageIconUserC;
 
-    //action button
+    //insert and clear button
     private final JButton jbInsert;
-    private final JButton jbClearSelection;
+    private final JButton jbClear;
 
 
     //background label
@@ -79,16 +75,10 @@ public class GamePanel extends JPanel {
     private final JLayeredPane chatPanel;
     private final JButton sendButton;
 
-    //take card board
+    //hand board
     JLabel takeCard;
     private ImageIcon imageIconTakeCard;
 
-
-    //card
-    final int gameBoardItemSize =999;
-    final int itemSize = 999;
-    JLabel[] labelItem = new JLabel[999];
-    private ImageIcon[] imageIconItem = new ImageIcon[18];
 
 
     public GamePanel(){
@@ -190,18 +180,17 @@ public class GamePanel extends JPanel {
         this.panelBoard.add(this.jbInsert,JLayeredPane.PALETTE_LAYER);
 
         //clear selection button
-        this.jbClearSelection = new JButton("CLEAR");
-        this.jbClearSelection.setFont(new Font("DejaVu Sans",Font.PLAIN,16));
-        this.jbClearSelection.setBounds(pcHeight*734/1000,pcHeight*843/1000,pcWidth*230/1000,pcWidth*47/1000);
-        this.jbClearSelection.setOpaque(true);
-        this.jbClearSelection.setBackground(new Color(172, 19, 5, 230));
-        this.jbClearSelection.setForeground(new Color(172, 19, 5, 230));
+        this.jbClear = new JButton("CLEAR");
+        this.jbClear.setFont(new Font("DejaVu Sans",Font.PLAIN,16));
+        this.jbClear.setBounds(pcHeight*734/1000,pcHeight*843/1000,pcWidth*230/1000,pcWidth*47/1000);
+        this.jbClear.setOpaque(true);
+        this.jbClear.setBackground(new Color(172, 19, 5, 230));
+        this.jbClear.setForeground(new Color(172, 19, 5, 230));
         //this.jbClearSelection.setBorder();
         //TODO: actionListener
-        this.panelBoard.add(this.jbClearSelection ,JLayeredPane.PALETTE_LAYER);
+        this.panelBoard.add(this.jbClear,JLayeredPane.PALETTE_LAYER);
 
 
-        this.BottomOption();
 
 
         //chat box
@@ -327,24 +316,6 @@ public class GamePanel extends JPanel {
 
             this.imageIconUserC = new ImageIcon(new ImageIcon(PathUtil.getPath("icon tool/U3.jpg")).getImage().getScaledInstance(pcHeight*6/100,pcHeight*6/100, Image.SCALE_SMOOTH));
 
-            this.imageIconItem[0] = new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Books1.1.png")).getImage().getScaledInstance(this.itemSize,this.itemSize,Image.SCALE_SMOOTH));
-            this.imageIconItem[1] = new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Books1.2.png")).getImage().getScaledInstance(this.itemSize,this.itemSize,Image.SCALE_SMOOTH));
-            this.imageIconItem[2] = new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Books1.3.png")).getImage().getScaledInstance(this.itemSize,this.itemSize,Image.SCALE_SMOOTH));
-            this.imageIconItem[3] = new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Cats1.1.png")).getImage().getScaledInstance(this.itemSize,this.itemSize,Image.SCALE_SMOOTH));
-            this.imageIconItem[4] = new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Cats1.2.png")).getImage().getScaledInstance(this.itemSize,this.itemSize,Image.SCALE_SMOOTH));
-            this.imageIconItem[5] = new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Cats1.3.png")).getImage().getScaledInstance(this.itemSize,this.itemSize,Image.SCALE_SMOOTH));
-            this.imageIconItem[6] = new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Frames1.1.png")).getImage().getScaledInstance(this.itemSize,this.itemSize,Image.SCALE_SMOOTH));
-            this.imageIconItem[7] = new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Frames1.2.png")).getImage().getScaledInstance(this.itemSize,this.itemSize,Image.SCALE_SMOOTH));
-            this.imageIconItem[8] = new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Frames1.3.png")).getImage().getScaledInstance(this.itemSize,this.itemSize,Image.SCALE_SMOOTH));
-            this.imageIconItem[9] = new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Games1.1.png")).getImage().getScaledInstance(this.itemSize,this.itemSize,Image.SCALE_SMOOTH));
-            this.imageIconItem[10] = new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Games1.2.png")).getImage().getScaledInstance(this.itemSize,this.itemSize,Image.SCALE_SMOOTH));
-            this.imageIconItem[11] = new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Games1.3.png")).getImage().getScaledInstance(this.itemSize,this.itemSize,Image.SCALE_SMOOTH));
-            this.imageIconItem[12] = new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Plants1.1.png")).getImage().getScaledInstance(this.itemSize,this.itemSize,Image.SCALE_SMOOTH));
-            this.imageIconItem[13] = new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Plants1.2.png")).getImage().getScaledInstance(this.itemSize,this.itemSize,Image.SCALE_SMOOTH));
-            this.imageIconItem[14] = new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Plants1.3.png")).getImage().getScaledInstance(this.itemSize,this.itemSize,Image.SCALE_SMOOTH));
-            this.imageIconItem[15] = new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Trophies1.1.png")).getImage().getScaledInstance(this.itemSize,this.itemSize,Image.SCALE_SMOOTH));
-            this.imageIconItem[16] = new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Trophies1.2.png")).getImage().getScaledInstance(this.itemSize,this.itemSize,Image.SCALE_SMOOTH));
-            this.imageIconItem[17] = new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Trophies1.3.png")).getImage().getScaledInstance(this.itemSize,this.itemSize,Image.SCALE_SMOOTH));
 
         }catch(Exception e){
             e.printStackTrace();
@@ -356,13 +327,6 @@ public class GamePanel extends JPanel {
         super.paint(g);
         Graphics2D g2D = (Graphics2D) g;
 
-
-    }
-    private void BottomOption(){
-        //chat
-       // JLabel jlbChat = new JLabel();
-
-        //Insert button
 
     }
 

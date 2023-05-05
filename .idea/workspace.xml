@@ -9,16 +9,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dd2f3e9a-b514-48f2-995d-660d696de66e" name="Changes" comment="update GUI">
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/icon tool/U1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/icon tool/U2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/icon tool/U3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/imgs/icon tool/menu.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/component/LivingRoomListener.java" afterDir="false" />
+    <list default="true" id="dd2f3e9a-b514-48f2-995d-660d696de66e" name="Changes" comment="update Cli">
+      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/GameResultsInterface.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/MyHandInterface.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/PlayerInterface.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/component/GameBoardPanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/utils/ItemImage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/utils/PixelUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/BoardItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/BoardPanel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/CommunicationInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/CommunicationInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/CommunicationListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/CommunicationListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Gui.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Gui.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/LivingRoomInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/LivingRoomInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/LivingRoomBoard.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/LivingRoomInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/LivingRoomInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/LoginInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/LoginInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/LoginListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/LoginListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/ServerInfoInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/ServerInfoInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/ServerInfoListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/ServerInfoListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/component/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/component/GamePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/component/LivingRoomListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/LivingRoomListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/component/PathUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/utils/PathUtil.java" afterDir="false" />
     </list>
     <list id="19ab3365-554c-40d9-959c-e6407d37c953" name="Changes by jef" comment="" />
     <list id="64e1bfe8-5cd0-4a7d-8217-c090321f1a9a" name="Changes by maoyh" comment="" />
@@ -145,11 +157,11 @@
       </method>
     </configuration>
     <configuration name="CommunicationInterface" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.am21.client.view.GUI.CommunicationInterface" />
+      <option name="MAIN_CLASS_NAME" value="org.am21.client.view.GUI.Interface.CommunicationInterface" />
       <module name="IS23-AM21" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.am21.client.view.GUI.*" />
+          <option name="PATTERN" value="org.am21.client.view.GUI.Interface.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -170,7 +182,7 @@
       <module name="IS23-AM21" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.am21.client.view.GUI.*" />
+          <option name="PATTERN" value="org.am21.client.view.GUI.Interface.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -179,11 +191,11 @@
       </method>
     </configuration>
     <configuration name="LivingRoomInterface" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.am21.client.view.GUI.LivingRoomInterface" />
+      <option name="MAIN_CLASS_NAME" value="org.am21.client.view.GUI.Interface.LivingRoomInterface" />
       <module name="IS23-AM21" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.am21.client.view.GUI.*" />
+          <option name="PATTERN" value="org.am21.client.view.GUI.Interface.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -479,8 +491,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.LivingRoomInterface" />
-        <item itemvalue="Application.Gui" />
         <item itemvalue="Application.CommunicationInterface" />
+        <item itemvalue="Application.Gui" />
       </list>
     </recent_temporary>
   </component>

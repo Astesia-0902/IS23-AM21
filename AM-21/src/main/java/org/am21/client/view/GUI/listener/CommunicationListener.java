@@ -1,4 +1,6 @@
-package org.am21.client.view.GUI;
+package org.am21.client.view.GUI.listener;
+
+import org.am21.client.view.GUI.Gui;
 
 import java.awt.*;
 import java.awt.event.*;

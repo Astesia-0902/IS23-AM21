@@ -1,6 +1,13 @@
 package org.am21.client.view.GUI;
 
-import org.am21.client.view.GUI.component.LivingRoomListener;
+import org.am21.client.view.GUI.Interface.CommunicationInterface;
+import org.am21.client.view.GUI.Interface.LivingRoomInterface;
+import org.am21.client.view.GUI.Interface.LoginInterface;
+import org.am21.client.view.GUI.Interface.ServerInfoInterface;
+import org.am21.client.view.GUI.listener.LivingRoomListener;
+import org.am21.client.view.GUI.listener.CommunicationListener;
+import org.am21.client.view.GUI.listener.LoginListener;
+import org.am21.client.view.GUI.listener.ServerInfoListener;
 import org.am21.client.view.View;
 
 import javax.swing.*;

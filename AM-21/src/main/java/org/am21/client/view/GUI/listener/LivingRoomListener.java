@@ -1,4 +1,4 @@
-package org.am21.client.view.GUI.component;
+package org.am21.client.view.GUI.listener;
 
 import org.am21.client.view.GUI.Gui;
 
