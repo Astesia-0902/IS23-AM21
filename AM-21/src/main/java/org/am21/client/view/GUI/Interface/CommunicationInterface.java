@@ -28,13 +28,15 @@ public class CommunicationInterface extends JFrame {
 
         HashMap<BufferedImage, int[]> background = new HashMap<>();
         // Background
-        background.put(ImageIO.read(new File
-                (PathUtil.getPath("misc/sfondo parquet.jpg"))), new int[]{0, 0, WIDTH, HEIGHT});
-        System.out.println("SFONDO: " + ImageIO.read(new File(PathUtil.getPath("misc/sfondo parquet.jpg"))));
-        background.put(ImageIO.read(new File(PathUtil.getPath("Publisher material/Title 2000x2000px.png"))), new int[]{35, -100, 525, 450});
-        System.out.println("Titolo" + ImageIO.read(new File(PathUtil.getPath("Publisher material/Title 2000x2000px.png"))));
+        background.put(ImageIO.read(new File(PathUtil.getPath("background/communicationBG.png"))), new int[]{0, -90, 600, 600});
         BackGroundPanel backGroundPanel = new BackGroundPanel(background);
-
+        JLabel question = new JLabel("Socket or RMI");
+        question.setBorder(null);
+        question.setBounds(181,195 , 356, 108);
+        question.setForeground(new Color(139, 69, 19));
+        question.setFont(new Font("Snap ITC", Font.PLAIN, 26));
+        question.setOpaque(false);
+        getContentPane().add(question);
 
         // Icon
         ImageIcon minusIcon = new ImageIcon(PathUtil.getPath("icon tool/minus.png"));
@@ -67,7 +69,7 @@ public class CommunicationInterface extends JFrame {
         socketButton.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 250, 205),
                 new Color(255, 250, 205), new Color(139, 69, 19), new Color(139, 69, 19)));
         socketButton.setFont(new Font("Tempus Sans ITC", Font.BOLD, 18));
-        socketButton.setBounds(25, 280, 250, 46);
+        socketButton.setBounds(30, 295, 250, 46);
         getContentPane().add(socketButton);
 
         // RMI Button
@@ -78,7 +80,7 @@ public class CommunicationInterface extends JFrame {
         rmiButton.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 250, 205),
                 new Color(255, 250, 205), new Color(139, 69, 19), new Color(139, 69, 19)));
         rmiButton.setFont(new Font("Tempus Sans ITC", Font.BOLD, 18));
-        rmiButton.setBounds(315, 280, 250, 46);
+        rmiButton.setBounds(320, 295, 250, 46);
         getContentPane().add(rmiButton);
 
 

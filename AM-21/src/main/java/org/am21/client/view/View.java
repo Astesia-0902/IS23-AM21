@@ -8,7 +8,7 @@ public interface View {
     //String chooseView();
 
     void askLogin() throws Exception;
-    void askMenuAction() throws ServerNotActiveException, RemoteException;
+    void askMenuAction() throws Exception;
     boolean askCreateMatch() throws ServerNotActiveException, RemoteException;
     int askMaxSeats() throws RemoteException;
     boolean askJoinMatch() throws ServerNotActiveException, RemoteException;

@@ -1,13 +1,7 @@
 package org.am21.client.view.GUI;
 
-import org.am21.client.view.GUI.Interface.CommunicationInterface;
-import org.am21.client.view.GUI.Interface.LivingRoomInterface;
-import org.am21.client.view.GUI.Interface.LoginInterface;
-import org.am21.client.view.GUI.Interface.ServerInfoInterface;
-import org.am21.client.view.GUI.listener.LivingRoomListener;
-import org.am21.client.view.GUI.listener.CommunicationListener;
-import org.am21.client.view.GUI.listener.LoginListener;
-import org.am21.client.view.GUI.listener.ServerInfoListener;
+import org.am21.client.view.GUI.Interface.*;
+import org.am21.client.view.GUI.listener.*;
 import org.am21.client.view.View;
 
 import javax.swing.*;
@@ -19,7 +13,7 @@ public class Gui implements View {
     public CommunicationInterface communicationInterface;
     public LoginInterface loginInterface;
     public ServerInfoInterface serverInfoInterface;
-
+    public MenuActionInterface menuActionInterface;
     public LivingRoomInterface livingRoomInterface;
 
     public Gui() {
@@ -45,8 +39,9 @@ public class Gui implements View {
     }
 
     @Override
-    public void askMenuAction() throws ServerNotActiveException, RemoteException {
-
+    public void askMenuAction() throws Exception {
+        menuActionInterface = new MenuActionInterface();
+        new MenuActionListener(this);
     }
 
     @Override

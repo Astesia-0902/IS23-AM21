@@ -35,13 +35,6 @@ public class ServerInfoInterface extends JFrame {
         // Background
         background.put(ImageIO.read(new File(PathUtil.getPath
                 ("misc/base_pagina2.jpg"))), new int[]{0, 0, WIDTH, HEIGHT});
-        System.out.println("BASE: " + ImageIO.read(new File(PathUtil.getPath("misc/base_pagina2.jpg"))));
-
-//        background.put(ImageIO.read(new File(PathUtil.getPath
-//                ("Publisher material/Title 2000x2000px.png"))), new int[]{35, -100, 525, 450});
-//        background.put(ImageIO.read(new File(PathUtil.getPath
-//                ("Publisher material/banner 1386x400px.png"))), new int[]{0, 25, WIDTH, HEIGHT / 2});
-
         // Icon
         ImageIcon minusIcon = new ImageIcon(PathUtil.getPath("icon tool/minus.png"));
         minusLabel = new JLabel() {

@@ -37,7 +37,13 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
                 //TODO: MainFrameListener...
 
                 // Login successful and close the login frame
-                gui.loginInterface.dispose();
+
+                try {
+                    gui.loginInterface.dispose();
+                    gui.askMenuAction();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         }
     }

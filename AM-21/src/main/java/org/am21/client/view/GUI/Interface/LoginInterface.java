@@ -30,18 +30,9 @@ public class LoginInterface extends JFrame {
 
         HashMap<BufferedImage, int[]> background = new HashMap<>();
         //background
-        background.put(ImageIO.read(new File(PathUtil.getPath
-                ("misc/base_pagina2.jpg"))), new int[]{0, 0, WIDTH, HEIGHT});
-        System.out.println("BASE: " + ImageIO.read(new File(PathUtil.getPath("misc/base_pagina2.jpg"))));
 
         background.put(ImageIO.read(new File(PathUtil.getPath
-                ("Publisher material/Title 2000x2000px.png"))), new int[]{35, -100, 525, 450});
-        System.out.println("TITOLO: " + ImageIO.read(new File(PathUtil.getPath("Publisher material/Title 2000x2000px.png"))));
-
-        background.put(ImageIO.read(new File(PathUtil.getPath
-                ("Publisher material/banner 1386x400px.png"))), new int[]{0, 30, WIDTH, HEIGHT / 2});
-        System.out.println("BANNER: " + ImageIO.read(new File(PathUtil.getPath("Publisher material/banner 1386x400px.png"))));
-
+                ("background/loginBG.png"))), new int[]{-80, -231, 800, 800});
         BackGroundPanel backGroundPanel = new BackGroundPanel(background);
 
         // Icon

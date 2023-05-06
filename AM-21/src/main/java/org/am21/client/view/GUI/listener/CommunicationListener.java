@@ -16,7 +16,9 @@ public class CommunicationListener implements MouseListener, MouseMotionListener
         gui.communicationInterface.closeLabel.addMouseListener(this);
         gui.communicationInterface.minusLabel.addMouseListener(this);
         gui.communicationInterface.socketButton.addActionListener(this);
+        gui.communicationInterface.socketButton.addMouseListener(this);
         gui.communicationInterface.rmiButton.addActionListener(this);
+        gui.communicationInterface.rmiButton.addMouseListener(this);
     }
 
     @Override
@@ -80,6 +82,13 @@ public class CommunicationListener implements MouseListener, MouseMotionListener
             gui.communicationInterface.minusLabel.setBackground(new Color(222, 184, 135));
             gui.communicationInterface.minusLabel.setOpaque(true);
         }
+
+        if (e.getSource() == gui.communicationInterface.socketButton) {
+            gui.communicationInterface.socketButton.setBackground(new Color(245, 225, 199));
+        }
+        if (e.getSource() == gui.communicationInterface.rmiButton) {
+            gui.communicationInterface.rmiButton.setBackground(new Color(245, 225, 199));
+        }
     }
 
     @Override
@@ -91,6 +100,12 @@ public class CommunicationListener implements MouseListener, MouseMotionListener
         if (e.getSource() == gui.communicationInterface.minusLabel) {
             gui.communicationInterface.minusLabel.setBackground(null);
             gui.communicationInterface.minusLabel.setOpaque(false);
+        }
+        if (e.getSource() == gui.communicationInterface.socketButton) {
+            gui.communicationInterface.socketButton.setBackground(new Color(222, 184, 135));
+        }
+        if (e.getSource() == gui.communicationInterface.rmiButton) {
+            gui.communicationInterface.rmiButton.setBackground(new Color(222, 184, 135));
         }
     }
 

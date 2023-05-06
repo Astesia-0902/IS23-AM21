@@ -7,6 +7,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
 
+
 public class CLITest {
     public static void main(String[] args) throws RemoteException {
 

@@ -43,7 +43,12 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
                 //TODO: MainFrameListener...
 
                 // Login successful and close the login frame
-                gui.serverInfoInterface.dispose();
+                try {
+                    gui.serverInfoInterface.dispose();
+                    gui.askLogin();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
             }
 
         }
