@@ -9,6 +9,7 @@ import org.am21.networkRMI.ClientInputHandler;
 import org.am21.networkRMI.IClientInput;
 import org.am21.networkRMI.Lobby;
 import org.am21.networkRMI.Welcome;
+import org.am21.networkSocket.SocketServer;
 
 import java.net.MalformedURLException;
 import java.rmi.AlreadyBoundException;
@@ -25,6 +26,8 @@ public class ServerPrototype {
 
     public static void main(String[] args) throws RemoteException {
         try {
+            SocketServer server = new SocketServer();
+            server.start();
 
             LocateRegistry.createRegistry(1234);
             LocateRegistry.createRegistry(8807);

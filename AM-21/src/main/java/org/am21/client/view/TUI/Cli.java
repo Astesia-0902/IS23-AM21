@@ -2,6 +2,7 @@ package org.am21.client.view.TUI;
 
 import org.am21.client.ClientCommunicationController;
 import org.am21.client.ClientController;
+import org.am21.client.SocketClient;
 import org.am21.client.view.Storage;
 import org.am21.client.view.View;
 import org.am21.networkRMI.ClientCallBack;
@@ -23,10 +24,9 @@ import static org.am21.client.view.Storage.*;
 public class Cli implements View {
     //redundant
     private ConnectionType type;
+    private SocketClient socket;
     private String username;
-    private Thread inputThread;
     private ClientCommunicationController commCtrl;
-    private IClientInput iClientInputHandler;
     private final ClientCallBack clientCallBack;
     private String player;
     private final List<String> commonGoalList = new ArrayList<>();
@@ -43,11 +43,13 @@ public class Cli implements View {
     //private boolean COMMAND_ACTIVE = false;
 
     public static boolean REFRESH = false;
+    public int waitingThreads;
 
     public Cli() throws RemoteException {
         this.clientCallBack = new ClientCallBack();
         //TODO: keep it separate from constructor to avoid test destruction :)
         this.clientCallBack.cli = this;
+        waitingThreads = 0;
     }
 
     /**
@@ -57,7 +59,7 @@ public class Cli implements View {
      */
     public String readLine() {
         FutureTask<String> futureTask = new FutureTask<>(new InputReadTask());
-        inputThread = new Thread(futureTask);
+        Thread inputThread = new Thread(futureTask);
         inputThread.start();
 
         String input = null;
@@ -78,12 +80,13 @@ public class Cli implements View {
         System.out.println(Storage.MYSHELFIE4);
         askToContinue();
         askConnectionType();
-        if (type == ConnectionType.RMI)
+        if (type == ConnectionType.RMI) {
             askServerInfoRMI();
-        askLogin();
-        while (true) {
-            redirect();
+        }else if(type == ConnectionType.SOCKET){
+            askServerInfoSocket();
         }
+        askLogin();
+        while (true) redirect();
     }
 
 
@@ -98,12 +101,20 @@ public class Cli implements View {
             @Override
             public void run() {
                 super.run();
-                synchronized (cli) {
-                    REFRESH = true;
-                    this.interrupt();
+                waitingThreads++;
+                try {
+                    synchronized (cli) {
+                        REFRESH = true;
+                        this.interrupt();
+                    }
+                } finally {
+                    waitingThreads--;
                 }
             }
         };
+        if (waitingThreads > 0) {
+            return;
+        }
         refresher.start();
     }
 
@@ -218,12 +229,23 @@ public class Cli implements View {
             }
         } while (!validInput);
 
-        iClientInputHandler = (IClientInput) Naming.lookup("rmi://" + serverInfo.get("address") + ":"
+        IClientInput iClientInputHandler = (IClientInput) Naming.lookup("rmi://" + serverInfo.get("address") + ":"
                 + serverInfo.get("port") + "/" + root);
-        iClientInputHandler.registerCallBack(clientCallBack);
+        ClientController.iClientInputHandler = iClientInputHandler;
+        //OLD
+        //iClientInputHandler.registerCallBack(clientCallBack);
+        //NEW TODO
+        commCtrl.registerCallBack(clientCallBack);
+
         System.out.println("Connected to " + serverInfo.get("address")
                 + ":" + serverInfo.get("port"));
-        ClientController.iClientInputHandler = iClientInputHandler;
+    }
+
+    public void askServerInfoSocket(){
+        socket = new SocketClient();
+        SocketClient.cli=this;
+        socket.start();
+        delayer(1000);
     }
 
 
@@ -288,8 +310,6 @@ public class Cli implements View {
      * A switcher used to move through the 3 MAIN STATE of the CLI:
      * MENU, WAITING ROOM, GAMEPLAY
      *
-     * @throws ServerNotActiveException
-     * @throws RemoteException
      */
 
     public void redirect() throws ServerNotActiveException, RemoteException {
@@ -304,8 +324,7 @@ public class Cli implements View {
             askMenuAction();
         else if (!GAME_ON)
             askWaitingAction();
-        else if (GAME_ON)
-            askPlayerMove();
+        else askPlayerMove();
 
     }
 
@@ -387,29 +406,26 @@ public class Cli implements View {
         String setting = readLine();
         switch (setting) {
             case "size", "si" -> {
-                try {
-                    if (iClientInputHandler.changeMatchSeats(askTheIndex("MAX number of players", 2, 4))) {
-                        System.out.println("Number of Seats available changed");
-                    } else {
-                        System.out.println("Operation failed: Only the admin are allowed to change settings");
-                    }
-                } catch (RemoteException e) {
-                    throw new RuntimeException(e);
+                //OLD
+                //iClientInputHandler.changeMatchSeats(askTheIndex("MAX number of players", 2, 4));
+                //NEW TODO
+                if (commCtrl.changeMatchSeats(askTheIndex("MAX number of players", 2, 4))) {
+                    System.out.println("Number of Seats available changed");
+                } else {
+                    System.out.println("Operation failed: Only the admin are allowed to change settings");
                 }
                 //askToContinue();
                 delayer(1500);
             }
             case "limit", "li" -> {
-                try {
-                    if (iClientInputHandler.changeInsertLimit(askTheIndex("Insertion Limit", 3, SHELF_ROW))) {
-                        System.out.println("Limit changed for the whole server");
+                //OLD
+                //iClientInputHandler.changeInsertLimit(askTheIndex("Insertion Limit", 3, SHELF_ROW))
+                //NEW TODO
+                if (commCtrl.changeInsertLimit(askTheIndex("Insertion Limit", 3, SHELF_ROW))) {
+                    System.out.println("Limit changed for the whole server");
 
-                    } else {
-                        System.out.println("Operation failed: Only the admin are allowed to change settings");
-
-                    }
-                } catch (RemoteException e) {
-                    throw new RuntimeException(e);
+                } else {
+                    System.out.println("Operation failed: Only the admin are allowed to change settings");
                 }
                 //askToContinue();
                 delayer(1500);
@@ -469,7 +485,10 @@ public class Cli implements View {
     @Override
     public boolean askCreateMatch() throws ServerNotActiveException, RemoteException {
         int playerNumber = askMaxSeats();
-        if (iClientInputHandler.createMatch(playerNumber)) {
+        //OLD
+        //iClientInputHandler.createMatch(playerNumber);
+        //TODO: new
+        if (commCtrl.createMatch(playerNumber)) {
             //askToContinue();
             return true;
         }
@@ -502,7 +521,10 @@ public class Cli implements View {
             System.out.print("Please enter the room number: ");
             matchID = Integer.parseInt(readLine());
             System.out.println("Selected Room [" + matchID + "].");
-            if (iClientInputHandler.joinGame(matchID)) {
+            //OLD
+            //iClientInputHandler.joinGame(matchID);
+            //TODO new
+            if (commCtrl.joinGame(matchID)) {
                 //readLine();
                 return true;
             } else {
@@ -517,7 +539,9 @@ public class Cli implements View {
 
     @Override
     public void showMatchList() throws RemoteException {
-        iClientInputHandler.printMatchList();
+        //iClientInputHandler.printMatchList();
+        //TODO: new
+        commCtrl.printMatchList();
     }
 
     /**
@@ -546,12 +570,16 @@ public class Cli implements View {
 
     @Override
     public boolean askLeaveMatch() throws RemoteException {
-        return iClientInputHandler.leaveMatch();
+        //TODO: new
+        //iClientInputHandler.leaveMatch()
+        return commCtrl.leaveMatch();
     }
 
     @Override
     public boolean askExitGame() throws RemoteException {
-        if (iClientInputHandler.exitGame()) {
+        //TODO: new
+        //iClientInputHandler.exitGame();
+        if (commCtrl.exitGame()) {
             System.exit(0);
             return true;
         }
@@ -781,7 +809,9 @@ public class Cli implements View {
                 List<Integer> coordinates = askCoordinates();
                 int row = coordinates.get(0) - 1;
                 int column = coordinates.get(1) - 1;
-                if (iClientInputHandler.selectCell(row, column)) {
+                //TODO:
+                //iClientInputHandler.selectCell(row, column)
+                if (commCtrl.selectCell(row, column)) {
                     NOT_SEL_YET = false;
                     System.out.println(Color.YELLOW + "Item selected: " +
                             showItemInCell(row, column).replace(">", "").
@@ -850,7 +880,9 @@ public class Cli implements View {
 
                 boolean deselectConfirm = "y".equals(readLine());
                 if (deselectConfirm) {
-                    if (iClientInputHandler.deselectCards()) {
+                    //TODO:
+                    //iClientInputHandler.deselectCards();
+                    if (commCtrl.deselectCards()) {
                         NOT_SEL_YET = true;
                     }
                 }
@@ -873,7 +905,9 @@ public class Cli implements View {
                 System.out.print(Storage.insertionConfirm);
                 boolean confirm = "y".equals(readLine());
                 if (confirm) {
-                    if (iClientInputHandler.confirmSelection()) {
+                    //TODO: new
+                    //iClientInputHandler.confirmSelection();
+                    if (commCtrl.confirmSelection()) {
                         String option = "";
                         while (!option.equals("more") && !option.equals("mo")) {
                             showHand();
@@ -889,10 +923,15 @@ public class Cli implements View {
                                         column = askColumn();
                                     } while (column == -2);
                                     if (column != -1) {
-                                        if (iClientInputHandler.insertInColumn(column - 1)) {
+                                        //TODO
+                                        //iClientInputHandler.insertInColumn(column - 1)
+                                        if (commCtrl.insertInColumn(column - 1)) {
                                             showPlayerShelf();
                                             System.out.println(Color.YELLOW + "Inserted in the column: " + column + Color.RESET);
-                                            if (iClientInputHandler.endTurn()) {
+                                            //TODO
+                                            //iClientInputHandler.endTurn()
+
+                                            if (commCtrl.endTurn()) {
                                                 System.out.println(Color.YELLOW + "- End Turn -" + Color.RESET);
                                             }
                                             askToContinue();
@@ -932,7 +971,9 @@ public class Cli implements View {
             if (itemSwapped == null) {
                 System.out.println("Selection canceled.");
             } else if (!itemSwapped.get(0).equals(itemSwapped.get(1))) {
-                if (iClientInputHandler.sortHand(itemSwapped.get(0), itemSwapped.get(1))) {
+                //TODO
+                //iClientInputHandler.sortHand(itemSwapped.get(0), itemSwapped.get(1))
+                if (commCtrl.sortHand(itemSwapped.get(0), itemSwapped.get(1))) {
                     System.out.println("Card order changed.");
                 }
             } else {
@@ -1013,11 +1054,16 @@ public class Cli implements View {
             String[] matches = usernameString.split(regex);
             if (matches.length > 1) {
                 String playerName = matches[1];
-                if (iClientInputHandler.sendPlayerMessage(message, playerName, true)) {
+                //TODO
+                //iClientInputHandler.sendPlayerMessage(message, playerName, true)
+                if (commCtrl.sendPlayerMessage(message,playerName,true)) {
                     System.out.println("Message sent to: " + playerName);
                 }
             } else {
-                if (!iClientInputHandler.sendChatMessage(message)) {
+                //TODO
+                //!iClientInputHandler.sendChatMessage(message)
+
+                if (!commCtrl.sendChatMessage(message)) {
                     System.out.println(Color.RED + "The message was not sent" + Color.RESET);
                 }
             }
@@ -1106,9 +1152,12 @@ public class Cli implements View {
      * @throws RemoteException if Client is not connected to the Server through RMI
      */
     @Override
-    public void showOnlinePlayer() throws RemoteException {
-        iClientInputHandler.printOnlinePlayers();
+    public void showOnlinePlayer() {
+        //TODO
+        //iClientInputHandler.printOnlinePlayers();
+        commCtrl.printOnlinePlayers();
         askToContinue();
+
     }
 
     public void printer(String message) {

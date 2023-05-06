@@ -12,13 +12,13 @@ public class SocketServer extends Thread {
     public void run() {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
-            System.out.println("Server started on port: " + port);
+            System.out.println("Socket > Server started on port: " + port);
 
             while(true){
-                System.out.println("Waiting clients...");
+                System.out.println("Socket > Waiting clients...");
                 Socket socketClient = serverSocket.accept();
                 clientCountSocket++;
-                System.out.println("Client " + clientCountSocket + " connected from " + socketClient.getRemoteSocketAddress());
+                System.out.println("Socket > Client " + clientCountSocket + " connected from " + socketClient.getRemoteSocketAddress());
                 Thread clientHandler = new ClientHandlerSocket(socketClient);
                 clientHandler.start();
             }

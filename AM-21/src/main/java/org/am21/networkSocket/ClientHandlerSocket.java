@@ -42,10 +42,9 @@ public class ClientHandlerSocket extends Thread {
                 String req = in.readUTF();
                 handleClientMessage(req);
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ServerNotActiveException e) {
-            throw new RuntimeException(e);
+        } catch (IOException | ServerNotActiveException e) {
+            System.out.println("Socket > Client Disconnected");
+            //throw new RuntimeException(e);
         }
     }
 
@@ -67,7 +66,8 @@ public class ClientHandlerSocket extends Thread {
             System.out.println("Empty message from:" + clientSocket.getRemoteSocketAddress());
             return;
         }
-        String[] messageParts = message.split("\\|");
+        System.out.println("Dealing with server message");
+        String[] messageParts= message.split("\\|");
         switch (messageParts[0]) {
             case "login":
                 String username = messageParts[1];

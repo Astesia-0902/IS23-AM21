@@ -11,7 +11,6 @@ import org.am21.utilities.CommonGoalUtil;
 import org.am21.utilities.MyTimer;
 import org.am21.utilities.VirtualViewHelper;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,15 +117,11 @@ public class Match {
                 //If, after checkRoom(), the match did not start, send Client to Waiting Phase
                 if (gameState == GameState.WaitingPlayers && player.getController().clientInput.callBack!=null) {
 
-                    try {
-                        //TODO: NEW Protocol
-                        //New Communication Protocol
-                        CommunicationController.instance.notifyToWait(VirtualViewHelper.convertMatchInfoToJSON(this),player.getController());
-                        //OLD RMI only
-                        player.getController().clientInput.callBack.notifyToWait(VirtualViewHelper.convertMatchInfoToJSON(this));
-                    } catch (RemoteException e) {
-                        throw new RuntimeException(e);
-                    }
+                    //TODO: NEW Protocol
+                    //New Communication Protocol
+                    CommunicationController.instance.notifyToWait(VirtualViewHelper.convertMatchInfoToJSON(this),player.getController());
+                    //OLD RMI only
+                    //player.getController().clientInput.callBack.notifyToWait(VirtualViewHelper.convertMatchInfoToJSON(this));
                 }
 
                 return true;

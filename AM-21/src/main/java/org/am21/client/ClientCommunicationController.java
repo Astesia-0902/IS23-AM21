@@ -11,9 +11,7 @@ public class ClientCommunicationController {
         if (ClientController.isRMI) {
             try {
                 return ClientController.iClientInputHandler.joinGame(matchID);
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            } catch (ServerNotActiveException e) {
+            } catch (RemoteException | ServerNotActiveException e) {
                 throw new RuntimeException(e);
             }
         } else {
@@ -41,12 +39,11 @@ public class ClientCommunicationController {
         if (ClientController.isRMI) {
             try {
                 return ClientController.iClientInputHandler.createMatch(playerNum);
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            } catch (ServerNotActiveException e) {
+            } catch (RemoteException | ServerNotActiveException e) {
                 throw new RuntimeException(e);
             }
         } else {
+            System.out.println("Sending request");
             String messageToServer = "createMatch" + "|" + playerNum;
             SocketClient.messageToServer(messageToServer);
             return true;
@@ -58,9 +55,7 @@ public class ClientCommunicationController {
         if (ClientController.isRMI) {
             try {
                 return ClientController.iClientInputHandler.selectCell(row, col);
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            } catch (ServerNotActiveException e) {
+            } catch (RemoteException | ServerNotActiveException e) {
                 throw new RuntimeException(e);
             }
         } else {
@@ -74,9 +69,7 @@ public class ClientCommunicationController {
         if (ClientController.isRMI) {
             try {
                 return ClientController.iClientInputHandler.confirmSelection();
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            } catch (ServerNotActiveException e) {
+            } catch (RemoteException | ServerNotActiveException e) {
                 throw new RuntimeException(e);
             }
         } else {
@@ -90,9 +83,7 @@ public class ClientCommunicationController {
         if (ClientController.isRMI) {
             try {
                 return ClientController.iClientInputHandler.insertInColumn(colNum);
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            } catch (ServerNotActiveException e) {
+            } catch (RemoteException | ServerNotActiveException e) {
                 throw new RuntimeException(e);
             }
         } else {
@@ -106,9 +97,7 @@ public class ClientCommunicationController {
         if (ClientController.isRMI) {
             try {
                 return ClientController.iClientInputHandler.deselectCards();
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            } catch (ServerNotActiveException e) {
+            } catch (RemoteException | ServerNotActiveException e) {
                 throw new RuntimeException(e);
             }
         } else {
@@ -122,9 +111,7 @@ public class ClientCommunicationController {
         if (ClientController.isRMI) {
             try {
                 return ClientController.iClientInputHandler.sortHand(pos1, pos2);
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            } catch (ServerNotActiveException e) {
+            } catch (RemoteException | ServerNotActiveException e) {
                 throw new RuntimeException(e);
             }
         } else {
@@ -179,10 +166,13 @@ public class ClientCommunicationController {
      * RMI only
      *
      * @param callBack the callback to register
-     * @return true if the callback was registered successfully
      */
-    public boolean registerCallBack(IClientCallBack callBack) {
-        return false;
+    public void registerCallBack(IClientCallBack callBack) {
+        try {
+            ClientController.iClientInputHandler.registerCallBack(callBack);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public boolean sendChatMessage(String message) {
@@ -244,9 +234,7 @@ public class ClientCommunicationController {
         if (ClientController.isRMI) {
             try {
                 return ClientController.iClientInputHandler.endTurn();
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            } catch (ServerNotActiveException e) {
+            } catch (RemoteException | ServerNotActiveException e) {
                 throw new RuntimeException(e);
             }
         } else {

@@ -26,7 +26,8 @@ public class SocketClient extends Thread {
                 handleServerMessage(response);
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("Server Disconnected");
+            //throw new RuntimeException(e);
         }
     }
 
@@ -39,30 +40,29 @@ public class SocketClient extends Thread {
     }
 
     public static void handleServerMessage(String message) {
+        System.out.println("Dealing with server message");
         String[] messageArray = message.split("\\|");
         switch (messageArray[0]) {
-            case "Message":
-            case "ChatMessage":
-                System.out.println(messageArray[1]);
-                break;
-            case "VirtualView":
-                Storage.setFullViewVariables(messageArray[1], Integer.parseInt(messageArray[2]));
-                break;
-            case "START":
-                System.out.println("Match started");
-                break;
-            case "WAIT":
-                System.out.println("Waiting for other players...");
-                break;
-            case "GoToMenu":
-                break;
-            case "EndMatch":
-                System.out.println("Match ended");
-                break;
-            case "VirtualHand":
-                Storage.convertBackHand(messageArray[1]);
-            default:
-                System.out.println("Server: " + message);
+            case "Message","ChatMessage"-> System.out.println(messageArray[1]);
+            case "VirtualView"-> Storage.setFullViewVariables(messageArray[1], Integer.parseInt(messageArray[2]));
+            case "START"-> System.out.println("Match started");
+            case "WAIT"-> {System.out.println("Waiting for other players...");
+                if(cli!=null){
+                    //TODO: need jsonInfo
+                    //Storage.convertBackMatchInfo(jsonInfo);
+                    cli.setGAME_ON(false);
+                    cli.setGO_TO_MENU(false);
+                }
+            }
+            case "GoToMenu"->{
+                if(cli!=null){
+                    cli.setGO_TO_MENU(true);
+                    cli.setGAME_ON(false);
+                }
+            }
+            case "EndMatch"-> System.out.println("Match ended");
+            case "VirtualHand"-> Storage.convertBackHand(messageArray[1]);
+            default-> System.out.println("Server: " + message);
         }
     }
 }

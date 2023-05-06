@@ -267,7 +267,7 @@ public class GameController {
             for (Player p : GameManager.players) {
                 if (p.getNickname().equals(receiver)) {
                     GameManager.sendTextReply(p.getController(), "\n------------------------------------------",refresh);
-                    GameManager.sendTextReply(p.getController(), "\n" + sender + "[!] > \"" + message + "\"",refresh);
+                    GameManager.sendTextReply(p.getController(), sender + "[!] > \"" + message + "\"",refresh);
                     GameManager.sendTextReply(p.getController(), "------------------------------------------\n",refresh);
 
                     return true;

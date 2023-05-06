@@ -78,6 +78,7 @@ public class CommunicationController implements ICommunication {
                 throw new RuntimeException(e);
             }
         } else if(myPlayer.connectionType == ConnectionType.SOCKET){
+            System.out.println("AAAAAA");
                 String messageToClient = "WAIT" + "|" + info;
                 myPlayer.clientHandlerSocket.callback(messageToClient);
 
