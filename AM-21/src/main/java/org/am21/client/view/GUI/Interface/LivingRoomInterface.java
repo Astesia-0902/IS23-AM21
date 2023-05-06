@@ -1,7 +1,6 @@
 package org.am21.client.view.GUI.Interface;
 
-import org.am21.client.view.GUI.component.GameBoardPanel;
-import org.am21.client.view.GUI.component.GamePanel;
+import org.am21.client.view.GUI.component.*;
 
 import javax.swing.*;
 
@@ -13,18 +12,33 @@ public class LivingRoomInterface extends JFrame {
     public JLayeredPane livingRoomPane;
     public GamePanel gamePanel;
     public GameBoardPanel gameBoardPanel;
+    public CommonGoalPanel commonGoalPanel;
+    public PersonalGoalPanel personalGoalPanel;
+
+    public MyShelfPanel myShelfPanel;
+   // public UserShelfPanel userShelfPanel;
 
     public LivingRoomInterface(){
+        super("living room");
 
         try{
             this.livingRoomPane = new JLayeredPane();
             this.gamePanel = new GamePanel();
             this.gameBoardPanel = new GameBoardPanel();
+            //this.commonGoalPanel = new CommonGoalPanel();
+            //this.personalGoalPanel = new PersonalGoalPanel();
+            //this.myShelfPanel = new MyShelfPanel();
+           // this.userShelfPanel = new UserShelfPanel();
             this.livingRoomPane.setBounds(0,0,pcWidth,pcHeight);
             this.livingRoomPane.add(this.gamePanel,JLayeredPane.DEFAULT_LAYER);
-            //this.livingRoomPane.add(this.gameBoardPane,JLayeredPane.MODAL_LAYER);
-            //this.add(this.gamePanel);
-            this.add(this.livingRoomPane);
+            this.livingRoomPane.add(this.gameBoardPanel,JLayeredPane.PALETTE_LAYER);
+           // this.livingRoomPane.add(this.commonGoalPanel,JLayeredPane.PALETTE_LAYER);
+            //this.livingRoomPane.add(this.personalGoalPanel,JLayeredPane.PALETTE_LAYER);
+            //this.livingRoomPane.add(this,myShelfPanel,JLayeredPane.PALETTE_LAYER);
+            //this.livingRoomPane.add(this.userShelfPanel,JLayeredPane.PALETTE_LAYER);
+
+
+            this.getContentPane().add(livingRoomPane);
 
             this.setLayout(null);
             this.setLocationRelativeTo(null);
