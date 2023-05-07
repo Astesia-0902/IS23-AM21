@@ -47,7 +47,7 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
 
                 // Login successful and close the login frame
                 try {
-                    gui.serverInfoInterface.dispose();
+                    gui.serverInfoInterface.setVisible(false);
                     gui.askLogin();
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
@@ -59,14 +59,14 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == gui.serverInfoInterface.closeLabel) {
-            gui.serverInfoInterface.dispose();                         //close window
+            gui.frame.dispose();                         //close window
         }
         if (e.getSource() == gui.serverInfoInterface.minusLabel) {
-            gui.serverInfoInterface.setExtendedState(Frame.ICONIFIED); // minimize window
+            gui.frame.setExtendedState(Frame.ICONIFIED); // minimize window
         }
         if (e.getSource() == gui.serverInfoInterface.returnLabel){      // return to select communication
             try {
-                gui.serverInfoInterface.dispose();
+                gui.serverInfoInterface.setVisible(false);
                 gui.init();
             } catch (Exception ex) {
                 throw new RuntimeException(ex);

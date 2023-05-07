@@ -43,7 +43,7 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
                 // Login successful and close the login frame
 
                 try {
-                    gui.loginInterface.dispose();
+                    gui.loginInterface.setVisible(false);
                     gui.askMenuAction();
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
@@ -55,10 +55,10 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == gui.loginInterface.closeLabel) {
-            gui.loginInterface.dispose();                         //close window
+            gui.frame.dispose();                         //close window
         }
         if (e.getSource() == gui.loginInterface.minusLabel) {
-            gui.loginInterface.setExtendedState(Frame.ICONIFIED); // minimize window
+            gui.frame.setExtendedState(Frame.ICONIFIED); // minimize window
         }
         if (e.getSource() == gui.loginInterface){
             gui.loginInterface.loginButton.requestFocus();

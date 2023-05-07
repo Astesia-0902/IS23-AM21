@@ -11,6 +11,7 @@ public class CommunicationListener implements MouseListener, MouseMotionListener
 
     public CommunicationListener(Gui gui) {
         this.gui = gui;
+        gui.frame.addMouseListener(this);
         gui.communicationInterface.addMouseMotionListener(this);
         gui.communicationInterface.addMouseListener(this);
         gui.communicationInterface.closeLabel.addMouseListener(this);
@@ -26,9 +27,9 @@ public class CommunicationListener implements MouseListener, MouseMotionListener
         // Press the Login Button
         if (e.getSource() == gui.communicationInterface.socketButton) {
             //TODO: socket communication
-            gui.communicationInterface.dispose();
             try {
-                gui.communicationInterface.dispose();
+                //gui.communicationInterface.dispose();
+                gui.communicationInterface.setVisible(false);
                 gui.askLogin();
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
@@ -37,7 +38,7 @@ public class CommunicationListener implements MouseListener, MouseMotionListener
         } else if (e.getSource() == gui.communicationInterface.rmiButton) {
             // RMI
             try {
-                gui.communicationInterface.dispose();
+                gui.communicationInterface.setVisible(false);
                 gui.askServerInfo();
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
@@ -49,12 +50,11 @@ public class CommunicationListener implements MouseListener, MouseMotionListener
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == gui.communicationInterface.closeLabel) {
-            gui.communicationInterface.dispose();                         //close window
+            gui.frame.dispose();                         //close window
         }
         if (e.getSource() == gui.communicationInterface.minusLabel) {
-            gui.communicationInterface.setExtendedState(Frame.ICONIFIED); // minimize window
+            gui.frame.setExtendedState(Frame.ICONIFIED); // minimize window
         }
-
     }
 
     @Override

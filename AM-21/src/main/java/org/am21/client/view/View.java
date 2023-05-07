@@ -10,7 +10,7 @@ public interface View {
     void askLogin() throws Exception;
     void askMenuAction() throws Exception;
     boolean askCreateMatch() throws Exception;
-    int askMaxSeats() throws RemoteException;
+    int askMaxSeats() throws Exception;
     boolean askJoinMatch() throws Exception;
     boolean askLeaveMatch() throws RemoteException;
     boolean askExitGame() throws RemoteException;

@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.HashMap;
 
-public class LoginInterface extends JFrame {
+public class LoginInterface extends JDialog {
     public static final int WIDTH = 600;
     public static final int HEIGHT = 400;
     public JButton loginButton;
@@ -24,10 +24,9 @@ public class LoginInterface extends JFrame {
     public JLabel closeLabel;
 
 
-    public LoginInterface() throws Exception{
-        setTitle("MyShelfie - Login");
-        setIconImage(ImageIO.read(new File(PathUtil.getPath("Publisher material/Icon 50x50px.png"))));
-
+    public LoginInterface(JFrame frame) throws Exception{
+        super(frame);
+        frame.setTitle("MyShelfie - Login");
         HashMap<BufferedImage, int[]> background = new HashMap<>();
         //background
 
@@ -83,12 +82,10 @@ public class LoginInterface extends JFrame {
                 new Color(139, 69, 19)));
         add(backGroundPanel);
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(0,0,WIDTH,HEIGHT);
         setUndecorated(true);
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
-
     }
 }
