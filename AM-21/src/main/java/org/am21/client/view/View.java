@@ -9,9 +9,9 @@ public interface View {
 
     void askLogin() throws Exception;
     void askMenuAction() throws Exception;
-    boolean askCreateMatch() throws ServerNotActiveException, RemoteException;
+    boolean askCreateMatch() throws Exception;
     int askMaxSeats() throws RemoteException;
-    boolean askJoinMatch() throws ServerNotActiveException, RemoteException;
+    boolean askJoinMatch() throws Exception;
     boolean askLeaveMatch() throws RemoteException;
     boolean askExitGame() throws RemoteException;
     void showCommonGoals();

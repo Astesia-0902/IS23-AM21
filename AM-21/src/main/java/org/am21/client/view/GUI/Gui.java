@@ -14,7 +14,10 @@ public class Gui implements View {
     public LoginInterface loginInterface;
     public ServerInfoInterface serverInfoInterface;
     public MenuActionInterface menuActionInterface;
+    public MaxSeatsInterface maxSeatsInterface;
+    public WaitingRoomInterface waitingRoomInterface;
     public LivingRoomInterface livingRoomInterface;
+
 
     public Gui() {
 
@@ -45,9 +48,11 @@ public class Gui implements View {
     }
 
     @Override
-    public boolean askCreateMatch() throws ServerNotActiveException, RemoteException {
-        livingRoomInterface = new LivingRoomInterface();
-        new LivingRoomListener(this);
+    public boolean askCreateMatch() throws Exception {
+        maxSeatsInterface = new MaxSeatsInterface();
+        new MaxSeatsListener(this);
+//        livingRoomInterface = new LivingRoomInterface();
+//        new LivingRoomListener(this);
         return false;
     }
 
@@ -57,7 +62,9 @@ public class Gui implements View {
     }
 
     @Override
-    public boolean askJoinMatch() throws ServerNotActiveException, RemoteException {
+    public boolean askJoinMatch() throws Exception {
+        waitingRoomInterface = new WaitingRoomInterface();
+        new WaitingRoomListener(this);
         return false;
     }
 

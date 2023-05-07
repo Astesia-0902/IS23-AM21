@@ -8,7 +8,7 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.*;
 
-public class LoginListener implements MouseListener, MouseMotionListener, ActionListener {
+public class LoginListener implements MouseListener, MouseMotionListener, ActionListener, KeyListener {
     Gui gui;
     Point p = new Point();
 
@@ -19,6 +19,9 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
         gui.loginInterface.closeLabel.addMouseListener(this);
         gui.loginInterface.minusLabel.addMouseListener(this);
         gui.loginInterface.nicknameField.addActionListener(this);
+        gui.loginInterface.nicknameField.addKeyListener(this);
+        gui.loginInterface.loginButton.addKeyListener(this);
+        gui.loginInterface.loginButton.addMouseListener(this);
         gui.loginInterface.loginButton.addActionListener(this);
     }
 
@@ -30,8 +33,9 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
             String username = gui.loginInterface.nicknameField.getText().trim();
 
             if (username.isEmpty()) {
-                gui.loginInterface.nicknameField.setBorder(new CompoundBorder(new MatteBorder(0, 0, 3, 3,
-                        new Color(178, 34, 34)), new EmptyBorder(0, 50, 0, 0)));
+                gui.loginInterface.nicknameField.setBorder(new CompoundBorder(new MatteBorder(3, 3, 5, 5,
+                new Color(178, 34, 34)), new EmptyBorder(0, 50, 0, 0)));
+
             } else {
                 //TODO:ClientInputHandle...
                 //TODO: MainFrameListener...
@@ -56,6 +60,9 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
         if (e.getSource() == gui.loginInterface.minusLabel) {
             gui.loginInterface.setExtendedState(Frame.ICONIFIED); // minimize window
         }
+        if (e.getSource() == gui.loginInterface){
+            gui.loginInterface.loginButton.requestFocus();
+        }
     }
 
     @Override
@@ -76,17 +83,13 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
         if (e.getSource() == gui.loginInterface.closeLabel) {
             gui.loginInterface.closeLabel.setBackground(new Color(222, 184, 135));
             gui.loginInterface.closeLabel.setOpaque(true);
-
-        } else {
-            gui.loginInterface.closeLabel.setBackground(null);
-            gui.loginInterface.closeLabel.setOpaque(false);
         }
         if (e.getSource() == gui.loginInterface.minusLabel) {
             gui.loginInterface.minusLabel.setBackground(new Color(222, 184, 135));
             gui.loginInterface.minusLabel.setOpaque(true);
-        } else {
-            gui.loginInterface.minusLabel.setBackground(null);
-            gui.loginInterface.minusLabel.setOpaque(false);
+        }
+        if (e.getSource() == gui.loginInterface.loginButton) {
+            gui.loginInterface.loginButton.setBackground(new Color(245, 225, 199));
         }
 
     }
@@ -101,7 +104,9 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
             gui.loginInterface.minusLabel.setBackground(null);
             gui.loginInterface.minusLabel.setOpaque(false);
         }
-
+        if (e.getSource() == gui.loginInterface.loginButton) {
+            gui.loginInterface.loginButton.setBackground(new Color(222, 184, 135));
+        }
     }
 
     @Override
@@ -114,6 +119,23 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
 
     @Override
     public void mouseMoved(MouseEvent e) {
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            gui.loginInterface.loginButton.doClick();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
 
     }
 }

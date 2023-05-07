@@ -27,6 +27,9 @@ public class ServerInfoInterface extends JFrame {
     public JLabel closeLabel;
     public JLabel returnLabel;
 
+    public ImageIcon returnIcon;
+    public ImageIcon returnIconColor;
+
     public ServerInfoInterface() throws IOException {
         setTitle("MyShelfie - Server Info");
         setIconImage(ImageIO.read(new File(PathUtil.getPath("Publisher material/Icon 50x50px.png"))));
@@ -37,36 +40,19 @@ public class ServerInfoInterface extends JFrame {
                 ("misc/base_pagina2.jpg"))), new int[]{0, 0, WIDTH, HEIGHT});
         // Icon
         ImageIcon minusIcon = new ImageIcon(PathUtil.getPath("icon tool/minus.png"));
-        minusLabel = new JLabel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                minusIcon.paintIcon(minusLabel,g,0,0);
-            }
-        };
+        minusLabel = new JLabel(minusIcon);
         minusLabel.setBounds(240, 5, 25, 25);
         getContentPane().add(minusLabel);
 
         ImageIcon closeIcon = new ImageIcon(PathUtil.getPath("icon tool/close.png"));
-        closeLabel = new JLabel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                closeIcon.paintIcon(closeLabel,g,0,0);
-            }
-        };
+        closeLabel = new JLabel(closeIcon);
         closeLabel.setBounds(270, 5, 25, 25);
         getContentPane().add(closeLabel);
 
-        ImageIcon returnIcon = new ImageIcon(PathUtil.getPath("icon tool/return.png"));
-        returnLabel = new JLabel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                returnIcon.paintIcon(returnLabel,g,0,0);
-            }
-        };
-        returnLabel.setBounds(15, 15, 25, 25);
+        returnIcon = new ImageIcon(PathUtil.getPath("icon tool/return.png"));
+        returnIconColor = new ImageIcon(PathUtil.getPath("icon tool/returnColor.png"));
+        returnLabel = new JLabel(returnIconColor);
+        returnLabel.setBounds(15, 6, 25, 25);
         getContentPane().add(returnLabel);
 
         BackGroundPanel backGroundPanel = new BackGroundPanel(background);

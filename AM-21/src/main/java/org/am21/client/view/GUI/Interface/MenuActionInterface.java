@@ -26,9 +26,12 @@ public class MenuActionInterface extends JFrame {
     public ImageIcon helpIcon;
     public ImageIcon onlineIcon;
     public ImageIcon chatIcon;
+    public ImageIcon helpIconColor;
+    public ImageIcon onlineIconColor;
+    public ImageIcon chatIconColor;
 
     public MenuActionInterface() throws Exception{
-        setTitle("MyShelfie - Login");
+        setTitle("MyShelfie - Menu Action");
         setIconImage(ImageIO.read(new File(PathUtil.getPath("Publisher material/Icon 50x50px.png"))));
 
         HashMap<BufferedImage, int[]> background = new HashMap<>();
@@ -69,49 +72,37 @@ public class MenuActionInterface extends JFrame {
         getContentPane().add(exitButton);
 
         chatIcon = new ImageIcon(PathUtil.getPath("icon tool/chat (2).png"));
-        chatButton = new JButton() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                chatIcon.paintIcon(chatButton,g,5,5);
-            }
-        };
+        chatIconColor = new ImageIcon(PathUtil.getPath("icon tool/chatColor.png"));
+        chatButton = new JButton(chatIcon);
         chatButton.setBounds(450, 45, 35, 35);
         chatButton.setContentAreaFilled(false);
         chatButton.setBorder(null);
-
+        chatButton.setFocusPainted(false);
         getContentPane().add(chatButton);
 
         onlineIcon = new ImageIcon(PathUtil.getPath("icon tool/online.png"));
-        onlineButton = new JButton() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                onlineIcon.paintIcon(onlineButton,g,5,5);
-            }
-        };
-        onlineButton.setBounds(485, 45, 35, 35);
+        onlineIconColor = new ImageIcon(PathUtil.getPath("icon tool/onlineColor.png"));
+        onlineButton = new JButton(onlineIcon);
+        onlineButton.setBounds(490, 43, 35, 35);
         onlineButton.setContentAreaFilled(false);
         onlineButton.setBorder(null);
+        onlineButton.setFocusPainted(false);
         getContentPane().add(onlineButton);
 
         helpIcon = new ImageIcon(PathUtil.getPath("icon tool/help.png"));
-        helpButton = new JButton() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                helpIcon.paintIcon(helpButton,g,0,0);
-            }
-        };
-        helpButton.setBounds(525, 50, 35, 35);
+        helpIconColor = new ImageIcon(PathUtil.getPath("icon tool/helpColor.png"));
+        helpButton = new JButton(helpIcon);
+        helpButton.setBounds(525, 45, 35, 35);
         helpButton.setContentAreaFilled(false);
         helpButton.setBorder(null);
+        helpButton.setFocusPainted(false);
         getContentPane().add(helpButton);
 
 
         backGroundPanel.setBorder(new MatteBorder(5, 5, 5, 5,
                 new Color(139, 69, 19)));
         add(backGroundPanel);
+
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(0,0,WIDTH,HEIGHT);
@@ -120,9 +111,5 @@ public class MenuActionInterface extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
-    }
-
-    public static void main(String[] args) throws Exception {
-        new MenuActionInterface();
     }
 }

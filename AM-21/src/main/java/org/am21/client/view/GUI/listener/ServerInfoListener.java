@@ -8,7 +8,7 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.*;
 
-public class ServerInfoListener implements MouseListener, MouseMotionListener, ActionListener {
+public class ServerInfoListener implements MouseListener, MouseMotionListener, ActionListener, KeyListener {
     Gui gui;
     Point p = new Point();
 
@@ -20,8 +20,11 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
         gui.serverInfoInterface.minusLabel.addMouseListener(this);
         gui.serverInfoInterface.returnLabel.addMouseListener(this);
         gui.serverInfoInterface.portField.addActionListener(this);
+        gui.serverInfoInterface.portField.addKeyListener(this);
         gui.serverInfoInterface.addressField.addActionListener(this);
+        gui.serverInfoInterface.addressField.addKeyListener(this);
         gui.serverInfoInterface.confirmButton.addActionListener(this);
+        gui.serverInfoInterface.confirmButton.addKeyListener(this);
     }
 
     @Override
@@ -32,9 +35,9 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
             String port = gui.serverInfoInterface.portField.getText().trim();
 
             if (address.isEmpty() || port.isEmpty()) {
-                gui.serverInfoInterface.addressField.setBorder(new CompoundBorder(new MatteBorder(0, 0, 3, 3,
+                gui.serverInfoInterface.addressField.setBorder(new CompoundBorder(new MatteBorder(3, 3, 3, 3,
                         new Color(178, 34, 34)), new EmptyBorder(0, 50, 0, 0)));
-                gui.serverInfoInterface.portField.setBorder(new CompoundBorder(new MatteBorder(0, 0, 3, 3,
+                gui.serverInfoInterface.portField.setBorder(new CompoundBorder(new MatteBorder(3, 3, 3, 3,
                         new Color(178, 34, 34)), new EmptyBorder(0, 50, 0, 0)));
             } else {
 
@@ -69,6 +72,9 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
                 throw new RuntimeException(ex);
             }
         }
+        if (e.getSource() == gui.serverInfoInterface){
+            gui.serverInfoInterface.confirmButton.requestFocus();
+        }
     }
 
     @Override
@@ -90,18 +96,14 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
             gui.serverInfoInterface.closeLabel.setBackground(new Color(222, 184, 135));
             gui.serverInfoInterface.closeLabel.setOpaque(true);
 
-        } else {
-            gui.serverInfoInterface.closeLabel.setBackground(null);
-            gui.serverInfoInterface.closeLabel.setOpaque(false);
         }
         if (e.getSource() == gui.serverInfoInterface.minusLabel) {
             gui.serverInfoInterface.minusLabel.setBackground(new Color(222, 184, 135));
             gui.serverInfoInterface.minusLabel.setOpaque(true);
-        } else {
-            gui.serverInfoInterface.minusLabel.setBackground(null);
-            gui.serverInfoInterface.minusLabel.setOpaque(false);
         }
-
+        if (e.getSource() == gui.serverInfoInterface.returnLabel) {
+            gui.serverInfoInterface.returnLabel.setIcon(gui.serverInfoInterface.returnIcon);
+        }
 
     }
 
@@ -115,7 +117,9 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
             gui.serverInfoInterface.minusLabel.setBackground(null);
             gui.serverInfoInterface.minusLabel.setOpaque(false);
         }
-
+        if (e.getSource() == gui.serverInfoInterface.returnLabel) {
+            gui.serverInfoInterface.returnLabel.setIcon(gui.serverInfoInterface.returnIconColor);
+        }
     }
 
     @Override
@@ -128,6 +132,23 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
 
     @Override
     public void mouseMoved(MouseEvent e) {
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            gui.serverInfoInterface.confirmButton.doClick();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
 
     }
 }

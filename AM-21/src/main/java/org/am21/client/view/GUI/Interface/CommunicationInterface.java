@@ -40,24 +40,12 @@ public class CommunicationInterface extends JFrame {
 
         // Icon
         ImageIcon minusIcon = new ImageIcon(PathUtil.getPath("icon tool/minus.png"));
-        minusLabel = new JLabel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                minusIcon.paintIcon(minusLabel,g,0,0);
-            }
-        };
+        minusLabel = new JLabel(minusIcon);
         minusLabel.setBounds(540, 5, 25, 25);
         getContentPane().add(minusLabel);
 
         ImageIcon closeIcon = new ImageIcon(PathUtil.getPath("icon tool/close.png"));
-        closeLabel = new JLabel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                closeIcon.paintIcon(closeLabel,g,0,0);
-            }
-        };
+        closeLabel = new JLabel(closeIcon);
         closeLabel.setBounds(570, 5, 25, 25);
         getContentPane().add(closeLabel);
 
@@ -93,16 +81,6 @@ public class CommunicationInterface extends JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
-
-        //new CommunicationListener(this);
-
     }
 
-    public static void main(String[] args) {
-        try {
-            new CommunicationInterface();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

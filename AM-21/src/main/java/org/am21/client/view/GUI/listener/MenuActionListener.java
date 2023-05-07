@@ -2,13 +2,9 @@ package org.am21.client.view.GUI.listener;
 
 
 import org.am21.client.view.GUI.Gui;
-import org.am21.client.view.GUI.utils.PathUtil;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
 
 
 public class MenuActionListener implements MouseListener, MouseMotionListener, ActionListener {
@@ -38,16 +34,26 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == gui.menuActionInterface.createButton){
             //TODO: create a new Match...
-            gui.menuActionInterface.dispose();
-            //gui.askCreateMatch();
+            try {
+                //gui.menuActionInterface.dispose();
+                gui.askCreateMatch();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
         } else if (e.getSource() == gui.menuActionInterface.joinButton){
             //TODO: join a Macth...
-            gui.menuActionInterface.dispose();
-            //gui.askJoinMatch();
+
+            try {
+                gui.menuActionInterface.dispose();
+                gui.askJoinMatch();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
         } else if (e.getSource() == gui.menuActionInterface.exitButton) {
             gui.menuActionInterface.dispose();
             //gui.askExitGame();
         } else if (e.getSource() == gui.menuActionInterface.helpButton) {
+
            // TODO: askAssistMode()?
         } else if (e.getSource() == gui.menuActionInterface.onlineButton) {
             //gui.showOnlinePlayer();
@@ -90,30 +96,15 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
         }
 
         if (e.getSource() == gui.menuActionInterface.helpButton) {
-            try {
-                gui.menuActionInterface.helpIcon.setImage
-                        (ImageIO.read(new File(PathUtil.getPath("icon tool/helpColor.png"))));
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            gui.menuActionInterface.helpButton.setIcon(gui.menuActionInterface.helpIconColor);
         }
 
         if (e.getSource() == gui.menuActionInterface.chatButton) {
-            try {
-                gui.menuActionInterface.chatIcon.setImage
-                        (ImageIO.read(new File(PathUtil.getPath("icon tool/chatColor.png"))));
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            gui.menuActionInterface.chatButton.setIcon(gui.menuActionInterface.chatIconColor);
         }
 
         if (e.getSource() == gui.menuActionInterface.onlineButton) {
-            try {
-                gui.menuActionInterface.onlineIcon.setImage
-                        (ImageIO.read(new File(PathUtil.getPath("icon tool/onlineColor.png"))));
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            gui.menuActionInterface.onlineButton.setIcon(gui.menuActionInterface.onlineIconColor);
         }
     }
 
@@ -130,28 +121,13 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
         }
 
         if (e.getSource() == gui.menuActionInterface.helpButton) {
-            try {
-                gui.menuActionInterface.helpIcon.setImage
-                        (ImageIO.read(new File(PathUtil.getPath("icon tool/help.png"))));
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            gui.menuActionInterface.helpButton.setIcon(gui.menuActionInterface.helpIcon);
         }
         if (e.getSource() == gui.menuActionInterface.chatButton) {
-            try {
-                gui.menuActionInterface.chatIcon.setImage
-                        (ImageIO.read(new File(PathUtil.getPath("icon tool/chat (2).png"))));
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            gui.menuActionInterface.chatButton.setIcon(gui.menuActionInterface.chatIcon);
         }
         if (e.getSource() == gui.menuActionInterface.onlineButton) {
-            try {
-                gui.menuActionInterface.onlineIcon.setImage
-                        (ImageIO.read(new File(PathUtil.getPath("icon tool/online.png"))));
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            gui.menuActionInterface.onlineButton.setIcon(gui.menuActionInterface.onlineIcon);
         }
     }
 
