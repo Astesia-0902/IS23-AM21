@@ -203,9 +203,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     //TODO: method
 
     /**
-     * This method is used to open the group chat
-     * There should be an option for sending a text
-     *
+     * This method is used to open a specific chat
      * @throws RemoteException
      */
     @Override
@@ -219,7 +217,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     }
 
 
-    //TODO: to be deleted when the game is complete, this method is just for accelerate testing
+    //TODO: to be deleted when the game is complete, this method is useful to accelerate testing
     @Override
     public boolean changeInsertLimit(int newLimit) throws RemoteException {
         return GameController.changeInsertLimit(newLimit, playerController);

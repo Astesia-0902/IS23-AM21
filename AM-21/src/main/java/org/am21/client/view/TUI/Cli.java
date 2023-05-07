@@ -1169,7 +1169,7 @@ public class Cli implements View {
     }
 
     /**
-     * This method allows the user to read the GAME RULE
+     * This method allows the user to read the GAME RULES
      */
     @Override
     public void showGameRules() {
@@ -1192,12 +1192,10 @@ public class Cli implements View {
         }
         System.out.println();
     }
-
     public void checkTurn() {
         SEL_MODE = Storage.currentPlayer.equals(username);
 
     }
-
     /**
      * This Method is used for DECORATION of TUI
      */
@@ -1390,6 +1388,26 @@ public class Cli implements View {
         readLine();
         showGameResults();
         setEND(false);
+    }
+
+    /**
+     * Sending a message in a specific chat (public or private)
+     * @param command
+     */
+    public void handleChatMessageV2(String command){
+
+
+    }
+
+    /**
+     * Open interface with a specific chat (public or private)
+     * Calling OpenChat Method
+     * @param command
+     */
+    public void askChat(String command){
+
+
+
     }
 
 }

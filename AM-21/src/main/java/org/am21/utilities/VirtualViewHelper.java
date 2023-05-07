@@ -61,7 +61,7 @@ public class VirtualViewHelper {
         match.virtualView.setScores(scores);
         match.virtualView.setHiddenPoints(hiddenPoints);
 
-        match.virtualView.gameResults=tmp;
+        match.virtualView.gameResults = tmp;
     }
 
     /**
@@ -297,22 +297,43 @@ public class VirtualViewHelper {
         }
     }
 
-    public static void virtualizeGameResults(Match m,List<String> gR){
-        m.virtualView.gameResults=gR;
+    public static void virtualizeGameResults(Match m, List<String> gR) {
+        m.virtualView.gameResults = gR;
     }
 
-    public static String convertGameResultsToJSON(VirtualView virtualView){
+    public static String convertGameResultsToJSON(VirtualView virtualView) {
         return JSON.toJSONString(virtualView.gameResults);
     }
 
-    public static String convertMatchInfoToJSON(Match m){
+    public static String convertMatchInfoToJSON(Match m) {
         List<Object> info = new ArrayList<>();
         info.add(m.virtualView.getMatchID());
         info.add(m.virtualView.getMaxSeats());
         info.add(m.virtualView.getAdmin());
 
         return JSON.toJSONString(info);
+    }
 
+    /**
+     * Use chatManager openChat method
+     *
+     * @param m
+     * @param chat
+     */
+    public static void virtualizePublicChat(Match m, List<String> chat) {
+        String chatString = "";
+
+        for (String line : m.chatManager.chatMessages) {
+            chatString += line + "\n";
+        }
+        m.virtualView.setPublicChat(chatString);
+    }
+
+    public String convertPublicChatToJSON(VirtualView v) {
+        return JSON.toJSONString(v.getPublicChat());
+    }
+
+    public static void virtualizePrivateChats(Match m, List<List<String>> chats) {
 
     }
 }

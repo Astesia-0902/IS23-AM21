@@ -32,12 +32,10 @@ public class VirtualView implements Serializable {
     public boolean endGameToken;
     public List<Integer> scores;
     public List<Integer> hiddenPoints;
-    //TODO: Each String[] showcase the points gained by the player for each category
-    //  It's string it's going to be printed directly by the CLI, no need to process
     public List<String> gameResults;
     //---------------------------------------
-    //TODO: Newsletter
-    //TODO: Chat History
+    public String publicChat;
+    public List<String> privateChats;
     //---------------
 
     //Since we don't process the goal logic on the client side, we don't need to send the goal to the client.
@@ -45,11 +43,24 @@ public class VirtualView implements Serializable {
     public List<String> commonGoals;
     //Need update if someone leaves the match
     public List<String> players;
-
-
-
-
     public List<Integer> personalGoals;
+
+
+    public String getPublicChat() {
+        return publicChat;
+    }
+
+    public void setPublicChat(String publicChat) {
+        this.publicChat = publicChat;
+    }
+
+    public List<String> getPrivateChats() {
+        return privateChats;
+    }
+
+    public void setPrivateChats(List<String> privateChats) {
+        this.privateChats = privateChats;
+    }
 
     public int getMaxSeats() {
         return maxSeats;

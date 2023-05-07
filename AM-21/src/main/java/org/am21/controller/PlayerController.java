@@ -264,7 +264,7 @@ public class PlayerController {
      * @return true if the insertion is successful
      */
     public boolean tryToInsert(int col) {
-        if (!isMyTurn(player) || !isGamePhase(GamePhase.Insertion) || isHandEmpty() && col >= 0 && col < Shelf.SHELF_COLUMN) {
+        if (!isMyTurn(player) || !isGamePhase(GamePhase.Insertion) || isHandEmpty() || col<0 || col>= Shelf.SHELF_COLUMN) {
             return false;
         }
         if (player.getShelf().slotCol.get(col) < hand.getSelectedItems().size()) {

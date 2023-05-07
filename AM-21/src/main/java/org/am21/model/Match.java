@@ -202,9 +202,7 @@ public class Match {
                 sendMessageToAll(LastRound, true);
             }
             this.nextTurn();
-            VirtualViewHelper.updateVirtualScores(this);
-            VirtualViewHelper.virtualizeCurrentPlayer(this);
-            updatePlayersView();
+            endTurnUpdate();
         }
     }
 
@@ -550,10 +548,34 @@ public class Match {
     }
 
     public void endTurnUpdate() {
-        VirtualViewHelper.virtualizeBoard(this);
-        VirtualViewHelper.virtualizeCurrentPlayerHand(this);
+        VirtualViewHelper.updateVirtualScores(this);
         VirtualViewHelper.virtualizeCurrentPlayer(this);
+        updatePlayersView();
+    }
 
+    /**
+     * When a client sends a message in public chat or private chat
+     * It will send just the new message
+     * @param sender
+     * @param receiver
+     * @param message
+     * @return
+     */
+    public boolean forwardMessage(Player sender, String receiver, String message){
+        if(receiver.equals("")){
+            //Sent to Group chat
+            chatManager.handlePublicChatMessage(sender,message);
+            String formalMessage=sender.getNickname() + " says > " + message;
+            sendTextToAll(formalMessage,false,true);
+        }else {
+            if(!chatManager.handlePrivateChatMessage(sender,receiver,message)){
+                return false;
+            }
+            String formalMessage=sender.getNickname() + " whispers > " + message;
+            GameManager.sendTextReply(chatManager.isMember(receiver).getController(),formalMessage,true);
+        }
+
+        return true;
     }
 
 
