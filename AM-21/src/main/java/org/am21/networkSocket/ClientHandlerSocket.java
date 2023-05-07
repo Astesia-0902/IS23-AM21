@@ -1,5 +1,6 @@
 package org.am21.networkSocket;
 
+import org.am21.controller.CommunicationController;
 import org.am21.controller.GameController;
 import org.am21.controller.PlayerController;
 import org.am21.model.enumer.ConnectionType;
@@ -67,70 +68,71 @@ public class ClientHandlerSocket extends Thread {
             System.out.println("Empty message from:" + clientSocket.getRemoteSocketAddress());
             return;
         }
-        System.out.println("Dealing with server message");
         String[] messageParts= message.split("\\|");
         switch (messageParts[0]) {
             case "login":
                 String username = messageParts[1];
-                GameController.login(username, myPlayer);
-                System.out.println("login command from:" + clientSocket.getRemoteSocketAddress() + " username:" + username);
+                CommunicationController.instance.returnBool("login",GameController.login(username, myPlayer),myPlayer);
+                //System.out.println("> " + username +" logged in from:" + clientSocket.getRemoteSocketAddress());
                 break;
 
             case "join":
                 int gameId = Integer.parseInt(messageParts[1]);
-                GameController.joinGame(gameId, myPlayer.getPlayer().getNickname(), myPlayer);
+                CommunicationController.instance.returnBool("join",GameController.joinGame(gameId, myPlayer.getPlayer().getNickname(), myPlayer),myPlayer);
                 break;
 
             case "createMatch":
                 int playerCount = Integer.parseInt(messageParts[1]);
-                GameController.createMatch(myPlayer.getPlayer().getNickname(), 0, playerCount, myPlayer);
+                CommunicationController.instance.returnBool("createMatch",
+                        GameController.createMatch(myPlayer.getPlayer().getNickname(), 0, playerCount, myPlayer),myPlayer);
                 break;
 
             case "selectCell":
                 int row = Integer.parseInt(messageParts[1]);
                 int col = Integer.parseInt(messageParts[2]);
-                GameController.selectCell(row, col, myPlayer);
+                CommunicationController.instance.returnBool("selectCell",GameController.selectCell(row, col, myPlayer),myPlayer);
                 break;
 
             case "confirmSelection":
-                GameController.confirmSelection(myPlayer);
+                CommunicationController.instance.returnBool("confirmSelection",GameController.confirmSelection(myPlayer),myPlayer);
                 break;
 
             case "deselect":
-                GameController.deselectCards(myPlayer);
+                CommunicationController.instance.returnBool("deselect",GameController.deselectCards(myPlayer),myPlayer);
                 break;
 
             case "sortHand":
                 int pos1 = Integer.parseInt(messageParts[1]);
                 int pos2 = Integer.parseInt(messageParts[2]);
-                GameController.sortHand(pos1, pos2, myPlayer);
+                CommunicationController.instance.returnBool("sortHand",GameController.sortHand(pos1, pos2, myPlayer),myPlayer);
                 break;
 
             case "insertInColumn":
                 int column = Integer.parseInt(messageParts[1]);
-                GameController.insertInColumn(column, myPlayer);
+                CommunicationController.instance.returnBool("insertInColumn",GameController.insertInColumn(column, myPlayer),myPlayer);
                 break;
 
             case "leaveMatch":
-                GameController.leaveMatch(myPlayer);
+                CommunicationController.instance.returnBool("leaveMatch",GameController.leaveMatch(myPlayer),myPlayer);
                 break;
 
             case "exitGame":
-                GameController.exitGame(myPlayer);
+                CommunicationController.instance.returnBool("exitGame",GameController.exitGame(myPlayer),myPlayer);
                 break;
 
             case "endTurn":
-                GameController.endTurn(myPlayer);
+                CommunicationController.instance.returnBool("endTurn",GameController.endTurn(myPlayer),myPlayer);
                 break;
 
             case "getVirtualView":
                 GameController.getVirtualView(myPlayer);
+                CommunicationController.instance.returnBool("getVirtualView",true,myPlayer);
                 break;
 
             case "sendChatMessage":
                 String chatMessage = messageParts[1];
                 try {
-                    GameController.sendChatMessage(chatMessage, myPlayer);
+                    CommunicationController.instance.returnBool("sendChatMessage",GameController.sendChatMessage(chatMessage, myPlayer),myPlayer);
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);
                 }
@@ -138,24 +140,27 @@ public class ClientHandlerSocket extends Thread {
 
             case "printOnlinePlayers":
                 GameController.printOnlinePlayers(myPlayer);
+                CommunicationController.instance.returnBool("printOnlinePlayers",true,myPlayer);
                 break;
 
             case "printMatchList":
                 GameController.printMatchList(myPlayer);
+                CommunicationController.instance.returnBool("printMatchList",true,myPlayer);
+
                 break;
 
             case "changeMatchSeats":
                 int newMaxSeats = Integer.parseInt(messageParts[1]);
-                GameController.changeMatchSeats(newMaxSeats, myPlayer);
+                CommunicationController.instance.returnBool("changeMatchSeats",GameController.changeMatchSeats(newMaxSeats, myPlayer),myPlayer);
                 break;
 
             case "changeInsertLimit":
                 int newInsertLimit = Integer.parseInt(messageParts[1]);
-                GameController.changeInsertLimit(newInsertLimit, myPlayer);
+                CommunicationController.instance.returnBool("changeInsertLimit",GameController.changeInsertLimit(newInsertLimit, myPlayer),myPlayer);
                 break;
 
             default:
-                System.out.println("Unknown command from" + clientSocket.getRemoteSocketAddress() + " command:" + messageParts[0]);
+                System.out.println( "["+messageParts[0]+"] Unknown command from" + clientSocket.getRemoteSocketAddress());
         }
     }
 }

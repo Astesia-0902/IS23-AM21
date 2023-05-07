@@ -13,9 +13,7 @@ public class SocketServer extends Thread {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
             System.out.println("Socket > Server started on port: " + port);
-
             while(true){
-                System.out.println("Socket > Waiting clients...");
                 Socket socketClient = serverSocket.accept();
                 clientCountSocket++;
                 System.out.println("Socket > Client " + clientCountSocket + " connected from " + socketClient.getRemoteSocketAddress());

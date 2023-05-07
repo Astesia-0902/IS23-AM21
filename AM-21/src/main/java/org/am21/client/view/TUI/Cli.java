@@ -43,6 +43,7 @@ public class Cli implements View {
     //private boolean COMMAND_ACTIVE = false;
 
     public static boolean REFRESH = false;
+    public boolean WAIT_SOCKET=false;
     public int waitingThreads;
 
     public Cli() throws RemoteException {
@@ -179,7 +180,7 @@ public class Cli implements View {
             }
         } while (option != 1 && option != 2);
         commCtrl = new ClientCommunicationController();
-
+        commCtrl.cli = this;
     }
 
     public void askServerInfoRMI() throws MalformedURLException, NotBoundException, RemoteException {
@@ -346,7 +347,7 @@ public class Cli implements View {
                 case "join", "j", "jo" -> askJoinMatch();
                 case "online", "on" -> {
                     showOnlinePlayer();
-                    askToContinue();
+                    //askToContinue();
                 }
                 case "exit", "ex" -> {
                     if (askExitGame()) return;
@@ -359,7 +360,6 @@ public class Cli implements View {
         }
         //}
         REFRESH = false;
-
     }
 
     /**
@@ -402,7 +402,7 @@ public class Cli implements View {
                 [Commands] Commands available to change settings:
                   size     --> Change the number of players who can play in this match
                   limit    --> (TEMP for Testing) Change the Insertion Limit (Max 6)
-                Enter the command you wish to use: """);
+                Enter the command you wish to use: \040""");
         String setting = readLine();
         switch (setting) {
             case "size", "si" -> {
@@ -525,6 +525,7 @@ public class Cli implements View {
             //iClientInputHandler.joinGame(matchID);
             //TODO new
             if (commCtrl.joinGame(matchID)) {
+                System.out.println("Primooo");
                 //readLine();
                 return true;
             } else {
@@ -555,16 +556,13 @@ public class Cli implements View {
     @Override
     public void showMatchSetup() {
         showBoard();
-        //askToContinue();
         delayer(1000);
         showCommonGoals();
         showPersonalGoal();
-        //askToContinue();
         delayer(1000);
         System.out.println(Color.BLUE_BOLD + "The match has started!" + Color.RESET);
         initPlayer(username);
         announceCurrentPlayer();
-        //askToContinue();
         delayer(1000);
     }
 
@@ -630,34 +628,27 @@ public class Cli implements View {
     @Override
     public void announceCurrentPlayer() {
         if (Storage.currentPlayer.equals(player)) {
-            System.out.println(Color.RED + "[!] > Hey " + player + "!!! It's your turn!!!" + Color.RESET);
+            System.out.print(Color.RED + "[!] > Hey " + player + "!!! It's your turn!!!" + Color.RESET);
         } else {
-            System.out.println(Color.CYAN + "It's " + Storage.currentPlayer + "'s turn." + Color.RESET);
+            System.out.print(Color.CYAN + "It's " + Storage.currentPlayer + "'s turn." + Color.RESET);
         }
         System.out.println();
     }
 
     @Override
     public void showWhoIsPlaying() {
-        System.out.print("> Players Turn: ");
+        String tmp;
+        System.out.print("> Player's Turn: ");
         for (String name : Storage.players) {
-            if (name.equals(username) && Storage.currentPlayer.equals(username)) {
-                System.out.print(Color.YELLOW_BRIGHT + " [  You  ] " + Color.RESET);
-            } else if (currentPlayer.equals(name)) {
-                System.out.print(Color.YELLOW_BRIGHT + " [  " + Storage.currentPlayer + "  ] " + Color.RESET);
-            } else {
-                System.out.print(" [  " + name + "  ] ");
-            }
-            /*String tmp = name;
+             tmp=name;
             if (name.equals(username)) {
-                tmp = "YOU";
+                tmp = "You";
             }
             if (name.equals(currentPlayer)) {
-                System.out.print(Color.RED_BB + " {[ " + tmp + " ]} " + Color.RESET);
+                System.out.print(Color.YELLOW_BRIGHT + " [  "+ tmp +"  ] " + Color.RESET);
             } else {
-                System.out.print(Color.WHITE_BOLD + " [ " + tmp + " ] " + Color.RESET);
-            }*/
-
+                System.out.print(" [  " + tmp + "  ] ");
+            }
         }
         System.out.println();
     }
@@ -818,7 +809,8 @@ public class Cli implements View {
                                     replace("_", "") + Color.RESET);
                     showHand();
                 }
-                askToContinue();
+                //askToContinue();
+                delayer(750);
                 showDisplay();
                 System.out.print(Storage.anotherCard);
                 selectionConfirm = "".equals(readLine());
@@ -900,12 +892,10 @@ public class Cli implements View {
     public void askInsertion() throws ServerNotActiveException, RemoteException {
         synchronized (this) {
             if (showHand()) {
-                //System.out.println("These are the cards you have selected.");
-
                 System.out.print(Storage.insertionConfirm);
                 boolean confirm = "y".equals(readLine());
                 if (confirm) {
-                    //TODO: new
+                    //TODO
                     //iClientInputHandler.confirmSelection();
                     if (commCtrl.confirmSelection()) {
                         String option = "";
@@ -930,20 +920,17 @@ public class Cli implements View {
                                             System.out.println(Color.YELLOW + "Inserted in the column: " + column + Color.RESET);
                                             //TODO
                                             //iClientInputHandler.endTurn()
-
+                                            NOT_SEL_YET = true;
+                                            SEL_MODE = false;
                                             if (commCtrl.endTurn()) {
                                                 System.out.println(Color.YELLOW + "- End Turn -" + Color.RESET);
                                             }
-                                            askToContinue();
-                                            NOT_SEL_YET = true;
-                                            SEL_MODE = false;
+                                            delayer(1000);
                                             return;
                                         }
                                     }
                                 }
-                                case "more", "mo" -> {
-                                    askMoreOptions();
-                                }
+                                case "more", "mo" -> askMoreOptions();
                                 default ->
                                         System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
                                                 + Color.RESET);
@@ -959,7 +946,8 @@ public class Cli implements View {
             } else {
                 System.out.println(Color.RED + "You can’t insert cards if you did not select any cards!" + Color.RESET);
             }
-            askToContinue();
+            //askToContinue();
+            delayer(1000);
         }
     }
 
@@ -1140,7 +1128,8 @@ public class Cli implements View {
                     default -> System.out.println(Color.RED + "The [" + object + "] cannot be found! Please try again."
                             + Color.RESET);
                 }
-                askToContinue();
+                //askToContinue();
+                delayer(750);
             }
         }
     }
@@ -1162,9 +1151,6 @@ public class Cli implements View {
 
     public void printer(String message) {
         System.out.println(message);
-        //inputThread.interrupt();
-        //REFRESH=true;
-
     }
 
     public void delayer(int milliseconds) {
@@ -1359,6 +1345,7 @@ public class Cli implements View {
      * But then it was extended to the Current Player display too
      */
     public void showDisplay() {
+        System.out.println();
         Storage.reset_display();
         displayMiniBoard();
         displayMiniShelf();
@@ -1399,11 +1386,10 @@ public class Cli implements View {
     }
 
     public void goToEndRoom() throws ServerNotActiveException, RemoteException {
-        System.out.println("The match ended. Press 'anything' to see the results");
+        System.out.println("The match ended. Press 'Enter' to see the results");
         readLine();
         showGameResults();
         setEND(false);
-        //redirect();
     }
 
 }

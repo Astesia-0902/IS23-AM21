@@ -406,13 +406,13 @@ public class Match {
      * This method set up the next turn
      */
     public void nextTurn() {
-        sendTextToAll(SC.YELLOW_BB + "\nServer > " + currentPlayer.getNickname() + " ended his turn" + SC.RST, false, true);
+        sendTextToAll(SC.YELLOW_BB + "\nServer > " + currentPlayer.getNickname() + " ended his turn" + SC.RST, false, false);
         currentPlayer = playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats);
         setGamePhase(GamePhase.Selection);
         if (currentPlayer.getController().clientInput != null || currentPlayer.getController().clientHandlerSocket != null) {
-            String message = SC.RED_B + "Server[!] > " + currentPlayer.getNickname() + "! It's your turn. Press 'Enter'" + SC.RST;
+            String message = SC.RED_B + "Server[!] > " + currentPlayer.getNickname() + "! It's your turn." + SC.RST;
             //TODO: new Protocol
-            CommunicationController.instance.sendMessageToClient(message, true, currentPlayer.getController());
+            CommunicationController.instance.sendMessageToClient(message, false, currentPlayer.getController());
 
             //OLD RMI
             //currentPlayer.getController().clientInput.callBack.sendMessageToClient(message);

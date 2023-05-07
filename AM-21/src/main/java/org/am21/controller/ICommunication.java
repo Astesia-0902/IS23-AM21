@@ -17,4 +17,5 @@ public interface ICommunication {
     void notifyEndMatch(PlayerController myPlayer) ;
 
     void sendVirtualHand(String JSONHand, PlayerController myPlayer);
+    void returnBool(String method, boolean value, PlayerController pCtrl);
 }

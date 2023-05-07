@@ -20,7 +20,7 @@ public class CommunicationController implements ICommunication {
             }
         } else if(myPlayer.connectionType == ConnectionType.SOCKET){
 
-                String messageToClient = "Message" + "|" + message;
+                String messageToClient = "Message"+ "|"+ refresh + "|" + message;
                 myPlayer.clientHandlerSocket.callback(messageToClient);
 
         }
@@ -78,7 +78,6 @@ public class CommunicationController implements ICommunication {
                 throw new RuntimeException(e);
             }
         } else if(myPlayer.connectionType == ConnectionType.SOCKET){
-            System.out.println("AAAAAA");
                 String messageToClient = "WAIT" + "|" + info;
                 myPlayer.clientHandlerSocket.callback(messageToClient);
 
@@ -125,6 +124,21 @@ public class CommunicationController implements ICommunication {
         } else if(myPlayer.connectionType == ConnectionType.SOCKET){
             String messageToClient = "VirtualHand" + "|" + JSONHand;
             myPlayer.clientHandlerSocket.callback(messageToClient);
+        }
+    }
+
+    /**
+     * Socket Only
+     * Message for return value of the methods
+     * @param method the name of the method that needs a feedback
+     * @param value true if the method return true, otherwise false
+     * @param pCtrl
+     */
+    @Override
+    public void returnBool(String method, boolean value,PlayerController pCtrl) {
+        if(pCtrl.connectionType == ConnectionType.SOCKET){
+            String messageToClient = "Return" + "|" + method +"|"+ value;
+            pCtrl.clientHandlerSocket.callback(messageToClient);
         }
     }
     //TODO: testClientConnection

@@ -34,7 +34,6 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
      */
     @Override
     public void sendVirtualView(String virtualView, int pIndex) throws RemoteException {
-        //TODO:Update the virtual view
         if(cli!=null){
             Storage.setFullViewVariables(virtualView,pIndex );
             cli.checkTurn();
