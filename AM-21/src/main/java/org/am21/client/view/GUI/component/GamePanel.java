@@ -1,156 +1,153 @@
 package org.am21.client.view.GUI.component;
 
 
-import org.am21.client.view.GUI.utils.PathUtil;
+import org.am21.client.view.GUI.utils.ImageUtil;
+import org.am21.client.view.GUI.utils.PixelUtil;
 
 import javax.swing.*;
 import java.awt.*;
 
-import static org.am21.client.view.GUI.utils.PixelUtil.pcHeight;
-import static org.am21.client.view.GUI.utils.PixelUtil.pcWidth;
 
 public class GamePanel extends JPanel {
 
     //menu TODO: complete
-    private final JButton jmMenu;
-    private ImageIcon imageIconMenu;
-
-    private JMenuItem jmiRule;
-    private JMenuItem jmiHelp;
-    private JMenuItem jmiLeave;
+    public JButton jmMenu;
 
     //user me
-    JLabel userMe;
-    private ImageIcon imageIconUserMe;
+    public JLabel userMe;
+    public JLabel myShelfBoardLabel;
 
-    //user A
-    private final JButton userA;
-    private ImageIcon imageIconUserA;
-    //user B
-    private final JButton userB;
-    private ImageIcon imageIconUserB;
-    //user C
-    private final JButton userC;
-    private ImageIcon imageIconUserC;
+    //enemy A
+    public JLabel enemyA;
+    public JLabel enemyAShelfBoard;
+
+    //enemy B
+    public JLabel enemyB;
+    public JLabel enemyBShelfBoard;
+
+    //enemy C
+    public JLabel enemyC;
+    public JLabel enemyCShelfBoard;
 
     //insert and clear button
-    private final JButton jbInsert;
-    private final JButton jbClear;
+    public JButton jbInsert;
+    public JButton jbClear;
 
 
     //background label
-    private final JLayeredPane panelBoard;
-    JLabel backGroundLabel;
-    private ImageIcon imageIconBackGround;
+    public JLayeredPane panelBoard;
+    public JLabel backGroundLabel;
 
     //game board
-    JLabel gameBoardLabel;
-    private ImageIcon imageIconGameBoard;
+    public JLabel gameBoardLabel;
 
-    //Shelf
-    JLabel shelfBoardLabel;
-    private ImageIcon imageIconShelfBoard;
 
     //personal goal
-    JLabel personalGoalLabel;
-    private ImageIcon imageIconPersonalGoalEmpty;
+    public JLabel personalGoalLabel;
 
     //common goal A
-    JLabel commonGoalALabel;
-    private ImageIcon imageIconCommonGoalAEmpty;
+    public JLabel commonGoalALabel;
 
     //common goal B
-    JLabel commonGoalBLabel;
-    private ImageIcon imageIconCommonGoalBEmpty;
+    public JLabel commonGoalBLabel;
 
     //bag
-    JLabel bagLabel;
-    private ImageIcon imageIconBagClose;
+    public JLabel bagLabel;
 
 
     //chat box
-    private final JTextArea chatHistory;
-    private final JTextField messageField;
-    private final JScrollPane scrollHistoryPane;
-    private final JLayeredPane chatPanel;
-    private final JButton sendButton;
+    public JTextArea chatHistory;
+    public JTextField messageField;
+    public JScrollPane scrollHistoryPane;
+    public JLayeredPane chatPanel;
+    public JButton sendButton;
 
     //hand board
-    JLabel takeCard;
-    private ImageIcon imageIconTakeCard;
-
-
+    public JLabel handBoard;
 
     public GamePanel(){
 
         //back board panel
-        this.setSize(pcWidth,pcHeight);
+        this.setSize(PixelUtil.pcWidth, PixelUtil.pcHeight);
         this.setLayout(null);
         this.setOpaque(false);
 
         this.panelBoard = new JLayeredPane();
-        this.panelBoard.setBounds(0,0,pcWidth,pcHeight);
+        this.panelBoard.setBounds(0,0,PixelUtil.pcWidth,PixelUtil.pcHeight);
         this.panelBoard.setLayout(null);
         this.panelBoard.setOpaque(false);
         this.add(this.panelBoard);
 
-        this.loadImage();
-
         //back board label
         this.backGroundLabel = new JLabel();
-        this.backGroundLabel.setBounds(0,0,this.panelBoard.getWidth(),this.panelBoard.getHeight());
-        this.backGroundLabel.setIcon(this.imageIconBackGround);
+        this.backGroundLabel.setBounds(0,0,PixelUtil.pcWidth,PixelUtil.pcHeight);
+        this.backGroundLabel.setIcon(ImageUtil.getBoardImage("backGround"));
         /*TODO: add Listener event*/
         this.panelBoard.add(this.backGroundLabel,JLayeredPane.DEFAULT_LAYER);
 
         //game board label
         this.gameBoardLabel = new JLabel();
-        this.gameBoardLabel.setBounds(pcHeight*36/100,pcHeight/10,pcHeight*74/100,pcHeight*74/100);
-        this.gameBoardLabel.setIcon(this.imageIconGameBoard);
-        //this.gameBoardLabel.setOpaque(true);
-        //this.gameBoardLabel.setBackground(new Color(56, 94, 58, 230));
-        //this.gameBoardLabel.setForeground(new Color(4, 134, 10, 230));
+        this.gameBoardLabel.setBounds(PixelUtil.commonX_3,PixelUtil.gameBoardY,PixelUtil.gameBoardHW,PixelUtil.gameBoardHW);
+        this.gameBoardLabel.setIcon(ImageUtil.getBoardImage("gameBoard"));
         this.panelBoard.add(this.gameBoardLabel,JLayeredPane.PALETTE_LAYER);
 
 
+        //my shelf board label
+        this.myShelfBoardLabel = new JLabel();
+        this.myShelfBoardLabel.setBounds(PixelUtil.commonX_4,PixelUtil.myShelfBoardY,PixelUtil.myShelfBoardHW,PixelUtil.myShelfBoardHW);
+        this.myShelfBoardLabel.setIcon(ImageUtil.getShelfImage(PixelUtil.myShelfBoardHW));
+        this.panelBoard.add(this.myShelfBoardLabel,JLayeredPane.PALETTE_LAYER);
 
-        //shelf board label
-        this.shelfBoardLabel = new JLabel();
-        this.shelfBoardLabel.setBounds(pcWidth*70/100,pcHeight*40/100,pcHeight*44/100,pcHeight*44/100);
-        this.shelfBoardLabel.setIcon(this.imageIconShelfBoard);
-        this.panelBoard.add(this.shelfBoardLabel,JLayeredPane.PALETTE_LAYER);
+
+        //enemy A shelf
+        this.enemyAShelfBoard = new JLabel();
+        this.enemyAShelfBoard.setBounds(PixelUtil.commonX_2,PixelUtil.commonY_1,PixelUtil.enemyShelfHW,PixelUtil.enemyShelfHW);
+        this.enemyAShelfBoard.setIcon(ImageUtil.getShelfImage(PixelUtil.enemyShelfHW));
+        this.panelBoard.add(this.enemyAShelfBoard,JLayeredPane.PALETTE_LAYER);
+
+        //enemy B shelf
+        this.enemyBShelfBoard = new JLabel();
+        this.enemyBShelfBoard.setBounds(PixelUtil.commonX_2,PixelUtil.commonY_2,PixelUtil.enemyShelfHW,PixelUtil.enemyShelfHW);
+        this.enemyBShelfBoard.setIcon(ImageUtil.getShelfImage(PixelUtil.enemyShelfHW));
+        this.panelBoard.add(this.enemyBShelfBoard,JLayeredPane.PALETTE_LAYER);
+
+        //enemy C shelf
+        this.enemyCShelfBoard = new JLabel();
+        this.enemyCShelfBoard.setBounds(PixelUtil.commonX_2,PixelUtil.commonY_3,PixelUtil.enemyShelfHW,PixelUtil.enemyShelfHW);
+        this.enemyCShelfBoard.setIcon(ImageUtil.getShelfImage(PixelUtil.enemyShelfHW));
+        this.panelBoard.add(this.enemyCShelfBoard,JLayeredPane.PALETTE_LAYER);
 
         //personal goal card label
         this.personalGoalLabel = new JLabel();
-        this.personalGoalLabel.setBounds(pcWidth*5/7,pcHeight/10,pcHeight*19/100,pcWidth*18/100);
-        this.personalGoalLabel.setIcon(this.imageIconPersonalGoalEmpty);
+        this.personalGoalLabel.setBounds(PixelUtil.personalGoalX,PixelUtil.personalGoalY,PixelUtil.goalCardH,PixelUtil.goalCardW);
+        this.personalGoalLabel.setIcon(ImageUtil.getBoardImage("personalGoalEmpty"));
         this.panelBoard.add(this.personalGoalLabel,JLayeredPane.PALETTE_LAYER);
 
         //common goal A card label
         this.commonGoalALabel = new JLabel();
-        this.commonGoalALabel.setBounds(pcHeight*3/100,pcHeight/10,pcWidth*18/100,pcHeight*19/100);
-        this.commonGoalALabel.setIcon(this.imageIconCommonGoalAEmpty);
+        this.commonGoalALabel.setBounds(PixelUtil.commonX_5,PixelUtil.commonGoalY_A,PixelUtil.goalCardW,PixelUtil.goalCardH);
+        this.commonGoalALabel.setIcon(ImageUtil.getBoardImage("commonGoalEmpty"));
         this.panelBoard.add(this.commonGoalALabel,JLayeredPane.PALETTE_LAYER);
 
         //common goal B card label
         this.commonGoalBLabel = new JLabel();
-        this.commonGoalBLabel.setBounds(pcHeight*3/100,pcHeight*3/10,pcWidth*18/100,pcHeight*19/100);
-        this.commonGoalBLabel.setIcon(this.imageIconCommonGoalBEmpty);
+        this.commonGoalBLabel.setBounds(PixelUtil.commonX_5,PixelUtil.commonGoalY_B,PixelUtil.goalCardW,PixelUtil.goalCardH);
+        this.commonGoalBLabel.setIcon(ImageUtil.getBoardImage("commonGoalEmpty"));
         this.panelBoard.add(this.commonGoalBLabel,JLayeredPane.PALETTE_LAYER);
 
         //Bag
         this.bagLabel = new JLabel();
-        this.bagLabel.setBounds(pcHeight*114/1000,pcHeight*486/1000,pcWidth*9/100,pcWidth*9/100);
-        this.bagLabel.setIcon(this.imageIconBagClose);
+        this.bagLabel.setBounds(PixelUtil.commonX_3,PixelUtil.bagY,PixelUtil.bagHW,PixelUtil.bagHW);
+        this.bagLabel.setIcon(ImageUtil.getBoardImage("bagClose"));
         this.panelBoard.add(this.bagLabel,JLayeredPane.PALETTE_LAYER);
 
         //option menu
         this.jmMenu = new JButton();
         //this.jmMenu.setFont(new Font("DejaVu Sans",Font.PLAIN,12));
-        this.jmMenu.setBounds(pcWidth*964/1000,pcWidth*6/1000,pcWidth*3/100,pcWidth*3/100);
+        this.jmMenu.setBounds(PixelUtil.livingRoomMenuX,PixelUtil.livingRoomMenuY,PixelUtil.livingRoomMenuHW,PixelUtil.livingRoomMenuHW);
         this.jmMenu.setForeground(new Color(164, 91, 9, 255));
         this.jmMenu.setOpaque(false);
-        this.jmMenu.setIcon(this.imageIconMenu);
+        this.jmMenu.setIcon(ImageUtil.getBoardImage("iconMenu"));
 
         /*this.jmiRule = jmMenu.add("Rule");
         this.jmiRule.setFont(new Font("DejaVu Sans",Font.PLAIN,12));
@@ -172,7 +169,7 @@ public class GamePanel extends JPanel {
         //Insert input button
         this.jbInsert = new JButton("INSERT");
         this.jbInsert.setFont(new Font("DejaVu Sans",Font.PLAIN,16));
-        this.jbInsert.setBounds(pcHeight*358/1000,pcHeight*843/1000,pcWidth*230/1000,pcWidth*47/1000);
+        this.jbInsert.setBounds(PixelUtil.insertButtonX,PixelUtil.commonY_4,PixelUtil.insertClearButtonW,PixelUtil.bottomButtonH);
         this.jbInsert.setOpaque(true);
         this.jbInsert.setBackground(new Color(4, 134, 10, 230));
         this.jbInsert.setForeground(new Color(4, 134, 10, 230));
@@ -182,11 +179,11 @@ public class GamePanel extends JPanel {
         //clear selection button
         this.jbClear = new JButton("CLEAR");
         this.jbClear.setFont(new Font("DejaVu Sans",Font.PLAIN,16));
-        this.jbClear.setBounds(pcHeight*734/1000,pcHeight*843/1000,pcWidth*230/1000,pcWidth*47/1000);
+        this.jbClear.setBounds(PixelUtil.clearButtonX,PixelUtil.commonY_4,PixelUtil.insertClearButtonW,PixelUtil.bottomButtonH);
         this.jbClear.setOpaque(true);
         this.jbClear.setBackground(new Color(172, 19, 5, 230));
         this.jbClear.setForeground(new Color(172, 19, 5, 230));
-        //this.jbClearSelection.setBorder();
+
         //TODO: actionListener
         this.panelBoard.add(this.jbClear,JLayeredPane.PALETTE_LAYER);
 
@@ -195,9 +192,8 @@ public class GamePanel extends JPanel {
 
         //chat box
         this.chatPanel = new JLayeredPane();
-        this.chatPanel.setBounds(pcWidth*6/1000,pcWidth*393/1000,pcHeight*324/1000,pcHeight*286/1000);
+        this.chatPanel.setBounds(PixelUtil.cPanelX,PixelUtil.cPanelY,PixelUtil.cPanelW,PixelUtil.cPanelH);
         this.chatPanel.setLayout(null);
-
 
         this.panelBoard.add(this.chatPanel,JLayeredPane.PALETTE_LAYER);
 
@@ -211,7 +207,7 @@ public class GamePanel extends JPanel {
         //this.chatHistory.setBorder(BorderFactory.createLineBorder(new Color(172, 19, 5, 230)));
 
         this.scrollHistoryPane = new JScrollPane(this.chatHistory);
-        this.scrollHistoryPane.setBounds(0,0,pcHeight*324/1000,pcHeight*238/1000);
+        this.scrollHistoryPane.setBounds(0,0,PixelUtil.cScrollW,PixelUtil.cScrollH);
         this.scrollHistoryPane.setOpaque(false);
         this.scrollHistoryPane.getViewport().setOpaque(false);
         //this.scrollHistoryPane.setBackground(new Color(243, 175, 58, 255));
@@ -221,7 +217,7 @@ public class GamePanel extends JPanel {
 
 
         this.messageField = new JTextField();
-        this.messageField.setBounds(0,pcHeight*24/100,pcHeight*229/1000,pcHeight*38/1000);
+        this.messageField.setBounds(0,PixelUtil.cTextFieldY,PixelUtil.cTextFieldW,PixelUtil.cTextFieldH);
         this.messageField.setFont(new Font("DejaVu Sans",Font.PLAIN,16));
         this.messageField.setOpaque(true);
         this.messageField.setForeground(new Color(85, 35, 222, 230));
@@ -229,7 +225,7 @@ public class GamePanel extends JPanel {
         this.chatPanel.add(this.messageField,JLayeredPane.MODAL_LAYER);
 
         this.sendButton = new JButton("SEND");
-        this.sendButton.setBounds(pcWidth*146/1000,pcHeight*24/100,pcHeight*9/100,pcHeight*38/1000);
+        this.sendButton.setBounds(PixelUtil.cButtonX,PixelUtil.cButtonY,PixelUtil.cButtonW,PixelUtil.cButtonH);
         this.sendButton.setFont(new Font("DejaVu Sans",Font.PLAIN,16));
         this.sendButton.setOpaque(true);
         this.sendButton.setBackground(new Color(85, 35, 222, 230));
@@ -257,70 +253,38 @@ public class GamePanel extends JPanel {
         });*/
 
         //take card label
-        this.takeCard = new JLabel();
-        this.takeCard.setBounds(pcWidth*70/100,pcHeight*843/1000,pcHeight*44/100,pcWidth*47/1000);
-        this.takeCard.setIcon(this.imageIconTakeCard);
-        this.panelBoard.add(this.takeCard,JLayeredPane.PALETTE_LAYER);
+        this.handBoard = new JLabel();
+        this.handBoard.setBounds(PixelUtil.commonX_4,PixelUtil.commonY_4,PixelUtil.myShelfBoardHW,PixelUtil.bottomButtonH);
+        this.handBoard.setIcon(ImageUtil.getBoardImage("handBoard"));
+        this.panelBoard.add(this.handBoard,JLayeredPane.PALETTE_LAYER);
 
         //user Me
         this.userMe = new JLabel();
-        this.userMe.setBounds(pcWidth*5/7+pcHeight*19/100+10,pcHeight/10,pcHeight*19/100,pcHeight*19/100);
-        this.userMe.setIcon(this.imageIconUserMe);
+        this.userMe.setBounds(PixelUtil.userMeX,PixelUtil.commonY_1,PixelUtil.userMeHW,PixelUtil.userMeHW);
+        this.userMe.setIcon(ImageUtil.getBoardImage("iconMe"));
         this.panelBoard.add(this.userMe,JLayeredPane.PALETTE_LAYER);
 
-        //user A
-        this.userA = new JButton();
-        this.userA.setBounds(pcHeight*3/100,pcHeight*3/100,pcHeight*6/100,pcHeight*6/100);
-        this.userA.setIcon(this.imageIconUserA);
-        this.panelBoard.add(this.userA,JLayeredPane.PALETTE_LAYER);
+        //enemy A
+        this.enemyA = new JLabel();
+        this.enemyA.setBounds(PixelUtil.commonX_1,PixelUtil.commonY_1,PixelUtil.enemyHW,PixelUtil.enemyHW);
+        this.enemyA.setIcon(ImageUtil.getBoardImage("enemyA"));
+        this.panelBoard.add(this.enemyA,JLayeredPane.PALETTE_LAYER);
 
-        //user B
-        this.userB = new JButton();
-        this.userB.setBounds(pcHeight*36/100,pcHeight*3/100,pcHeight*6/100,pcHeight*6/100);
-        this.userB.setIcon(this.imageIconUserB);
-        this.panelBoard.add(this.userB,JLayeredPane.PALETTE_LAYER);
+        //enemy B
+        this.enemyB = new JLabel();
+        this.enemyB.setBounds(PixelUtil.commonX_1,PixelUtil.commonY_2,PixelUtil.enemyHW,PixelUtil.enemyHW);
+        this.enemyB.setIcon(ImageUtil.getBoardImage("enemyB"));
+        this.panelBoard.add(this.enemyB,JLayeredPane.PALETTE_LAYER);
 
-        //user C
-        this.userC = new JButton();
-        this.userC.setBounds(pcHeight*69/100,pcHeight*3/100,pcHeight*6/100,pcHeight*6/100);
-        this.userC.setIcon(this.imageIconUserC);
-        this.panelBoard.add(this.userC,JLayeredPane.PALETTE_LAYER);
+        //enemy C
+        this.enemyC = new JLabel();
+        this.enemyC.setBounds(PixelUtil.commonX_1,PixelUtil.commonY_3,PixelUtil.enemyHW,PixelUtil.enemyHW);
+        this.enemyC.setIcon(ImageUtil.getBoardImage("enemyC"));
+        this.panelBoard.add(this.enemyC,JLayeredPane.PALETTE_LAYER);
 
     }
 
-    private void loadImage(){
-        try{
-            this.imageIconBackGround = new ImageIcon(new ImageIcon(PathUtil.getPath("misc/sfondo parquet.jpg")).getImage().getScaledInstance(this.panelBoard.getWidth(), this.panelBoard.getHeight(),Image.SCALE_SMOOTH));
 
-            this.imageIconGameBoard = new ImageIcon(new ImageIcon(PathUtil.getPath("boards/livingroom.png")).getImage().getScaledInstance(pcHeight*74/100,pcHeight*74/100, Image.SCALE_SMOOTH));
-
-            this.imageIconShelfBoard = new ImageIcon(new ImageIcon(PathUtil.getPath("boards/bookshelf_orth.png")).getImage().getScaledInstance(pcHeight*44/100,pcHeight*44/100, Image.SCALE_SMOOTH));
-
-            this.imageIconPersonalGoalEmpty = new ImageIcon(new ImageIcon(PathUtil.getPath("personal goal cards/front_EMPTY.jpg")).getImage().getScaledInstance(pcHeight*19/100,pcWidth*18/100, Image.SCALE_SMOOTH));
-
-            this.imageIconCommonGoalAEmpty = new ImageIcon(new ImageIcon(PathUtil.getPath("common goal cards/back.jpg")).getImage().getScaledInstance(pcWidth*18/100,pcHeight*19/100, Image.SCALE_SMOOTH));
-
-            this.imageIconCommonGoalBEmpty = new ImageIcon(new ImageIcon(PathUtil.getPath("common goal cards/back.jpg")).getImage().getScaledInstance(pcWidth*18/100,pcHeight*19/100, Image.SCALE_SMOOTH));
-
-            this.imageIconTakeCard = new ImageIcon(new ImageIcon(PathUtil.getPath("misc/base_pagina2.jpg")).getImage().getScaledInstance(pcHeight*44/100,pcWidth*47/1000, Image.SCALE_SMOOTH));
-
-            this.imageIconBagClose = new ImageIcon(new ImageIcon(PathUtil.getPath("misc/Sacchetto Chiuso.png")).getImage().getScaledInstance(pcWidth*9/100,pcWidth*9/100, Image.SCALE_SMOOTH));
-
-            this.imageIconMenu = new ImageIcon(new ImageIcon(PathUtil.getPath("icon tool/menu.png")).getImage().getScaledInstance(pcWidth*3/100,pcWidth*3/100, Image.SCALE_SMOOTH));
-
-            this.imageIconUserMe = new ImageIcon(new ImageIcon(PathUtil.getPath("icon tool/user.png")).getImage().getScaledInstance(pcHeight*19/100,pcHeight*19/100, Image.SCALE_SMOOTH));
-
-            this.imageIconUserA = new ImageIcon(new ImageIcon(PathUtil.getPath("icon tool/U1.jpg")).getImage().getScaledInstance(pcHeight*6/100,pcHeight*6/100, Image.SCALE_SMOOTH));
-
-            this.imageIconUserB = new ImageIcon(new ImageIcon(PathUtil.getPath("icon tool/U2.jpg")).getImage().getScaledInstance(pcHeight*6/100,pcHeight*6/100, Image.SCALE_SMOOTH));
-
-            this.imageIconUserC = new ImageIcon(new ImageIcon(PathUtil.getPath("icon tool/U3.jpg")).getImage().getScaledInstance(pcHeight*6/100,pcHeight*6/100, Image.SCALE_SMOOTH));
-
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
 
 
     public void paint(Graphics g){

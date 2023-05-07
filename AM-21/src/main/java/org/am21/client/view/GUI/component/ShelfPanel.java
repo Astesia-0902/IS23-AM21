@@ -6,28 +6,37 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ShelfPanel extends JPanel {
-    protected final int GridRowsMax=6;
-    protected final int GridColumnsMax=5;
-    //TODO:use global screen value
+    public int GridRowsMax=6;
+    public int GridColumnsMax=5;
 
-    protected int cellSize;
+    public int cellHeight;
+    public int cellWidth;
 
-    protected int GridX;
-    protected int GridY ;
-    protected int itemSize;
+    public int GridX;
+    public int GridY ;
+    public int itemSize;
 
-    protected JLayeredPane shelfBoardPane;
-    protected JLayeredPane[][] grids = new JLayeredPane[this.GridRowsMax][this.GridColumnsMax] ;
+    public JLayeredPane shelfBoardPane;
+    public JLayeredPane[][] grids ;
 
-    protected JLabel[][] cells = new JLabel[this.GridRowsMax][this.GridColumnsMax];
+    public JLabel[][] cells;
 
-    public ShelfPanel(){
-        this.setBounds(GridX,GridY,this.GridRowsMax*this.cellSize,this.GridColumnsMax*this.cellSize);
+    public ShelfPanel(int GridX, int GridY, int cellHeight ,int cellWidth,int itemSize){
+
+        this.GridX = GridX;
+        this.GridY = GridY;
+        this.itemSize = itemSize;
+        this.cellHeight = cellHeight;
+        this.cellWidth = cellWidth;
+        this.grids = new JLayeredPane[this.GridRowsMax][this.GridColumnsMax] ;
+        this.cells = new JLabel[this.GridRowsMax][this.GridColumnsMax];
+
+        this.setBounds(GridX,GridY,this.GridColumnsMax*this.cellWidth,this.GridRowsMax*this.cellHeight);
         this.setLayout(null);
         this.setOpaque(false);
 
         this.shelfBoardPane = new JLayeredPane();
-        this.shelfBoardPane.setBounds(0,0,this.GridRowsMax*this.cellSize,this.GridColumnsMax*this.cellSize);
+        this.shelfBoardPane.setBounds(0,0,this.GridColumnsMax*this.cellWidth,this.GridRowsMax*this.cellHeight);
         this.shelfBoardPane.setLayout(null);
         this.shelfBoardPane.setOpaque(false);
         this.add(this.shelfBoardPane);
@@ -37,7 +46,7 @@ public class ShelfPanel extends JPanel {
             for(int j=0;j<this.GridColumnsMax;j++)
             {
                 this.grids[i][j] = new JLayeredPane();
-                this.grids[i][j].setBounds(j*this.cellSize,i*this.cellSize,this.cellSize,this.cellSize);
+                this.grids[i][j].setBounds(j*this.cellWidth,i*this.cellHeight,this.cellWidth,this.cellHeight);
                 this.grids[i][j].setLayout(null);
                 this.shelfBoardPane.add(this.grids[i][j],JLayeredPane.DEFAULT_LAYER);
 
@@ -49,7 +58,7 @@ public class ShelfPanel extends JPanel {
 
     public void putItem(int row, int column){
         this.cells[row][column] = new JLabel();
-        this.cells[row][column].setBounds(0,0,itemSize,itemSize);
+        this.cells[row][column].setBounds((this.cellWidth-this.cellHeight)/2,0,itemSize,itemSize);
         this.cells[row][column].setIcon(new ImageIcon(new ImageIcon(PathUtil.getPath("icon tool/U2.jpg")).getImage().getScaledInstance(itemSize,itemSize, Image.SCALE_SMOOTH)));
         addItem(row,column);
     }
@@ -66,11 +75,4 @@ public class ShelfPanel extends JPanel {
         this.grids[row][column].remove(this.cells[row][column]);
     }
 
-    public void setInfo(int cellSize,int itemSize,int GridX, int GridY){
-        this.cellSize=cellSize;
-        this.itemSize=itemSize;
-        this.GridX=GridX;
-        this.GridY=GridY;
-
-    }
 }
