@@ -2,9 +2,12 @@ package org.am21.client.view.GUI;
 
 import org.am21.client.view.GUI.Interface.*;
 import org.am21.client.view.GUI.listener.*;
+import org.am21.client.view.GUI.utils.PathUtil;
 import org.am21.client.view.View;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.io.File;
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
 
@@ -14,57 +17,63 @@ public class Gui implements View {
     public LoginInterface loginInterface;
     public ServerInfoInterface serverInfoInterface;
     public MenuActionInterface menuActionInterface;
-    public MaxSeatsInterface maxSeatsInterface;
     public WaitingRoomInterface waitingRoomInterface;
     public LivingRoomInterface livingRoomInterface;
 
 
-    public Gui() {
-
-
+    public Gui() throws Exception {
+        frame.setIconImage(ImageIO.read(new File(PathUtil.getPath("Publisher material/Icon 50x50px.png"))));
+        frame.setUndecorated(true);
+        frame.setResizable(false);
+        frame.setVisible(true);
     }
 
     public void init() throws Exception {
-        communicationInterface = new CommunicationInterface();
+        communicationInterface = new CommunicationInterface(frame);
         new CommunicationListener(this);
 
     }
 
     public void askServerInfo() throws Exception {
-        serverInfoInterface = new ServerInfoInterface();
+        serverInfoInterface = new ServerInfoInterface(frame);
         new ServerInfoListener(this);
     }
 
     @Override
     public void askLogin() throws Exception {
-        loginInterface = new LoginInterface();
+        loginInterface = new LoginInterface(frame);
         new LoginListener(this);
     }
 
     @Override
     public void askMenuAction() throws Exception {
-        menuActionInterface = new MenuActionInterface();
+        menuActionInterface = new MenuActionInterface(frame);
         new MenuActionListener(this);
     }
 
     @Override
     public boolean askCreateMatch() throws Exception {
-        maxSeatsInterface = new MaxSeatsInterface();
-        new MaxSeatsListener(this);
-//        livingRoomInterface = new LivingRoomInterface();
-//        new LivingRoomListener(this);
+//        maxSeatsInterface = new MaxSeatsInterface();
+//        new MaxSeatsListener(this);
+        livingRoomInterface = new LivingRoomInterface();
+        new LivingRoomListener(this);
         return false;
     }
 
     @Override
     public int askMaxSeats() throws RemoteException {
+        menuActionInterface.maxSeatsDialog.setVisible(true);
         return 0;
+    }
+
+    public void askWaitingAction() throws Exception {
+        waitingRoomInterface = new WaitingRoomInterface(frame);
+        new WaitingRoomListener(this);
     }
 
     @Override
     public boolean askJoinMatch() throws Exception {
-        waitingRoomInterface = new WaitingRoomInterface();
-        new WaitingRoomListener(this);
+
         return false;
     }
 
@@ -185,7 +194,7 @@ public class Gui implements View {
 
     @Override
     public void showGameRules() {
-
+        waitingRoomInterface.ruleDialog.setVisible(true);
     }
 
     public static void main(String[] args) {

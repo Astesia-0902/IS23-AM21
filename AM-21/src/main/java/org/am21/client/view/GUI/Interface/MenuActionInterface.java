@@ -13,9 +13,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.HashMap;
 
-public class MenuActionInterface extends JFrame {
+public class MenuActionInterface extends JDialog {
     public static final int WIDTH = 600;
     public static final int HEIGHT = 400;
+    public MaxSeatsDialog maxSeatsDialog;
+
     public JButton createButton;
     public JButton joinButton;
     public JButton exitButton;
@@ -23,6 +25,7 @@ public class MenuActionInterface extends JFrame {
     public JButton chatButton;
     public JButton helpButton;
     public JButton onlineButton;
+
     public ImageIcon helpIcon;
     public ImageIcon onlineIcon;
     public ImageIcon chatIcon;
@@ -30,8 +33,10 @@ public class MenuActionInterface extends JFrame {
     public ImageIcon onlineIconColor;
     public ImageIcon chatIconColor;
 
-    public MenuActionInterface() throws Exception{
-        setTitle("MyShelfie - Menu Action");
+    public Timer timer;
+    public MenuActionInterface(JFrame frame) throws Exception{
+        super(frame);
+        frame.setTitle("MyShelfie - Menu Action");
         setIconImage(ImageIO.read(new File(PathUtil.getPath("Publisher material/Icon 50x50px.png"))));
 
         HashMap<BufferedImage, int[]> background = new HashMap<>();
@@ -99,17 +104,19 @@ public class MenuActionInterface extends JFrame {
         getContentPane().add(helpButton);
 
 
+
+
+        //----------------------Background MENU ACTION---------------------------
+
         backGroundPanel.setBorder(new MatteBorder(5, 5, 5, 5,
                 new Color(139, 69, 19)));
         add(backGroundPanel);
 
-
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        maxSeatsDialog = new MaxSeatsDialog();
         setBounds(0,0,WIDTH,HEIGHT);
         setUndecorated(true);
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
-
     }
 }

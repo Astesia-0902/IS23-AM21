@@ -16,7 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class ServerInfoInterface extends JFrame {
+public class ServerInfoInterface extends JDialog {
     public static final int WIDTH = 300;
     public static final int HEIGHT = 250;
 
@@ -30,9 +30,9 @@ public class ServerInfoInterface extends JFrame {
     public ImageIcon returnIcon;
     public ImageIcon returnIconColor;
 
-    public ServerInfoInterface() throws IOException {
-        setTitle("MyShelfie - Server Info");
-        setIconImage(ImageIO.read(new File(PathUtil.getPath("Publisher material/Icon 50x50px.png"))));
+    public ServerInfoInterface(JFrame frame) throws IOException {
+        super(frame);
+        frame.setTitle("MyShelfie - Server Info");
 
         HashMap<BufferedImage, int[]> background = new HashMap<>();
         // Background
@@ -109,7 +109,7 @@ public class ServerInfoInterface extends JFrame {
 
         backGroundPanel.setBorder(new MatteBorder(5, 5, 5, 5,new Color(139, 69, 19)));
         add(backGroundPanel);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         setBounds(0,0,WIDTH,HEIGHT);
         setUndecorated(true);
         setResizable(false);

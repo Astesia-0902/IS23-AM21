@@ -3,6 +3,7 @@ package org.am21.client.view.GUI.listener;
 
 import org.am21.client.view.GUI.Gui;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -28,45 +29,94 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
         gui.menuActionInterface.onlineButton.addActionListener(this);
         gui.menuActionInterface.onlineButton.addMouseListener(this);
 
+        gui.menuActionInterface.maxSeatsDialog.playerButton_2.addMouseListener(this);
+        gui.menuActionInterface.maxSeatsDialog.playerButton_2.addActionListener(this);
+        gui.menuActionInterface.maxSeatsDialog.playerButton_3.addMouseListener(this);
+        gui.menuActionInterface.maxSeatsDialog.playerButton_3.addActionListener(this);
+        gui.menuActionInterface.maxSeatsDialog.playerButton_4.addMouseListener(this);
+        gui.menuActionInterface.maxSeatsDialog.playerButton_4.addActionListener(this);
+        gui.menuActionInterface.maxSeatsDialog.closeLabel.addMouseListener(this);
+
+
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == gui.menuActionInterface.createButton){
-            //TODO: create a new Match...
+            //TODO: askMaxSeats()...then create a new match
             try {
-                //gui.menuActionInterface.dispose();
-                gui.askCreateMatch();
+                gui.askMaxSeats();
+
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
-        } else if (e.getSource() == gui.menuActionInterface.joinButton){
+        }
+        if (e.getSource() == gui.menuActionInterface.joinButton){
             //TODO: join a Macth...
 
             try {
-                gui.menuActionInterface.dispose();
+                //gui.menuActionInterface.dispose();
                 gui.askJoinMatch();
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
-        } else if (e.getSource() == gui.menuActionInterface.exitButton) {
-            gui.menuActionInterface.dispose();
+        }
+        if (e.getSource() == gui.menuActionInterface.exitButton) {
+            //gui.menuActionInterface.dispose();
             //gui.askExitGame();
-        } else if (e.getSource() == gui.menuActionInterface.helpButton) {
+        }
+        if (e.getSource() == gui.menuActionInterface.helpButton) {
 
            // TODO: askAssistMode()?
-        } else if (e.getSource() == gui.menuActionInterface.onlineButton) {
+        }
+        if (e.getSource() == gui.menuActionInterface.onlineButton) {
             //gui.showOnlinePlayer();
 
-        } else if (e.getSource() == gui.menuActionInterface.chatButton) {
+        }
+        if (e.getSource() == gui.menuActionInterface.chatButton) {
             //TODO: chat
+        }
+
+        if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_2 ||
+            e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_3 ||
+            e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_4){
+            //TODO: MAX SEATS = 2/3/4...Create a new match with 2/3/4 players...Go to waiting room
+            gui.menuActionInterface.timer = new Timer(1000,e1 -> {
+                try {
+                    gui.menuActionInterface.setVisible(false);
+                    gui.menuActionInterface.maxSeatsDialog.setVisible(false);
+                    gui.askWaitingAction();
+                    gui.menuActionInterface.timer.stop();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
+            gui.menuActionInterface.timer.start();
         }
 
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_2){
+            gui.menuActionInterface.maxSeatsDialog.playerButton_2.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonSelectedIcon);
+            gui.menuActionInterface.maxSeatsDialog.playerButton_3.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonIcon);
+            gui.menuActionInterface.maxSeatsDialog.playerButton_4.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonIcon);
+        }
+        if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_3){
+            gui.menuActionInterface.maxSeatsDialog.playerButton_2.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonIcon);
+            gui.menuActionInterface.maxSeatsDialog.playerButton_3.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonSelectedIcon);
+            gui.menuActionInterface.maxSeatsDialog.playerButton_4.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonIcon);
+        }
+        if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_4){
+            gui.menuActionInterface.maxSeatsDialog.playerButton_2.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonIcon);
+            gui.menuActionInterface.maxSeatsDialog.playerButton_3.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonIcon);
+            gui.menuActionInterface.maxSeatsDialog.playerButton_4.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonSelectedIcon);
+        }
+        if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.closeLabel){
+            gui.menuActionInterface.maxSeatsDialog.setVisible(false);
+        }
 
     }
 
