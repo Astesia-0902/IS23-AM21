@@ -4,6 +4,7 @@ import org.am21.client.view.Storage;
 import org.am21.client.view.TUI.Cli;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -11,6 +12,8 @@ public class SocketClient extends Thread {
     public static final String serverName = "localhost";
     public static final int serverPort = 8080;
     public static Socket socketClient;
+    private static DataInputStream in;
+    private static DataOutputStream out;
     public static Cli cli;
 
     @Override
@@ -19,7 +22,8 @@ public class SocketClient extends Thread {
             socketClient = new Socket(serverName, serverPort);
             System.out.println("Connected to " + socketClient.getRemoteSocketAddress());
 
-            DataInputStream in = new DataInputStream(socketClient.getInputStream());
+            in = new DataInputStream(socketClient.getInputStream());
+            out = new DataOutputStream(socketClient.getOutputStream());
             while (true) {
                 String response = in.readUTF();
                 //TODO:Handle message from the server
@@ -33,7 +37,8 @@ public class SocketClient extends Thread {
 
     public static void messageToServer(String message) {
         try {
-            socketClient.getOutputStream().write(message.getBytes());
+            out.writeUTF(message);
+            out.flush();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -43,26 +48,27 @@ public class SocketClient extends Thread {
         System.out.println("Dealing with server message");
         String[] messageArray = message.split("\\|");
         switch (messageArray[0]) {
-            case "Message","ChatMessage"-> System.out.println(messageArray[1]);
-            case "VirtualView"-> Storage.setFullViewVariables(messageArray[1], Integer.parseInt(messageArray[2]));
-            case "START"-> System.out.println("Match started");
-            case "WAIT"-> {System.out.println("Waiting for other players...");
-                if(cli!=null){
+            case "Message", "ChatMessage" -> System.out.println(messageArray[1]);
+            case "VirtualView" -> Storage.setFullViewVariables(messageArray[1], Integer.parseInt(messageArray[2]));
+            case "START" -> System.out.println("Match started");
+            case "WAIT" -> {
+                System.out.println("Waiting for other players...");
+                if (cli != null) {
                     //TODO: need jsonInfo
                     //Storage.convertBackMatchInfo(jsonInfo);
                     cli.setGAME_ON(false);
                     cli.setGO_TO_MENU(false);
                 }
             }
-            case "GoToMenu"->{
-                if(cli!=null){
+            case "GoToMenu" -> {
+                if (cli != null) {
                     cli.setGO_TO_MENU(true);
                     cli.setGAME_ON(false);
                 }
             }
-            case "EndMatch"-> System.out.println("Match ended");
-            case "VirtualHand"-> Storage.convertBackHand(messageArray[1]);
-            default-> System.out.println("Server: " + message);
+            case "EndMatch" -> System.out.println("Match ended");
+            case "VirtualHand" -> Storage.convertBackHand(messageArray[1]);
+            default -> System.out.println("Server: " + message);
         }
     }
 }

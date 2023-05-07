@@ -56,6 +56,7 @@ public class ClientHandlerSocket extends Thread {
     public void callback(String message) {
         try {
             out.writeUTF(message);
+            out.flush();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
