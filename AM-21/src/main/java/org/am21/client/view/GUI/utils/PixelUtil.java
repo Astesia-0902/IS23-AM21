@@ -33,6 +33,7 @@ public class PixelUtil {
     public static int gameBoardCellHW = pcWidth*47/1000;
     public static int gameBoardItemHW = gameBoardCellHW*9114/10000;
 
+    //public static int handGridHW =
     /**
      * position util
      */
@@ -54,6 +55,7 @@ public class PixelUtil {
 
 
     public static int gameBoardGridX = pcHeight*397/1000;
+   // public static int handGridX = 1200;
 
 
     // Y position
@@ -73,6 +75,8 @@ public class PixelUtil {
     public static int livingRoomMenuY = pcWidth*6/1000;
 
     public static int gameBoardGridY =  pcHeight*138/1000;
+
+    //public static int handGridY =
 
     /**
      * chat util
@@ -114,4 +118,27 @@ public class PixelUtil {
     public static int myItemHW = pcWidth*315/10000;
     public static int enemyItemHW = pcHeight*21/1000;
 
+    /**
+     * score token util
+     */
+
+    public static int endGameTokenHW = pcHeight*781/10000;
+    public static int endGameTokenBounds = pcWidth/14;
+    public static int endGameTokenX = pcWidth*3405/10000;
+    public static int endGameTokenY = pcWidth*2952/10000;
+    public static int endGameTokenOriented = 9;
+
+    public static int endGameTokenRotateX = pcWidth*95/10000;
+    public static int endGameTokenRotateY = pcHeight/7;
+
+
+    public static int commonGoalTokenHW = pcHeight*705/10000;
+    public static int commonGoalTokenBounds = 90;
+    public static int commonGoalTokenX = 138;
+    public static int commonGoalTopTokenY = 31;
+    public static int commonGoalBottomTokenY = 201;
+    public static int commonGoalTokenOriented = -8;
+
+    public static int commonGoalTokenRotateX = 90;
+    public static int commonGoalTokenRotateY = 5;
 }

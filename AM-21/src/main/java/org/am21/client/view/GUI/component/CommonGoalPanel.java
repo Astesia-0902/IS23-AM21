@@ -4,6 +4,9 @@ import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
 
 import javax.swing.*;
+import java.awt.*;
+import java.util.List;
+
 
 public class CommonGoalPanel extends JPanel {
 
@@ -11,48 +14,65 @@ public class CommonGoalPanel extends JPanel {
     public JLabel commonGoalTopLabel;
     public JLabel commonGoalBottomLabel;
 
-    public String topCardName;
-    public String bottomCardName;
 
-    public ImageIcon tokenBack;
+    public ScoringTokenLabel scoreTokenEmpty;
+    public List<ScoringTokenLabel> scoreTokenListTop;
+    public List<ScoringTokenLabel> scoreTokenListBottom;
 
-    public CommonGoalPanel() {
-        this.setBounds(PixelUtil.commonX_5, PixelUtil.commonGoalY_A, PixelUtil.goalCardW, PixelUtil.goalCardH + (PixelUtil.commonGoalY_B - PixelUtil.commonGoalY_A));
-        this.setLayout(null);
-        this.setOpaque(false);
+    public CommonGoalPanel(String topCardName,String bottomCardName) {
 
-        this.commonGoalPane = new JLayeredPane();
-        this.commonGoalPane.setBounds(0, 0, PixelUtil.goalCardW, PixelUtil.goalCardH + (PixelUtil.commonGoalY_B - PixelUtil.commonGoalY_A));
-        this.commonGoalPane.setLayout(null);
-        this.commonGoalPane.setOpaque(false);
-        this.add(this.commonGoalPane);
+        setBounds(PixelUtil.commonX_5, PixelUtil.commonGoalY_A, PixelUtil.goalCardW, PixelUtil.goalCardH + (PixelUtil.commonGoalY_B - PixelUtil.commonGoalY_A));
+        setLayout(null);
+        setOpaque(false);
 
-        setTopCard(this.topCardName);
-        setBottomCard(this.bottomCardName);
+        commonGoalPane = new JLayeredPane();
+        commonGoalPane.setBounds(0, 0, PixelUtil.goalCardW, PixelUtil.goalCardH + (PixelUtil.commonGoalY_B - PixelUtil.commonGoalY_A));
+        commonGoalPane.setLayout(null);
+        commonGoalPane.setOpaque(false);
+        add(commonGoalPane);
 
+        setTopCard(topCardName);
+        //setTopBeginToken(value);
+        setBottomCard(bottomCardName);
+        //setBottomBeginToken(value);
     }
 
 
     public void setTopCard(String topCardName) {
-        this.commonGoalTopLabel = new JLabel();
-        this.commonGoalTopLabel.setBounds(0, 0, PixelUtil.goalCardW, PixelUtil.goalCardH);
-        this.commonGoalTopLabel.setIcon(ImageUtil.getCommonGoalCardImage(topCardName));
-        this.commonGoalPane.add(this.commonGoalTopLabel, JLayeredPane.DEFAULT_LAYER);
+
+        commonGoalTopLabel = new JLabel();
+        commonGoalTopLabel.setBounds(0, 0, PixelUtil.goalCardW, PixelUtil.goalCardH);
+        commonGoalTopLabel.setIcon(ImageUtil.getCommonGoalCardImage(topCardName));
+        commonGoalPane.add(commonGoalTopLabel, JLayeredPane.DEFAULT_LAYER);
+        //setScoreTokenEmpty(PixelUtil.commonGoalTokenX,PixelUtil.commonGoalTopTokenY);
+        setScoreTokenEmpty(PixelUtil.commonGoalTokenX,PixelUtil.commonGoalTopTokenY);
     }
 
     public void setBottomCard(String bottomCardName) {
-        this.commonGoalBottomLabel = new JLabel();
-        this.commonGoalBottomLabel.setBounds(0, PixelUtil.commonGoalY_B - PixelUtil.commonGoalY_A, PixelUtil.goalCardW, PixelUtil.goalCardH);
-        this.commonGoalBottomLabel.setIcon(ImageUtil.getCommonGoalCardImage(topCardName));
-        this.commonGoalPane.add(this.commonGoalBottomLabel, JLayeredPane.DEFAULT_LAYER);
+
+        commonGoalBottomLabel = new JLabel();
+        commonGoalBottomLabel.setBounds(0, PixelUtil.commonGoalY_B - PixelUtil.commonGoalY_A, PixelUtil.goalCardW, PixelUtil.goalCardH);
+        commonGoalBottomLabel.setIcon(ImageUtil.getCommonGoalCardImage(bottomCardName));
+        commonGoalPane.add(commonGoalBottomLabel, JLayeredPane.DEFAULT_LAYER);
+        setScoreTokenEmpty(PixelUtil.commonGoalTokenX,PixelUtil.commonGoalBottomTokenY);
     }
 
-    public ImageIcon loadTokenImage(int value){
-        return null;
+    public void setScoreTokenEmpty(int posX,int posY){
+
+        scoreTokenEmpty = new ScoringTokenLabel(ImageUtil.getBoardImage("commonGoalTokenEmpty"),PixelUtil.commonGoalTokenHW,PixelUtil.commonGoalTokenOriented,PixelUtil.commonGoalTokenRotateX,PixelUtil.commonGoalTokenRotateY);
+        scoreTokenEmpty.setBounds(posX,posY,PixelUtil.commonGoalTokenBounds,PixelUtil.commonGoalTokenBounds);
+        scoreTokenEmpty.setBackground(new Color(0, 0, 0, 0));
+        commonGoalPane.add(scoreTokenEmpty,JLayeredPane.PALETTE_LAYER);
     }
 
-    public void setCard(String topCardName,String bottomCardName){
-        this.topCardName=topCardName;
-        this.bottomCardName=bottomCardName;
-    }
+    // TODO: list of image ? or HashMap with value ?
+    /*public List<ScoringTokenLabel> setTopBeginToken(HashMap<Integer,ImageIcon[]> scoringTokens, int posX, int posY){
+
+        ScoringTokenLabel score = new ScoringTokenLabel(ImageUtil.getScoreTokenImage(value),PixelUtil.commonGoalTokenHW,PixelUtil.commonGoalTokenOriented);
+        score.setBounds(PixelUtil.commonGoalTokenX,PixelUtil.commonGoalTopTokenY,PixelUtil.commonGoalTokenBounds,PixelUtil.commonGoalTokenBounds);
+        score.setBackground(new Color(0, 0, 0, 0));
+        scoreTokenListTop.add(score);
+        return scoreTokenListTop;
+    }*/
+
 }

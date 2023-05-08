@@ -33,6 +33,10 @@ public class ImageUtil {
                     new ImageIcon(new ImageIcon(PathUtil.getPath("icon tool/U2.jpg")).getImage().getScaledInstance(PixelUtil.enemyHW, PixelUtil.enemyHW, Image.SCALE_SMOOTH));
             case "enemyC" ->
                     new ImageIcon(new ImageIcon(PathUtil.getPath("icon tool/U3.jpg")).getImage().getScaledInstance(PixelUtil.enemyHW, PixelUtil.enemyHW, Image.SCALE_SMOOTH));
+            case "endGameTokenEmpty" ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("scoring tokens/scoring_back_EMPTY.jpg")).getImage().getScaledInstance(PixelUtil.endGameTokenHW, PixelUtil.endGameTokenHW, Image.SCALE_SMOOTH));
+            case "commonGoalTokenEmpty" ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("scoring tokens/scoring_back_EMPTY.jpg")).getImage().getScaledInstance(PixelUtil.commonGoalTokenHW, PixelUtil.commonGoalTokenHW, Image.SCALE_SMOOTH));
             default -> null;
         };
     }
@@ -60,7 +64,7 @@ public class ImageUtil {
                     new ImageIcon(new ImageIcon(PathUtil.getPath("common goal cards/1.jpg")).getImage().getScaledInstance(PixelUtil.goalCardW, PixelUtil.goalCardH, Image.SCALE_SMOOTH));
             case "Stairs" ->
                     new ImageIcon(new ImageIcon(PathUtil.getPath("common goal cards/12.jpg")).getImage().getScaledInstance(PixelUtil.goalCardW, PixelUtil.goalCardH, Image.SCALE_SMOOTH));
-            case "Xshape" ->
+            case "XShape" ->
                     new ImageIcon(new ImageIcon(PathUtil.getPath("common goal cards/10.jpg")).getImage().getScaledInstance(PixelUtil.goalCardW, PixelUtil.goalCardH, Image.SCALE_SMOOTH));
             default -> null;
         };
@@ -136,6 +140,23 @@ public class ImageUtil {
                     new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Trophies1.3.png")).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
             default ->
                    null;
+        };
+
+    }
+
+    public static ImageIcon getScoreTokenImage(int value){
+        return switch (value) {
+            case 1 ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("scoring tokens/end game.jpg")).getImage().getScaledInstance(PixelUtil.endGameTokenHW, PixelUtil.endGameTokenHW, Image.SCALE_SMOOTH));
+            case 2 ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("scoring tokens/scoring_2.jpg")).getImage().getScaledInstance(PixelUtil.commonGoalTokenHW, PixelUtil.commonGoalTokenHW, Image.SCALE_SMOOTH));
+            case 4 ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("scoring tokens/scoring_4.jpg")).getImage().getScaledInstance(PixelUtil.commonGoalTokenHW, PixelUtil.commonGoalTokenHW, Image.SCALE_SMOOTH));
+            case 6 ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("scoring tokens/scoring_6.jpg")).getImage().getScaledInstance(PixelUtil.commonGoalTokenHW, PixelUtil.commonGoalTokenHW, Image.SCALE_SMOOTH));
+            case 8 ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("scoring tokens/scoring_8.jpg")).getImage().getScaledInstance(PixelUtil.commonGoalTokenHW, PixelUtil.commonGoalTokenHW, Image.SCALE_SMOOTH));
+            default -> null;
         };
 
     }

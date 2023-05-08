@@ -9,27 +9,25 @@ public class PersonalGoalPanel extends JPanel {
 
     public JLayeredPane personalGoalPane;
     public JLabel personalGoalLabel;
-    private String cardName;
 
-    public PersonalGoalPanel(){
-        this.setBounds(PixelUtil.personalGoalX, PixelUtil.personalGoalY, PixelUtil.goalCardH, PixelUtil.goalCardW);
-        this.setLayout(null);
-        this.setOpaque(false);
+    public PersonalGoalPanel(String cardName){
 
-        this.personalGoalPane = new JLayeredPane();
-        this.personalGoalPane.setBounds(0,0, PixelUtil.goalCardH, PixelUtil.goalCardW);
-        this.personalGoalPane.setLayout(null);
-        this.personalGoalPane.setOpaque(false);
-        this.add(this.personalGoalPane);
+        setBounds(PixelUtil.personalGoalX, PixelUtil.personalGoalY, PixelUtil.goalCardH, PixelUtil.goalCardW);
+        setLayout(null);
+        setOpaque(false);
 
-        this.personalGoalLabel = new JLabel();
-        this.personalGoalLabel.setBounds(0,0,PixelUtil.goalCardH, PixelUtil.goalCardW);
-        this.personalGoalLabel.setIcon(ImageUtil.getPersonalGoalCardImage(this.cardName));
-        this.personalGoalPane.add(this.personalGoalLabel,JLayeredPane.DEFAULT_LAYER);
+        personalGoalPane = new JLayeredPane();
+        personalGoalPane.setBounds(0,0, PixelUtil.goalCardH, PixelUtil.goalCardW);
+        personalGoalPane.setLayout(null);
+        personalGoalPane.setOpaque(false);
+        add(personalGoalPane);
+
+        personalGoalLabel = new JLabel();
+        personalGoalLabel.setBounds(0,0,PixelUtil.goalCardH, PixelUtil.goalCardW);
+        personalGoalLabel.setIcon(ImageUtil.getPersonalGoalCardImage(cardName));
+        personalGoalPane.add(personalGoalLabel,JLayeredPane.DEFAULT_LAYER);
     }
 
 
-    public void setCard(String cardName){
-        this.cardName = cardName;
-    }
+
 }

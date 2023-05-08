@@ -17,42 +17,49 @@ public class LivingRoomInterface extends JFrame {
     public ShelfPanel enemyAShelfPanel;
     public ShelfPanel enemyBShelfPanel;
     public ShelfPanel enemyCShelfPanel;
+
+    public MyHandBoardPanel myHandBoardPanel;
     public LivingRoomInterface(){
         super("living room");
 
         try{
-            this.livingRoomPane = new JLayeredPane();
-            this.gamePanel = new GamePanel();
-            this.gameBoardPanel = new GameBoardPanel();
-            //this.commonGoalPanel = new CommonGoalPanel();
-            //this.personalGoalPanel = new PersonalGoalPanel();
-            this.myShelfPanel = new ShelfPanel(PixelUtil.myGridX,PixelUtil.myGridY,PixelUtil.myCellH,PixelUtil.myCellW,PixelUtil.myItemHW);
+            livingRoomPane = new JLayeredPane();
+            gamePanel = new GamePanel();
+            gameBoardPanel = new GameBoardPanel();
 
-            this.enemyAShelfPanel = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyAGridY,PixelUtil.enemyCellH,PixelUtil.enemyCellW,PixelUtil.enemyItemHW);
-            this.enemyBShelfPanel = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyBGridY,PixelUtil.enemyCellH,PixelUtil.enemyCellW,PixelUtil.enemyItemHW);
-            this.enemyCShelfPanel = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyCGridY,PixelUtil.enemyCellH,PixelUtil.enemyCellW,PixelUtil.enemyItemHW);
+            commonGoalPanel = new CommonGoalPanel("2Columns","XShape");
+            personalGoalPanel = new PersonalGoalPanel("Goals6");
+            myShelfPanel = new ShelfPanel(PixelUtil.myGridX,PixelUtil.myGridY,PixelUtil.myCellH,PixelUtil.myCellW,PixelUtil.myItemHW);
 
-            this.livingRoomPane.setBounds(0,0, PixelUtil.pcWidth,PixelUtil.pcHeight);
-            this.livingRoomPane.add(this.gamePanel,JLayeredPane.DEFAULT_LAYER);
-            this.livingRoomPane.add(this.gameBoardPanel,JLayeredPane.PALETTE_LAYER);
-            //this.livingRoomPane.add(this.commonGoalPanel,JLayeredPane.PALETTE_LAYER);
-            //this.livingRoomPane.add(this.personalGoalPanel,JLayeredPane.PALETTE_LAYER);
-            this.livingRoomPane.add(this.myShelfPanel,JLayeredPane.PALETTE_LAYER);
-            this.livingRoomPane.add(this.enemyAShelfPanel,JLayeredPane.PALETTE_LAYER);
-            this.livingRoomPane.add(this.enemyBShelfPanel,JLayeredPane.PALETTE_LAYER);
-            this.livingRoomPane.add(this.enemyCShelfPanel,JLayeredPane.PALETTE_LAYER);
+            enemyAShelfPanel = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyAGridY,PixelUtil.enemyCellH,PixelUtil.enemyCellW,PixelUtil.enemyItemHW);
+            enemyBShelfPanel = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyBGridY,PixelUtil.enemyCellH,PixelUtil.enemyCellW,PixelUtil.enemyItemHW);
+            enemyCShelfPanel = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyCGridY,PixelUtil.enemyCellH,PixelUtil.enemyCellW,PixelUtil.enemyItemHW);
+
+            myHandBoardPanel = new MyHandBoardPanel();
+
+            livingRoomPane.setBounds(0,0, PixelUtil.pcWidth,PixelUtil.pcHeight);
+            livingRoomPane.add(gamePanel,JLayeredPane.DEFAULT_LAYER);
+            livingRoomPane.add(gameBoardPanel,JLayeredPane.PALETTE_LAYER);
+            livingRoomPane.add(commonGoalPanel,JLayeredPane.PALETTE_LAYER);
+            livingRoomPane.add(personalGoalPanel,JLayeredPane.PALETTE_LAYER);
+            livingRoomPane.add(myShelfPanel,JLayeredPane.PALETTE_LAYER);
+            livingRoomPane.add(enemyAShelfPanel,JLayeredPane.PALETTE_LAYER);
+            livingRoomPane.add(enemyBShelfPanel,JLayeredPane.PALETTE_LAYER);
+            livingRoomPane.add(enemyCShelfPanel,JLayeredPane.PALETTE_LAYER);
+
+            livingRoomPane.add(myHandBoardPanel,JLayeredPane.PALETTE_LAYER);
 
 
 
 
-            this.getContentPane().add(livingRoomPane);
+            getContentPane().add(livingRoomPane);
 
-            this.setLayout(null);
-            this.setLocationRelativeTo(null);
-            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            this.setUndecorated(true);
-            this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-            this.setVisible(true);
+            setLayout(null);
+            setLocationRelativeTo(null);
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            setUndecorated(true);
+            setExtendedState(JFrame.MAXIMIZED_BOTH);
+            setVisible(true);
 
             System.out.println("Your PC have: \nhigh:"+ PixelUtil.pcHeight+"\nwide:"+PixelUtil.pcWidth);
 
