@@ -70,6 +70,11 @@ public class GamePanel extends JPanel {
 
     //TODO:enemy score
 
+
+    //TODO: charMan enemy A,B,C
+
+    //TODO: charMan me
+
     public GamePanel(){
 
         //back board panel

@@ -1,14 +1,14 @@
 package org.am21.client.view.GUI.utils;
 
-import java.awt.*;
-
 public class PixelUtil {
     /**
      * screen size util
      */
-    public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+   /* public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     public static int pcWidth = (int) screenSize.getWidth();
-    public static int pcHeight = (int) screenSize.getHeight();
+    public static int pcHeight = (int) screenSize.getHeight();*/
+    public static int pcWidth = 1680;
+    public static int pcHeight = 1050;
 
     /**
      * dimension util
@@ -34,6 +34,8 @@ public class PixelUtil {
     public static int gameBoardItemHW = gameBoardCellHW*9114/10000;
 
     //public static int handGridHW =
+
+    public static int chairHW = 999;
     /**
      * position util
      */
@@ -136,7 +138,7 @@ public class PixelUtil {
     public static int commonGoalTokenBounds = pcHeight*857/10000;
     public static int commonGoalTokenX = pcWidth*82/1000;
     public static int commonGoalTopTokenY = pcHeight*295/10000;
-    public static int commonGoalBottomTokenY = pcWidth*125/1000;
+    public static int commonGoalBottomTokenY = pcWidth*12/100;
     public static int commonGoalTokenOriented = -8;
 
     public static int commonGoalTokenRotateX = pcHeight*857/10000;

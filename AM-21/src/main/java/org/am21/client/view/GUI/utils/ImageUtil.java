@@ -161,5 +161,9 @@ public class ImageUtil {
 
     }
 
+    public static ImageIcon getChairManImage(){
+        return new ImageIcon(new ImageIcon(PathUtil.getPath("misc/firstplayertoken.png")).getImage().getScaledInstance(PixelUtil.chairHW, PixelUtil.chairHW, Image.SCALE_SMOOTH));
+    }
+
 
 }
