@@ -10,19 +10,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dd2f3e9a-b514-48f2-995d-660d696de66e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/component/MyHandBoardPanel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/component/ScoringTokenLabel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_30_04_2023_15_37_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_30_04_2023_15_37__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_30_04_2023_16_13_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_30_04_2023_16_13__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/LivingRoomInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/LivingRoomInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/component/CommonGoalPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/component/CommonGoalPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/component/GameBoardPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/component/GameBoardPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/component/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/component/GamePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/component/PersonalGoalPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/component/PersonalGoalPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/utils/ImageUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/utils/ImageUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/utils/PixelUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/utils/PixelUtil.java" afterDir="false" />
     </list>
     <list id="19ab3365-554c-40d9-959c-e6407d37c953" name="Changes by jef" comment="" />
@@ -757,37 +744,37 @@
         </breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/SocketClient.java</url>
-          <line>70</line>
+          <line>71</line>
           <option name="timeStamp" value="66" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/SocketClient.java</url>
-          <line>69</line>
+          <line>70</line>
           <option name="timeStamp" value="68" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/SocketClient.java</url>
-          <line>71</line>
+          <line>72</line>
           <option name="timeStamp" value="69" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/SocketClient.java</url>
-          <line>74</line>
+          <line>75</line>
           <option name="timeStamp" value="70" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/SocketClient.java</url>
-          <line>72</line>
+          <line>73</line>
           <option name="timeStamp" value="71" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/SocketClient.java</url>
-          <line>73</line>
+          <line>74</line>
           <option name="timeStamp" value="72" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/GameController.java</url>
-          <line>101</line>
+          <line>107</line>
           <option name="timeStamp" value="86" />
         </line-breakpoint>
         <line-breakpoint type="java-line">

@@ -133,12 +133,12 @@ public class PixelUtil {
 
 
     public static int commonGoalTokenHW = pcHeight*705/10000;
-    public static int commonGoalTokenBounds = 90;
-    public static int commonGoalTokenX = 138;
-    public static int commonGoalTopTokenY = 31;
-    public static int commonGoalBottomTokenY = 201;
+    public static int commonGoalTokenBounds = pcHeight*857/10000;
+    public static int commonGoalTokenX = pcWidth*82/1000;
+    public static int commonGoalTopTokenY = pcHeight*295/10000;
+    public static int commonGoalBottomTokenY = pcWidth*125/1000;
     public static int commonGoalTokenOriented = -8;
 
-    public static int commonGoalTokenRotateX = 90;
-    public static int commonGoalTokenRotateY = 5;
+    public static int commonGoalTokenRotateX = pcHeight*857/10000;
+    public static int commonGoalTokenRotateY = pcHeight/210;
 }
