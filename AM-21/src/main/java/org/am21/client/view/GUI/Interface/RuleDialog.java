@@ -17,6 +17,7 @@ public class RuleDialog extends JDialog {
     public JLabel rule_6;
     public JButton leftButton;
     public JButton rightButton;
+    public int countPage = 0;
 
     public RuleDialog() {
         setModal(true);

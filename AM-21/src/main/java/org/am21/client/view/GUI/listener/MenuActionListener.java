@@ -6,9 +6,10 @@ import org.am21.client.view.GUI.Gui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.rmi.RemoteException;
 
 
-public class MenuActionListener implements MouseListener, MouseMotionListener, ActionListener {
+public class MenuActionListener implements MouseListener, MouseMotionListener, ActionListener, KeyListener {
     Gui gui;
     Point p = new Point();
 
@@ -37,13 +38,18 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
         gui.menuActionInterface.maxSeatsDialog.playerButton_4.addActionListener(this);
         gui.menuActionInterface.maxSeatsDialog.closeLabel.addMouseListener(this);
 
-
+        gui.menuActionInterface.chatDialog.sendButton.addMouseListener(this);
+        gui.menuActionInterface.chatDialog.sendButton.addKeyListener(this);
+        gui.menuActionInterface.chatDialog.sendButton.addActionListener(this);
+        gui.menuActionInterface.chatDialog.addMouseListener(this);
+        gui.menuActionInterface.chatDialog.addMouseMotionListener(this);
+        gui.menuActionInterface.chatDialog.closeLabel.addMouseListener(this);
     }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == gui.menuActionInterface.createButton){
+        if (e.getSource() == gui.menuActionInterface.createButton) {
             //TODO: askMaxSeats()...then create a new match
             try {
                 gui.askMaxSeats();
@@ -52,7 +58,7 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
                 throw new RuntimeException(ex);
             }
         }
-        if (e.getSource() == gui.menuActionInterface.joinButton){
+        if (e.getSource() == gui.menuActionInterface.joinButton) {
             //TODO: join a Macth...
 
             try {
@@ -63,12 +69,17 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
             }
         }
         if (e.getSource() == gui.menuActionInterface.exitButton) {
-            //gui.menuActionInterface.dispose();
-            //gui.askExitGame();
+
+            try {
+                gui.menuActionInterface.setVisible(false);
+                gui.askLeaveMatch();
+            } catch (RemoteException ex) {
+                throw new RuntimeException(ex);
+            }
         }
         if (e.getSource() == gui.menuActionInterface.helpButton) {
 
-           // TODO: askAssistMode()?
+            // TODO: askAssistMode()?
         }
         if (e.getSource() == gui.menuActionInterface.onlineButton) {
             //gui.showOnlinePlayer();
@@ -76,17 +87,18 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
         }
         if (e.getSource() == gui.menuActionInterface.chatButton) {
             //TODO: chat
+            gui.menuActionInterface.chatDialog.setVisible(true);
         }
 
         if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_2 ||
             e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_3 ||
-            e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_4){
+            e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_4) {
             //TODO: MAX SEATS = 2/3/4...Create a new match with 2/3/4 players...Go to waiting room
-            gui.menuActionInterface.timer = new Timer(1000,e1 -> {
+            gui.menuActionInterface.timer = new Timer(500, e1 -> {
                 try {
+                    gui.askWaitingAction();
                     gui.menuActionInterface.setVisible(false);
                     gui.menuActionInterface.maxSeatsDialog.setVisible(false);
-                    gui.askWaitingAction();
                     gui.menuActionInterface.timer.stop();
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
@@ -94,28 +106,41 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
             });
             gui.menuActionInterface.timer.start();
         }
+        if (e.getSource() == gui.menuActionInterface.chatDialog.sendButton) {
+            String message = gui.menuActionInterface.chatDialog.chatMessage.getText();
+            //TODO: sendMessage(message);
+            gui.menuActionInterface.chatDialog.chatMessage.setText("");     //Clear input box
+        }
 
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_2){
+        if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_2) {
             gui.menuActionInterface.maxSeatsDialog.playerButton_2.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonSelectedIcon);
             gui.menuActionInterface.maxSeatsDialog.playerButton_3.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonIcon);
             gui.menuActionInterface.maxSeatsDialog.playerButton_4.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonIcon);
         }
-        if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_3){
+        if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_3) {
             gui.menuActionInterface.maxSeatsDialog.playerButton_2.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonIcon);
             gui.menuActionInterface.maxSeatsDialog.playerButton_3.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonSelectedIcon);
             gui.menuActionInterface.maxSeatsDialog.playerButton_4.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonIcon);
         }
-        if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_4){
+        if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_4) {
             gui.menuActionInterface.maxSeatsDialog.playerButton_2.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonIcon);
             gui.menuActionInterface.maxSeatsDialog.playerButton_3.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonIcon);
             gui.menuActionInterface.maxSeatsDialog.playerButton_4.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonSelectedIcon);
         }
-        if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.closeLabel){
+        // when click on closeLabel will close the interface
+        if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.closeLabel) {
             gui.menuActionInterface.maxSeatsDialog.setVisible(false);
+        }
+        if (e.getSource() == gui.menuActionInterface.chatDialog.closeLabel) {
+            gui.menuActionInterface.chatDialog.setVisible(false);
+        }
+        // when click on gui.menuActionInterface.chatDialog, sendButton get focus, so you can press 'Enter' to send a message
+        if (e.getSource() == gui.menuActionInterface.chatDialog) {
+            gui.menuActionInterface.chatDialog.sendButton.requestFocus();
         }
 
     }
@@ -123,6 +148,11 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getSource() == gui.menuActionInterface) {
+            p.x = e.getX();
+            p.y = e.getY();
+        }
+
+        if (e.getSource() == gui.menuActionInterface.chatDialog) {
             p.x = e.getX();
             p.y = e.getY();
         }
@@ -156,6 +186,12 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
         if (e.getSource() == gui.menuActionInterface.onlineButton) {
             gui.menuActionInterface.onlineButton.setIcon(gui.menuActionInterface.onlineIconColor);
         }
+        if (e.getSource() == gui.menuActionInterface.chatDialog.closeLabel) {
+            gui.menuActionInterface.chatDialog.closeLabel.setIcon(gui.menuActionInterface.chatDialog.closeIconSelect);
+        }
+        if (e.getSource() == gui.menuActionInterface.chatDialog.sendButton) {
+            gui.menuActionInterface.exitButton.setBackground(new Color(243, 214, 253));
+        }
     }
 
     @Override
@@ -179,6 +215,12 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
         if (e.getSource() == gui.menuActionInterface.onlineButton) {
             gui.menuActionInterface.onlineButton.setIcon(gui.menuActionInterface.onlineIcon);
         }
+        if (e.getSource() == gui.menuActionInterface.chatDialog.closeLabel) {
+            gui.menuActionInterface.chatDialog.closeLabel.setIcon(gui.menuActionInterface.chatDialog.closeIcon);
+        }
+        if (e.getSource() == gui.menuActionInterface.chatDialog.sendButton) {
+            gui.menuActionInterface.exitButton.setBackground(new Color(178, 173, 204, 230));
+        }
     }
 
     @Override
@@ -187,6 +229,10 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
             Point panelPoint = gui.menuActionInterface.getLocation();
             gui.menuActionInterface.setLocation(panelPoint.x + e.getX() - p.x, panelPoint.y + e.getY() - p.y);
         }
+        if (e.getSource() == gui.menuActionInterface.chatDialog) {
+            Point panelPoint = gui.menuActionInterface.chatDialog.getLocation();
+            gui.menuActionInterface.chatDialog.setLocation(panelPoint.x + e.getX() - p.x, panelPoint.y + e.getY() - p.y);
+        }
     }
 
     @Override
@@ -194,4 +240,20 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
 
     }
 
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            gui.menuActionInterface.chatDialog.sendButton.doClick();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
 }

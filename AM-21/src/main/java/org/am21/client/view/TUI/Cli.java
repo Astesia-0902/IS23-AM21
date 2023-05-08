@@ -1364,7 +1364,7 @@ public class Cli implements View {
         List<Integer> scores = Storage.commonGoalScore;
 
         for (int i = 0; i < cGoal.size(); i++) {
-            display.set(i, display.get(i) + "{" + cGoal.get(i) + "}" + ": [" + scores.get(i) + "]");
+            display.set(i, display.get(i) + "{" + cGoal.get(i) + "}" + ": \t[" + scores.get(i) + "]");
         }
     }
 
