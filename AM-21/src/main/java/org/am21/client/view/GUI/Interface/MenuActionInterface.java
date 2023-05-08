@@ -17,6 +17,7 @@ public class MenuActionInterface extends JDialog {
     public static final int WIDTH = 600;
     public static final int HEIGHT = 400;
     public MaxSeatsDialog maxSeatsDialog;
+    public ChatDialog chatDialog;
 
     public JButton createButton;
     public JButton joinButton;
@@ -113,6 +114,8 @@ public class MenuActionInterface extends JDialog {
         add(backGroundPanel);
 
         maxSeatsDialog = new MaxSeatsDialog();
+        chatDialog = new ChatDialog();
+
         setBounds(0,0,WIDTH,HEIGHT);
         setUndecorated(true);
         setResizable(false);

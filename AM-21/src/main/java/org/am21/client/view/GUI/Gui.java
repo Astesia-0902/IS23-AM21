@@ -53,8 +53,6 @@ public class Gui implements View {
 
     @Override
     public boolean askCreateMatch() throws Exception {
-//        maxSeatsInterface = new MaxSeatsInterface();
-//        new MaxSeatsListener(this);
         livingRoomInterface = new LivingRoomInterface();
         new LivingRoomListener(this);
         return false;
@@ -84,6 +82,7 @@ public class Gui implements View {
 
     @Override
     public boolean askExitGame() throws RemoteException {
+
         return false;
     }
 
@@ -199,7 +198,7 @@ public class Gui implements View {
 
     public static void main(String[] args) {
         try {
-            new Gui().init();
+            new Gui().askMenuAction();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

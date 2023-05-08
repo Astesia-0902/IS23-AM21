@@ -5,9 +5,10 @@ import org.am21.client.view.GUI.Gui;
 import java.awt.*;
 import java.awt.event.*;
 
-public class WaitingRoomListener  implements MouseListener, MouseMotionListener, ActionListener {
+public class WaitingRoomListener implements MouseListener, MouseMotionListener, ActionListener {
     Gui gui;
     Point p = new Point();
+
 
     public WaitingRoomListener(Gui gui) {
         this.gui = gui;
@@ -29,24 +30,31 @@ public class WaitingRoomListener  implements MouseListener, MouseMotionListener,
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == gui.waitingRoomInterface.leaveButton){
+        if (e.getSource() == gui.waitingRoomInterface.leaveButton) {
             //TODO: askLeaveMatch;
             gui.frame.dispose();
         }
-        if (e.getSource() == gui.waitingRoomInterface.ruleButton){
+        if (e.getSource() == gui.waitingRoomInterface.ruleButton) {
             gui.showGameRules();
         }
-        if (e.getSource() == gui.waitingRoomInterface.ruleDialog.rightButton){
-            gui.waitingRoomInterface.ruleDialog.rules.next(gui.waitingRoomInterface.ruleDialog.rulesPanel);
+
+        if (e.getSource() == gui.waitingRoomInterface.ruleDialog.rightButton) {
+            if (gui.waitingRoomInterface.ruleDialog.countPage != 5) {
+                gui.waitingRoomInterface.ruleDialog.rules.next(gui.waitingRoomInterface.ruleDialog.rulesPanel);
+                gui.waitingRoomInterface.ruleDialog.countPage++;
+            }
         }
-        if (e.getSource() == gui.waitingRoomInterface.ruleDialog.leftButton){
-            gui.waitingRoomInterface.ruleDialog.rules.previous(gui.waitingRoomInterface.ruleDialog.rulesPanel);
+        if (e.getSource() == gui.waitingRoomInterface.ruleDialog.leftButton) {
+            if (gui.waitingRoomInterface.ruleDialog.countPage != 0) {
+                gui.waitingRoomInterface.ruleDialog.rules.previous(gui.waitingRoomInterface.ruleDialog.rulesPanel);
+                gui.waitingRoomInterface.ruleDialog.countPage--;
+            }
         }
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource() == gui.waitingRoomInterface.ruleDialog.closeLabel){
+        if (e.getSource() == gui.waitingRoomInterface.ruleDialog.closeLabel) {
             gui.waitingRoomInterface.ruleDialog.setVisible(false);
         }
     }
@@ -73,10 +81,10 @@ public class WaitingRoomListener  implements MouseListener, MouseMotionListener,
         if (e.getSource() == gui.waitingRoomInterface.leaveButton) {
             gui.waitingRoomInterface.leaveButton.setBackground(new Color(245, 225, 199));
         }
-        if (e.getSource() == gui.waitingRoomInterface.ruleButton){
+        if (e.getSource() == gui.waitingRoomInterface.ruleButton) {
             gui.waitingRoomInterface.ruleButton.setForeground(new Color(106, 2, 1));
         }
-        if (e.getSource() == gui.waitingRoomInterface.settingButton){
+        if (e.getSource() == gui.waitingRoomInterface.settingButton) {
             gui.waitingRoomInterface.settingButton.setForeground(new Color(106, 2, 1));
         }
     }
@@ -86,10 +94,10 @@ public class WaitingRoomListener  implements MouseListener, MouseMotionListener,
         if (e.getSource() == gui.waitingRoomInterface.leaveButton) {
             gui.waitingRoomInterface.leaveButton.setBackground(new Color(222, 184, 135));
         }
-        if (e.getSource() == gui.waitingRoomInterface.ruleButton){
+        if (e.getSource() == gui.waitingRoomInterface.ruleButton) {
             gui.waitingRoomInterface.ruleButton.setForeground(new Color(237, 179, 137));
         }
-        if (e.getSource() == gui.waitingRoomInterface.settingButton){
+        if (e.getSource() == gui.waitingRoomInterface.settingButton) {
             gui.waitingRoomInterface.settingButton.setForeground(new Color(237, 179, 137));
         }
     }

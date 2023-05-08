@@ -82,5 +82,6 @@ public class MaxSeatsDialog extends JDialog {
         setLocationRelativeTo(this);
         setResizable(false);
         setUndecorated(true);
+        setOpacity(0.9f);
     }
 }

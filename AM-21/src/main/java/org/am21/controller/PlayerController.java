@@ -1,6 +1,5 @@
 package org.am21.controller;
 
-import org.am21.model.Cards.PersonalGoalCard;
 import org.am21.model.GameManager;
 import org.am21.model.Player;
 import org.am21.model.enumer.ConnectionType;
@@ -78,18 +77,6 @@ public class PlayerController {
 
         player.setNickname(newName);
     }
-
-    /**
-     * Command to see my own goal
-     * !Implementation incomplete due to Lack of View Component!
-     *
-     * @return
-     */
-    public PersonalGoalCard viewPersonalGoal() {
-
-        return player.getMyPersonalGoal();
-    }
-
 
     /**
      * During SelectionCards of GamePhase, when the player click on an item,
@@ -308,14 +295,14 @@ public class PlayerController {
 
     /**
      * Verify if is the current Player correspond with the one calling this method
-     *
-     * @param player
-     * @return
+     * //TODO:useless? now in checkActionphase
+     * @param player player
+     * @return false if is not player's turn
      */
     public boolean isMyTurn(Player player) {
         if (player.getMatch().currentPlayer != player) {
             // Not player turn
-            GameManager.sendReply(this, ServerMessage.NotYourTurn,false);
+            //GameManager.sendReply(this, ServerMessage.NotYourTurn,false);
             return false;
         }
         return true;

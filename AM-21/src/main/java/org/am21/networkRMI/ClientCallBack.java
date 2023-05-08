@@ -1,6 +1,6 @@
 package org.am21.networkRMI;
 
-import org.am21.client.view.Storage;
+import org.am21.client.view.ClientView;
 import org.am21.client.view.TUI.Cli;
 import org.am21.model.enumer.SC;
 
@@ -35,8 +35,9 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     @Override
     public void sendVirtualView(String virtualView, int pIndex) throws RemoteException {
         if(cli!=null){
-            Storage.setFullViewVariables(virtualView,pIndex );
+            ClientView.setFullViewVariables(virtualView,pIndex );
             cli.checkTurn();
+            cli.refresh(cli);
         }
     }
 
@@ -63,7 +64,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     public void notifyToWait(String jsonInfo) throws RemoteException {
         if(cli!=null){
             //cli.setMatchID(id);
-            Storage.convertBackMatchInfo(jsonInfo);
+            ClientView.convertBackMatchInfo(jsonInfo);
             cli.setGAME_ON(false);
             cli.setGO_TO_MENU(false);
         }
@@ -91,7 +92,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
 
     @Override
     public void sendVirtualHand(String JSONHand) throws RemoteException {
-        Storage.convertBackHand(JSONHand);
+        ClientView.convertBackHand(JSONHand);
     }
 
 
