@@ -3,7 +3,7 @@ package org.am21.client.view.TUI;
 import org.am21.client.ClientCommunicationController;
 import org.am21.client.ClientController;
 import org.am21.client.SocketClient;
-import org.am21.client.view.Storage;
+import org.am21.client.view.ClientView;
 import org.am21.client.view.View;
 import org.am21.networkRMI.ClientCallBack;
 import org.am21.networkRMI.IClientInput;
@@ -19,7 +19,8 @@ import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
-import static org.am21.client.view.Storage.*;
+import static org.am21.client.view.ClientView.*;
+import static org.am21.client.view.TUI.Storage.*;
 
 public class Cli implements View {
     //redundant
@@ -150,8 +151,8 @@ public class Cli implements View {
      * @param username User's name
      */
     public void initPlayer(String username) {
-        int playerIndex = Storage.getPlayerIndex(username);
-        player = Storage.players.get(playerIndex);
+        int playerIndex = ClientView.getPlayerIndex(username);
+        player = ClientView.players.get(playerIndex);
 
     }
 
@@ -368,7 +369,7 @@ public class Cli implements View {
     public void askWaitingAction() throws RemoteException, ServerNotActiveException {
         //while (!GAME_ON && !GO_TO_MENU) {
         System.out.print("-----------------------------------------------------------\n" +
-                Color.WHITE_BRIGHT + " {| Room " + Storage.matchID + " |}" + Color.RESET);
+                Color.WHITE_BRIGHT + " {| Room " + matchID + " |}" + Color.RESET);
         System.out.println(Color.WHITE_BOLD + "   [ Admin: " + admin + " ]" + Color.RESET);
         System.out.println(Storage.waitingAction);
         showRandomTip();
@@ -606,10 +607,10 @@ public class Cli implements View {
     @Override
     public void showCommonGoals() {
         System.out.println("Common Goals:");
-        for (int i = 0; i < Storage.commonGoal.size(); i++) {
-            showGoalDescription(Storage.commonGoal.get(i));
+        for (int i = 0; i < ClientView.commonGoal.size(); i++) {
+            showGoalDescription(ClientView.commonGoal.get(i));
             System.out.println(Color.YELLOW + "> Top score of this Common Goal: " + Color.RESET +
-                    Storage.commonGoalScore.get(i) + " points.");
+                    ClientView.commonGoalScore.get(i) + " points.");
             System.out.println();
             //askToContinue();
             delayer(1000);
@@ -619,7 +620,7 @@ public class Cli implements View {
     @Override
     public void showPersonalGoal() {
         System.out.println(username + "'s PersonalGoal:");
-        System.out.println(Storage.goalPersonalMap.get(Storage.personalGoal));
+        System.out.println(Storage.goalPersonalMap.get(ClientView.personalGoal));
         System.out.println(Storage.PGTable);
         showPersonalPoints();
         System.out.println();
@@ -627,10 +628,10 @@ public class Cli implements View {
 
     @Override
     public void announceCurrentPlayer() {
-        if (Storage.currentPlayer.equals(player)) {
+        if (currentPlayer.equals(player)) {
             System.out.print(Color.RED + "[!] > Hey " + player + "!!! It's your turn!!!" + Color.RESET);
         } else {
-            System.out.print(Color.CYAN + "It's " + Storage.currentPlayer + "'s turn." + Color.RESET);
+            System.out.print(Color.CYAN + "It's " + currentPlayer + "'s turn." + Color.RESET);
         }
         System.out.println();
     }
@@ -639,7 +640,7 @@ public class Cli implements View {
     public void showWhoIsPlaying() {
         String tmp;
         System.out.print("> Player's Turn: ");
-        for (String name : Storage.players) {
+        for (String name : ClientView.players) {
              tmp=name;
             if (name.equals(username)) {
                 tmp = "You";
@@ -656,7 +657,7 @@ public class Cli implements View {
     @Override
     public void showPlayerShelf() {
 
-        String[][] shelf = Storage.shelves.get(Storage.players.indexOf(username));
+        String[][] shelf = ClientView.shelves.get(ClientView.players.indexOf(username));
         System.out.println("----------------------------------------------------");
         System.out.println("Your Shelf:");
         System.out.println();
@@ -681,9 +682,9 @@ public class Cli implements View {
 
     @Override
     public void showEveryShelf() {
-        for (int k = 0; k < Storage.shelves.size(); k++) {
-            String[][] userShelf = Storage.shelves.get(k);
-            System.out.println(Storage.players.get(k) + "'s Shelf:");
+        for (int k = 0; k < ClientView.shelves.size(); k++) {
+            String[][] userShelf = ClientView.shelves.get(k);
+            System.out.println(ClientView.players.get(k) + "'s Shelf:");
             System.out.println();
             for (int i = 0; i < Storage.SHELF_ROW; i++) {
                 for (int j = 0; j < SHELF_COLUMN; j++) {
@@ -701,7 +702,7 @@ public class Cli implements View {
 
     @Override
     public void showBoard() {
-        String[][] board = Storage.virtualBoard;
+        String[][] board = ClientView.virtualBoard;
         System.out.println("Board:");
         System.out.print("    ");
         for (int j = 1; j <= Storage.BOARD_COLUMN; j++) {
@@ -770,8 +771,8 @@ public class Cli implements View {
 
     @Override
     public void showPlayersStats() {
-        List<String> playerList = Storage.players;
-        List<Integer> scoreList = Storage.scores;
+        List<String> playerList = ClientView.players;
+        List<Integer> scoreList = ClientView.scores;
         for (int i = 0; i < playerList.size(); i++) {
             System.out.println("> " + playerList.get(i) + "'s stats: ");
             System.out.println("  " + "SCORE:\t" + scoreList.get(i));
@@ -859,7 +860,7 @@ public class Cli implements View {
     }
 
     public String showItemInCell(int row, int column) {
-        return Storage.virtualBoard[row][column];
+        return ClientView.virtualBoard[row][column];
     }
 
     @Override
@@ -975,12 +976,12 @@ public class Cli implements View {
     public List<Integer> askIndex() {
         String sortConfirm;
         int position1, position2;
-        position1 = askTheIndex("Position1", 1, Storage.currentPlayerHand.size());
-        position2 = askTheIndex("Position2", 1, Storage.currentPlayerHand.size());
+        position1 = askTheIndex("Position1", 1, ClientView.currentPlayerHand.size());
+        position2 = askTheIndex("Position2", 1, ClientView.currentPlayerHand.size());
         System.out.println("You have chosen to swap " +
-                Storage.currentPlayerHand.get(position1 - 1).replace("_", "") +
+                ClientView.currentPlayerHand.get(position1 - 1).replace("_", "") +
                 " and " +
-                Storage.currentPlayerHand.get(position2 - 1).replace("_", ""));
+                ClientView.currentPlayerHand.get(position2 - 1).replace("_", ""));
         System.out.print(Storage.indexConfirm);
         sortConfirm = readLine();
         switch (sortConfirm) {
@@ -1066,14 +1067,14 @@ public class Cli implements View {
      * @return true if the "hand" is not empty, otherwise false
      */
     public boolean showHand() {
-        System.out.print(Storage.currentPlayer + " has selected: ");
-        if (Storage.currentPlayerHand.isEmpty()) {
+        System.out.print(ClientView.currentPlayer + " has selected: ");
+        if (ClientView.currentPlayerHand.isEmpty()) {
             System.out.println("Nothing");
             return false;
         }
-        for (int i = 0; i < Storage.currentPlayerHand.size(); i++) {
+        for (int i = 0; i < ClientView.currentPlayerHand.size(); i++) {
             System.out.print((i + 1) + ".[" +
-                    checkColorItem(Storage.currentPlayerHand.get(i)).replace("_", "") + "]  ");
+                    checkColorItem(ClientView.currentPlayerHand.get(i)).replace("_", "") + "]  ");
         }
         System.out.println();
         return true;
@@ -1081,7 +1082,7 @@ public class Cli implements View {
 
     @Override
     public void showEndGameToken() {
-        if (Storage.endGameToken) {
+        if (ClientView.endGameToken) {
             System.out.println("The EndGame Token is taken, it's the last round!");
         } else {
             System.out.println("The EndGame Token is still available. Good Luck!");
@@ -1193,7 +1194,7 @@ public class Cli implements View {
         System.out.println();
     }
     public void checkTurn() {
-        SEL_MODE = Storage.currentPlayer.equals(username);
+        SEL_MODE = ClientView.currentPlayer.equals(username);
 
     }
     /**
@@ -1221,7 +1222,7 @@ public class Cli implements View {
      */
     public void displayMiniBoard() {
         List<String> display = Storage.current_display;
-        String[][] board = Storage.virtualBoard;
+        String[][] board = ClientView.virtualBoard;
 
         display.set(0, display.get(0) + "\t\t\t{Board}\t\t\t\t\t\t\t");
         for (int i = 0; i < Storage.BOARD_ROW; i++) {
@@ -1281,7 +1282,7 @@ public class Cli implements View {
      * This method is used for decoration of the TUI
      */
     public void displayMiniShelf() {
-        String[][] shelf = Storage.shelves.get(Storage.players.indexOf(username));
+        String[][] shelf = ClientView.shelves.get(ClientView.players.indexOf(username));
         List<String> display = Storage.current_display;
         display.set(3, display.get(3) + "  {Your Shelf}\t ");
         for (int i = 0; i < Storage.SHELF_ROW; i++) {
@@ -1307,8 +1308,8 @@ public class Cli implements View {
         display.set(1, display.get(1) + "   ");
 
         for (int i = 0; i < 3; i++) {
-            if (i < Storage.currentPlayerHand.size()) {
-                String item = giveMeColor(Storage.currentPlayerHand.get(i));
+            if (i < ClientView.currentPlayerHand.size()) {
+                String item = giveMeColor(ClientView.currentPlayerHand.get(i));
                 display.set(1, display.get(1) + "[" + item + "]");
             } else {
                 display.set(1, display.get(1) + "[ ]");
@@ -1348,7 +1349,7 @@ public class Cli implements View {
         displayMiniBoard();
         displayMiniShelf();
         if (SEL_MODE) displayMiniHand();
-        displayMiniPGoal(Storage.personalGoal);
+        displayMiniPGoal(ClientView.personalGoal);
         displayMiniCGoal();
         for (int i = 0; i < Storage.current_display.size(); i++) {
             System.out.println(Storage.current_display.get(i));
@@ -1360,8 +1361,8 @@ public class Cli implements View {
      */
     public void displayMiniCGoal() {
         List<String> display = Storage.current_display;
-        List<String> cGoal = Storage.commonGoal;
-        List<Integer> scores = Storage.commonGoalScore;
+        List<String> cGoal = ClientView.commonGoal;
+        List<Integer> scores = ClientView.commonGoalScore;
 
         for (int i = 0; i < cGoal.size(); i++) {
             display.set(i, display.get(i) + "{" + cGoal.get(i) + "}" + ": \t[" + scores.get(i) + "]");
@@ -1370,8 +1371,8 @@ public class Cli implements View {
 
 
     public void showPersonalPoints() {
-        int index = Storage.getPlayerIndex(username);
-        int points = Storage.hiddenPoints.get(index);
+        int index = ClientView.getPlayerIndex(username);
+        int points = ClientView.hiddenPoints.get(index);
         System.out.println("Personal Goal's points (Private): " + points);
 
     }

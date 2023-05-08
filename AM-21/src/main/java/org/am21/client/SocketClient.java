@@ -1,6 +1,6 @@
 package org.am21.client;
 
-import org.am21.client.view.Storage;
+import org.am21.client.view.ClientView;
 import org.am21.client.view.TUI.Cli;
 import org.am21.model.enumer.SC;
 
@@ -63,8 +63,9 @@ public class SocketClient extends Thread {
             }
             case "VirtualView" -> {
                 if(cli!=null){
-                    Storage.setFullViewVariables(messageArray[1],Integer.parseInt(messageArray[2]));
+                    ClientView.setFullViewVariables(messageArray[1],Integer.parseInt(messageArray[2]));
                     cli.checkTurn();
+                    cli.refresh(cli);
                 }
             }
             case "START" -> {
@@ -77,8 +78,7 @@ public class SocketClient extends Thread {
             }
             case "WAIT" -> {
                 if (cli != null) {
-                    //TODO: need jsonInfo
-                    Storage.convertBackMatchInfo(messageArray[1]);
+                    ClientView.convertBackMatchInfo(messageArray[1]);
                     cli.setGAME_ON(false);
                     cli.setGO_TO_MENU(false);
                 }
@@ -100,7 +100,7 @@ public class SocketClient extends Thread {
 
             }
             case "VirtualHand" -> {
-                Storage.convertBackHand(messageArray[1]);
+                ClientView.convertBackHand(messageArray[1]);
             }
             default -> System.out.println("Server: " + message);
         }

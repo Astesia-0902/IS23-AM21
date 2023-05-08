@@ -18,12 +18,18 @@ public class GameController {
     public GameController() throws RemoteException {
     }
 
-    public static boolean checkPlayerActionPhase(String username) throws ServerNotActiveException {
+    public static boolean checkPlayerActionPhase(PlayerController  playerController){
+        String username = playerController.getPlayer().getNickname();
         synchronized (GameManager.playerMatchMap) {
             synchronized (GameManager.matchList) {
-                return GameManager.playerMatchMap.containsKey(username) &&
+                if(GameManager.playerMatchMap.containsKey(username)&&
                         username.equals(GameManager.matchList.
-                                get(GameManager.playerMatchMap.get(username)).currentPlayer.getNickname());
+                                get(GameManager.playerMatchMap.get(username)).currentPlayer.getNickname())){
+
+                    return true;
+                }
+                GameManager.sendReply(playerController, ServerMessage.NotYourTurn,false);
+                return  false;
             }
         }
     }
@@ -183,8 +189,8 @@ public class GameController {
      * The existence of the player is cancelled from the GAME.
      * --Note: Before calling this method, removePlayerFromMatch() was already called.
      *
-     * @param ctrl
-     * @return
+     * @param ctrl playerController
+     * @return true if the operation was successful, otherwise false
      */
     public static boolean cancelPlayer(PlayerController ctrl) {
         if (GameManager.players.contains(ctrl.getPlayer())) {
@@ -196,23 +202,23 @@ public class GameController {
     }
 
     public static boolean selectCell(int row, int col, PlayerController playerController) throws ServerNotActiveException {
-        return checkPlayerActionPhase(playerController.getPlayer().getNickname()) && playerController.selectCell(row, col);
+        return checkPlayerActionPhase(playerController) && playerController.selectCell(row, col);
     }
 
-    public static boolean confirmSelection(PlayerController playerController) throws ServerNotActiveException {
-        return checkPlayerActionPhase(playerController.getPlayer().getNickname()) && playerController.callEndSelection();
+    public static boolean confirmSelection(PlayerController playerController)  {
+        return checkPlayerActionPhase(playerController) && playerController.callEndSelection();
     }
 
     public static boolean insertInColumn(int colNum, PlayerController playerController) throws ServerNotActiveException {
-        return checkPlayerActionPhase(playerController.getPlayer().getNickname()) && playerController.tryToInsert(colNum);
+        return checkPlayerActionPhase(playerController) && playerController.tryToInsert(colNum);
     }
 
-    public static boolean deselectCards(PlayerController playerController) throws ServerNotActiveException {
-        return checkPlayerActionPhase(playerController.getPlayer().getNickname()) && playerController.clearSelectedCards();
+    public static boolean deselectCards(PlayerController playerController)  {
+        return checkPlayerActionPhase(playerController) && playerController.clearSelectedCards();
     }
 
-    public static boolean sortHand(int pos1, int pos2, PlayerController playerController) throws ServerNotActiveException {
-        return checkPlayerActionPhase(playerController.getPlayer().getNickname()) && playerController.changeHandOrder(pos1, pos2);
+    public static boolean sortHand(int pos1, int pos2, PlayerController playerController)  {
+        return checkPlayerActionPhase(playerController) && playerController.changeHandOrder(pos1, pos2);
     }
 
     public static boolean leaveMatch(PlayerController playerController) {
@@ -305,8 +311,8 @@ public class GameController {
         CommunicationController.instance.sendMessageToClient(message,false , playerController);
     }
 
-    public static boolean endTurn(PlayerController playerController) throws ServerNotActiveException {
-        if (checkPlayerActionPhase(playerController.getPlayer().getNickname())) {
+    public static boolean endTurn(PlayerController playerController)  {
+        if (checkPlayerActionPhase(playerController)) {
             playerController.callEndInsertion();
             return true;
         }
