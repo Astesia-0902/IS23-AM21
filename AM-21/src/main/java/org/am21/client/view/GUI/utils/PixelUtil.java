@@ -1,14 +1,16 @@
 package org.am21.client.view.GUI.utils;
 
+import java.awt.*;
+
 public class PixelUtil {
     /**
      * screen size util
      */
-   /* public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     public static int pcWidth = (int) screenSize.getWidth();
-    public static int pcHeight = (int) screenSize.getHeight();*/
-    public static int pcWidth = 1680;
-    public static int pcHeight = 1050;
+    public static int pcHeight = (int) screenSize.getHeight();
+    //public static int pcWidth = 1680;
+    //public static int pcHeight = 1050;
 
     /**
      * dimension util

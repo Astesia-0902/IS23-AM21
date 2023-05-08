@@ -198,7 +198,7 @@ public class Gui implements View {
 
     public static void main(String[] args) {
         try {
-            new Gui().askMenuAction();
+            new Gui().init();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -526,7 +526,6 @@ public class Cli implements View {
             //iClientInputHandler.joinGame(matchID);
             //TODO new
             if (commCtrl.joinGame(matchID)) {
-                System.out.println("Primooo");
                 //readLine();
                 return true;
             } else {
@@ -1083,9 +1082,9 @@ public class Cli implements View {
     @Override
     public void showEndGameToken() {
         if (ClientView.endGameToken) {
-            System.out.println("The EndGame Token is taken, it's the last round!");
-        } else {
             System.out.println("The EndGame Token is still available. Good Luck!");
+        } else {
+            System.out.println("The EndGame Token is taken, it's the last round!");
         }
         System.out.println();
     }
@@ -1115,7 +1114,9 @@ public class Cli implements View {
                     case "cgoal", "cg" -> showCommonGoals();
                     case "shelf", "sh" -> {
                         showPlayerShelf();
+                        askToContinue();
                         showGroupPoints();
+                        askToContinue();
                     }
                     case "board", "bo" -> showBoard();
                     case "stats", "st" -> showPlayersStats();

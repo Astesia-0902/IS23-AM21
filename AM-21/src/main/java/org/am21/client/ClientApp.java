@@ -1,5 +1,6 @@
 package org.am21.client;
 
+import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.TUI.Cli;
 
 import java.net.MalformedURLException;
@@ -10,10 +11,18 @@ import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
 public class ClientApp {
-    public static void main(String[] args) throws MalformedURLException, NotBoundException, ServerNotActiveException, ExecutionException, RemoteException {
-        Cli cli = new Cli();
+    public static void main(String[] args) throws Exception {
 
-        run(cli);
+
+        if(args.length>0 && args[0].equals("tui")){
+            Cli cli = new Cli();
+            run(cli);
+        }else{
+            Gui gui = new Gui();
+            gui.init();
+          //java -jar nomefile.jar -tui
+        }
+
         //runCliTest(cli);
 
     }

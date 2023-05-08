@@ -497,13 +497,12 @@ public class Match {
     public void updateVirtualHand() {
         for (Player p : playerList) {
             //TODO: Watch out for test
-            if (p.getController().clientInput.callBack != null) {
+//            if (p.getController().clientInput.callBack != null) {
                 //TODO: new Protocol
                 CommunicationController.instance.sendVirtualHand(getJSONHand(), p.getController());
 
                 //OLD RMI
-                //p.getController().clientInput.callBack.sendVirtualHand(getJSONHand());
-            }
+                //p.getController().clientInput.callBack.sendVirtualHand(getJSONHand());}
         }
     }
 

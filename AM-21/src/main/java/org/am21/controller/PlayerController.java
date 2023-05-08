@@ -52,6 +52,14 @@ public class PlayerController {
         this.connectionType = ConnectionType.RMI;
     }
 
+    public PlayerController(String nickname, ClientHandlerSocket clientSocket) {
+        this.player = new Player(nickname, this);
+        this.hand = new Hand(this.player);
+        this.player.setHand(this.hand);
+        this.clientHandlerSocket = clientSocket;
+        this.connectionType = ConnectionType.SOCKET;
+    }
+
     public Player getPlayer() {
         return player;
     }
@@ -355,7 +363,7 @@ public class PlayerController {
      * Check if the cell is already selected by iterating the hand
      *
      * @param r coordinate x of the board
-     * @param c coordinate y of the board
+     * @param c coordinate y of the boar
      * @return the CardPointer of the item already selected, otherwise null
      */
     public CardPointer isAlreadySelected(int r, int c) {

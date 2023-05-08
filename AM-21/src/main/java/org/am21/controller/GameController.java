@@ -25,7 +25,6 @@ public class GameController {
                 if(GameManager.playerMatchMap.containsKey(username)&&
                         username.equals(GameManager.matchList.
                                 get(GameManager.playerMatchMap.get(username)).currentPlayer.getNickname())){
-
                     return true;
                 }
                 GameManager.sendReply(playerController, ServerMessage.NotYourTurn,false);
@@ -42,7 +41,6 @@ public class GameController {
      */
     public static boolean login(String username, PlayerController playerController) {
         if (GameManager.checkNameSake(username)) {
-            //TODO:send message to client when client don't have a PlayerController
             return false;
         }
 
