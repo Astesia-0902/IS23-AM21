@@ -10,31 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="61ec0ccc-6fec-4805-91df-bde52ce4f01d" name="Changes" comment="update Cli">
-      <change afterPath="$PROJECT_DIR$/AM-21/fonts/Boisu-Fill-4.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/fonts/Boisu-Full-3.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/fonts/Boisu-Stroke-2.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/fonts/Brizel-2.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/fonts/Hamurz-Free-Version-1.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/fonts/Hamurz-Free-Version-2.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/fonts/KaushanScript-Regular-1.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/fonts/Klipan-Black-2.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/fonts/Leira-Lite-2.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/fonts/PippaHandwriting-Regular-2.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/fonts/PippaHandwriting-Regular-3.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/fonts/Sunday-Regular-2.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/fonts/Sunday-Regular-3.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/fonts/Twenty-Regular-2.otf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/component/CustomButtonUI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/utils/FontUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/utils/ButtonUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/utils/IconUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/ChatDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/ChatDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/CommunicationInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/CommunicationInterface.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/LoginInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/LoginInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/MaxSeatsDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/MaxSeatsDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/MenuActionInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/MenuActionInterface.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/ServerInfoInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/ServerInfoInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/component/ButtonColorUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/component/ButtonColorUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/utils/PathUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/utils/PathUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/WaitingRoomInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/WaitingRoomInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/MenuActionListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/MenuActionListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/WaitingRoomListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/WaitingRoomListener.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -243,7 +228,7 @@
       <module name="IS23-AM21" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.am21.client.view.GUI.component.*" />
+          <option name="PATTERN" value="org.am21.client.view.GUI.utils.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
