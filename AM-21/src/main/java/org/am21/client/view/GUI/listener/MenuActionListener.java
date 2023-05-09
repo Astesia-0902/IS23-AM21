@@ -190,7 +190,7 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
             gui.menuActionInterface.chatDialog.closeLabel.setIcon(gui.menuActionInterface.chatDialog.closeIconSelect);
         }
         if (e.getSource() == gui.menuActionInterface.chatDialog.sendButton) {
-            gui.menuActionInterface.exitButton.setBackground(new Color(243, 214, 253));
+            gui.menuActionInterface.chatDialog.sendButton.setBackground(new Color(243, 214, 253));
         }
     }
 
@@ -219,7 +219,7 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
             gui.menuActionInterface.chatDialog.closeLabel.setIcon(gui.menuActionInterface.chatDialog.closeIcon);
         }
         if (e.getSource() == gui.menuActionInterface.chatDialog.sendButton) {
-            gui.menuActionInterface.exitButton.setBackground(new Color(178, 173, 204, 230));
+            gui.menuActionInterface.chatDialog.sendButton.setBackground(new Color(178, 173, 204, 230));
         }
     }
 

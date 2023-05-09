@@ -1,8 +1,7 @@
 package org.am21.client.view.GUI.Interface;
 
 import org.am21.client.view.GUI.component.BackGroundPanel;
-import org.am21.client.view.GUI.component.ButtonColorUI;
-import org.am21.client.view.GUI.utils.FontUtil;
+import org.am21.client.view.GUI.utils.ButtonUtil;
 import org.am21.client.view.GUI.utils.PathUtil;
 
 import javax.imageio.ImageIO;
@@ -48,15 +47,7 @@ public class LoginInterface extends JDialog {
 
 
         // Login Button
-        loginButton = new JButton("Login");
-        loginButton.setForeground(new Color(139, 69, 19));
-        loginButton.setBackground(new Color(222, 184, 135));
-        loginButton.setUI(new ButtonColorUI(new Color(245, 225, 199)));
-        loginButton.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 250, 205),
-                new Color(255, 250, 205), new Color(139, 69, 19), new Color(139, 69, 19)));
-        //loginButton.setBorder(new MatteBorder(0, 0, 5, 6, new Color(139, 69, 19)));
-        //loginButton.setFont(new Font("Tempus Sans ITC", Font.BOLD, 18));
-        loginButton.setFont(FontUtil.getFontByName("Leira-Lite-2").deriveFont(Font.PLAIN,20));
+        loginButton = ButtonUtil.getButton("Login");
         loginButton.setBounds(254, 320, 82, 33);
         getContentPane().add(loginButton);
 

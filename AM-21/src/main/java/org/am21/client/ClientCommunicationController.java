@@ -305,7 +305,7 @@ public class ClientCommunicationController {
 
     }
 
-    //TODO:
+    //TODO: no need just view ClientView in CLI
     public void openChat() {
         if (ClientController.isRMI) {
             try {

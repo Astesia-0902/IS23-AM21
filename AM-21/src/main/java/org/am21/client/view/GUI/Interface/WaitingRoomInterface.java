@@ -1,13 +1,12 @@
 package org.am21.client.view.GUI.Interface;
 
 import org.am21.client.view.GUI.component.BackGroundPanel;
-import org.am21.client.view.GUI.component.ButtonColorUI;
+import org.am21.client.view.GUI.utils.ButtonUtil;
 import org.am21.client.view.GUI.utils.FontUtil;
 import org.am21.client.view.GUI.utils.PathUtil;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -20,6 +19,16 @@ public class WaitingRoomInterface extends JDialog {
     public final JButton leaveButton;
     public final JButton ruleButton;
     public final JButton settingButton;
+    public final ImageIcon chatIcon;
+    public final JButton chatButton;
+    public final ImageIcon chatIconColor;
+    public final ImageIcon onlineIcon;
+    public final JButton onlineButton;
+    public final ImageIcon onlineIconColor;
+    public final ImageIcon helpIcon;
+    public final ImageIcon helpIconColor;
+    public final JButton helpButton;
+    public final ChatDialog chatDialog;
 
     public RuleDialog ruleDialog;
 
@@ -49,46 +58,56 @@ public class WaitingRoomInterface extends JDialog {
 
 
         // Leave Button
-        leaveButton = new JButton("Leave");
-        leaveButton.setForeground(new Color(139, 69, 19));
-        leaveButton.setBackground(new Color(237, 179, 137));
-        leaveButton.setUI(new ButtonColorUI(new Color(245, 225, 199)));
-        leaveButton.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 250, 205),
-                new Color(255, 250, 205), new Color(139, 69, 19), new Color(139, 69, 19)));
-        //leaveButton.setFont(new Font("Tempus Sans ITC", Font.BOLD, 18));
-        leaveButton.setFont(FontUtil.getFontByName("Leira-Lite-2").deriveFont(Font.PLAIN,20));
+        leaveButton = ButtonUtil.getButton("Leave");
         leaveButton.setBounds(254, 280, 82, 33);
         getContentPane().add(leaveButton);
 
         // Rules Button
-        ruleButton = new JButton("Rule");
-        ruleButton.setContentAreaFilled(false);
-        ruleButton.setBorder(null);
-        ruleButton.setFocusPainted(false);
-        ruleButton.setBounds(100,55 , 100, 100);
-        ruleButton.setForeground(new Color(237, 179, 137));
-        //ruleButton.setFont(new Font("Tempus Sans ITC", Font.PLAIN, 26));
-        ruleButton.setFont(FontUtil.getFontByName("Leira-Lite-2").deriveFont(Font.PLAIN,20));
-        ruleButton.setOpaque(false);
+        ruleButton = ButtonUtil.getCommandButton("Rule");
+        ruleButton.setBounds(130,95 , 50, 20);
         getContentPane().add(ruleButton);
 
         // Setting Button
-        settingButton = new JButton("Settings");
-        settingButton.setContentAreaFilled(false);
-        settingButton.setBorder(null);
-        settingButton.setFocusPainted(false);
-        settingButton.setBounds(390,55 , 100, 100);
-        settingButton.setForeground(new Color(237, 179, 137));
-        //settingButton.setFont(new Font("Tempus Sans ITC", Font.PLAIN, 26));
-        settingButton.setFont(FontUtil.getFontByName("Leira-Lite-2").deriveFont(Font.PLAIN,20));
-        settingButton.setOpaque(false);
+        settingButton = ButtonUtil.getCommandButton("Settings");
+        settingButton.setBounds(390,95 , 80, 20);
         getContentPane().add(settingButton);
+
+        chatIcon = new ImageIcon(PathUtil.getPath("icon tool/chat (2).png"));
+        chatIconColor = new ImageIcon(PathUtil.getPath("icon tool/chatColor.png"));
+        chatButton = new JButton(chatIcon);
+        chatButton.setBounds(220, 85, 35, 35);
+        chatButton.setContentAreaFilled(false);
+        chatButton.setBorder(null);
+        chatButton.setFocusPainted(false);
+        getContentPane().add(chatButton);
+
+        onlineIcon = new ImageIcon(PathUtil.getPath("icon tool/online.png"));
+        onlineIconColor = new ImageIcon(PathUtil.getPath("icon tool/onlineColor.png"));
+        onlineButton = new JButton(onlineIcon);
+
+        onlineButton.setContentAreaFilled(false);
+        onlineButton.setBorder(null);
+        onlineButton.setFocusPainted(false);
+        onlineButton.setBounds(280, 85, 35, 35);
+        getContentPane().add(onlineButton);
+
+        helpIcon = new ImageIcon(PathUtil.getPath("icon tool/help.png"));
+        helpIconColor = new ImageIcon(PathUtil.getPath("icon tool/helpColor.png"));
+        helpButton = new JButton(helpIcon);
+        helpButton.setBounds(340, 85, 35, 35);
+        helpButton.setContentAreaFilled(false);
+        helpButton.setBorder(null);
+        helpButton.setFocusPainted(false);
+        getContentPane().add(helpButton);
+
+
 
         backGroundPanel.setBorder(new MatteBorder(5, 5, 5, 5,
                 new Color(139, 69, 19)));
         add(backGroundPanel);
 
         ruleDialog = new RuleDialog();
+        chatDialog = new ChatDialog();
 
         setBounds(0,0,WIDTH,HEIGHT);
         setUndecorated(true);
