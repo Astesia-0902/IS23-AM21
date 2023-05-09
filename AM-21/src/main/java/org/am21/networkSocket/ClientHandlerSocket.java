@@ -137,7 +137,11 @@ public class ClientHandlerSocket extends Thread {
                     throw new RuntimeException(e);
                 }
                 break;
-
+            case "sendPlayerMessage":
+                String playerMessage = messageParts[2];
+                String receiver = messageParts[1];
+                CommunicationController.instance.returnBool("sendPlayerMessage",GameController.sendPlayerMessage(playerMessage,receiver,myPlayer,false),myPlayer);
+                break;
             case "printOnlinePlayers":
                 GameController.printOnlinePlayers(myPlayer);
                 CommunicationController.instance.returnBool("printOnlinePlayers",true,myPlayer);

@@ -34,8 +34,8 @@ public class VirtualView implements Serializable {
     public List<Integer> hiddenPoints;
     public List<String> gameResults;
     //---------------------------------------
-    public String publicChat;
-    public List<String> privateChats;
+    public List<String> publicChat;
+    public List<List<String>> privateChats;
     //---------------
 
     //Since we don't process the goal logic on the client side, we don't need to send the goal to the client.
@@ -46,19 +46,19 @@ public class VirtualView implements Serializable {
     public List<Integer> personalGoals;
 
 
-    public String getPublicChat() {
+    public List<String> getPublicChat() {
         return publicChat;
     }
 
-    public void setPublicChat(String publicChat) {
+    public void setPublicChat(List<String> publicChat) {
         this.publicChat = publicChat;
     }
 
-    public List<String> getPrivateChats() {
+    public List<List<String>> getPrivateChats() {
         return privateChats;
     }
 
-    public void setPrivateChats(List<String> privateChats) {
+    public void setPrivateChats(List<List<String>> privateChats) {
         this.privateChats = privateChats;
     }
 

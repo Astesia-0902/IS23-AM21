@@ -60,7 +60,6 @@ public class VirtualViewHelper {
         match.virtualView.setShelves(shelves);
         match.virtualView.setScores(scores);
         match.virtualView.setHiddenPoints(hiddenPoints);
-
         match.virtualView.gameResults = tmp;
     }
 
@@ -91,7 +90,6 @@ public class VirtualViewHelper {
         match.virtualView.setShelves(shelves);
     }
 
-    //TODO: setShelf that update just currentPlayer shelves (called at the end of his turn)
 
     /**
      * This method will virtualize the shelves and put them in the Virtual View
@@ -321,19 +319,26 @@ public class VirtualViewHelper {
      * @param chat
      */
     public static void virtualizePublicChat(Match m, List<String> chat) {
-        String chatString = "";
-
-        for (String line : m.chatManager.chatMessages) {
-            chatString += line + "\n";
-        }
-        m.virtualView.setPublicChat(chatString);
+        List<String> tmpChat = new ArrayList<>();
+        tmpChat.addAll(chat);
+        m.virtualView.setPublicChat(tmpChat);
     }
 
-    public String convertPublicChatToJSON(VirtualView v) {
+    public static String convertPublicChatToJSON(VirtualView v) {
         return JSON.toJSONString(v.getPublicChat());
     }
 
     public static void virtualizePrivateChats(Match m, List<List<String>> chats) {
+        List<List<String>> tmpChats = new ArrayList<>();
+        for(List<String> chat : chats){
+            List<String> tmpPrivateChat = new ArrayList<>();
+            tmpPrivateChat.addAll(chat);
+            tmpChats.add(tmpPrivateChat);
+        }
+        m.virtualView.setPrivateChats(tmpChats);
+    }
 
+    public static String convertPrivateChats(VirtualView v){
+        return JSON.toJSONString(v.getPrivateChats());
     }
 }

@@ -95,5 +95,15 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
         ClientView.convertBackHand(JSONHand);
     }
 
+    @Override
+    public void sendVirtualPublicChat(String virtualPublicChat) throws RemoteException {
+
+    }
+
+    @Override
+    public void sendVirtualPrivateChats(String virtualPrivateChats) throws RemoteException {
+
+    }
+
 
 }

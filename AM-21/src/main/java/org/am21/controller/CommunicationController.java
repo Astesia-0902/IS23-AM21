@@ -40,6 +40,34 @@ public class CommunicationController implements ICommunication {
         }
     }
 
+    public void sendVirtualPublicChat(String virtualPublicChat, PlayerController pCtrl){
+        if (pCtrl.connectionType == ConnectionType.RMI) {
+            try {
+                pCtrl.clientInput.callBack.sendVirtualPublicChat(virtualPublicChat);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        } else if(pCtrl.connectionType == ConnectionType.SOCKET){
+            String messageToClient = "VirtualView" + "|" + virtualPublicChat;
+            pCtrl.clientHandlerSocket.callback(messageToClient);
+        }
+
+    }
+
+    public void sendVirtualPrivateChat(String virtualPrivateChats, PlayerController pCtrl){
+        if (pCtrl.connectionType == ConnectionType.RMI) {
+            try {
+                pCtrl.clientInput.callBack.sendVirtualPrivateChats(virtualPrivateChats);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        } else if(pCtrl.connectionType == ConnectionType.SOCKET){
+            String messageToClient = "VirtualView" + "|" + virtualPrivateChats;
+            pCtrl.clientHandlerSocket.callback(messageToClient);
+        }
+
+
+    }
     @Override
     public void sendChatMessage(String message, PlayerController myPlayer) {
         if (myPlayer.connectionType == ConnectionType.RMI) {

@@ -13,5 +13,9 @@ public interface IClientCallBack extends Remote {
     void notifyGoToMenu() throws RemoteException;
     void notifyEndMatch() throws RemoteException;
     void sendVirtualHand(String JSONHand) throws RemoteException;
+
+    void sendVirtualPublicChat(String virtualPublicChat) throws RemoteException;
+
+    void sendVirtualPrivateChats(String virtualPrivateChats) throws RemoteException;
     //TODO: testClientConnection
 }

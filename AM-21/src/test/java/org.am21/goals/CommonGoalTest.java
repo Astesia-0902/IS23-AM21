@@ -27,7 +27,7 @@ public class CommonGoalTest {
 
     @BeforeEach
     void setUp() {
-        c = new PlayerController("A",null);
+        c = new PlayerController("A",null,null);
         s = new Shelf(c.getPlayer());
     }
 

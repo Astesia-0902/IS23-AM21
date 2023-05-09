@@ -27,6 +27,14 @@ public class ChatManager {
         this.match = match;
     }
 
+    public List<List<String>> getPrivateChats() {
+        return privateChats;
+    }
+
+    public HashMap<String, Integer> getChatMap() {
+        return chatMap;
+    }
+
     /**
      * send the message to all players
      *
@@ -197,6 +205,8 @@ public class ChatManager {
         }
         return null;
     }
+
+
 
 
 

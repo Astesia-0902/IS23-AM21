@@ -427,12 +427,12 @@ public class Match {
 
         for (Player p : playerList) {
             //TODO: Watch out for test
-            if (p.getController().clientInput != null || p.getController().clientHandlerSocket != null) {
+            //if (p.getController().clientInput != null || p.getController().clientHandlerSocket != null) {
                 //TODO: new Protocol
                 CommunicationController.instance.sendVirtualView(getJSONVirtualView(), playerList.indexOf(p), p.getController());
                 //OLD RMI
                 //p.getController().clientInput.callBack.sendVirtualView(getJSONVirtualView(), playerList.indexOf(p));
-            }
+            //}
         }
     }
 
@@ -527,7 +527,6 @@ public class Match {
         VirtualViewHelper.virtualizeCurrentPlayerHand(this);
         VirtualViewHelper.virtualizeBoard(this);
         updatePlayersView();
-
     }
 
     /**
@@ -538,7 +537,6 @@ public class Match {
         VirtualViewHelper.virtualizeCurrentPlayerHand(this);
         VirtualViewHelper.updateVirtualShelves(this);
         updatePlayersView();
-
     }
 
     public void sortUpdate() {
@@ -565,17 +563,49 @@ public class Match {
             //Sent to Group chat
             chatManager.handlePublicChatMessage(sender,message);
             String formalMessage=sender.getNickname() + " says > " + message;
+            VirtualViewHelper.virtualizePublicChat(this,chatManager.getChatMessages());
             sendTextToAll(formalMessage,false,true);
         }else {
             if(!chatManager.handlePrivateChatMessage(sender,receiver,message)){
                 return false;
             }
             String formalMessage=sender.getNickname() + " whispers > " + message;
+            VirtualViewHelper.virtualizePrivateChats(this, chatManager.getPrivateChats());
             GameManager.sendTextReply(chatManager.isMember(receiver).getController(),formalMessage,true);
         }
-
+        updatePlayersChats();
         return true;
     }
 
+    /**
+     * Use when Client keeps the Chat open
+     * @param sender
+     * @param receiver
+     * @param message
+     * @return
+     */
+    public boolean liveChat(Player sender, String receiver, String message){
+        if(receiver.equals("")){
+            //Sent to Group chat
+            chatManager.handlePublicChatMessage(sender,message);
+            VirtualViewHelper.virtualizePublicChat(this,chatManager.getChatMessages());
+        }else {
+            if(!chatManager.handlePrivateChatMessage(sender,receiver,message)){
+                return false;
+            }
+            VirtualViewHelper.virtualizePrivateChats(this, chatManager.getPrivateChats());
+        }
+        updatePlayersChats();
+        return true;
+
+    }
+
+
+    public void updatePlayersChats(){
+        for (Player p : playerList) {
+            CommunicationController.instance.sendVirtualPublicChat(VirtualViewHelper.convertPublicChatToJSON(virtualView),p.getController());
+            CommunicationController.instance.sendVirtualPrivateChat(VirtualViewHelper.convertPrivateChats(virtualView),p.getController());
+        }
+    }
 
 }
