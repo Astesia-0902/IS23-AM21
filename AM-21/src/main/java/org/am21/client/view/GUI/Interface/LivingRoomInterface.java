@@ -23,6 +23,7 @@ public class LivingRoomInterface extends JFrame {
         super("living room");
 
         try{
+
             livingRoomPane = new JLayeredPane();
             livingRoomPane.setBounds(0,0, PixelUtil.pcWidth,PixelUtil.pcHeight);
 

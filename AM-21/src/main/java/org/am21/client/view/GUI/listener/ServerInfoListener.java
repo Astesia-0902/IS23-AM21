@@ -1,6 +1,7 @@
 package org.am21.client.view.GUI.listener;
 
 import org.am21.client.view.GUI.Gui;
+import org.am21.client.view.GUI.utils.ImageUtil;
 
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -35,10 +36,14 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
             String port = gui.serverInfoInterface.portField.getText().trim();
 
             if (address.isEmpty() || port.isEmpty()) {
-                gui.serverInfoInterface.addressField.setBorder(new CompoundBorder(new MatteBorder(3, 3, 3, 3,
-                        new Color(178, 34, 34)), new EmptyBorder(0, 50, 0, 0)));
-                gui.serverInfoInterface.portField.setBorder(new CompoundBorder(new MatteBorder(3, 3, 3, 3,
-                        new Color(178, 34, 34)), new EmptyBorder(0, 50, 0, 0)));
+                gui.serverInfoInterface.addressField.setBorder(new CompoundBorder(new MatteBorder
+                        (ImageUtil.resizeY(3), ImageUtil.resizeX(3), ImageUtil.resizeY(3),
+                                ImageUtil.resizeX(3), new Color(178, 34, 34)),
+                        new EmptyBorder(0, ImageUtil.resizeX(3), 0, 0)));
+                gui.serverInfoInterface.portField.setBorder(new CompoundBorder(new MatteBorder
+                        (ImageUtil.resizeY(3), ImageUtil.resizeX(3), ImageUtil.resizeY(3),
+                                ImageUtil.resizeX(3), new Color(178, 34, 34)),
+                        new EmptyBorder(0, ImageUtil.resizeX(50), 0, 0)));
             } else {
 
 
@@ -56,6 +61,7 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
 
         }
     }
+
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == gui.serverInfoInterface.closeLabel) {
@@ -64,7 +70,7 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
         if (e.getSource() == gui.serverInfoInterface.minusLabel) {
             gui.frame.setExtendedState(Frame.ICONIFIED); // minimize window
         }
-        if (e.getSource() == gui.serverInfoInterface.returnLabel){      // return to select communication
+        if (e.getSource() == gui.serverInfoInterface.returnLabel) {      // return to select communication
             try {
                 gui.serverInfoInterface.setVisible(false);
                 gui.init();
@@ -72,7 +78,7 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
                 throw new RuntimeException(ex);
             }
         }
-        if (e.getSource() == gui.serverInfoInterface){
+        if (e.getSource() == gui.serverInfoInterface) {
             gui.serverInfoInterface.confirmButton.requestFocus();
         }
     }

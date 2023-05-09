@@ -7,7 +7,7 @@ import javax.swing.border.BevelBorder;
 import java.awt.*;
 
 public class ButtonUtil {
-    private String s = "";
+    private final String s = "";
     public static JButton button;
 
     public static JButton getButton(String s) {
@@ -16,7 +16,7 @@ public class ButtonUtil {
         button.setUI(new ButtonColorUI(new Color(245, 225, 199)));
         button.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 250, 205),
                 new Color(255, 250, 205), new Color(139, 69, 19), new Color(139, 69, 19)));
-        button.setFont(FontUtil.getFontByName("Leira-Lite-2").deriveFont(Font.PLAIN,20));
+        button.setFont(FontUtil.getFontByName("Leira-Lite-2").deriveFont(Font.PLAIN,ImageUtil.resizeX(20)));
         button.setForeground(new Color(139, 69, 19));
         button.setText(s);
         return button;
@@ -28,7 +28,7 @@ public class ButtonUtil {
         button.setBorder(null);
         button.setFocusPainted(false);
         button.setForeground(new Color(237, 179, 137));
-        button.setFont(FontUtil.getFontByName("Leira-Lite-2").deriveFont(Font.PLAIN,20));
+        button.setFont(FontUtil.getFontByName("Leira-Lite-2").deriveFont(Font.PLAIN,ImageUtil.resizeX(20)));
         button.setOpaque(false);
         return button;
     }

@@ -1,6 +1,7 @@
 package org.am21.client.view.GUI.listener;
 
 import org.am21.client.view.GUI.Gui;
+import org.am21.client.view.GUI.utils.ImageUtil;
 
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -33,8 +34,10 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
             String username = gui.loginInterface.nicknameField.getText().trim();
 
             if (username.isEmpty()) {
-                gui.loginInterface.nicknameField.setBorder(new CompoundBorder(new MatteBorder(3, 3, 5, 5,
-                new Color(178, 34, 34)), new EmptyBorder(0, 50, 0, 0)));
+                gui.loginInterface.nicknameField.setBorder(new CompoundBorder(new MatteBorder
+                        (ImageUtil.resizeY(3), ImageUtil.resizeX(3), ImageUtil.resizeY(5),
+                                ImageUtil.resizeX(5),new Color(178, 34, 34)),
+                        new EmptyBorder(0, ImageUtil.resizeX(50), 0, 0)));
 
             } else {
                 //TODO:ClientInputHandle...

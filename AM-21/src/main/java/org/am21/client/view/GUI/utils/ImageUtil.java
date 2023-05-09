@@ -9,7 +9,7 @@ public class ImageUtil {
         return new ImageIcon(new ImageIcon(PathUtil.getPath("boards/bookshelf_orth.png")).getImage().getScaledInstance(height,width, Image.SCALE_SMOOTH));
     }
 
-    public static ImageIcon getBoardImage(String name){
+    public static ImageIcon getBoardImage(String name) {
         return switch (name) {
             case "backGround" ->
                     new ImageIcon(new ImageIcon(PathUtil.getPath("misc/sfondo parquet.jpg")).getImage().getScaledInstance(PixelUtil.pcWidth, PixelUtil.pcHeight, Image.SCALE_SMOOTH));
@@ -40,7 +40,8 @@ public class ImageUtil {
             default -> null;
         };
     }
-    public static ImageIcon getCommonGoalCardImage(String nameCard){
+
+    public static ImageIcon getCommonGoalCardImage(String nameCard) {
         return switch (nameCard) {
             case "2Columns" ->
                     new ImageIcon(new ImageIcon(PathUtil.getPath("common goal cards/2.jpg")).getImage().getScaledInstance(PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH, Image.SCALE_SMOOTH));
@@ -70,7 +71,7 @@ public class ImageUtil {
         };
     }
 
-    public static ImageIcon getPersonalGoalCardImage(String nameCard){
+    public static ImageIcon getPersonalGoalCardImage(String nameCard) {
         return switch (nameCard) {
             case "Goals1" ->
                     new ImageIcon(new ImageIcon(PathUtil.getPath("personal goal cards/Personal_Goals1.png")).getImage().getScaledInstance(PixelUtil.personalGoalCardW, PixelUtil.personalGoalCardH, Image.SCALE_SMOOTH));
@@ -100,7 +101,7 @@ public class ImageUtil {
         };
     }
 
-    public static ImageIcon getItemImage(String image,int width,int height){
+    public static ImageIcon getItemImage(String image, int width, int height) {
         return switch (image) {
             case "books1" ->
                     new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Books1.1.png")).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
@@ -138,13 +139,12 @@ public class ImageUtil {
                     new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Trophies1.2.png")).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
             case "trophies3" ->
                     new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Trophies1.3.png")).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-            default ->
-                   null;
+            default -> null;
         };
 
     }
 
-    public static ImageIcon getScoreTokenImage(int value){
+    public static ImageIcon getScoreTokenImage(int value) {
         return switch (value) {
             case 1 ->
                     new ImageIcon(new ImageIcon(PathUtil.getPath("scoring tokens/end game.jpg")).getImage().getScaledInstance(PixelUtil.endGameTokenW, PixelUtil.endGameTokenH, Image.SCALE_SMOOTH));
@@ -158,12 +158,21 @@ public class ImageUtil {
                     new ImageIcon(new ImageIcon(PathUtil.getPath("scoring tokens/scoring_8.jpg")).getImage().getScaledInstance(PixelUtil.commonGoalTokenW, PixelUtil.commonGoalTokenH, Image.SCALE_SMOOTH));
             default -> null;
         };
-
     }
 
-    public static ImageIcon getChairManImage(){
+    public static ImageIcon getChairManImage() {
         return new ImageIcon(new ImageIcon(PathUtil.getPath("misc/firstplayertoken.png")).getImage().getScaledInstance(PixelUtil.chairHW, PixelUtil.chairHW, Image.SCALE_SMOOTH));
     }
 
+    public static int resizeX(int element){
+        double size = (double) element / 1800;
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        return (int) (screenSize.width * size);
+    }
+    public static int resizeY(int element){
+        double size = (double) element / 1065;
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        return (int) (screenSize.height * size);
+    }
 
 }

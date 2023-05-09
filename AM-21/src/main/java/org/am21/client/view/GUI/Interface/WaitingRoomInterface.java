@@ -3,14 +3,13 @@ package org.am21.client.view.GUI.Interface;
 import org.am21.client.view.GUI.component.BackGroundPanel;
 import org.am21.client.view.GUI.utils.ButtonUtil;
 import org.am21.client.view.GUI.utils.FontUtil;
-import org.am21.client.view.GUI.utils.PathUtil;
+import org.am21.client.view.GUI.utils.IconUtil;
+import org.am21.client.view.GUI.utils.ImageUtil;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.HashMap;
 
 public class WaitingRoomInterface extends JDialog {
@@ -36,80 +35,75 @@ public class WaitingRoomInterface extends JDialog {
     public WaitingRoomInterface(JFrame frame) throws Exception {
         super(frame);
         frame.setTitle("MyShelfie - Waiting Room");
-        setIconImage(ImageIO.read(new File(PathUtil.getPath("Publisher material/Icon 50x50px.png"))));
 
         //background
         HashMap<BufferedImage, int[]> background = new HashMap<>();
-//        background.put(ImageIO.read(new File(PathUtil.getPath
-//                ("background/Waiting Room BG.png"))), new int[]{-100, -220,800,900});
-        background.put(ImageIO.read(new File(PathUtil.getPath
-                ("background/Waiting Room BG2.png"))), new int[]{-210,-315,980,1050});
+        background.put(IconUtil.getBufferedImage("waitingRoomBG"), new int[]{ImageUtil.resizeX(-210),
+                ImageUtil.resizeY(-315), ImageUtil.resizeX(980), ImageUtil.resizeY(1050)});
         BackGroundPanel backGroundPanel = new BackGroundPanel(background);
 
         // Waiting Players
         JLabel waitingMessage = new JLabel("Waiting Players...");
         waitingMessage.setBorder(null);
-        waitingMessage.setBounds(181,90 , 356, 108);
+        waitingMessage.setBounds(ImageUtil.resizeX(181), ImageUtil.resizeY(90),
+                ImageUtil.resizeX(356), ImageUtil.resizeY(108));
         waitingMessage.setForeground(new Color(237, 179, 137));
-        //waitingMessage.setFont(new Font("Snap ITC", Font.PLAIN, 26));
-        waitingMessage.setFont(FontUtil.getFontByName("KaushanScript-Regular-1").deriveFont(Font.PLAIN,35));
+        waitingMessage.setFont(FontUtil.getFontByName("KaushanScript-Regular-1")
+                .deriveFont(Font.PLAIN, ImageUtil.resizeY(35)));
         waitingMessage.setOpaque(false);
         getContentPane().add(waitingMessage);
 
 
         // Leave Button
         leaveButton = ButtonUtil.getButton("Leave");
-        leaveButton.setBounds(254, 280, 82, 33);
+        leaveButton.setBounds(ImageUtil.resizeX(254), ImageUtil.resizeY(280),
+                ImageUtil.resizeX(82), ImageUtil.resizeY(33));
         getContentPane().add(leaveButton);
 
         // Rules Button
         ruleButton = ButtonUtil.getCommandButton("Rule");
-        ruleButton.setBounds(130,95 , 50, 20);
+        ruleButton.setBounds(ImageUtil.resizeX(130), ImageUtil.resizeY(95),
+                ImageUtil.resizeX(50), ImageUtil.resizeY(20));
         getContentPane().add(ruleButton);
 
         // Setting Button
         settingButton = ButtonUtil.getCommandButton("Settings");
-        settingButton.setBounds(390,95 , 80, 20);
+        settingButton.setBounds(ImageUtil.resizeX(390), ImageUtil.resizeY(95),
+                ImageUtil.resizeX(80), ImageUtil.resizeY(20));
         getContentPane().add(settingButton);
 
-        chatIcon = new ImageIcon(PathUtil.getPath("icon tool/chat (2).png"));
-        chatIconColor = new ImageIcon(PathUtil.getPath("icon tool/chatColor.png"));
-        chatButton = new JButton(chatIcon);
-        chatButton.setBounds(220, 85, 35, 35);
-        chatButton.setContentAreaFilled(false);
-        chatButton.setBorder(null);
-        chatButton.setFocusPainted(false);
+        chatIcon = IconUtil.getIcon("chat");
+        chatIconColor = IconUtil.getIcon("chatSelected");
+        chatButton = ButtonUtil.getCommandButton();
+        chatButton.setIcon(chatIcon);
+        chatButton.setBounds(ImageUtil.resizeX(220), ImageUtil.resizeY(85),
+                ImageUtil.resizeX(35), ImageUtil.resizeY(35));
         getContentPane().add(chatButton);
 
-        onlineIcon = new ImageIcon(PathUtil.getPath("icon tool/online.png"));
-        onlineIconColor = new ImageIcon(PathUtil.getPath("icon tool/onlineColor.png"));
-        onlineButton = new JButton(onlineIcon);
-
-        onlineButton.setContentAreaFilled(false);
-        onlineButton.setBorder(null);
-        onlineButton.setFocusPainted(false);
-        onlineButton.setBounds(280, 85, 35, 35);
+        onlineIcon = IconUtil.getIcon("online");
+        onlineIconColor = IconUtil.getIcon("onlineSelected");
+        onlineButton = ButtonUtil.getCommandButton();
+        onlineButton.setIcon(onlineIcon);
+        onlineButton.setBounds(ImageUtil.resizeX(280), ImageUtil.resizeY(85),
+                ImageUtil.resizeX(35), ImageUtil.resizeY(35));
         getContentPane().add(onlineButton);
 
-        helpIcon = new ImageIcon(PathUtil.getPath("icon tool/help.png"));
-        helpIconColor = new ImageIcon(PathUtil.getPath("icon tool/helpColor.png"));
-        helpButton = new JButton(helpIcon);
-        helpButton.setBounds(340, 85, 35, 35);
-        helpButton.setContentAreaFilled(false);
-        helpButton.setBorder(null);
-        helpButton.setFocusPainted(false);
+        helpIcon = IconUtil.getIcon("help");
+        helpIconColor = IconUtil.getIcon("helpSelected");
+        helpButton = ButtonUtil.getCommandButton();
+        helpButton.setIcon(helpIcon);
+        helpButton.setBounds(ImageUtil.resizeX(340), ImageUtil.resizeY(85),
+                ImageUtil.resizeX(35), ImageUtil.resizeY(35));
         getContentPane().add(helpButton);
 
-
-
-        backGroundPanel.setBorder(new MatteBorder(5, 5, 5, 5,
-                new Color(139, 69, 19)));
+        backGroundPanel.setBorder(new MatteBorder(ImageUtil.resizeY(5), ImageUtil.resizeX(5),
+                ImageUtil.resizeY(5), ImageUtil.resizeX(5), new Color(139, 69, 19)));
         add(backGroundPanel);
 
         ruleDialog = new RuleDialog();
         chatDialog = new ChatDialog();
 
-        setBounds(0,0,WIDTH,HEIGHT);
+        setBounds(0, 0, ImageUtil.resizeX(WIDTH), ImageUtil.resizeY(HEIGHT));
         setUndecorated(true);
         setResizable(false);
         setLocationRelativeTo(null);

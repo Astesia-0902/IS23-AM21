@@ -1,6 +1,8 @@
 package org.am21.client.view.GUI.Interface;
 
-import org.am21.client.view.GUI.utils.PathUtil;
+import org.am21.client.view.GUI.utils.ButtonUtil;
+import org.am21.client.view.GUI.utils.IconUtil;
+import org.am21.client.view.GUI.utils.ImageUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,20 +23,17 @@ public class RuleDialog extends JDialog {
 
     public RuleDialog() {
         setModal(true);
-        setSize(1200, 1000);
-
-        ImageIcon closeIcon = new ImageIcon(PathUtil.getPath("icon tool/close_white.png"));
-        closeLabel = new JLabel(closeIcon);
-        closeLabel.setBounds(1120, 10, 25, 25);
-
+        setSize(ImageUtil.resizeX(1200), ImageUtil.resizeY(1000));
+        closeLabel = new JLabel(IconUtil.getIcon("close_White"));
+        closeLabel.setBounds(ImageUtil.resizeX(1120),ImageUtil.resizeY(10),ImageUtil.resizeX(25),ImageUtil.resizeY(25));
         add(closeLabel);
 
-        rule_1 = new JLabel(new ImageIcon(PathUtil.getPath("background/Rule1 1250x1250.png")));
-        rule_2 = new JLabel(new ImageIcon(PathUtil.getPath("background/Rule2 1250x1250.png")));
-        rule_3 = new JLabel(new ImageIcon(PathUtil.getPath("background/Rule3 1250x1250.png")));
-        rule_4 = new JLabel(new ImageIcon(PathUtil.getPath("background/Rule4 1250x1250.png")));
-        rule_5 = new JLabel(new ImageIcon(PathUtil.getPath("background/Rule5 1250x1250.png")));
-        rule_6 = new JLabel(new ImageIcon(PathUtil.getPath("background/Rule6 1250x1250.png")));
+        rule_1 = new JLabel(IconUtil.getIcon("rule1"));
+        rule_2 = new JLabel(IconUtil.getIcon("rule2"));
+        rule_3 = new JLabel(IconUtil.getIcon("rule3"));
+        rule_4 = new JLabel(IconUtil.getIcon("rule4"));
+        rule_5 = new JLabel(IconUtil.getIcon("rule5"));
+        rule_6 = new JLabel(IconUtil.getIcon("rule6"));
 
         rules = new CardLayout();
         rulesPanel = new JPanel(rules);
@@ -44,18 +43,15 @@ public class RuleDialog extends JDialog {
         rulesPanel.add(rule_4);
         rulesPanel.add(rule_5);
         rulesPanel.add(rule_6);
-        rulesPanel.setBackground(new Color(0,0,0,0));
+        rulesPanel.setBackground(new Color(0, 0, 0, 0));
+        //rulesPanel.setPreferredSize(new Dimension((int) (screenSize.width * 0.8),(int) (screenSize.height * 0.8)));
 
-        leftButton = new JButton(new ImageIcon(PathUtil.getPath("icon tool/left2 (2).png")));
-        leftButton.setContentAreaFilled(false);
-        leftButton.setBorder(null);
-        leftButton.setFocusPainted(false);
+        leftButton = ButtonUtil.getCommandButton();
+        leftButton.setIcon(IconUtil.getIcon("left"));
         leftButton.setOpaque(false);
 
-        rightButton = new JButton(new ImageIcon(PathUtil.getPath("icon tool/right2 (2).png")));
-        rightButton.setContentAreaFilled(false);
-        rightButton.setBorder(null);
-        rightButton.setFocusPainted(false);
+        rightButton = ButtonUtil.getCommandButton();
+        rightButton.setIcon(IconUtil.getIcon("right"));
         rightButton.setOpaque(false);
 
 

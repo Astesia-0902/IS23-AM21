@@ -3,14 +3,12 @@ package org.am21.client.view.GUI.Interface;
 import org.am21.client.view.GUI.component.BackGroundPanel;
 import org.am21.client.view.GUI.utils.ButtonUtil;
 import org.am21.client.view.GUI.utils.IconUtil;
-import org.am21.client.view.GUI.utils.PathUtil;
+import org.am21.client.view.GUI.utils.ImageUtil;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.HashMap;
 
 public class MenuActionInterface extends JDialog {
@@ -35,68 +33,66 @@ public class MenuActionInterface extends JDialog {
     public ImageIcon chatIconColor;
 
     public Timer timer;
-    public MenuActionInterface(JFrame frame) throws Exception{
+
+    public MenuActionInterface(JFrame frame) throws Exception {
         super(frame);
         frame.setTitle("MyShelfie - Menu Action");
-        setIconImage(ImageIO.read(new File(PathUtil.getPath("Publisher material/Icon 50x50px.png"))));
-
         HashMap<BufferedImage, int[]> background = new HashMap<>();
         //background
-        background.put(ImageIO.read(new File(PathUtil.getPath
-                ("background/MenuActionBG.png"))), new int[]{-120, -200, 800, 800});
+        background.put(IconUtil.getBufferedImage("menuActionBG"), new int[]{ImageUtil.resizeX(-120),
+                ImageUtil.resizeY(-200), ImageUtil.resizeX(800), ImageUtil.resizeY(800)});
         BackGroundPanel backGroundPanel = new BackGroundPanel(background);
 
-
         createButton = ButtonUtil.getButton("Create New Match");
-        createButton.setBounds(150, 110, 300, 50);
+        createButton.setBounds(ImageUtil.resizeX(150), ImageUtil.resizeY(110),
+                ImageUtil.resizeX(300), ImageUtil.resizeY(50));
         getContentPane().add(createButton);
 
         joinButton = ButtonUtil.getButton("Join Match");
-        joinButton.setBounds(150, 180, 300, 50);
+        joinButton.setBounds(ImageUtil.resizeX(150), ImageUtil.resizeY(180),
+                ImageUtil.resizeX(300), ImageUtil.resizeY(50));
         getContentPane().add(joinButton);
 
         exitButton = ButtonUtil.getButton("Exit Game");
-        exitButton.setBounds(150, 250, 300, 50);
+        exitButton.setBounds(ImageUtil.resizeX(150), ImageUtil.resizeY(250),
+                ImageUtil.resizeX(300), ImageUtil.resizeY(50));
         getContentPane().add(exitButton);
 
         chatIcon = IconUtil.getIcon("chat");
-        chatIconColor = new ImageIcon(PathUtil.getPath("icon tool/chatColor.png"));
+        chatIconColor = IconUtil.getIcon("chatSelected");
         chatButton = ButtonUtil.getCommandButton();
         chatButton.setIcon(chatIcon);
-        chatButton.setBounds(450, 45, 35, 35);
+        chatButton.setBounds(ImageUtil.resizeX(450), ImageUtil.resizeY(45),
+                ImageUtil.resizeX(35), ImageUtil.resizeY(35));
         getContentPane().add(chatButton);
 
-        onlineIcon = new ImageIcon(PathUtil.getPath("icon tool/online.png"));
-        onlineIconColor = new ImageIcon(PathUtil.getPath("icon tool/onlineColor.png"));
-        onlineButton = new JButton(onlineIcon);
-        onlineButton.setBounds(490, 43, 35, 35);
-        onlineButton.setContentAreaFilled(false);
-        onlineButton.setBorder(null);
-        onlineButton.setFocusPainted(false);
+        onlineIcon = IconUtil.getIcon("online");
+        onlineIconColor = IconUtil.getIcon("onlineSelected");
+        onlineButton = ButtonUtil.getCommandButton();
+        onlineButton.setIcon(onlineIcon);
+        onlineButton.setBounds(ImageUtil.resizeX(490), ImageUtil.resizeY(43),
+                ImageUtil.resizeX(35), ImageUtil.resizeY(35));
         getContentPane().add(onlineButton);
 
-        helpIcon = new ImageIcon(PathUtil.getPath("icon tool/help.png"));
-        helpIconColor = new ImageIcon(PathUtil.getPath("icon tool/helpColor.png"));
-        helpButton = new JButton(helpIcon);
-        helpButton.setBounds(525, 45, 35, 35);
-        helpButton.setContentAreaFilled(false);
-        helpButton.setBorder(null);
-        helpButton.setFocusPainted(false);
+        helpIcon = IconUtil.getIcon("help");
+        helpIconColor = IconUtil.getIcon("helpSelected");
+        helpButton = ButtonUtil.getCommandButton();
+        helpButton.setIcon(helpIcon);
+        helpButton.setBounds(ImageUtil.resizeX(525), ImageUtil.resizeY(45),
+                ImageUtil.resizeX(35), ImageUtil.resizeY(35));
         getContentPane().add(helpButton);
-
-
 
 
         //----------------------Background MENU ACTION---------------------------
 
-        backGroundPanel.setBorder(new MatteBorder(5, 5, 5, 5,
-                new Color(139, 69, 19)));
+        backGroundPanel.setBorder(new MatteBorder(ImageUtil.resizeY(5), ImageUtil.resizeX(5),
+                ImageUtil.resizeY(5), ImageUtil.resizeX(5), new Color(139, 69, 19)));
         add(backGroundPanel);
 
         maxSeatsDialog = new MaxSeatsDialog();
         chatDialog = new ChatDialog();
 
-        setBounds(0,0,WIDTH,HEIGHT);
+        setBounds(0, 0, ImageUtil.resizeX(WIDTH), ImageUtil.resizeY(HEIGHT));
         setUndecorated(true);
         setResizable(false);
         setLocationRelativeTo(null);
