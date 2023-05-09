@@ -1,6 +1,7 @@
 package org.am21.client.view.GUI.Interface;
 
 import org.am21.client.view.GUI.component.BackGroundPanel;
+import org.am21.client.view.GUI.utils.FontUtil;
 import org.am21.client.view.GUI.utils.PathUtil;
 
 import javax.swing.*;
@@ -34,7 +35,8 @@ public class MaxSeatsDialog extends JDialog {
         maxPlayersLabel = new JLabel("Max players");
         maxPlayersLabel.setOpaque(false);
         maxPlayersLabel.setForeground(new Color(139, 69, 19));
-        maxPlayersLabel.setFont(new Font("Tempus Sans ITC", Font.BOLD, 16));
+        //maxPlayersLabel.setFont(new Font("Tempus Sans ITC", Font.BOLD, 16));
+        maxPlayersLabel.setFont(FontUtil.getFontByName("KaushanScript-Regular-1").deriveFont(Font.PLAIN,16));
         maxPlayersLabel.setBounds(10, 10, 90, 29);
         add(maxPlayersLabel);
 

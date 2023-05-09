@@ -1,6 +1,7 @@
 package org.am21.client.view.GUI.Interface;
 
 import org.am21.client.view.GUI.component.ButtonColorUI;
+import org.am21.client.view.GUI.utils.FontUtil;
 import org.am21.client.view.GUI.utils.PathUtil;
 
 import javax.swing.*;
@@ -48,8 +49,8 @@ public class ChatDialog extends JDialog {
         sendButton.setUI(new ButtonColorUI(new Color(83, 46, 91, 230)));
         sendButton.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 250, 205),
                 new Color(255, 250, 205), new Color(139, 69, 19), new Color(139, 69, 19)));
-        sendButton.setFont(new Font("Tempus Sans ITC", Font.BOLD, 18));
-
+        //sendButton.setFont(new Font("Tempus Sans ITC", Font.BOLD, 18));
+        sendButton.setFont(FontUtil.getFontByName("Leira-Lite-2").deriveFont(Font.PLAIN,18));
 
 
         chatPanel = new JPanel();

@@ -2,6 +2,7 @@ package org.am21.client.view.GUI.Interface;
 
 import org.am21.client.view.GUI.component.BackGroundPanel;
 import org.am21.client.view.GUI.component.ButtonColorUI;
+import org.am21.client.view.GUI.utils.FontUtil;
 import org.am21.client.view.GUI.utils.PathUtil;
 
 import javax.imageio.ImageIO;
@@ -41,7 +42,8 @@ public class WaitingRoomInterface extends JDialog {
         waitingMessage.setBorder(null);
         waitingMessage.setBounds(181,90 , 356, 108);
         waitingMessage.setForeground(new Color(237, 179, 137));
-        waitingMessage.setFont(new Font("Snap ITC", Font.PLAIN, 26));
+        //waitingMessage.setFont(new Font("Snap ITC", Font.PLAIN, 26));
+        waitingMessage.setFont(FontUtil.getFontByName("KaushanScript-Regular-1").deriveFont(Font.PLAIN,35));
         waitingMessage.setOpaque(false);
         getContentPane().add(waitingMessage);
 
@@ -53,7 +55,8 @@ public class WaitingRoomInterface extends JDialog {
         leaveButton.setUI(new ButtonColorUI(new Color(245, 225, 199)));
         leaveButton.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 250, 205),
                 new Color(255, 250, 205), new Color(139, 69, 19), new Color(139, 69, 19)));
-        leaveButton.setFont(new Font("Tempus Sans ITC", Font.BOLD, 18));
+        //leaveButton.setFont(new Font("Tempus Sans ITC", Font.BOLD, 18));
+        leaveButton.setFont(FontUtil.getFontByName("Leira-Lite-2").deriveFont(Font.PLAIN,20));
         leaveButton.setBounds(254, 280, 82, 33);
         getContentPane().add(leaveButton);
 
@@ -64,7 +67,8 @@ public class WaitingRoomInterface extends JDialog {
         ruleButton.setFocusPainted(false);
         ruleButton.setBounds(100,55 , 100, 100);
         ruleButton.setForeground(new Color(237, 179, 137));
-        ruleButton.setFont(new Font("Tempus Sans ITC", Font.PLAIN, 26));
+        //ruleButton.setFont(new Font("Tempus Sans ITC", Font.PLAIN, 26));
+        ruleButton.setFont(FontUtil.getFontByName("Leira-Lite-2").deriveFont(Font.PLAIN,20));
         ruleButton.setOpaque(false);
         getContentPane().add(ruleButton);
 
@@ -75,7 +79,8 @@ public class WaitingRoomInterface extends JDialog {
         settingButton.setFocusPainted(false);
         settingButton.setBounds(390,55 , 100, 100);
         settingButton.setForeground(new Color(237, 179, 137));
-        settingButton.setFont(new Font("Tempus Sans ITC", Font.PLAIN, 26));
+        //settingButton.setFont(new Font("Tempus Sans ITC", Font.PLAIN, 26));
+        settingButton.setFont(FontUtil.getFontByName("Leira-Lite-2").deriveFont(Font.PLAIN,20));
         settingButton.setOpaque(false);
         getContentPane().add(settingButton);
 

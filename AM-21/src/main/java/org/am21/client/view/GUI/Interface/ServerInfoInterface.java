@@ -2,6 +2,7 @@ package org.am21.client.view.GUI.Interface;
 
 import org.am21.client.view.GUI.component.BackGroundPanel;
 import org.am21.client.view.GUI.component.ButtonColorUI;
+import org.am21.client.view.GUI.utils.FontUtil;
 import org.am21.client.view.GUI.utils.PathUtil;
 
 import javax.imageio.ImageIO;
@@ -59,7 +60,8 @@ public class ServerInfoInterface extends JDialog {
 
         // Login Button
         confirmButton = new JButton("Confirm");
-        confirmButton.setFont(new Font("Tempus Sans ITC", Font.BOLD, 18));
+        //confirmButton.setFont(new Font("Tempus Sans ITC", Font.BOLD, 18));
+        confirmButton.setFont(FontUtil.getFontByName("Leira-Lite-2").deriveFont(Font.PLAIN,20));
         confirmButton.setForeground(new Color(139, 69, 19));
         confirmButton.setUI(new ButtonColorUI(new Color(245, 225, 199)));
         confirmButton.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 250, 205),

@@ -2,6 +2,7 @@ package org.am21.client.view.GUI.Interface;
 
 import org.am21.client.view.GUI.component.BackGroundPanel;
 import org.am21.client.view.GUI.component.ButtonColorUI;
+import org.am21.client.view.GUI.utils.FontUtil;
 import org.am21.client.view.GUI.utils.PathUtil;
 
 import javax.imageio.ImageIO;
@@ -53,7 +54,8 @@ public class MenuActionInterface extends JDialog {
         createButton.setUI(new ButtonColorUI(new Color(245, 225, 199)));
         createButton.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 250, 205),
                 new Color(255, 250, 205), new Color(139, 69, 19), new Color(139, 69, 19)));
-        createButton.setFont(new Font("Tempus Sans ITC", Font.BOLD, 18));
+        //createButton.setFont(new Font("Tempus Sans ITC", Font.BOLD, 18));
+        createButton.setFont(FontUtil.getFontByName("Leira-Lite-2").deriveFont(Font.PLAIN,20));
         createButton.setBounds(150, 110, 300, 50);
         getContentPane().add(createButton);
 
@@ -63,7 +65,8 @@ public class MenuActionInterface extends JDialog {
         joinButton.setUI(new ButtonColorUI(new Color(245, 225, 199)));
         joinButton.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 250, 205),
                 new Color(255, 250, 205), new Color(139, 69, 19), new Color(139, 69, 19)));
-        joinButton.setFont(new Font("Tempus Sans ITC", Font.BOLD, 18));
+        //joinButton.setFont(new Font("Tempus Sans ITC", Font.BOLD, 18));
+        joinButton.setFont(FontUtil.getFontByName("Leira-Lite-2").deriveFont(Font.PLAIN,20));
         joinButton.setBounds(150, 180, 300, 50);
         getContentPane().add(joinButton);
 
@@ -73,7 +76,8 @@ public class MenuActionInterface extends JDialog {
         exitButton.setUI(new ButtonColorUI(new Color(245, 225, 199)));
         exitButton.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 250, 205),
                 new Color(255, 250, 205), new Color(139, 69, 19), new Color(139, 69, 19)));
-        exitButton.setFont(new Font("Tempus Sans ITC", Font.BOLD, 18));
+        //exitButton.setFont(new Font("Tempus Sans ITC", Font.BOLD, 18));
+        exitButton.setFont(FontUtil.getFontByName("Leira-Lite-2").deriveFont(Font.PLAIN,20));
         exitButton.setBounds(150, 250, 300, 50);
         getContentPane().add(exitButton);
 

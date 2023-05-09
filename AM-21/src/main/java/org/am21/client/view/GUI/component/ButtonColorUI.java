@@ -19,3 +19,4 @@ public class ButtonColorUI extends BasicButtonUI {
         g.fillRect(0, 0, b.getWidth(), b.getHeight());
     }
 }
+
