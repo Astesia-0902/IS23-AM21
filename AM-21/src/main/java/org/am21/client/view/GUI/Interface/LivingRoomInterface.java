@@ -24,20 +24,20 @@ public class LivingRoomInterface extends JFrame {
 
         try{
             livingRoomPane = new JLayeredPane();
+            livingRoomPane.setBounds(0,0, PixelUtil.pcWidth,PixelUtil.pcHeight);
+
             gamePanel = new GamePanel();
             gameBoardPanel = new GameBoardPanel();
-
             commonGoalPanel = new CommonGoalPanel("2Columns","XShape");
             personalGoalPanel = new PersonalGoalPanel("Goals6");
-            myShelfPanel = new ShelfPanel(PixelUtil.myGridX,PixelUtil.myGridY,PixelUtil.myCellH,PixelUtil.myCellW,PixelUtil.myItemHW);
-
-            enemyAShelfPanel = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyAGridY,PixelUtil.enemyCellH,PixelUtil.enemyCellW,PixelUtil.enemyItemHW);
-            enemyBShelfPanel = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyBGridY,PixelUtil.enemyCellH,PixelUtil.enemyCellW,PixelUtil.enemyItemHW);
-            enemyCShelfPanel = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyCGridY,PixelUtil.enemyCellH,PixelUtil.enemyCellW,PixelUtil.enemyItemHW);
-
+            myShelfPanel = new ShelfPanel(PixelUtil.myGridX,PixelUtil.myGridY,PixelUtil.myCellH,PixelUtil.myCellW,PixelUtil.myItemW,PixelUtil.myItemH);
+            enemyAShelfPanel = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyAGridY,PixelUtil.enemyCellH,PixelUtil.enemyCellW,PixelUtil.enemyItemW,PixelUtil.enemyItemH);
+            enemyBShelfPanel = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyBGridY,PixelUtil.enemyCellH,PixelUtil.enemyCellW,PixelUtil.enemyItemW,PixelUtil.enemyItemH);
+            enemyCShelfPanel = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyCGridY,PixelUtil.enemyCellH,PixelUtil.enemyCellW,PixelUtil.enemyItemW,PixelUtil.enemyItemH);
             myHandBoardPanel = new MyHandBoardPanel();
 
-            livingRoomPane.setBounds(0,0, PixelUtil.pcWidth,PixelUtil.pcHeight);
+
+
             livingRoomPane.add(gamePanel,JLayeredPane.DEFAULT_LAYER);
             livingRoomPane.add(gameBoardPanel,JLayeredPane.PALETTE_LAYER);
             livingRoomPane.add(commonGoalPanel,JLayeredPane.PALETTE_LAYER);
@@ -46,21 +46,21 @@ public class LivingRoomInterface extends JFrame {
             livingRoomPane.add(enemyAShelfPanel,JLayeredPane.PALETTE_LAYER);
             livingRoomPane.add(enemyBShelfPanel,JLayeredPane.PALETTE_LAYER);
             livingRoomPane.add(enemyCShelfPanel,JLayeredPane.PALETTE_LAYER);
-
             livingRoomPane.add(myHandBoardPanel,JLayeredPane.PALETTE_LAYER);
-
 
 
 
             getContentPane().add(livingRoomPane);
 
             setLayout(null);
-            setLocationRelativeTo(null);
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             setUndecorated(true);
             setExtendedState(JFrame.MAXIMIZED_BOTH);
-            setVisible(true);
+            setLocationRelativeTo(null);
 
+
+
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            setVisible(true);
             System.out.println("Your PC have: \nhigh:"+ PixelUtil.pcHeight+"\nwide:"+PixelUtil.pcWidth);
 
 

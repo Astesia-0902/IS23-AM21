@@ -21,12 +21,12 @@ public class CommonGoalPanel extends JPanel {
 
     public CommonGoalPanel(String topCardName,String bottomCardName) {
 
-        setBounds(PixelUtil.commonX_5, PixelUtil.commonGoalY_A, PixelUtil.goalCardW, PixelUtil.goalCardH + (PixelUtil.commonGoalY_B - PixelUtil.commonGoalY_A));
+        setBounds(PixelUtil.commonX_5, PixelUtil.commonGoalY_A, PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH + (PixelUtil.commonGoalY_B - PixelUtil.commonGoalY_A));
         setLayout(null);
         setOpaque(false);
 
         commonGoalPane = new JLayeredPane();
-        commonGoalPane.setBounds(0, 0, PixelUtil.goalCardW, PixelUtil.goalCardH + (PixelUtil.commonGoalY_B - PixelUtil.commonGoalY_A));
+        commonGoalPane.setBounds(0, 0, PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH + (PixelUtil.commonGoalY_B - PixelUtil.commonGoalY_A));
         commonGoalPane.setLayout(null);
         commonGoalPane.setOpaque(false);
         add(commonGoalPane);
@@ -41,7 +41,7 @@ public class CommonGoalPanel extends JPanel {
     public void setTopCard(String topCardName) {
 
         commonGoalTopLabel = new JLabel();
-        commonGoalTopLabel.setBounds(0, 0, PixelUtil.goalCardW, PixelUtil.goalCardH);
+        commonGoalTopLabel.setBounds(0, 0, PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH);
         commonGoalTopLabel.setIcon(ImageUtil.getCommonGoalCardImage(topCardName));
         commonGoalPane.add(commonGoalTopLabel, JLayeredPane.DEFAULT_LAYER);
         //setScoreTokenEmpty(PixelUtil.commonGoalTokenX,PixelUtil.commonGoalTopTokenY);
@@ -51,7 +51,7 @@ public class CommonGoalPanel extends JPanel {
     public void setBottomCard(String bottomCardName) {
 
         commonGoalBottomLabel = new JLabel();
-        commonGoalBottomLabel.setBounds(0, PixelUtil.commonGoalY_B - PixelUtil.commonGoalY_A, PixelUtil.goalCardW, PixelUtil.goalCardH);
+        commonGoalBottomLabel.setBounds(0, PixelUtil.commonGoalY_B - PixelUtil.commonGoalY_A, PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH);
         commonGoalBottomLabel.setIcon(ImageUtil.getCommonGoalCardImage(bottomCardName));
         commonGoalPane.add(commonGoalBottomLabel, JLayeredPane.DEFAULT_LAYER);
         setScoreTokenEmpty(PixelUtil.commonGoalTokenX,PixelUtil.commonGoalBottomTokenY);
@@ -59,8 +59,8 @@ public class CommonGoalPanel extends JPanel {
 
     public void setScoreTokenEmpty(int posX,int posY){
 
-        scoreTokenEmpty = new ScoringTokenLabel(ImageUtil.getBoardImage("commonGoalTokenEmpty"),PixelUtil.commonGoalTokenHW,PixelUtil.commonGoalTokenOriented,PixelUtil.commonGoalTokenRotateX,PixelUtil.commonGoalTokenRotateY);
-        scoreTokenEmpty.setBounds(posX,posY,PixelUtil.commonGoalTokenBounds,PixelUtil.commonGoalTokenBounds);
+        scoreTokenEmpty = new ScoringTokenLabel(ImageUtil.getBoardImage("commonGoalTokenEmpty"),PixelUtil.commonGoalTokenW,PixelUtil.commonGoalTokenH,PixelUtil.commonGoalTokenOriented,PixelUtil.commonGoalTokenRotateX,PixelUtil.commonGoalTokenRotateY);
+        scoreTokenEmpty.setBounds(posX,posY,PixelUtil.commonGoalTokenBoundsW,PixelUtil.commonGoalTokenBoundsH);
         scoreTokenEmpty.setBackground(new Color(0, 0, 0, 0));
         commonGoalPane.add(scoreTokenEmpty,JLayeredPane.PALETTE_LAYER);
     }

@@ -13,12 +13,12 @@ public class MyHandBoardPanel extends JPanel{
     public JLabel[] myHandItem = new JLabel[handMax];
 
     public MyHandBoardPanel(){
-        setBounds(PixelUtil.commonX_4, PixelUtil.commonY_4,PixelUtil.myShelfBoardHW,PixelUtil.bottomButtonH);
+        setBounds(PixelUtil.commonX_4, PixelUtil.commonY_4,PixelUtil.handBoardW,PixelUtil.handBoardH);
         setLayout(null);
         setOpaque(false);
 
         myHandPane = new JLayeredPane();
-        myHandPane.setBounds(0,0,PixelUtil.myShelfBoardHW,PixelUtil.bottomButtonH);
+        myHandPane.setBounds(0,0,PixelUtil.handBoardW,PixelUtil.handBoardH);
         myHandPane.setLayout(null);
         myHandPane.setOpaque(false);
         add(myHandPane);
@@ -26,7 +26,7 @@ public class MyHandBoardPanel extends JPanel{
         for(int i = 0; i< handMax; i++)
         {
             handGrid[i] = new JLayeredPane();
-            handGrid[i].setBounds(i*((PixelUtil.myShelfBoardHW)/3),0,(PixelUtil.myShelfBoardHW)/3,PixelUtil.bottomButtonH);
+            handGrid[i].setBounds(i*((PixelUtil.handBoardW)/3),0,(PixelUtil.handBoardW)/3,PixelUtil.handBoardH);
             handGrid[i].setLayout(null);
             myHandPane.add(handGrid[i],JLayeredPane.DEFAULT_LAYER);
             putItem (i);
@@ -35,8 +35,8 @@ public class MyHandBoardPanel extends JPanel{
     }
     public void putItem(int column){
         myHandItem[column] = new JLabel();
-        myHandItem[column].setBounds(40,3,PixelUtil.gameBoardItemHW,PixelUtil.gameBoardItemHW);
-        myHandItem[column].setIcon(new ImageIcon(new ImageIcon(PathUtil.getPath("icon tool/U1.jpg")).getImage().getScaledInstance(PixelUtil.gameBoardItemHW,PixelUtil.gameBoardItemHW, Image.SCALE_SMOOTH)));
+        myHandItem[column].setBounds(40,3,PixelUtil.gameBoardItemW,PixelUtil.gameBoardItemH);
+        myHandItem[column].setIcon(new ImageIcon(new ImageIcon(PathUtil.getPath("icon tool/U1.jpg")).getImage().getScaledInstance(PixelUtil.gameBoardItemW,PixelUtil.gameBoardItemH, Image.SCALE_SMOOTH)));
         addItem(column);
     }
 

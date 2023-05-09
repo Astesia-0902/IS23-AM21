@@ -14,18 +14,20 @@ public class ShelfPanel extends JPanel {
 
     public int GridX;
     public int GridY ;
-    public int itemSize;
+    public int itemWidth;
+    public int itemHeight;
 
     public JLayeredPane shelfBoardPane;
     public JLayeredPane[][] grids ;
 
     public JLabel[][] cells;
 
-    public ShelfPanel(int GridX, int GridY, int cellHeight ,int cellWidth,int itemSize){
+    public ShelfPanel(int GridX, int GridY, int cellHeight ,int cellWidth,int itemWidth, int itemHeight){
 
         this.GridX = GridX;
         this.GridY = GridY;
-        this.itemSize = itemSize;
+        this.itemWidth = itemWidth;
+        this.itemHeight = itemHeight;
         this.cellHeight = cellHeight;
         this.cellWidth = cellWidth;
         this.grids = new JLayeredPane[this.GridRowsMax][this.GridColumnsMax] ;
@@ -58,8 +60,8 @@ public class ShelfPanel extends JPanel {
 
     public void putItem(int row, int column){
         this.cells[row][column] = new JLabel();
-        this.cells[row][column].setBounds((this.cellWidth-this.cellHeight)/2,0,itemSize,itemSize);
-        this.cells[row][column].setIcon(new ImageIcon(new ImageIcon(PathUtil.getPath("icon tool/U2.jpg")).getImage().getScaledInstance(itemSize,itemSize, Image.SCALE_SMOOTH)));
+        this.cells[row][column].setBounds((this.cellWidth-this.cellHeight)/2,0, itemWidth, itemHeight);
+        this.cells[row][column].setIcon(new ImageIcon(new ImageIcon(PathUtil.getPath("icon tool/U2.jpg")).getImage().getScaledInstance(itemWidth, itemHeight, Image.SCALE_SMOOTH)));
         addItem(row,column);
     }
 

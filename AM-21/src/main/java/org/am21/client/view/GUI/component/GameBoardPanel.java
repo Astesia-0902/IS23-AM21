@@ -29,13 +29,13 @@ public class GameBoardPanel extends JPanel {
     public ScoringTokenLabel scoreTokenEndGame;
     public GameBoardPanel(){
 
-        setBounds(PixelUtil.gameBoardGridX, PixelUtil.gameBoardGridY,GridRowsMax*PixelUtil.gameBoardCellHW,GridColumnsMax*PixelUtil.gameBoardCellHW);
+        setBounds(PixelUtil.gameBoardGridX, PixelUtil.gameBoardGridY,GridRowsMax*PixelUtil.gameBoardCellW,GridColumnsMax*PixelUtil.gameBoardCellH);
        // this.setSize(this.GridRowsMax*this.cellSize,this.GridColumnsMax*this.cellSize);
         setLayout(null);
         setOpaque(false);
 
         gameBoardPane = new JLayeredPane();
-        gameBoardPane.setBounds(0,0,GridRowsMax*PixelUtil.gameBoardCellHW,GridColumnsMax*PixelUtil.gameBoardCellHW);
+        gameBoardPane.setBounds(0,0,GridRowsMax*PixelUtil.gameBoardCellW,GridColumnsMax*PixelUtil.gameBoardCellH);
         gameBoardPane.setLayout(null);
         gameBoardPane.setOpaque(false);
         add(gameBoardPane);
@@ -49,7 +49,7 @@ public class GameBoardPanel extends JPanel {
                 if(boundaries.get(i).x<=j&&j<=boundaries.get(i).y)
                 {
                     grids[i][j] = new JLayeredPane();
-                    grids[i][j].setBounds(j*PixelUtil.gameBoardCellHW,i*PixelUtil.gameBoardCellHW,PixelUtil.gameBoardCellHW,PixelUtil.gameBoardCellHW);
+                    grids[i][j].setBounds(j*PixelUtil.gameBoardCellW,i*PixelUtil.gameBoardCellH,PixelUtil.gameBoardCellW,PixelUtil.gameBoardCellH);
                     grids[i][j].setLayout(null);
                     gameBoardPane.add(grids[i][j],JLayeredPane.DEFAULT_LAYER);
 
@@ -65,8 +65,8 @@ public class GameBoardPanel extends JPanel {
 
     public void putItem(int row, int column){
         cells[row][column] = new JLabel();
-        cells[row][column].setBounds(0,0,PixelUtil.gameBoardItemHW,PixelUtil.gameBoardItemHW);
-        cells[row][column].setIcon(new ImageIcon(new ImageIcon(PathUtil.getPath("icon tool/U3.jpg")).getImage().getScaledInstance(PixelUtil.gameBoardItemHW,PixelUtil.gameBoardItemHW, Image.SCALE_SMOOTH)));
+        cells[row][column].setBounds(0,0,PixelUtil.gameBoardItemW,PixelUtil.gameBoardItemH);
+        cells[row][column].setIcon(new ImageIcon(new ImageIcon(PathUtil.getPath("icon tool/U3.jpg")).getImage().getScaledInstance(PixelUtil.gameBoardItemW,PixelUtil.gameBoardItemH, Image.SCALE_SMOOTH)));
         addItem(row,column);
     }
 
@@ -84,8 +84,8 @@ public class GameBoardPanel extends JPanel {
 
 
     public void setScoreTokenEndGame(int posX,int posY){
-        scoreTokenEndGame = new ScoringTokenLabel(ImageUtil.getScoreTokenImage(1),PixelUtil.endGameTokenHW,PixelUtil.endGameTokenOriented,PixelUtil.endGameTokenRotateX,PixelUtil.endGameTokenRotateY);
-        scoreTokenEndGame.setBounds(posX,posY,PixelUtil.endGameTokenBounds,PixelUtil.endGameTokenBounds);
+        scoreTokenEndGame = new ScoringTokenLabel(ImageUtil.getScoreTokenImage(1),PixelUtil.endGameTokenW,PixelUtil.endGameTokenH,PixelUtil.endGameTokenOriented,PixelUtil.endGameTokenRotateX,PixelUtil.endGameTokenRotateY);
+        scoreTokenEndGame.setBounds(posX,posY,PixelUtil.endGameTokenBoundsW,PixelUtil.endGameTokenBoundsH);
         scoreTokenEndGame.setBackground(new Color(0, 0, 0, 0));
         gameBoardPane.add(scoreTokenEndGame,JLayeredPane.PALETTE_LAYER);
     }

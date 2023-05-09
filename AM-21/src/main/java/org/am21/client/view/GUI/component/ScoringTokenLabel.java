@@ -14,15 +14,15 @@ public class ScoringTokenLabel extends JPanel {
     /**
      * rotation Label for tokens score card
      * @param img image
-     * @param rotateDimension image dimension
+     * @param rotateH image dimension
      * @param oriented grade of orientation
      */
-    public ScoringTokenLabel(ImageIcon img, int rotateDimension,int oriented,int rotateX, int rotateY) {
+    public ScoringTokenLabel(ImageIcon img, int rotateH,int rotateW,int oriented,int rotateX, int rotateY) {
         label = new JLabel(img);
         this.oriented = oriented;
         this.rotateX = rotateX;
         this.rotateY = rotateY;
-        setPreferredSize(new Dimension(rotateDimension, rotateDimension));
+        setPreferredSize(new Dimension(rotateW, rotateH));
     }
 
     @Override
