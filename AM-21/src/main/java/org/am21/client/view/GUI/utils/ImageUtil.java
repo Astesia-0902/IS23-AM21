@@ -6,7 +6,7 @@ import java.awt.*;
 public class ImageUtil {
     public static ImageIcon getShelfImage(int width,int height){
 
-        return new ImageIcon(new ImageIcon(PathUtil.getPath("boards/bookshelf_orth.png")).getImage().getScaledInstance(height,width, Image.SCALE_SMOOTH));
+        return new ImageIcon(new ImageIcon(PathUtil.getPath("boards/bookshelf_orth.png")).getImage().getScaledInstance(width,height, Image.SCALE_SMOOTH));
     }
 
     public static ImageIcon getBoardImage(String name) {

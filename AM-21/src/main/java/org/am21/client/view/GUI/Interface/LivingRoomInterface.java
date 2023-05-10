@@ -31,10 +31,10 @@ public class LivingRoomInterface extends JFrame {
             gameBoardPanel = new GameBoardPanel();
             commonGoalPanel = new CommonGoalPanel("2Columns","XShape");
             personalGoalPanel = new PersonalGoalPanel("Goals6");
-            myShelfPanel = new ShelfPanel(PixelUtil.myGridX,PixelUtil.myGridY,PixelUtil.myCellH,PixelUtil.myCellW,PixelUtil.myItemW,PixelUtil.myItemH);
-            enemyAShelfPanel = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyAGridY,PixelUtil.enemyCellH,PixelUtil.enemyCellW,PixelUtil.enemyItemW,PixelUtil.enemyItemH);
-            enemyBShelfPanel = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyBGridY,PixelUtil.enemyCellH,PixelUtil.enemyCellW,PixelUtil.enemyItemW,PixelUtil.enemyItemH);
-            enemyCShelfPanel = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyCGridY,PixelUtil.enemyCellH,PixelUtil.enemyCellW,PixelUtil.enemyItemW,PixelUtil.enemyItemH);
+            myShelfPanel = new ShelfPanel(PixelUtil.myGridX,PixelUtil.myGridY,PixelUtil.myCellW,PixelUtil.myCellH,PixelUtil.myItemW,PixelUtil.myItemH);
+            enemyAShelfPanel = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyAGridY,PixelUtil.enemyCellW,PixelUtil.enemyCellH,PixelUtil.enemyItemW,PixelUtil.enemyItemH);
+            enemyBShelfPanel = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyBGridY,PixelUtil.enemyCellW,PixelUtil.enemyCellH,PixelUtil.enemyItemW,PixelUtil.enemyItemH);
+            enemyCShelfPanel = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyCGridY,PixelUtil.enemyCellW,PixelUtil.enemyCellH,PixelUtil.enemyItemW,PixelUtil.enemyItemH);
             myHandBoardPanel = new MyHandBoardPanel();
 
 

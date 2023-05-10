@@ -10,6 +10,9 @@ public class PixelUtil {
     public static int pcWidth = (int) screenSize.getWidth();
     public static int pcHeight = (int) screenSize.getHeight();
 
+   // public static int pcWidth = 1680;
+   // public static int pcHeight = 1050;
+
 
     /**
      * dimension util
@@ -122,23 +125,23 @@ public class PixelUtil {
      */
 
     //position
-    public static int myGridX =pcWidth*731/1000;
-    public static int myGridY =pcHeight*43/100;
-    public static int enemyGridX = pcWidth*63/1000;
-    public static int enemyAGridY = pcHeight*419/10000;
-    public static int enemyBGridY = pcHeight*2419/10000;
-    public static int enemyCGridY = pcHeight*4524/10000;
+    public static int myGridX = pcWidth*727/1000;
+    public static int myGridY = pcHeight*428/1000;
+    public static int enemyGridX = pcWidth*6131/100000;
+    public static int enemyAGridY = pcHeight*41/1000;
+    public static int enemyBGridY = pcHeight*241/1000;
+    public static int enemyCGridY = pcHeight*45143/100000;
 
     //cell size
     public static int myCellH = pcHeight*61/1000;
-    public static int myCellW = pcWidth*10/227;
-    public static int enemyCellH = pcHeight*248/10000;
-    public static int enemyCellW = pcWidth*179/10000;
+    public static int myCellW = pcWidth*4405/100000;
+    public static int enemyCellH = pcHeight*25/1000;
+    public static int enemyCellW = pcWidth*18/1000;
 
     //item size
-    public static int myItemW = pcWidth*315/10000;
-    public static int myItemH = pcHeight*5/100;
-    public static int enemyItemH = pcHeight*21/1000;
+    public static int myItemW = pcWidth*3155/100000;
+    public static int myItemH = pcHeight*5143/100000;
+    public static int enemyItemH = pcHeight*2/100;
     public static int enemyItemW = pcWidth*131/10000;
 
     /**

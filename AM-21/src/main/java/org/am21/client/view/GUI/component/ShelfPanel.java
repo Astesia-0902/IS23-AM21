@@ -22,7 +22,7 @@ public class ShelfPanel extends JPanel {
 
     public JLabel[][] cells;
 
-    public ShelfPanel(int GridX, int GridY, int cellHeight ,int cellWidth,int itemWidth, int itemHeight){
+    public ShelfPanel(int GridX, int GridY, int cellWidth, int cellHeight ,int itemWidth, int itemHeight){
 
         this.GridX = GridX;
         this.GridY = GridY;
@@ -60,7 +60,7 @@ public class ShelfPanel extends JPanel {
 
     public void putItem(int row, int column){
         this.cells[row][column] = new JLabel();
-        this.cells[row][column].setBounds((this.cellWidth-this.cellHeight)/2,0, itemWidth, itemHeight);
+        this.cells[row][column].setBounds((this.cellWidth-itemWidth)/2,(this.cellHeight-itemHeight)/2, itemWidth, itemHeight);
         this.cells[row][column].setIcon(new ImageIcon(new ImageIcon(PathUtil.getPath("icon tool/U2.jpg")).getImage().getScaledInstance(itemWidth, itemHeight, Image.SCALE_SMOOTH)));
         addItem(row,column);
     }
