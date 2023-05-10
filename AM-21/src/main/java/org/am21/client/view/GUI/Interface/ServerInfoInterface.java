@@ -12,7 +12,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.HashMap;
 
 public class ServerInfoInterface extends JDialog {
@@ -29,7 +28,7 @@ public class ServerInfoInterface extends JDialog {
     public ImageIcon returnIcon;
     public ImageIcon returnIconColor;
 
-    public ServerInfoInterface(JFrame frame) throws IOException {
+    public ServerInfoInterface(JFrame frame) {
         super(frame);
         frame.setTitle("MyShelfie - Server Info");
 

@@ -21,11 +21,11 @@ public class RuleDialog extends JDialog {
     public JButton rightButton;
     public int countPage = 0;
 
-    public RuleDialog() {
-        setModal(true);
+    public RuleDialog(JFrame frame) {
+        super(frame, true);
         setSize(ImageUtil.resizeX(1200), ImageUtil.resizeY(1000));
         closeLabel = new JLabel(IconUtil.getIcon("close_White"));
-        closeLabel.setBounds(ImageUtil.resizeX(1120),ImageUtil.resizeY(10),ImageUtil.resizeX(25),ImageUtil.resizeY(25));
+        closeLabel.setBounds(ImageUtil.resizeX(1120), ImageUtil.resizeY(10), ImageUtil.resizeX(25), ImageUtil.resizeY(25));
         add(closeLabel);
 
         rule_1 = new JLabel(IconUtil.getIcon("rule1"));
@@ -44,7 +44,6 @@ public class RuleDialog extends JDialog {
         rulesPanel.add(rule_5);
         rulesPanel.add(rule_6);
         rulesPanel.setBackground(new Color(0, 0, 0, 0));
-        //rulesPanel.setPreferredSize(new Dimension((int) (screenSize.width * 0.8),(int) (screenSize.height * 0.8)));
 
         leftButton = ButtonUtil.getCommandButton();
         leftButton.setIcon(IconUtil.getIcon("left"));
@@ -63,5 +62,6 @@ public class RuleDialog extends JDialog {
         setResizable(false);
         setUndecorated(true);
         setBackground(new Color(0, 0, 0, 0));
+        setVisible(false);
     }
 }

@@ -23,9 +23,11 @@ public class IconUtil {
             imageMap.put("port", ImageIO.read(new FileInputStream(PathUtil.getPath("icon tool/server.png")))
                     .getScaledInstance(ImageUtil.resizeX(35), ImageUtil.resizeY(35), Image.SCALE_SMOOTH));
             imageMap.put("return", ImageIO.read(new FileInputStream(PathUtil.getPath("icon tool/return.png")))
+
                     .getScaledInstance(ImageUtil.resizeX(20), ImageUtil.resizeY(16), Image.SCALE_SMOOTH));
             imageMap.put("returnSelected", ImageIO.read(new FileInputStream(PathUtil.getPath("icon tool/returnColor.png")))
                     .getScaledInstance(ImageUtil.resizeX(20), ImageUtil.resizeY(16), Image.SCALE_SMOOTH));
+
             imageMap.put("minus", ImageIO.read(new FileInputStream(PathUtil.getPath("icon tool/minus.png")))
                     .getScaledInstance(ImageUtil.resizeX(25), ImageUtil.resizeY(25), Image.SCALE_SMOOTH));
             imageMap.put("close", ImageIO.read(new FileInputStream(PathUtil.getPath("icon tool/close.png")))
@@ -52,6 +54,12 @@ public class IconUtil {
                     .getScaledInstance(ImageUtil.resizeX(25), ImageUtil.resizeY(25), Image.SCALE_SMOOTH));
             imageMap.put("helpSelected", ImageIO.read(new FileInputStream(PathUtil.getPath("icon tool/helpColor.png")))
                     .getScaledInstance(ImageUtil.resizeX(25), ImageUtil.resizeY(25), Image.SCALE_SMOOTH));
+
+            imageMap.put("scroll-down", ImageIO.read(new FileInputStream(PathUtil.getPath("icon tool/scroll-down2.png")))
+                    .getScaledInstance(ImageUtil.resizeX(20), ImageUtil.resizeY(20), Image.SCALE_SMOOTH));
+            imageMap.put("scroll-top", ImageIO.read(new FileInputStream(PathUtil.getPath("icon tool/scroll-top2.png")))
+                    .getScaledInstance(ImageUtil.resizeX(20), ImageUtil.resizeY(20), Image.SCALE_SMOOTH));
+
             imageMap.put("left", ImageIO.read(new FileInputStream(PathUtil.getPath("icon tool/left2 (2).png")))
                     .getScaledInstance(ImageUtil.resizeX(100), ImageUtil.resizeY(100), Image.SCALE_SMOOTH));
             imageMap.put("right", ImageIO.read(new FileInputStream(PathUtil.getPath("icon tool/right2 (2).png")))

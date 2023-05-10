@@ -23,7 +23,7 @@ public class LoginInterface extends JDialog {
     public JLabel closeLabel;
 
 
-    public LoginInterface(JFrame frame) throws Exception {
+    public LoginInterface(JFrame frame) {
         super(frame);
         frame.setTitle("MyShelfie - Login");
         HashMap<BufferedImage, int[]> background = new HashMap<>();

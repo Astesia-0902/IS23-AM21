@@ -15,8 +15,6 @@ public class MenuActionInterface extends JDialog {
     public static final int WIDTH = 600;
     public static final int HEIGHT = 400;
     public MaxSeatsDialog maxSeatsDialog;
-    public ChatDialog chatDialog;
-
     public JButton createButton;
     public JButton joinButton;
     public JButton exitButton;
@@ -34,7 +32,7 @@ public class MenuActionInterface extends JDialog {
 
     public Timer timer;
 
-    public MenuActionInterface(JFrame frame) throws Exception {
+    public MenuActionInterface(JFrame frame) {
         super(frame);
         frame.setTitle("MyShelfie - Menu Action");
         HashMap<BufferedImage, int[]> background = new HashMap<>();
@@ -90,7 +88,6 @@ public class MenuActionInterface extends JDialog {
         add(backGroundPanel);
 
         maxSeatsDialog = new MaxSeatsDialog();
-        chatDialog = new ChatDialog();
 
         setBounds(0, 0, ImageUtil.resizeX(WIDTH), ImageUtil.resizeY(HEIGHT));
         setUndecorated(true);

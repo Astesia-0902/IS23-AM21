@@ -27,12 +27,8 @@ public class WaitingRoomInterface extends JDialog {
     public final ImageIcon helpIcon;
     public final ImageIcon helpIconColor;
     public final JButton helpButton;
-    public final ChatDialog chatDialog;
 
-    public RuleDialog ruleDialog;
-
-
-    public WaitingRoomInterface(JFrame frame) throws Exception {
+    public WaitingRoomInterface(JFrame frame) {
         super(frame);
         frame.setTitle("MyShelfie - Waiting Room");
 
@@ -99,9 +95,6 @@ public class WaitingRoomInterface extends JDialog {
         backGroundPanel.setBorder(new MatteBorder(ImageUtil.resizeY(5), ImageUtil.resizeX(5),
                 ImageUtil.resizeY(5), ImageUtil.resizeX(5), new Color(139, 69, 19)));
         add(backGroundPanel);
-
-        ruleDialog = new RuleDialog();
-        chatDialog = new ChatDialog();
 
         setBounds(0, 0, ImageUtil.resizeX(WIDTH), ImageUtil.resizeY(HEIGHT));
         setUndecorated(true);

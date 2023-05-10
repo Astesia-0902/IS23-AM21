@@ -1,31 +1,44 @@
 package org.am21.client.view.GUI;
 
+import org.am21.client.ClientCommunicationController;
+import org.am21.client.view.ClientView;
 import org.am21.client.view.GUI.Interface.*;
 import org.am21.client.view.GUI.listener.*;
 import org.am21.client.view.GUI.utils.PathUtil;
 import org.am21.client.view.View;
+import org.am21.networkRMI.ClientCallBack;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.io.File;
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
+import java.util.HashMap;
+import java.util.List;
 
 public class Gui implements View {
     public JFrame frame = new JFrame("MyShelfie");
+    private ClientCommunicationController commCtrl;
+    private final ClientCallBack clientCallBack;
     public CommunicationInterface communicationInterface;
     public LoginInterface loginInterface;
     public ServerInfoInterface serverInfoInterface;
     public MenuActionInterface menuActionInterface;
     public WaitingRoomInterface waitingRoomInterface;
     public LivingRoomInterface livingRoomInterface;
+    public ChatDialog chatDialog;
+    public RuleDialog ruleDialog = new RuleDialog(frame);
+    public OnlineListDialog onlineListDialog;
 
+    public HashMap<String, JLabel> privateChat = new HashMap<>();
 
     public Gui() throws Exception {
+        this.clientCallBack = new ClientCallBack();
         frame.setIconImage(ImageIO.read(new File(PathUtil.getPath("Publisher material/Icon 50x50px.png"))));
         frame.setUndecorated(true);
         frame.setResizable(false);
         frame.setVisible(true);
+        new RuleListener(this);
     }
 
     public void init() throws Exception {
@@ -148,7 +161,7 @@ public class Gui implements View {
 
     @Override
     public void handleChatMessage(String option) throws RemoteException {
-
+        System.out.println(option);
     }
 
     @Override
@@ -176,9 +189,28 @@ public class Gui implements View {
 
     }
 
+    public void askChat(){
+        chatDialog = new ChatDialog(frame, privateChat);
+        new ChatListener(this);
+    }
+
     @Override
     public void showOnlinePlayer() throws RemoteException {
+        List<String> players = ClientView.players;
+        DefaultListModel<String> userModel = new DefaultListModel<>();
+        if (players != null) {
+            for (String player : players) {
+                userModel.addElement(player);
+            }
+        } else {
+            // For test:
+            userModel.addElement("Player1");
+            userModel.addElement("Player2");
+            userModel.addElement("Player3");
+        }
 
+        onlineListDialog = new OnlineListDialog(frame, userModel);
+        new OnlineListListener(this);
     }
 
     @Override
@@ -193,7 +225,7 @@ public class Gui implements View {
 
     @Override
     public void showGameRules() {
-        waitingRoomInterface.ruleDialog.setVisible(true);
+        ruleDialog.setVisible(true);
     }
 
     public static void main(String[] args) {
