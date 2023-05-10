@@ -7,6 +7,7 @@ import org.am21.model.VirtualView;
 import org.am21.model.items.Shelf;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -341,4 +342,18 @@ public class VirtualViewHelper {
     public static String convertPrivateChats(VirtualView v){
         return JSON.toJSONString(v.getPrivateChats());
     }
+
+    public static String convertVirtualChatMapToJSON(VirtualView v){
+        return JSON.toJSONString(v.getChatMap());
+    }
+
+    public static void virtualizeChatMap(Match m, HashMap<String,Integer> map){
+        HashMap<String,Integer> tmp = new HashMap<>();
+        for(String key: map.keySet()) {
+            tmp.put(key,map.get(key));
+        }
+        m.virtualView.setChatMap(tmp);
+
+    }
+
 }

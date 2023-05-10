@@ -594,6 +594,7 @@ public class Match {
                 return false;
             }
             VirtualViewHelper.virtualizePrivateChats(this, chatManager.getPrivateChats());
+            VirtualViewHelper.virtualizeChatMap(this,chatManager.getChatMap());
         }
         updatePlayersChats();
         return true;
@@ -605,6 +606,7 @@ public class Match {
         for (Player p : playerList) {
             CommunicationController.instance.sendVirtualPublicChat(VirtualViewHelper.convertPublicChatToJSON(virtualView),p.getController());
             CommunicationController.instance.sendVirtualPrivateChat(VirtualViewHelper.convertPrivateChats(virtualView),p.getController());
+            CommunicationController.instance.sendVirtualChatMap(VirtualViewHelper.convertVirtualChatMapToJSON(virtualView),p.getController());
         }
     }
 

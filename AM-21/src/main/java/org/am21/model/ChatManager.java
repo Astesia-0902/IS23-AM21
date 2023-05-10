@@ -1,7 +1,6 @@
 package org.am21.model;
 
 import org.am21.controller.CommunicationController;
-import org.am21.controller.GameController;
 import org.am21.controller.PlayerController;
 
 import java.rmi.RemoteException;
@@ -13,10 +12,8 @@ import java.util.List;
  * This class is used to manage the chat messages
  * Every match has a chat manager
  */
-public class ChatManager {
+public class ChatManager extends ServerChatManager{
     public List<String> chatMessages = new ArrayList<>();
-    private String message;
-    private String sender;
     private Match match;
 
     // 6 Private Chats, one for each couple of players
@@ -42,14 +39,14 @@ public class ChatManager {
      * @param sender  the sender
      * @throws RemoteException if the remote call fails
      */
-    public void sendMessage(String message, String sender) throws RemoteException {
+    /*public void sendMessage(String message, String sender) throws RemoteException {
         this.message = message;
         this.sender = sender;
         chatMessages.add(sender + ": " + message);
         for (Player player : match.playerList) {
             GameController.sendChatMessage(chatMessages.get(chatMessages.size() - 1), player.getController());
         }
-    }
+    }*/
 
     /**
      * Get the chat messages history
@@ -61,8 +58,8 @@ public class ChatManager {
     }
 
     public void sendChat(String message, String sender) {
-        this.message = message;
-        this.sender = sender;
+        //this.message = message;
+        //this.sender = sender;
         chatMessages.add(sender + ": " + message);
         String lastTenMex = "";
         int tmp = chatMessages.size();

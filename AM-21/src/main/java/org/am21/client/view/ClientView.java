@@ -1,8 +1,11 @@
 package org.am21.client.view;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ClientView {
@@ -23,6 +26,9 @@ public class ClientView {
     public static boolean endGameToken;
     public static List<String> gameResults;
     //------------------------------------------
+    public static HashMap<String,Integer> chatMap;
+    public static List<String> publicChat;
+    public static List<List<String >> privateChats;
 
     /**
      * Once the JSON is received, it is parsed and the data is stored in the corresponding variables
@@ -82,6 +88,26 @@ public class ClientView {
         matchID = Integer.parseInt(tmp.get(0));
         maxSeats = Integer.parseInt(tmp.get(1));
         admin = tmp.get(2);
+
+    }
+
+    public static void convertBackPublicChat(String jsonPublic){
+        JSONArray jsonChat = JSONObject.parseArray(jsonPublic);
+        publicChat = jsonChat.toJavaList(String.class);
+    }
+
+    public static void convertBackPrivateChats(String jsonPrivate){
+        JSONArray listOfList = JSON.parseArray(jsonPrivate);
+        List<List<String>> tmp = new ArrayList<>();
+        for(int i=0; i<listOfList.size();i++){
+            JSONArray list = (JSONArray) listOfList.get(i);
+            List<String> tmpChat = list.toJavaList(String.class);
+            tmp.add(tmpChat);
+        }
+        privateChats = tmp;
+    }
+
+    public static void convertBackChatMap(String jsonChatMap){
 
     }
 }

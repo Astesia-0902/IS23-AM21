@@ -48,7 +48,7 @@ public class CommunicationController implements ICommunication {
                 throw new RuntimeException(e);
             }
         } else if(pCtrl.connectionType == ConnectionType.SOCKET){
-            String messageToClient = "VirtualView" + "|" + virtualPublicChat;
+            String messageToClient = "PublicChat" + "|" + virtualPublicChat;
             pCtrl.clientHandlerSocket.callback(messageToClient);
         }
 
@@ -62,10 +62,24 @@ public class CommunicationController implements ICommunication {
                 throw new RuntimeException(e);
             }
         } else if(pCtrl.connectionType == ConnectionType.SOCKET){
-            String messageToClient = "VirtualView" + "|" + virtualPrivateChats;
+            String messageToClient = "PrivateChats" + "|" + virtualPrivateChats;
             pCtrl.clientHandlerSocket.callback(messageToClient);
         }
 
+
+    }
+
+    public void sendVirtualChatMap(String virtualChatMap, PlayerController pCtrl) {
+        if (pCtrl.connectionType == ConnectionType.RMI) {
+            try {
+                pCtrl.clientInput.callBack.sendChatMap(virtualChatMap);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        } else if(pCtrl.connectionType == ConnectionType.SOCKET){
+            String messageToClient = "ChatMap" + "|" + virtualChatMap;
+            pCtrl.clientHandlerSocket.callback(messageToClient);
+        }
 
     }
     @Override
@@ -169,5 +183,7 @@ public class CommunicationController implements ICommunication {
             pCtrl.clientHandlerSocket.callback(messageToClient);
         }
     }
+
+
     //TODO: testClientConnection
 }
