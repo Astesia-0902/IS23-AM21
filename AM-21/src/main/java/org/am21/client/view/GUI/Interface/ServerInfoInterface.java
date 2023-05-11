@@ -90,7 +90,7 @@ public class ServerInfoInterface extends JDialog {
                 portIcon.paintIcon(portField, g, ImageUtil.resizeX(5), ImageUtil.resizeY(5));
             }
         };
-        portField.setText("8803");
+        portField.setText("8807");
         portField.setForeground(new Color(255, 255, 240));
         portField.setFont(new Font("Serif", Font.BOLD, ImageUtil.resizeY(23)));
         portField.setBorder(new CompoundBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 250, 205),

@@ -1,5 +1,6 @@
 package org.am21.client.view.GUI.listener;
 
+import org.am21.client.ClientController;
 import org.am21.client.view.GUI.Gui;
 
 import java.awt.*;
@@ -29,8 +30,9 @@ public class CommunicationListener implements MouseListener, MouseMotionListener
             //TODO: socket communication
             try {
                 //gui.communicationInterface.dispose();
+                ClientController.isRMI = false;
                 gui.communicationInterface.setVisible(false);
-                gui.askLogin();
+                gui.askServerInfoSocket();
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
@@ -38,8 +40,9 @@ public class CommunicationListener implements MouseListener, MouseMotionListener
         } else if (e.getSource() == gui.communicationInterface.rmiButton) {
             // RMI
             try {
+                ClientController.isRMI = true;
                 gui.communicationInterface.setVisible(false);
-                gui.askServerInfo();
+                gui.askServerInfoRMI();
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }

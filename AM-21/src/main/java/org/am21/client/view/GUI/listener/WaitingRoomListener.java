@@ -1,7 +1,10 @@
 package org.am21.client.view.GUI.listener;
 
 import org.am21.client.view.GUI.Gui;
+import org.am21.client.view.GUI.utils.ImageUtil;
 
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.rmi.RemoteException;
@@ -53,9 +56,15 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
         }
         if (e.getSource() == gui.waitingRoomInterface.chatButton) {
             //TODO: chat
+            Gui.chatPlayer.put("#All", new JButton("#All"));
+            Gui.chatUser = "#All";
+            if (gui.chatDialog != null) {
+                gui.chatDialog.privateChat.get(Gui.chatUser).setBackground(new Color(83, 46, 91, 230));
+                FontMetrics fm = gui.chatDialog.chatMessage.getFontMetrics(gui.chatDialog.chatMessage.getFont());
+                gui.chatDialog.chatMessage.setBorder(new EmptyBorder(0, ImageUtil.resizeX(fm.stringWidth(Gui.chatUser) + 30), 0, 0));
+            }
             gui.askChat();
         }
-
     }
 
     @Override

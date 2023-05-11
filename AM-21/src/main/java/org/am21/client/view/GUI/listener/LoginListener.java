@@ -40,14 +40,16 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
                         new EmptyBorder(0, ImageUtil.resizeX(50), 0, 0)));
 
             } else {
-                //TODO:ClientInputHandle...
-                //TODO: MainFrameListener...
-
                 // Login successful and close the login frame
 
                 try {
-                    gui.loginInterface.setVisible(false);
+                    gui.loginInterface.dispose();
                     gui.askMenuAction();
+//                    if (gui.commCtrl.logIn(username,null)){
+//                        gui.username = username;
+//                        gui.loginInterface.dispose();
+//                        gui.askMenuAction();
+//                    }
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }

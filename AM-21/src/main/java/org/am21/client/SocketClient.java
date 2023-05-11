@@ -1,6 +1,7 @@
 package org.am21.client;
 
 import org.am21.client.view.ClientView;
+import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.TUI.Cli;
 import org.am21.model.enumer.SC;
 
@@ -16,6 +17,7 @@ public class SocketClient extends Thread {
     private static DataInputStream in;
     private static DataOutputStream out;
     public static Cli cli;
+    public static Gui gui;
 
     @Override
     public void run() {
