@@ -3,8 +3,11 @@ package org.am21.client.view.GUI;
 import org.am21.client.ClientCommunicationController;
 import org.am21.client.view.ClientView;
 import org.am21.client.view.GUI.Interface.*;
+import org.am21.client.view.GUI.component.*;
 import org.am21.client.view.GUI.listener.*;
+import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PathUtil;
+import org.am21.client.view.GUI.utils.PixelUtil;
 import org.am21.client.view.View;
 import org.am21.networkRMI.ClientCallBack;
 
@@ -26,6 +29,12 @@ public class Gui implements View {
     public MenuActionInterface menuActionInterface;
     public WaitingRoomInterface waitingRoomInterface;
     public LivingRoomInterface livingRoomInterface;
+    public PersonalGoalPanel personalGoalPanel;
+    public CommonGoalPanel commonGoalPanel;
+
+    public EnemyPanel enemyPanelA, enemyPanelB, enemyPanelC;
+    public ShelfPanel enemyShelfPanelA, enemyShelfPanelB, enemyShelfPanelC;
+    public ChairManLabel chairManLabel;
     public ChatDialog chatDialog;
     public RuleDialog ruleDialog = new RuleDialog(frame);
     public OnlineListDialog onlineListDialog;
@@ -66,8 +75,7 @@ public class Gui implements View {
 
     @Override
     public boolean askCreateMatch() throws Exception {
-        livingRoomInterface = new LivingRoomInterface();
-        new LivingRoomListener(this);
+
         return false;
     }
 
@@ -101,12 +109,14 @@ public class Gui implements View {
 
     @Override
     public void showCommonGoals() {
-
+        //TODO: assigned common goal (string?)
+        commonGoalPanel = new CommonGoalPanel("2Columns","XShape");
     }
 
     @Override
     public void showPersonalGoal() throws RemoteException {
-
+        //TODO: assigned personal goal (string?)
+        personalGoalPanel = new PersonalGoalPanel("Goals6");
     }
 
     @Override
@@ -181,6 +191,48 @@ public class Gui implements View {
 
     @Override
     public void showMatchSetup() throws RemoteException {
+        livingRoomInterface = new LivingRoomInterface(frame);
+        //new LivingRoomListener(this);
+        showPersonalGoal();
+        livingRoomInterface.livingRoomPane.add(personalGoalPanel,JLayeredPane.PALETTE_LAYER);
+        showCommonGoals();
+        livingRoomInterface.livingRoomPane.add(commonGoalPanel,JLayeredPane.PALETTE_LAYER);
+        if(askMaxSeats()<=2)
+        {
+            //setFirst enemy's Label
+            enemyPanelA = new EnemyPanel(PixelUtil.commonY_1, ImageUtil.getBoardImage("enemyA"));
+            livingRoomInterface.livingRoomPane.add(enemyPanelA,JLayeredPane.PALETTE_LAYER);
+
+            //TODO: itemGrids will be manipulated
+            enemyShelfPanelA = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyAGridY,PixelUtil.enemyCellW,PixelUtil.enemyCellH,PixelUtil.enemyItemW,PixelUtil.enemyItemH);
+            livingRoomInterface.livingRoomPane.add(enemyShelfPanelA,JLayeredPane.PALETTE_LAYER);
+        }
+        if(askMaxSeats()<=3)
+        {
+            //setSecond enemy's Label
+            enemyPanelB = new EnemyPanel(PixelUtil.commonY_2, ImageUtil.getBoardImage("enemyB"));
+            livingRoomInterface.livingRoomPane.add(enemyPanelB,JLayeredPane.PALETTE_LAYER);
+
+            //TODO: itemGrids will be manipulated
+            enemyShelfPanelB = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyBGridY,PixelUtil.enemyCellW,PixelUtil.enemyCellH,PixelUtil.enemyItemW,PixelUtil.enemyItemH);
+            livingRoomInterface.livingRoomPane.add(enemyShelfPanelB,JLayeredPane.PALETTE_LAYER);
+
+
+        }
+        if(askMaxSeats()<=4)
+        {
+            //setThird enemy's Label
+            enemyPanelC = new EnemyPanel(PixelUtil.commonY_3, ImageUtil.getBoardImage("enemyC"));
+            livingRoomInterface.livingRoomPane.add(enemyPanelC,JLayeredPane.PALETTE_LAYER);
+
+            //TODO: itemGrids will be manipulated
+            enemyShelfPanelC = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyCGridY,PixelUtil.enemyCellW,PixelUtil.enemyCellH,PixelUtil.enemyItemW,PixelUtil.enemyItemH);
+            livingRoomInterface.livingRoomPane.add(enemyShelfPanelC,JLayeredPane.PALETTE_LAYER);
+
+        }
+        //TODO: who is the chairMan (int ?)
+        chairManLabel = new ChairManLabel(3);
+        livingRoomInterface.livingRoomPane.add(chairManLabel,JLayeredPane.PALETTE_LAYER);
 
     }
 
@@ -228,9 +280,23 @@ public class Gui implements View {
         ruleDialog.setVisible(true);
     }
 
-    public static void main(String[] args) {
+
+
+    /*public static void main(String[] args) {
         try {
             new Gui().init();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }*/
+
+
+
+
+    //for living room test (it will be deleted, don't worry )
+    public static void main(String[] args){
+        try {
+            new Gui().showMatchSetup();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

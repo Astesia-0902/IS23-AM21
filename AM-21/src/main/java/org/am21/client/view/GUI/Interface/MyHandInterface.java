@@ -1,4 +1,11 @@
 package org.am21.client.view.GUI.Interface;
 
-public class MyHandInterface {
+import javax.swing.*;
+
+public class MyHandInterface extends JFrame {
+
+    public JLayeredPane myHandPane;
+    public MyHandInterface(){
+
+    }
 }

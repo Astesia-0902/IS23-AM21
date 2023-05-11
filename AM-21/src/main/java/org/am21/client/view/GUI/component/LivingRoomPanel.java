@@ -8,30 +8,30 @@ import javax.swing.*;
 import java.awt.*;
 
 
-public class GamePanel extends JPanel {
+public class LivingRoomPanel extends JPanel {
 
     //menu TODO: complete
-    public JButton livingRoomMenuLabel;
+    public JButton livingRoomMenuButton;
 
     //user me
-    public JLabel userMe;
+    public JLabel myLabel;
     public JLabel myShelfBoardLabel;
 
     //enemy A
-    public JLabel enemyA;
-    public JLabel enemyAShelfBoard;
+    public JLabel enemyALabel;
+    public JLabel enemyAShelfBoardLabel;
 
     //enemy B
-    public JLabel enemyB;
-    public JLabel enemyBShelfBoard;
+    public JLabel enemyBLabel;
+    public JLabel enemyBShelfBoardLabel;
 
     //enemy C
-    public JLabel enemyC;
-    public JLabel enemyCShelfBoard;
+    public JLabel enemyCLabel;
+    public JLabel enemyCShelfBoardLabel;
 
     //insert and clear button
-    public JButton jbInsert;
-    public JButton jbClear;
+    public JButton insertButton;
+    public JButton clearButton;
 
 
     //background label
@@ -63,7 +63,7 @@ public class GamePanel extends JPanel {
     public JButton sendButton;
 
     //hand board
-    public JLabel handBoard;
+    public JLabel handBoardLabel;
 
     //TODO: my Score
 
@@ -71,11 +71,8 @@ public class GamePanel extends JPanel {
     //TODO:enemy score
 
 
-    //TODO: charMan enemy A,B,C
 
-    //TODO: charMan me
-
-    public GamePanel(){
+    public LivingRoomPanel(){
 
         //back board panel
         setSize(PixelUtil.pcWidth, PixelUtil.pcHeight);
@@ -92,7 +89,6 @@ public class GamePanel extends JPanel {
         backGroundLabel = new JLabel();
         backGroundLabel.setBounds(0,0,PixelUtil.pcWidth,PixelUtil.pcHeight);
         backGroundLabel.setIcon(ImageUtil.getBoardImage("backGround"));
-        /*TODO: add Listener event*/
         panelBoard.add(backGroundLabel,JLayeredPane.DEFAULT_LAYER);
 
         //game board label
@@ -100,7 +96,6 @@ public class GamePanel extends JPanel {
         gameBoardLabel.setBounds(PixelUtil.commonX_3,PixelUtil.gameBoardY,PixelUtil.gameBoardW,PixelUtil.gameBoardH);
         gameBoardLabel.setIcon(ImageUtil.getBoardImage("gameBoard"));
         panelBoard.add(gameBoardLabel,JLayeredPane.PALETTE_LAYER);
-
 
         //my shelf board label
         myShelfBoardLabel = new JLabel();
@@ -110,22 +105,22 @@ public class GamePanel extends JPanel {
 
 
         //enemy A shelf
-        enemyAShelfBoard = new JLabel();
-        enemyAShelfBoard.setBounds(PixelUtil.commonX_2,PixelUtil.commonY_1,PixelUtil.enemyShelfW,PixelUtil.enemyShelfH);
-        enemyAShelfBoard.setIcon(ImageUtil.getShelfImage(PixelUtil.enemyShelfW,PixelUtil.enemyShelfH));
-        panelBoard.add(enemyAShelfBoard,JLayeredPane.PALETTE_LAYER);
+        /*enemyAShelfBoardLabel = new JLabel();
+        enemyAShelfBoardLabel.setBounds(PixelUtil.commonX_2,PixelUtil.commonY_1,PixelUtil.enemyShelfW,PixelUtil.enemyShelfH);
+        enemyAShelfBoardLabel.setIcon(ImageUtil.getShelfImage(PixelUtil.enemyShelfW,PixelUtil.enemyShelfH));
+        panelBoard.add(enemyAShelfBoardLabel,JLayeredPane.PALETTE_LAYER);
 
         //enemy B shelf
-        enemyBShelfBoard = new JLabel();
-        enemyBShelfBoard.setBounds(PixelUtil.commonX_2,PixelUtil.commonY_2,PixelUtil.enemyShelfW,PixelUtil.enemyShelfH);
-        enemyBShelfBoard.setIcon(ImageUtil.getShelfImage(PixelUtil.enemyShelfW,PixelUtil.enemyShelfH));
-        panelBoard.add(enemyBShelfBoard,JLayeredPane.PALETTE_LAYER);
+        enemyBShelfBoardLabel = new JLabel();
+        enemyBShelfBoardLabel.setBounds(PixelUtil.commonX_2,PixelUtil.commonY_2,PixelUtil.enemyShelfW,PixelUtil.enemyShelfH);
+        enemyBShelfBoardLabel.setIcon(ImageUtil.getShelfImage(PixelUtil.enemyShelfW,PixelUtil.enemyShelfH));
+        panelBoard.add(enemyBShelfBoardLabel,JLayeredPane.PALETTE_LAYER);
 
         //enemy C shelf
-        enemyCShelfBoard = new JLabel();
-        enemyCShelfBoard.setBounds(PixelUtil.commonX_2,PixelUtil.commonY_3,PixelUtil.enemyShelfW,PixelUtil.enemyShelfH);
-        enemyCShelfBoard.setIcon(ImageUtil.getShelfImage(PixelUtil.enemyShelfW,PixelUtil.enemyShelfH));
-        panelBoard.add(enemyCShelfBoard,JLayeredPane.PALETTE_LAYER);
+        enemyCShelfBoardLabel = new JLabel();
+        enemyCShelfBoardLabel.setBounds(PixelUtil.commonX_2,PixelUtil.commonY_3,PixelUtil.enemyShelfW,PixelUtil.enemyShelfH);
+        enemyCShelfBoardLabel.setIcon(ImageUtil.getShelfImage(PixelUtil.enemyShelfW,PixelUtil.enemyShelfH));
+        panelBoard.add(enemyCShelfBoardLabel,JLayeredPane.PALETTE_LAYER);*/
 
         //personal goal card label
         personalGoalLabel = new JLabel();
@@ -151,61 +146,45 @@ public class GamePanel extends JPanel {
         bagLabel.setIcon(ImageUtil.getBoardImage("bagClose"));
         panelBoard.add(bagLabel,JLayeredPane.PALETTE_LAYER);
 
-        //option menu
-        livingRoomMenuLabel = new JButton();
-        //this.jmMenu.setFont(new Font("DejaVu Sans",Font.PLAIN,12));
-        livingRoomMenuLabel.setBounds(PixelUtil.livingRoomMenuX,PixelUtil.livingRoomMenuY,PixelUtil.livingRoomMenuW,PixelUtil.livingRoomMenuH);
-        livingRoomMenuLabel.setForeground(new Color(164, 91, 9, 255));
-        livingRoomMenuLabel.setOpaque(false);
-        livingRoomMenuLabel.setIcon(ImageUtil.getBoardImage("iconMenu"));
+        //Menu button
+        livingRoomMenuButton = new JButton();
+        livingRoomMenuButton.setBounds(PixelUtil.livingRoomMenuX,PixelUtil.livingRoomMenuY,PixelUtil.livingRoomMenuW,PixelUtil.livingRoomMenuH);
+        livingRoomMenuButton.setForeground(new Color(164, 91, 9, 255));
+        livingRoomMenuButton.setOpaque(false);
+        livingRoomMenuButton.setIcon(ImageUtil.getBoardImage("iconMenu"));
 
-        /*this.jmiRule = jmMenu.add("Rule");
-        this.jmiRule.setFont(new Font("DejaVu Sans",Font.PLAIN,12));
-        //TODO:add Action listner
-        this.jmMenu.add(this.jmiRule,JLayeredPane.PALETTE_LAYER);
 
-        this.jmiHelp = jmMenu.add("Help");
-        this.jmiHelp.setFont(new Font("DejaVu Sans",Font.PLAIN,12));
-        //TODO:add Action listner
-        this.jmMenu.add(this.jmiHelp,JLayeredPane.PALETTE_LAYER);
-
-        this.jmiLeave = jmMenu.add("Leave");
-        this.jmiLeave.setFont(new Font("DejaVu Sans",Font.PLAIN,12));
-        //TODO:add Action listner
-        this.jmMenu.add(this.jmiHelp,JLayeredPane.PALETTE_LAYER);
-*/
-        panelBoard.add(livingRoomMenuLabel,JLayeredPane.PALETTE_LAYER);
+        panelBoard.add(livingRoomMenuButton,JLayeredPane.PALETTE_LAYER);
 
         //Insert input button
-        jbInsert = new JButton("INSERT");
-        jbInsert.setFont(new Font("DejaVu Sans",Font.PLAIN,16));
-        jbInsert.setBounds(PixelUtil.insertButtonX,PixelUtil.commonY_4,PixelUtil.insertClearButtonW,PixelUtil.insertClearButtonH);
-        jbInsert.setOpaque(true);
-        jbInsert.setBackground(new Color(4, 134, 10, 230));
-        jbInsert.setForeground(new Color(4, 134, 10, 230));
+        insertButton = new JButton("INSERT");
+        insertButton.setFont(new Font("DejaVu Sans",Font.PLAIN,16));
+        insertButton.setBounds(PixelUtil.insertButtonX,PixelUtil.commonY_4,PixelUtil.insertClearButtonW,PixelUtil.insertClearButtonH);
+        insertButton.setOpaque(true);
+        insertButton.setBackground(new Color(4, 134, 10, 230));
+        insertButton.setForeground(new Color(4, 134, 10, 230));
         //TODO: actionListener
-        panelBoard.add(this.jbInsert,JLayeredPane.PALETTE_LAYER);
+        panelBoard.add(this.insertButton,JLayeredPane.PALETTE_LAYER);
 
         //clear selection button
-        jbClear = new JButton("CLEAR");
-        jbClear.setFont(new Font("DejaVu Sans",Font.PLAIN,16));
-        jbClear.setBounds(PixelUtil.clearButtonX,PixelUtil.commonY_4,PixelUtil.insertClearButtonW,PixelUtil.insertClearButtonH);
-        jbClear.setOpaque(true);
-        jbClear.setBackground(new Color(172, 19, 5, 230));
-        jbClear.setForeground(new Color(172, 19, 5, 230));
+        clearButton = new JButton("CLEAR");
+        clearButton.setFont(new Font("DejaVu Sans",Font.PLAIN,16));
+        clearButton.setBounds(PixelUtil.clearButtonX,PixelUtil.commonY_4,PixelUtil.insertClearButtonW,PixelUtil.insertClearButtonH);
+        clearButton.setOpaque(true);
+        clearButton.setBackground(new Color(172, 19, 5, 230));
+        clearButton.setForeground(new Color(172, 19, 5, 230));
 
         //TODO: actionListener
-        panelBoard.add(jbClear,JLayeredPane.PALETTE_LAYER);
+        panelBoard.add(clearButton,JLayeredPane.PALETTE_LAYER);
 
 
 
 
-        //chat box
+        //chat box TODO: completed with chat waitingRoomInterface
         chatPanel = new JLayeredPane();
         chatPanel.setBounds(PixelUtil.cPanelX,PixelUtil.cPanelY,PixelUtil.cPanelW,PixelUtil.cPanelH);
         chatPanel.setLayout(null);
         panelBoard.add(chatPanel,JLayeredPane.PALETTE_LAYER);
-
 
         chatHistory = new JTextArea();
         chatHistory.setEditable(false);
@@ -241,52 +220,39 @@ public class GamePanel extends JPanel {
         sendButton.setForeground(new Color(255, 255, 255, 255));
         sendButton.setBorder(BorderFactory.createLineBorder(new Color(85, 35, 222, 230)));
         chatPanel.add(sendButton,JLayeredPane.MODAL_LAYER);
-        //this.messagePanel.add(this.sendButton,JLayeredPane.MODAL_LAYER);
-        /*
-
-
-
-        this.messagePanel.setLayout(new BorderLayout());
-
-
-
-
-        this.messagePanel.add(messageField,BorderLayout.CENTER);
-        this.messagePanel.add(sendButton,BorderLayout.EAST);
-        this.panelBoard.add(messagePanel,BorderLayout.SOUTH);*/
 
 
 
 
         //take card label
-        handBoard = new JLabel();
-        handBoard.setBounds(PixelUtil.commonX_4,PixelUtil.commonY_4,PixelUtil.handBoardW,PixelUtil.handBoardH);
-        handBoard.setIcon(ImageUtil.getBoardImage("handBoard"));
-        panelBoard.add(handBoard,JLayeredPane.PALETTE_LAYER);
+        handBoardLabel = new JLabel();
+        handBoardLabel.setBounds(PixelUtil.commonX_4,PixelUtil.commonY_4,PixelUtil.handBoardW,PixelUtil.handBoardH);
+        handBoardLabel.setIcon(ImageUtil.getBoardImage("handBoard"));
+        panelBoard.add(handBoardLabel,JLayeredPane.PALETTE_LAYER);
 
         //user Me
-        userMe = new JLabel();
-        userMe.setBounds(PixelUtil.userMeX,PixelUtil.commonY_1,PixelUtil.userMeW,PixelUtil.userMeH);
-        userMe.setIcon(ImageUtil.getBoardImage("iconMe"));
-        panelBoard.add(userMe,JLayeredPane.PALETTE_LAYER);
+        myLabel = new JLabel();
+        myLabel.setBounds(PixelUtil.userMeX,PixelUtil.commonY_1,PixelUtil.userMeW,PixelUtil.userMeH);
+        myLabel.setIcon(ImageUtil.getBoardImage("iconMe"));
+        panelBoard.add(myLabel,JLayeredPane.PALETTE_LAYER);
 
         //enemy A
-        enemyA = new JLabel();
-        enemyA.setBounds(PixelUtil.commonX_1,PixelUtil.commonY_1,PixelUtil.enemyW,PixelUtil.enemyH);
-        enemyA.setIcon(ImageUtil.getBoardImage("enemyA"));
-        panelBoard.add(enemyA,JLayeredPane.PALETTE_LAYER);
+        /*enemyALabel = new JLabel();
+        enemyALabel.setBounds(PixelUtil.commonX_1,PixelUtil.commonY_1,PixelUtil.enemyW,PixelUtil.enemyH);
+        enemyALabel.setIcon(ImageUtil.getBoardImage("enemyA"));
+        panelBoard.add(enemyALabel,JLayeredPane.PALETTE_LAYER);
 
         //enemy B
-        enemyB = new JLabel();
-        enemyB.setBounds(PixelUtil.commonX_1,PixelUtil.commonY_2,PixelUtil.enemyW,PixelUtil.enemyH);
-        enemyB.setIcon(ImageUtil.getBoardImage("enemyB"));
-        panelBoard.add(enemyB,JLayeredPane.PALETTE_LAYER);
+        enemyBLabel = new JLabel();
+        enemyBLabel.setBounds(PixelUtil.commonX_1,PixelUtil.commonY_2,PixelUtil.enemyW,PixelUtil.enemyH);
+        enemyBLabel.setIcon(ImageUtil.getBoardImage("enemyB"));
+        panelBoard.add(enemyBLabel,JLayeredPane.PALETTE_LAYER);
 
         //enemy C
-        enemyC = new JLabel();
-        enemyC.setBounds(PixelUtil.commonX_1,PixelUtil.commonY_3,PixelUtil.enemyW,PixelUtil.enemyH);
-        enemyC.setIcon(ImageUtil.getBoardImage("enemyC"));
-        panelBoard.add(enemyC,JLayeredPane.PALETTE_LAYER);
+        enemyCLabel = new JLabel();
+        enemyCLabel.setBounds(PixelUtil.commonX_1,PixelUtil.commonY_3,PixelUtil.enemyW,PixelUtil.enemyH);
+        enemyCLabel.setIcon(ImageUtil.getBoardImage("enemyC"));
+        panelBoard.add(enemyCLabel,JLayeredPane.PALETTE_LAYER);*/
 
     }
 

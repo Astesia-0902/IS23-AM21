@@ -11,25 +11,32 @@ public class ChairManLabel extends JPanel {
 
     //TODO: please completed
     public ChairManLabel(int playerID){
-        switch(playerID){
-            case 1:
-                setBounds(0, 0, PixelUtil.chairHW, PixelUtil.chairHW);
-                setLayout(null);
-                setOpaque(false);
-
-                chairPane = new JLayeredPane();
-                chairPane.setBounds(0,0, PixelUtil.chairHW, PixelUtil.chairHW);
-                chairPane.setLayout(null);
-                chairPane.setOpaque(false);
-                add(chairPane);
-
-                chairLabel = new JLabel();
-                chairLabel.setBounds(0,0,PixelUtil.chairHW, PixelUtil.chairHW);
-                chairLabel.setIcon(ImageUtil.getChairManImage());
-                chairPane.add(chairLabel,JLayeredPane.DEFAULT_LAYER);
-            default:
+        switch (playerID) {
+            case 1 -> setChairMan(PixelUtil.commonX_1, PixelUtil.chairManAY);
+            case 2 -> setChairMan(PixelUtil.commonX_1, PixelUtil.chairManBY);
+            case 3 -> setChairMan(PixelUtil.commonX_1, PixelUtil.chairManCY);
+            default -> //Me
+                    setChairMan(PixelUtil.chairManMeX, PixelUtil.chairManMeY);
         }
 
+    }
+
+    public void setChairMan(int posX, int posY){
+
+        setBounds(posX, posY, PixelUtil.chairW, PixelUtil.chairH);
+        setLayout(null);
+        setOpaque(false);
+
+        chairPane = new JLayeredPane();
+        chairPane.setBounds(0,0, PixelUtil.chairW, PixelUtil.chairH);
+        chairPane.setLayout(null);
+        chairPane.setOpaque(false);
+        add(chairPane);
+
+        chairLabel = new JLabel();
+        chairLabel.setBounds(0,0,PixelUtil.chairW, PixelUtil.chairH);
+        chairLabel.setIcon(ImageUtil.getChairManImage());
+        chairPane.add(chairLabel,JLayeredPane.DEFAULT_LAYER);
     }
 
 }

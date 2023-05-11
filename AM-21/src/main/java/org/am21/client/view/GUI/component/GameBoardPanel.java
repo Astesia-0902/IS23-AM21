@@ -1,5 +1,6 @@
 package org.am21.client.view.GUI.component;
 
+import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PathUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
@@ -8,9 +9,12 @@ import org.am21.utilities.Coordinates;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.util.List;
 
-public class GameBoardPanel extends JPanel {
+public class GameBoardPanel extends JPanel implements MouseListener, ActionListener {
+    Gui gui;
+    Point p = new Point();
     private final int GridRowsMax=9;
     private final int GridColumnsMax=9;
 
@@ -53,6 +57,8 @@ public class GameBoardPanel extends JPanel {
                     grids[i][j].setLayout(null);
                     gameBoardPane.add(grids[i][j],JLayeredPane.DEFAULT_LAYER);
 
+                    //TODO: refill board randomly
+
                     putItem(i,j);
                 }
             }
@@ -94,5 +100,29 @@ public class GameBoardPanel extends JPanel {
 
     public void getScoreTokenEndGame(){
         //TODO:
+    }
+
+    public void actionPerformed(ActionEvent e) {
+
+    }
+    public void mouseClicked(MouseEvent e) {
+
+
+    }
+
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    public void mouseExited(MouseEvent e) {
+
     }
 }

@@ -57,7 +57,8 @@ public class PixelUtil {
     public static int gameBoardItemH = gameBoardCellH *9114/10000;
 
 
-    public static int chairHW = 999;
+    public static int chairW = pcWidth*375/10000;
+    public static int chairH = 64;
     /**
      * position util
      */
@@ -77,10 +78,10 @@ public class PixelUtil {
     public static int clearButtonX=pcWidth*459/1000;
     public static int userMeX = pcWidth*72/100;
 
-
     public static int gameBoardGridX = pcWidth*248/1000;
-   // public static int handGridX = 1200;
 
+
+    public static int chairManMeX = pcWidth*6845/10000;
 
     // Y position
     public static int commonY_1 = pcHeight*3/100;
@@ -95,12 +96,15 @@ public class PixelUtil {
     public static int personalGoalY= pcHeight*16/100;
     public static int commonGoalY_A = pcHeight*762/10000;
     public static int commonGoalY_B = pcHeight*238/1000;
-    public static int bagY =  pcHeight/100;
+    public static int bagY = pcHeight/100;
     public static int livingRoomMenuY = pcHeight*95/10000;
 
     public static int gameBoardGridY =  pcHeight*138/1000;
 
-    //public static int handGridY =
+    public static int chairManMeY = pcHeight/100;
+    public static int chairManAY = pcHeight*105/10;
+    public static int chairManBY = pcHeight*295/1000;
+    public static int chairManCY = pcHeight*51/100;
 
     /**
      * chat util
