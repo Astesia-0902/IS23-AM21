@@ -1439,6 +1439,7 @@ public class Cli implements View {
 
     }
     public void printPublicChat(){
+        System.out.println();
         if(publicChat==null){
             System.out.println("\"No records\"");
             return;
@@ -1505,7 +1506,7 @@ public class Cli implements View {
                     if(live_message.equals("/exit")){
                         CHAT_MODE=false;
 
-                    }else {
+                    }else if(!live_message.equals("")){
                         commCtrl.sendPublicMessage(live_message,true);
                     }
                 }
@@ -1513,7 +1514,12 @@ public class Cli implements View {
             //readLine();
         }
 
+    }
 
+    public void refreshChat(){
+        if(CHAT_MODE){
+            REFRESH = true;
+        }
 
     }
 

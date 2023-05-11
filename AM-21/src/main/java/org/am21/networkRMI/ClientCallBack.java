@@ -18,10 +18,25 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     @Override
     public void sendMessageToClient(String message,boolean refresh) throws RemoteException {
         if(cli!=null){
-            //TODO:Print the message from server
-            cli.printer(message);
-            if(refresh) {
-                cli.refresh(cli);
+            if(!cli.CHAT_MODE) {
+                cli.printer(message);
+                if (refresh) {
+                    cli.refresh(cli);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void sendChatNotification(String message,boolean refresh) throws RemoteException{
+        if(cli!=null){
+            if(cli.CHAT_MODE){
+                cli.refreshChat();
+            }else{
+                cli.printer(message);
+                if (refresh) {
+                    cli.refresh(cli);
+                }
             }
         }
     }
@@ -99,7 +114,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     public void sendVirtualPublicChat(String virtualPublicChat) throws RemoteException {
         ClientView.convertBackPublicChat(virtualPublicChat);
         if(cli!=null){
-            cli.refresh(cli);
+            //cli.refresh(cli);
         }
     }
 

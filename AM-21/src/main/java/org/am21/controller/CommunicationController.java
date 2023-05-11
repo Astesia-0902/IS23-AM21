@@ -184,6 +184,20 @@ public class CommunicationController implements ICommunication {
         }
     }
 
+    @Override
+    public void sendChatNotification(String message, boolean refresh, PlayerController pc) {
+        if(pc.connectionType == ConnectionType.RMI){
+            try {
+                pc.clientInput.callBack.sendChatNotification(message,refresh);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }else if(pc.connectionType == ConnectionType.SOCKET){
+
+
+        }
+    }
+
 
     //TODO: testClientConnection
 }

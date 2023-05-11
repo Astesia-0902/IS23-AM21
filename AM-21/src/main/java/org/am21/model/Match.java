@@ -492,6 +492,23 @@ public class Match {
     }
 
     /**
+     * Send Chat notification to all player in the match except the sender
+     * @param message
+     * @param sender
+     * @param refresh
+     */
+    public void sendChatNotification(String message,String sender, boolean refresh) {
+        for (Player p : playerList) {
+            if (p.getNickname().equals(sender)) {
+                continue;
+            }
+            if (p.getController().clientInput != null || p.getController().clientHandlerSocket != null) {
+                GameManager.sendChatNotification(p.getController(), message, refresh);
+            }
+        }
+    }
+
+    /**
      * Update each player view with the new JSONHand
      */
     public void updateVirtualHand() {

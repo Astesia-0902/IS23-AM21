@@ -96,5 +96,11 @@ public class GameManager {
         }
     }
 
+    public static void sendChatNotification(PlayerController pc,String m,boolean refresh){
+        if(SERVER_COMM){
+            CommunicationController.instance.sendChatNotification(m,refresh,pc);
+        }
+    }
+
 }
 

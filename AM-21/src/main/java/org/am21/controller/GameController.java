@@ -19,17 +19,17 @@ public class GameController {
     public GameController() throws RemoteException {
     }
 
-    public static boolean checkPlayerActionPhase(PlayerController  playerController){
+    public static boolean checkPlayerActionPhase(PlayerController playerController) {
         String username = playerController.getPlayer().getNickname();
         synchronized (GameManager.playerMatchMap) {
             synchronized (GameManager.matchList) {
-                if(GameManager.playerMatchMap.containsKey(username)&&
+                if (GameManager.playerMatchMap.containsKey(username) &&
                         username.equals(GameManager.matchList.
-                                get(GameManager.playerMatchMap.get(username)).currentPlayer.getNickname())){
+                                get(GameManager.playerMatchMap.get(username)).currentPlayer.getNickname())) {
                     return true;
                 }
-                GameManager.sendReply(playerController, ServerMessage.NotYourTurn,false);
-                return  false;
+                GameManager.sendReply(playerController, ServerMessage.NotYourTurn, false);
+                return false;
             }
         }
     }
@@ -52,7 +52,7 @@ public class GameController {
                 GameManager.players.add(playerController.getPlayer());
             }
         }
-        CommunicationController.instance.sendMessageToClient(ServerMessage.Login_Ok.value() + username,false , playerController);
+        CommunicationController.instance.sendMessageToClient(ServerMessage.Login_Ok.value() + username, false, playerController);
         //DEBUG
         System.out.println(username + " joined the game");
         return true;
@@ -85,28 +85,28 @@ public class GameController {
     private static boolean joinGameHelper(int matchID, String userName, PlayerController playerController) {
         if (GameManager.matchList.size() < (matchID + 1) || GameManager.matchList.get(matchID) == null) {
             //System.out.println("Server >  The specified match does not exist.");
-            GameManager.sendReply(playerController, ServerMessage.FindM_No,false);
+            GameManager.sendReply(playerController, ServerMessage.FindM_No, false);
             return false;
         }
 
         if (GameManager.matchList.get(matchID).gameState == GameState.GameGoing) {
             if (!GameManager.playerMatchMap.containsKey(userName)) {
                 //System.out.println("Message from the server: the player not exists in any match.");
-                GameManager.sendReply(playerController, ServerMessage.PExists_No,false);
+                GameManager.sendReply(playerController, ServerMessage.PExists_No, false);
                 return false;
             } else {
                 if (!GameManager.matchList.get(matchID).addPlayer(playerController.getPlayer())) {
                     //System.out.println("Message from the server: the match is full.");
-                    GameManager.sendReply(playerController, ServerMessage.FullM,false);
+                    GameManager.sendReply(playerController, ServerMessage.FullM, false);
                     return false;
                 }
             }
             //if the match is not started, the player join the match
         } else if (GameManager.matchList.get(matchID).gameState == GameState.WaitingPlayers) {
-            GameManager.sendReply(playerController, ServerMessage.FindM_Ok,false);
+            GameManager.sendReply(playerController, ServerMessage.FindM_Ok, false);
             if (!GameManager.matchList.get(matchID).addPlayer(playerController.getPlayer())) {
                 //System.out.println("Message from the server: the match is full.");
-                GameManager.sendReply(playerController, ServerMessage.FullM,false);
+                GameManager.sendReply(playerController, ServerMessage.FullM, false);
                 return false;
             }
 
@@ -127,7 +127,7 @@ public class GameController {
             synchronized (GameManager.matchList) {
                 if (createMatchHelper(userName, createMatchRequestCount, playerNum, playerController)) {
                     //System.out.println("Message from the server: the match is created.");
-                    GameManager.sendReply(playerController, ServerMessage.CreateM_Ok,false);
+                    GameManager.sendReply(playerController, ServerMessage.CreateM_Ok, false);
                     return true;
                 }
             }
@@ -147,7 +147,7 @@ public class GameController {
                     "Create a new match will cause the player leave the current match." +
                     "Do you want to continue?");*/
             //TODO:
-            GameManager.sendReply(playerController, ServerMessage.PExists,false);
+            GameManager.sendReply(playerController, ServerMessage.PExists, false);
             createMatchRequestCount = 1;
         } else if (GameManager.playerMatchMap.containsKey(userName) && createMatchRequestCount == 1) {
             createMatchRequestCount = 0;
@@ -155,7 +155,7 @@ public class GameController {
                 return true;
             } else {
                 //System.out.println("Exceeded players number limit. Try again.");
-                GameManager.sendReply(playerController, ServerMessage.PExceed,false);
+                GameManager.sendReply(playerController, ServerMessage.PExceed, false);
 
             }
             //TODO:player leave the current match
@@ -166,7 +166,7 @@ public class GameController {
                 return true;
             } else {
                 //System.out.println("Exceeded players number limit. Try again.");
-                GameManager.sendReply(playerController, ServerMessage.PExceed,false);
+                GameManager.sendReply(playerController, ServerMessage.PExceed, false);
             }
 
 
@@ -193,7 +193,7 @@ public class GameController {
      */
     public static boolean cancelPlayer(PlayerController ctrl) {
         if (GameManager.players.contains(ctrl.getPlayer())) {
-            GameManager.sendTextReply(ctrl, SC.WHITE_BB + "\nServer > Game Closed" + SC.RST,false);
+            GameManager.sendTextReply(ctrl, SC.WHITE_BB + "\nServer > Game Closed" + SC.RST, false);
             GameManager.players.remove(GameManager.players.indexOf(ctrl.getPlayer()));
             return true;
         }
@@ -204,7 +204,7 @@ public class GameController {
         return checkPlayerActionPhase(playerController) && playerController.selectCell(row, col);
     }
 
-    public static boolean confirmSelection(PlayerController playerController)  {
+    public static boolean confirmSelection(PlayerController playerController) {
         return checkPlayerActionPhase(playerController) && playerController.callEndSelection();
     }
 
@@ -212,17 +212,17 @@ public class GameController {
         return checkPlayerActionPhase(playerController) && playerController.tryToInsert(colNum);
     }
 
-    public static boolean deselectCards(PlayerController playerController)  {
+    public static boolean deselectCards(PlayerController playerController) {
         return checkPlayerActionPhase(playerController) && playerController.clearSelectedCards();
     }
 
-    public static boolean sortHand(int pos1, int pos2, PlayerController playerController)  {
+    public static boolean sortHand(int pos1, int pos2, PlayerController playerController) {
         return checkPlayerActionPhase(playerController) && playerController.changeHandOrder(pos1, pos2);
     }
 
     public static boolean leaveMatch(PlayerController playerController) {
         if (GameController.removePlayerFromMatch(playerController, playerController.getPlayer().getMatch().matchID)) {
-            CommunicationController.instance.sendMessageToClient("Server > Leaving Room...",true , playerController);
+            CommunicationController.instance.sendMessageToClient("Server > Leaving Room...", true, playerController);
             CommunicationController.instance.notifyGoToMenu(playerController);
             return true;
         }
@@ -266,14 +266,14 @@ public class GameController {
         return false;
     }
 
-    public static boolean sendPlayerMessage(String message, String receiver, PlayerController playerController,boolean refresh) {
+    public static boolean sendPlayerMessage(String message, String receiver, PlayerController playerController, boolean refresh) {
         String sender = playerController.getPlayer().getNickname();
         synchronized (GameManager.players) {
             for (Player p : GameManager.players) {
                 if (p.getNickname().equals(receiver)) {
-                    GameManager.sendTextReply(p.getController(), "\n------------------------------------------",refresh);
-                    GameManager.sendTextReply(p.getController(), sender + "[!] > \"" + message + "\"",refresh);
-                    GameManager.sendTextReply(p.getController(), "------------------------------------------\n",refresh);
+                    GameManager.sendTextReply(p.getController(), "\n------------------------------------------", refresh);
+                    GameManager.sendTextReply(p.getController(), sender + "[!] > \"" + message + "\"", refresh);
+                    GameManager.sendTextReply(p.getController(), "------------------------------------------\n", refresh);
 
                     return true;
                 }
@@ -295,7 +295,7 @@ public class GameController {
                 }
             }
         }
-        CommunicationController.instance.sendMessageToClient(message,false , playerController);
+        CommunicationController.instance.sendMessageToClient(message, false, playerController);
     }
 
     public static void printMatchList(PlayerController playerController) {
@@ -308,10 +308,10 @@ public class GameController {
                 }
             }
         }
-        CommunicationController.instance.sendMessageToClient(message,false , playerController);
+        CommunicationController.instance.sendMessageToClient(message, false, playerController);
     }
 
-    public static boolean endTurn(PlayerController playerController)  {
+    public static boolean endTurn(PlayerController playerController) {
         if (checkPlayerActionPhase(playerController)) {
             playerController.callEndInsertion();
             return true;
@@ -342,8 +342,8 @@ public class GameController {
                     Shelf.STD_LIMIT = newLimit;
                     synchronized (GameManager.players) {
                         for (Player player : GameManager.players) {
-                            if (player.getController() != null && player.getStatus()!=UserStatus.Offline) {
-                                CommunicationController.instance.sendMessageToClient(SC.YELLOW + "\nServer > Insertion Limit changed to: " + newLimit + SC.RST,true , player.getController());
+                            if (player.getController() != null && player.getStatus() != UserStatus.Offline) {
+                                CommunicationController.instance.sendMessageToClient(SC.YELLOW + "\nServer > Insertion Limit changed to: " + newLimit + SC.RST, true, player.getController());
                             }
                         }
                     }
@@ -355,25 +355,23 @@ public class GameController {
     }
 
 
-    public static boolean forwardPublicMessage(String message, PlayerController ctrl,boolean live){
-        synchronized (GameManager.playerMatchMap){
-            if(ctrl.getPlayer().getMatch()==null || !GameManager.playerMatchMap.containsKey(ctrl.getPlayer().getNickname())){
+    public static boolean forwardPublicMessage(String message, PlayerController ctrl, boolean live) {
+        synchronized (GameManager.playerMatchMap) {
+            if (ctrl.getPlayer().getMatch() == null || !GameManager.playerMatchMap.containsKey(ctrl.getPlayer().getNickname())) {
                 return false;
             }
         }
         //Ensures that the player is in a match
         Player sender = ctrl.getPlayer();
-        sender.getMatch().chatManager.handlePublicChatMessage(sender,message);
-        if(!live){
-            String formalMessage=sender.getNickname() + " says > " + message;
-            sender.getMatch().sendTextToAll(formalMessage,false,false);
-        }
-        VirtualViewHelper.virtualizePublicChat(sender.getMatch(),sender.getMatch().chatManager.chatMessages);
+        sender.getMatch().chatManager.handlePublicChatMessage(sender, message);
+        String formalMessage = "\n" + sender.getNickname() + " says > " + message;
+        VirtualViewHelper.virtualizePublicChat(sender.getMatch(), sender.getMatch().chatManager.chatMessages);
         sender.getMatch().updatePlayersChats();
+        sender.getMatch().sendChatNotification(formalMessage, sender.getNickname(), true);
         return true;
     }
 
-    public static boolean forwardPrivateMessage(){
+    public static boolean forwardPrivateMessage() {
         return false;
     }
 }

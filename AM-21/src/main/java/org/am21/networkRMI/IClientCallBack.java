@@ -6,6 +6,9 @@ import java.rmi.server.ServerNotActiveException;
 
 public interface IClientCallBack extends Remote {
     void sendMessageToClient(String message,boolean refresh) throws RemoteException;
+
+    void sendChatNotification(String message, boolean refresh) throws RemoteException;
+
     void sendVirtualView(String virtualView, int pIndex) throws RemoteException;
     void sendChatMessage(String message) throws RemoteException;
     void notifyStart(int id) throws RemoteException, ServerNotActiveException;

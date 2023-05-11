@@ -18,4 +18,6 @@ public interface ICommunication {
 
     void sendVirtualHand(String JSONHand, PlayerController myPlayer);
     void returnBool(String method, boolean value, PlayerController pCtrl);
+
+    void sendChatNotification(String message, boolean refresh, PlayerController pc);
 }
