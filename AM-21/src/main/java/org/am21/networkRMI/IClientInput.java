@@ -53,5 +53,9 @@ public interface IClientInput extends Remote {
     boolean changeMatchSeats(int newMaxSeats) throws RemoteException;
 
     boolean changeInsertLimit(int newLimit) throws RemoteException;
+
+    boolean sendPublicMessage(String message, boolean live) throws RemoteException;
+
+    boolean sendPrivateMessage(String message, String receiver, boolean live) throws RemoteException;
 }
 

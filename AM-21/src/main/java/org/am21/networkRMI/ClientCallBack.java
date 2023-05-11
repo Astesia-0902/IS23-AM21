@@ -98,6 +98,9 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     @Override
     public void sendVirtualPublicChat(String virtualPublicChat) throws RemoteException {
         ClientView.convertBackPublicChat(virtualPublicChat);
+        if(cli!=null){
+            cli.refresh(cli);
+        }
     }
 
     @Override
@@ -110,5 +113,18 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
         ClientView.convertBackChatMap(virtualChatMap);
     }
 
+    @Override
+    public void sendMatchList(String virtualMatchList) throws RemoteException {
+        ClientView.convertBackMatchList(virtualMatchList);
+    }
 
+    @Override
+    public void sendOnlinePlayer(String virtualOnlinePlayers) throws RemoteException {
+        ClientView.convertBackOnlinePlayers(virtualOnlinePlayers);
+    }
+
+    @Override
+    public void sendServerVirtualView(String serverVV) throws RemoteException{
+        ClientView.updateServerView(serverVV);
+    }
 }

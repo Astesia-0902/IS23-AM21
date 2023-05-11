@@ -16,5 +16,10 @@ public interface IClientCallBack extends Remote {
     void sendVirtualPublicChat(String virtualPublicChat) throws RemoteException;
     void sendVirtualPrivateChats(String virtualPrivateChats) throws RemoteException;
     void sendChatMap(String virtualChatMap) throws RemoteException;
-    //TODO: testClientConnection
+
+    void sendMatchList(String virtualMatchList) throws RemoteException;
+    void sendOnlinePlayer(String virtualOnlinePlayers) throws RemoteException;
+
+
+    void sendServerVirtualView(String serverVV) throws RemoteException;
 }

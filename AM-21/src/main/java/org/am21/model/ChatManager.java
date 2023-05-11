@@ -12,7 +12,7 @@ import java.util.List;
  * This class is used to manage the chat messages
  * Every match has a chat manager
  */
-public class ChatManager extends ServerChatManager{
+public class ChatManager{
     public List<String> chatMessages = new ArrayList<>();
     private Match match;
 

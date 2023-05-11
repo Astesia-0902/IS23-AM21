@@ -29,6 +29,9 @@ public class ClientView {
     public static HashMap<String,Integer> chatMap;
     public static List<String> publicChat;
     public static List<List<String >> privateChats;
+    //------------------------------------------
+    public static String[][] matchList;
+    public static String[][] onlinePlayers;
 
     /**
      * Once the JSON is received, it is parsed and the data is stored in the corresponding variables
@@ -100,7 +103,7 @@ public class ClientView {
         JSONArray listOfList = JSON.parseArray(jsonPrivate);
         List<List<String>> tmp = new ArrayList<>();
         for(int i=0; i<listOfList.size();i++){
-            JSONArray list = (JSONArray) listOfList.get(i);
+            JSONArray list = listOfList.getJSONArray(i);
             List<String> tmpChat = list.toJavaList(String.class);
             tmp.add(tmpChat);
         }
@@ -108,6 +111,26 @@ public class ClientView {
     }
 
     public static void convertBackChatMap(String jsonChatMap){
+        chatMap = new HashMap<>();
+        JSONArray tmp = JSON.parseArray(jsonChatMap);
+
+    }
+
+    public static void convertBackMatchList(String jsonMatchList){
+
+
+    }
+
+    public static void convertBackOnlinePlayers(String jsonOnlinePlayers){
+
+
+    }
+
+    public static void updateServerView(String jsonServer){
+        JSONObject jsonObject = JSONObject.parseObject(jsonServer);
+
+        matchList= jsonObject.getObject("virtualMatchList",String[][].class);
+        onlinePlayers = jsonObject.getObject("virtualOnlinePlayers",String[][].class);
 
     }
 }

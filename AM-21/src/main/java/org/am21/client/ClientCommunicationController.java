@@ -354,4 +354,28 @@ public class ClientCommunicationController {
 
     }
 
+    public boolean sendPublicMessage(String message,boolean live){
+        if(ClientController.isRMI){
+            try {
+                return ClientController.iClientInputHandler.sendPublicMessage(message,live);
+            }catch (RemoteException e){
+                throw new RuntimeException(e);
+            }
+        }else {
+            return METHOD_RETURN;
+        }
+    }
+
+    public boolean sendPrivateMessage(String message,String receiver,boolean live){
+        if(ClientController.isRMI){
+            try {
+                return ClientController.iClientInputHandler.sendPrivateMessage(message,receiver,live);
+            }catch (RemoteException e){
+                throw new RuntimeException(e);
+            }
+        }else {
+            return METHOD_RETURN;
+        }
+    }
+
 }

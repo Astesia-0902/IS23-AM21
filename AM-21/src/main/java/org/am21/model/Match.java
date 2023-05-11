@@ -563,16 +563,18 @@ public class Match {
             //Sent to Group chat
             chatManager.handlePublicChatMessage(sender,message);
             String formalMessage=sender.getNickname() + " says > " + message;
-            VirtualViewHelper.virtualizePublicChat(this,chatManager.getChatMessages());
+
             sendTextToAll(formalMessage,false,true);
         }else {
             if(!chatManager.handlePrivateChatMessage(sender,receiver,message)){
                 return false;
             }
             String formalMessage=sender.getNickname() + " whispers > " + message;
-            VirtualViewHelper.virtualizePrivateChats(this, chatManager.getPrivateChats());
             GameManager.sendTextReply(chatManager.isMember(receiver).getController(),formalMessage,true);
         }
+        VirtualViewHelper.virtualizePrivateChats(this, chatManager.getPrivateChats());
+        VirtualViewHelper.virtualizeChatMap(this,chatManager.getChatMap());
+        VirtualViewHelper.virtualizePublicChat(this,chatManager.getChatMessages());
         updatePlayersChats();
         return true;
     }
@@ -605,8 +607,8 @@ public class Match {
     public void updatePlayersChats(){
         for (Player p : playerList) {
             CommunicationController.instance.sendVirtualPublicChat(VirtualViewHelper.convertPublicChatToJSON(virtualView),p.getController());
-            CommunicationController.instance.sendVirtualPrivateChat(VirtualViewHelper.convertPrivateChats(virtualView),p.getController());
-            CommunicationController.instance.sendVirtualChatMap(VirtualViewHelper.convertVirtualChatMapToJSON(virtualView),p.getController());
+            //CommunicationController.instance.sendVirtualPrivateChat(VirtualViewHelper.convertPrivateChats(virtualView),p.getController());
+            //CommunicationController.instance.sendVirtualChatMap(VirtualViewHelper.convertVirtualChatMapToJSON(virtualView),p.getController());
         }
     }
 

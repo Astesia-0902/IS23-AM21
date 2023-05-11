@@ -47,6 +47,8 @@ public class Cli implements View {
     public boolean WAIT_SOCKET=false;
     public int waitingThreads;
 
+    public static boolean CHAT_MODE=false;
+
     public Cli() throws RemoteException {
         this.clientCallBack = new ClientCallBack();
         //TODO: keep it separate from constructor to avoid test destruction :)
@@ -340,7 +342,10 @@ public class Cli implements View {
         String option = readLine();
         if (option.startsWith("/chat")) {
             handleChatMessage(option);
-        } else if (option.equals("")) {
+        }
+        else if(option.startsWith("/open")){
+            askChat(option);
+        }else if (option.equals("")) {
 
         } else {
             switch (option) {
@@ -377,7 +382,10 @@ public class Cli implements View {
                 + "Enter the Command you wish to use: ");
         String option = readLine();
         if (option.startsWith("/chat")) {
-            handleChatMessage(option);
+            //handleChatMessage(option);
+            handleChatMessageV2(option,false);
+        }else if(option.startsWith("/open")){
+            askChat(option);
         } else if (option.equals("")) {
 
         } else {
@@ -466,8 +474,12 @@ public class Cli implements View {
         System.out.print("\033[1A");
         System.out.print("\033[2K");
         if (option.startsWith("/chat")) {
-            handleChatMessage(option);
-        } else if (option.equals("")) {
+            //handleChatMessage(option);
+            handleChatMessageV2(option,false);
+        } else if(option.startsWith("/open")){
+            askChat(option);
+        }else if (option.equals("")) {
+            //
         } else {
             switch (option) {
                 case "select", "se" -> askSelection();
@@ -1394,21 +1406,120 @@ public class Cli implements View {
 
     /**
      * Sending a message in a specific chat (public or private)
+     *
      * @param command
+     * @param live
      */
-    public void handleChatMessageV2(String command){
+    public void handleChatMessageV2(String command,boolean live){
+        synchronized (this) {
+            String message = command.substring(command.indexOf(" ") + 1);
+            String usernameString = command.substring(5);
+            String regex = "\\[|\\]";
+            String[] matches = usernameString.split(regex);
+            if (matches.length > 1) {
+                String playerName = matches[1];
 
+                if (commCtrl.sendPrivateMessage(message,playerName,true)) {
+                    System.out.println("Message sent to: " + playerName);
+                }else {
+                    System.out.println("Message not sent");
+                }
+            } else {
 
+                if (!commCtrl.sendPublicMessage(message,live)) {
+                    System.out.println(Color.RED + "The message was not sent" + Color.RESET);
+                }else{
+                    System.out.println("Message sent");
+                    printPublicChat();
+                }
+            }
+            delayer(2000);
+            //readLine();
+        }
+
+    }
+    public void printPublicChat(){
+        if(publicChat==null){
+            System.out.println("\"No records\"");
+            return;
+        }
+        for(String line: publicChat){
+            System.out.println(line);
+        }
+
+    }
+
+    public void printPrivateChat(int index){
+        if(privateChats==null || privateChats.size()<=index){
+            System.out.println("\"No records\"");
+            return;
+        }
+        for(String line: privateChats.get(index)){
+            System.out.println(line);
+        }
     }
 
     /**
      * Open interface with a specific chat (public or private)
      * Calling OpenChat Method
+     * /open[name]
      * @param command
      */
     public void askChat(String command){
+        synchronized (this) {
+            String message = command.substring(command.indexOf(" ") + 1);
+            String usernameString = command.substring(5);
+            String regex = "\\[|\\]";
+            String[] matches = usernameString.split(regex);
+            if (matches.length > 1) {
+                String playerName = matches[1];
+                //accesso alla chat specifica
+                String key = getChatKey(username,playerName);
+                //Ottengo la chat da chatMap
+                List<String> chat = privateChats.get(chatMap.get(key));
+                System.out.println("Opening Chat with "+ playerName);
+                delayer(1000);
+                CHAT_MODE=true;
+                while(CHAT_MODE){
+                    for(String line:chat){
+                        System.out.println(line);
+                    }
+                    System.out.println("Type /exit to close this chat");
+                    System.out.print("> ");
+                    String live_message = readLine();
+                    if(live_message.equals("/exit")){
+                        CHAT_MODE=false;
+
+                    }else {
+                        commCtrl.sendPlayerMessage(live_message, playerName, true);
+                    }
+                }
+
+            } else {
+                CHAT_MODE=true;
+                while(CHAT_MODE) {
+                    printPublicChat();
+                    System.out.println("--Type /exit to close this chat");
+                    System.out.print("> ");
+                    String live_message = readLine();
+                    if(live_message.equals("/exit")){
+                        CHAT_MODE=false;
+
+                    }else {
+                        commCtrl.sendPublicMessage(live_message,true);
+                    }
+                }
+            }
+            //readLine();
+        }
 
 
+
+    }
+
+
+    private String getChatKey(String name1,String name2){
+        return  (name1.compareTo(name2)) < 0 ? (name1 + "&" + name2) : (name2 + "&" + name1);
 
     }
 

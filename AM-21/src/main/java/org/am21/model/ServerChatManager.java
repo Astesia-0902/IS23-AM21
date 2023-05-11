@@ -24,4 +24,7 @@ public class ServerChatManager {
     public void setChatMap(HashMap<String, Integer> chatMap) {
         this.chatMap = chatMap;
     }
+
+
+
 }

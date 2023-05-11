@@ -1,7 +1,6 @@
 package org.am21.model;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
 
 //1. The board map
@@ -37,7 +36,7 @@ public class VirtualView implements Serializable {
     //---------------------------------------
     public List<String> publicChat;
     public List<List<String>> privateChats;
-    public HashMap<String,Integer> chatMap;
+    public List<List<String>> chatMap;
     //---------------
 
     //Since we don't process the goal logic on the client side, we don't need to send the goal to the client.
@@ -48,11 +47,11 @@ public class VirtualView implements Serializable {
     public List<Integer> personalGoals;
 
 
-    public HashMap<String, Integer> getChatMap() {
+    public List<List<String>> getChatMap() {
         return chatMap;
     }
 
-    public void setChatMap(HashMap<String, Integer> chatMap) {
+    public void setChatMap(List<List<String>> chatMap) {
         this.chatMap = chatMap;
     }
 

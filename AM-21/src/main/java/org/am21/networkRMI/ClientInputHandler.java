@@ -195,6 +195,13 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         GameController.printOnlinePlayers(playerController);
     }
 
+    public void requestOnlinePlayers() throws RemoteException{
+
+    }
+
+    public void requestMatchList() throws RemoteException{
+
+    }
     @Override
     public void printMatchList() throws RemoteException {
         GameController.printMatchList(playerController);
@@ -224,4 +231,13 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     }
 
 
+    @Override
+    public boolean sendPublicMessage(String message, boolean live) throws RemoteException {
+        return GameController.forwardPublicMessage(message,playerController,live);
+    }
+
+    @Override
+    public boolean sendPrivateMessage(String message, String receiver, boolean live) throws RemoteException {
+        return GameController.forwardPrivateMessage();
+    }
 }

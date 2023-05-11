@@ -9,6 +9,7 @@ import org.am21.model.enumer.ServerMessage;
 import org.am21.model.enumer.UserStatus;
 import org.am21.model.items.Shelf;
 import org.am21.networkRMI.IClientCallBack;
+import org.am21.utilities.VirtualViewHelper;
 
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
@@ -282,6 +283,7 @@ public class GameController {
         return false;
     }
 
+
     public static void printOnlinePlayers(PlayerController playerController) {
         String message = "";
         message += ServerMessage.ListP.value() + "\n";
@@ -349,6 +351,29 @@ public class GameController {
                 }
             }
         }
+        return false;
+    }
+
+
+    public static boolean forwardPublicMessage(String message, PlayerController ctrl,boolean live){
+        synchronized (GameManager.playerMatchMap){
+            if(ctrl.getPlayer().getMatch()==null || !GameManager.playerMatchMap.containsKey(ctrl.getPlayer().getNickname())){
+                return false;
+            }
+        }
+        //Ensures that the player is in a match
+        Player sender = ctrl.getPlayer();
+        sender.getMatch().chatManager.handlePublicChatMessage(sender,message);
+        if(!live){
+            String formalMessage=sender.getNickname() + " says > " + message;
+            sender.getMatch().sendTextToAll(formalMessage,false,false);
+        }
+        VirtualViewHelper.virtualizePublicChat(sender.getMatch(),sender.getMatch().chatManager.chatMessages);
+        sender.getMatch().updatePlayersChats();
+        return true;
+    }
+
+    public static boolean forwardPrivateMessage(){
         return false;
     }
 }
