@@ -1,6 +1,7 @@
 package org.am21.client.view.GUI.Interface;
 
 import org.am21.client.view.GUI.component.ScrollBarUI;
+import org.am21.client.view.GUI.utils.FontUtil;
 import org.am21.client.view.GUI.utils.IconUtil;
 import org.am21.client.view.GUI.utils.ImageUtil;
 
@@ -35,7 +36,15 @@ public class OnlineListDialog extends JDialog {
         closeIconSelect = IconUtil.getIcon("close_Fuchsia");
         closeLabel = new JLabel(closeIcon);
         closeLabel.setBounds(ImageUtil.resizeX(320), ImageUtil.resizeY(6), ImageUtil.resizeX(25), ImageUtil.resizeY(25));
-        add(closeLabel);
+
+        JLabel onlineList = new JLabel("Online List");
+        onlineList.setBorder(null);
+        onlineList.setBounds(ImageUtil.resizeX(181), ImageUtil.resizeY(195),
+                ImageUtil.resizeX(356), ImageUtil.resizeY(108));
+        onlineList.setForeground(new Color(245, 238, 252));
+        onlineList.setFont(FontUtil.getFontByName("Twenty-Regular-2").deriveFont(Font.PLAIN,
+                ImageUtil.resizeY(16)));
+        onlineList.setOpaque(false);
 
         topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
@@ -44,6 +53,7 @@ public class OnlineListDialog extends JDialog {
                 ImageUtil.resizeY(5), ImageUtil.resizeX(5), ImageUtil.resizeY(5),
                 new Color(85, 35, 222, 230)));
         topPanel.add(closeLabel, BorderLayout.EAST);
+        topPanel.add(onlineList, BorderLayout.CENTER);
 
         add(topPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);

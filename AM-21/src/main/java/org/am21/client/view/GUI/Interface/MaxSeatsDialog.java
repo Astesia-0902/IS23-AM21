@@ -14,6 +14,7 @@ import java.util.HashMap;
 public class MaxSeatsDialog extends JDialog {
     public JLabel maxPlayersLabel;
     public JLabel closeLabel;
+    public ButtonGroup group;
     public JRadioButton playerButton_2;
     public JRadioButton playerButton_3;
     public JRadioButton playerButton_4;
@@ -75,7 +76,7 @@ public class MaxSeatsDialog extends JDialog {
         add(playerButton_4);
 
 
-        ButtonGroup group = new ButtonGroup();
+        group = new ButtonGroup();
         group.add(playerButton_2);
         group.add(playerButton_3);
         group.add(playerButton_4);

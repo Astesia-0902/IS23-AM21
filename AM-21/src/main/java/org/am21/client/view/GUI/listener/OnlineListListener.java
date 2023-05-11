@@ -1,8 +1,10 @@
 package org.am21.client.view.GUI.listener;
 
 import org.am21.client.view.GUI.Gui;
+import org.am21.client.view.GUI.utils.ImageUtil;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
@@ -55,7 +57,7 @@ public class OnlineListListener implements MouseListener, MouseMotionListener, A
     @Override
     public void mouseExited(MouseEvent e) {
         if (e.getSource() == gui.onlineListDialog.closeLabel) {
-            gui.chatDialog.closeLabel.setIcon(gui.chatDialog.closeIcon);
+            gui.onlineListDialog.closeLabel.setIcon(gui.onlineListDialog.closeIcon);
         }
     }
 
@@ -74,10 +76,32 @@ public class OnlineListListener implements MouseListener, MouseMotionListener, A
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
+//        if (gui.chatDialog != null) {
+//            //gui.chatDialog.setVisible(false);
+//            gui.chatDialog.dispose();
+//        }
         String user = gui.onlineListDialog.onlineList.getSelectedValue();
-        gui.privateChat.put(user,new JLabel(user));
-        gui.chatDialog.dispose();
-        gui.askChat();
+        if (!Gui.chatPlayer.containsKey(user)) {
+            Gui.newPrivateChat = true;
+            Gui.chatPlayer.put(user, new JButton(user));
+            if (gui.chatDialog != null) {
+                gui.chatDialog.dispose();
+            }
+        }
 
+
+        Gui.chatUser = user;
+        if (gui.chatDialog!=null) {
+            gui.chatDialog.privateChat.keySet().forEach(player -> {
+                if (player.equals(Gui.chatUser)) {
+                    gui.chatDialog.privateChat.get(player).setBackground(new Color(83, 46, 91, 230));
+                } else {
+                    gui.chatDialog.privateChat.get(player).setBackground(new Color(178, 173, 204, 230));
+                }
+            });
+            FontMetrics fm = gui.chatDialog.chatMessage.getFontMetrics(gui.chatDialog.chatMessage.getFont());
+            gui.chatDialog.chatMessage.setBorder(new EmptyBorder(0, ImageUtil.resizeX(fm.stringWidth(Gui.chatUser) + 30), 0, 0));
+        }
+        gui.askChat();
     }
 }

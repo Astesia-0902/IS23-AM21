@@ -83,7 +83,9 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
         }
         if (e.getSource() == gui.menuActionInterface.chatButton) {
             //TODO: chat
-            gui.askChat();
+            if(!Gui.chatPlayer.isEmpty()){
+                gui.askChat();
+            }
         }
 
         if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_2 ||
@@ -91,20 +93,13 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
             e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_4) {
             //TODO: MAX SEATS = 2/3/4...Create a new match with 2/3/4 players...Go to waiting room
             gui.menuActionInterface.timer = new Timer(500, e1 -> {
-                try {
-                    gui.askWaitingAction();
-                    gui.menuActionInterface.setVisible(false);
-                    gui.menuActionInterface.maxSeatsDialog.setVisible(false);
-                    gui.menuActionInterface.timer.stop();
-
-
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
+                gui.askWaitingAction();
+                gui.menuActionInterface.dispose();
+                gui.menuActionInterface.maxSeatsDialog.setVisible(false);
+                gui.menuActionInterface.timer.stop();
             });
             gui.menuActionInterface.timer.start();
         }
-
 
     }
 

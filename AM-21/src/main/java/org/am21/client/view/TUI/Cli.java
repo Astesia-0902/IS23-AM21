@@ -80,7 +80,6 @@ public class Cli implements View {
     }
 
     public void init() throws MalformedURLException, NotBoundException, RemoteException, ServerNotActiveException {
-
         System.out.println(Storage.MYSHELFIE4);
         askToContinue();
         askConnectionType();

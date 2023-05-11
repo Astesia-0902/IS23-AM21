@@ -23,13 +23,13 @@ public class ScrollBarUI extends BasicScrollBarUI {
     protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
         g.translate(thumbBounds.x, thumbBounds.y);
         g.setColor(new Color(106, 1, 85, 102));
-        g.drawRoundRect(5,0,9,thumbBounds.height-1,5,5);
+        g.drawRoundRect(5, 0, 9, thumbBounds.height - 1, 5, 5);
 
         Graphics2D g2 = (Graphics2D) g;
         RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.addRenderingHints(rh);
 
-        g2.fillRoundRect(5,0,9,thumbBounds.height-1,5,5);
+        g2.fillRoundRect(5, 0, 9, thumbBounds.height - 1, 5, 5);
 
     }
 

@@ -10,7 +10,7 @@ public class ClientCommunicationController {
     public Cli cli;
     private static String METHOD_KEY = "method";
 
-    private static boolean METHOD_RETURN=true;
+    private static boolean METHOD_RETURN = true;
 
     public synchronized static void setMethodKey(String methodKey) {
         METHOD_KEY = methodKey;
@@ -20,20 +20,25 @@ public class ClientCommunicationController {
         METHOD_RETURN = methodReturn;
     }
 
-    public void makeCliWait(){
-        cli.WAIT_SOCKET = true;
-
-    }
-    public void wait_Socket(String method) {
-        while (cli.WAIT_SOCKET && !METHOD_KEY.equals(method)) {
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+    public void makeCliWait() {
+        if (cli != null) {
+            cli.WAIT_SOCKET = true;
         }
-        //Reset
-        METHOD_KEY="method";
+    }
+
+    public void wait_Socket(String method) {
+        if (cli != null) {
+            while (cli.WAIT_SOCKET && !METHOD_KEY.equals(method)) {
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            //Reset
+            METHOD_KEY = "method";
+        }
     }
 
     public boolean joinGame(int matchID) {
@@ -354,26 +359,26 @@ public class ClientCommunicationController {
 
     }
 
-    public boolean sendPublicMessage(String message,boolean live){
-        if(ClientController.isRMI){
+    public boolean sendPublicMessage(String message, boolean live) {
+        if (ClientController.isRMI) {
             try {
-                return ClientController.iClientInputHandler.sendPublicMessage(message,live);
-            }catch (RemoteException e){
+                return ClientController.iClientInputHandler.sendPublicMessage(message, live);
+            } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
-        }else {
+        } else {
             return METHOD_RETURN;
         }
     }
 
-    public boolean sendPrivateMessage(String message,String receiver,boolean live){
-        if(ClientController.isRMI){
+    public boolean sendPrivateMessage(String message, String receiver, boolean live) {
+        if (ClientController.isRMI) {
             try {
-                return ClientController.iClientInputHandler.sendPrivateMessage(message,receiver,live);
-            }catch (RemoteException e){
+                return ClientController.iClientInputHandler.sendPrivateMessage(message, receiver, live);
+            } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
-        }else {
+        } else {
             return METHOD_RETURN;
         }
     }
