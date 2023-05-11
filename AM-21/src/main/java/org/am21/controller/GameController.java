@@ -3,6 +3,7 @@ package org.am21.controller;
 import org.am21.model.GameManager;
 import org.am21.model.Match;
 import org.am21.model.Player;
+import org.am21.model.chat.ServerChatManager;
 import org.am21.model.enumer.GameState;
 import org.am21.model.enumer.SC;
 import org.am21.model.enumer.ServerMessage;
@@ -13,6 +14,8 @@ import org.am21.utilities.VirtualViewHelper;
 
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameController {
 
@@ -51,10 +54,12 @@ public class GameController {
             if (!GameManager.players.contains(playerController.getPlayer())) {
                 GameManager.players.add(playerController.getPlayer());
             }
+            VirtualViewHelper.virtualizeOnlinePlayers();
         }
         CommunicationController.instance.sendMessageToClient(ServerMessage.Login_Ok.value() + username, false, playerController);
         //DEBUG
         System.out.println(username + " joined the game");
+        updatePlayersGlobalView();
         return true;
     }
 
@@ -123,6 +128,10 @@ public class GameController {
      * @param playerController
      */
     public static boolean createMatch(String userName, Integer createMatchRequestCount, int playerNum, PlayerController playerController) {
+        if(gameCleaner()){
+            System.out.println("Server cleaned");
+        }
+
         synchronized (GameManager.playerMatchMap) {
             synchronized (GameManager.matchList) {
                 if (createMatchHelper(userName, createMatchRequestCount, playerNum, playerController)) {
@@ -134,6 +143,29 @@ public class GameController {
         }
         return false;
     }
+
+    /**
+     * Control if there is any Match Closed, if so destroy it
+     * @return
+     */
+    public static boolean gameCleaner(){
+        synchronized (GameManager.matchList){
+            List<Integer> toDoList = new ArrayList<>();
+            for(Match m:GameManager.matchList){
+                if(m.gameState.equals(GameState.Closed)){
+                    toDoList.add(GameManager.matchList.indexOf(m));
+                }
+            }
+            for (Integer x : toDoList){
+                GameManager.matchList.remove(x);
+            }
+            if(toDoList.size()>0){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     /**
      * @param userName
@@ -152,6 +184,8 @@ public class GameController {
         } else if (GameManager.playerMatchMap.containsKey(userName) && createMatchRequestCount == 1) {
             createMatchRequestCount = 0;
             if (GameManager.createMatch(playerNum, playerController)) {
+                VirtualViewHelper.virtualizeMatchList();
+                updatePlayersGlobalView();
                 return true;
             } else {
                 //System.out.println("Exceeded players number limit. Try again.");
@@ -162,7 +196,8 @@ public class GameController {
 
         } else if (!GameManager.playerMatchMap.containsKey(userName)) {
             if (GameManager.createMatch(playerNum, playerController)) {
-
+                VirtualViewHelper.virtualizeMatchList();
+                updatePlayersGlobalView();
                 return true;
             } else {
                 //System.out.println("Exceeded players number limit. Try again.");
@@ -371,7 +406,34 @@ public class GameController {
         return true;
     }
 
-    public static boolean forwardPrivateMessage() {
-        return false;
+    public static boolean forwardPrivateMessage(String message,String receiver, PlayerController ctrl,boolean live) {
+        synchronized (GameManager.players){
+            if(!GameManager.players.contains(ctrl.getPlayer()) ){
+                return false;
+            }
+        }
+        Player sender = ctrl.getPlayer();
+        if(sender.getNickname().equals(receiver) || ServerChatManager.isOnline(receiver)==null){
+            return false;
+        }
+        ServerChatManager.handlePrivateChatMessage(ctrl.getPlayer(),receiver,message);
+        String formalMessage = "\n" + sender.getNickname() + " whispers > " + message;
+        VirtualViewHelper.virtualizePrivateChats(ServerChatManager.getPrivateChats());
+        VirtualViewHelper.virtualizeChatMap(ServerChatManager.getChatMap());
+        //DEBUG
+        VirtualViewHelper.printJSON();
+        updatePlayersGlobalView();
+        Player p_receiver=ServerChatManager.isOnline(receiver);
+        GameManager.sendChatNotification(p_receiver.getController(),formalMessage,true);
+        return true;
+    }
+
+    public static void updatePlayersGlobalView(){
+        synchronized (GameManager.players){
+            for (Player p:GameManager.players){
+                if(!p.getStatus().equals(UserStatus.Offline))
+                    CommunicationController.instance.sendServerVirtualView(VirtualViewHelper.convertServerVirtualViewToJSON(),p.getController());
+            }
+        }
     }
 }

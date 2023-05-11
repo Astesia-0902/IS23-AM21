@@ -48,6 +48,7 @@ public class GameManager {
             match.matchID = matchList.indexOf(match);
             match.admin = playerController.getPlayer();
             match.virtualView.setAdmin(playerController.getPlayer().getNickname());
+            match.virtualView.setMatchID(match.matchID);
             match.addPlayer(playerController.getPlayer());
 
             return true;

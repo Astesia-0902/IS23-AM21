@@ -389,8 +389,8 @@ public class Storage {
                join    --> Join a match.
               online   --> Show Online Players.
                exit    --> Exit game.
-               help    --> Activate Or Deactivate Assist Mode
-            To send a message to a online player type ‘/chat[nickname]’ in the console.""";
+               help    --> Command List (Chat, etc) and Assist Mode 
+            Enter 'help' command and learn how to use the CHAT""";
 
     public static final String waitingAction = """
             The match has not started yet. Please wait more players to join...
@@ -399,26 +399,23 @@ public class Storage {
               rules    --> Read Game Rules.
               online   --> Show Online Players.
              settings  --> Settings: Change Max Number of Players for this Room, Change Insertion Limit
-              more     --> More Options: Leave Match, Exit Game, Help (Assist Mode).
-            To send a message in the Match type ‘/chat’ in the console.
-            To send a message to a online player type ‘/chat[nickname]’ in the console.""";
+              more     --> More Options: Leave Match, Exit Game, Help (Command List,Assist Mode).
+            Enter 'more' then 'help' commands and learn how to use the Chat""";
 
     public static final String commandMenu0 = """
             -----------------------------------------------------------
             [Commands] Wait for your turn. Meanwhile, you can spectate typing 'show':
               show     --> Show Game Object in more detail(Goals, Board, Shelf, ...).
-              more     --> More Options: Leave Match, Exit Game, Help (Assist Mode).
-            To send a message in the Match group type ‘/chat’ followed by a 'space' and your message.
-            To send a message to an online player type ‘/chat[nickname]’ followed by a 'space' and your message.""";
+              more     --> More Options: Leave Match, Exit Game, Help (Command List,Assist Mode).
+            Enter 'more' then 'help' commands and learn how to use the Chat""";
 
     public static final String commandMenu1 = """
             -----------------------------------------------------------
             [Commands] Use the 'select' command to SELECT item you would like to pick:
               select   --> Select an item on the board.
               show     --> Show Game Object in more detail(Selected items, Goals, Board, Shelf, ...).
-              more     --> More Options: Leave Match, Exit Game, Help (Assist Mode)
-            To send a message in the Match group type ‘/chat’ followed by a 'space' and your message.
-            To send a message to an online player type ‘/chat[nickname]’ followed by a 'space' and your message.""";
+              more     --> More Options: Leave Match, Exit Game, Help (Command List,Assist Mode).
+            Enter 'more' then 'help' commands and learn how to use the Chat""";
     public static final String commandMenu2 = """
             -----------------------------------------------------------
             [Commands] Now you can SELECT another item OR INSERT the items in the Shelf:
@@ -426,16 +423,15 @@ public class Storage {
               clear    --> Deselect all your selections.
               insert   --> Save your selections and Insert in the shelf.
               show     --> Show Game Object in more detail(Selected items, Goals, Board, Shelf, ...).
-              more     --> More Options: Leave Match, Exit Game, Help (Assist Mode)
-            To send a message in the Match group type ‘/chat’ followed by a 'space' and your message.
-            To send a message to an online player type ‘/chat[nickname]’ followed by a 'space' and your message.""";
+              more     --> More Options: Leave Match, Exit Game, Help (Command List,Assist Mode).
+            Enter 'more' then 'help' commands and learn how to use the Chat""";
     public static final String commandInsert = """
             -----------------------------------------------------------
             [Commands] You can SORT the items before INSERTING them in the Shelf:
                sort    --> Change the ORDER of Insertion of your items.
                show    --> Show Game OBJECT in more detail(GOALS,SHELF,...).
               'Enter'  --> INSERT directly into the SHELF
-               more    --> More Options: Leave Match, Exit Game, Help (Assist Mode)
+               more    --> More Options: Leave Match, Exit Game, Help (Command List,Assist Mode).
             -----------------------------------------------------------
             Enter the option you wish to select:\040""";
     public static final String selectConfirm = """
@@ -486,7 +482,7 @@ public class Storage {
             [Commands] These are the option available.
               leave    --> LEAVE the Match (if you leave, the match will end for everyone).
               exit     --> EXIT from the Game MyShelfie.
-              help     --> Activate or Deactivate Assist Mode.
+              help     --> Command List (Chat, etc) and Assist Mode
              'Enter'   --> Go Back.
             -----------------------------------------------------------
             Enter the command you wish to use:\040""";
@@ -502,15 +498,37 @@ public class Storage {
               clear    --> Deselect the cards.
               insert   --> INSERT in the shelves.
                show    --> Show Game OBJECT in more detail(Selected Items, Goals, Board, Shelf, ...).
-               more    --> More Options: Leave Match, Exit Game, Help (Assist Mode).
-            Type ‘/chat’ followed by a 'space' and a message, to CHAT in the Match group.
-            Type ‘/chat[nickname]’ followed by a 'space' and a message, to TEXT an online player.""";
+               more    --> More Options: Leave Match, Exit Game, Help (Command List,Assist Mode).
+            Enter 'more' then 'help' commands and learn how to use the Chat""";
+
+    public static final String chatHelp = """
+            [Commands to use in the Command Line]     
+                  /chat[nickname] 'message'       --> Use this command format to send a message to an online player,
+                                                      replace nickname with a Online player's nickname,
+                                                      replace 'message' with text.
+                                                      (REMEMBER the 'space' between /chat[..] and 'message')
+                      /open[nickname]             --> Use this command format to open the Chat with an online player,
+                                                      when the chat is opened you can type directly the text you wish to sent.
+            """;
+
+    public static final String commandHelp= """
+            [Commands] --> [Abbreviation]
+              create            c
+               join             j
+              online            on
+               help             he
+              select            se
+              clear             cl
+              insert            in
+               sort             so
+               show             sh
+               more             mo
+              leave             le
+               exit             ex
+              ...               ...
+            """;
 
 
-
-    public static final int MENU_TIPS=7;
-    public static final int WAIT_TIPS=10;
-    public static final int SEL_TIPS=32;
 
     public static List<String> tips = new ArrayList<>();
 
@@ -518,10 +536,6 @@ public class Storage {
         Collections.addAll(tips,
                 //----------------MENU-------------------------------------------------------------------
                 Color.YELLOW + "--Tip: You can text any ONLINE player." + Color.RESET,
-                Color.YELLOW + "--Tip: Use command abbreviation 'c' to CREATE a new Match" + Color.RESET,
-                Color.YELLOW + "--Tip: Use command abbreviation 'j' to JOIN a existing Match" + Color.RESET,
-                Color.YELLOW + "--Tip: Use command abbreviation 'on' to showcase ONLINE Players" + Color.RESET,
-                Color.YELLOW + "--Tip: Use command abbreviation 'h' to change Assist Mode Setting" + Color.RESET,
                 Color.YELLOW + "--Rule: A match can be played by at least 2 players and at most 4" + Color.RESET,
                 Color.YELLOW + "--Rule: The creator of a match can decide the number of players" + Color.RESET,
                 //-----------------WAITING------------------------------------------------------
@@ -529,7 +543,6 @@ public class Storage {
                 Color.YELLOW + "--Tip: You can text any ONLINE player, even the ones who are not in this match" + Color.RESET,
                 Color.YELLOW + "--Tip: Each match has his own chat group" + Color.RESET,
                 //------------------SELECTED-0-ITEM -----------------------------------------------------------------
-                Color.YELLOW + "--Tip: Use command abbreviation 'se' to SELECT" + Color.RESET,
                 Color.YELLOW + "--Rule: You can only select items with at least one free side" + Color.RESET,
                 Color.YELLOW + "--Rule: If there is enough space in your shelf, you can select at most 3 items" + Color.RESET,
                 Color.YELLOW + "--Rule: Each turn, you have to insert all of your selections in just ONE column of the shelf" + Color.RESET,
@@ -537,8 +550,6 @@ public class Storage {
                 Color.YELLOW + "--Rule: MULTIPLE items with the SAME COLOR NEAR each other in the shelf, will guarantee you MORE POINTS at the end of the match" + Color.RESET,
                 Color.YELLOW + "--Tip: See the Common Goals and try to achieve more points (Use 'show' then 'cgoal' commands)" + Color.RESET,
                 Color.YELLOW + "--Tip: See your Personal Goal and try to achieve more points (Use 'show' the 'pgoal' commands)" + Color.RESET,
-                Color.YELLOW + "--Tip: Use command abbreviation 'sh' to SHOW OBJECT" + Color.RESET,
-                Color.YELLOW + "--Tip: Use command abbreviation 'mo' to open More OPTIONS" + Color.RESET,
                 Color.YELLOW + "--Rule: Personal Goal Points are Private, only you can see them" + Color.RESET,
                 Color.YELLOW + "--Rule: Personal Goal Points are not cumulative, they will be added, only at the end, to the final Score" + Color.RESET,
                 Color.YELLOW + "--Rule: A Player cannot achieve the same Common Goal a second time" + Color.RESET,
@@ -554,16 +565,15 @@ public class Storage {
                 //------------------SELECTED--------------------------------------------------------------------------------//
                 Color.YELLOW + "--Rule: You can decide the insertion order of the items using the command 'sort'" + Color.RESET,
                 Color.YELLOW + "--Tip: You can delete all your selections by using 'clear' command" + Color.RESET,
-                Color.YELLOW + "--Tip: Use command abbreviation 'in' to INSERT" + Color.RESET,
-                Color.YELLOW + "--Tip: Use command abbreviation 'so' to SORT" + Color.RESET,
-                Color.YELLOW + "--Tip: Use command abbreviation 'cl' to CLEAR all your selections" + Color.RESET,
                 Color.YELLOW + "--Tip: When you select an already selected item, you'll deselect it" + Color.RESET,
                 Color.YELLOW + "--Rule: The items selected can be inserted in ONLY one column" + Color.RESET,
                 Color.YELLOW + "--Rule: After 'insert' command, if you Confirm your Selections, you can't change your cards anymore " + Color.RESET
 
-
         );
     }
+    public static final int MENU_TIPS=3;
+    public static final int WAIT_TIPS=6;
+    public static final int SEL_TIPS=tips.size()-5;
 
     public static List<String> current_display;
 

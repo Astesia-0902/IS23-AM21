@@ -54,34 +54,7 @@ public class CommunicationController implements ICommunication {
 
     }
 
-    public void sendVirtualPrivateChat(String virtualPrivateChats, PlayerController pCtrl){
-        if (pCtrl.connectionType == ConnectionType.RMI) {
-            try {
-                pCtrl.clientInput.callBack.sendVirtualPrivateChats(virtualPrivateChats);
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
-        } else if(pCtrl.connectionType == ConnectionType.SOCKET){
-            String messageToClient = "PrivateChats" + "|" + virtualPrivateChats;
-            pCtrl.clientHandlerSocket.callback(messageToClient);
-        }
 
-
-    }
-
-    public void sendVirtualChatMap(String virtualChatMap, PlayerController pCtrl) {
-        if (pCtrl.connectionType == ConnectionType.RMI) {
-            try {
-                pCtrl.clientInput.callBack.sendChatMap(virtualChatMap);
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
-        } else if(pCtrl.connectionType == ConnectionType.SOCKET){
-            String messageToClient = "ChatMap" + "|" + virtualChatMap;
-            pCtrl.clientHandlerSocket.callback(messageToClient);
-        }
-
-    }
     @Override
     public void sendChatMessage(String message, PlayerController myPlayer) {
         if (myPlayer.connectionType == ConnectionType.RMI) {
@@ -191,6 +164,20 @@ public class CommunicationController implements ICommunication {
                 pc.clientInput.callBack.sendChatNotification(message,refresh);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
+            }
+        }else if(pc.connectionType == ConnectionType.SOCKET){
+
+
+        }
+    }
+
+    public void sendServerVirtualView(String serverVirtualView,PlayerController pc){
+        if(pc.connectionType == ConnectionType.RMI){
+            try {
+                pc.clientInput.callBack.sendServerVirtualView(serverVirtualView);
+            } catch (RemoteException e) {
+                pc.getPlayer().setStatus(UserStatus.Offline);
+                //throw new RuntimeException(e);
             }
         }else if(pc.connectionType == ConnectionType.SOCKET){
 

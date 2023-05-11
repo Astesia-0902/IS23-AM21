@@ -1,7 +1,9 @@
-package org.am21.model;
+package org.am21.model.chat;
 
 import org.am21.controller.CommunicationController;
 import org.am21.controller.PlayerController;
+import org.am21.model.Match;
+import org.am21.model.Player;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;

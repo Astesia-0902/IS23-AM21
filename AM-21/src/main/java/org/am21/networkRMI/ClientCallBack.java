@@ -119,16 +119,6 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     }
 
     @Override
-    public void sendVirtualPrivateChats(String virtualPrivateChats) throws RemoteException {
-        ClientView.convertBackPrivateChats(virtualPrivateChats);
-    }
-
-    @Override
-    public void sendChatMap(String virtualChatMap) throws RemoteException {
-        ClientView.convertBackChatMap(virtualChatMap);
-    }
-
-    @Override
     public void sendMatchList(String virtualMatchList) throws RemoteException {
         ClientView.convertBackMatchList(virtualMatchList);
     }

@@ -1,4 +1,4 @@
-package org.am21.model;
+package org.am21.model.virtualview;
 
 import java.io.Serializable;
 import java.util.List;
@@ -35,9 +35,7 @@ public class VirtualView implements Serializable {
     public List<String> gameResults;
     //---------------------------------------
     public List<String> publicChat;
-    public List<List<String>> privateChats;
-    public List<List<String>> chatMap;
-    //---------------
+    //--------------------------------
 
     //Since we don't process the goal logic on the client side, we don't need to send the goal to the client.
     //We are going to use an integer to map the goal picture
@@ -47,13 +45,7 @@ public class VirtualView implements Serializable {
     public List<Integer> personalGoals;
 
 
-    public List<List<String>> getChatMap() {
-        return chatMap;
-    }
 
-    public void setChatMap(List<List<String>> chatMap) {
-        this.chatMap = chatMap;
-    }
 
     public List<String> getPublicChat() {
         return publicChat;
@@ -63,13 +55,7 @@ public class VirtualView implements Serializable {
         this.publicChat = publicChat;
     }
 
-    public List<List<String>> getPrivateChats() {
-        return privateChats;
-    }
 
-    public void setPrivateChats(List<List<String>> privateChats) {
-        this.privateChats = privateChats;
-    }
 
     public int getMaxSeats() {
         return maxSeats;

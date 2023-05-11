@@ -3,9 +3,11 @@ package org.am21.model;
 import org.am21.controller.CommunicationController;
 import org.am21.model.Cards.CommonGoal;
 import org.am21.model.Cards.PersonalGoalCard;
+import org.am21.model.chat.ChatManager;
 import org.am21.model.enumer.*;
 import org.am21.model.items.Board;
 import org.am21.model.items.Shelf;
+import org.am21.model.virtualview.VirtualView;
 import org.am21.utilities.CardUtil;
 import org.am21.utilities.CommonGoalUtil;
 import org.am21.utilities.MyTimer;
@@ -41,7 +43,6 @@ public class Match {
         commonGoals = new ArrayList<>(2);
         chatManager = new ChatManager(this);
         virtualView = new VirtualView();
-        virtualView.setMatchID(this.matchID);
         virtualView.setMaxSeats(maxSeats);
 
     }
@@ -567,58 +568,7 @@ public class Match {
         updatePlayersView();
     }
 
-    /**
-     * When a client sends a message in public chat or private chat
-     * It will send just the new message
-     * @param sender
-     * @param receiver
-     * @param message
-     * @return
-     */
-    public boolean forwardMessage(Player sender, String receiver, String message){
-        if(receiver.equals("")){
-            //Sent to Group chat
-            chatManager.handlePublicChatMessage(sender,message);
-            String formalMessage=sender.getNickname() + " says > " + message;
 
-            sendTextToAll(formalMessage,false,true);
-        }else {
-            if(!chatManager.handlePrivateChatMessage(sender,receiver,message)){
-                return false;
-            }
-            String formalMessage=sender.getNickname() + " whispers > " + message;
-            GameManager.sendTextReply(chatManager.isMember(receiver).getController(),formalMessage,true);
-        }
-        VirtualViewHelper.virtualizePrivateChats(this, chatManager.getPrivateChats());
-        VirtualViewHelper.virtualizeChatMap(this,chatManager.getChatMap());
-        VirtualViewHelper.virtualizePublicChat(this,chatManager.getChatMessages());
-        updatePlayersChats();
-        return true;
-    }
-
-    /**
-     * Use when Client keeps the Chat open
-     * @param sender
-     * @param receiver
-     * @param message
-     * @return
-     */
-    public boolean liveChat(Player sender, String receiver, String message){
-        if(receiver.equals("")){
-            //Sent to Group chat
-            chatManager.handlePublicChatMessage(sender,message);
-            VirtualViewHelper.virtualizePublicChat(this,chatManager.getChatMessages());
-        }else {
-            if(!chatManager.handlePrivateChatMessage(sender,receiver,message)){
-                return false;
-            }
-            VirtualViewHelper.virtualizePrivateChats(this, chatManager.getPrivateChats());
-            VirtualViewHelper.virtualizeChatMap(this,chatManager.getChatMap());
-        }
-        updatePlayersChats();
-        return true;
-
-    }
 
 
     public void updatePlayersChats(){

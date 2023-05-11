@@ -1,8 +1,13 @@
 package org.am21.utilities;
 
 import com.alibaba.fastjson2.JSON;
-import org.am21.model.*;
+import org.am21.model.GameManager;
+import org.am21.model.Match;
+import org.am21.model.Player;
+import org.am21.model.enumer.UserStatus;
 import org.am21.model.items.Shelf;
+import org.am21.model.virtualview.ServerVirtualView;
+import org.am21.model.virtualview.VirtualView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -329,30 +334,25 @@ public class VirtualViewHelper {
         return JSON.toJSONString(v.getPublicChat());
     }
 
-    public static void virtualizePrivateChats(Match m, List<List<String>> chats) {
-        List<List<String>> tmpChats = new ArrayList<>();
-        for (List<String> chat : chats) {
-            List<String> tmpPrivateChat = new ArrayList<>();
-            tmpPrivateChat.addAll(chat);
-            tmpChats.add(tmpPrivateChat);
+    public static void virtualizePrivateChats(List<List<String>> chats) {
+        String[][] virtualChats = new String[chats.size()][];
+        for(int i=0; i<virtualChats.length;i++){
+            virtualChats[i] = new String[chats.get(i).size()];
+            for(int l=0;l<chats.get(i).size();l++){
+                virtualChats[i][l] = chats.get(i).get(l);
+            }
         }
-        m.virtualView.setPrivateChats(tmpChats);
+        ServerVirtualView.instance.setVirtualPrivateChats(virtualChats);
     }
 
-    public static String convertPrivateChats(VirtualView v) {
-        return JSON.toJSONString(v.getPrivateChats());
-    }
-
-    public static String convertVirtualChatMapToJSON(VirtualView v) {
-        return JSON.toJSONString(v.getChatMap());
-    }
-
-    public static void virtualizeChatMap(Match m, HashMap<String, Integer> map) {
-        List<List<String>> tmp = new ArrayList<>();
-        List<String> tmpKeySet = new ArrayList<>(m.chatManager.getChatMap().keySet());
-
-        m.virtualView.setChatMap(tmp);
-
+    public static void virtualizeChatMap(HashMap<String, Integer> map) {
+        String[][] virtualMap = new String[map.keySet().size()][2];
+        List<String> keys = map.keySet().stream().toList();
+        for(int i=0; i<virtualMap.length;i++){
+            virtualMap[i][0]= String.valueOf(keys.get(i));
+            virtualMap[i][1]= String.valueOf(map.get(keys.get(i)));
+        }
+        ServerVirtualView.instance.setVirtualChatMap(virtualMap);
     }
 
 
@@ -378,7 +378,7 @@ public class VirtualViewHelper {
 
                 vMatchList[i]=(tmpMatch);
             }
-            ServerVirtualView.setVirtualMatchList(vMatchList);
+            ServerVirtualView.instance.setVirtualMatchList(vMatchList);
         }
     }
 
@@ -386,21 +386,30 @@ public class VirtualViewHelper {
 
         synchronized (GameManager.players) {
             String[][] vOnlinePlayers = new String[GameManager.players.size()][2];
-            for (int i=0; i<GameManager.players.size();i++) {
+            for (int i=0,t=0; i<GameManager.players.size();i++) {
                 Player p = GameManager.players.get(i);
-                String[] tmpPlayerData = {
-                        p.getNickname(),
-                        String.valueOf(p.getStatus())
-                };
-                vOnlinePlayers[i]=(tmpPlayerData);
+                if (!p.getStatus().equals(UserStatus.Offline)) {
+                    String[] tmpPlayerData = {
+                            p.getNickname(),
+                            String.valueOf(p.getStatus())
+                    };
+                    vOnlinePlayers[t] = (tmpPlayerData);
+                    t++;
+                }
+
             }
-            ServerVirtualView.setVirtualOnlinePlayers(vOnlinePlayers);
+            ServerVirtualView.instance.setVirtualOnlinePlayers(vOnlinePlayers);
         }
     }
 
 
     public static String convertServerVirtualViewToJSON() {
         return JSON.toJSONString(ServerVirtualView.instance);
+    }
+
+    public static void printJSON() {
+        String json = convertServerVirtualViewToJSON();
+        System.out.println(json);
     }
 
 }

@@ -26,9 +26,9 @@ public class ClientView {
     public static boolean endGameToken;
     public static List<String> gameResults;
     //------------------------------------------
-    public static HashMap<String,Integer> chatMap;
     public static List<String> publicChat;
-    public static List<List<String >> privateChats;
+    public static List<List<String>> privateChats;
+    public static HashMap<String, Integer> chatMap = new HashMap<>();
     //------------------------------------------
     public static String[][] matchList;
     public static String[][] onlinePlayers;
@@ -85,24 +85,25 @@ public class ClientView {
         currentPlayerHand = jsonArray.toJavaList(String.class);
     }
 
-    public static void convertBackMatchInfo(String jsonInfo){
+    public static void convertBackMatchInfo(String jsonInfo) {
         JSONArray jsonArray = JSONObject.parseArray(jsonInfo);
         List<String> tmp = jsonArray.toJavaList(String.class);
         matchID = Integer.parseInt(tmp.get(0));
+        System.out.println("Match id ="+matchID);
         maxSeats = Integer.parseInt(tmp.get(1));
         admin = tmp.get(2);
 
     }
 
-    public static void convertBackPublicChat(String jsonPublic){
+    public static void convertBackPublicChat(String jsonPublic) {
         JSONArray jsonChat = JSONObject.parseArray(jsonPublic);
         publicChat = jsonChat.toJavaList(String.class);
     }
 
-    public static void convertBackPrivateChats(String jsonPrivate){
+    public static void convertBackPrivateChats(String jsonPrivate) {
         JSONArray listOfList = JSON.parseArray(jsonPrivate);
         List<List<String>> tmp = new ArrayList<>();
-        for(int i=0; i<listOfList.size();i++){
+        for (int i = 0; i < listOfList.size(); i++) {
             JSONArray list = listOfList.getJSONArray(i);
             List<String> tmpChat = list.toJavaList(String.class);
             tmp.add(tmpChat);
@@ -110,27 +111,43 @@ public class ClientView {
         privateChats = tmp;
     }
 
-    public static void convertBackChatMap(String jsonChatMap){
-        chatMap = new HashMap<>();
-        JSONArray tmp = JSON.parseArray(jsonChatMap);
 
-    }
-
-    public static void convertBackMatchList(String jsonMatchList){
+    public static void convertBackMatchList(String jsonMatchList) {
 
 
     }
 
-    public static void convertBackOnlinePlayers(String jsonOnlinePlayers){
+    public static void convertBackOnlinePlayers(String jsonOnlinePlayers) {
 
 
     }
 
-    public static void updateServerView(String jsonServer){
+    public static void updateServerView(String jsonServer) {
         JSONObject jsonObject = JSONObject.parseObject(jsonServer);
 
-        matchList= jsonObject.getObject("virtualMatchList",String[][].class);
-        onlinePlayers = jsonObject.getObject("virtualOnlinePlayers",String[][].class);
-
+        matchList = jsonObject.getObject("virtualMatchList", String[][].class);
+        onlinePlayers = jsonObject.getObject("virtualOnlinePlayers", String[][].class);
+        String[][] tmpChats = jsonObject.getObject("virtualPrivateChats", String[][].class);
+        String[][] tmpMap = jsonObject.getObject("virtualChatMap", String[][].class);
+        List<List<String>> tmpPrivateChats = new ArrayList<>();
+        if (tmpChats != null) {
+            for (int i = 0; i < tmpChats.length; i++) {
+                tmpPrivateChats.add(new ArrayList<>());
+                for (int l = 0; l < tmpChats[i].length; l++) {
+                    tmpPrivateChats.get(i).add(tmpChats[i][l]);
+                }
+            }
+        }
+        privateChats = tmpPrivateChats;
+        HashMap<String, Integer> tmpHashMap = new HashMap<>();
+        if (tmpMap != null) {
+            for (int i = 0; i < tmpMap.length; i++) {
+                tmpHashMap.put(tmpMap[i][0], Integer.valueOf(tmpMap[i][1]));
+            }
+        }
+        chatMap = tmpHashMap;
+        /*for (Map.Entry<String, Integer> entry : chatMap.entrySet()) {
+            System.out.println(entry.getKey() + " : " + entry.getValue());
+        }*/
     }
 }

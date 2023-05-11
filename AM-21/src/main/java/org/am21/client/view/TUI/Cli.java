@@ -44,10 +44,10 @@ public class Cli implements View {
     //private boolean COMMAND_ACTIVE = false;
 
     public static boolean REFRESH = false;
-    public boolean WAIT_SOCKET=false;
+    public boolean WAIT_SOCKET = false;
     public int waitingThreads;
 
-    public static boolean CHAT_MODE=false;
+    public static boolean CHAT_MODE = false;
 
     public Cli() throws RemoteException {
         this.clientCallBack = new ClientCallBack();
@@ -85,7 +85,7 @@ public class Cli implements View {
         askConnectionType();
         if (type == ConnectionType.RMI) {
             askServerInfoRMI();
-        }else if(type == ConnectionType.SOCKET){
+        } else if (type == ConnectionType.SOCKET) {
             askServerInfoSocket();
         }
         askLogin();
@@ -108,6 +108,7 @@ public class Cli implements View {
                 try {
                     synchronized (cli) {
                         REFRESH = true;
+                        delayer(2000);
                         this.interrupt();
                     }
                 } finally {
@@ -119,6 +120,30 @@ public class Cli implements View {
             return;
         }
         refresher.start();
+    }
+
+    public void askHelp(){
+        System.out.print("""
+                [Commands] Choose an option:
+                    1      --> Chat Commands Help 
+                    2      --> General Commands
+                    3      --> Assist Mode 
+                Type the number you wish to select.
+                -------------------------------------------
+                >\040""");
+        String num = readLine();
+        switch (num){
+            case "1" -> {
+                System.out.println(chatHelp);
+                askToContinue();
+            }
+            case "2" -> {
+                System.out.println(commandHelp);
+                askToContinue();
+            }
+            case "3" -> {askAssistMode();}
+            default -> {}
+        }
     }
 
     public void askAssistMode() {
@@ -244,9 +269,9 @@ public class Cli implements View {
                 + ":" + serverInfo.get("port"));
     }
 
-    public void askServerInfoSocket(){
+    public void askServerInfoSocket() {
         socket = new SocketClient();
-        SocketClient.cli=this;
+        SocketClient.cli = this;
         socket.start();
         delayer(1000);
     }
@@ -312,7 +337,6 @@ public class Cli implements View {
     /**
      * A switcher used to move through the 3 MAIN STATE of the CLI:
      * MENU, WAITING ROOM, GAMEPLAY
-     *
      */
 
     public void redirect() throws ServerNotActiveException, RemoteException {
@@ -340,11 +364,11 @@ public class Cli implements View {
                 "Enter the Command you wish to use: ");
         String option = readLine();
         if (option.startsWith("/chat")) {
-            handleChatMessage(option);
-        }
-        else if(option.startsWith("/open")){
+            //handleChatMessage(option);
+            handleChatMessageV2(option,false);
+        } else if (option.startsWith("/open")) {
             askChat(option);
-        }else if (option.equals("")) {
+        } else if (option.equals("")) {
 
         } else {
             switch (option) {
@@ -357,7 +381,7 @@ public class Cli implements View {
                 case "exit", "ex" -> {
                     if (askExitGame()) return;
                 }
-                case "help", "h", "he" -> askAssistMode();
+                case "help", "h", "he" -> askHelp();
 
                 default -> System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
                         + Color.RESET);
@@ -382,8 +406,8 @@ public class Cli implements View {
         String option = readLine();
         if (option.startsWith("/chat")) {
             //handleChatMessage(option);
-            handleChatMessageV2(option,false);
-        }else if(option.startsWith("/open")){
+            handleChatMessageV2(option, false);
+        } else if (option.startsWith("/open")) {
             askChat(option);
         } else if (option.equals("")) {
 
@@ -474,10 +498,10 @@ public class Cli implements View {
         System.out.print("\033[2K");
         if (option.startsWith("/chat")) {
             //handleChatMessage(option);
-            handleChatMessageV2(option,false);
-        } else if(option.startsWith("/open")){
+            handleChatMessageV2(option, false);
+        } else if (option.startsWith("/open")) {
             askChat(option);
-        }else if (option.equals("")) {
+        } else if (option.equals("")) {
             //
         } else {
             switch (option) {
@@ -551,9 +575,14 @@ public class Cli implements View {
 
     @Override
     public void showMatchList() throws RemoteException {
-        //iClientInputHandler.printMatchList();
-        //TODO: new
-        commCtrl.printMatchList();
+        //commCtrl.printMatchList();
+        System.out.println("Match List:");
+        for(int i=0;i< matchList.length;i++){
+            if(matchList[i][0]==null)
+                continue;
+            System.out.println("[ID: " + matchList[i][0] + " | " + matchList[i][1] + " | Players: (" + matchList[i][2] + "/" + matchList[i][3] + ")]");
+        }
+
     }
 
     /**
@@ -605,9 +634,8 @@ public class Cli implements View {
                     if (askLeaveMatch()) redirect();
                 }
                 case "exit", "ex" -> askExitGame();
-                case "help", "h", "he" -> askAssistMode();
-                case "" -> {
-                }
+                case "help", "h", "he" -> askHelp();
+                case "" -> {}
                 default -> System.out.println(Color.RED + "The [" + command + "] cannot be found! Please try again."
                         + Color.RESET);
             }
@@ -651,12 +679,12 @@ public class Cli implements View {
         String tmp;
         System.out.print("> Player's Turn: ");
         for (String name : ClientView.players) {
-             tmp=name;
+            tmp = name;
             if (name.equals(username)) {
                 tmp = "You";
             }
             if (name.equals(currentPlayer)) {
-                System.out.print(Color.YELLOW_BRIGHT + " [  "+ tmp +"  ] " + Color.RESET);
+                System.out.print(Color.YELLOW_BRIGHT + " [  " + tmp + "  ] " + Color.RESET);
             } else {
                 System.out.print(" [  " + tmp + "  ] ");
             }
@@ -1055,7 +1083,7 @@ public class Cli implements View {
                 String playerName = matches[1];
                 //TODO
                 //iClientInputHandler.sendPlayerMessage(message, playerName, true)
-                if (commCtrl.sendPlayerMessage(message,playerName,true)) {
+                if (commCtrl.sendPlayerMessage(message, playerName, true)) {
                     System.out.println("Message sent to: " + playerName);
                 }
             } else {
@@ -1155,9 +1183,16 @@ public class Cli implements View {
      */
     @Override
     public void showOnlinePlayer() {
-        //TODO
-        //iClientInputHandler.printOnlinePlayers();
-        commCtrl.printOnlinePlayers();
+
+        //commCtrl.printOnlinePlayers();
+        System.out.println("List of online players:");
+        for(int i=0;i< onlinePlayers.length;i++){
+            if(onlinePlayers[i][0]==null || onlinePlayers[i][1]==null ){
+                continue;
+            }
+            System.out.println("[" + onlinePlayers[i][0] + " | " + onlinePlayers[i][1] + " ]");
+
+        }
         askToContinue();
 
     }
@@ -1205,10 +1240,12 @@ public class Cli implements View {
         }
         System.out.println();
     }
+
     public void checkTurn() {
         SEL_MODE = ClientView.currentPlayer.equals(username);
 
     }
+
     /**
      * This Method is used for DECORATION of TUI
      */
@@ -1409,7 +1446,7 @@ public class Cli implements View {
      * @param command
      * @param live
      */
-    public void handleChatMessageV2(String command,boolean live){
+    public void handleChatMessageV2(String command, boolean live) {
         synchronized (this) {
             String message = command.substring(command.indexOf(" ") + 1);
             String usernameString = command.substring(5);
@@ -1418,18 +1455,23 @@ public class Cli implements View {
             if (matches.length > 1) {
                 String playerName = matches[1];
 
-                if (commCtrl.sendPrivateMessage(message,playerName,true)) {
+                if (commCtrl.sendPrivateMessage(message, playerName, live)) {
                     System.out.println("Message sent to: " + playerName);
-                }else {
+                    String key = getChatKey(username,playerName);
+                    //System.out.println(key);
+                    int index = chatMap.get(key);
+                    //printPrivateChat(index);
+                } else {
                     System.out.println("Message not sent");
                 }
             } else {
 
-                if (!commCtrl.sendPublicMessage(message,live)) {
+                if (!commCtrl.sendPublicMessage(message, live)) {
                     System.out.println(Color.RED + "The message was not sent" + Color.RESET);
-                }else{
-                    System.out.println("Message sent");
-                    printPublicChat();
+                } else {
+                    //System.out.println("Message sent");
+                    //DEBUG
+                    //printPublicChat();
                 }
             }
             delayer(2000);
@@ -1437,24 +1479,26 @@ public class Cli implements View {
         }
 
     }
-    public void printPublicChat(){
+
+    public void printPublicChat() {
         System.out.println();
-        if(publicChat==null){
+        if (publicChat == null) {
             System.out.println("\"No records\"");
             return;
         }
-        for(String line: publicChat){
+        for (String line : publicChat) {
             System.out.println(line);
         }
 
     }
 
-    public void printPrivateChat(int index){
-        if(privateChats==null || privateChats.size()<=index){
+    public void printPrivateChat(int index) {
+        System.out.println();
+        if (privateChats == null || privateChats.size() <= index || index==-1) {
             System.out.println("\"No records\"");
             return;
         }
-        for(String line: privateChats.get(index)){
+        for (String line : privateChats.get(index)) {
             System.out.println(line);
         }
     }
@@ -1463,9 +1507,10 @@ public class Cli implements View {
      * Open interface with a specific chat (public or private)
      * Calling OpenChat Method
      * /open[name]
+     *
      * @param command
      */
-    public void askChat(String command){
+    public void askChat(String command) {
         synchronized (this) {
             String message = command.substring(command.indexOf(" ") + 1);
             String usernameString = command.substring(5);
@@ -1474,39 +1519,35 @@ public class Cli implements View {
             if (matches.length > 1) {
                 String playerName = matches[1];
                 //accesso alla chat specifica
-                String key = getChatKey(username,playerName);
-                //Ottengo la chat da chatMap
-                List<String> chat = privateChats.get(chatMap.get(key));
-                System.out.println("Opening Chat with "+ playerName);
+                String key = getChatKey(username, playerName);
+                System.out.println("Opening Chat with " + playerName);
                 delayer(1000);
-                CHAT_MODE=true;
-                while(CHAT_MODE){
-                    for(String line:chat){
-                        System.out.println(line);
-                    }
+                CHAT_MODE = true;
+                while (CHAT_MODE) {
+                    printPrivateChat(chatMap.getOrDefault(getChatKey(username,playerName),-1));
                     System.out.println("Type /exit to close this chat");
                     System.out.print("> ");
                     String live_message = readLine();
-                    if(live_message.equals("/exit")){
-                        CHAT_MODE=false;
+                    if (live_message.equals("/exit")) {
+                        CHAT_MODE = false;
 
-                    }else {
-                        commCtrl.sendPlayerMessage(live_message, playerName, true);
+                    } else if(!live_message.equals("")){
+                        commCtrl.sendPrivateMessage(live_message, playerName, true);
                     }
                 }
 
             } else {
-                CHAT_MODE=true;
-                while(CHAT_MODE) {
+                CHAT_MODE = true;
+                while (CHAT_MODE) {
                     printPublicChat();
                     System.out.println("--Type /exit to close this chat");
                     System.out.print("> ");
                     String live_message = readLine();
-                    if(live_message.equals("/exit")){
-                        CHAT_MODE=false;
+                    if (live_message.equals("/exit")) {
+                        CHAT_MODE = false;
 
-                    }else if(!live_message.equals("")){
-                        commCtrl.sendPublicMessage(live_message,true);
+                    } else if (!live_message.equals("")) {
+                        commCtrl.sendPublicMessage(live_message, true);
                     }
                 }
             }
@@ -1515,17 +1556,24 @@ public class Cli implements View {
 
     }
 
-    public void refreshChat(){
-        if(CHAT_MODE){
-            REFRESH = true;
+    public void refreshChat() {
+        if (CHAT_MODE) {
+            Thread refresherChat = new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    REFRESH = true;
+                    delayer(2000);
+                    this.interrupt();
+                }
+            };
+            refresherChat.start();
         }
-
     }
 
 
-    private String getChatKey(String name1,String name2){
-        return  (name1.compareTo(name2)) < 0 ? (name1 + "&" + name2) : (name2 + "&" + name1);
-
+    private String getChatKey(String name1, String name2) {
+        return (name1.compareTo(name2)) < 0 ? (name1 + "|" + name2) : (name2 + "|" + name1);
     }
 
 }

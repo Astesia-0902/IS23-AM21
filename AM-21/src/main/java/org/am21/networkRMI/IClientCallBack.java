@@ -6,9 +6,7 @@ import java.rmi.server.ServerNotActiveException;
 
 public interface IClientCallBack extends Remote {
     void sendMessageToClient(String message,boolean refresh) throws RemoteException;
-
     void sendChatNotification(String message, boolean refresh) throws RemoteException;
-
     void sendVirtualView(String virtualView, int pIndex) throws RemoteException;
     void sendChatMessage(String message) throws RemoteException;
     void notifyStart(int id) throws RemoteException, ServerNotActiveException;
@@ -17,12 +15,7 @@ public interface IClientCallBack extends Remote {
     void notifyEndMatch() throws RemoteException;
     void sendVirtualHand(String JSONHand) throws RemoteException;
     void sendVirtualPublicChat(String virtualPublicChat) throws RemoteException;
-    void sendVirtualPrivateChats(String virtualPrivateChats) throws RemoteException;
-    void sendChatMap(String virtualChatMap) throws RemoteException;
-
     void sendMatchList(String virtualMatchList) throws RemoteException;
     void sendOnlinePlayer(String virtualOnlinePlayers) throws RemoteException;
-
-
     void sendServerVirtualView(String serverVV) throws RemoteException;
 }
