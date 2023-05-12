@@ -201,7 +201,7 @@ public class ClientCommunicationController {
             return METHOD_RETURN;
         }
     }
-    //Never used
+    //TODO:Never used
     public void getVirtualView() {
         if (ClientController.isRMI) {
             try {
@@ -227,40 +227,6 @@ public class ClientCommunicationController {
             ClientController.iClientInputHandler.registerCallBack(callBack);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    //TODO: to delete when new chat 2.0 works correctly
-    public boolean sendChatMessage(String message) {
-        if (ClientController.isRMI) {
-            try {
-                return ClientController.iClientInputHandler.sendChatMessage(message);
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            makeCliWait();
-            String messageToSend = "sendChatMessage" + "|" + message;
-            SocketClient.messageToServer(messageToSend);
-            wait_Socket("sendChatMessage");
-            return METHOD_RETURN;
-        }
-    }
-    //TODO: to delete when new chat 2.0 works correctly
-    public boolean sendPlayerMessage(String message, String receiver, boolean refresh) {
-        if (ClientController.isRMI) {
-            try {
-                return ClientController.iClientInputHandler.sendPlayerMessage(message, receiver, refresh);
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            //TODO: elaborate messageToSend
-            makeCliWait();
-            String messageToSend = "sendPlayerMessage" + "|" + receiver + "|" + message;
-            SocketClient.messageToServer(messageToSend);
-            wait_Socket("sendPlayerMessage");
-            return METHOD_RETURN;
         }
     }
 

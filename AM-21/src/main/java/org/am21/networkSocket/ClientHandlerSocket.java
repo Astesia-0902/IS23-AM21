@@ -10,7 +10,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
 
 public class ClientHandlerSocket extends Thread {
@@ -129,20 +128,6 @@ public class ClientHandlerSocket extends Thread {
             case "getVirtualView":
                 GameController.getVirtualView(myPlayer);
                 CommunicationController.instance.returnBool("getVirtualView",true,myPlayer);
-                break;
-
-            case "sendChatMessage":
-                String chatMessage = messageParts[1];
-                try {
-                    CommunicationController.instance.returnBool("sendChatMessage",GameController.sendChatMessage(chatMessage, myPlayer),myPlayer);
-                } catch (RemoteException e) {
-                    throw new RuntimeException(e);
-                }
-                break;
-            case "sendPlayerMessage":
-                String playerMessage = messageParts[2];
-                String receiver = messageParts[1];
-                CommunicationController.instance.returnBool("sendPlayerMessage",GameController.sendPlayerMessage(playerMessage,receiver,myPlayer,false),myPlayer);
                 break;
             case "printOnlinePlayers":
                 GameController.printOnlinePlayers(myPlayer);

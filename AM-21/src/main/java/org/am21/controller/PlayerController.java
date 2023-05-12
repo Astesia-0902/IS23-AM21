@@ -117,21 +117,21 @@ public class PlayerController {
                         clearSelectedCards();
                     } else {
                         player.getMatch().selectionUpdate();
-                        GameManager.sendReply(this, ServerMessage.DeSel_Ok,false);
+                        GameManager.sendReply(this, ServerMessage.DeSel_Ok);
                     }
                     return false;
                     //Need VV update
                 } else {
                     //Check Orthogonality
                     if (!board.isOrthogonal(r, c, hand.getSelectedItems())) {
-                        GameManager.sendReply(this, ServerMessage.No_Orthogonal,false);
+                        GameManager.sendReply(this, ServerMessage.No_Orthogonal);
                         return false;
                     }
                 }
             }
             if (player.getShelf().insertLimit == hand.getSelectedItems().size()) {
                 // Limit reached
-                GameManager.sendReply(this, ServerMessage.Hand_Full,false);
+                GameManager.sendReply(this, ServerMessage.Hand_Full);
                 return false;
             }
             //Tutti i controlli passati: posso inserirlo nella hand
@@ -139,13 +139,13 @@ public class PlayerController {
             hand.memCard(board.getCell(r, c), r, c);
             //Virtualize HAND and board after each Selection and Sent to the players
             player.getMatch().selectionUpdate();
-            GameManager.sendReply(this, ServerMessage.Selection_Ok,false);
+            GameManager.sendReply(this, ServerMessage.Selection_Ok);
             player.getMatch().sendTextToAll("\n" +
                     SC.YELLOW + player.getNickname() + " selected the cell [" + r + "," + c + "]." + SC.RST, false,true);
             return true;
         }
 
-        GameManager.sendReply(this, ServerMessage.Selection_No,false);
+        GameManager.sendReply(this, ServerMessage.Selection_No);
         //Questo messaggio sara tolto e messo in ClientInputHandler o nelle funzioni dei test
 //            System.out.println("Match > Selection Failed");
 
@@ -197,13 +197,13 @@ public class PlayerController {
         }
         if (player.getMatch().gamePhase == GamePhase.Selection && hand.getSelectedItems().size() > 0) {
             hand.clearHand();
-            GameManager.sendReply(this, ServerMessage.DeSel_Ok,false);
+            GameManager.sendReply(this, ServerMessage.DeSel_Ok);
             //Update Virtual View(Hand and Board)
             player.getMatch().selectionUpdate();
             return true;
         }
 
-        GameManager.sendReply(this, ServerMessage.DeSel_Null,false);
+        GameManager.sendReply(this, ServerMessage.DeSel_Null);
         return false;
     }
 
@@ -264,7 +264,7 @@ public class PlayerController {
         }
         if (player.getShelf().slotCol.get(col) < hand.getSelectedItems().size()) {
             //The column has not enough space for insertion
-            GameManager.sendReply(this, ServerMessage.ColNo,false);
+            GameManager.sendReply(this, ServerMessage.ColNo);
             return false;
         } else {
             for (int i = hand.getSelectedItems().size(), s = 0; i > 0; i--, s++) {
@@ -295,7 +295,7 @@ public class PlayerController {
         if (isMyTurn(player) && player.getMatch().gamePhase == GamePhase.Insertion && hand.changeOrder(i, j)) {
             // Virtual View Update --> Hand
             player.getMatch().sortUpdate();
-            GameManager.sendReply(this, ServerMessage.Sort_Ok,false);
+            GameManager.sendReply(this, ServerMessage.Sort_Ok);
             return true;
         }
         return false;
@@ -369,7 +369,7 @@ public class PlayerController {
     public CardPointer isAlreadySelected(int r, int c) {
         for (CardPointer item : hand.getSelectedItems()) {
             if ((r == item.x) && (c == item.y)) {
-                GameManager.sendReply(this, ServerMessage.ReSelected,false);
+                GameManager.sendReply(this, ServerMessage.ReSelected);
                 return item;
             }
         }//TODO: test

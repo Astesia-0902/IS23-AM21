@@ -117,7 +117,7 @@ public class Match {
                 //If, after checkRoom(), the match did not start, send Client to Waiting Phase
                 if (gameState == GameState.WaitingPlayers && (player.getController().clientInput != null || player.getController().clientHandlerSocket != null)) {
                     CommunicationController.instance.notifyToWait(VirtualViewHelper.convertMatchInfoToJSON(this), player.getController());
-                    if(chatManager.publicChatMessages.size()>0) {
+                    if (chatManager.publicChatMessages.size() > 0) {
                         CommunicationController.instance.sendVirtualPublicChat(VirtualViewHelper.convertPublicChatToJSON(this.virtualView), player.getController());
                     }
                 }
@@ -216,12 +216,9 @@ public class Match {
                 // Give player points/scoreToken
                 //Server Message: announce how many points the player's got
                 if (player.getController().clientInput != null || player.getController().clientHandlerSocket != null) {
-                    //TODO: New protocl
-                    CommunicationController.instance.sendMessageToClient(
-                            "Server > " + player.getNickname() + " acquired " + goal.tokenStack.get(0) + " points", true, player.getController());
-                    //OLD RMI only
-                    //player.getController().clientInput.callBack.sendMessageToClient(
-                    //"Server > " + player.getNickname() + " acquired " + goal.tokenStack.get(0) + " points");
+                    String mex = "Server > " + player.getNickname() + " acquired " + goal.tokenStack.get(0) + " points";
+                    CommunicationController.instance.sendMessageToClient(mex, player.getController());
+                    CommunicationController.instance.notifyUpdate(player.getController(),1000);
                 }
                 goal.commonGoalAchieved(player);
                 sendTextToAll(SC.YELLOW_BB + "Server > " + player.getNickname() + " achieved a Common Goal!"
@@ -387,7 +384,7 @@ public class Match {
         VirtualViewHelper.buildVirtualView(this);
         updatePlayersView();
         for (Player p : playerList) {
-                CommunicationController.instance.notifyStart(matchID, p.getController());
+            CommunicationController.instance.notifyStart(matchID, p.getController());
         }
 
     }
@@ -401,7 +398,7 @@ public class Match {
         setGamePhase(GamePhase.Selection);
         if (currentPlayer.getController().clientInput != null || currentPlayer.getController().clientHandlerSocket != null) {
             String message = SC.RED_B + "Server[!] > " + currentPlayer.getNickname() + "! It's your turn." + SC.RST;
-            CommunicationController.instance.sendMessageToClient(message, false, currentPlayer.getController());
+            CommunicationController.instance.sendMessageToClient(message, currentPlayer.getController());
         }
 
     }
@@ -416,10 +413,10 @@ public class Match {
         for (Player p : playerList) {
             //TODO: Watch out for test
             //if (p.getController().clientInput != null || p.getController().clientHandlerSocket != null) {
-                //TODO: new Protocol
-                CommunicationController.instance.sendVirtualView(getJSONVirtualView(), playerList.indexOf(p), p.getController());
-                //OLD RMI
-                //p.getController().clientInput.callBack.sendVirtualView(getJSONVirtualView(), playerList.indexOf(p));
+            //TODO: new Protocol
+            CommunicationController.instance.sendVirtualView(getJSONVirtualView(), playerList.indexOf(p), p.getController());
+            //OLD RMI
+            //p.getController().clientInput.callBack.sendVirtualView(getJSONVirtualView(), playerList.indexOf(p));
             //}
         }
     }
@@ -454,11 +451,13 @@ public class Match {
      *
      * @param message
      */
-    public void sendMessageToAll(ServerMessage message, boolean refresh) {
+    public void sendMessageToAll(ServerMessage message,boolean update) {
         for (Player p : playerList) {
-            if (p.getController().clientInput != null || p.getController().clientHandlerSocket != null) {
-                GameManager.sendReply(p.getController(), message, refresh);
-            }
+            //if (p.getController().clientInput != null || p.getController().clientHandlerSocket != null) {
+            GameManager.sendReply(p.getController(), message);
+            //}
+            if (update) GameManager.notifyUpdate(p.getController(),1000);
+
         }
     }
 
@@ -468,31 +467,28 @@ public class Match {
      * @param message
      * @param includeCurrentPlayer if false the message is not sent to the currentPlayer
      */
-    public void sendTextToAll(String message, boolean includeCurrentPlayer, boolean refresh) {
+    public void sendTextToAll(String message, boolean includeCurrentPlayer, boolean update) {
         for (Player p : playerList) {
             if (!includeCurrentPlayer && p.equals(currentPlayer)) {
                 continue;
             }
-            if (p.getController().clientInput != null || p.getController().clientHandlerSocket != null) {
-                GameManager.sendTextReply(p.getController(), message, refresh);
-            }
+            GameManager.sendTextReply(p.getController(), message);
+            if(update) GameManager.notifyUpdate(p.getController(),1000);
         }
     }
 
     /**
      * Send Chat notification to all player in the match except the sender
+     *
      * @param message
      * @param sender
-     * @param refresh
      */
-    public void sendChatNotification(String message,String sender, boolean refresh) {
+    public void sendPublicChatNotification(String message, String sender) {
         for (Player p : playerList) {
             if (p.getNickname().equals(sender)) {
                 continue;
             }
-            if (p.getController().clientInput != null || p.getController().clientHandlerSocket != null) {
-                GameManager.sendChatNotification(p.getController(), message, refresh);
-            }
+            GameManager.sendChatNotification(p.getController(), message);
         }
     }
 
@@ -502,12 +498,8 @@ public class Match {
     public void updateVirtualHand() {
         for (Player p : playerList) {
             //TODO: Watch out for test
-//            if (p.getController().clientInput.callBack != null) {
-                //TODO: new Protocol
-                CommunicationController.instance.sendVirtualHand(getJSONHand(), p.getController());
+            CommunicationController.instance.sendVirtualHand(getJSONHand(), p.getController());
 
-                //OLD RMI
-                //p.getController().clientInput.callBack.sendVirtualHand(getJSONHand());}
         }
     }
 
@@ -556,13 +548,9 @@ public class Match {
     }
 
 
-
-
-    public void updatePlayersChats(){
+    public void updatePlayersPublicChats() {
         for (Player p : playerList) {
-            CommunicationController.instance.sendVirtualPublicChat(VirtualViewHelper.convertPublicChatToJSON(virtualView),p.getController());
-            //CommunicationController.instance.sendVirtualPrivateChat(VirtualViewHelper.convertPrivateChats(virtualView),p.getController());
-            //CommunicationController.instance.sendVirtualChatMap(VirtualViewHelper.convertVirtualChatMapToJSON(virtualView),p.getController());
+            CommunicationController.instance.sendVirtualPublicChat(VirtualViewHelper.convertPublicChatToJSON(virtualView), p.getController());
         }
     }
 

@@ -16,27 +16,19 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     public ClientCallBack() throws RemoteException {}
 
     @Override
-    public void sendMessageToClient(String message,boolean refresh) throws RemoteException {
+    public void sendMessageToClient(String message) throws RemoteException {
         if(cli!=null){
-            if(!cli.CHAT_MODE) {
-                cli.printer(message);
-                if (refresh) {
-                    cli.refresh(cli);
-                }
-            }
+            cli.printer(message);
         }
     }
 
     @Override
-    public void sendChatNotification(String message,boolean refresh) throws RemoteException{
+    public void sendChatNotification(String message) throws RemoteException{
         if(cli!=null){
             if(cli.CHAT_MODE){
                 cli.refreshChat();
             }else{
                 cli.printer(message);
-                if (refresh) {
-                    cli.refresh(cli);
-                }
             }
         }
     }
@@ -52,13 +44,8 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
         if(cli!=null){
             ClientView.setFullViewVariables(virtualView,pIndex );
             cli.checkTurn();
-            cli.refresh(cli);
+            cli.updateCLI(cli,0);
         }
-    }
-
-    @Override
-    public void sendChatMessage(String message) throws RemoteException {
-
     }
 
     /**
@@ -71,7 +58,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
             cli.setGO_TO_MENU(false);
             cli.setGAME_ON(true);
             cli.setSTART(true);
-            cli.refresh(cli);
+            cli.updateCLI(cli,1000);
         }
     }
 
@@ -81,7 +68,6 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
             ClientView.convertBackMatchInfo(jsonInfo);
             cli.setGAME_ON(false);
             cli.setGO_TO_MENU(false);
-            cli.refresh(cli);
         }
     }
 
@@ -113,13 +99,18 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     @Override
     public void sendVirtualPublicChat(String virtualPublicChat) throws RemoteException {
         ClientView.convertBackPublicChat(virtualPublicChat);
-        if(cli!=null){
-            //cli.refresh(cli);
-        }
     }
 
     @Override
     public void sendServerVirtualView(String serverVV) throws RemoteException{
         ClientView.updateServerView(serverVV);
+    }
+
+    @Override
+    public void notifyUpdate(int milliseconds) throws RemoteException {
+        if(cli!=null){
+            System.out.println("Update...");
+            cli.updateCLI(cli,milliseconds);
+        }
     }
 }

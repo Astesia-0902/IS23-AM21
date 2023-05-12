@@ -78,22 +78,27 @@ public class GameManager {
      * @param pc PlayerController
      * @param m  ServerMessage
      */
-    public static void sendReply(PlayerController pc, ServerMessage m,boolean refresh) {
+    public static void sendReply(PlayerController pc, ServerMessage m) {
         if (SERVER_COMM) {
-            CommunicationController.instance.sendMessageToClient(m.value(),refresh , pc);
+            CommunicationController.instance.sendMessageToClient(m.value(),pc);
         }
     }
 
-    public static void sendTextReply(PlayerController pc, String m,boolean refresh) {
+    public static void sendTextReply(PlayerController pc, String m) {
         if (SERVER_COMM) {
-            CommunicationController.instance.sendMessageToClient(m, refresh, pc);
+            CommunicationController.instance.sendMessageToClient(m, pc);
         }
     }
 
-    public static void sendChatNotification(PlayerController pc,String m,boolean refresh){
+    public static void sendChatNotification(PlayerController pc, String m){
         if(SERVER_COMM){
-            CommunicationController.instance.sendChatNotification(m,refresh,pc);
+            CommunicationController.instance.sendChatNotification(m,pc);
+            CommunicationController.instance.notifyUpdate(pc,2000);
         }
+    }
+
+    public static void notifyUpdate(PlayerController ctrl,int milliseconds){
+        CommunicationController.instance.notifyUpdate(ctrl,milliseconds);
     }
 
 }

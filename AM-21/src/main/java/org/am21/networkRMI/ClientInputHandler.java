@@ -173,24 +173,6 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         //System.out.println("Client Callback registered:" + GameManager.client_connected);
     }
 
-    /**
-     * This method contact player's match ChatManager to send a message
-     *
-     * @param message
-     * @return false if the player is not in a match, so the message was not sent, otherwise true
-     * @throws RemoteException
-     */
-    //TODO: delete when the new chat 2.0 works correctly
-    @Override
-    public boolean sendChatMessage(String message) throws RemoteException {
-        return GameController.sendChatMessage(message, playerController);
-    }
-
-    //TODO: delete when the new chat 2.0 works correctly
-    @Override
-    public boolean sendPlayerMessage(String message, String receiver,boolean refresh) throws RemoteException {
-        return GameController.sendPlayerMessage(message, receiver, playerController,refresh);
-    }
 
     @Override
     public void printOnlinePlayers() throws RemoteException {

@@ -11,7 +11,6 @@ import java.rmi.server.ServerNotActiveException;
 public interface IClientInput extends Remote {
     boolean joinGame(int matchID) throws RemoteException, ServerNotActiveException;
 
-
     boolean checkPlayerActionPhase() throws RemoteException,ServerNotActiveException;
 
     boolean logIn(String username,IClientCallBack clientCallBack) throws RemoteException, ServerNotActiveException;
@@ -36,11 +35,6 @@ public interface IClientInput extends Remote {
     String getVirtualView() throws RemoteException;
 
     void registerCallBack(IClientCallBack callBack) throws RemoteException;
-
-    boolean sendChatMessage(String message) throws RemoteException;
-
-    boolean sendPlayerMessage(String message, String receiver, boolean refresh) throws RemoteException;
-
     void printOnlinePlayers() throws RemoteException;
 
     void printMatchList() throws RemoteException;

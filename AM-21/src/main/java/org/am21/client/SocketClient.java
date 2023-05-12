@@ -53,13 +53,9 @@ public class SocketClient extends Thread {
                 ClientCommunicationController.setMethodKey(messageArray[1]);
                 ClientCommunicationController.setMethodReturn(Boolean.parseBoolean(messageArray[2]));
             }
-            case "Message", "ChatMessage" -> {
+            case "Message" -> {
                 if(cli!=null){
-                    //TODO:Print the message from server
-                    cli.printer(messageArray[2]);
-                    if(Boolean.parseBoolean(messageArray[1])) {
-                        cli.refresh(cli);
-                    }
+                    cli.printer(messageArray[1]);
                 }
                 return;
             }
@@ -67,7 +63,7 @@ public class SocketClient extends Thread {
                 if(cli!=null){
                     ClientView.setFullViewVariables(messageArray[1],Integer.parseInt(messageArray[2]));
                     cli.checkTurn();
-                    cli.refresh(cli);
+                    cli.updateCLI(cli,0);
                 }
             }
             case "START" -> {
@@ -75,7 +71,7 @@ public class SocketClient extends Thread {
                     cli.setGO_TO_MENU(false);
                     cli.setGAME_ON(true);
                     cli.setSTART(true);
-                    cli.refresh(cli);
+                    cli.updateCLI(cli,1000);
                 }
             }
             case "WAIT" -> {
@@ -110,9 +106,6 @@ public class SocketClient extends Thread {
                         cli.refreshChat();
                     }else{
                         cli.printer(messageArray[1]);
-                        if (Boolean.parseBoolean(messageArray[2])) {
-                            cli.refresh(cli);
-                        }
                     }
                 }
             }
@@ -120,8 +113,15 @@ public class SocketClient extends Thread {
                 ClientView.updateServerView(messageArray[1]);
             }
             case "PublicChat" -> {ClientView.convertBackPublicChat(messageArray[1]);}
+            case "notifyUpdate"-> {
+                int milliseconds = Integer.parseInt(messageArray[1]);
+                if(cli!=null){
+                    System.out.println("Update...");
+                    cli.updateCLI(cli,milliseconds);
+                }
+            }
 
-            default -> System.out.println("Server: " + message);
+            default -> System.out.println("Unknown Server Message: " + message);
         }
         //Free CLi
         cli.WAIT_SOCKET = false;

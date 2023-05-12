@@ -10,17 +10,17 @@ public class CommunicationController implements ICommunication {
     public static final CommunicationController instance = new CommunicationController();
 
     @Override
-    public void sendMessageToClient(String message,boolean refresh, PlayerController myPlayer) {
+    public void sendMessageToClient(String message, PlayerController myPlayer) {
         if (myPlayer.connectionType == ConnectionType.RMI) {
             try {
-                myPlayer.clientInput.callBack.sendMessageToClient(message,refresh);
+                myPlayer.clientInput.callBack.sendMessageToClient(message);
             } catch (RemoteException e) {
                 //throw new RuntimeException(e);
                 myPlayer.getPlayer().setStatus(UserStatus.Offline);
             }
         } else if(myPlayer.connectionType == ConnectionType.SOCKET){
 
-                String messageToClient = "Message"+ "|"+ refresh + "|" + message;
+                String messageToClient = "Message" + "|" + message;
                 myPlayer.clientHandlerSocket.callback(messageToClient);
 
         }
@@ -54,20 +54,6 @@ public class CommunicationController implements ICommunication {
 
     }
 
-
-    @Override
-    public void sendChatMessage(String message, PlayerController myPlayer) {
-        if (myPlayer.connectionType == ConnectionType.RMI) {
-            try {
-                myPlayer.clientInput.callBack.sendChatMessage(message);
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
-        } else if(myPlayer.connectionType == ConnectionType.SOCKET){
-            String messageToClient = "ChatMessage" + "|" + message;
-            myPlayer.clientHandlerSocket.callback(messageToClient);
-        }
-    }
 
     @Override
     public void notifyStart(int id, PlayerController myPlayer) {
@@ -158,20 +144,21 @@ public class CommunicationController implements ICommunication {
     }
 
     @Override
-    public void sendChatNotification(String message, boolean refresh, PlayerController pc) {
+    public void sendChatNotification(String message, PlayerController pc) {
         if(pc.connectionType == ConnectionType.RMI){
             try {
-                pc.clientInput.callBack.sendChatNotification(message,refresh);
+                pc.clientInput.callBack.sendChatNotification(message);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
         }else if(pc.connectionType == ConnectionType.SOCKET){
-            String messageToClient = "ChatNotification" + "|" + message +"|"+ refresh;
+            String messageToClient = "ChatNotification" + "|" + message;
             pc.clientHandlerSocket.callback(messageToClient);
 
         }
     }
 
+    @Override
     public void sendServerVirtualView(String serverVirtualView,PlayerController pc){
         if(pc.connectionType == ConnectionType.RMI){
             try {
@@ -186,6 +173,18 @@ public class CommunicationController implements ICommunication {
         }
     }
 
+    @Override
+    public void notifyUpdate(PlayerController ctrl,int milliseconds) {
+        if(ctrl.connectionType == ConnectionType.RMI){
+            try{
+                ctrl.clientInput.callBack.notifyUpdate(milliseconds);
+            }catch (RemoteException e){
+                ctrl.getPlayer().setStatus(UserStatus.Offline);
+            }
+        }else if(ctrl.connectionType == ConnectionType.SOCKET){
+            String messageToClient = "notifyUpdate" + "|" + milliseconds;
+            ctrl.clientHandlerSocket.callback(messageToClient);
+        }
+    }
 
-    //TODO: testClientConnection
 }

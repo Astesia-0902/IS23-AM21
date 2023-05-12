@@ -2,11 +2,9 @@ package org.am21.controller;
 
 public interface ICommunication {
 
-    void sendMessageToClient(String message,boolean refresh, PlayerController myPlayer);
+    void sendMessageToClient(String message, PlayerController myPlayer);
 
     void sendVirtualView(String virtualView, int pIndex, PlayerController myPlayer);
-
-    void sendChatMessage(String message, PlayerController myPlayer);
 
     void notifyStart(int id, PlayerController myPlayer);
 
@@ -19,5 +17,9 @@ public interface ICommunication {
     void sendVirtualHand(String JSONHand, PlayerController myPlayer);
     void returnBool(String method, boolean value, PlayerController pCtrl);
 
-    void sendChatNotification(String message, boolean refresh, PlayerController pc);
+    void sendChatNotification(String message, PlayerController pc);
+
+    void sendServerVirtualView(String serverVirtualView, PlayerController pc);
+
+    void notifyUpdate(PlayerController ctrl, int milliseconds);
 }

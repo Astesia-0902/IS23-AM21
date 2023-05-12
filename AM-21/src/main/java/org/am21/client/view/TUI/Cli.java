@@ -98,7 +98,7 @@ public class Cli implements View {
         System.out.println("-----------------------------------------------------------");
     }
 
-    public void refresh(Cli cli) {
+    public void updateCLI(Cli cli,int milliseconds) {
         Thread refresher = new Thread() {
             @Override
             public void run() {
@@ -106,8 +106,8 @@ public class Cli implements View {
                 waitingThreads++;
                 try {
                     synchronized (cli) {
+                        delayer(milliseconds);
                         REFRESH = true;
-                        delayer(2000);
                         this.interrupt();
                     }
                 } finally {
@@ -1408,7 +1408,7 @@ public class Cli implements View {
      * @param command the message and, in case, receiver name
      */
     public void askChat(String command) {
-        synchronized (this) {
+        //synchronized (this) {
             String message = command.substring(command.indexOf(" ") + 1);
             String usernameString = command.substring(5);
             String regex = "\\[|\\]";
@@ -1447,7 +1447,7 @@ public class Cli implements View {
                 }
             }
             //readLine();
-        }
+        //}
 
     }
 
