@@ -166,7 +166,8 @@ public class CommunicationController implements ICommunication {
                 throw new RuntimeException(e);
             }
         }else if(pc.connectionType == ConnectionType.SOCKET){
-
+            String messageToClient = "ChatNotification" + "|" + message +"|"+ refresh;
+            pc.clientHandlerSocket.callback(messageToClient);
 
         }
     }
@@ -180,8 +181,8 @@ public class CommunicationController implements ICommunication {
                 //throw new RuntimeException(e);
             }
         }else if(pc.connectionType == ConnectionType.SOCKET){
-
-
+            String messageToClient = "ServerVirtualView" + "|" + serverVirtualView;
+            pc.clientHandlerSocket.callback(messageToClient);
         }
     }
 

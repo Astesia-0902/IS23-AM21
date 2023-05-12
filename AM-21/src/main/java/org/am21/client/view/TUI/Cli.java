@@ -25,7 +25,6 @@ import static org.am21.client.view.TUI.Storage.*;
 public class Cli implements View {
     //redundant
     private ConnectionType type;
-    private SocketClient socket;
     private String username;
     private ClientCommunicationController commCtrl;
     private final ClientCallBack clientCallBack;
@@ -47,7 +46,7 @@ public class Cli implements View {
     public boolean WAIT_SOCKET = false;
     public int waitingThreads;
 
-    public static boolean CHAT_MODE = false;
+    public boolean CHAT_MODE = false;
 
     public Cli() throws RemoteException {
         this.clientCallBack = new ClientCallBack();
@@ -122,17 +121,18 @@ public class Cli implements View {
         refresher.start();
     }
 
-    public void askHelp(){
+    public void askHelp() {
+        System.out.println();
         System.out.print("""
                 [Commands] Choose an option:
-                    1      --> Chat Commands Help 
+                    1      --> Chat Commands Help
                     2      --> General Commands
-                    3      --> Assist Mode 
+                    3      --> Assist Mode
                 Type the number you wish to select.
                 -------------------------------------------
                 >\040""");
         String num = readLine();
-        switch (num){
+        switch (num) {
             case "1" -> {
                 System.out.println(chatHelp);
                 askToContinue();
@@ -141,8 +141,9 @@ public class Cli implements View {
                 System.out.println(commandHelp);
                 askToContinue();
             }
-            case "3" -> {askAssistMode();}
-            default -> {}
+            case "3" -> askAssistMode();
+            default -> {
+            }
         }
     }
 
@@ -257,12 +258,8 @@ public class Cli implements View {
             }
         } while (!validInput);
 
-        IClientInput iClientInputHandler = (IClientInput) Naming.lookup("rmi://" + serverInfo.get("address") + ":"
+        ClientController.iClientInputHandler = (IClientInput) Naming.lookup("rmi://" + serverInfo.get("address") + ":"
                 + serverInfo.get("port") + "/" + root);
-        ClientController.iClientInputHandler = iClientInputHandler;
-        //OLD
-        //iClientInputHandler.registerCallBack(clientCallBack);
-        //NEW TODO
         commCtrl.registerCallBack(clientCallBack);
 
         System.out.println("Connected to " + serverInfo.get("address")
@@ -270,26 +267,18 @@ public class Cli implements View {
     }
 
     public void askServerInfoSocket() {
-        socket = new SocketClient();
+        SocketClient socket = new SocketClient();
         SocketClient.cli = this;
         socket.start();
         delayer(1000);
     }
 
 
-
-    /*
-    public void clearCli(){
-       System.out.println("\033[H\033[2J");
-        System.out.flush();
-    }
-    */
-
     /**
      * Registration of the User in the Game Server and association to CallBack
      *
-     * @throws ServerNotActiveException
-     * @throws RemoteException
+     * @throws ServerNotActiveException when Server is not Active
+     * @throws RemoteException when Remote Invocation fails
      */
     @Override
     public void askLogin() throws ServerNotActiveException, RemoteException {
@@ -321,9 +310,6 @@ public class Cli implements View {
 
     public void setSTART(boolean START) {
         this.START = START;
-        if (START) {
-            //System.out.print(Color.RED + "Press 'Enter' to play\n" + Color.RESET);
-        }
     }
 
     public boolean isEND() {
@@ -364,8 +350,7 @@ public class Cli implements View {
                 "Enter the Command you wish to use: ");
         String option = readLine();
         if (option.startsWith("/chat")) {
-            //handleChatMessage(option);
-            handleChatMessageV2(option,false);
+            handleChatMessage(option, false);
         } else if (option.startsWith("/open")) {
             askChat(option);
         } else if (option.equals("")) {
@@ -374,10 +359,7 @@ public class Cli implements View {
             switch (option) {
                 case "create", "c", "cr" -> askCreateMatch();
                 case "join", "j", "jo" -> askJoinMatch();
-                case "online", "on" -> {
-                    showOnlinePlayer();
-                    //askToContinue();
-                }
+                case "online", "on" -> showOnlinePlayer();
                 case "exit", "ex" -> {
                     if (askExitGame()) return;
                 }
@@ -394,7 +376,7 @@ public class Cli implements View {
     /**
      * Showcase the Commands available during Waiting Players
      */
-    public void askWaitingAction() throws RemoteException, ServerNotActiveException {
+    public void askWaitingAction() {
         //while (!GAME_ON && !GO_TO_MENU) {
         System.out.print("-----------------------------------------------------------\n" +
                 Color.WHITE_BRIGHT + " {| Room " + matchID + " |}" + Color.RESET);
@@ -405,8 +387,7 @@ public class Cli implements View {
                 + "Enter the Command you wish to use: ");
         String option = readLine();
         if (option.startsWith("/chat")) {
-            //handleChatMessage(option);
-            handleChatMessageV2(option, false);
+            handleChatMessage(option, false);
         } else if (option.startsWith("/open")) {
             askChat(option);
         } else if (option.equals("")) {
@@ -417,11 +398,9 @@ public class Cli implements View {
                 case "online", "on" -> showOnlinePlayer();
                 case "settings", "se" -> askSettings();
                 case "more", "mo" -> askMoreOptions();
-                default -> {
-                    System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
-                            + Color.RESET);
-                    //continue;
-                }
+                default ->
+                        System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
+                                + Color.RESET);
             }
             //askToContinue();
         }
@@ -438,9 +417,6 @@ public class Cli implements View {
         String setting = readLine();
         switch (setting) {
             case "size", "si" -> {
-                //OLD
-                //iClientInputHandler.changeMatchSeats(askTheIndex("MAX number of players", 2, 4));
-                //NEW TODO
                 if (commCtrl.changeMatchSeats(askTheIndex("MAX number of players", 2, 4))) {
                     System.out.println("Number of Seats available changed");
                 } else {
@@ -450,12 +426,8 @@ public class Cli implements View {
                 delayer(1500);
             }
             case "limit", "li" -> {
-                //OLD
-                //iClientInputHandler.changeInsertLimit(askTheIndex("Insertion Limit", 3, SHELF_ROW))
-                //NEW TODO
                 if (commCtrl.changeInsertLimit(askTheIndex("Insertion Limit", 3, SHELF_ROW))) {
                     System.out.println("Limit changed for the whole server");
-
                 } else {
                     System.out.println("Operation failed: Only the admin are allowed to change settings");
                 }
@@ -482,9 +454,8 @@ public class Cli implements View {
         }
     }
 
-    //TODO: sort command removed from askPlayerMove (now only for askInsertion)
     @Override
-    public void askPlayerMove() throws RemoteException, ServerNotActiveException {
+    public void askPlayerMove() {
         //while (GAME_ON && !GO_TO_MENU) {
         showDisplay();
         showWhoIsPlaying();
@@ -497,8 +468,7 @@ public class Cli implements View {
         System.out.print("\033[1A");
         System.out.print("\033[2K");
         if (option.startsWith("/chat")) {
-            //handleChatMessage(option);
-            handleChatMessageV2(option, false);
+            handleChatMessage(option, false);
         } else if (option.startsWith("/open")) {
             askChat(option);
         } else if (option.equals("")) {
@@ -519,11 +489,8 @@ public class Cli implements View {
     }
 
     @Override
-    public boolean askCreateMatch() throws ServerNotActiveException, RemoteException {
+    public boolean askCreateMatch()  {
         int playerNumber = askMaxSeats();
-        //OLD
-        //iClientInputHandler.createMatch(playerNumber);
-        //TODO: new
         if (commCtrl.createMatch(playerNumber)) {
             //askToContinue();
             return true;
@@ -550,16 +517,13 @@ public class Cli implements View {
     }
 
     @Override
-    public boolean askJoinMatch() throws ServerNotActiveException, RemoteException {
+    public boolean askJoinMatch()  {
         showMatchList();
         int matchID;
         try {
             System.out.print("Please enter the room number: ");
             matchID = Integer.parseInt(readLine());
             System.out.println("Selected Room [" + matchID + "].");
-            //OLD
-            //iClientInputHandler.joinGame(matchID);
-            //TODO new
             if (commCtrl.joinGame(matchID)) {
                 //readLine();
                 return true;
@@ -574,13 +538,15 @@ public class Cli implements View {
     }
 
     @Override
-    public void showMatchList() throws RemoteException {
-        //commCtrl.printMatchList();
+    public void showMatchList() {
         System.out.println("Match List:");
-        for(int i=0;i< matchList.length;i++){
-            if(matchList[i][0]==null)
-                continue;
-            System.out.println("[ID: " + matchList[i][0] + " | " + matchList[i][1] + " | Players: (" + matchList[i][2] + "/" + matchList[i][3] + ")]");
+        if (matchList == null) System.out.println("No Match Found");
+        else {
+            for (int i = 0; i < matchList.length; i++) {
+                if (matchList[i][0] == null)
+                    continue;
+                System.out.println("[ID: " + matchList[i][0] + " | " + matchList[i][1] + " | Players: (" + matchList[i][2] + "/" + matchList[i][3] + ")]");
+            }
         }
 
     }
@@ -607,16 +573,12 @@ public class Cli implements View {
     }
 
     @Override
-    public boolean askLeaveMatch() throws RemoteException {
-        //TODO: new
-        //iClientInputHandler.leaveMatch()
+    public boolean askLeaveMatch()  {
         return commCtrl.leaveMatch();
     }
 
     @Override
-    public boolean askExitGame() throws RemoteException {
-        //TODO: new
-        //iClientInputHandler.exitGame();
+    public boolean askExitGame()  {
         if (commCtrl.exitGame()) {
             System.exit(0);
             return true;
@@ -624,15 +586,13 @@ public class Cli implements View {
         return false;
     }
 
-    public void askMoreOptions() throws RemoteException, ServerNotActiveException {
+    public void askMoreOptions() {
         synchronized (this) {
             String command;
             System.out.print(Storage.MoreOptions);
             command = readLine();
             switch (command) {
-                case "leave", "le" -> {
-                    if (askLeaveMatch()) redirect();
-                }
+                case "leave", "le" -> askLeaveMatch();
                 case "exit", "ex" -> askExitGame();
                 case "help", "h", "he" -> askHelp();
                 case "" -> {}
@@ -826,12 +786,9 @@ public class Cli implements View {
 
     /**
      * This method shows the Selection menu, one of the MAIN PHASES of the game
-     *
-     * @throws ServerNotActiveException
-     * @throws RemoteException
      */
     @Override
-    public void askSelection() throws ServerNotActiveException, RemoteException {
+    public void askSelection()  {
         synchronized (this) {
             System.out.println("Select a cell on the board");
             boolean selectionConfirm;
@@ -902,7 +859,7 @@ public class Cli implements View {
     }
 
     @Override
-    public void askDeselection() throws ServerNotActiveException, RemoteException {
+    public void askDeselection() {
         synchronized (this) {
             if (BABY_PROTOCOL && !showHand()) {
                 System.out.println(Color.RED + "You have not selected any card yet." + Color.RESET);
@@ -911,8 +868,6 @@ public class Cli implements View {
 
                 boolean deselectConfirm = "y".equals(readLine());
                 if (deselectConfirm) {
-                    //TODO:
-                    //iClientInputHandler.deselectCards();
                     if (commCtrl.deselectCards()) {
                         NOT_SEL_YET = true;
                     }
@@ -923,19 +878,14 @@ public class Cli implements View {
 
     /**
      * This method shows the Insertion menu, one of the MAIN PHASES of the game
-     *
-     * @throws ServerNotActiveException
-     * @throws RemoteException
      */
     @Override
-    public void askInsertion() throws ServerNotActiveException, RemoteException {
+    public void askInsertion(){
         synchronized (this) {
             if (showHand()) {
                 System.out.print(Storage.insertionConfirm);
                 boolean confirm = "y".equals(readLine());
                 if (confirm) {
-                    //TODO
-                    //iClientInputHandler.confirmSelection();
                     if (commCtrl.confirmSelection()) {
                         String option = "";
                         while (!option.equals("more") && !option.equals("mo")) {
@@ -952,13 +902,9 @@ public class Cli implements View {
                                         column = askColumn();
                                     } while (column == -2);
                                     if (column != -1) {
-                                        //TODO
-                                        //iClientInputHandler.insertInColumn(column - 1)
                                         if (commCtrl.insertInColumn(column - 1)) {
                                             showPlayerShelf();
                                             System.out.println(Color.YELLOW + "Inserted in the column: " + column + Color.RESET);
-                                            //TODO
-                                            //iClientInputHandler.endTurn()
                                             NOT_SEL_YET = true;
                                             SEL_MODE = false;
                                             if (commCtrl.endTurn()) {
@@ -990,7 +936,7 @@ public class Cli implements View {
         }
     }
 
-    public void askSort() throws ServerNotActiveException, RemoteException {
+    public void askSort(){
         System.out.println("There are the cards you have selected:");
         if (showHand()) {
             System.out.println("Which position do you wish to swap?");
@@ -998,8 +944,6 @@ public class Cli implements View {
             if (itemSwapped == null) {
                 System.out.println("Selection canceled.");
             } else if (!itemSwapped.get(0).equals(itemSwapped.get(1))) {
-                //TODO
-                //iClientInputHandler.sortHand(itemSwapped.get(0), itemSwapped.get(1))
                 if (commCtrl.sortHand(itemSwapped.get(0), itemSwapped.get(1))) {
                     System.out.println("Card order changed.");
                 }
@@ -1073,31 +1017,6 @@ public class Cli implements View {
         } while (true);
     }
 
-    public void handleChatMessage(String option) throws RemoteException {
-        synchronized (this) {
-            String message = option.substring(option.indexOf(" ") + 1);
-            String usernameString = option.substring(5);
-            String regex = "\\[|\\]";
-            String[] matches = usernameString.split(regex);
-            if (matches.length > 1) {
-                String playerName = matches[1];
-                //TODO
-                //iClientInputHandler.sendPlayerMessage(message, playerName, true)
-                if (commCtrl.sendPlayerMessage(message, playerName, true)) {
-                    System.out.println("Message sent to: " + playerName);
-                }
-            } else {
-                //TODO
-                //!iClientInputHandler.sendChatMessage(message)
-
-                if (!commCtrl.sendChatMessage(message)) {
-                    System.out.println(Color.RED + "The message was not sent" + Color.RESET);
-                }
-            }
-            readLine();
-        }
-    }
-
     /**
      * This method allows the view of the Items selected by the player
      * Improper use of the name Hand, It should be: temporarily list of item selected on the board
@@ -1136,12 +1055,9 @@ public class Cli implements View {
     /**
      * This is a sub Menu used for showcase the objects of the game,
      * like Board, Shelf, Goals....
-     *
-     * @throws RemoteException if {@link #showOnlinePlayer()} is called
-     *                         and the client is not connected to the server through RMI
      */
     @Override
-    public void askShowObject() throws RemoteException {
+    public void askShowObject() {
         synchronized (this) {
             String object = "new_command";
             while (!object.equals("")) {
@@ -1178,20 +1094,21 @@ public class Cli implements View {
     /**
      * This method forward a request directly to the Server
      * --> It's going to display a list of online Players
-     *
-     * @throws RemoteException if Client is not connected to the Server through RMI
      */
     @Override
     public void showOnlinePlayer() {
 
         //commCtrl.printOnlinePlayers();
         System.out.println("List of online players:");
-        for(int i=0;i< onlinePlayers.length;i++){
-            if(onlinePlayers[i][0]==null || onlinePlayers[i][1]==null ){
-                continue;
-            }
-            System.out.println("[" + onlinePlayers[i][0] + " | " + onlinePlayers[i][1] + " ]");
+        if (onlinePlayers == null) System.out.println("No player online");
+        else {
+            for (int i = 0; i < onlinePlayers.length; i++) {
+                if (onlinePlayers[i][0] == null || onlinePlayers[i][1] == null) {
+                    continue;
+                }
+                System.out.println("[" + onlinePlayers[i][0] + " | " + onlinePlayers[i][1] + " ]");
 
+            }
         }
         askToContinue();
 
@@ -1302,26 +1219,12 @@ public class Cli implements View {
     public String giveMeColor(String item) {
         String itemType = item;
         switch (item.substring(0, item.length() - 3)) {
-            case "__Cats__" -> {
-                itemType = "\033[1;92m*\033[0m";
-            }
-            case "_Books__" -> {
-
-                itemType = "\033[1;97m*\033[0m";
-            }
-            case "_Games__" -> {
-                itemType = "\033[1;93m*\033[0m";
-            }
-            case "_Frames_" -> {
-                itemType = "\033[1;94m*\033[0m";
-            }
-            case "Trophies" -> {
-
-                itemType = "\033[1;96m*\033[0m";
-            }
-            case "_Plants_" -> {
-                itemType = "\033[1;95m*\033[0m";
-            }
+            case "__Cats__" -> itemType = "\033[1;92m*\033[0m";
+            case "_Books__" -> itemType = "\033[1;97m*\033[0m";
+            case "_Games__" -> itemType = "\033[1;93m*\033[0m";
+            case "_Frames_" -> itemType = "\033[1;94m*\033[0m";
+            case "Trophies" -> itemType = "\033[1;96m*\033[0m";
+            case "_Plants_" -> itemType = "\033[1;95m*\033[0m";
         }
         return itemType;
 
@@ -1433,7 +1336,7 @@ public class Cli implements View {
         }
     }
 
-    public void goToEndRoom() throws ServerNotActiveException, RemoteException {
+    public void goToEndRoom() {
         System.out.println("The match ended. Press 'Enter' to see the results");
         readLine();
         showGameResults();
@@ -1442,11 +1345,11 @@ public class Cli implements View {
 
     /**
      * Sending a message in a specific chat (public or private)
-     *
-     * @param command
-     * @param live
-     */
-    public void handleChatMessageV2(String command, boolean live) {
+     * @param command command includes message and, in case, receiver
+     * @param live true if the message is sent in live chat
+     * */
+    @Override
+    public void handleChatMessage(String command, boolean live) {
         synchronized (this) {
             String message = command.substring(command.indexOf(" ") + 1);
             String usernameString = command.substring(5);
@@ -1457,10 +1360,6 @@ public class Cli implements View {
 
                 if (commCtrl.sendPrivateMessage(message, playerName, live)) {
                     System.out.println("Message sent to: " + playerName);
-                    String key = getChatKey(username,playerName);
-                    //System.out.println(key);
-                    int index = chatMap.get(key);
-                    //printPrivateChat(index);
                 } else {
                     System.out.println("Message not sent");
                 }
@@ -1469,12 +1368,10 @@ public class Cli implements View {
                 if (!commCtrl.sendPublicMessage(message, live)) {
                     System.out.println(Color.RED + "The message was not sent" + Color.RESET);
                 } else {
-                    //System.out.println("Message sent");
-                    //DEBUG
-                    //printPublicChat();
+                    System.out.println("Message sent");
                 }
             }
-            delayer(2000);
+            delayer(1000);
             //readLine();
         }
 
@@ -1494,7 +1391,7 @@ public class Cli implements View {
 
     public void printPrivateChat(int index) {
         System.out.println();
-        if (privateChats == null || privateChats.size() <= index || index==-1) {
+        if (privateChats == null || privateChats.size() <= index || index == -1) {
             System.out.println("\"No records\"");
             return;
         }
@@ -1508,7 +1405,7 @@ public class Cli implements View {
      * Calling OpenChat Method
      * /open[name]
      *
-     * @param command
+     * @param command the message and, in case, receiver name
      */
     public void askChat(String command) {
         synchronized (this) {
@@ -1518,20 +1415,18 @@ public class Cli implements View {
             String[] matches = usernameString.split(regex);
             if (matches.length > 1) {
                 String playerName = matches[1];
-                //accesso alla chat specifica
-                String key = getChatKey(username, playerName);
                 System.out.println("Opening Chat with " + playerName);
                 delayer(1000);
                 CHAT_MODE = true;
                 while (CHAT_MODE) {
-                    printPrivateChat(chatMap.getOrDefault(getChatKey(username,playerName),-1));
+                    printPrivateChat(chatMap.getOrDefault(getChatKey(username, playerName), -1));
                     System.out.println("Type /exit to close this chat");
                     System.out.print("> ");
                     String live_message = readLine();
                     if (live_message.equals("/exit")) {
                         CHAT_MODE = false;
 
-                    } else if(!live_message.equals("")){
+                    } else if (!live_message.equals("")) {
                         commCtrl.sendPrivateMessage(live_message, playerName, true);
                     }
                 }
@@ -1573,7 +1468,7 @@ public class Cli implements View {
 
 
     private String getChatKey(String name1, String name2) {
-        return (name1.compareTo(name2)) < 0 ? (name1 + "|" + name2) : (name2 + "|" + name1);
+        return (name1.compareTo(name2)) < 0 ? (name1 + "@" + name2) : (name2 + "@" + name1);
     }
 
 }

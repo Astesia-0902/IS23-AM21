@@ -78,10 +78,10 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     @Override
     public void notifyToWait(String jsonInfo) throws RemoteException {
         if(cli!=null){
-            //cli.setMatchID(id);
             ClientView.convertBackMatchInfo(jsonInfo);
             cli.setGAME_ON(false);
             cli.setGO_TO_MENU(false);
+            cli.refresh(cli);
         }
     }
 
@@ -116,16 +116,6 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
         if(cli!=null){
             //cli.refresh(cli);
         }
-    }
-
-    @Override
-    public void sendMatchList(String virtualMatchList) throws RemoteException {
-        ClientView.convertBackMatchList(virtualMatchList);
-    }
-
-    @Override
-    public void sendOnlinePlayer(String virtualOnlinePlayers) throws RemoteException {
-        ClientView.convertBackOnlinePlayers(virtualOnlinePlayers);
     }
 
     @Override

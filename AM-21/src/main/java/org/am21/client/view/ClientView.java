@@ -1,6 +1,5 @@
 package org.am21.client.view;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
@@ -89,7 +88,6 @@ public class ClientView {
         JSONArray jsonArray = JSONObject.parseArray(jsonInfo);
         List<String> tmp = jsonArray.toJavaList(String.class);
         matchID = Integer.parseInt(tmp.get(0));
-        System.out.println("Match id ="+matchID);
         maxSeats = Integer.parseInt(tmp.get(1));
         admin = tmp.get(2);
 
@@ -98,28 +96,6 @@ public class ClientView {
     public static void convertBackPublicChat(String jsonPublic) {
         JSONArray jsonChat = JSONObject.parseArray(jsonPublic);
         publicChat = jsonChat.toJavaList(String.class);
-    }
-
-    public static void convertBackPrivateChats(String jsonPrivate) {
-        JSONArray listOfList = JSON.parseArray(jsonPrivate);
-        List<List<String>> tmp = new ArrayList<>();
-        for (int i = 0; i < listOfList.size(); i++) {
-            JSONArray list = listOfList.getJSONArray(i);
-            List<String> tmpChat = list.toJavaList(String.class);
-            tmp.add(tmpChat);
-        }
-        privateChats = tmp;
-    }
-
-
-    public static void convertBackMatchList(String jsonMatchList) {
-
-
-    }
-
-    public static void convertBackOnlinePlayers(String jsonOnlinePlayers) {
-
-
     }
 
     public static void updateServerView(String jsonServer) {

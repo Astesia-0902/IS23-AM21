@@ -333,6 +333,7 @@ public class GameController {
         CommunicationController.instance.sendMessageToClient(message, false, playerController);
     }
 
+    //TODO: to clean
     public static void printMatchList(PlayerController playerController) {
         String message = "";
         message += "Match List:\n";
@@ -400,7 +401,7 @@ public class GameController {
         Player sender = ctrl.getPlayer();
         sender.getMatch().chatManager.handlePublicChatMessage(sender, message);
         String formalMessage = "\n" + sender.getNickname() + " says > " + message;
-        VirtualViewHelper.virtualizePublicChat(sender.getMatch(), sender.getMatch().chatManager.chatMessages);
+        VirtualViewHelper.virtualizePublicChat(sender.getMatch(), sender.getMatch().chatManager.publicChatMessages);
         sender.getMatch().updatePlayersChats();
         sender.getMatch().sendChatNotification(formalMessage, sender.getNickname(), true);
         return true;

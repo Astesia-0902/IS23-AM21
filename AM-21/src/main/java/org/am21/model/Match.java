@@ -116,12 +116,10 @@ public class Match {
                 checkRoom();
                 //If, after checkRoom(), the match did not start, send Client to Waiting Phase
                 if (gameState == GameState.WaitingPlayers && (player.getController().clientInput != null || player.getController().clientHandlerSocket != null)) {
-
-                    //TODO: NEW Protocol
-                    //New Communication Protocol
                     CommunicationController.instance.notifyToWait(VirtualViewHelper.convertMatchInfoToJSON(this), player.getController());
-                    //OLD RMI only
-                    //player.getController().clientInput.callBack.notifyToWait(VirtualViewHelper.convertMatchInfoToJSON(this));
+                    if(chatManager.publicChatMessages.size()>0) {
+                        CommunicationController.instance.sendVirtualPublicChat(VirtualViewHelper.convertPublicChatToJSON(this.virtualView), player.getController());
+                    }
                 }
 
                 return true;
@@ -384,19 +382,12 @@ public class Match {
     private void startFirstRound() {
         gameState = GameState.GameGoing;
         currentPlayer = chairman;
-        //System.out.println("Match > Player Turn: " + currentPlayer.getNickname());
         setGamePhase(GamePhase.Selection);
         //TODO: test it
         VirtualViewHelper.buildVirtualView(this);
         updatePlayersView();
         for (Player p : playerList) {
-
-            if (p.getController().clientInput != null || p.getController().clientHandlerSocket != null) {
-                //TODO: new protocol
                 CommunicationController.instance.notifyStart(matchID, p.getController());
-                //OLD RMI
-                //p.getController().clientInput.callBack.notifyStart(matchID);
-            }
         }
 
     }
@@ -410,11 +401,7 @@ public class Match {
         setGamePhase(GamePhase.Selection);
         if (currentPlayer.getController().clientInput != null || currentPlayer.getController().clientHandlerSocket != null) {
             String message = SC.RED_B + "Server[!] > " + currentPlayer.getNickname() + "! It's your turn." + SC.RST;
-            //TODO: new Protocol
             CommunicationController.instance.sendMessageToClient(message, false, currentPlayer.getController());
-
-            //OLD RMI
-            //currentPlayer.getController().clientInput.callBack.sendMessageToClient(message);
         }
 
     }

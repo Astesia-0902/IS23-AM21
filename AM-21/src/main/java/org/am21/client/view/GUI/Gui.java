@@ -216,8 +216,8 @@ public class Gui implements View {
     }
 
     @Override
-    public void handleChatMessage(String option) throws RemoteException {
-        System.out.println(option);
+    public void handleChatMessage(String message, boolean live) {
+        System.out.println(message);
     }
 
     @Override

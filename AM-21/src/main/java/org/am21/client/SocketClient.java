@@ -104,6 +104,23 @@ public class SocketClient extends Thread {
             case "VirtualHand" -> {
                 ClientView.convertBackHand(messageArray[1]);
             }
+            case "ChatNotification" -> {
+                if(cli!=null){
+                    if(cli.CHAT_MODE){
+                        cli.refreshChat();
+                    }else{
+                        cli.printer(messageArray[1]);
+                        if (Boolean.parseBoolean(messageArray[2])) {
+                            cli.refresh(cli);
+                        }
+                    }
+                }
+            }
+            case "ServerVirtualView" -> {
+                ClientView.updateServerView(messageArray[1]);
+            }
+            case "PublicChat" -> {ClientView.convertBackPublicChat(messageArray[1]);}
+
             default -> System.out.println("Server: " + message);
         }
         //Free CLi

@@ -57,7 +57,7 @@ public class ServerChatManager {
 
 
     public static String getChatKey(String name1,String name2){
-        return  (name1.compareTo(name2)) < 0 ? (name1 + "|" + name2) : (name2 + "|" + name1);
+        return  (name1.compareTo(name2)) < 0 ? (name1 + "@" + name2) : (name2 + "@" + name1);
 
     }
 
@@ -68,7 +68,7 @@ public class ServerChatManager {
         }
         String name1 = p1.getNickname();
         String name2 = p2.getNickname();
-        String key = (name1.compareTo(name2)) < 0 ? (name1 + "|" + name2) : (name2 + "|" + name1);
+        String key = (name1.compareTo(name2)) < 0 ? (name1 + "@" + name2) : (name2 + "@" + name1);
         if (chatMap.containsKey(key)) {
             return false;
         }

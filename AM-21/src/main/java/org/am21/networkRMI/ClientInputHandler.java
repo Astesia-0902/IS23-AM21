@@ -120,7 +120,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         return GameController.endTurn(playerController);
     }
 
-
+    @Override
     public boolean deselectCards() throws RemoteException, ServerNotActiveException {
         return GameController.deselectCards(playerController);
     }
@@ -163,7 +163,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
 
     /**
      * This method is called after the login of the player
-     *
+     * It allows the server to register Client's CallBack Interface
      * @param callBack
      * @throws RemoteException
      */
@@ -180,11 +180,13 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      * @return false if the player is not in a match, so the message was not sent, otherwise true
      * @throws RemoteException
      */
+    //TODO: delete when the new chat 2.0 works correctly
     @Override
     public boolean sendChatMessage(String message) throws RemoteException {
         return GameController.sendChatMessage(message, playerController);
     }
 
+    //TODO: delete when the new chat 2.0 works correctly
     @Override
     public boolean sendPlayerMessage(String message, String receiver,boolean refresh) throws RemoteException {
         return GameController.sendPlayerMessage(message, receiver, playerController,refresh);
@@ -195,28 +197,11 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         GameController.printOnlinePlayers(playerController);
     }
 
-    public void requestOnlinePlayers() throws RemoteException{
-
-    }
-
-    public void requestMatchList() throws RemoteException{
-
-    }
     @Override
     public void printMatchList() throws RemoteException {
         GameController.printMatchList(playerController);
     }
 
-    //TODO: method
-
-    /**
-     * This method is used to open a specific chat
-     * @throws RemoteException
-     */
-    @Override
-    public void openChat() throws RemoteException {
-
-    }
 
     @Override
     public boolean changeMatchSeats(int newMaxSeats) throws RemoteException {
@@ -230,12 +215,26 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         return GameController.changeInsertLimit(newLimit, playerController);
     }
 
-
+    /**
+     * This method allows the Client to send a Message in the Match's Chat
+     * @param message the message
+     * @param live indicates if the message was sent by live Chat (true) or not (false)
+     * @return true if the message was correctly sent, otherwise false
+     * @throws RemoteException when the Remote Invocation fails
+     */
     @Override
     public boolean sendPublicMessage(String message, boolean live) throws RemoteException {
         return GameController.forwardPublicMessage(message,playerController,live);
     }
 
+    /**
+     * This method allows the Client to Send a Message to Specific Online Players
+     * @param message the message
+     * @param receiver the online player who will receive the message
+     * @param live indicates if the message was sent by live Chat (true) or not (false)
+     * @return true if the message was sent to the receiver, otherwise false
+     * @throws RemoteException when the Remote Invocation fails
+     */
     @Override
     public boolean sendPrivateMessage(String message, String receiver, boolean live) throws RemoteException {
         return GameController.forwardPrivateMessage(message,receiver,playerController,live);

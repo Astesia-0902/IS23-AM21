@@ -80,20 +80,13 @@ public class GameManager {
      */
     public static void sendReply(PlayerController pc, ServerMessage m,boolean refresh) {
         if (SERVER_COMM) {
-            //TODO: new protocol
             CommunicationController.instance.sendMessageToClient(m.value(),refresh , pc);
-
-            //OLD RMI
-            //pc.clientInput.callBack.sendMessageToClient(m.value());
         }
     }
 
     public static void sendTextReply(PlayerController pc, String m,boolean refresh) {
         if (SERVER_COMM) {
-            //TODO: new Protocol
             CommunicationController.instance.sendMessageToClient(m, refresh, pc);
-            //OLD RMI
-            //pc.clientInput.callBack.sendMessageToClient(m);
         }
     }
 

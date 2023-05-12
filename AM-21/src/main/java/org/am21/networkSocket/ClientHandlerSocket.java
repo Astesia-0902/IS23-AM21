@@ -4,6 +4,7 @@ import org.am21.controller.CommunicationController;
 import org.am21.controller.GameController;
 import org.am21.controller.PlayerController;
 import org.am21.model.enumer.ConnectionType;
+import org.am21.model.enumer.UserStatus;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -44,6 +45,7 @@ public class ClientHandlerSocket extends Thread {
                 handleClientMessage(req);
             }
         } catch (IOException | ServerNotActiveException e) {
+            myPlayer.getPlayer().setStatus(UserStatus.Offline);
             System.out.println("Socket > Client Disconnected");
             //throw new RuntimeException(e);
         }
@@ -162,7 +164,17 @@ public class ClientHandlerSocket extends Thread {
                 int newInsertLimit = Integer.parseInt(messageParts[1]);
                 CommunicationController.instance.returnBool("changeInsertLimit",GameController.changeInsertLimit(newInsertLimit, myPlayer),myPlayer);
                 break;
-
+            case "sendPublicMessage":
+                String publicMessage = messageParts[1];
+                Boolean live_public = Boolean.valueOf(messageParts[2]);
+                CommunicationController.instance.returnBool("sendPublicMessage",GameController.forwardPublicMessage(publicMessage,myPlayer, live_public),myPlayer);
+                break;
+            case "sendPrivateMessage":
+                String privateMessage = messageParts[1];
+                String receiver_private = messageParts[2];
+                Boolean live_private = Boolean.valueOf(messageParts[3]);
+                CommunicationController.instance.returnBool("sendPrivateMessage",GameController.forwardPrivateMessage(privateMessage,receiver_private,myPlayer,live_private),myPlayer);
+                break;
             default:
                 System.out.println( "["+messageParts[0]+"] Unknown command from" + clientSocket.getRemoteSocketAddress());
         }

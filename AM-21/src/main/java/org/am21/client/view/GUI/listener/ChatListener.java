@@ -6,7 +6,6 @@ import org.am21.client.view.GUI.utils.ImageUtil;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.rmi.RemoteException;
 
 public class ChatListener implements MouseListener, MouseMotionListener, ActionListener, KeyListener {
     Gui gui;
@@ -43,13 +42,9 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == gui.chatDialog.sendButton) {
-            try {
-                String message = gui.chatDialog.chatMessage.getText();
-                gui.handleChatMessage(message);
-                gui.chatDialog.chatMessage.setText("");     //Clear input box
-            } catch (RemoteException ex) {
-                throw new RuntimeException(ex);
-            }
+            String message = gui.chatDialog.chatMessage.getText();
+            gui.handleChatMessage(message,true);
+            gui.chatDialog.chatMessage.setText("");     //Clear input box
         }
         gui.chatDialog.privateChat.keySet().forEach(user -> {
             if (e.getSource() == gui.chatDialog.privateChat.get(user)) {

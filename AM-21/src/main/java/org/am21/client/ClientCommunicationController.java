@@ -201,7 +201,7 @@ public class ClientCommunicationController {
             return METHOD_RETURN;
         }
     }
-
+    //Never used
     public void getVirtualView() {
         if (ClientController.isRMI) {
             try {
@@ -230,6 +230,7 @@ public class ClientCommunicationController {
         }
     }
 
+    //TODO: to delete when new chat 2.0 works correctly
     public boolean sendChatMessage(String message) {
         if (ClientController.isRMI) {
             try {
@@ -245,7 +246,7 @@ public class ClientCommunicationController {
             return METHOD_RETURN;
         }
     }
-
+    //TODO: to delete when new chat 2.0 works correctly
     public boolean sendPlayerMessage(String message, String receiver, boolean refresh) {
         if (ClientController.isRMI) {
             try {
@@ -310,22 +311,6 @@ public class ClientCommunicationController {
 
     }
 
-    //TODO: no need just view ClientView in CLI
-    public void openChat() {
-        if (ClientController.isRMI) {
-            try {
-                ClientController.iClientInputHandler.openChat();
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            makeCliWait();
-            String messageToSend = "openChat";
-            SocketClient.messageToServer(messageToSend);
-            wait_Socket("openChat");
-        }
-    }
-
     public boolean changeMatchSeats(int newMaxSeats) {
         if (ClientController.isRMI) {
             try {
@@ -367,6 +352,10 @@ public class ClientCommunicationController {
                 throw new RuntimeException(e);
             }
         } else {
+            makeCliWait();
+            String messageToSend = "sendPublicMessage" + "|" + message + "|" + live;
+            SocketClient.messageToServer(messageToSend);
+            wait_Socket("sendPublicMessage");
             return METHOD_RETURN;
         }
     }
@@ -379,6 +368,10 @@ public class ClientCommunicationController {
                 throw new RuntimeException(e);
             }
         } else {
+            makeCliWait();
+            String messageToSend = "sendPrivateMessage" + "|" + message + "|" + receiver + "|" + live;
+            SocketClient.messageToServer(messageToSend);
+            wait_Socket("sendPrivateMessage");
             return METHOD_RETURN;
         }
     }

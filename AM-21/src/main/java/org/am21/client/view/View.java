@@ -30,7 +30,6 @@ public interface View {
     void askSelection() throws ServerNotActiveException, RemoteException;
     void askDeselection() throws ServerNotActiveException, RemoteException;
     void askInsertion() throws ServerNotActiveException, RemoteException;
-    void handleChatMessage(String option) throws RemoteException;
     void showEndGameToken();
     void showTimer();
     void showMatchList() throws RemoteException;
@@ -42,4 +41,6 @@ public interface View {
     void showGoalDescription(String CommonGoalCard);
 
     void showGameRules();
+
+    void handleChatMessage(String command, boolean live);
 }

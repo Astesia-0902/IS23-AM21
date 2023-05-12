@@ -47,9 +47,6 @@ public interface IClientInput extends Remote {
 
     boolean endTurn() throws RemoteException, ServerNotActiveException;
 
-    //TODO:
-    void openChat()throws RemoteException;
-
     boolean changeMatchSeats(int newMaxSeats) throws RemoteException;
 
     boolean changeInsertLimit(int newLimit) throws RemoteException;
