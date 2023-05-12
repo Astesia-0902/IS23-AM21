@@ -63,7 +63,7 @@ public class SocketClient extends Thread {
                 if (cli != null) {
                     ClientView.setFullViewVariables(messageArray[1], Integer.parseInt(messageArray[2]));
                     cli.checkTurn();
-                    cli.updateCLI(cli, 0);
+                    cli.updateCLI(cli, 500);
                 }
             }
             case "START" -> {

@@ -138,10 +138,11 @@ public class PlayerController {
             //salvo le coordinate e il riferimento dell'item nella hand*/
             hand.memCard(board.getCell(r, c), r, c);
             //Virtualize HAND and board after each Selection and Sent to the players
-            player.getMatch().selectionUpdate();
+
             GameManager.sendReply(this, ServerMessage.Selection_Ok);
             player.getMatch().sendTextToAll("\n" +
-                    SC.YELLOW + player.getNickname() + " selected the cell [" + r + "," + c + "]." + SC.RST, false,true);
+                    SC.YELLOW + player.getNickname() + " selected the cell [" + r + "," + c + "]." + SC.RST, false,false);
+            player.getMatch().selectionUpdate();
             return true;
         }
 

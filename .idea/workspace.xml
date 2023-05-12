@@ -12,10 +12,11 @@
     <list default="true" id="61ec0ccc-6fec-4805-91df-bde52ce4f01d" name="Changes" comment="update Gui">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/SocketClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/SocketClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/Cli.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/Cli.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/GameManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/PlayerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/PlayerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientCallBack.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientCallBack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkSocket/ClientHandlerSocket.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkSocket/ClientHandlerSocket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/VirtualViewTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/VirtualViewTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -617,7 +618,8 @@
       <workItem from="1683797115016" duration="18383000" />
       <workItem from="1683825022449" duration="11579000" />
       <workItem from="1683889615337" duration="23422000" />
-      <workItem from="1683917007992" duration="1087000" />
+      <workItem from="1683917007992" duration="1353000" />
+      <workItem from="1683924256255" duration="6007000" />
     </task>
     <task id="LOCAL-00001" summary="update scoringToken test">
       <created>1680516093577</created>
@@ -743,7 +745,7 @@
         </line-breakpoint>
         <line-breakpoint type="java-method">
           <url>file://$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/VirtualViewTest.java</url>
-          <line>53</line>
+          <line>56</line>
           <properties class="org.am21.game.VirtualViewTest" method="testAfterStart">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />

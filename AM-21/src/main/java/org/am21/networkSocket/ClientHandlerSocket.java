@@ -98,8 +98,8 @@ public class ClientHandlerSocket extends Thread {
                 CommunicationController.instance.returnBool("confirmSelection",GameController.confirmSelection(myPlayer),myPlayer);
                 break;
 
-            case "deselect":
-                CommunicationController.instance.returnBool("deselect",GameController.deselectCards(myPlayer),myPlayer);
+            case "deselectCards":
+                CommunicationController.instance.returnBool("deselectCards",GameController.deselectCards(myPlayer),myPlayer);
                 break;
 
             case "sortHand":

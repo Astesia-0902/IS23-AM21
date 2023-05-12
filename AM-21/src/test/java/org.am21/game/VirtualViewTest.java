@@ -2,6 +2,7 @@ package org.am21.game;
 
 import org.am21.controller.PlayerController;
 import org.am21.model.Match;
+import org.am21.networkRMI.ClientCallBack;
 import org.am21.networkRMI.ClientInputHandler;
 import org.am21.utilities.VirtualViewHelper;
 import org.junit.jupiter.api.AfterEach;
@@ -27,7 +28,9 @@ public class VirtualViewTest {
         m=new Match(2);
         try {
             c1 = new PlayerController("A",new ClientInputHandler());
+            c1.clientInput.callBack= new ClientCallBack();
             c2 = new PlayerController("B",new ClientInputHandler());
+            c2.clientInput.callBack = new ClientCallBack();
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }

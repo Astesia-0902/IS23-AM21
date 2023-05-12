@@ -47,7 +47,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
         if (cli != null) {
             ClientView.setFullViewVariables(virtualView, pIndex);
             cli.checkTurn();
-            cli.updateCLI(cli, 0);
+            cli.updateCLI(cli, 500);
         }
     }
 

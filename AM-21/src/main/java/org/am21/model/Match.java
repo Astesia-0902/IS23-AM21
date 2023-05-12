@@ -412,12 +412,7 @@ public class Match {
 
         for (Player p : playerList) {
             //TODO: Watch out for test
-            //if (p.getController().clientInput != null || p.getController().clientHandlerSocket != null) {
-            //TODO: new Protocol
             CommunicationController.instance.sendVirtualView(getJSONVirtualView(), playerList.indexOf(p), p.getController());
-            //OLD RMI
-            //p.getController().clientInput.callBack.sendVirtualView(getJSONVirtualView(), playerList.indexOf(p));
-            //}
         }
     }
 
@@ -453,9 +448,7 @@ public class Match {
      */
     public void sendMessageToAll(ServerMessage message,boolean update) {
         for (Player p : playerList) {
-            //if (p.getController().clientInput != null || p.getController().clientHandlerSocket != null) {
             GameManager.sendReply(p.getController(), message);
-            //}
             if (update) GameManager.notifyUpdate(p.getController(),1000);
 
         }
@@ -497,7 +490,6 @@ public class Match {
      */
     public void updateVirtualHand() {
         for (Player p : playerList) {
-            //TODO: Watch out for test
             CommunicationController.instance.sendVirtualHand(getJSONHand(), p.getController());
 
         }
