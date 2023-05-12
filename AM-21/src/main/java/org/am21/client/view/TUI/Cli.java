@@ -40,7 +40,7 @@ public class Cli implements View {
     private boolean BABY_PROTOCOL = true;
     //If true GoToEndRoom
     private boolean END = false;
-    //private boolean COMMAND_ACTIVE = false;
+    private boolean COMMAND_ACTIVE = false;
 
     public static boolean REFRESH = false;
     public boolean WAIT_SOCKET = false;
@@ -457,6 +457,7 @@ public class Cli implements View {
     @Override
     public void askPlayerMove() {
         //while (GAME_ON && !GO_TO_MENU) {
+        showLostMessages();
         showDisplay();
         showWhoIsPlaying();
         showCommandMenu();
@@ -796,8 +797,6 @@ public class Cli implements View {
                 List<Integer> coordinates = askCoordinates();
                 int row = coordinates.get(0) - 1;
                 int column = coordinates.get(1) - 1;
-                //TODO:
-                //iClientInputHandler.selectCell(row, column)
                 if (commCtrl.selectCell(row, column)) {
                     NOT_SEL_YET = false;
                     System.out.println(Color.YELLOW + "Item selected: " +
@@ -821,12 +820,12 @@ public class Cli implements View {
      * @return a list that represents the Coordinates (row,column)
      */
     public List<Integer> askCoordinates() {
-        showBoard();
-        System.out.println("Type the coordinates you wish to select ONE AT THE TIME (first ROW, then COLUMN).");
-        List<Integer> coordinates = new ArrayList<>();
-        coordinates.add(askTheIndex("ROW", 1, Storage.BOARD_ROW));
-        coordinates.add(askTheIndex("COLUMN", 1, Storage.BOARD_COLUMN));
-        return coordinates;
+            showBoard();
+            System.out.println("Type the coordinates you wish to select ONE AT THE TIME (first ROW, then COLUMN).");
+            List<Integer> coordinates = new ArrayList<>();
+            coordinates.add(askTheIndex("ROW", 1, Storage.BOARD_ROW));
+            coordinates.add(askTheIndex("COLUMN", 1, Storage.BOARD_COLUMN));
+            return coordinates;
     }
 
     /**
@@ -1408,7 +1407,6 @@ public class Cli implements View {
      * @param command the message and, in case, receiver name
      */
     public void askChat(String command) {
-        //synchronized (this) {
             String message = command.substring(command.indexOf(" ") + 1);
             String usernameString = command.substring(5);
             String regex = "\\[|\\]";
@@ -1447,8 +1445,6 @@ public class Cli implements View {
                 }
             }
             //readLine();
-        //}
-
     }
 
     public void refreshChat() {
@@ -1458,7 +1454,6 @@ public class Cli implements View {
                 public void run() {
                     super.run();
                     REFRESH = true;
-                    delayer(2000);
                     this.interrupt();
                 }
             };
@@ -1469,6 +1464,27 @@ public class Cli implements View {
 
     private String getChatKey(String name1, String name2) {
         return (name1.compareTo(name2)) < 0 ? (name1 + "@" + name2) : (name2 + "@" + name1);
+    }
+
+    public List<String> lostMessages = new ArrayList<>();
+    public void addMessageInLine(String message){
+        lostMessages.add(message);
+    }
+
+    public void showLostMessages(){
+        System.out.println();
+        if(lostMessages.size()<1)
+            return;
+        if(lostMessages.size()>0)
+            System.out.print(Color.RED+"Received Messages :"+Color.RESET);
+        for(String line:lostMessages){
+            System.out.print(line);
+            delayer(500);
+        }
+        System.out.println();
+        delayer(1000);
+        lostMessages.clear();
+
     }
 
 }

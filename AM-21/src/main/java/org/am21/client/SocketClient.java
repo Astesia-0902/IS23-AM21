@@ -47,31 +47,31 @@ public class SocketClient extends Thread {
     }
 
     public void handleServerMessage(String message) {
-        String[] messageArray = message.split("\\|",3);
+        String[] messageArray = message.split("\\|", 3);
         switch (messageArray[0]) {
-            case "Return"->{
+            case "Return" -> {
                 ClientCommunicationController.setMethodKey(messageArray[1]);
                 ClientCommunicationController.setMethodReturn(Boolean.parseBoolean(messageArray[2]));
             }
             case "Message" -> {
-                if(cli!=null){
+                if (cli != null) {
                     cli.printer(messageArray[1]);
                 }
                 return;
             }
             case "VirtualView" -> {
-                if(cli!=null){
-                    ClientView.setFullViewVariables(messageArray[1],Integer.parseInt(messageArray[2]));
+                if (cli != null) {
+                    ClientView.setFullViewVariables(messageArray[1], Integer.parseInt(messageArray[2]));
                     cli.checkTurn();
-                    cli.updateCLI(cli,0);
+                    cli.updateCLI(cli, 0);
                 }
             }
             case "START" -> {
-                if(cli!=null) {
+                if (cli != null) {
                     cli.setGO_TO_MENU(false);
                     cli.setGAME_ON(true);
                     cli.setSTART(true);
-                    cli.updateCLI(cli,1000);
+                    cli.updateCLI(cli, 1000);
                 }
             }
             case "WAIT" -> {
@@ -88,12 +88,12 @@ public class SocketClient extends Thread {
                 }
             }
             case "EndMatch" -> {
-                if(cli!=null){
+                if (cli != null) {
                     cli.setEND(true);
                     cli.setGO_TO_MENU(true);
                     cli.setGAME_ON(false);
                     cli.setSTART(false);
-                    cli.printer(SC.WHITE_BB+"\nServer > The match ended. Good Bye! Press 'Enter'"+SC.RST);
+                    cli.printer(SC.WHITE_BB + "\nServer > The match ended. Good Bye! Press 'Enter'" + SC.RST);
                 }
 
             }
@@ -101,23 +101,26 @@ public class SocketClient extends Thread {
                 ClientView.convertBackHand(messageArray[1]);
             }
             case "ChatNotification" -> {
-                if(cli!=null){
-                    if(cli.CHAT_MODE){
+                if (cli != null) {
+                    if (cli.CHAT_MODE) {
                         cli.refreshChat();
-                    }else{
-                        cli.printer(messageArray[1]);
+                    } else {
+                        cli.addMessageInLine(messageArray[1]);
+                        cli.updateCLI(cli, 0);
                     }
                 }
             }
             case "ServerVirtualView" -> {
                 ClientView.updateServerView(messageArray[1]);
             }
-            case "PublicChat" -> {ClientView.convertBackPublicChat(messageArray[1]);}
-            case "notifyUpdate"-> {
+            case "PublicChat" -> {
+                ClientView.convertBackPublicChat(messageArray[1]);
+            }
+            case "notifyUpdate" -> {
                 int milliseconds = Integer.parseInt(messageArray[1]);
-                if(cli!=null){
-                    System.out.println("Update...");
-                    cli.updateCLI(cli,milliseconds);
+                if (cli != null) {
+                    //System.out.println("Update...");
+                    cli.updateCLI(cli, milliseconds);
                 }
             }
 

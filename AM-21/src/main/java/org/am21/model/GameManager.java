@@ -93,7 +93,6 @@ public class GameManager {
     public static void sendChatNotification(PlayerController pc, String m){
         if(SERVER_COMM){
             CommunicationController.instance.sendChatNotification(m,pc);
-            CommunicationController.instance.notifyUpdate(pc,2000);
         }
     }
 

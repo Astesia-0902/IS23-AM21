@@ -402,6 +402,7 @@ public class GameController {
         updatePlayersGlobalView();
         Player p_receiver=ServerChatManager.isOnline(receiver);
         GameManager.sendChatNotification(p_receiver.getController(),formalMessage);
+
         return true;
     }
 
