@@ -1,33 +1,24 @@
 package org.am21.client.view.GUI.component;
 
 
+import org.am21.client.view.GUI.Interface.LivingRoomMenuInterface;
+import org.am21.client.view.GUI.Interface.MyHandInterface;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 public class LivingRoomPanel extends JPanel {
 
-    //menu TODO: complete
     public JButton livingRoomMenuButton;
 
     //user me
     public JLabel myLabel;
     public JLabel myShelfBoardLabel;
-
-    //enemy A
-    public JLabel enemyALabel;
-    public JLabel enemyAShelfBoardLabel;
-
-    //enemy B
-    public JLabel enemyBLabel;
-    public JLabel enemyBShelfBoardLabel;
-
-    //enemy C
-    public JLabel enemyCLabel;
-    public JLabel enemyCShelfBoardLabel;
 
     //insert and clear button
     public JButton insertButton;
@@ -103,25 +94,6 @@ public class LivingRoomPanel extends JPanel {
         myShelfBoardLabel.setIcon(ImageUtil.getShelfImage(PixelUtil.myShelfBoardW,PixelUtil.myShelfBoardH));
         panelBoard.add(myShelfBoardLabel,JLayeredPane.PALETTE_LAYER);
 
-
-        //enemy A shelf
-        /*enemyAShelfBoardLabel = new JLabel();
-        enemyAShelfBoardLabel.setBounds(PixelUtil.commonX_2,PixelUtil.commonY_1,PixelUtil.enemyShelfW,PixelUtil.enemyShelfH);
-        enemyAShelfBoardLabel.setIcon(ImageUtil.getShelfImage(PixelUtil.enemyShelfW,PixelUtil.enemyShelfH));
-        panelBoard.add(enemyAShelfBoardLabel,JLayeredPane.PALETTE_LAYER);
-
-        //enemy B shelf
-        enemyBShelfBoardLabel = new JLabel();
-        enemyBShelfBoardLabel.setBounds(PixelUtil.commonX_2,PixelUtil.commonY_2,PixelUtil.enemyShelfW,PixelUtil.enemyShelfH);
-        enemyBShelfBoardLabel.setIcon(ImageUtil.getShelfImage(PixelUtil.enemyShelfW,PixelUtil.enemyShelfH));
-        panelBoard.add(enemyBShelfBoardLabel,JLayeredPane.PALETTE_LAYER);
-
-        //enemy C shelf
-        enemyCShelfBoardLabel = new JLabel();
-        enemyCShelfBoardLabel.setBounds(PixelUtil.commonX_2,PixelUtil.commonY_3,PixelUtil.enemyShelfW,PixelUtil.enemyShelfH);
-        enemyCShelfBoardLabel.setIcon(ImageUtil.getShelfImage(PixelUtil.enemyShelfW,PixelUtil.enemyShelfH));
-        panelBoard.add(enemyCShelfBoardLabel,JLayeredPane.PALETTE_LAYER);*/
-
         //personal goal card label
         personalGoalLabel = new JLabel();
         personalGoalLabel.setBounds(PixelUtil.personalGoalX,PixelUtil.personalGoalY,PixelUtil.personalGoalCardW, PixelUtil.personalGoalCardH);
@@ -152,7 +124,13 @@ public class LivingRoomPanel extends JPanel {
         livingRoomMenuButton.setForeground(new Color(164, 91, 9, 255));
         livingRoomMenuButton.setOpaque(false);
         livingRoomMenuButton.setIcon(ImageUtil.getBoardImage("iconMenu"));
-
+        livingRoomMenuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LivingRoomMenuInterface livingRoomMenuInterface = new LivingRoomMenuInterface();
+                livingRoomMenuInterface.setVisible(true);
+            }
+        });
 
         panelBoard.add(livingRoomMenuButton,JLayeredPane.PALETTE_LAYER);
 
@@ -163,7 +141,13 @@ public class LivingRoomPanel extends JPanel {
         insertButton.setOpaque(true);
         insertButton.setBackground(new Color(4, 134, 10, 230));
         insertButton.setForeground(new Color(4, 134, 10, 230));
-        //TODO: actionListener
+        insertButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MyHandInterface myHandInterface = new MyHandInterface();
+                myHandInterface.setVisible(true);
+            }
+        });
         panelBoard.add(this.insertButton,JLayeredPane.PALETTE_LAYER);
 
         //clear selection button
@@ -173,8 +157,15 @@ public class LivingRoomPanel extends JPanel {
         clearButton.setOpaque(true);
         clearButton.setBackground(new Color(172, 19, 5, 230));
         clearButton.setForeground(new Color(172, 19, 5, 230));
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO: clear handBoard items
 
-        //TODO: actionListener
+                JOptionPane.showMessageDialog(null, "clear successful");
+            }
+        });
+
         panelBoard.add(clearButton,JLayeredPane.PALETTE_LAYER);
 
 
@@ -221,10 +212,7 @@ public class LivingRoomPanel extends JPanel {
         sendButton.setBorder(BorderFactory.createLineBorder(new Color(85, 35, 222, 230)));
         chatPanel.add(sendButton,JLayeredPane.MODAL_LAYER);
 
-
-
-
-        //take card label
+        //my hand label
         handBoardLabel = new JLabel();
         handBoardLabel.setBounds(PixelUtil.commonX_4,PixelUtil.commonY_4,PixelUtil.handBoardW,PixelUtil.handBoardH);
         handBoardLabel.setIcon(ImageUtil.getBoardImage("handBoard"));
@@ -236,34 +224,8 @@ public class LivingRoomPanel extends JPanel {
         myLabel.setIcon(ImageUtil.getBoardImage("iconMe"));
         panelBoard.add(myLabel,JLayeredPane.PALETTE_LAYER);
 
-        //enemy A
-        /*enemyALabel = new JLabel();
-        enemyALabel.setBounds(PixelUtil.commonX_1,PixelUtil.commonY_1,PixelUtil.enemyW,PixelUtil.enemyH);
-        enemyALabel.setIcon(ImageUtil.getBoardImage("enemyA"));
-        panelBoard.add(enemyALabel,JLayeredPane.PALETTE_LAYER);
-
-        //enemy B
-        enemyBLabel = new JLabel();
-        enemyBLabel.setBounds(PixelUtil.commonX_1,PixelUtil.commonY_2,PixelUtil.enemyW,PixelUtil.enemyH);
-        enemyBLabel.setIcon(ImageUtil.getBoardImage("enemyB"));
-        panelBoard.add(enemyBLabel,JLayeredPane.PALETTE_LAYER);
-
-        //enemy C
-        enemyCLabel = new JLabel();
-        enemyCLabel.setBounds(PixelUtil.commonX_1,PixelUtil.commonY_3,PixelUtil.enemyW,PixelUtil.enemyH);
-        enemyCLabel.setIcon(ImageUtil.getBoardImage("enemyC"));
-        panelBoard.add(enemyCLabel,JLayeredPane.PALETTE_LAYER);*/
-
     }
 
 
-
-
-    public void paint(Graphics g){
-        super.paint(g);
-        Graphics2D g2D = (Graphics2D) g;
-
-
-    }
 
 }

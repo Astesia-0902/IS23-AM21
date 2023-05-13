@@ -7,6 +7,9 @@ import javax.swing.*;
 
 public class LivingRoomInterface extends JDialog{
 
+    //background
+
+
     public JLayeredPane livingRoomPane;
     public LivingRoomPanel livingRoomPanel;
     public GameBoardPanel gameBoardPanel;
@@ -21,8 +24,8 @@ public class LivingRoomInterface extends JDialog{
     public ChairManLabel chairManLabel;
 
     public MyHandBoardPanel myHandBoardPanel;
-    public LivingRoomInterface(JFrame frame){
-        //frame = new JFrame("livingRoom");
+    public LivingRoomInterface(JFrame frame, int maxSeat){
+
         super(frame);
 
         try{
@@ -31,7 +34,7 @@ public class LivingRoomInterface extends JDialog{
             livingRoomPane.setBounds(0,0, PixelUtil.pcWidth,PixelUtil.pcHeight);
 
             livingRoomPanel = new LivingRoomPanel();
-            gameBoardPanel = new GameBoardPanel();
+            //gameBoardPanel = new GameBoardPanel(maxSeat);
             myShelfPanel = new ShelfPanel(PixelUtil.myGridX,PixelUtil.myGridY,PixelUtil.myCellW,PixelUtil.myCellH,PixelUtil.myItemW,PixelUtil.myItemH);
 
 
@@ -44,7 +47,7 @@ public class LivingRoomInterface extends JDialog{
             //chairManLabel = new ChairManLabel(3);
 
             livingRoomPane.add(livingRoomPanel,JLayeredPane.DEFAULT_LAYER);
-            livingRoomPane.add(gameBoardPanel,JLayeredPane.PALETTE_LAYER);
+            //livingRoomPane.add(gameBoardPanel,JLayeredPane.PALETTE_LAYER);
 
             //livingRoomPane.add(commonGoalPanel,JLayeredPane.PALETTE_LAYER);
             //livingRoomPane.add(personalGoalPanel,JLayeredPane.PALETTE_LAYER);

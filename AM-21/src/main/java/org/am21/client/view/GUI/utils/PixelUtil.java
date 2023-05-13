@@ -177,4 +177,36 @@ public class PixelUtil {
 
     public static int commonGoalTokenRotateX = pcWidth*536/10000;
     public static int commonGoalTokenRotateY = pcHeight/210;
+
+    /**
+     * myHandBoard Interface
+     */
+    public static int myHandBackGroundX = pcWidth*2262/10000;
+    public static int myHandBackGroundY = pcHeight*375/100;
+
+    public static int myHandBackGroundW = pcWidth*4643/10000;
+    public static int myHandBackGroundH = pcHeight*6476/10000;
+
+    public static int myHandHandH = pcWidth*275/1000;
+    public static int myHandHandW = pcHeight*75/1000;
+    public static int myHandHandX= pcWidth*10/336;
+    public static int myHandHandY = pcHeight/21;
+
+    public static int myHandShelfX = pcWidth*1072/10000;
+    public static int myHandSortX = pcWidth*10/336;
+    public static int myHandSortY = pcWidth*3155/10000;
+    public static int myHandSortW = pcWidth*100/2154;
+    public static int myHandSortH = pcHeight*75/1000;
+
+   public static int myHandOptionX = pcWidth*863/10000;
+   public static int myHandOptionXDiff = pcWidth*100/2154;
+    public static int myHandOptionY = pcWidth*3155/10000;
+    public static int handNumW = pcWidth*10/336;
+
+    public static int handNumH = pcHeight/21;
+
+    public static int myHandConfirmX = pcWidth*357/1000;
+    public static int myHandConfirmY = pcHeight*567/1000;
+    public static int myHandConfirmW = pcWidth*893/10000;
+    public static int myHandConfirmH = pcHeight/21;
 }

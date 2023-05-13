@@ -38,6 +38,8 @@ public class Gui implements View {
     public LivingRoomInterface livingRoomInterface;
     public PersonalGoalPanel personalGoalPanel;
     public CommonGoalPanel commonGoalPanel;
+    public GameBoardPanel gameBoardPanel;
+
 
     public EnemyPanel enemyPanelA, enemyPanelB, enemyPanelC;
     public ShelfPanel enemyShelfPanelA, enemyShelfPanelB, enemyShelfPanelC;
@@ -155,14 +157,15 @@ public class Gui implements View {
 
     @Override
     public void showCommonGoals() {
-        //TODO: assigned common goal (string?)
-        commonGoalPanel = new CommonGoalPanel("2Columns","XShape");
+       //TODO: commonGoalPanel = new CommonGoalPanel(ClientView.commonGoal.get(0),ClientView.commonGoal.get(1));
+        commonGoalPanel = new CommonGoalPanel("CommonGoal2Lines","CommonGoalDiagonal");
+
     }
 
     @Override
     public void showPersonalGoal() throws RemoteException {
-        //TODO: assigned personal goal (string?)
-        personalGoalPanel = new PersonalGoalPanel("Goals6");
+        //TODO: personalGoalPanel = new PersonalGoalPanel(ClientView.personalGoal);
+        personalGoalPanel = new PersonalGoalPanel(7);
     }
 
     @Override
@@ -187,6 +190,7 @@ public class Gui implements View {
 
     @Override
     public void showBoard() throws RemoteException {
+
 
     }
 
@@ -237,13 +241,20 @@ public class Gui implements View {
 
     @Override
     public void showMatchSetup() throws RemoteException {
-        livingRoomInterface = new LivingRoomInterface(frame);
+        int maxSeats = ClientView.maxSeats;
+        //TODO: livingRoomInterface = new LivingRoomInterface(frame,maxSeats);
+        livingRoomInterface = new LivingRoomInterface(frame,4);
         //new LivingRoomListener(this);
         showPersonalGoal();
         livingRoomInterface.livingRoomPane.add(personalGoalPanel,JLayeredPane.PALETTE_LAYER);
         showCommonGoals();
         livingRoomInterface.livingRoomPane.add(commonGoalPanel,JLayeredPane.PALETTE_LAYER);
-        if(askMaxSeats()<=2)
+        //set CommonGoal Token
+        //TODO:  commonGoalPanel.setScoreTokenTop(ClientView.commonGoalScore.get(0));
+        commonGoalPanel.setScoreTokenTop(2);
+        //TODO:  commonGoalPanel.setScoreTokenBottom(ClientView.commonGoalScore.get(1));
+        commonGoalPanel.setScoreTokenBottom(4);
+       //TODO: if(maxSeats<=2)
         {
             //setFirst enemy's Label
             enemyPanelA = new EnemyPanel(PixelUtil.commonY_1, ImageUtil.getBoardImage("enemyA"));
@@ -253,7 +264,7 @@ public class Gui implements View {
             enemyShelfPanelA = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyAGridY,PixelUtil.enemyCellW,PixelUtil.enemyCellH,PixelUtil.enemyItemW,PixelUtil.enemyItemH);
             livingRoomInterface.livingRoomPane.add(enemyShelfPanelA,JLayeredPane.PALETTE_LAYER);
         }
-        if(askMaxSeats()<=3)
+        //TODO: if(maxSeats<=3)
         {
             //setSecond enemy's Label
             enemyPanelB = new EnemyPanel(PixelUtil.commonY_2, ImageUtil.getBoardImage("enemyB"));
@@ -265,7 +276,7 @@ public class Gui implements View {
 
 
         }
-        if(askMaxSeats()<=4)
+        //TODO: if(maxSeats<=4)
         {
             //setThird enemy's Label
             enemyPanelC = new EnemyPanel(PixelUtil.commonY_3, ImageUtil.getBoardImage("enemyC"));
@@ -276,9 +287,22 @@ public class Gui implements View {
             livingRoomInterface.livingRoomPane.add(enemyShelfPanelC,JLayeredPane.PALETTE_LAYER);
 
         }
-        //TODO: who is the chairMan (int ?)
+        //TODO: who is the chairMan (first current player when start the game)
         chairManLabel = new ChairManLabel(3);
         livingRoomInterface.livingRoomPane.add(chairManLabel,JLayeredPane.PALETTE_LAYER);
+
+        //set initial game board
+        //TODO: gameBoardPanel = new GameBoardPanel(maxSeats);
+        gameBoardPanel = new GameBoardPanel(4);
+        livingRoomInterface.livingRoomPane.add(gameBoardPanel,JLayeredPane.PALETTE_LAYER);
+        //TODO: fulling the board
+        gameBoardPanel.putItem(5,5);
+        gameBoardPanel.putItem(4,5);
+
+        //set EndGameToken
+        gameBoardPanel.setScoreTokenEndGame();
+
+
 
     }
 

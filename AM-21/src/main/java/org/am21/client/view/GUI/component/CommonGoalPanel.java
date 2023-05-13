@@ -4,8 +4,6 @@ import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
 
 import javax.swing.*;
-import java.awt.*;
-import java.util.List;
 
 
 public class CommonGoalPanel extends JPanel {
@@ -16,20 +14,21 @@ public class CommonGoalPanel extends JPanel {
 
 
     public ScoringTokenLabel scoreTokenEmpty;
-    public List<ScoringTokenLabel> scoreTokenListTop;
-    public List<ScoringTokenLabel> scoreTokenListBottom;
+    public ScoringTokenLabel scoreTokenTop;
+    public ScoringTokenLabel scoreTokenBottom;
 
     public CommonGoalPanel(String topCardName,String bottomCardName) {
 
         setBounds(PixelUtil.commonX_5, PixelUtil.commonGoalY_A, PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH + (PixelUtil.commonGoalY_B - PixelUtil.commonGoalY_A));
         setLayout(null);
-        setOpaque(false);
+        //setOpaque(false);
 
         commonGoalPane = new JLayeredPane();
         commonGoalPane.setBounds(0, 0, PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH + (PixelUtil.commonGoalY_B - PixelUtil.commonGoalY_A));
         commonGoalPane.setLayout(null);
-        commonGoalPane.setOpaque(false);
+        //commonGoalPane.setOpaque(false);
         add(commonGoalPane);
+
 
         setTopCard(topCardName);
         //setTopBeginToken(value);
@@ -44,7 +43,6 @@ public class CommonGoalPanel extends JPanel {
         commonGoalTopLabel.setBounds(0, 0, PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH);
         commonGoalTopLabel.setIcon(ImageUtil.getCommonGoalCardImage(topCardName));
         commonGoalPane.add(commonGoalTopLabel, JLayeredPane.DEFAULT_LAYER);
-        //setScoreTokenEmpty(PixelUtil.commonGoalTokenX,PixelUtil.commonGoalTopTokenY);
         setScoreTokenEmpty(PixelUtil.commonGoalTokenX,PixelUtil.commonGoalTopTokenY);
     }
 
@@ -61,10 +59,34 @@ public class CommonGoalPanel extends JPanel {
 
         scoreTokenEmpty = new ScoringTokenLabel(ImageUtil.getBoardImage("commonGoalTokenEmpty"),PixelUtil.commonGoalTokenW,PixelUtil.commonGoalTokenH,PixelUtil.commonGoalTokenOriented,PixelUtil.commonGoalTokenRotateX,PixelUtil.commonGoalTokenRotateY);
         scoreTokenEmpty.setBounds(posX,posY,PixelUtil.commonGoalTokenBoundsW,PixelUtil.commonGoalTokenBoundsH);
-        scoreTokenEmpty.setBackground(new Color(0, 0, 0, 0));
+        scoreTokenEmpty.setOpaque(false);
+       // scoreTokenEmpty.setBackground(new Color(0, 0, 0, 0));
         commonGoalPane.add(scoreTokenEmpty,JLayeredPane.PALETTE_LAYER);
     }
 
+    public void setScoreTokenTop(int value){
+        scoreTokenTop = new ScoringTokenLabel(ImageUtil.getScoreTokenImage(value),PixelUtil.commonGoalTokenW,PixelUtil.commonGoalTokenH,PixelUtil.commonGoalTokenOriented,PixelUtil.commonGoalTokenRotateX,PixelUtil.commonGoalTokenRotateY);
+        scoreTokenTop.setBounds(PixelUtil.commonGoalTokenX,PixelUtil.commonGoalTopTokenY,PixelUtil.commonGoalTokenBoundsW,PixelUtil.commonGoalTokenBoundsH);
+        //scoreTokenTop.setBackground(new Color(0, 0, 0, 0));
+        scoreTokenTop.setOpaque(false);
+        commonGoalPane.add(scoreTokenTop,JLayeredPane.MODAL_LAYER);
+    }
+
+    public void setScoreTokenBottom(int value){
+        scoreTokenBottom = new ScoringTokenLabel(ImageUtil.getScoreTokenImage(value),PixelUtil.commonGoalTokenW,PixelUtil.commonGoalTokenH,PixelUtil.commonGoalTokenOriented,PixelUtil.commonGoalTokenRotateX,PixelUtil.commonGoalTokenRotateY);
+        scoreTokenBottom.setBounds(PixelUtil.commonGoalTokenX,PixelUtil.commonGoalBottomTokenY,PixelUtil.commonGoalTokenBoundsW,PixelUtil.commonGoalTokenBoundsH);
+        //scoreTokenBottom.setBackground(new Color(0, 0, 0, 0));
+        scoreTokenBottom.setOpaque(false);
+        commonGoalPane.add(scoreTokenBottom,JLayeredPane.MODAL_LAYER);
+    }
+
+    public void getScoreTokenTop(){
+        commonGoalPane.remove(scoreTokenTop);
+    }
+
+    public void getScoreTokenBottom(){
+        commonGoalPane.remove(scoreTokenBottom);
+    }
     // TODO: list of image ? or HashMap with value ?
     /*public List<ScoringTokenLabel> setTopBeginToken(HashMap<Integer,ImageIcon[]> scoringTokens, int posX, int posY){
 

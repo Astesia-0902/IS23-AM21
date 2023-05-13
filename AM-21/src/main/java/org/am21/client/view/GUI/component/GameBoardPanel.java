@@ -18,21 +18,17 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
     private final int GridRowsMax=9;
     private final int GridColumnsMax=9;
 
-    //private final int cellSize = 79;
 
-    //private int GridX = 417;
-    //private int GridY = 145;
-    //private final int itemSize = 72;
-
-    public List<Coordinates> boundaries=BoardUtil.boardBounder(4);
+    public List<Coordinates> boundaries;
     public JLayeredPane gameBoardPane;
     public JLayeredPane[][] grids = new JLayeredPane[GridRowsMax][GridColumnsMax] ;
 
     public JLabel[][] cells = new JLabel[GridRowsMax][GridColumnsMax];
 
     public ScoringTokenLabel scoreTokenEndGame;
-    public GameBoardPanel(){
+    public GameBoardPanel(int maxSeat){
 
+        boundaries = BoardUtil.boardBounder(maxSeat);
         setBounds(PixelUtil.gameBoardGridX, PixelUtil.gameBoardGridY,GridRowsMax*PixelUtil.gameBoardCellW,GridColumnsMax*PixelUtil.gameBoardCellH);
        // this.setSize(this.GridRowsMax*this.cellSize,this.GridColumnsMax*this.cellSize);
         setLayout(null);
@@ -59,13 +55,13 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
 
                     //TODO: refill board randomly
 
-                    putItem(i,j);
+                    //putItem(i,j);
                 }
             }
 
         }
 
-        setScoreTokenEndGame(PixelUtil.endGameTokenX,PixelUtil.endGameTokenY);
+        //setScoreTokenEndGame(PixelUtil.endGameTokenX,PixelUtil.endGameTokenY);
 
     }
 
@@ -89,17 +85,18 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
     }
 
 
-    public void setScoreTokenEndGame(int posX,int posY){
+    public void setScoreTokenEndGame(){
         scoreTokenEndGame = new ScoringTokenLabel(ImageUtil.getScoreTokenImage(1),PixelUtil.endGameTokenW,PixelUtil.endGameTokenH,PixelUtil.endGameTokenOriented,PixelUtil.endGameTokenRotateX,PixelUtil.endGameTokenRotateY);
-        scoreTokenEndGame.setBounds(posX,posY,PixelUtil.endGameTokenBoundsW,PixelUtil.endGameTokenBoundsH);
-        scoreTokenEndGame.setBackground(new Color(0, 0, 0, 0));
+        scoreTokenEndGame.setBounds(PixelUtil.endGameTokenX,PixelUtil.endGameTokenY,PixelUtil.endGameTokenBoundsW,PixelUtil.endGameTokenBoundsH);
+        //scoreTokenEndGame.setBackground(new Color(0, 0, 0, 0));
+        scoreTokenEndGame.setOpaque(false);
         gameBoardPane.add(scoreTokenEndGame,JLayeredPane.PALETTE_LAYER);
     }
 
 
 
     public void getScoreTokenEndGame(){
-        //TODO:
+        gameBoardPane.remove(scoreTokenEndGame);
     }
 
     public void actionPerformed(ActionEvent e) {
