@@ -71,8 +71,7 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
             }
         }
         if (e.getSource() == gui.menuActionInterface.helpButton) {
-
-            // TODO: askAssistMode()?
+            gui.askAssistMode();
         }
         if (e.getSource() == gui.menuActionInterface.onlineButton) {
             try {

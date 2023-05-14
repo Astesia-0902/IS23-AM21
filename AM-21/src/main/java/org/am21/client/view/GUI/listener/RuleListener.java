@@ -5,7 +5,7 @@ import org.am21.client.view.GUI.Gui;
 import java.awt.*;
 import java.awt.event.*;
 
-public class RuleListener  implements MouseListener, MouseMotionListener, ActionListener {
+public class RuleListener implements MouseListener, MouseMotionListener, ActionListener {
     Gui gui;
     Point p = new Point();
 

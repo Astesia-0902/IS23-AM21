@@ -46,6 +46,7 @@ public class Gui implements View {
     public ChairManLabel chairManLabel;
     public ChatDialog chatDialog;
     public RuleDialog ruleDialog = new RuleDialog(frame);
+    public HelpDialog helpDialog = new HelpDialog(frame);
     public OnlineListDialog onlineListDialog;
     public MatchListInterface matchListInterface;
 
@@ -62,6 +63,7 @@ public class Gui implements View {
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
         new RuleListener(this);
+        new HelpListener(this);
     }
 
     public void init() throws Exception {
@@ -83,7 +85,7 @@ public class Gui implements View {
         new ServerInfoListener(this);
     }
 
-    public void askServerInfoSocket(){
+    public void askServerInfoSocket() {
         socket = new SocketClient();
         socket.start();
     }
@@ -112,8 +114,12 @@ public class Gui implements View {
         return 0;
     }
 
+    public void askAssistMode() {
+        helpDialog.setVisible(true);
+    }
+
     public void askWaitingAction() {
-        if (chatDialog != null){
+        if (chatDialog != null) {
             chatDialog.dispose();
             onlineListDialog.dispose();
         }
@@ -124,7 +130,7 @@ public class Gui implements View {
     @Override
     public boolean askJoinMatch() {
         DefaultListModel<String> matchModel = new DefaultListModel<>();
-        if (ClientView.matchList!=null) {
+        if (ClientView.matchList != null) {
             String[] match = new String[ClientView.matchList.length];
             for (int i = 0; i < ClientView.matchList.length; i++) {
                 match[i] = ClientView.matchList[i][0];
@@ -135,9 +141,9 @@ public class Gui implements View {
         }
 
         // For test:
-        matchModel.addElement("Match1");
-        matchModel.addElement("Match2");
-        matchModel.addElement("Match3");
+        matchModel.addElement("Match1  |  WaitingPlayers  |  Players: (1/2)");
+        matchModel.addElement("Match2  |  GameGoing       |  Players: (2/2)");
+        matchModel.addElement("Match3  |  Closed          |  Players: (0/2)");
         matchListInterface = new MatchListInterface(frame, matchModel);
         new MatchListListener(this);
 
@@ -157,8 +163,8 @@ public class Gui implements View {
 
     @Override
     public void showCommonGoals() {
-       //TODO: commonGoalPanel = new CommonGoalPanel(ClientView.commonGoal.get(0),ClientView.commonGoal.get(1));
-        commonGoalPanel = new CommonGoalPanel("CommonGoal2Lines","CommonGoalDiagonal");
+        //TODO: commonGoalPanel = new CommonGoalPanel(ClientView.commonGoal.get(0),ClientView.commonGoal.get(1));
+        commonGoalPanel = new CommonGoalPanel("CommonGoal2Lines", "CommonGoalDiagonal");
 
     }
 
@@ -243,36 +249,36 @@ public class Gui implements View {
     public void showMatchSetup() throws RemoteException {
         int maxSeats = ClientView.maxSeats;
         //TODO: livingRoomInterface = new LivingRoomInterface(frame,maxSeats);
-        livingRoomInterface = new LivingRoomInterface(frame,4);
+        livingRoomInterface = new LivingRoomInterface(frame, 4);
         //new LivingRoomListener(this);
         showPersonalGoal();
-        livingRoomInterface.livingRoomPane.add(personalGoalPanel,JLayeredPane.PALETTE_LAYER);
+        livingRoomInterface.livingRoomPane.add(personalGoalPanel, JLayeredPane.PALETTE_LAYER);
         showCommonGoals();
-        livingRoomInterface.livingRoomPane.add(commonGoalPanel,JLayeredPane.PALETTE_LAYER);
+        livingRoomInterface.livingRoomPane.add(commonGoalPanel, JLayeredPane.PALETTE_LAYER);
         //set CommonGoal Token
         //TODO:  commonGoalPanel.setScoreTokenTop(ClientView.commonGoalScore.get(0));
         commonGoalPanel.setScoreTokenTop(2);
         //TODO:  commonGoalPanel.setScoreTokenBottom(ClientView.commonGoalScore.get(1));
         commonGoalPanel.setScoreTokenBottom(4);
-       //TODO: if(maxSeats<=2)
+        //TODO: if(maxSeats<=2)
         {
             //setFirst enemy's Label
             enemyPanelA = new EnemyPanel(PixelUtil.commonY_1, ImageUtil.getBoardImage("enemyA"));
-            livingRoomInterface.livingRoomPane.add(enemyPanelA,JLayeredPane.PALETTE_LAYER);
+            livingRoomInterface.livingRoomPane.add(enemyPanelA, JLayeredPane.PALETTE_LAYER);
 
             //TODO: itemGrids will be manipulated
-            enemyShelfPanelA = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyAGridY,PixelUtil.enemyCellW,PixelUtil.enemyCellH,PixelUtil.enemyItemW,PixelUtil.enemyItemH);
-            livingRoomInterface.livingRoomPane.add(enemyShelfPanelA,JLayeredPane.PALETTE_LAYER);
+            enemyShelfPanelA = new ShelfPanel(PixelUtil.enemyGridX, PixelUtil.enemyAGridY, PixelUtil.enemyCellW, PixelUtil.enemyCellH, PixelUtil.enemyItemW, PixelUtil.enemyItemH);
+            livingRoomInterface.livingRoomPane.add(enemyShelfPanelA, JLayeredPane.PALETTE_LAYER);
         }
         //TODO: if(maxSeats<=3)
         {
             //setSecond enemy's Label
             enemyPanelB = new EnemyPanel(PixelUtil.commonY_2, ImageUtil.getBoardImage("enemyB"));
-            livingRoomInterface.livingRoomPane.add(enemyPanelB,JLayeredPane.PALETTE_LAYER);
+            livingRoomInterface.livingRoomPane.add(enemyPanelB, JLayeredPane.PALETTE_LAYER);
 
             //TODO: itemGrids will be manipulated
-            enemyShelfPanelB = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyBGridY,PixelUtil.enemyCellW,PixelUtil.enemyCellH,PixelUtil.enemyItemW,PixelUtil.enemyItemH);
-            livingRoomInterface.livingRoomPane.add(enemyShelfPanelB,JLayeredPane.PALETTE_LAYER);
+            enemyShelfPanelB = new ShelfPanel(PixelUtil.enemyGridX, PixelUtil.enemyBGridY, PixelUtil.enemyCellW, PixelUtil.enemyCellH, PixelUtil.enemyItemW, PixelUtil.enemyItemH);
+            livingRoomInterface.livingRoomPane.add(enemyShelfPanelB, JLayeredPane.PALETTE_LAYER);
 
 
         }
@@ -280,28 +286,27 @@ public class Gui implements View {
         {
             //setThird enemy's Label
             enemyPanelC = new EnemyPanel(PixelUtil.commonY_3, ImageUtil.getBoardImage("enemyC"));
-            livingRoomInterface.livingRoomPane.add(enemyPanelC,JLayeredPane.PALETTE_LAYER);
+            livingRoomInterface.livingRoomPane.add(enemyPanelC, JLayeredPane.PALETTE_LAYER);
 
             //TODO: itemGrids will be manipulated
-            enemyShelfPanelC = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyCGridY,PixelUtil.enemyCellW,PixelUtil.enemyCellH,PixelUtil.enemyItemW,PixelUtil.enemyItemH);
-            livingRoomInterface.livingRoomPane.add(enemyShelfPanelC,JLayeredPane.PALETTE_LAYER);
+            enemyShelfPanelC = new ShelfPanel(PixelUtil.enemyGridX, PixelUtil.enemyCGridY, PixelUtil.enemyCellW, PixelUtil.enemyCellH, PixelUtil.enemyItemW, PixelUtil.enemyItemH);
+            livingRoomInterface.livingRoomPane.add(enemyShelfPanelC, JLayeredPane.PALETTE_LAYER);
 
         }
         //TODO: who is the chairMan (first current player when start the game)
         chairManLabel = new ChairManLabel(3);
-        livingRoomInterface.livingRoomPane.add(chairManLabel,JLayeredPane.PALETTE_LAYER);
+        livingRoomInterface.livingRoomPane.add(chairManLabel, JLayeredPane.PALETTE_LAYER);
 
         //set initial game board
         //TODO: gameBoardPanel = new GameBoardPanel(maxSeats);
         gameBoardPanel = new GameBoardPanel(4);
-        livingRoomInterface.livingRoomPane.add(gameBoardPanel,JLayeredPane.PALETTE_LAYER);
+        livingRoomInterface.livingRoomPane.add(gameBoardPanel, JLayeredPane.PALETTE_LAYER);
         //TODO: fulling the board
-        gameBoardPanel.putItem(5,5);
-        gameBoardPanel.putItem(4,5);
+        gameBoardPanel.putItem(5, 5);
+        gameBoardPanel.putItem(4, 5);
 
         //set EndGameToken
         gameBoardPanel.setScoreTokenEndGame();
-
 
 
     }
@@ -311,7 +316,7 @@ public class Gui implements View {
 
     }
 
-    public void askChat(){
+    public void askChat() {
         if (chatDialog == null || !chatDialog.isVisible() || newPrivateChat) {
             chatDialog = new ChatDialog(frame);
             newPrivateChat = false;
@@ -319,39 +324,44 @@ public class Gui implements View {
         }
         chatDialog.getContentPane().revalidate();
         chatDialog.getContentPane().repaint();
-//        if (chatDialog != null) {
-//            //gui.chatDialog.setVisible(false);
-//            chatDialog.dispose();
-//        }
-//        chatDialog = new ChatDialog(frame);
 
     }
 
     @Override
     public void showOnlinePlayer() throws RemoteException {
         DefaultListModel<String> userModel = new DefaultListModel<>();
-        if (ClientView.onlinePlayers!=null) {
-            String[] players = new String[ClientView.onlinePlayers.length];
+        if (ClientView.onlinePlayers != null) {
             for (int i = 0; i < ClientView.onlinePlayers.length; i++) {
-                players[i] = ClientView.onlinePlayers[i][0];
-            }
-            for (String player : players) {
-                userModel.addElement(player);
+                userModel.addElement(ClientView.onlinePlayers[i][0]);
             }
         }
 
 
         // For test:
-        userModel.addElement("Player1");
-        userModel.addElement("Player2");
-        userModel.addElement("Player3");
+        userModel.addElement("Player1  |  GameMember");
+        userModel.addElement("Player2  |  Online");
+        userModel.addElement("Player3  |  GameMember");
         onlineListDialog = new OnlineListDialog(frame, userModel);
         new OnlineListListener(this);
     }
 
     @Override
     public void printer(String message) throws RemoteException {
-        JOptionPane.showMessageDialog(frame,message,"Waring!",JOptionPane.WARNING_MESSAGE);
+
+    }
+
+    public void printer(String message, String type) throws RemoteException {
+        switch (type) {
+            case "Warning":
+                JOptionPane.showMessageDialog(frame, message, "Warning!", JOptionPane.WARNING_MESSAGE);
+                break;
+            case "Successful":
+                JOptionPane.showMessageDialog(frame, message, "Successful!", JOptionPane.PLAIN_MESSAGE);
+                break;
+            case "Error":
+                JOptionPane.showMessageDialog(frame, message, "Error!", JOptionPane.ERROR_MESSAGE);
+                break;
+        }
     }
 
     @Override
@@ -376,12 +386,10 @@ public class Gui implements View {
     }*/
 
 
-
-
     //for living room test (it will be deleted, don't worry )
-    public static void main(String[] args){
+    public static void main(String[] args) {
         try {
-            new Gui().showMatchSetup();
+            new Gui().init();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

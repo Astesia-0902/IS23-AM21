@@ -33,7 +33,7 @@ public class ChatDialog extends JDialog {
 
     public ChatDialog(JFrame frame) {
         super(frame);
-        //setModal(true);
+        //setModal(true);       // If you do not close this window you will not be able to move the following windows
         setSize(ImageUtil.resizeX(500), ImageUtil.resizeY(500));
 
         closeIcon = IconUtil.getIcon("close_Purple");
@@ -50,6 +50,7 @@ public class ChatDialog extends JDialog {
                 ImageUtil.resizeY(16)));
         chatRoom.setOpaque(false);
 
+        // [ Chat Room                                   x ]
         topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
         topPanel.setBackground(new Color(126, 89, 203, 230));

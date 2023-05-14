@@ -80,7 +80,7 @@ public class OnlineListListener implements MouseListener, MouseMotionListener, A
 //            //gui.chatDialog.setVisible(false);
 //            gui.chatDialog.dispose();
 //        }
-        String user = gui.onlineListDialog.onlineList.getSelectedValue();
+        String user = gui.onlineListDialog.onlineList.getSelectedValue().split("\\s*\\|\\s*")[0];
         if (!Gui.chatPlayer.containsKey(user)) {
             Gui.newPrivateChat = true;
             Gui.chatPlayer.put(user, new JButton(user));
@@ -88,7 +88,6 @@ public class OnlineListListener implements MouseListener, MouseMotionListener, A
                 gui.chatDialog.dispose();
             }
         }
-
 
         Gui.chatUser = user;
         if (gui.chatDialog!=null) {

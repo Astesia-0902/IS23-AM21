@@ -41,10 +41,19 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
         if (e.getSource() == gui.waitingRoomInterface.ruleButton) {
             gui.showGameRules();
         }
-
+        if (e.getSource() == gui.waitingRoomInterface.settingButton) {
+            try {
+                if (gui.commCtrl.changeMatchSeats(gui.askMaxSeats())) {
+                    gui.printer("Number of Seats available changed", "Successful");
+                } else {
+                    gui.printer("Operation failed: Only the admin are allowed to change settings", "Warning");
+                }
+            } catch (RemoteException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
         if (e.getSource() == gui.waitingRoomInterface.helpButton) {
-
-            // TODO: askAssistMode()?
+            gui.askAssistMode();
         }
         if (e.getSource() == gui.waitingRoomInterface.onlineButton) {
             try {
@@ -52,7 +61,6 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
             } catch (RemoteException ex) {
                 throw new RuntimeException(ex);
             }
-
         }
         if (e.getSource() == gui.waitingRoomInterface.chatButton) {
             //TODO: chat
