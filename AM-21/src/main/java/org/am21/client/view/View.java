@@ -36,7 +36,7 @@ public interface View {
     void showMatchSetup() throws RemoteException;
     void askShowObject() throws RemoteException;
     void showOnlinePlayer() throws RemoteException;
-    void printer(String message) throws RemoteException;
+
 
     void showGoalDescription(String CommonGoalCard);
 

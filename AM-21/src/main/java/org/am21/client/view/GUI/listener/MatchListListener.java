@@ -73,6 +73,14 @@ public class MatchListListener implements MouseListener, MouseMotionListener, Ac
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
+        String match = gui.matchListInterface.matchList.getSelectedValue();
+        String id_string=match.substring(0,match.indexOf(" "));
+        int id = Integer.parseInt(id_string);
+
+        if(gui.commCtrl.joinGame(id)){
+            gui.replyDEBUG("HAHA");
+            gui.askWaitingAction();
+        }
 
     }
 }

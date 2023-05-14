@@ -1,6 +1,7 @@
 package org.am21.networkRMI;
 
 import org.am21.client.view.ClientView;
+import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.TUI.Cli;
 import org.am21.model.enumer.SC;
 
@@ -12,6 +13,7 @@ import java.rmi.server.UnicastRemoteObject;
  */
 public class ClientCallBack extends UnicastRemoteObject implements IClientCallBack {
     public Cli cli;
+    public Gui gui;
 
     public ClientCallBack() throws RemoteException {
     }
@@ -20,6 +22,9 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     public void sendMessageToClient(String message) throws RemoteException {
         if (cli != null) {
             cli.printer(message);
+        }else if (gui!=null){
+            //gui.printer(message,"Successful");
+            gui.replyDEBUG(message);
         }
     }
 
@@ -32,6 +37,12 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
                 cli.addMessageInLine(message);
                 cli.updateCLI(cli, 0);
             }
+        }else if(gui!=null){
+            //TODO: wake thread
+            /*synchronized (gui.guiMinion) {
+                gui.setREFRESH(false);
+                gui.wakeMinion();
+            }*/
         }
     }
 
@@ -44,10 +55,16 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
      */
     @Override
     public void sendVirtualView(String virtualView, int pIndex) throws RemoteException {
+        ClientView.setFullViewVariables(virtualView, pIndex);
         if (cli != null) {
-            ClientView.setFullViewVariables(virtualView, pIndex);
             cli.checkTurn();
             cli.updateCLI(cli, 500);
+        }else if(gui!=null){
+            //TODO: wake thread
+            /*synchronized (gui.guiMinion) {
+                gui.setREFRESH(false);
+                gui.wakeMinion();
+            }*/
         }
     }
 
@@ -63,15 +80,27 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
             cli.setGAME_ON(true);
             cli.setSTART(true);
             cli.updateCLI(cli, 1000);
+        }else if(gui!=null) {
+            gui.setGO_TO_MENU(false);
+            gui.setGAME_ON(true);
+            gui.setSTART(true);
+            //TODO: wake thread
+            /*synchronized (gui.guiMinion) {
+                gui.setREFRESH(false);
+                gui.wakeMinion();
+            }*/
         }
     }
 
     @Override
     public void notifyToWait(String jsonInfo) throws RemoteException {
+        ClientView.convertBackMatchInfo(jsonInfo);
         if (cli != null) {
-            ClientView.convertBackMatchInfo(jsonInfo);
             cli.setGAME_ON(false);
             cli.setGO_TO_MENU(false);
+        }else if (gui!=null){
+            gui.setGAME_ON(false);
+            gui.setGO_TO_MENU(false);
         }
     }
 
@@ -80,6 +109,9 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
         if (cli != null) {
             cli.setGO_TO_MENU(true);
             cli.setGAME_ON(false);
+        }else if(gui!=null){
+            gui.setGO_TO_MENU(true);
+            gui.setGAME_ON(false);
         }
     }
 
@@ -92,6 +124,12 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
             cli.setGAME_ON(false);
             cli.setSTART(false);
             cli.printer(SC.WHITE_BB + "\nServer > The match ended. Good Bye! Press 'Enter'" + SC.RST);
+        }else if(gui!=null){
+            gui.setEND(true);
+            gui.setGO_TO_MENU(true);
+            gui.setGAME_ON(false);
+            gui.setSTART(false);
+            gui.replyDEBUG(SC.WHITE_BB + "\nServer > The match ended. Good Bye! Press 'Enter'" + SC.RST);
         }
     }
 
@@ -115,6 +153,12 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
         if (cli != null) {
             //System.out.println("Update...");
             cli.updateCLI(cli, milliseconds);
+        }else if(gui!=null){
+            //TODO: wake thread
+            /*synchronized (gui.guiMinion) {
+                gui.setREFRESH(false);
+                gui.wakeMinion();
+            }*/
         }
     }
 }

@@ -43,13 +43,17 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
                 // Login successful and close the login frame
 
                 try {
-                    gui.loginInterface.dispose();
-                    gui.askMenuAction();
-//                    if (gui.commCtrl.logIn(username,null)){
-//                        gui.username = username;
-//                        gui.loginInterface.dispose();
-//                        gui.askMenuAction();
-//                    }
+//                    gui.loginInterface.dispose();
+//                    gui.askMenuAction();
+                    if (gui.commCtrl.logIn(username,gui.clientCallBack)){
+                        gui.username = username;
+                        gui.loginInterface.dispose();
+
+                        //TODO: Thread
+                        gui.guiMinion.start();
+
+                        gui.askMenuAction();
+                    }
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }

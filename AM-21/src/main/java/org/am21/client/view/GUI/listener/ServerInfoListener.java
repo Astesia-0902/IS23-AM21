@@ -55,7 +55,9 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
                 try {
                     gui.iClientInputHandler = (IClientInput) Naming.lookup("rmi://" + address + ":" + port + "/"
                                                                            + gui.root);
+
                     ClientController.iClientInputHandler = gui.iClientInputHandler;
+                    gui.commCtrl.registerCallBack(gui.clientCallBack);
                     gui.askLogin();
                 } catch (NotBoundException | MalformedURLException | RemoteException ex) {
                     throw new RuntimeException(ex);

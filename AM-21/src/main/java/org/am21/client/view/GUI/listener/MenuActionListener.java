@@ -43,7 +43,6 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == gui.menuActionInterface.createButton) {
-            //TODO: askMaxSeats()...then create a new match
             try {
                 gui.askMaxSeats();
 
@@ -52,8 +51,6 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
             }
         }
         if (e.getSource() == gui.menuActionInterface.joinButton) {
-            //TODO: join a Macth...
-
             try {
                 //gui.menuActionInterface.dispose();
                 gui.askJoinMatch();
@@ -82,22 +79,36 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
         }
         if (e.getSource() == gui.menuActionInterface.chatButton) {
             //TODO: chat
-            if(!Gui.chatPlayer.isEmpty()){
+            if (!Gui.chatPlayer.isEmpty()) {
                 gui.askChat();
             }
         }
 
         if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_2 ||
-            e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_3 ||
-            e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_4) {
+                e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_3 ||
+                e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_4) {
+            int playerNum = 0;
+
             //TODO: MAX SEATS = 2/3/4...Create a new match with 2/3/4 players...Go to waiting room
-            gui.menuActionInterface.timer = new Timer(500, e1 -> {
-                gui.askWaitingAction();
-                gui.menuActionInterface.dispose();
-                gui.menuActionInterface.maxSeatsDialog.setVisible(false);
-                gui.menuActionInterface.timer.stop();
-            });
-            gui.menuActionInterface.timer.start();
+            if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_2) {
+                playerNum = 2;
+            } else if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_3) {
+                playerNum = 3;
+            } else if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_4) {
+                playerNum = 4;
+            }
+
+            if (gui.commCtrl.createMatch(playerNum)) {
+                gui.replyDEBUG("Created match");
+
+                gui.menuActionInterface.timer = new Timer(500, e1 -> {
+                    gui.askWaitingAction();
+                    gui.menuActionInterface.dispose();
+                    gui.menuActionInterface.maxSeatsDialog.setVisible(false);
+                    gui.menuActionInterface.timer.stop();
+                });
+                gui.menuActionInterface.timer.start();
+            }
         }
 
     }

@@ -10,6 +10,7 @@ import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PathUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
 import org.am21.client.view.View;
+import org.am21.networkRMI.ClientCallBack;
 import org.am21.networkRMI.IClientInput;
 import org.am21.networkRMI.Lobby;
 
@@ -28,6 +29,7 @@ public class Gui implements View {
     public JFrame frame = new JFrame("MyShelfie");
     public ClientCommunicationController commCtrl;
     public IClientInput iClientInputHandler;
+    public ClientCallBack clientCallBack;
     public String root;
     public String username;
     public CommunicationInterface communicationInterface;
@@ -55,8 +57,39 @@ public class Gui implements View {
     public static HashMap<String, JTextArea> chatHistory = new HashMap<>();
     public static boolean newPrivateChat = false;
     private SocketClient socket;
+    private boolean GO_TO_MENU = true;
+    //If true askPlayerMove, if false askWaitingAction
+    private boolean GAME_ON = false;
+    private boolean START = false;
+    private boolean SEL_MODE = true;
+    private boolean NOT_SEL_YET = true;
+    //If true GoToEndRoom
+    private boolean END = false;
+    private boolean WAIT_SOCKET = false;
+
+    public boolean REFRESH = false;
+
+   /* public Thread guiMinion = new Thread(){
+        @Override
+        public void run() {
+            super.run();
+            while(REFRESH){
+                try {
+                    checkGUISTATE();
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+
+        }
+    };*/
+
+
 
     public Gui() throws Exception {
+        this.clientCallBack = new ClientCallBack();
+        this.clientCallBack.gui= this;
         frame.setIconImage(ImageIO.read(new File(PathUtil.getPath("Publisher material/Icon 50x50px.png"))));
         frame.setUndecorated(true);
         frame.setResizable(false);
@@ -119,12 +152,22 @@ public class Gui implements View {
     }
 
     public void askWaitingAction() {
-        if (chatDialog != null) {
-            chatDialog.dispose();
-            onlineListDialog.dispose();
-        }
-        waitingRoomInterface = new WaitingRoomInterface(frame);
-        new WaitingRoomListener(this);
+        //synchronized (guiMinion) {
+            if (chatDialog != null) {
+                chatDialog.dispose();
+                onlineListDialog.dispose();
+            }
+            waitingRoomInterface = new WaitingRoomInterface(frame);
+            new WaitingRoomListener(this);
+            /*try {
+                while (REFRESH){
+                    guiMinion.wait();
+                }
+                waitingRoomInterface.dispose();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }*/
+        //}
     }
 
     @Override
@@ -133,7 +176,8 @@ public class Gui implements View {
         if (ClientView.matchList != null) {
             String[] match = new String[ClientView.matchList.length];
             for (int i = 0; i < ClientView.matchList.length; i++) {
-                match[i] = ClientView.matchList[i][0];
+                match[i] = ClientView.matchList[i][0] + "  |  "+ ClientView.matchList[i][1]
+                        + "  |  "+ ClientView.matchList[i][2] + "  |  "+ ClientView.matchList[i][3];
             }
             for (String m : match) {
                 matchModel.addElement(m);
@@ -141,9 +185,9 @@ public class Gui implements View {
         }
 
         // For test:
-        matchModel.addElement("Match1  |  WaitingPlayers  |  Players: (1/2)");
-        matchModel.addElement("Match2  |  GameGoing       |  Players: (2/2)");
-        matchModel.addElement("Match3  |  Closed          |  Players: (0/2)");
+        matchModel.addElement("0  |  Match1  |  WaitingPlayers  |  Players: (1/2)");
+        matchModel.addElement("1  |  Match2  |  GameGoing       |  Players: (2/2)");
+        matchModel.addElement("2  |  Match3  |  Closed          |  Players: (0/2)");
         matchListInterface = new MatchListInterface(frame, matchModel);
         new MatchListListener(this);
 
@@ -345,23 +389,8 @@ public class Gui implements View {
         new OnlineListListener(this);
     }
 
-    @Override
-    public void printer(String message) throws RemoteException {
-
-    }
-
-    public void printer(String message, String type) throws RemoteException {
-        switch (type) {
-            case "Warning":
-                JOptionPane.showMessageDialog(frame, message, "Warning!", JOptionPane.WARNING_MESSAGE);
-                break;
-            case "Successful":
-                JOptionPane.showMessageDialog(frame, message, "Successful!", JOptionPane.PLAIN_MESSAGE);
-                break;
-            case "Error":
-                JOptionPane.showMessageDialog(frame, message, "Error!", JOptionPane.ERROR_MESSAGE);
-                break;
-        }
+    public void replyDEBUG(String message){
+        System.out.println(message);
     }
 
     @Override
@@ -394,4 +423,95 @@ public class Gui implements View {
             throw new RuntimeException(e);
         }
     }
+
+    public boolean isGO_TO_MENU() {
+        return GO_TO_MENU;
+    }
+
+    public void setGO_TO_MENU(boolean GO_TO_MENU) {
+        this.GO_TO_MENU = GO_TO_MENU;
+    }
+
+    public boolean isGAME_ON() {
+        return GAME_ON;
+    }
+
+    public void setGAME_ON(boolean GAME_ON) {
+        this.GAME_ON = GAME_ON;
+    }
+
+    public boolean isSTART() {
+        return START;
+    }
+
+    public void setSTART(boolean START) {
+        this.START = START;
+    }
+
+    public boolean isSEL_MODE() {
+        return SEL_MODE;
+    }
+
+    public void setSEL_MODE(boolean SEL_MODE) {
+        this.SEL_MODE = SEL_MODE;
+    }
+
+    public boolean isNOT_SEL_YET() {
+        return NOT_SEL_YET;
+    }
+
+    public void setNOT_SEL_YET(boolean NOT_SEL_YET) {
+        this.NOT_SEL_YET = NOT_SEL_YET;
+    }
+
+    public boolean isEND() {
+        return END;
+    }
+
+    public void setEND(boolean END) {
+        this.END = END;
+    }
+
+    public boolean isWAIT_SOCKET() {
+        return WAIT_SOCKET;
+    }
+
+    public void setWAIT_SOCKET(boolean WAIT_SOCKET) {
+        this.WAIT_SOCKET = WAIT_SOCKET;
+    }
+
+    public boolean isREFRESH() {
+        return REFRESH;
+    }
+
+    public void setREFRESH(boolean REFRESH) {
+        this.REFRESH = REFRESH;
+    }
+
+    /*private void checkGUISTATE() throws RemoteException {
+        if (END) {
+            //TODO:
+            //goToEndRoom();
+        }
+        if (START) {
+            showMatchSetup();
+            setSTART(false);
+        }
+        if (GO_TO_MENU) {
+            askMenuAction();
+        } else if (!GAME_ON) {
+            askWaitingAction();
+        }else{
+            showMatchSetup();
+        }
+
+    }*/
+
+    /*public void wakeMinion(){
+        synchronized (guiMinion) {
+            guiMinion.notifyAll();
+        }
+    }*/
+
+
 }

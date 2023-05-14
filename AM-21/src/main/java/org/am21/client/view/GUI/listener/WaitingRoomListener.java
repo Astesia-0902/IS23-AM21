@@ -42,14 +42,10 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
             gui.showGameRules();
         }
         if (e.getSource() == gui.waitingRoomInterface.settingButton) {
-            try {
-                if (gui.commCtrl.changeMatchSeats(gui.askMaxSeats())) {
-                    gui.printer("Number of Seats available changed", "Successful");
-                } else {
-                    gui.printer("Operation failed: Only the admin are allowed to change settings", "Warning");
-                }
-            } catch (RemoteException ex) {
-                throw new RuntimeException(ex);
+            if (gui.commCtrl.changeMatchSeats(gui.askMaxSeats())) {
+                gui.replyDEBUG("Number of Seats available changed" );
+            } else {
+                gui.replyDEBUG("Operation failed: Only the admin are allowed to change settings");
             }
         }
         if (e.getSource() == gui.waitingRoomInterface.helpButton) {

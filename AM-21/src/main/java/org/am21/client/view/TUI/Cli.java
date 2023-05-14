@@ -344,6 +344,7 @@ public class Cli implements View {
     @Override
     public void askMenuAction() throws ServerNotActiveException, RemoteException {
         //while (GO_TO_MENU) {
+        showLostMessages();
         System.out.println(Storage.menuOption);
         showRandomTip();
         System.out.print("-----------------------------------------------------------\n" +
@@ -378,6 +379,7 @@ public class Cli implements View {
      */
     public void askWaitingAction() {
         //while (!GAME_ON && !GO_TO_MENU) {
+        showLostMessages();
         System.out.print("-----------------------------------------------------------\n" +
                 Color.WHITE_BRIGHT + " {| Room " + matchID + " |}" + Color.RESET);
         System.out.println(Color.WHITE_BOLD + "   [ Admin: " + admin + " ]" + Color.RESET);

@@ -170,7 +170,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     @Override
     public void registerCallBack(IClientCallBack callBack) throws RemoteException {
         GameController.registerCallBack(callBack, playerController);
-        //System.out.println("Client Callback registered:" + GameManager.client_connected);
+        System.out.println("Client Callback registered:" + GameManager.client_connected);
     }
 
 
