@@ -58,7 +58,18 @@ public class PixelUtil {
 
 
     public static int chairW = pcWidth*375/10000;
-    public static int chairH = 64;
+    public static int chairH = pcHeight*6/100;
+
+
+    public static int myScoreW = pcWidth*9/100;
+    public static int myScoreH = pcHeight*95/1000;
+    public static int myScoreDynamicW = pcWidth*3/100;
+    public static int myScoreDynamicH = pcHeight/21;
+
+    public static int enemyScoreX = pcWidth*268/10000;
+    public static int enemyScoreY = pcHeight/30;
+    public static int enemyScoreW = pcWidth*10/168;
+    public static int enemyScoreH = pcHeight*10/105;
     /**
      * position util
      */
@@ -102,9 +113,10 @@ public class PixelUtil {
     public static int gameBoardGridY =  pcHeight*138/1000;
 
     public static int chairManMeY = pcHeight/100;
-    public static int chairManAY = pcHeight*105/10;
-    public static int chairManBY = pcHeight*295/1000;
-    public static int chairManCY = pcHeight*51/100;
+    public static int chairManAY = pcHeight*1238/10000;
+    public static int chairManBY = pcHeight*3238/10000;
+    public static int chairManCY = pcHeight*1875/1000;
+    public static int myScoreDynamicX = pcWidth*893/1000;
 
     /**
      * chat util

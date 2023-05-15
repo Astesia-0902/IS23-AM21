@@ -9,6 +9,7 @@ import org.am21.client.view.GUI.listener.*;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PathUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
+import org.am21.client.view.TUI.Storage;
 import org.am21.client.view.View;
 import org.am21.networkRMI.ClientCallBack;
 import org.am21.networkRMI.IClientInput;
@@ -240,8 +241,14 @@ public class Gui implements View {
 
     @Override
     public void showBoard() throws RemoteException {
-
-
+        for (int i = 0; i < Storage.BOARD_ROW; i++){
+            for (int j = 0; j < Storage.BOARD_COLUMN; j++){
+                if(ClientView.virtualBoard[i][j]!=null&&!gameBoardPanel.containItem(i,j))
+                {
+                    gameBoardPanel.putItem(i, j,ClientView.virtualBoard[i][j]);
+                }
+            }
+        }
     }
 
     @Override
@@ -291,7 +298,6 @@ public class Gui implements View {
 
     @Override
     public void showMatchSetup() throws RemoteException {
-        int maxSeats = ClientView.maxSeats;
         //TODO: livingRoomInterface = new LivingRoomInterface(frame,maxSeats);
         livingRoomInterface = new LivingRoomInterface(frame, 4);
         //new LivingRoomListener(this);
@@ -338,16 +344,14 @@ public class Gui implements View {
 
         }
         //TODO: who is the chairMan (first current player when start the game)
-        chairManLabel = new ChairManLabel(3);
+        chairManLabel = new ChairManLabel(2);
         livingRoomInterface.livingRoomPane.add(chairManLabel, JLayeredPane.PALETTE_LAYER);
 
         //set initial game board
         //TODO: gameBoardPanel = new GameBoardPanel(maxSeats);
         gameBoardPanel = new GameBoardPanel(4);
         livingRoomInterface.livingRoomPane.add(gameBoardPanel, JLayeredPane.PALETTE_LAYER);
-        //TODO: fulling the board
-        gameBoardPanel.putItem(5, 5);
-        gameBoardPanel.putItem(4, 5);
+        showBoard();
 
         //set EndGameToken
         gameBoardPanel.setScoreTokenEndGame();
@@ -418,7 +422,7 @@ public class Gui implements View {
     //for living room test (it will be deleted, don't worry )
     public static void main(String[] args) {
         try {
-            new Gui().init();
+            new Gui().showMatchSetup();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

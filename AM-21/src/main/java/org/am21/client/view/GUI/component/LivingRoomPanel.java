@@ -56,11 +56,9 @@ public class LivingRoomPanel extends JPanel {
     //hand board
     public JLabel handBoardLabel;
 
-    //TODO: my Score
+    public JLabel myScoreBand;
 
-
-    //TODO:enemy score
-
+    public JLabel myScoreDynamic;
 
 
     public LivingRoomPanel(){
@@ -223,6 +221,21 @@ public class LivingRoomPanel extends JPanel {
         myLabel.setBounds(PixelUtil.userMeX,PixelUtil.commonY_1,PixelUtil.userMeW,PixelUtil.userMeH);
         myLabel.setIcon(ImageUtil.getBoardImage("iconMe"));
         panelBoard.add(myLabel,JLayeredPane.PALETTE_LAYER);
+
+        //my score
+        myScoreBand = new JLabel("Score:");
+        myScoreBand.setBounds(PixelUtil.commonX_5,PixelUtil.livingRoomMenuY,PixelUtil.myScoreW,PixelUtil.myScoreH);
+        myScoreBand.setFont(new Font("DejaVu Sans",Font.PLAIN,30));
+        myScoreBand.setForeground(new Color(85, 35, 222, 230));
+        panelBoard.add(myScoreBand,JLayeredPane.PALETTE_LAYER);
+
+        //my score dynamic view
+        myScoreDynamic = new JLabel("99");
+        myScoreDynamic.setBounds(PixelUtil.myScoreDynamicX,PixelUtil.commonY_1,PixelUtil.myScoreDynamicW,PixelUtil.myScoreDynamicH);
+        myScoreDynamic.setFont(new Font("DejaVu Sans",Font.PLAIN,30));
+        myScoreDynamic.setForeground(new Color(0, 0, 0, 255));
+        panelBoard.add(myScoreDynamic,JLayeredPane.PALETTE_LAYER);
+
 
     }
 

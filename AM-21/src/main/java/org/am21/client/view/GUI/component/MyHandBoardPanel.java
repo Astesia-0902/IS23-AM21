@@ -13,6 +13,7 @@ public class MyHandBoardPanel extends JPanel{
     public JLabel[] myHandItem = new JLabel[handMax];
 
     public MyHandBoardPanel(){
+
         setBounds(PixelUtil.commonX_4, PixelUtil.commonY_4,PixelUtil.handBoardW,PixelUtil.handBoardH);
         setLayout(null);
         setOpaque(false);

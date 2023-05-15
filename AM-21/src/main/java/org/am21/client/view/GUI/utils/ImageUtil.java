@@ -4,9 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ImageUtil {
-    public static ImageIcon getShelfImage(int width,int height){
+    public static ImageIcon getShelfImage(int widthShelfImage,int heightShelfImage){
 
-        return new ImageIcon(new ImageIcon(PathUtil.getPath("boards/bookshelf_orth.png")).getImage().getScaledInstance(width,height, Image.SCALE_SMOOTH));
+        return new ImageIcon(new ImageIcon(PathUtil.getPath("boards/bookshelf_orth.png")).getImage().getScaledInstance(widthShelfImage,heightShelfImage, Image.SCALE_SMOOTH));
     }
 
     public static ImageIcon getBoardImage(String name) {
@@ -108,44 +108,44 @@ public class ImageUtil {
         };
     }
 
-    public static ImageIcon getItemImage(String image, int width, int height) {
+    public static ImageIcon getItemImage(String image, int widthItem, int heightItem) {
         return switch (image) {
-            case "books1" ->
-                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Books1.1.png")).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-            case "books2" ->
-                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Books1.2.png")).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-            case "books3" ->
-                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Books1.3.png")).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-            case "cats1" ->
-                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Cats1.1.png")).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-            case "cats2" ->
-                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Cats1.2.png")).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-            case "cats3" ->
-                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Cats1.3.png")).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-            case "frames1" ->
-                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Frames1.1.png")).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-            case "frames2" ->
-                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Frames1.2.png")).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-            case "frames3" ->
-                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Frames1.3.png")).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-            case "games1" ->
-                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Games1.1.png")).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-            case "games2" ->
-                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Games1.2.png")).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-            case "games3" ->
-                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Games1.3.png")).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-            case "plants1" ->
-                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Plants1.1.png")).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-            case "plants2" ->
-                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Plants1.2.png")).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-            case "plants3" ->
-                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Plants1.3.png")).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-            case "trophies1" ->
-                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Trophies1.1.png")).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-            case "trophies2" ->
-                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Trophies1.2.png")).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-            case "trophies3" ->
-                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Trophies1.3.png")).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
+            case "_Books__1.1" ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Books1.1.png")).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));
+            case "_Books__1.2" ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Books1.2.png")).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));
+            case "_Books__1.3" ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Books1.3.png")).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));
+            case "__Cats__1.1" ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Cats1.1.png")).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));
+            case "__Cats__1.2" ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Cats1.2.png")).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));
+            case "__Cats__1.3" ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Cats1.3.png")).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));
+            case "_Frames_1.1" ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Frames1.1.png")).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));
+            case "_Frames_1.2" ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Frames1.2.png")).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));
+            case "_Frames_1.3" ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Frames1.3.png")).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));
+            case "_Games__1.1" ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Games1.1.png")).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));
+            case "_Games__1.2" ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Games1.2.png")).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));
+            case "_Games__1.3" ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Games1.3.png")).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));
+            case "_Plants_1.1" ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Plants1.1.png")).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));
+            case "_Plants_1.2" ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Plants1.2.png")).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));
+            case "_Plants_1.3" ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Plants1.3.png")).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));
+            case "Trophies1.1" ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Trophies1.1.png")).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));
+            case "Trophies1.2" ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Trophies1.2.png")).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));
+            case "Trophies1.3" ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("item tiles/Trophies1.3.png")).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));
             default -> null;
         };
 

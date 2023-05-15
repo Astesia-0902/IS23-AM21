@@ -19,7 +19,9 @@ public class MyHandInterface extends JFrame {
     public JButton confirm;
 
     public MyHandInterface() {
-        setBounds(PixelUtil.myHandBackGroundX, PixelUtil.myHandBackGroundY, PixelUtil.myHandBackGroundW,PixelUtil.myHandBackGroundH);
+        setSize(PixelUtil.myHandBackGroundW,PixelUtil.myHandBackGroundH);
+        setLocation(PixelUtil.myHandBackGroundX, PixelUtil.myHandBackGroundY);
+        //setBounds(PixelUtil.myHandBackGroundX, PixelUtil.myHandBackGroundY, PixelUtil.myHandBackGroundW,PixelUtil.myHandBackGroundH);
         setResizable(false);
         setTitle("My hand");
 

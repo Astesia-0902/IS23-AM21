@@ -2,7 +2,6 @@ package org.am21.client.view.GUI.component;
 
 import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.GUI.utils.ImageUtil;
-import org.am21.client.view.GUI.utils.PathUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
 import org.am21.utilities.BoardUtil;
 import org.am21.utilities.Coordinates;
@@ -37,7 +36,7 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
         gameBoardPane = new JLayeredPane();
         gameBoardPane.setBounds(0,0,GridRowsMax*PixelUtil.gameBoardCellW,GridColumnsMax*PixelUtil.gameBoardCellH);
         gameBoardPane.setLayout(null);
-        gameBoardPane.setOpaque(false);
+        //gameBoardPane.setOpaque(false);
         add(gameBoardPane);
 
         //draw a grid container
@@ -53,8 +52,6 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
                     grids[i][j].setLayout(null);
                     gameBoardPane.add(grids[i][j],JLayeredPane.DEFAULT_LAYER);
 
-                    //TODO: refill board randomly
-
                     //putItem(i,j);
                 }
             }
@@ -65,15 +62,43 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
 
     }
 
-    public void putItem(int row, int column){
+    public void putItem(int row, int column,String itemName){
         cells[row][column] = new JLabel();
         cells[row][column].setBounds(0,0,PixelUtil.gameBoardItemW,PixelUtil.gameBoardItemH);
-        cells[row][column].setIcon(new ImageIcon(new ImageIcon(PathUtil.getPath("icon tool/U3.jpg")).getImage().getScaledInstance(PixelUtil.gameBoardItemW,PixelUtil.gameBoardItemH, Image.SCALE_SMOOTH)));
+        cells[row][column].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
+        cells[row][column].setIcon(ImageUtil.getItemImage(itemName,PixelUtil.gameBoardItemW,PixelUtil.gameBoardItemH));
+        cells[row][column].addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                    cells[row][column].setBorder(BorderFactory.createLineBorder(new Color(4, 134, 10, 230),4));
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
         addItem(row,column);
     }
 
-    public JLabel getItem(int row, int column){
-        return this.cells[row][column];
+    public boolean containItem(int row, int column){
+        return this.cells[row][column] != null;
     }
 
     public void addItem(int row,int column){
