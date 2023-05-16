@@ -122,6 +122,9 @@ public class LivingRoomPanel extends JPanel {
         livingRoomMenuButton.setForeground(new Color(164, 91, 9, 255));
         livingRoomMenuButton.setOpaque(false);
         livingRoomMenuButton.setIcon(ImageUtil.getBoardImage("iconMenu"));
+        /**
+         * open menu interface
+         */
         livingRoomMenuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -139,6 +142,9 @@ public class LivingRoomPanel extends JPanel {
         insertButton.setOpaque(true);
         insertButton.setBackground(new Color(4, 134, 10, 230));
         insertButton.setForeground(new Color(4, 134, 10, 230));
+        /**
+         *open my hand interface
+         */
         insertButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -155,6 +161,7 @@ public class LivingRoomPanel extends JPanel {
         clearButton.setOpaque(true);
         clearButton.setBackground(new Color(172, 19, 5, 230));
         clearButton.setForeground(new Color(172, 19, 5, 230));
+
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -24,7 +24,7 @@ public class LivingRoomInterface extends JDialog{
     public ChairManLabel chairManLabel;
 
     public MyHandBoardPanel myHandBoardPanel;
-    public LivingRoomInterface(JFrame frame, int maxSeat){
+    public LivingRoomInterface(JFrame frame){
 
         super(frame);
 
@@ -43,7 +43,7 @@ public class LivingRoomInterface extends JDialog{
             //enemyAShelfPanel = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyAGridY,PixelUtil.enemyCellW,PixelUtil.enemyCellH,PixelUtil.enemyItemW,PixelUtil.enemyItemH);
             //enemyBShelfPanel = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyBGridY,PixelUtil.enemyCellW,PixelUtil.enemyCellH,PixelUtil.enemyItemW,PixelUtil.enemyItemH);
            // enemyCShelfPanel = new ShelfPanel(PixelUtil.enemyGridX,PixelUtil.enemyCGridY,PixelUtil.enemyCellW,PixelUtil.enemyCellH,PixelUtil.enemyItemW,PixelUtil.enemyItemH);
-            myHandBoardPanel = new MyHandBoardPanel();
+           // myHandBoardPanel = new MyHandBoardPanel();
             //chairManLabel = new ChairManLabel(3);
 
             livingRoomPane.add(livingRoomPanel,JLayeredPane.DEFAULT_LAYER);
@@ -57,7 +57,7 @@ public class LivingRoomInterface extends JDialog{
            // livingRoomPane.add(enemyAShelfPanel,JLayeredPane.PALETTE_LAYER);
             //livingRoomPane.add(enemyBShelfPanel,JLayeredPane.PALETTE_LAYER);
             //livingRoomPane.add(enemyCShelfPanel,JLayeredPane.PALETTE_LAYER);
-            livingRoomPane.add(myHandBoardPanel,JLayeredPane.PALETTE_LAYER);
+            //livingRoomPane.add(myHandBoardPanel,JLayeredPane.PALETTE_LAYER);
 
            // livingRoomPane.add(chairManLabel,JLayeredPane.PALETTE_LAYER);
 

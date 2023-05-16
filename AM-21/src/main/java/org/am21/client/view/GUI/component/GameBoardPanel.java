@@ -7,6 +7,8 @@ import org.am21.utilities.BoardUtil;
 import org.am21.utilities.Coordinates;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
@@ -62,15 +64,37 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
 
     }
 
-    public void putItem(int row, int column,String itemName){
-        cells[row][column] = new JLabel();
+    public void putItem(int row, int column,String itemName,MyHandBoardPanel myHandBoard){
+
+        cells[row][column] = new JLabel(itemName);
         cells[row][column].setBounds(0,0,PixelUtil.gameBoardItemW,PixelUtil.gameBoardItemH);
         cells[row][column].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
         cells[row][column].setIcon(ImageUtil.getItemImage(itemName,PixelUtil.gameBoardItemW,PixelUtil.gameBoardItemH));
         cells[row][column].addMouseListener(new MouseAdapter() {
+
             @Override
             public void mouseClicked(MouseEvent e) {
-                    cells[row][column].setBorder(BorderFactory.createLineBorder(new Color(4, 134, 10, 230),4));
+                Border border = cells[row][column].getBorder();
+                if(border instanceof LineBorder) {
+                    Color edgeColor = ((LineBorder) border).getLineColor(); //get item border color
+
+
+                    //do select
+                    if(myHandBoard.isSelected(cells[row][column])&&edgeColor.equals(new Color(0, 0, 0, 255)))//select permit
+                    {
+
+                        //add item to board, so the item board will be changed in the color green
+                        cells[row][column].setBorder(BorderFactory.createLineBorder(new Color(4, 134, 10, 230), 4));
+                        myHandBoard.putItem(cells[row][column]);
+                    } else if (edgeColor.equals(new Color(4, 134, 10, 230))){
+                        //do deselect
+                        cells[row][column].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
+                        myHandBoard.removeItem();
+                    }
+                   else{
+                        //limit select so you can only deselect
+                    }
+                }
 
             }
 

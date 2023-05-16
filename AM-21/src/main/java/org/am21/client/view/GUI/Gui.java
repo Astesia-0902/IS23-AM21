@@ -9,7 +9,6 @@ import org.am21.client.view.GUI.listener.*;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PathUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
-import org.am21.client.view.TUI.Storage;
 import org.am21.client.view.View;
 import org.am21.networkRMI.ClientCallBack;
 import org.am21.networkRMI.IClientInput;
@@ -42,6 +41,7 @@ public class Gui implements View {
     public PersonalGoalPanel personalGoalPanel;
     public CommonGoalPanel commonGoalPanel;
     public GameBoardPanel gameBoardPanel;
+    public MyHandBoardPanel myHandBoardPanel;
 
 
     public EnemyPanel enemyPanelA, enemyPanelB, enemyPanelC;
@@ -266,14 +266,26 @@ public class Gui implements View {
 
     @Override
     public void showBoard() throws RemoteException {
-        for (int i = 0; i < Storage.BOARD_ROW; i++){
-            for (int j = 0; j < Storage.BOARD_COLUMN; j++){
-                if(ClientView.virtualBoard[i][j]!=null&&!gameBoardPanel.containItem(i,j))
-                {
-                    gameBoardPanel.putItem(i, j,ClientView.virtualBoard[i][j]);
-                }
-            }
-        }
+        //set my Hand
+        myHandBoardPanel = new MyHandBoardPanel();
+        livingRoomInterface.livingRoomPane.add(myHandBoardPanel,JLayeredPane.PALETTE_LAYER);
+
+        //set game Board
+        //TODO: for (int i = 0; i < Storage.BOARD_ROW; i++){
+        //TODO:    for (int j = 0; j < Storage.BOARD_COLUMN; j++){
+        //TODO:        if(ClientView.virtualBoard[i][j]!=null&&!gameBoardPanel.containItem(i,j))
+        //TODO:        {
+        //TODO:            gameBoardPanel.putItem(i, j,ClientView.virtualBoard[i][j],myHandBoardPanel);
+        //TODO:        }
+        //TODO:    }
+        //TODO: }
+
+        gameBoardPanel.putItem(3,3,"_Games__1.1",myHandBoardPanel);
+        gameBoardPanel.putItem(4,5,"_Frames_1.3",myHandBoardPanel);
+        gameBoardPanel.putItem(4,3,"__Cats__1.3",myHandBoardPanel);
+        gameBoardPanel.putItem(4,4,"__Cats__1.2",myHandBoardPanel);
+
+
     }
 
     @Override
@@ -324,8 +336,12 @@ public class Gui implements View {
     @Override
     public void showMatchSetup() throws RemoteException {
 
-        //TODO: livingRoomInterface = new LivingRoomInterface(frame,maxSeats);
-        livingRoomInterface = new LivingRoomInterface(frame, 4);
+
+        //TODO: livingRoomInterface = new LivingRoomInterface(frame);
+        livingRoomInterface = new LivingRoomInterface(frame);
+
+        //TODO: livingRoomInterface = new LivingRoomInterface(frame);
+        livingRoomInterface = new LivingRoomInterface(frame);
         //new LivingRoomListener(this);
         showPersonalGoal();
         livingRoomInterface.livingRoomPane.add(personalGoalPanel, JLayeredPane.PALETTE_LAYER);
@@ -381,6 +397,8 @@ public class Gui implements View {
 
         //set EndGameToken
         gameBoardPanel.setScoreTokenEndGame();
+
+
 
 
     }
