@@ -66,7 +66,7 @@ public class Gui implements View {
     private boolean NOT_SEL_YET = true;
     //If true GoToEndRoom
     private boolean END = false;
-    private boolean WAIT_SOCKET = false;
+    public boolean WAIT_SOCKET = false;
 
     public boolean REFRESH = false;
 
@@ -111,6 +111,7 @@ public class Gui implements View {
 
     public void init() throws Exception {
         commCtrl = new ClientCommunicationController();
+        commCtrl.gui = this;
         communicationInterface = new CommunicationInterface(frame);
         new CommunicationListener(this);
 
@@ -130,7 +131,14 @@ public class Gui implements View {
 
     public void askServerInfoSocket() {
         socket = new SocketClient();
+        SocketClient.gui = this;
         socket.start();
+        try {
+            askLogin();
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Override

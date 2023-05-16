@@ -1,5 +1,6 @@
 package org.am21.client;
 
+import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.TUI.Cli;
 import org.am21.networkRMI.IClientCallBack;
 
@@ -8,6 +9,7 @@ import java.rmi.server.ServerNotActiveException;
 
 public class ClientCommunicationController {
     public Cli cli;
+    public Gui gui;
     private static String METHOD_KEY = "method";
 
     private static boolean METHOD_RETURN = true;
@@ -29,6 +31,19 @@ public class ClientCommunicationController {
     public void wait_Socket(String method) {
         if (cli != null) {
             while (cli.WAIT_SOCKET && !METHOD_KEY.equals(method)) {
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            //Reset
+            METHOD_KEY = "method";
+        }
+
+        if (gui != null) {
+            while (gui.WAIT_SOCKET && !METHOD_KEY.equals(method)) {
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException e) {
@@ -201,6 +216,7 @@ public class ClientCommunicationController {
             return METHOD_RETURN;
         }
     }
+
     //TODO:Never used
     public void getVirtualView() {
         if (ClientController.isRMI) {

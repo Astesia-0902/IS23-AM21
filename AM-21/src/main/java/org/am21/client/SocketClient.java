@@ -127,7 +127,8 @@ public class SocketClient extends Thread {
             default -> System.out.println("Unknown Server Message: " + message);
         }
         //Free CLi
-        cli.WAIT_SOCKET = false;
+        if (cli != null)
+            cli.WAIT_SOCKET = false;
 
     }
 }
