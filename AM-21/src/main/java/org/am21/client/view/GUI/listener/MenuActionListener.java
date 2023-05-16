@@ -102,10 +102,11 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
                 gui.replyDEBUG("Created match");
 
                 gui.menuActionInterface.timer = new Timer(500, e1 -> {
-                    gui.askWaitingAction();
                     gui.menuActionInterface.dispose();
                     gui.menuActionInterface.maxSeatsDialog.setVisible(false);
                     gui.menuActionInterface.timer.stop();
+                    //gui.askWaitingAction();
+                    gui.guiMinion.start();
                 });
                 gui.menuActionInterface.timer.start();
             }

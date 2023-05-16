@@ -55,6 +55,11 @@ public class IconUtil {
             imageMap.put("helpSelected", ImageIO.read(new FileInputStream(PathUtil.getPath("icon tool/helpColor.png")))
                     .getScaledInstance(ImageUtil.resizeX(25), ImageUtil.resizeY(25), Image.SCALE_SMOOTH));
 
+            imageMap.put("OnlineMember", ImageIO.read(new FileInputStream(PathUtil.getPath("icon tool/OnlineMember.png")))
+                    .getScaledInstance(ImageUtil.resizeX(25), ImageUtil.resizeY(25), Image.SCALE_SMOOTH));
+            imageMap.put("GameMember", ImageIO.read(new FileInputStream(PathUtil.getPath("icon tool/GameMember.png")))
+                    .getScaledInstance(ImageUtil.resizeX(25), ImageUtil.resizeY(25), Image.SCALE_SMOOTH));
+
             imageMap.put("scroll-down", ImageIO.read(new FileInputStream(PathUtil.getPath("icon tool/scroll-down2.png")))
                     .getScaledInstance(ImageUtil.resizeX(20), ImageUtil.resizeY(20), Image.SCALE_SMOOTH));
             imageMap.put("scroll-top", ImageIO.read(new FileInputStream(PathUtil.getPath("icon tool/scroll-top2.png")))

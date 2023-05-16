@@ -60,7 +60,7 @@ public class Gui implements View {
     private SocketClient socket;
     private boolean GO_TO_MENU = true;
     //If true askPlayerMove, if false askWaitingAction
-    private boolean GAME_ON = false;
+    public boolean GAME_ON = false;
     private boolean START = false;
     private boolean SEL_MODE = true;
     private boolean NOT_SEL_YET = true;
@@ -70,21 +70,30 @@ public class Gui implements View {
 
     public boolean REFRESH = false;
 
-   /* public Thread guiMinion = new Thread(){
+    public Thread guiMinion = new Thread(){
         @Override
         public void run() {
-            super.run();
-            while(REFRESH){
+            //super.run();
+            while(!GAME_ON){
                 try {
-                    checkGUISTATE();
+                    //checkGUISTATE();
+                    askWaitingAction();
                 } catch (RemoteException e) {
                     throw new RuntimeException(e);
                 }
             }
 
+            if (waitingRoomInterface!=null) {
+                waitingRoomInterface.dispose();
+            }
+            try {
+                showMatchSetup();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
 
         }
-    };*/
+    };
 
 
 
@@ -125,15 +134,16 @@ public class Gui implements View {
     }
 
     @Override
-    public void askLogin() {
+    public void askLogin() throws RemoteException {
         loginInterface = new LoginInterface(frame);
         new LoginListener(this);
     }
 
     @Override
-    public void askMenuAction() {
+    public void askMenuAction() throws RemoteException {
         menuActionInterface = new MenuActionInterface(frame);
         new MenuActionListener(this);
+
     }
 
     @Override
@@ -152,14 +162,21 @@ public class Gui implements View {
         helpDialog.setVisible(true);
     }
 
-    public void askWaitingAction() {
+    public void askWaitingAction() throws RemoteException {
         //synchronized (guiMinion) {
             if (chatDialog != null) {
                 chatDialog.dispose();
                 onlineListDialog.dispose();
             }
+
+        if (waitingRoomInterface == null || !waitingRoomInterface.isVisible()) {
             waitingRoomInterface = new WaitingRoomInterface(frame);
             new WaitingRoomListener(this);
+        }
+        waitingRoomInterface.getContentPane().revalidate();
+        waitingRoomInterface.getContentPane().repaint();
+
+
             /*try {
                 while (REFRESH){
                     guiMinion.wait();
@@ -298,6 +315,7 @@ public class Gui implements View {
 
     @Override
     public void showMatchSetup() throws RemoteException {
+
         //TODO: livingRoomInterface = new LivingRoomInterface(frame,maxSeats);
         livingRoomInterface = new LivingRoomInterface(frame, 4);
         //new LivingRoomListener(this);
@@ -380,7 +398,9 @@ public class Gui implements View {
         DefaultListModel<String> userModel = new DefaultListModel<>();
         if (ClientView.onlinePlayers != null) {
             for (int i = 0; i < ClientView.onlinePlayers.length; i++) {
-                userModel.addElement(ClientView.onlinePlayers[i][0]);
+                if (ClientView.onlinePlayers[i][0]!=null) {
+                    userModel.addElement(ClientView.onlinePlayers[i][0] + "  |  " + ClientView.onlinePlayers[i][1]);
+                }
             }
         }
 
@@ -391,6 +411,9 @@ public class Gui implements View {
         userModel.addElement("Player3  |  GameMember");
         onlineListDialog = new OnlineListDialog(frame, userModel);
         new OnlineListListener(this);
+
+
+        //OnlineList onlineList = new OnlineList(frame);
     }
 
     public void replyDEBUG(String message){
@@ -491,13 +514,14 @@ public class Gui implements View {
     public void setREFRESH(boolean REFRESH) {
         this.REFRESH = REFRESH;
     }
-
-    /*private void checkGUISTATE() throws RemoteException {
+/*
+    private void checkGUISTATE() throws RemoteException {
         if (END) {
             //TODO:
             //goToEndRoom();
         }
         if (START) {
+            waitingRoomInterface.dispose();
             showMatchSetup();
             setSTART(false);
         }
