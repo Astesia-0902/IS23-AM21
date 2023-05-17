@@ -201,8 +201,8 @@ public class PixelUtil {
     public static int myHandBackGroundW = pcWidth*4643/10000;
     public static int myHandBackGroundH = pcHeight*6476/10000;
 
-    public static int myHandHandH = pcWidth*275/1000;
-    public static int myHandHandW = pcHeight*75/1000;
+    public static int myHandHandH = pcHeight*44/100;
+    public static int myHandHandW = pcWidth*47/1000;
     public static int myHandHandX= pcWidth*10/336;
     public static int myHandHandY = pcHeight/21;
 
@@ -223,4 +223,7 @@ public class PixelUtil {
     public static int myHandConfirmY = pcHeight*567/1000;
     public static int myHandConfirmW = pcWidth*893/10000;
     public static int myHandConfirmH = pcHeight/21;
+
+    public static int myHandItemX = 3;
+    public static int myHandItemY = 40;
 }

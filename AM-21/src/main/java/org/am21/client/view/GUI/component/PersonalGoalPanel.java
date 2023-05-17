@@ -4,6 +4,7 @@ import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class PersonalGoalPanel extends JPanel {
 
@@ -24,6 +25,7 @@ public class PersonalGoalPanel extends JPanel {
 
         personalGoalLabel = new JLabel();
         personalGoalLabel.setBounds(0,0,PixelUtil.personalGoalCardW, PixelUtil.personalGoalCardH);
+        personalGoalLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
         personalGoalLabel.setIcon(ImageUtil.getPersonalGoalCardImage(cardNum));
         personalGoalPane.add(personalGoalLabel,JLayeredPane.DEFAULT_LAYER);
     }

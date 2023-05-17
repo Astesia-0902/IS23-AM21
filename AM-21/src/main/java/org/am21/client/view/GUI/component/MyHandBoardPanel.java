@@ -7,7 +7,6 @@ import javax.swing.*;
 public class MyHandBoardPanel extends JPanel{
     public final int handMax = 3;
     public int myHandNum=0;
-    public JLayeredPane myHandPane;
     public JLayeredPane[] handGrid = new JLayeredPane[handMax];
     public JLabel[] myHandItem = new JLabel[handMax];
 
@@ -17,53 +16,38 @@ public class MyHandBoardPanel extends JPanel{
         setLayout(null);
         setOpaque(false);
 
-        myHandPane = new JLayeredPane();
-        myHandPane.setBounds(0,0,PixelUtil.handBoardW,PixelUtil.handBoardH);
-        myHandPane.setLayout(null);
-        myHandPane.setOpaque(false);
-        add(myHandPane);
-
         for(int i = 0; i< handMax; i++)
         {
             handGrid[i] = new JLayeredPane();
             handGrid[i].setBounds(i*((PixelUtil.handBoardW)/3),0,(PixelUtil.handBoardW)/3,PixelUtil.handBoardH);
             handGrid[i].setLayout(null);
-            myHandPane.add(handGrid[i],JLayeredPane.DEFAULT_LAYER);
-          //  putItem (i);
+            add(handGrid[i]);
         }
 
     }
+    public int getMyHandNum(){
+        return this.myHandNum;
+    }
 
-    public boolean isSelected(JLabel cellsItem){
-        if(myHandNum<=handMax) {
-            return true;
-        }
-        return false;
+    public boolean canPick(){
+        return myHandNum < handMax;
     }
     public void putItem(JLabel cellsItem){
+
             myHandItem[myHandNum] = new JLabel();
             myHandItem[myHandNum].setIcon(cellsItem.getIcon());
             myHandItem[myHandNum].setLocation(PixelUtil.myHandPanelX, PixelUtil.myHandPanelY);
             myHandItem[myHandNum].setSize(PixelUtil.gameBoardItemW,PixelUtil.gameBoardItemH);
-            //myHandItem[myHandNum].setBounds(PixelUtil.myHandPanelX,PixelUtil.myHandHandY,PixelUtil.gameBoardItemW,PixelUtil.gameBoardItemH);
 
-
-            /* myHandItem[column] = new JLabel();
-        myHandItem[column].setBounds(PixelUtil.myHandPanelX,PixelUtil.myHandHandY,PixelUtil.gameBoardItemW,PixelUtil.gameBoardItemH);
-        myHandItem[column].setIcon(new ImageIcon(new ImageIcon(PathUtil.getPath("icon tool/U1.jpg")).getImage().getScaledInstance(PixelUtil.gameBoardItemW,PixelUtil.gameBoardItemH, Image.SCALE_SMOOTH)));
-        */
-            addItem(myHandNum);
+            handGrid[myHandNum].add(myHandItem[myHandNum],JLayeredPane.PALETTE_LAYER);
 
             myHandNum++;
 
-
     }
 
-    public void addItem(int column){
-        handGrid[column].add(myHandItem[column],JLayeredPane.MODAL_LAYER);
-    }
     public void removeItem(){
-        handGrid[myHandNum].remove(myHandItem[myHandNum]);
         myHandNum--;
+        myHandItem[myHandNum].setIcon(null);
     }
+
 }

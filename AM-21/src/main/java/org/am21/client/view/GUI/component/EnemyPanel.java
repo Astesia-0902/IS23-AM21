@@ -24,6 +24,7 @@ public class EnemyPanel extends JPanel {
 
         enemyPic = new JLabel();
         enemyPic.setBounds(PixelUtil.commonX_1,0,PixelUtil.enemyW,PixelUtil.enemyH);
+        enemyPic.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
         enemyPic.setIcon(imgPic);
         enemyPane.add(enemyPic,JLayeredPane.DEFAULT_LAYER);
 

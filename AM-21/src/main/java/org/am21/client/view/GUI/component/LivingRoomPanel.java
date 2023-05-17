@@ -1,8 +1,8 @@
 package org.am21.client.view.GUI.component;
 
 
+import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.GUI.Interface.LivingRoomMenuInterface;
-import org.am21.client.view.GUI.Interface.MyHandInterface;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
 
@@ -63,6 +63,7 @@ public class LivingRoomPanel extends JPanel {
 
     public LivingRoomPanel(){
 
+        Gui gui;
         //back board panel
         setSize(PixelUtil.pcWidth, PixelUtil.pcHeight);
         setLayout(null);
@@ -83,6 +84,7 @@ public class LivingRoomPanel extends JPanel {
         //game board label
         gameBoardLabel = new JLabel();
         gameBoardLabel.setBounds(PixelUtil.commonX_3,PixelUtil.gameBoardY,PixelUtil.gameBoardW,PixelUtil.gameBoardH);
+        gameBoardLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
         gameBoardLabel.setIcon(ImageUtil.getBoardImage("gameBoard"));
         panelBoard.add(gameBoardLabel,JLayeredPane.PALETTE_LAYER);
 
@@ -95,18 +97,21 @@ public class LivingRoomPanel extends JPanel {
         //personal goal card label
         personalGoalLabel = new JLabel();
         personalGoalLabel.setBounds(PixelUtil.personalGoalX,PixelUtil.personalGoalY,PixelUtil.personalGoalCardW, PixelUtil.personalGoalCardH);
+        personalGoalLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
         personalGoalLabel.setIcon(ImageUtil.getBoardImage("personalGoalEmpty"));
         panelBoard.add(personalGoalLabel,JLayeredPane.PALETTE_LAYER);
 
         //common goal A card label
         commonGoalALabel = new JLabel();
         commonGoalALabel.setBounds(PixelUtil.commonX_5,PixelUtil.commonGoalY_A,PixelUtil.commonGoalCardW,PixelUtil.commonGoalCardH);
+        commonGoalALabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
         commonGoalALabel.setIcon(ImageUtil.getBoardImage("commonGoalEmpty"));
         panelBoard.add(commonGoalALabel,JLayeredPane.PALETTE_LAYER);
 
         //common goal B card label
         commonGoalBLabel = new JLabel();
         commonGoalBLabel.setBounds(PixelUtil.commonX_5,PixelUtil.commonGoalY_B,PixelUtil.commonGoalCardW,PixelUtil.commonGoalCardH);
+        commonGoalBLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
         commonGoalBLabel.setIcon(ImageUtil.getBoardImage("commonGoalEmpty"));
         panelBoard.add(commonGoalBLabel,JLayeredPane.PALETTE_LAYER);
 
@@ -145,13 +150,13 @@ public class LivingRoomPanel extends JPanel {
         /**
          *open my hand interface
          */
-        insertButton.addActionListener(new ActionListener() {
+        /*insertButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 MyHandInterface myHandInterface = new MyHandInterface();
                 myHandInterface.setVisible(true);
             }
-        });
+        });*/
         panelBoard.add(this.insertButton,JLayeredPane.PALETTE_LAYER);
 
         //clear selection button
@@ -162,14 +167,6 @@ public class LivingRoomPanel extends JPanel {
         clearButton.setBackground(new Color(172, 19, 5, 230));
         clearButton.setForeground(new Color(172, 19, 5, 230));
 
-        clearButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //TODO: clear handBoard items
-
-                JOptionPane.showMessageDialog(null, "clear successful");
-            }
-        });
 
         panelBoard.add(clearButton,JLayeredPane.PALETTE_LAYER);
 
@@ -220,6 +217,7 @@ public class LivingRoomPanel extends JPanel {
         //my hand label
         handBoardLabel = new JLabel();
         handBoardLabel.setBounds(PixelUtil.commonX_4,PixelUtil.commonY_4,PixelUtil.handBoardW,PixelUtil.handBoardH);
+        handBoardLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
         handBoardLabel.setIcon(ImageUtil.getBoardImage("handBoard"));
         panelBoard.add(handBoardLabel,JLayeredPane.PALETTE_LAYER);
 

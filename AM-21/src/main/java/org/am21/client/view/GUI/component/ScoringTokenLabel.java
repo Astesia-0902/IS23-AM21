@@ -31,15 +31,10 @@ public class ScoringTokenLabel extends JPanel {
         super.paintComponent(g);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.rotate(Math.toRadians(this.oriented), this.rotateX, this.rotateY);
+        label.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
         label.setSize(label.getPreferredSize());
         label.paint(g2d);
 
-    }
-
-    public void setItem(int maxSeat){
-        switch(maxSeat){
-
-        }
     }
 
 }

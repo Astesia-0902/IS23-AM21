@@ -16,6 +16,8 @@ import org.am21.networkRMI.Lobby;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.rmi.AlreadyBoundException;
@@ -235,13 +237,20 @@ public class Gui implements View {
     public void showCommonGoals() {
         //TODO: commonGoalPanel = new CommonGoalPanel(ClientView.commonGoal.get(0),ClientView.commonGoal.get(1));
         commonGoalPanel = new CommonGoalPanel("CommonGoal2Lines", "CommonGoalDiagonal");
+        livingRoomInterface.livingRoomPane.add(commonGoalPanel, JLayeredPane.PALETTE_LAYER);
 
+        //set CommonGoal Token
+        //TODO:  commonGoalPanel.setScoreTokenTop(ClientView.commonGoalScore.get(0));
+        commonGoalPanel.setScoreTokenTop(2);
+        //TODO:  commonGoalPanel.setScoreTokenBottom(ClientView.commonGoalScore.get(1));
+        commonGoalPanel.setScoreTokenBottom(4);
     }
 
     @Override
     public void showPersonalGoal() throws RemoteException {
         //TODO: personalGoalPanel = new PersonalGoalPanel(ClientView.personalGoal);
         personalGoalPanel = new PersonalGoalPanel(7);
+        livingRoomInterface.livingRoomPane.add(personalGoalPanel, JLayeredPane.PALETTE_LAYER);
     }
 
     @Override
@@ -284,6 +293,7 @@ public class Gui implements View {
         gameBoardPanel.putItem(4,5,"_Frames_1.3",myHandBoardPanel);
         gameBoardPanel.putItem(4,3,"__Cats__1.3",myHandBoardPanel);
         gameBoardPanel.putItem(4,4,"__Cats__1.2",myHandBoardPanel);
+        gameBoardPanel.putItem(3,4,"_Frames_1.1",myHandBoardPanel);
 
 
     }
@@ -305,12 +315,30 @@ public class Gui implements View {
 
     @Override
     public void askDeselection() throws ServerNotActiveException, RemoteException {
+        livingRoomInterface.livingRoomPanel.clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                while(myHandBoardPanel.myHandNum>0){
+                    myHandBoardPanel.removeItem();
 
+                }
+                JOptionPane.showMessageDialog(null, "clear successful");
+            }
+        });
     }
 
     @Override
     public void askInsertion() throws ServerNotActiveException, RemoteException {
+        livingRoomInterface.livingRoomPanel.insertButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
+                MyHandInterface myHandInterface = new MyHandInterface();
+                myHandInterface.setVisible(true);
+
+
+            }
+        });
     }
 
     @Override
@@ -336,22 +364,12 @@ public class Gui implements View {
     @Override
     public void showMatchSetup() throws RemoteException {
 
-
-        //TODO: livingRoomInterface = new LivingRoomInterface(frame);
-        livingRoomInterface = new LivingRoomInterface(frame);
-
         //TODO: livingRoomInterface = new LivingRoomInterface(frame);
         livingRoomInterface = new LivingRoomInterface(frame);
         //new LivingRoomListener(this);
         showPersonalGoal();
-        livingRoomInterface.livingRoomPane.add(personalGoalPanel, JLayeredPane.PALETTE_LAYER);
         showCommonGoals();
-        livingRoomInterface.livingRoomPane.add(commonGoalPanel, JLayeredPane.PALETTE_LAYER);
-        //set CommonGoal Token
-        //TODO:  commonGoalPanel.setScoreTokenTop(ClientView.commonGoalScore.get(0));
-        commonGoalPanel.setScoreTokenTop(2);
-        //TODO:  commonGoalPanel.setScoreTokenBottom(ClientView.commonGoalScore.get(1));
-        commonGoalPanel.setScoreTokenBottom(4);
+
         //TODO: if(maxSeats<=2)
         {
             //setFirst enemy's Label
@@ -393,12 +411,24 @@ public class Gui implements View {
         //TODO: gameBoardPanel = new GameBoardPanel(maxSeats);
         gameBoardPanel = new GameBoardPanel(4);
         livingRoomInterface.livingRoomPane.add(gameBoardPanel, JLayeredPane.PALETTE_LAYER);
+
         showBoard();
 
         //set EndGameToken
         gameBoardPanel.setScoreTokenEndGame();
 
+        //setButton Function
+        try {
+            askDeselection();
+        } catch (ServerNotActiveException e) {
+            throw new RuntimeException(e);
+        }
 
+        try {
+            askInsertion();
+        } catch (ServerNotActiveException e) {
+            throw new RuntimeException(e);
+        }
 
 
     }

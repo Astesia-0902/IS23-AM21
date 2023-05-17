@@ -80,24 +80,22 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
 
 
                     //do select
-                    if(myHandBoard.isSelected(cells[row][column])&&edgeColor.equals(new Color(0, 0, 0, 255)))//select permit
-                    {
-
-                        //add item to board, so the item board will be changed in the color green
-                        cells[row][column].setBorder(BorderFactory.createLineBorder(new Color(4, 134, 10, 230), 4));
-                        myHandBoard.putItem(cells[row][column]);
-                    } else if (edgeColor.equals(new Color(4, 134, 10, 230))){
+                    if(edgeColor.equals(new Color(0, 0, 0, 255))){
+                        if(myHandBoard.canPick()) //check select
+                        {
+                            cells[row][column].setBorder(BorderFactory.createLineBorder(new Color(4, 134, 10, 230), 4));
+                            myHandBoard.putItem(cells[row][column]);
+                        }
+                    } else{
                         //do deselect
                         cells[row][column].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
                         myHandBoard.removeItem();
                     }
-                   else{
-                        //limit select so you can only deselect
-                    }
+
+
                 }
 
             }
-
             @Override
             public void mousePressed(MouseEvent e) {
 
@@ -110,13 +108,16 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
 
             @Override
             public void mouseEntered(MouseEvent e) {
-
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
 
             }
+
+
+
+
         });
         addItem(row,column);
     }
@@ -141,7 +142,6 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
         scoreTokenEndGame.setOpaque(false);
         gameBoardPane.add(scoreTokenEndGame,JLayeredPane.PALETTE_LAYER);
     }
-
 
 
     public void getScoreTokenEndGame(){
