@@ -86,8 +86,10 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
         gui.chatDialog.privateChat.keySet().forEach(user -> {
             if (e.getSource() == gui.chatDialog.privateChat.get(user)) {
                 gui.chatDialog.privateChat.get(user).setBackground(new Color(83, 46, 91, 230));
+                gui.chatDialog.privateChat.get(user).setForeground(Color.WHITE);
             } else {
                 gui.chatDialog.privateChat.get(user).setBackground(new Color(178, 173, 204, 230));
+                gui.chatDialog.privateChat.get(user).setForeground(new Color(106, 2, 1));
             }
             if (gui.chatDialog != null) {
                 FontMetrics fm = gui.chatDialog.chatMessage.getFontMetrics(gui.chatDialog.chatMessage.getFont());

@@ -24,6 +24,7 @@ public class OnlineListDialog extends JDialog {
         setSize(ImageUtil.resizeX(200), ImageUtil.resizeY(200));
         onlineList = new JList<>(userModel);
         onlineList.setForeground(new Color(106, 2, 1, 255));
+        onlineList.setFont(FontUtil.getFontByName("Leira-Lite-2").deriveFont(Font.PLAIN,ImageUtil.resizeY(15)));
 
         scrollPane = new JScrollPane(onlineList);
         scrollPane.setBorder(new CompoundBorder(new MatteBorder(0, ImageUtil.resizeY(5), ImageUtil.resizeX(5), ImageUtil.resizeY(5),
@@ -64,5 +65,7 @@ public class OnlineListDialog extends JDialog {
         setUndecorated(true);
         setBackground(new Color(247, 253, 252, 128));
         setVisible(true);
+        setBackground(new Color(178, 173, 204, 230));
+        setOpacity(0.9f);
     }
 }

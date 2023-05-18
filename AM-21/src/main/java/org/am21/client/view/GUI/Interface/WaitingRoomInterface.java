@@ -27,8 +27,10 @@ public class WaitingRoomInterface extends JDialog {
     public final ImageIcon helpIcon;
     public final ImageIcon helpIconColor;
     public final JButton helpButton;
+    public String minNum;
+    public String maxNum;
 
-    public WaitingRoomInterface(JFrame frame) {
+    public WaitingRoomInterface(JFrame frame, String numMiss, String numMax) {
         super(frame);
         frame.setTitle("MyShelfie - Waiting Room");
 
@@ -38,7 +40,7 @@ public class WaitingRoomInterface extends JDialog {
                 ImageUtil.resizeY(-315), ImageUtil.resizeX(980), ImageUtil.resizeY(1050)});
         BackGroundPanel backGroundPanel = new BackGroundPanel(background);
 
-        // Waiting Players
+        // Waiting Players... (x/y)
         JLabel waitingMessage = new JLabel("Waiting Players...");
         waitingMessage.setBorder(null);
         waitingMessage.setBounds(ImageUtil.resizeX(181), ImageUtil.resizeY(90),
@@ -47,8 +49,20 @@ public class WaitingRoomInterface extends JDialog {
         waitingMessage.setFont(FontUtil.getFontByName("KaushanScript-Regular-1")
                 .deriveFont(Font.PLAIN, ImageUtil.resizeY(35)));
         waitingMessage.setOpaque(false);
-        getContentPane().add(waitingMessage);
 
+        minNum = numMiss;
+        maxNum = numMax;
+        JLabel numPlayer = new JLabel("(" + minNum + "/" + maxNum + ")");
+        numPlayer.setBorder(null);
+        numPlayer.setBounds(ImageUtil.resizeX(420), ImageUtil.resizeY(95),
+                ImageUtil.resizeX(356), ImageUtil.resizeY(108));
+        numPlayer.setForeground(new Color(237, 179, 137));
+        numPlayer.setFont(FontUtil.getFontByName("KaushanScript-Regular-1")
+                .deriveFont(Font.PLAIN, ImageUtil.resizeY(20)));
+        numPlayer.setOpaque(false);
+
+        getContentPane().add(waitingMessage);
+        getContentPane().add(numPlayer);
 
         // Leave Button
         leaveButton = ButtonUtil.getButton("Leave");
