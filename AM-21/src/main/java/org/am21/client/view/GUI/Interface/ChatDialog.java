@@ -15,7 +15,6 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
@@ -125,6 +124,7 @@ public class ChatDialog extends JDialog {
         chatMessage.setBorder(new EmptyBorder(0, ImageUtil.resizeX(nicknameWidth + 30), 0, 0));
         //chatMessage.setBorder(new MatteBorder(0, ImageUtil.resizeX(40), 0, 0, new Color(126, 89, 203, 230)));
         chatMessage.setForeground(new Color(106, 2, 1));
+        chatMessage.setFont(new Font("Serif", Font.BOLD, ImageUtil.resizeY(14)));
 
         sendButton = new JButton("Send");
         sendButton.setForeground(new Color(106, 2, 1));
@@ -154,7 +154,6 @@ public class ChatDialog extends JDialog {
                 chatHistory.setCaretPosition(chatHistory.getDocument().getLength());
             }
         };
-        PrintWriter writer = new PrintWriter(outputStream);
 
         PrintStream printStream = new PrintStream(outputStream, true, StandardCharsets.UTF_8);
         System.setOut(printStream);

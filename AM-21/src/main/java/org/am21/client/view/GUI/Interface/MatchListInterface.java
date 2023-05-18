@@ -23,6 +23,7 @@ public class MatchListInterface extends JDialog {
         setSize(ImageUtil.resizeX(250), ImageUtil.resizeY(400));
         matchList = new JList<>(matchModel);
         matchList.setForeground(new Color(106, 2, 1, 255));
+        matchList.setFont(FontUtil.getFontByName("Leira-Lite-2").deriveFont(Font.PLAIN,ImageUtil.resizeY(15)));
 
         scrollPane = new JScrollPane(matchList);
         scrollPane.setBorder(new CompoundBorder(new MatteBorder(0, ImageUtil.resizeY(5), ImageUtil.resizeX(5), ImageUtil.resizeY(5),
@@ -61,8 +62,9 @@ public class MatchListInterface extends JDialog {
         setLocationRelativeTo(null);
         setResizable(false);
         setUndecorated(true);
-        setBackground(new Color(247, 253, 252, 128));
         setVisible(true);
+        setBackground(new Color(178, 173, 204, 230));
+        setOpacity(0.9f);
     }
 
 }

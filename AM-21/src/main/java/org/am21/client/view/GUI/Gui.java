@@ -73,6 +73,8 @@ public class Gui implements View {
 
     public boolean REFRESH = false;
 
+    private int matchIndex;
+    private Thread numThread;
     public Thread guiMinion = new Thread() {
         @Override
         public void run() {
@@ -98,6 +100,7 @@ public class Gui implements View {
 
         }
     };
+
 
 
     public Gui() throws Exception {
@@ -180,13 +183,19 @@ public class Gui implements View {
             onlineListDialog.dispose();
         }
 
+        for (int i = 0; i < ClientView.matchList.length; i++) {
+            if (Integer.parseInt(ClientView.matchList[i][0]) == ClientView.matchID) {
+                matchIndex = i;
+            }
+        }
+        String numMiss = ClientView.matchList[matchIndex][2], numMax  = ClientView.matchList[matchIndex][3];
         if (waitingRoomInterface == null || !waitingRoomInterface.isVisible()) {
-            waitingRoomInterface = new WaitingRoomInterface(frame);
+            waitingRoomInterface = new WaitingRoomInterface(frame, numMiss, numMax);
             new WaitingRoomListener(this);
         }
-        waitingRoomInterface.getContentPane().revalidate();
-        waitingRoomInterface.getContentPane().repaint();
 
+        waitingRoomInterface.repaint();
+        waitingRoomInterface.revalidate();
 
             /*try {
                 while (REFRESH){
@@ -205,8 +214,8 @@ public class Gui implements View {
         if (ClientView.matchList != null) {
             String[] match = new String[ClientView.matchList.length];
             for (int i = 0; i < ClientView.matchList.length; i++) {
-                match[i] = ClientView.matchList[i][0] + "  |  " + ClientView.matchList[i][1]
-                           + " | Players: (" + ClientView.matchList[i][2]  + "/" + ClientView.matchList[i][3] + ")]";
+                match[i] = "ID: " + ClientView.matchList[i][0] + "  |  " + ClientView.matchList[i][1]
+                           + "\t| Players: (" + ClientView.matchList[i][2] + "/" + ClientView.matchList[i][3] + ")";
             }
             for (String m : match) {
                 matchModel.addElement(m);
@@ -451,8 +460,7 @@ public class Gui implements View {
         DefaultListModel<String> userModel = new DefaultListModel<>();
         for (int i = 0; i < ClientView.onlinePlayers.length; i++) {
             if (ClientView.onlinePlayers[i][0] != null) {
-                String listItem = ClientView.onlinePlayers[i][0] + "\t|\t" + ClientView.onlinePlayers[i][1];
-                userModel.addElement("<html><pre>" + listItem + "</pre></html>");
+                userModel.addElement(ClientView.onlinePlayers[i][0] + "  |  " + ClientView.onlinePlayers[i][1]);
             }
         }
 

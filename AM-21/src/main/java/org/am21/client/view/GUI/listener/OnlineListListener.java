@@ -80,11 +80,7 @@ public class OnlineListListener implements MouseListener, MouseMotionListener, A
 //            //gui.chatDialog.setVisible(false);
 //            gui.chatDialog.dispose();
 //        }
-
-        String playerName = gui.onlineListDialog.onlineList.getSelectedValue().split("\\s*\\|\\s*")[0];
-        String startTag = "<pre>";
-        int startIndex = playerName.indexOf(startTag) + startTag.length();
-        String user = playerName.substring(startIndex).trim();
+        String user = gui.onlineListDialog.onlineList.getSelectedValue().split("\\s*\\|\\s*")[0];
         if (!Gui.chatPlayer.containsKey(user)) {
             Gui.newPrivateChat = true;
             Gui.chatPlayer.put(user, new JButton(user));
@@ -98,8 +94,10 @@ public class OnlineListListener implements MouseListener, MouseMotionListener, A
             gui.chatDialog.privateChat.keySet().forEach(player -> {
                 if (player.equals(Gui.chatUser)) {
                     gui.chatDialog.privateChat.get(player).setBackground(new Color(83, 46, 91, 230));
+                    gui.chatDialog.privateChat.get(player).setForeground(Color.WHITE);
                 } else {
                     gui.chatDialog.privateChat.get(player).setBackground(new Color(178, 173, 204, 230));
+                    gui.chatDialog.privateChat.get(player).setForeground(new Color(106, 2, 1));
                 }
             });
             FontMetrics fm = gui.chatDialog.chatMessage.getFontMetrics(gui.chatDialog.chatMessage.getFont());

@@ -74,10 +74,10 @@ public class MatchListListener implements MouseListener, MouseMotionListener, Ac
     @Override
     public void valueChanged(ListSelectionEvent e) {
         String match = gui.matchListInterface.matchList.getSelectedValue();
-        String id_string=match.substring(0,match.indexOf(" "));
+        String id_string = match.substring(4, match.indexOf(" | ") - 1);
         int id = Integer.parseInt(id_string);
 
-        if(gui.commCtrl.joinGame(id)){
+        if (gui.commCtrl.joinGame(id)) {
             gui.replyDEBUG("HAHA");
             gui.menuActionInterface.dispose();
             gui.matchListInterface.dispose();
