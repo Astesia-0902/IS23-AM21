@@ -10,7 +10,6 @@ public class LivingRoomInterface extends JDialog{
     public JLayeredPane livingRoomPane;
     public LivingRoomPanel livingRoomPanel;
     public ShelfPanel myShelfPanel;
-    public MyHandBoardPanel myHandBoardPanel;
     public LivingRoomInterface(JFrame frame){
 
         super(frame);
@@ -20,7 +19,6 @@ public class LivingRoomInterface extends JDialog{
             livingRoomPane = new JLayeredPane();
             livingRoomPane.setBounds(0,0, PixelUtil.pcWidth,PixelUtil.pcHeight);
 
-            myHandBoardPanel = new MyHandBoardPanel();
             livingRoomPanel = new LivingRoomPanel();
             myShelfPanel = new ShelfPanel(PixelUtil.myGridX,PixelUtil.myGridY,PixelUtil.myCellW,PixelUtil.myCellH,PixelUtil.myItemW,PixelUtil.myItemH);
 

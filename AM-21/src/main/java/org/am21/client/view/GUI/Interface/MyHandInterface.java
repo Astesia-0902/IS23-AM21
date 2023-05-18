@@ -8,9 +8,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class MyHandInterface extends JFrame {
-    public int myHandNum;
+    public int handMax = 3;
     public MyHandBoardPanel myHandBoardPanel;
     public JLayeredPane myHandInterfacePane;
     public JLabel myHandInterfaceBack;
@@ -24,7 +25,7 @@ public class MyHandInterface extends JFrame {
     public ButtonGroup optionGroup;
     public JButton confirm;
 
-    public MyHandInterface() {
+    public MyHandInterface(List<String> myItem) {
         setSize(PixelUtil.myHandBackGroundW,PixelUtil.myHandBackGroundH);
         setLocation(PixelUtil.myHandBackGroundX, PixelUtil.myHandBackGroundY);
         //setBounds(PixelUtil.myHandBackGroundX, PixelUtil.myHandBackGroundY, PixelUtil.myHandBackGroundW,PixelUtil.myHandBackGroundH);
@@ -51,23 +52,17 @@ public class MyHandInterface extends JFrame {
         myHandInterfacePane.add(myHandLabel,JLayeredPane.PALETTE_LAYER);
 
 
-      /*  for(int i = 0; i< myHandNum; i++)
-        {
+        for(int i = 0; i< handMax ; i++) {
             handGrid[i] = new JLayeredPane();
-            handGrid[i].setBounds(0,i*((PixelUtil.myHandHandH)/3),PixelUtil.myHandHandW,(PixelUtil.myHandHandH)/3);
+            handGrid[i].setBounds(0, i * ((PixelUtil.myHandHandH) / 3), PixelUtil.myHandHandW, (PixelUtil.myHandHandH) / 3);
             handGrid[i].setLayout(null);
 
             add(handGrid[i]);
+        }
 
-            myHandItem[i] = new JLabel();
-            myHandItem[i].setIcon(myHandBoardPanel.myHandItem[i].getIcon());
-            myHandItem[i].setLocation(PixelUtil.myHandItemX,PixelUtil.myHandItemY);
-            myHandItem[i].setSize(PixelUtil.gameBoardItemW,PixelUtil.gameBoardItemH);
+        refreshItem(myItem);
 
-            handGrid[i].add(myHandItem[i],JLayeredPane.PALETTE_LAYER);
 
-            //  putItem (i);
-        }*/
 
         myShelfBoardLabel = new JLabel();
         myShelfBoardLabel.setBounds(PixelUtil.myHandShelfX,PixelUtil.myHandHandY,PixelUtil.myShelfBoardW,PixelUtil.myShelfBoardH);
@@ -116,6 +111,29 @@ public class MyHandInterface extends JFrame {
         });
         myHandInterfacePane.add(confirm,JLayeredPane.PALETTE_LAYER);
 
+    }
+
+    public void refreshItem(List<String> myItem){
+        for(int i=0; i<handMax;i++)
+        {
+            myHandItem[i] = new JLabel();
+            if(i<myItem.size())
+            {
+                myHandItem[i].setIcon(ImageUtil.getItemImage(myItem.get(i),PixelUtil.gameBoardItemW,PixelUtil.gameBoardItemH));
+                myHandItem[i].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
+
+
+            }
+            else
+                myHandItem[i].setIcon(null);
+
+
+            myHandItem[i].setLocation(PixelUtil.myHandItemX,PixelUtil.myHandItemY);
+            myHandItem[i].setSize(PixelUtil.gameBoardItemW,PixelUtil.gameBoardItemH);
+            handGrid[i].add(myHandItem[i],JLayeredPane.PALETTE_LAYER);
+
+
+        }
     }
 
 

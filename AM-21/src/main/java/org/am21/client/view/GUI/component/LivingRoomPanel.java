@@ -166,8 +166,6 @@ public class LivingRoomPanel extends JPanel {
         clearButton.setOpaque(true);
         clearButton.setBackground(new Color(172, 19, 5, 230));
         clearButton.setForeground(new Color(172, 19, 5, 230));
-
-
         panelBoard.add(clearButton,JLayeredPane.PALETTE_LAYER);
 
 

@@ -64,7 +64,7 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
 
     }
 
-    public void putItem(int row, int column,String itemName,MyHandBoardPanel myHandBoard){
+    public void putItem(int row, int column,String itemName){
 
         cells[row][column] = new JLabel(itemName);
         cells[row][column].setBounds(0,0,PixelUtil.gameBoardItemW,PixelUtil.gameBoardItemH);
@@ -81,15 +81,14 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
 
                     //do select
                     if(edgeColor.equals(new Color(0, 0, 0, 255))){
-                        if(myHandBoard.canPick()) //check select
-                        {
+
                             cells[row][column].setBorder(BorderFactory.createLineBorder(new Color(4, 134, 10, 230), 4));
-                            myHandBoard.putItem(cells[row][column]);
-                        }
+                           // myHandBoard.putItem(cells[row][column]);
+
                     } else{
                         //do deselect
                         cells[row][column].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
-                        myHandBoard.removeItem();
+                       // myHandBoard.removeItem();
                     }
 
 
@@ -148,6 +147,21 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
         gameBoardPane.remove(scoreTokenEndGame);
     }
 
+    public void clearAll(){
+        for(int i=0; i<GridRowsMax;i++)
+        {
+            for(int j=0;j<GridColumnsMax;j++)
+            {
+                if(cells[i][j]!=null)
+                {
+                    cells[i][j].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
+
+                }
+            }
+
+        }
+
+    }
     public void actionPerformed(ActionEvent e) {
 
     }

@@ -1,12 +1,13 @@
 package org.am21.client.view.GUI.component;
 
+import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
 
 import javax.swing.*;
+import java.util.List;
 
 public class MyHandBoardPanel extends JPanel{
     public final int handMax = 3;
-    public int myHandNum=0;
     public JLayeredPane[] handGrid = new JLayeredPane[handMax];
     public JLabel[] myHandItem = new JLabel[handMax];
 
@@ -25,29 +26,36 @@ public class MyHandBoardPanel extends JPanel{
         }
 
     }
-    public int getMyHandNum(){
-        return this.myHandNum;
-    }
 
-    public boolean canPick(){
-        return myHandNum < handMax;
-    }
-    public void putItem(JLabel cellsItem){
+    /**
+     * refreshing the board view
+     * @param myItem list of item
+     */
+    public void refreshItem(List<String> myItem){
 
-            myHandItem[myHandNum] = new JLabel();
+        for(int i=0; i<handMax;i++)
+        {
+            myHandItem[i] = new JLabel();
+            if(i<myItem.size())
+                myHandItem[i].setIcon(ImageUtil.getItemImage(myItem.get(i),PixelUtil.gameBoardItemW,PixelUtil.gameBoardItemH));
+            else
+                myHandItem[i].setIcon(null);
+
+            myHandItem[i].setLocation(PixelUtil.myHandPanelX, PixelUtil.myHandPanelY);
+            myHandItem[i].setSize(PixelUtil.gameBoardItemW,PixelUtil.gameBoardItemH);
+
+            handGrid[i].add(myHandItem[i],JLayeredPane.PALETTE_LAYER);
+        }
+
+           /* myHandItem[myHandNum] = new JLabel();
             myHandItem[myHandNum].setIcon(cellsItem.getIcon());
             myHandItem[myHandNum].setLocation(PixelUtil.myHandPanelX, PixelUtil.myHandPanelY);
             myHandItem[myHandNum].setSize(PixelUtil.gameBoardItemW,PixelUtil.gameBoardItemH);
 
             handGrid[myHandNum].add(myHandItem[myHandNum],JLayeredPane.PALETTE_LAYER);
 
-            myHandNum++;
+            myHandNum++;*/
 
-    }
-
-    public void removeItem(){
-        myHandNum--;
-        myHandItem[myHandNum].setIcon(null);
     }
 
 }

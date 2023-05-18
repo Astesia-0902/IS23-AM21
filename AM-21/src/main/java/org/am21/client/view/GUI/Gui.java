@@ -9,6 +9,7 @@ import org.am21.client.view.GUI.listener.*;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PathUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
+import org.am21.client.view.TUI.Cli;
 import org.am21.client.view.View;
 import org.am21.networkRMI.ClientCallBack;
 import org.am21.networkRMI.IClientInput;
@@ -271,25 +272,24 @@ public class Gui implements View {
 
     @Override
     public void showBoard() throws RemoteException {
-        //set my Hand
-        myHandBoardPanel = new MyHandBoardPanel();
-        livingRoomInterface.livingRoomPane.add(myHandBoardPanel, JLayeredPane.PALETTE_LAYER);
+
 
         //set game Board
         //TODO: for (int i = 0; i < Storage.BOARD_ROW; i++){
         //TODO:    for (int j = 0; j < Storage.BOARD_COLUMN; j++){
         //TODO:        if(ClientView.virtualBoard[i][j]!=null&&!gameBoardPanel.containItem(i,j))
         //TODO:        {
-        //TODO:            gameBoardPanel.putItem(i, j,ClientView.virtualBoard[i][j],myHandBoardPanel);
+        //TODO:            gameBoardPanel.putItem(i, j,ClientView.virtualBoard[i][j]);
         //TODO:        }
         //TODO:    }
         //TODO: }
 
-        gameBoardPanel.putItem(3, 3, "_Games__1.1", myHandBoardPanel);
-        gameBoardPanel.putItem(4, 5, "_Frames_1.3", myHandBoardPanel);
-        gameBoardPanel.putItem(4, 3, "__Cats__1.3", myHandBoardPanel);
-        gameBoardPanel.putItem(4, 4, "__Cats__1.2", myHandBoardPanel);
-        gameBoardPanel.putItem(3, 4, "_Frames_1.1", myHandBoardPanel);
+        gameBoardPanel.putItem(3,3,"_Games__1.1");
+        gameBoardPanel.putItem(4,5,"_Frames_1.3");
+        gameBoardPanel.putItem(4,3,"__Cats__1.3");
+        gameBoardPanel.putItem(4,4,"__Cats__1.2");
+        gameBoardPanel.putItem(3,4,"_Frames_1.1");
+
 
 
     }
@@ -306,20 +306,17 @@ public class Gui implements View {
 
     @Override
     public void askSelection() throws ServerNotActiveException, RemoteException {
-
+        myHandBoardPanel.refreshItem(ClientView.currentPlayerHand);
     }
 
     @Override
     public void askDeselection() throws ServerNotActiveException, RemoteException {
-        livingRoomInterface.livingRoomPanel.clearButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                while (myHandBoardPanel.myHandNum > 0) {
-                    myHandBoardPanel.removeItem();
 
-                }
-                JOptionPane.showMessageDialog(null, "clear successful");
-            }
+        livingRoomInterface.livingRoomPanel.clearButton.addActionListener(e -> {
+                myHandBoardPanel.refreshItem(ClientView.currentPlayerHand);
+                gameBoardPanel.clearAll();
+            JOptionPane.showMessageDialog(null, "clear successful");
+
         });
     }
 
@@ -328,8 +325,8 @@ public class Gui implements View {
         livingRoomInterface.livingRoomPanel.insertButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                MyHandInterface myHandInterface = new MyHandInterface();
+                //open the myHandInterface
+                MyHandInterface myHandInterface = new MyHandInterface(ClientView.currentPlayerHand);
                 myHandInterface.setVisible(true);
 
 
@@ -412,6 +409,10 @@ public class Gui implements View {
 
         //set EndGameToken
         gameBoardPanel.setScoreTokenEndGame();
+
+        //set my Hand
+        myHandBoardPanel = new MyHandBoardPanel();
+        livingRoomInterface.livingRoomPane.add(myHandBoardPanel,JLayeredPane.PALETTE_LAYER);
 
         //setButton Function
         try {
