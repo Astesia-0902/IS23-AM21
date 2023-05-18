@@ -23,6 +23,7 @@ public class OnlineListDialog extends JDialog {
         super(frame);
         setSize(ImageUtil.resizeX(200), ImageUtil.resizeY(200));
         onlineList = new JList<>(userModel);
+        onlineList.setForeground(new Color(106, 2, 1, 255));
 
         scrollPane = new JScrollPane(onlineList);
         scrollPane.setBorder(new CompoundBorder(new MatteBorder(0, ImageUtil.resizeY(5), ImageUtil.resizeX(5), ImageUtil.resizeY(5),

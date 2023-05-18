@@ -15,6 +15,7 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
@@ -146,7 +147,6 @@ public class ChatDialog extends JDialog {
         add(topPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
         add(chatPanel, BorderLayout.SOUTH);
-
         OutputStream outputStream = new OutputStream() {
             @Override
             public void write(int b) {
@@ -154,6 +154,7 @@ public class ChatDialog extends JDialog {
                 chatHistory.setCaretPosition(chatHistory.getDocument().getLength());
             }
         };
+        PrintWriter writer = new PrintWriter(outputStream);
 
         PrintStream printStream = new PrintStream(outputStream, true, StandardCharsets.UTF_8);
         System.setOut(printStream);

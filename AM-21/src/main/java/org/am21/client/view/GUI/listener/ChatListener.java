@@ -44,6 +44,7 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
         if (e.getSource() == gui.chatDialog.sendButton) {
             String message = gui.chatDialog.chatMessage.getText();
             gui.handleChatMessage(message,true);
+            gui.commCtrl.sendPrivateMessage(message, Gui.chatUser, true);
             gui.chatDialog.chatMessage.setText("");     //Clear input box
         }
         gui.chatDialog.privateChat.keySet().forEach(user -> {

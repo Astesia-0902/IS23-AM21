@@ -72,11 +72,11 @@ public class Gui implements View {
 
     public boolean REFRESH = false;
 
-    public Thread guiMinion = new Thread(){
+    public Thread guiMinion = new Thread() {
         @Override
         public void run() {
             //super.run();
-            while(!GAME_ON){
+            while (!GAME_ON) {
                 try {
                     //checkGUISTATE();
                     askWaitingAction();
@@ -85,8 +85,9 @@ public class Gui implements View {
                 }
             }
 
-            if (waitingRoomInterface!=null) {
+            if (waitingRoomInterface != null) {
                 waitingRoomInterface.dispose();
+
             }
             try {
                 showMatchSetup();
@@ -98,10 +99,9 @@ public class Gui implements View {
     };
 
 
-
     public Gui() throws Exception {
         this.clientCallBack = new ClientCallBack();
-        this.clientCallBack.gui= this;
+        this.clientCallBack.gui = this;
         frame.setIconImage(ImageIO.read(new File(PathUtil.getPath("Publisher material/Icon 50x50px.png"))));
         frame.setUndecorated(true);
         frame.setResizable(false);
@@ -174,10 +174,10 @@ public class Gui implements View {
 
     public void askWaitingAction() throws RemoteException {
         //synchronized (guiMinion) {
-            if (chatDialog != null) {
-                chatDialog.dispose();
-                onlineListDialog.dispose();
-            }
+        if (chatDialog != null) {
+            chatDialog.dispose();
+            onlineListDialog.dispose();
+        }
 
         if (waitingRoomInterface == null || !waitingRoomInterface.isVisible()) {
             waitingRoomInterface = new WaitingRoomInterface(frame);
@@ -204,18 +204,14 @@ public class Gui implements View {
         if (ClientView.matchList != null) {
             String[] match = new String[ClientView.matchList.length];
             for (int i = 0; i < ClientView.matchList.length; i++) {
-                match[i] = ClientView.matchList[i][0] + "  |  "+ ClientView.matchList[i][1]
-                        + "  |  "+ ClientView.matchList[i][2] + "  |  "+ ClientView.matchList[i][3];
+                match[i] = ClientView.matchList[i][0] + "  |  " + ClientView.matchList[i][1]
+                           + " | Players: (" + ClientView.matchList[i][2]  + "/" + ClientView.matchList[i][3] + ")]";
             }
             for (String m : match) {
                 matchModel.addElement(m);
             }
         }
 
-        // For test:
-        matchModel.addElement("0  |  Match1  |  WaitingPlayers  |  Players: (1/2)");
-        matchModel.addElement("1  |  Match2  |  GameGoing       |  Players: (2/2)");
-        matchModel.addElement("2  |  Match3  |  Closed          |  Players: (0/2)");
         matchListInterface = new MatchListInterface(frame, matchModel);
         new MatchListListener(this);
 
@@ -277,7 +273,7 @@ public class Gui implements View {
     public void showBoard() throws RemoteException {
         //set my Hand
         myHandBoardPanel = new MyHandBoardPanel();
-        livingRoomInterface.livingRoomPane.add(myHandBoardPanel,JLayeredPane.PALETTE_LAYER);
+        livingRoomInterface.livingRoomPane.add(myHandBoardPanel, JLayeredPane.PALETTE_LAYER);
 
         //set game Board
         //TODO: for (int i = 0; i < Storage.BOARD_ROW; i++){
@@ -289,11 +285,11 @@ public class Gui implements View {
         //TODO:    }
         //TODO: }
 
-        gameBoardPanel.putItem(3,3,"_Games__1.1",myHandBoardPanel);
-        gameBoardPanel.putItem(4,5,"_Frames_1.3",myHandBoardPanel);
-        gameBoardPanel.putItem(4,3,"__Cats__1.3",myHandBoardPanel);
-        gameBoardPanel.putItem(4,4,"__Cats__1.2",myHandBoardPanel);
-        gameBoardPanel.putItem(3,4,"_Frames_1.1",myHandBoardPanel);
+        gameBoardPanel.putItem(3, 3, "_Games__1.1", myHandBoardPanel);
+        gameBoardPanel.putItem(4, 5, "_Frames_1.3", myHandBoardPanel);
+        gameBoardPanel.putItem(4, 3, "__Cats__1.3", myHandBoardPanel);
+        gameBoardPanel.putItem(4, 4, "__Cats__1.2", myHandBoardPanel);
+        gameBoardPanel.putItem(3, 4, "_Frames_1.1", myHandBoardPanel);
 
 
     }
@@ -318,7 +314,7 @@ public class Gui implements View {
         livingRoomInterface.livingRoomPanel.clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                while(myHandBoardPanel.myHandNum>0){
+                while (myHandBoardPanel.myHandNum > 0) {
                     myHandBoardPanel.removeItem();
 
                 }
@@ -452,19 +448,13 @@ public class Gui implements View {
     @Override
     public void showOnlinePlayer() throws RemoteException {
         DefaultListModel<String> userModel = new DefaultListModel<>();
-        if (ClientView.onlinePlayers != null) {
-            for (int i = 0; i < ClientView.onlinePlayers.length; i++) {
-                if (ClientView.onlinePlayers[i][0]!=null) {
-                    userModel.addElement(ClientView.onlinePlayers[i][0] + "  |  " + ClientView.onlinePlayers[i][1]);
-                }
+        for (int i = 0; i < ClientView.onlinePlayers.length; i++) {
+            if (ClientView.onlinePlayers[i][0] != null) {
+                String listItem = ClientView.onlinePlayers[i][0] + "\t|\t" + ClientView.onlinePlayers[i][1];
+                userModel.addElement("<html><pre>" + listItem + "</pre></html>");
             }
         }
 
-
-        // For test:
-        userModel.addElement("Player1  |  GameMember");
-        userModel.addElement("Player2  |  Online");
-        userModel.addElement("Player3  |  GameMember");
         onlineListDialog = new OnlineListDialog(frame, userModel);
         new OnlineListListener(this);
 
@@ -472,7 +462,7 @@ public class Gui implements View {
         //OnlineList onlineList = new OnlineList(frame);
     }
 
-    public void replyDEBUG(String message){
+    public void replyDEBUG(String message) {
         System.out.println(message);
     }
 
@@ -485,8 +475,6 @@ public class Gui implements View {
     public void showGameRules() {
         ruleDialog.setVisible(true);
     }
-
-
 
     /*public static void main(String[] args) {
         try {

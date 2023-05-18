@@ -20,8 +20,9 @@ public class MatchListInterface extends JDialog {
     public JScrollPane scrollPane;
     public MatchListInterface(JFrame frame, DefaultListModel<String> matchModel) {
         super(frame);
-        setSize(ImageUtil.resizeX(500), ImageUtil.resizeY(400));
+        setSize(ImageUtil.resizeX(250), ImageUtil.resizeY(400));
         matchList = new JList<>(matchModel);
+        matchList.setForeground(new Color(106, 2, 1, 255));
 
         scrollPane = new JScrollPane(matchList);
         scrollPane.setBorder(new CompoundBorder(new MatteBorder(0, ImageUtil.resizeY(5), ImageUtil.resizeX(5), ImageUtil.resizeY(5),
