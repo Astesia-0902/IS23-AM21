@@ -210,7 +210,7 @@ public class Match {
                 firstToComplete.setPlayerScore(firstToComplete.getPlayerScore() + 1);
                 gameState = GameState.LastRound;
                 VirtualViewHelper.virtualizeEndGame(this);
-                sendTextToAll(LastRound.toString(), true,true);
+                sendTextToAll(LastRound.value(), true,true);
             }
             this.nextTurn();
             endTurnUpdate();
@@ -363,14 +363,14 @@ public class Match {
         for (Player player : playerList) {
             GameManager.playerMatchMap.put(player.getNickname(), matchID);
         }
-        sendTextToAll(BB.toString(),true ,false);
+        sendTextToAll(BB.value(),true ,false);
 
         //Initialization of the board
         board = new Board(this);
         if (board.firstSetup()) {
-            sendTextToAll(BB_Ok.toString(),true,false);
+            sendTextToAll(BB_Ok.value(),true,false);
         } else {
-            sendTextToAll(BB_No.toString(), true,false);
+            sendTextToAll(BB_No.value(), true,false);
         }
         setGameState(GameState.Ready);
     }

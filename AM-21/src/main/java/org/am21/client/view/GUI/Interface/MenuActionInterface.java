@@ -32,6 +32,7 @@ public class MenuActionInterface extends JDialog {
 
     public Timer timer;
 
+
     public MenuActionInterface(JFrame frame) {
         super(frame);
         frame.setTitle("MyShelfie - Menu Action");

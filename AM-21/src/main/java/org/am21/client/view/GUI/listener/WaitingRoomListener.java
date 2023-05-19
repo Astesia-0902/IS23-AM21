@@ -35,8 +35,19 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == gui.waitingRoomInterface.leaveButton) {
-            //TODO: askLeaveMatch;
-            gui.frame.dispose();
+            try {
+                System.out.println("Try to leave");
+                if(gui.askLeaveMatch()) {
+                    //TEMP
+                    System.out.println("Leave Waiting Room");
+                    gui.GO_TO_MENU = true;
+                    gui.GAME_ON = false;
+                    gui.NEED_NEW_FRAME = true;
+                    gui.waitingRoomInterface.dispose();
+                }
+            } catch (RemoteException ex) {
+                throw new RuntimeException(ex);
+            }
         }
         if (e.getSource() == gui.waitingRoomInterface.ruleButton) {
             gui.showGameRules();

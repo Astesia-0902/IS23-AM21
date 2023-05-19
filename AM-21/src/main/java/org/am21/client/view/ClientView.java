@@ -45,7 +45,7 @@ public class ClientView {
     public static void setFullViewVariables(String json, int playerIndex) {
         JSONObject jsonObject = JSONObject.parseObject(json);
         virtualBoard = jsonObject.getObject("board", String[][].class);
-        playersList = jsonObject.getJSONArray("playersList").toJavaList(String.class);
+        playersList = jsonObject.getJSONArray("players").toJavaList(String.class);
         currentPlayer = jsonObject.getString("currentPlayer");
         scores = jsonObject.getJSONArray("scores").toJavaList(Integer.class);
         hiddenPoints = jsonObject.getJSONArray("hiddenPoints").toJavaList(Integer.class);

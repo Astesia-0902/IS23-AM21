@@ -10,39 +10,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="61ec0ccc-6fec-4805-91df-bde52ce4f01d" name="Changes" comment="update Gui">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_05_2023_18_10_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_05_2023_18_10__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_05_2023_19_22_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_05_2023_19_22__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_05_2023_23_18_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_05_2023_23_18__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_05_2023_00_27_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_05_2023_00_27__Changes_.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/VisualChat.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/ClientApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/ClientApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/ClientCommunicationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/ClientCommunicationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/SocketClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/SocketClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/ClientView.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/ClientView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Gui.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Gui.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/Cli.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/Cli.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/InputReadTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/InputReadTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/Storage.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/Storage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/CommunicationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/CommunicationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/PlayerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/PlayerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/ServerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/ServerMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/ServerPrototype.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/GameManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/MenuActionInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/MenuActionInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/WaitingRoomInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/WaitingRoomInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/LoginListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/LoginListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/MatchListListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/MatchListListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/MenuActionListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/MenuActionListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/WaitingRoomListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/WaitingRoomListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Hand.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/items/Hand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientCallBack.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientCallBack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientInputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientInputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/IClientInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/IClientInput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/Lobby.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/Lobby.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/Welcome.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/Welcome.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkSocket/ClientHandlerSocket.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkSocket/ClientHandlerSocket.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/META-INF/MANIFEST.MF" afterDir="false" />
     </list>
     <list id="81380e90-14df-419e-b05c-1b5a709a1e1d" name="Changes by ximeng" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -141,7 +120,7 @@
       <recent name="org.am21.utilities" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.GUITest">
+  <component name="RunManager" selected="Application.GUITest2">
     <configuration name="CLITest1" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.am21.client.ClientApp" />
       <module name="IS23-AM21" />
@@ -672,7 +651,7 @@
       <workItem from="1684334292688" duration="13777000" />
       <workItem from="1684407173823" duration="97000" />
       <workItem from="1684413332718" duration="7330000" />
-      <workItem from="1684477986065" duration="12491000" />
+      <workItem from="1684477986065" duration="23564000" />
     </task>
     <task id="LOCAL-00001" summary="update scoringToken test">
       <created>1680516093577</created>

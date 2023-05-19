@@ -30,6 +30,8 @@ public class WaitingRoomInterface extends JDialog {
     public String minNum;
     public String maxNum;
 
+    public JLabel numPlayer;
+
     public WaitingRoomInterface(JFrame frame, String numMiss, String numMax) {
         super(frame);
         frame.setTitle("MyShelfie - Waiting Room");
@@ -52,7 +54,7 @@ public class WaitingRoomInterface extends JDialog {
 
         minNum = numMiss;
         maxNum = numMax;
-        JLabel numPlayer = new JLabel("(" + minNum + "/" + maxNum + ")");
+        numPlayer = new JLabel("(" + minNum + "/" + maxNum + ")");
         numPlayer.setBorder(null);
         numPlayer.setBounds(ImageUtil.resizeX(420), ImageUtil.resizeY(95),
                 ImageUtil.resizeX(356), ImageUtil.resizeY(108));
@@ -116,4 +118,14 @@ public class WaitingRoomInterface extends JDialog {
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
+    /**
+     * This method allow to reload numPlayers data
+     * @param minNum players in room
+     * @param maxNum max number of players for the room
+     */
+    public void reloadPlayerNumber(String minNum,String maxNum){
+        this.numPlayer.setText("(" + minNum + "/" + maxNum + ")");
+    }
+
 }

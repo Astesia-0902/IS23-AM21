@@ -62,7 +62,7 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
 
             try {
                 gui.menuActionInterface.setVisible(false);
-                gui.askLeaveMatch();
+                gui.askExitGame();
             } catch (RemoteException ex) {
                 throw new RuntimeException(ex);
             }
@@ -82,6 +82,8 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
             if (!Gui.chatPlayer.isEmpty()) {
                 gui.askChat();
             }
+
+
         }
 
         if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_2 ||
@@ -103,10 +105,10 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
 
                 gui.menuActionInterface.timer = new Timer(500, e1 -> {
                     gui.menuActionInterface.dispose();
+                    System.out.println("MenuActionInterface Disposed");
                     gui.menuActionInterface.maxSeatsDialog.setVisible(false);
                     gui.menuActionInterface.timer.stop();
                     //gui.askWaitingAction();
-                    gui.guiMinion.start();
                 });
                 gui.menuActionInterface.timer.start();
             }

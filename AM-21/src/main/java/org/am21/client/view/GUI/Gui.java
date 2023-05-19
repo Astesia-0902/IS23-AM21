@@ -26,6 +26,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
 import java.util.HashMap;
+import java.util.concurrent.FutureTask;
 
 public class Gui implements View {
     public JFrame frame = new JFrame("MyShelfie");
@@ -60,46 +61,67 @@ public class Gui implements View {
     public static HashMap<String, JTextArea> chatHistory = new HashMap<>();
     public static boolean newPrivateChat = false;
     private SocketClient socket;
-    private boolean GO_TO_MENU = true;
+    public boolean GO_TO_MENU = true;
     //If true askPlayerMove, if false askWaitingAction
     public boolean GAME_ON = false;
-    private boolean START = false;
-    private boolean SEL_MODE = true;
-    private boolean NOT_SEL_YET = true;
+    public boolean START = false;
     //If true GoToEndRoom
-    private boolean END = false;
+    public boolean END = false;
     public boolean WAIT_SOCKET = false;
 
     public boolean REFRESH = false;
+    public boolean WAIT_ROOM_REFRESH = false;
 
+    public boolean NEED_NEW_FRAME = false;
     private int matchIndex;
     private Thread numThread;
     public Thread guiMinion = new Thread() {
         @Override
         public void run() {
-            //super.run();
-            while (!GAME_ON) {
-                try {
-                    //checkGUISTATE();
-                    askWaitingAction();
-                } catch (RemoteException e) {
-                    throw new RuntimeException(e);
+            super.run();
+            while(true) {
+                while (!GAME_ON && GO_TO_MENU) {
+                    try {
+                        askMenuAction();
+                        Thread.sleep(200);
+                    } catch (RemoteException | InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
-            }
 
-            if (waitingRoomInterface != null) {
-                waitingRoomInterface.dispose();
+                while (!GAME_ON && !GO_TO_MENU) {
+                    try {
+                        askWaitingAction();
+                        Thread.sleep(200);
+                    } catch (RemoteException | InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
 
-            }
-            try {
-                showMatchSetup();
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
+                }
+
+                if (waitingRoomInterface != null) {
+                    System.out.println("WaitingRoomInterface Disposed");
+                    waitingRoomInterface.dispose();
+                    waitingRoomInterface=null;
+                }
+                while (GAME_ON && !GO_TO_MENU) {
+                    try {
+                        if(START) {
+                            showMatchSetup();
+                            START=false;
+                        }
+                        Thread.sleep(200);
+                    } catch (RemoteException | InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                if (livingRoomInterface != null) {
+                    livingRoomInterface.dispose();
+                }
             }
 
         }
     };
-
 
 
     public Gui() throws Exception {
@@ -125,7 +147,7 @@ public class Gui implements View {
     public void askServerInfoRMI() throws MalformedURLException, NotBoundException, RemoteException {
         Lobby lobby = (Lobby) Naming.lookup("rmi://localhost:1234/Welcome");
         try {
-            HashMap<String,String> serverInfo = lobby.connect();
+            HashMap<String, String> serverInfo = lobby.connect();
             root = serverInfo.get("root");
         } catch (AlreadyBoundException e) {
             throw new RuntimeException(e);
@@ -155,8 +177,16 @@ public class Gui implements View {
 
     @Override
     public void askMenuAction() throws RemoteException {
-        menuActionInterface = new MenuActionInterface(frame);
-        new MenuActionListener(this);
+        if (menuActionInterface == null) {
+            menuActionInterface = new MenuActionInterface(frame);
+            new MenuActionListener(this);
+            System.out.println("MenuActionInterface done");
+        }else if(menuActionInterface!=null && NEED_NEW_FRAME){
+            System.out.println("New MenuAction Interface");
+            menuActionInterface= new MenuActionInterface(frame);
+            new MenuActionListener(this);
+            NEED_NEW_FRAME=false;
+        }
 
     }
 
@@ -179,8 +209,8 @@ public class Gui implements View {
     public void askWaitingAction() throws RemoteException {
         //synchronized (guiMinion) {
         if (chatDialog != null) {
-            chatDialog.dispose();
-            onlineListDialog.dispose();
+            //chatDialog.dispose();
+            //onlineListDialog.dispose();
         }
 
         for (int i = 0; i < ClientView.matchList.length; i++) {
@@ -188,24 +218,19 @@ public class Gui implements View {
                 matchIndex = i;
             }
         }
-        String numMiss = ClientView.matchList[matchIndex][2], numMax  = ClientView.matchList[matchIndex][3];
+        String numMiss = ClientView.matchList[matchIndex][2], numMax = ClientView.matchList[matchIndex][3];
         if (waitingRoomInterface == null || !waitingRoomInterface.isVisible()) {
             waitingRoomInterface = new WaitingRoomInterface(frame, numMiss, numMax);
             new WaitingRoomListener(this);
         }
-
-        waitingRoomInterface.repaint();
-        waitingRoomInterface.revalidate();
-
-            /*try {
-                while (NEED_TO_REFRESH){
-                    guiMinion.wait();
-                }
-                waitingRoomInterface.dispose();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }*/
-        //}
+        if (WAIT_ROOM_REFRESH) {
+            SwingUtilities.invokeLater(() -> {
+                waitingRoomInterface.reloadPlayerNumber(numMiss, numMax);
+                waitingRoomInterface.revalidate();
+                waitingRoomInterface.repaint();
+            });
+            WAIT_ROOM_REFRESH = false;
+        }
     }
 
     @Override
@@ -215,7 +240,7 @@ public class Gui implements View {
             String[] match = new String[ClientView.matchList.length];
             for (int i = 0; i < ClientView.matchList.length; i++) {
                 match[i] = "ID: " + ClientView.matchList[i][0] + "  |  " + ClientView.matchList[i][1]
-                           + "\t| Players: (" + ClientView.matchList[i][2] + "/" + ClientView.matchList[i][3] + ")";
+                        + "\t| Players: (" + ClientView.matchList[i][2] + "/" + ClientView.matchList[i][3] + ")";
             }
             for (String m : match) {
                 matchModel.addElement(m);
@@ -230,7 +255,7 @@ public class Gui implements View {
 
     @Override
     public boolean askLeaveMatch() throws RemoteException {
-        return false;
+        return commCtrl.leaveMatch();
     }
 
     @Override
@@ -293,12 +318,11 @@ public class Gui implements View {
         //TODO:    }
         //TODO: }
 
-        gameBoardPanel.putItem(3,3,"_Games__1.1");
-        gameBoardPanel.putItem(4,5,"_Frames_1.3");
-        gameBoardPanel.putItem(4,3,"__Cats__1.3");
-        gameBoardPanel.putItem(4,4,"__Cats__1.2");
-        gameBoardPanel.putItem(3,4,"_Frames_1.1");
-
+        gameBoardPanel.putItem(3, 3, "_Games__1.1");
+        gameBoardPanel.putItem(4, 5, "_Frames_1.3");
+        gameBoardPanel.putItem(4, 3, "__Cats__1.3");
+        gameBoardPanel.putItem(4, 4, "__Cats__1.2");
+        gameBoardPanel.putItem(3, 4, "_Frames_1.1");
 
 
     }
@@ -322,8 +346,8 @@ public class Gui implements View {
     public void askDeselection() throws ServerNotActiveException, RemoteException {
 
         livingRoomInterface.livingRoomPanel.clearButton.addActionListener(e -> {
-                myHandBoardPanel.refreshItem(ClientView.currentPlayerHand);
-                gameBoardPanel.clearAll();
+            myHandBoardPanel.refreshItem(ClientView.currentPlayerHand);
+            gameBoardPanel.clearAll();
             JOptionPane.showMessageDialog(null, "clear successful");
 
         });
@@ -421,7 +445,7 @@ public class Gui implements View {
 
         //set my Hand
         myHandBoardPanel = new MyHandBoardPanel();
-        livingRoomInterface.livingRoomPane.add(myHandBoardPanel,JLayeredPane.PALETTE_LAYER);
+        livingRoomInterface.livingRoomPane.add(myHandBoardPanel, JLayeredPane.PALETTE_LAYER);
 
         //setButton Function
         try {
@@ -450,6 +474,7 @@ public class Gui implements View {
             newPrivateChat = false;
             new ChatListener(this);
         }
+
         chatDialog.getContentPane().revalidate();
         chatDialog.getContentPane().repaint();
 
@@ -528,21 +553,6 @@ public class Gui implements View {
         this.START = START;
     }
 
-    public boolean isSEL_MODE() {
-        return SEL_MODE;
-    }
-
-    public void setSEL_MODE(boolean SEL_MODE) {
-        this.SEL_MODE = SEL_MODE;
-    }
-
-    public boolean isNOT_SEL_YET() {
-        return NOT_SEL_YET;
-    }
-
-    public void setNOT_SEL_YET(boolean NOT_SEL_YET) {
-        this.NOT_SEL_YET = NOT_SEL_YET;
-    }
 
     public boolean isEND() {
         return END;
@@ -567,32 +577,14 @@ public class Gui implements View {
     public void setREFRESH(boolean REFRESH) {
         this.REFRESH = REFRESH;
     }
-/*
-    private void checkGUISTATE() throws RemoteException {
-        if (MATCH_END) {
-            //TODO:
-            //goToEndRoom();
-        }
-        if (MATCH_START) {
-            waitingRoomInterface.dispose();
-            showMatchSetup();
-            setMatchStart(false);
-        }
-        if (GO_TO_MENU) {
-            askMenuAction();
-        } else if (!GAME_ON) {
-            askWaitingAction();
-        }else{
-            showMatchSetup();
-        }
 
-    }*/
 
-    /*public void wakeMinion(){
-        synchronized (guiMinion) {
-            guiMinion.notifyAll();
-        }
-    }*/
 
+    public void runChatMinion() {
+        FutureTask<String> futureTask = new FutureTask<>(new VisualChat());
+        Thread chatWatcher = new Thread(futureTask);
+        chatWatcher.start();
+
+    }
 
 }

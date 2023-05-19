@@ -78,10 +78,9 @@ public class MatchListListener implements MouseListener, MouseMotionListener, Ac
         int id = Integer.parseInt(id_string);
 
         if (gui.commCtrl.joinGame(id)) {
-            gui.replyDEBUG("HAHA");
             gui.menuActionInterface.dispose();
             gui.matchListInterface.dispose();
-            gui.guiMinion.start();
+            //gui.guiMinion.start();
             //gui.askWaitingAction();
         }
 

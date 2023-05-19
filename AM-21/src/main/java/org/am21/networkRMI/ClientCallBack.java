@@ -85,10 +85,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
             gui.setGAME_ON(true);
             gui.setSTART(true);
             //TODO: wake thread
-            /*synchronized (gui.guiMinion) {
-                gui.setREFRESH(false);
-                gui.wakeMinion();
-            }*/
+
         }
     }
 
@@ -170,11 +167,12 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
             //System.out.println("Update...");
             cli.updateCLI(cli, milliseconds);
         } else if (gui != null) {
-            //TODO: wake thread
-            /*synchronized (gui.guiMinion) {
-                gui.setREFRESH(false);
-                gui.wakeMinion();
-            }*/
+            if(!gui.GAME_ON && !gui.GO_TO_MENU){
+                //Waiting room
+                gui.WAIT_ROOM_REFRESH=true;
+
+
+            }
         }
     }
 }

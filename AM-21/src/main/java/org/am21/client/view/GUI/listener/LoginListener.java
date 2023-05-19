@@ -50,9 +50,10 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
                         gui.loginInterface.dispose();
 
                         //TODO: Thread
-                        //gui.guiMinion.start();
 
-                        gui.askMenuAction();
+                        gui.guiMinion.start();
+
+                        //gui.askMenuAction();
                     }
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
