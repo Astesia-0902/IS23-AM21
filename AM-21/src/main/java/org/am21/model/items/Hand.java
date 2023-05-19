@@ -72,7 +72,7 @@ public class Hand {
         int limit = getSelectedItems().size();
         if(limit<=1){
 
-            GameManager.sendReply(player.getController(),ServerMessage.Sort_No);
+            GameManager.sendReply(player.getController(),ServerMessage.Sort_No.value());
             return false;
         }
         if(i>=0 && i<limit && j>=0 && j<limit && limit>1){
@@ -80,7 +80,7 @@ public class Hand {
             //System.out.println("Hand > Order Changed");
             return true;
         }
-        GameManager.sendReply(player.getController(),ServerMessage.Sort_Index_NO);
+        GameManager.sendReply(player.getController(),ServerMessage.Sort_Index_NO.value());
 
         return false;
     }

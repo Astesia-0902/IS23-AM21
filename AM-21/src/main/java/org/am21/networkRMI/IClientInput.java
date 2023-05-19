@@ -35,9 +35,6 @@ public interface IClientInput extends Remote {
     String getVirtualView() throws RemoteException;
 
     void registerCallBack(IClientCallBack callBack) throws RemoteException;
-    void printOnlinePlayers() throws RemoteException;
-
-    void printMatchList() throws RemoteException;
 
     boolean endTurn() throws RemoteException, ServerNotActiveException;
 

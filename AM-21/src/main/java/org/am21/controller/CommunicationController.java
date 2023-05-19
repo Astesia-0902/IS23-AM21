@@ -64,7 +64,7 @@ public class CommunicationController implements ICommunication {
                 throw new RuntimeException(e);
             }
         } else if(myPlayer.connectionType == ConnectionType.SOCKET){
-            String messageToClient = "START" + "|" + id;
+            String messageToClient = "MATCH_START" + "|" + id;
             myPlayer.clientHandlerSocket.callback(messageToClient);
         }
 

@@ -7,12 +7,7 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 
-/**
- * Server class
- *
- * Requirements:
- * - Uniqueness of the nickname is granted by the server in phase of acceptance of the player
- */
+
 public class ServerMain {
 
     /**

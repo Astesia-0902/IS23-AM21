@@ -1,5 +1,6 @@
 package org.am21.client;
 
+import org.am21.client.view.ClientView;
 import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.TUI.Cli;
 import org.am21.networkRMI.IClientCallBack;
@@ -22,15 +23,24 @@ public class ClientCommunicationController {
         METHOD_RETURN = methodReturn;
     }
 
+    /**
+     * This method set the Attribute WAIT_SOCKET to true
+     */
     public void makeCliWait() {
         if (cli != null) {
-            cli.WAIT_SOCKET = true;
+            ClientView.setWaitSocket(true);
+        }else if (gui!=null) {
+            gui.WAIT_SOCKET=true;
         }
     }
 
+    /**
+     * While the WAIT_SOCKET is true the Client main thread will wait until the socket Receives a Return of the method
+     * @param method the specific method name the socket is waiting
+     */
     public void wait_Socket(String method) {
         if (cli != null) {
-            while (cli.WAIT_SOCKET && !METHOD_KEY.equals(method)) {
+            while (ClientView.WAIT_SOCKET && !METHOD_KEY.equals(method)) {
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException e) {
@@ -40,9 +50,7 @@ public class ClientCommunicationController {
 
             //Reset
             METHOD_KEY = "method";
-        }
-
-        if (gui != null) {
+        }else if (gui != null) {
             while (gui.WAIT_SOCKET && !METHOD_KEY.equals(method)) {
                 try {
                     Thread.sleep(200);
@@ -243,36 +251,6 @@ public class ClientCommunicationController {
             ClientController.iClientInputHandler.registerCallBack(callBack);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    public void printOnlinePlayers() {
-        if (ClientController.isRMI) {
-            try {
-                ClientController.iClientInputHandler.printOnlinePlayers();
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            makeCliWait();
-            String messageToSend = "printOnlinePlayers";
-            SocketClient.messageToServer(messageToSend);
-            wait_Socket("printOnlinePlayers");
-        }
-    }
-
-    public void printMatchList() {
-        if (ClientController.isRMI) {
-            try {
-                ClientController.iClientInputHandler.printMatchList();
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            makeCliWait();
-            String messageToSend = "printMatchList";
-            SocketClient.messageToServer(messageToSend);
-            wait_Socket("printMatchList");
         }
     }
 

@@ -173,18 +173,6 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         System.out.println("Client Callback registered:" + GameManager.client_connected);
     }
 
-
-    @Override
-    public void printOnlinePlayers() throws RemoteException {
-        GameController.printOnlinePlayers(playerController);
-    }
-
-    @Override
-    public void printMatchList() throws RemoteException {
-        GameController.printMatchList(playerController);
-    }
-
-
     @Override
     public boolean changeMatchSeats(int newMaxSeats) throws RemoteException {
         return GameController.changeMatchSeats(newMaxSeats, playerController);

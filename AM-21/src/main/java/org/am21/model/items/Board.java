@@ -92,7 +92,7 @@ public class Board extends Grid {
     public boolean hasFreeSide(int r, int c) {
 
         if (getMatrix()[r][c] == null) {
-            GameManager.sendReply(match.currentPlayer.getController(),ServerMessage.Cell_Illegal);
+            GameManager.sendReply(match.currentPlayer.getController(),ServerMessage.Cell_Illegal.value());
             return false;
         }
 
@@ -109,7 +109,7 @@ public class Board extends Grid {
 
             return true;
         } else {
-            GameManager.sendReply(match.currentPlayer.getController(),ServerMessage.No_Free);
+            GameManager.sendReply(match.currentPlayer.getController(),ServerMessage.No_Free.value());
             return false;
         }
     }

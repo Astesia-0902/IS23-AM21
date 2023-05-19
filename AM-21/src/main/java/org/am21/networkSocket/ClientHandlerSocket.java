@@ -129,16 +129,6 @@ public class ClientHandlerSocket extends Thread {
                 GameController.getVirtualView(myPlayer);
                 CommunicationController.instance.returnBool("getVirtualView",true,myPlayer);
                 break;
-            case "printOnlinePlayers":
-                GameController.printOnlinePlayers(myPlayer);
-                CommunicationController.instance.returnBool("printOnlinePlayers",true,myPlayer);
-                break;
-
-            case "printMatchList":
-                GameController.printMatchList(myPlayer);
-                CommunicationController.instance.returnBool("printMatchList",true,myPlayer);
-
-                break;
 
             case "changeMatchSeats":
                 int newMaxSeats = Integer.parseInt(messageParts[1]);

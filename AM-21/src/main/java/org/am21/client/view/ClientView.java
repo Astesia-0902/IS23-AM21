@@ -8,29 +8,31 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ClientView {
+
+    //---------------------------------------------------------------------
     //Virtual View
-    public static int matchID;
-    public static int maxSeats;
-    public static String admin;
-    public static String[][] virtualBoard;
-    public static List<String> players;
-    public static String currentPlayer;
-    public static List<Integer> scores;
-    public static List<Integer> hiddenPoints;
-    public static List<String> commonGoal;
-    public static List<Integer> commonGoalScore;
-    public static int personalGoal;
-    public static List<String[][]> shelves;
-    public static List<String> currentPlayerHand;
-    public static boolean endGameToken;
-    public static List<String> gameResults;
+    public static int matchID; //Match id
+    public static int maxSeats; //Match max players number
+    public static String admin; //Match admin Nickname
+    public static String[][] virtualBoard; //Match Virtual board
+    public static List<String> playersList; //Match Players List Nickname
+    public static String currentPlayer; //Match currentPlayer
+    public static List<Integer> scores; //Match players scores
+    public static List<Integer> hiddenPoints;   //Match players Personal Goal Points (private)
+    public static List<String> commonGoal; //Match Common Goals List (x2)
+    public static List<Integer> commonGoalScore; //Match Common Goals Top Score Token (x2)
+    public static int personalGoal; //This Client match's personal Goal
+    public static List<String[][]> shelves; //Match List of Shelves
+    public static List<String> currentPlayerHand; //Match Current player hand
+    public static boolean endGameToken; // Match EndgameToken
+    public static List<String> gameResults; //Match Game Results //TODO: fragment
     //------------------------------------------
-    public static List<String> publicChat;
-    public static List<List<String>> privateChats;
-    public static HashMap<String, Integer> chatMap = new HashMap<>();
+    public static List<String> publicChat; //Match group Chat
+    public static List<List<String>> privateChats; // Server Private Chats
+    public static HashMap<String, Integer> chatMap = new HashMap<>(); //Server ChatMap
     //------------------------------------------
-    public static String[][] matchList;
-    public static String[][] onlinePlayers;
+    public static String[][] matchList; //Server Match List
+    public static String[][] onlinePlayers; //Server Online Players List
 
     /**
      * Once the JSON is received, it is parsed and the data is stored in the corresponding variables
@@ -43,14 +45,14 @@ public class ClientView {
     public static void setFullViewVariables(String json, int playerIndex) {
         JSONObject jsonObject = JSONObject.parseObject(json);
         virtualBoard = jsonObject.getObject("board", String[][].class);
-        players = jsonObject.getJSONArray("players").toJavaList(String.class);
+        playersList = jsonObject.getJSONArray("playersList").toJavaList(String.class);
         currentPlayer = jsonObject.getString("currentPlayer");
         scores = jsonObject.getJSONArray("scores").toJavaList(Integer.class);
         hiddenPoints = jsonObject.getJSONArray("hiddenPoints").toJavaList(Integer.class);
         commonGoal = jsonObject.getJSONArray("commonGoals").toJavaList(String.class);
         commonGoalScore = jsonObject.getJSONArray("commonGoalScores").toJavaList(Integer.class);
         List<Integer> pTmp = jsonObject.getJSONArray("personalGoals").toJavaList(Integer.class);
-        if(pTmp.size()>playerIndex) {
+        if (pTmp.size() > playerIndex) {
             personalGoal = jsonObject.getJSONArray("personalGoals").toJavaList(Integer.class).get(playerIndex);
         }
         JSONArray temp = jsonObject.getJSONArray("shelves");
@@ -74,8 +76,8 @@ public class ClientView {
      * @return the index of the player in the list
      */
     public static int getPlayerIndex(String player) {
-        if (players != null) {
-            return players.indexOf(player);
+        if (playersList != null) {
+            return playersList.indexOf(player);
         }
         return 0;
     }
@@ -127,4 +129,45 @@ public class ClientView {
             System.out.println(entry.getKey() + " : " + entry.getValue());
         }*/
     }
+
+
+    //-------------------------------------------
+    public static boolean GO_TO_MENU = true;
+    //If true GameplayRoom, if false WaitingRoom
+    public static boolean GAME_ON = false;
+    public static boolean MATCH_START = false;
+    public static boolean MATCH_END = false;
+
+    public static boolean NEED_TO_REFRESH = false;
+
+    public static boolean WAIT_SOCKET = false;
+
+
+    //-----------------------------------------------
+
+    public static void setGoToMenu(boolean goToMenu) {
+        GO_TO_MENU = goToMenu;
+    }
+
+    public static void setGameOn(boolean gameOn) {
+        GAME_ON = gameOn;
+    }
+
+    public static void setMatchStart(boolean start) {
+        MATCH_START = start;
+    }
+
+    public static void setMatchEnd(boolean end) {
+        MATCH_END = end;
+    }
+
+    public static void setNeedToRefresh(boolean needToRefresh) {
+        NEED_TO_REFRESH = needToRefresh;
+    }
+
+    public static void setWaitSocket(boolean waitSocket) {
+        WAIT_SOCKET = waitSocket;
+    }
+
+
 }

@@ -9,7 +9,6 @@ import org.am21.client.view.GUI.listener.*;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PathUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
-import org.am21.client.view.TUI.Cli;
 import org.am21.client.view.View;
 import org.am21.networkRMI.ClientCallBack;
 import org.am21.networkRMI.IClientInput;
@@ -126,7 +125,8 @@ public class Gui implements View {
     public void askServerInfoRMI() throws MalformedURLException, NotBoundException, RemoteException {
         Lobby lobby = (Lobby) Naming.lookup("rmi://localhost:1234/Welcome");
         try {
-            root = lobby.connect();
+            HashMap<String,String> serverInfo = lobby.connect();
+            root = serverInfo.get("root");
         } catch (AlreadyBoundException e) {
             throw new RuntimeException(e);
         }
@@ -198,7 +198,7 @@ public class Gui implements View {
         waitingRoomInterface.revalidate();
 
             /*try {
-                while (REFRESH){
+                while (NEED_TO_REFRESH){
                     guiMinion.wait();
                 }
                 waitingRoomInterface.dispose();
@@ -569,14 +569,14 @@ public class Gui implements View {
     }
 /*
     private void checkGUISTATE() throws RemoteException {
-        if (END) {
+        if (MATCH_END) {
             //TODO:
             //goToEndRoom();
         }
-        if (START) {
+        if (MATCH_START) {
             waitingRoomInterface.dispose();
             showMatchSetup();
-            setSTART(false);
+            setMatchStart(false);
         }
         if (GO_TO_MENU) {
             askMenuAction();

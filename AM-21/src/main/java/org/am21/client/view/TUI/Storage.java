@@ -250,7 +250,12 @@ public class Storage {
             ¦ = ¦     ¦ = ¦
             ¯¯¯¯¯     ¯¯¯¯¯""" + Color.RESET;
 
-
+    public static final List<String> commonGoalList = new ArrayList<>();
+    static {
+        Collections.addAll(commonGoalList, "CommonGoal2Lines", "CommonGoal2Columns", "CommonGoal3Column",
+                "CommonGoal4Lines", "CommonGoal8Tiles", "CommonGoalCorner", "CommonGoalDiagonal", "CommonGoalSquare",
+                "CommonGoalStairs", "CommonGoal4Group", "CommonGoal6Group", "CommonGoalXShape");
+    }
     public static HashMap<String,String> goalCommonMap = new HashMap<>();
     static {
         goalCommonMap.put("CommonGoal2Columns",CG2Columns);

@@ -19,8 +19,13 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
-
-public class ServerPrototype {
+/**
+ * Server class
+ *
+ * Requirements:
+ * - Uniqueness of the nickname is granted by the server in phase of acceptance of the player
+ */
+public class Server {
     public static int number = 0;
     private static Thread inputThread;
 
@@ -129,7 +134,7 @@ public class ServerPrototype {
                 throw new RuntimeException(e);
             }
         }
-        ServerPrototype.number=0;
+        Server.number=0;
 
     }
 

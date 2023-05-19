@@ -3,7 +3,6 @@ package org.am21.client;
 import org.am21.client.view.ClientView;
 import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.TUI.Cli;
-import org.am21.model.enumer.SC;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -66,34 +65,33 @@ public class SocketClient extends Thread {
                     cli.updateCLI(cli, 500);
                 }
             }
-            case "START" -> {
+            case "MATCH_START" -> {
                 if (cli != null) {
-                    cli.setGO_TO_MENU(false);
-                    cli.setGAME_ON(true);
-                    cli.setSTART(true);
+                    ClientView.setGoToMenu(false);
+                    ClientView.setGameOn(true);
+                    ClientView.setMatchStart(true);
                     cli.updateCLI(cli, 1000);
                 }
             }
             case "WAIT" -> {
                 if (cli != null) {
                     ClientView.convertBackMatchInfo(messageArray[1]);
-                    cli.setGAME_ON(false);
-                    cli.setGO_TO_MENU(false);
+                    ClientView.setGameOn(false);
+                    ClientView.setGoToMenu(false);
                 }
             }
             case "GoToMenu" -> {
                 if (cli != null) {
-                    cli.setGO_TO_MENU(true);
-                    cli.setGAME_ON(false);
+                    ClientView.setGoToMenu(true);
+                    ClientView.setGameOn(false);
                 }
             }
             case "EndMatch" -> {
                 if (cli != null) {
-                    cli.setEND(true);
-                    cli.setGO_TO_MENU(true);
-                    cli.setGAME_ON(false);
-                    cli.setSTART(false);
-                    cli.printer(SC.WHITE_BB + "\nServer > The match ended. Good Bye! Press 'Enter'" + SC.RST);
+                    ClientView.setMatchEnd(true);
+                    ClientView.setGoToMenu(true);
+                    ClientView.setGameOn(false);
+                    ClientView.setMatchStart(false);
                 }
 
             }
@@ -126,9 +124,9 @@ public class SocketClient extends Thread {
 
             default -> System.out.println("Unknown Server Message: " + message);
         }
-        //Free CLi
-        if (cli != null)
-            cli.WAIT_SOCKET = false;
+        //Free Client from Waiting method return in Socket
+
+        ClientView.setWaitSocket(false);
 
     }
 }

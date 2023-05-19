@@ -1,5 +1,7 @@
 package org.am21.client.view.TUI;
 
+import org.am21.client.view.ClientView;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.concurrent.Callable;
@@ -17,8 +19,8 @@ public class InputReadTask implements Callable<String> {
         // wait until there is data to complete a readLine()
         while (!bufferedReader.ready()){
             //Thread.sleep(200);
-            if(Cli.REFRESH){
-                Cli.REFRESH=false;
+            if(ClientView.NEED_TO_REFRESH){
+                ClientView.setNeedToRefresh(false);
                 return "";
             }
         }

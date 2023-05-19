@@ -22,7 +22,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     public void sendMessageToClient(String message) throws RemoteException {
         if (cli != null) {
             cli.printer(message);
-        }else if (gui!=null){
+        } else if (gui != null) {
             //gui.printer(message,"Successful");
             gui.replyDEBUG(message);
         }
@@ -37,7 +37,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
                 cli.addMessageInLine(message);
                 cli.updateCLI(cli, 0);
             }
-        }else if(gui!=null){
+        } else if (gui != null) {
             //TODO: wake thread
             /*synchronized (gui.guiMinion) {
                 gui.setREFRESH(false);
@@ -59,7 +59,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
         if (cli != null) {
             cli.checkTurn();
             cli.updateCLI(cli, 500);
-        }else if(gui!=null){
+        } else if (gui != null) {
             //TODO: wake thread
             /*synchronized (gui.guiMinion) {
                 gui.setREFRESH(false);
@@ -76,11 +76,11 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     @Override
     public void notifyStart(int id) throws RemoteException {
         if (cli != null) {
-            cli.setGO_TO_MENU(false);
-            cli.setGAME_ON(true);
-            cli.setSTART(true);
+            ClientView.setGoToMenu(false);
+            ClientView.setGameOn(true);
+            ClientView.setMatchStart(true);
             cli.updateCLI(cli, 1000);
-        }else if(gui!=null) {
+        } else if (gui != null) {
             gui.setGO_TO_MENU(false);
             gui.setGAME_ON(true);
             gui.setSTART(true);
@@ -92,39 +92,55 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
         }
     }
 
+    /**
+     * This method change the state in Client to Waiting Room
+     *
+     * @param jsonInfo
+     * @throws RemoteException
+     */
     @Override
     public void notifyToWait(String jsonInfo) throws RemoteException {
         ClientView.convertBackMatchInfo(jsonInfo);
         if (cli != null) {
-            cli.setGAME_ON(false);
-            cli.setGO_TO_MENU(false);
-        }else if (gui!=null){
+            ClientView.setGameOn(false);
+            ClientView.setGoToMenu(false);
+        } else if (gui != null) {
             gui.setGAME_ON(false);
             gui.setGO_TO_MENU(false);
         }
     }
 
+    /**
+     * This method set the state of the Client to Main Menu
+     *
+     * @throws RemoteException
+     */
     @Override
     public void notifyGoToMenu() throws RemoteException {
         if (cli != null) {
-            cli.setGO_TO_MENU(true);
-            cli.setGAME_ON(false);
-        }else if(gui!=null){
+            ClientView.setGoToMenu(true);
+            ClientView.setGameOn(false);
+        } else if (gui != null) {
             gui.setGO_TO_MENU(true);
             gui.setGAME_ON(false);
         }
     }
 
+    /**
+     * This method set the state of the Client to Endgame Room
+     *
+     * @throws RemoteException
+     */
     @Override
     public void notifyEndMatch() throws RemoteException {
         if (cli != null) {
 
-            cli.setEND(true);
-            cli.setGO_TO_MENU(true);
-            cli.setGAME_ON(false);
-            cli.setSTART(false);
-            cli.printer(SC.WHITE_BB + "\nServer > The match ended. Good Bye! Press 'Enter'" + SC.RST);
-        }else if(gui!=null){
+            ClientView.setMatchEnd(true);
+            ClientView.setGoToMenu(true);
+            ClientView.setGameOn(false);
+            ClientView.setMatchStart(false);
+
+        } else if (gui != null) {
             gui.setEND(true);
             gui.setGO_TO_MENU(true);
             gui.setGAME_ON(false);
@@ -153,7 +169,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
         if (cli != null) {
             //System.out.println("Update...");
             cli.updateCLI(cli, milliseconds);
-        }else if(gui!=null){
+        } else if (gui != null) {
             //TODO: wake thread
             /*synchronized (gui.guiMinion) {
                 gui.setREFRESH(false);

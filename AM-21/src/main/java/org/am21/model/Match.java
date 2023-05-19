@@ -210,7 +210,7 @@ public class Match {
                 firstToComplete.setPlayerScore(firstToComplete.getPlayerScore() + 1);
                 gameState = GameState.LastRound;
                 VirtualViewHelper.virtualizeEndGame(this);
-                sendMessageToAll(LastRound, true);
+                sendTextToAll(LastRound.toString(), true,true);
             }
             this.nextTurn();
             endTurnUpdate();
@@ -242,7 +242,7 @@ public class Match {
     /**
      * TODO: rewrite better
      *
-     * @return
+     * @return a list of String, each string contains Points Info
      */
     public List<String> checkGamePoints() {
         Player p;
@@ -292,13 +292,7 @@ public class Match {
         //Print the Final Stats of the Match
         //Removing players from the match
         for (Player p : playerList) {
-
-            if (p.getController().clientInput != null || p.getController().clientHandlerSocket != null) {
-                //TODO: new protocol
-                CommunicationController.instance.notifyEndMatch(p.getController());
-                //OLD RMI
-                //p.getController().clientInput.callBack.notifyEndMatch();
-            }
+            CommunicationController.instance.notifyEndMatch(p.getController());
             p.setStatus(UserStatus.Online);
             p.setMatch(null);
             p.setShelf(null);
@@ -306,12 +300,9 @@ public class Match {
                 GameManager.playerMatchMap.remove(p.getNickname());
             }
         }
-        //TODO: Maybe not necessary, at the end, match instance will be deleted
         playerList.clear();
-        //System.out.println("Game > Room closed. See ya!");
-        //temp
         gameState = GameState.Closed;
-        //TODO: add VV deletion
+
         return true;
     }
 
@@ -372,14 +363,14 @@ public class Match {
         for (Player player : playerList) {
             GameManager.playerMatchMap.put(player.getNickname(), matchID);
         }
-        sendMessageToAll(BB, false);
+        sendTextToAll(BB.toString(),true ,false);
 
         //Initialization of the board
         board = new Board(this);
         if (board.firstSetup()) {
-            sendMessageToAll(BB_Ok, false);
+            sendTextToAll(BB_Ok.toString(),true,false);
         } else {
-            sendMessageToAll(BB_No, false);
+            sendTextToAll(BB_No.toString(), true,false);
         }
         setGameState(GameState.Ready);
     }
@@ -421,9 +412,7 @@ public class Match {
      * When? When the match begins and when the turn of a player ends
      */
     public void updatePlayersView() {
-
         for (Player p : playerList) {
-            //TODO: Watch out for test
             CommunicationController.instance.sendVirtualView(getJSONVirtualView(), playerList.indexOf(p), p.getController());
         }
     }
@@ -454,22 +443,9 @@ public class Match {
     }
 
     /**
-     * Send a pre-defined Server Message to each player of this match
-     *
-     * @param message
-     */
-    public void sendMessageToAll(ServerMessage message, boolean update) {
-        for (Player p : playerList) {
-            GameManager.sendReply(p.getController(), message);
-            if (update) GameManager.notifyUpdate(p.getController(), 1000);
-
-        }
-    }
-
-    /**
      * Send a text message to each player of this match
      *
-     * @param message
+     * @param message message from the server
      * @param includeCurrentPlayer if false the message is not sent to the currentPlayer
      */
     public void sendTextToAll(String message, boolean includeCurrentPlayer, boolean update) {
@@ -477,7 +453,7 @@ public class Match {
             if (!includeCurrentPlayer && p.equals(currentPlayer)) {
                 continue;
             }
-            GameManager.sendTextReply(p.getController(), message);
+            GameManager.sendReply(p.getController(), message);
             if (update) GameManager.notifyUpdate(p.getController(), 1000);
         }
     }
@@ -485,8 +461,8 @@ public class Match {
     /**
      * Send Chat notification to all player in the match except the sender
      *
-     * @param message
-     * @param sender
+     * @param message message to send
+     * @param sender player name of the sender
      */
     public void sendPublicChatNotification(String message, String sender) {
         for (Player p : playerList) {
@@ -502,8 +478,7 @@ public class Match {
      */
     public void updateVirtualHand() {
         for (Player p : playerList) {
-            CommunicationController.instance.sendVirtualHand(getJSONHand(), p.getController());
-
+            CommunicationController.instance.sendVirtualHand(VirtualViewHelper.convertVirtualHandToJSON(virtualView), p.getController());
         }
     }
 
@@ -517,9 +492,6 @@ public class Match {
         return VirtualViewHelper.convertVirtualViewToJSON(virtualView);
     }
 
-    public String getJSONHand() {
-        return VirtualViewHelper.convertVirtualHandToJSON(virtualView);
-    }
 
     /**
      * This method is called at the end of a SelectCell, DeselectCell or ClearSelectedCards
@@ -550,7 +522,6 @@ public class Match {
         VirtualViewHelper.virtualizeCurrentPlayer(this);
         updatePlayersView();
     }
-
 
     public void updatePlayersPublicChats() {
         for (Player p : playerList) {

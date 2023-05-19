@@ -32,9 +32,7 @@ public class ClientApp {
             cli.init();
             cli.askLogin();
             cli.askMenuAction();
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        } catch (ServerNotActiveException | MalformedURLException | NotBoundException e) {
+        } catch (RemoteException | ServerNotActiveException | MalformedURLException | NotBoundException e) {
             throw new RuntimeException(e);
         }
 

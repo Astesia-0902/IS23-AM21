@@ -3,7 +3,6 @@ package org.am21.model;
 import org.am21.controller.CommunicationController;
 import org.am21.controller.GameController;
 import org.am21.controller.PlayerController;
-import org.am21.model.enumer.ServerMessage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,17 +77,12 @@ public class GameManager {
      * @param pc PlayerController
      * @param m  ServerMessage
      */
-    public static void sendReply(PlayerController pc, ServerMessage m) {
+    public static void sendReply(PlayerController pc, String m) {
         if (SERVER_COMM) {
-            CommunicationController.instance.sendMessageToClient(m.value(),pc);
+            CommunicationController.instance.sendMessageToClient(m,pc);
         }
     }
 
-    public static void sendTextReply(PlayerController pc, String m) {
-        if (SERVER_COMM) {
-            CommunicationController.instance.sendMessageToClient(m, pc);
-        }
-    }
 
     public static void sendChatNotification(PlayerController pc, String m){
         if(SERVER_COMM){
