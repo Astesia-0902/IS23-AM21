@@ -81,27 +81,27 @@ public class OnlineListListener implements MouseListener, MouseMotionListener, A
 //            gui.chatDialog.dispose();
 //        }
         String user = gui.onlineListDialog.onlineList.getSelectedValue().split("\\s*\\|\\s*")[0];
-        if (!Gui.chatPlayer.containsKey(user)) {
-            Gui.newPrivateChat = true;
-            Gui.chatPlayer.put(user, new JButton(user));
+        if (!Gui.myChatMap.containsKey(user)) {
+            Gui.NEW_PrivateChat = true;
+            Gui.myChatMap.put(user, new JButton(user));
             if (gui.chatDialog != null) {
                 gui.chatDialog.dispose();
             }
         }
 
-        Gui.chatUser = user;
+        Gui.chatReceiver = user;
         if (gui.chatDialog!=null) {
-            gui.chatDialog.privateChat.keySet().forEach(player -> {
-                if (player.equals(Gui.chatUser)) {
-                    gui.chatDialog.privateChat.get(player).setBackground(new Color(83, 46, 91, 230));
-                    gui.chatDialog.privateChat.get(player).setForeground(Color.WHITE);
+            gui.chatDialog.localPrivateChatMap.keySet().forEach(player -> {
+                if (player.equals(Gui.chatReceiver)) {
+                    gui.chatDialog.localPrivateChatMap.get(player).setBackground(new Color(83, 46, 91, 230));
+                    gui.chatDialog.localPrivateChatMap.get(player).setForeground(Color.WHITE);
                 } else {
-                    gui.chatDialog.privateChat.get(player).setBackground(new Color(178, 173, 204, 230));
-                    gui.chatDialog.privateChat.get(player).setForeground(new Color(106, 2, 1));
+                    gui.chatDialog.localPrivateChatMap.get(player).setBackground(new Color(178, 173, 204, 230));
+                    gui.chatDialog.localPrivateChatMap.get(player).setForeground(new Color(106, 2, 1));
                 }
             });
             FontMetrics fm = gui.chatDialog.chatMessage.getFontMetrics(gui.chatDialog.chatMessage.getFont());
-            gui.chatDialog.chatMessage.setBorder(new EmptyBorder(0, ImageUtil.resizeX(fm.stringWidth(Gui.chatUser) + 30), 0, 0));
+            gui.chatDialog.chatMessage.setBorder(new EmptyBorder(0, ImageUtil.resizeX(fm.stringWidth(Gui.chatReceiver) + 30), 0, 0));
         }
         gui.askChat();
     }

@@ -129,6 +129,7 @@ public class ClientCommunicationController {
         }
     }
 
+
     public boolean confirmSelection() {
         if (ClientController.isRMI) {
             try {

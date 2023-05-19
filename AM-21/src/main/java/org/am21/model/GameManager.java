@@ -48,6 +48,7 @@ public class GameManager {
             match.admin = playerController.getPlayer();
             match.virtualView.setAdmin(playerController.getPlayer().getNickname());
             match.virtualView.setMatchID(match.matchID);
+            match.virtualView.setMaxSeats(playerNum);
             match.addPlayer(playerController.getPlayer());
 
             return true;

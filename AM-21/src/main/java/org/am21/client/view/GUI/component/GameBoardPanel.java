@@ -28,8 +28,9 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
 
     public ScoringTokenLabel scoreTokenEndGame;
     public GameBoardPanel(int maxSeat){
-
+        System.out.println(maxSeat);
         boundaries = BoardUtil.boardBounder(maxSeat);
+        System.out.println(boundaries.size());
         setBounds(PixelUtil.gameBoardGridX, PixelUtil.gameBoardGridY,GridRowsMax*PixelUtil.gameBoardCellW,GridColumnsMax*PixelUtil.gameBoardCellH);
        // this.setSize(this.GridRowsMax*this.cellSize,this.GridColumnsMax*this.cellSize);
         setLayout(null);
@@ -42,8 +43,11 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
         add(gameBoardPane);
 
         //draw a grid container
-
-        for(int i=0; i<GridRowsMax;i++)
+        int k=0;
+        if(maxSeat==2){
+            k=1;
+        }
+        for(int i=0+k; i<GridRowsMax-k;i++)
         {
             for(int j=0;j<GridColumnsMax;j++)
             {

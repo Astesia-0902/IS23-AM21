@@ -64,7 +64,7 @@ public class ClientView {
         matchID = jsonObject.getInteger("matchID");
         admin = jsonObject.getString("admin");
         endGameToken = jsonObject.getBoolean("endGameToken");
-
+        maxSeats = jsonObject.getInteger("maxSeats");
         gameResults = jsonObject.getJSONArray("gameResults").toJavaList(String.class);
     }
 

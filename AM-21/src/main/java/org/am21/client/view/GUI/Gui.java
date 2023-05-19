@@ -9,6 +9,7 @@ import org.am21.client.view.GUI.listener.*;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PathUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
+import org.am21.client.view.TUI.Storage;
 import org.am21.client.view.View;
 import org.am21.networkRMI.ClientCallBack;
 import org.am21.networkRMI.IClientInput;
@@ -16,6 +17,7 @@ import org.am21.networkRMI.Lobby;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -25,8 +27,14 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
+
+import static org.am21.client.view.ClientView.maxSeats;
 
 public class Gui implements View {
     public JFrame frame = new JFrame("MyShelfie");
@@ -55,11 +63,16 @@ public class Gui implements View {
     public HelpDialog helpDialog = new HelpDialog(frame);
     public OnlineListDialog onlineListDialog;
     public MatchListInterface matchListInterface;
+    //-------------------------------------------------------------
+    public static HashMap<String, JButton> myChatMap = new HashMap<>(); //chatPlayer
+    public static String chatReceiver; //chatUser
+    //Key: "Receiver", Value: Private chat History
+    public static HashMap<String, JTextArea> privateChatHistoryMap = new HashMap<>();
+    public static JTextArea publicChatHistory = new JTextArea();
+    public static boolean NEW_PrivateChat = false;
 
-    public static HashMap<String, JButton> chatPlayer = new HashMap<>();
-    public static String chatUser;
-    public static HashMap<String, JTextArea> chatHistory = new HashMap<>();
-    public static boolean newPrivateChat = false;
+
+    //-------------------------------------------------------------------
     private SocketClient socket;
     public boolean GO_TO_MENU = true;
     //If true askPlayerMove, if false askWaitingAction
@@ -68,10 +81,8 @@ public class Gui implements View {
     //If true GoToEndRoom
     public boolean END = false;
     public boolean WAIT_SOCKET = false;
-
     public boolean REFRESH = false;
     public boolean WAIT_ROOM_REFRESH = false;
-
     public boolean NEED_NEW_FRAME = false;
     private int matchIndex;
     private Thread numThread;
@@ -79,7 +90,7 @@ public class Gui implements View {
         @Override
         public void run() {
             super.run();
-            while(true) {
+            while (true) {
                 while (!GAME_ON && GO_TO_MENU) {
                     try {
                         askMenuAction();
@@ -102,13 +113,13 @@ public class Gui implements View {
                 if (waitingRoomInterface != null) {
                     System.out.println("WaitingRoomInterface Disposed");
                     waitingRoomInterface.dispose();
-                    waitingRoomInterface=null;
+                    waitingRoomInterface = null;
                 }
                 while (GAME_ON && !GO_TO_MENU) {
                     try {
-                        if(START) {
+                        if (START) {
                             showMatchSetup();
-                            START=false;
+                            START = false;
                         }
                         Thread.sleep(200);
                     } catch (RemoteException | InterruptedException e) {
@@ -181,11 +192,11 @@ public class Gui implements View {
             menuActionInterface = new MenuActionInterface(frame);
             new MenuActionListener(this);
             System.out.println("MenuActionInterface done");
-        }else if(menuActionInterface!=null && NEED_NEW_FRAME){
+        } else if (menuActionInterface != null && NEED_NEW_FRAME) {
             System.out.println("New MenuAction Interface");
-            menuActionInterface= new MenuActionInterface(frame);
+            menuActionInterface = new MenuActionInterface(frame);
             new MenuActionListener(this);
-            NEED_NEW_FRAME=false;
+            NEED_NEW_FRAME = false;
         }
 
     }
@@ -266,21 +277,21 @@ public class Gui implements View {
 
     @Override
     public void showCommonGoals() {
-        //TODO: commonGoalPanel = new CommonGoalPanel(ClientView.commonGoal.get(0),ClientView.commonGoal.get(1));
-        commonGoalPanel = new CommonGoalPanel("CommonGoal2Lines", "CommonGoalDiagonal");
+        commonGoalPanel = new CommonGoalPanel(ClientView.commonGoal.get(0),ClientView.commonGoal.get(1));
+        //commonGoalPanel = new CommonGoalPanel("CommonGoal2Lines", "CommonGoalDiagonal");
         livingRoomInterface.livingRoomPane.add(commonGoalPanel, JLayeredPane.PALETTE_LAYER);
 
         //set CommonGoal Token
-        //TODO:  commonGoalPanel.setScoreTokenTop(ClientView.commonGoalScore.get(0));
-        commonGoalPanel.setScoreTokenTop(2);
-        //TODO:  commonGoalPanel.setScoreTokenBottom(ClientView.commonGoalScore.get(1));
-        commonGoalPanel.setScoreTokenBottom(4);
+        commonGoalPanel.setScoreTokenTop(ClientView.commonGoalScore.get(0));
+        //commonGoalPanel.setScoreTokenTop(2);
+        commonGoalPanel.setScoreTokenBottom(ClientView.commonGoalScore.get(1));
+        //commonGoalPanel.setScoreTokenBottom(4);
     }
 
     @Override
     public void showPersonalGoal() throws RemoteException {
-        //TODO: personalGoalPanel = new PersonalGoalPanel(ClientView.personalGoal);
-        personalGoalPanel = new PersonalGoalPanel(7);
+        personalGoalPanel = new PersonalGoalPanel(ClientView.personalGoal);
+        //personalGoalPanel = new PersonalGoalPanel(7);
         livingRoomInterface.livingRoomPane.add(personalGoalPanel, JLayeredPane.PALETTE_LAYER);
     }
 
@@ -309,14 +320,14 @@ public class Gui implements View {
 
 
         //set game Board
-        //TODO: for (int i = 0; i < Storage.BOARD_ROW; i++){
-        //TODO:    for (int j = 0; j < Storage.BOARD_COLUMN; j++){
-        //TODO:        if(ClientView.virtualBoard[i][j]!=null&&!gameBoardPanel.containItem(i,j))
-        //TODO:        {
-        //TODO:            gameBoardPanel.putItem(i, j,ClientView.virtualBoard[i][j]);
-        //TODO:        }
-        //TODO:    }
-        //TODO: }
+        for (int i = 0; i < Storage.BOARD_ROW; i++){
+            for (int j = 0; j < Storage.BOARD_COLUMN; j++){
+                if(ClientView.virtualBoard[i][j]!=null&&!gameBoardPanel.containItem(i,j))
+                {
+                    gameBoardPanel.putItem(i, j,ClientView.virtualBoard[i][j]);
+                }
+            }
+         }
 
         gameBoardPanel.putItem(3, 3, "_Games__1.1");
         gameBoardPanel.putItem(4, 5, "_Frames_1.3");
@@ -396,7 +407,7 @@ public class Gui implements View {
         showPersonalGoal();
         showCommonGoals();
 
-        //TODO: if(maxSeats<=2)
+         if(maxSeats<=2)
         {
             //setFirst enemy's Label
             enemyPanelA = new EnemyPanel(PixelUtil.commonY_1, ImageUtil.getBoardImage("enemyA"));
@@ -406,7 +417,7 @@ public class Gui implements View {
             enemyShelfPanelA = new ShelfPanel(PixelUtil.enemyGridX, PixelUtil.enemyAGridY, PixelUtil.enemyCellW, PixelUtil.enemyCellH, PixelUtil.enemyItemW, PixelUtil.enemyItemH);
             livingRoomInterface.livingRoomPane.add(enemyShelfPanelA, JLayeredPane.PALETTE_LAYER);
         }
-        //TODO: if(maxSeats<=3)
+        if(maxSeats<=3)
         {
             //setSecond enemy's Label
             enemyPanelB = new EnemyPanel(PixelUtil.commonY_2, ImageUtil.getBoardImage("enemyB"));
@@ -418,7 +429,7 @@ public class Gui implements View {
 
 
         }
-        //TODO: if(maxSeats<=4)
+        if(maxSeats<=4)
         {
             //setThird enemy's Label
             enemyPanelC = new EnemyPanel(PixelUtil.commonY_3, ImageUtil.getBoardImage("enemyC"));
@@ -434,8 +445,8 @@ public class Gui implements View {
         livingRoomInterface.livingRoomPane.add(chairManLabel, JLayeredPane.PALETTE_LAYER);
 
         //set initial game board
-        //TODO: gameBoardPanel = new GameBoardPanel(maxSeats);
-        gameBoardPanel = new GameBoardPanel(4);
+        gameBoardPanel = new GameBoardPanel(maxSeats);
+        //gameBoardPanel = new GameBoardPanel(4);
         livingRoomInterface.livingRoomPane.add(gameBoardPanel, JLayeredPane.PALETTE_LAYER);
 
         showBoard();
@@ -469,15 +480,17 @@ public class Gui implements View {
     }
 
     public void askChat() {
-        if (chatDialog == null || !chatDialog.isVisible() || newPrivateChat) {
+        convertPrivateChatsForGUI();
+        if (chatDialog == null || !chatDialog.isVisible() || NEW_PrivateChat) {
             chatDialog = new ChatDialog(frame);
-            newPrivateChat = false;
+            NEW_PrivateChat = false;
             new ChatListener(this);
+            //runChatMinion();
+        }else {
+            chatDialog.reloadData();
+            chatDialog.getContentPane().revalidate();
+            chatDialog.getContentPane().repaint();
         }
-
-        chatDialog.getContentPane().revalidate();
-        chatDialog.getContentPane().repaint();
-
     }
 
     @Override
@@ -579,11 +592,76 @@ public class Gui implements View {
     }
 
 
-
     public void runChatMinion() {
         FutureTask<String> futureTask = new FutureTask<>(new VisualChat());
         Thread chatWatcher = new Thread(futureTask);
         chatWatcher.start();
+
+        try {
+            String input = futureTask.get();
+            if(input.equals("Update")){
+                convertPrivateChatsForGUI();
+                chatDialog.reloadData();
+                chatDialog.validate();
+                chatDialog.repaint();
+
+                System.out.println("Update Chat");
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+    public void convertPrivateChatsForGUI() {
+        HashMap<String, JTextArea> chatMap = new HashMap<>();
+        List<JTextArea> visualChats = new ArrayList<>();
+        System.out.println("Convert Private Chats");
+        if (ClientView.privateChats != null && !ClientView.privateChats.isEmpty()) {
+            List<List<String>> privateChatsList = ClientView.privateChats;
+            for (List<String> chat : privateChatsList) {
+                JTextArea historyTMP = new JTextArea(ImageUtil.resizeX(10), ImageUtil.resizeY(20));
+                historyTMP.setEditable(false);
+                historyTMP.setForeground(new Color(106, 2, 1));
+                historyTMP.setFont(new Font("Serif", Font.BOLD, ImageUtil.resizeY(14)));
+                historyTMP.setLineWrap(true);
+                historyTMP.setWrapStyleWord(true);
+                historyTMP.setCaretPosition(historyTMP.getDocument().getLength());
+                for (String line : chat) {
+                    historyTMP.append(line + "\n");
+                }
+                historyTMP.setCaretPosition(historyTMP.getDocument().getLength());
+                //DEBUG print chat
+                System.out.println(historyTMP.getText());
+                visualChats.add(historyTMP);
+                System.out.println("CHAT update");
+            }
+
+            // ChatMap (Keys)
+            if (ClientView.chatMap != null && !ClientView.chatMap.isEmpty()) {
+                for (Map.Entry<String, Integer> entry : ClientView.chatMap.entrySet()) {
+                    String key = entry.getKey();
+                    if (key.startsWith(username) || key.endsWith(username)) {
+                        String[] newKey = key.split("@");
+                        String receiver = "";
+                        if (newKey[0].equals(username)) {
+                            receiver = newKey[1];
+                        }else if(newKey[1].equals(username)){
+                            receiver = newKey[0];
+                        }
+
+                        int value = entry.getValue();
+                        //Insert key(receiver) and JTextArea of the Private Chat
+                        chatMap.put(receiver, visualChats.get(value));
+                    }
+                }
+
+            }
+
+        }
+        // Finally
+        privateChatHistoryMap = chatMap;
 
     }
 

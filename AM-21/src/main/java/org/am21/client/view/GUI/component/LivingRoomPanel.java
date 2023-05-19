@@ -180,10 +180,10 @@ public class LivingRoomPanel extends JPanel {
         chatHistory = new JTextArea();
         chatHistory.setEditable(false);
         chatHistory.setFont(new Font("DejaVu Sans",Font.PLAIN,12));
-        //this.chatHistory.setBounds(10,910,340,40);
+        //this.currentChatHistory.setBounds(10,910,340,40);
         chatHistory.setOpaque(false);
-        //this.chatHistory.setForeground(new Color(0, 0, 0, 64));
-        //this.chatHistory.setBorder(BorderFactory.createLineBorder(new Color(172, 19, 5, 230)));
+        //this.currentChatHistory.setForeground(new Color(0, 0, 0, 64));
+        //this.currentChatHistory.setBorder(BorderFactory.createLineBorder(new Color(172, 19, 5, 230)));
 
         scrollHistoryPane = new JScrollPane(chatHistory);
         scrollHistoryPane.setBounds(0,0,PixelUtil.cScrollW,PixelUtil.cScrollH);

@@ -79,7 +79,7 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
         }
         if (e.getSource() == gui.menuActionInterface.chatButton) {
             //TODO: chat
-            if (!Gui.chatPlayer.isEmpty()) {
+            if (!Gui.myChatMap.isEmpty()) {
                 gui.askChat();
             }
 
