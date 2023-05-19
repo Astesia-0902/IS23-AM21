@@ -114,7 +114,7 @@ public class GameController {
                 GameManager.sendReply(playerController, ServerMessage.FullM);
                 return false;
             }
-
+            updatePlayersGlobalView();
             return true;
         }
         return false;
@@ -211,8 +211,16 @@ public class GameController {
 
     public static boolean removePlayerFromMatch(PlayerController ctrl, int matchID) {
         if (GameManager.playerMatchMap.containsKey(ctrl.getPlayer().getNickname())) {
-            GameManager.matchList.get(matchID).removePlayer(ctrl.getPlayer());
-            //TODO: add a method that check if the match is close then delete instance
+            synchronized (GameManager.matchList) {
+                GameManager.matchList.get(matchID).removePlayer(ctrl.getPlayer());
+                //TODO: add a method that check if the match is close then delete instance
+                if (GameManager.matchList.get(matchID).gameState == GameState.Closed) {
+                    GameManager.matchList.remove(matchID);
+                    VirtualViewHelper.virtualizeMatchList();
+
+                }
+            }
+
             return true;
         }
         return false;
@@ -259,7 +267,8 @@ public class GameController {
         if (GameController.removePlayerFromMatch(playerController, playerController.getPlayer().getMatch().matchID)) {
             CommunicationController.instance.sendMessageToClient("Server > Leaving Room...", playerController);
             CommunicationController.instance.notifyGoToMenu(playerController);
-            CommunicationController.instance.notifyUpdate(playerController,0);
+            //CommunicationController.instance.notifyUpdate(playerController,0);
+            updatePlayersGlobalView();
             return true;
         }
         return false;
@@ -411,6 +420,8 @@ public class GameController {
             for (Player p:GameManager.players){
                 if(!p.getStatus().equals(UserStatus.Offline))
                     CommunicationController.instance.sendServerVirtualView(VirtualViewHelper.convertServerVirtualViewToJSON(),p.getController());
+
+                    CommunicationController.instance.notifyUpdate(p.getController(),0);
             }
         }
     }

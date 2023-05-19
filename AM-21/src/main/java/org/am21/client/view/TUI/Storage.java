@@ -369,6 +369,7 @@ public class Storage {
     public static final String listObjects = """
             -----------------------------------------------------------
             [Commands] Try to use of these commands to have a see any of these elements:
+              open    --> Show List of Players to Chat with
               hand    --> Show selected items.
               pgoal   --> See your Personal Goal and try to match the items type.
               cgoal   --> See Common Goals and try to achieve more points.
@@ -387,7 +388,7 @@ public class Storage {
             [Commands] Menu Option:
               create   --> Create a new match.
                join    --> Join a match.
-              online   --> Show Online Players.
+              online   --> Show Online Players and Chat.
                exit    --> Exit game.
                help    --> Command List (Chat, etc) and Assist Mode 
             Enter 'help' command and learn how to use the CHAT""";

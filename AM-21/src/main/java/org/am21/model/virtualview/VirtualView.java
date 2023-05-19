@@ -1,6 +1,7 @@
 package org.am21.model.virtualview;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 //1. The board map
@@ -43,6 +44,27 @@ public class VirtualView implements Serializable {
     //Need update if someone leaves the match
     public List<String> players;
     public List<Integer> personalGoals;
+
+    public VirtualView() {
+        this.matchID = -1;
+        this.admin = "";
+        this.maxSeats = -1;
+        this.board = new String[1][1];
+        this.commonGoalScores = new ArrayList<>();
+        this.currentPlayerHand = new ArrayList<>();
+        this.shelves = new ArrayList<>();
+        this.currentPlayer = "";
+        this.endGameToken = false;
+        this.scores = new ArrayList<>();
+        this.hiddenPoints = new ArrayList<>();
+        this.gameResults = new ArrayList<>();
+        this.publicChat = new ArrayList<>();
+        this.commonGoals = new ArrayList<>();
+        this.players = new ArrayList<>();
+        this.personalGoals = new ArrayList<>();
+    }
+
+
 
 
 

@@ -49,9 +49,10 @@ public class ClientView {
         hiddenPoints = jsonObject.getJSONArray("hiddenPoints").toJavaList(Integer.class);
         commonGoal = jsonObject.getJSONArray("commonGoals").toJavaList(String.class);
         commonGoalScore = jsonObject.getJSONArray("commonGoalScores").toJavaList(Integer.class);
-
-        personalGoal = jsonObject.getJSONArray("personalGoals").toJavaList(Integer.class).get(playerIndex);
-
+        List<Integer> pTmp = jsonObject.getJSONArray("personalGoals").toJavaList(Integer.class);
+        if(pTmp.size()>playerIndex) {
+            personalGoal = jsonObject.getJSONArray("personalGoals").toJavaList(Integer.class).get(playerIndex);
+        }
         JSONArray temp = jsonObject.getJSONArray("shelves");
         shelves = new java.util.ArrayList<>();
         for (int i = 0; i < temp.size(); i++) {

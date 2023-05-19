@@ -115,7 +115,8 @@ public class Match {
                 }
                 checkRoom();
                 //If, after checkRoom(), the match did not start, send Client to Waiting Phase
-                if (gameState == GameState.WaitingPlayers && (player.getController().clientInput != null || player.getController().clientHandlerSocket != null)) {
+                if (gameState == GameState.WaitingPlayers) {
+                    VirtualViewHelper.virtualizeMatchList();
                     CommunicationController.instance.notifyToWait(VirtualViewHelper.convertMatchInfoToJSON(this), player.getController());
                     if (chatManager.publicChatMessages.size() > 0) {
                         CommunicationController.instance.sendVirtualPublicChat(VirtualViewHelper.convertPublicChatToJSON(this.virtualView), player.getController());
@@ -140,8 +141,18 @@ public class Match {
      * @return true if the operation is successful, otherwise false
      */
     public boolean removePlayer(Player player) {
+
         synchronized (playerList) {
             if (playerList.contains(player)) {
+                if (gameState == GameState.WaitingPlayers && player.equals(admin) && playerList.size() > 1) {
+                    int nextAdmin = (playerList.indexOf(player) + 1) % maxSeats;
+                    admin = playerList.get(nextAdmin);
+                    virtualView.admin = admin.getNickname();
+                    for (Player p : playerList) {
+                        if (p.equals(player)) continue;
+                        CommunicationController.instance.notifyToWait(VirtualViewHelper.convertMatchInfoToJSON(this), p.getController());
+                    }
+                }
                 playerList.remove(player);
                 player.setPlayerScore(0);
                 player.setStatus(UserStatus.Online);
@@ -150,10 +161,11 @@ public class Match {
                 synchronized (GameManager.playerMatchMap) {
                     GameManager.playerMatchMap.remove(player.getNickname());
                 }
+                VirtualViewHelper.virtualizeMatchList();
+                updatePlayersView();
                 sendTextToAll(SC.YELLOW_BB + "\nServer > " + player.getNickname() + " left the match" + SC.RST, true, true);
                 checkRoom();
-                //TODO: update VV PLayersList and Player Score, Shelf List...
-                //TODO: watch out what if shelf is null
+
                 return true;
             }
             return false;
@@ -218,7 +230,7 @@ public class Match {
                 if (player.getController().clientInput != null || player.getController().clientHandlerSocket != null) {
                     String mex = "Server > " + player.getNickname() + " acquired " + goal.tokenStack.get(0) + " points";
                     CommunicationController.instance.sendMessageToClient(mex, player.getController());
-                    CommunicationController.instance.notifyUpdate(player.getController(),1000);
+                    CommunicationController.instance.notifyUpdate(player.getController(), 1000);
                 }
                 goal.commonGoalAchieved(player);
                 sendTextToAll(SC.YELLOW_BB + "Server > " + player.getNickname() + " achieved a Common Goal!"
@@ -446,10 +458,10 @@ public class Match {
      *
      * @param message
      */
-    public void sendMessageToAll(ServerMessage message,boolean update) {
+    public void sendMessageToAll(ServerMessage message, boolean update) {
         for (Player p : playerList) {
             GameManager.sendReply(p.getController(), message);
-            if (update) GameManager.notifyUpdate(p.getController(),1000);
+            if (update) GameManager.notifyUpdate(p.getController(), 1000);
 
         }
     }
@@ -466,7 +478,7 @@ public class Match {
                 continue;
             }
             GameManager.sendTextReply(p.getController(), message);
-            if(update) GameManager.notifyUpdate(p.getController(),1000);
+            if (update) GameManager.notifyUpdate(p.getController(), 1000);
         }
     }
 
