@@ -20,10 +20,10 @@ public class LivingRoomInterface extends JDialog{
             livingRoomPane.setBounds(0,0, PixelUtil.pcWidth,PixelUtil.pcHeight);
 
             livingRoomPanel = new LivingRoomPanel();
-            myShelfPanel = new ShelfPanel(PixelUtil.myGridX,PixelUtil.myGridY,PixelUtil.myCellW,PixelUtil.myCellH,PixelUtil.myItemW,PixelUtil.myItemH);
+           // myShelfPanel = new ShelfPanel(PixelUtil.myGridX,PixelUtil.myGridY,PixelUtil.myCellW,PixelUtil.myCellH,PixelUtil.myItemW,PixelUtil.myItemH);
 
             livingRoomPane.add(livingRoomPanel,JLayeredPane.DEFAULT_LAYER);
-            livingRoomPane.add(myShelfPanel,JLayeredPane.PALETTE_LAYER);
+           // livingRoomPane.add(myShelfPanel,JLayeredPane.PALETTE_LAYER);
 
             getContentPane().add(livingRoomPane);
 

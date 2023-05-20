@@ -49,11 +49,12 @@ public class Gui implements View {
     public MenuActionInterface menuActionInterface;
     public WaitingRoomInterface waitingRoomInterface;
     public LivingRoomInterface livingRoomInterface;
+    public LivingRoomMenuInterface livingRoomMenuInterface;
     public PersonalGoalPanel personalGoalPanel;
     public CommonGoalPanel commonGoalPanel;
     public GameBoardPanel gameBoardPanel;
     public MyHandBoardPanel myHandBoardPanel;
-
+    public ShelfPanel myShelfPanel;
 
     public EnemyPanel enemyPanelA, enemyPanelB, enemyPanelC;
     public ShelfPanel enemyShelfPanelA, enemyShelfPanelB, enemyShelfPanelC;
@@ -266,12 +267,18 @@ public class Gui implements View {
 
     @Override
     public boolean askLeaveMatch() throws RemoteException {
+        livingRoomMenuInterface.backWaitingRoom.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO: leave action
+            }
+        });
         return commCtrl.leaveMatch();
     }
 
     @Override
     public boolean askExitGame() throws RemoteException {
-
+        livingRoomMenuInterface.quitGame.addActionListener(e -> livingRoomInterface.dispose());
         return false;
     }
 
@@ -307,7 +314,8 @@ public class Gui implements View {
 
     @Override
     public void showPlayerShelf() throws RemoteException {
-
+       //TODO: myShelfPanel.refreshShelf();
+        //TODO: ClientView.Shelves
     }
 
     @Override
@@ -317,7 +325,6 @@ public class Gui implements View {
 
     @Override
     public void showBoard() throws RemoteException {
-
 
         //set game Board
         for (int i = 0; i < Storage.BOARD_ROW; i++){
@@ -329,11 +336,12 @@ public class Gui implements View {
             }
          }
 
-        gameBoardPanel.putItem(3, 3, "_Games__1.1");
-        gameBoardPanel.putItem(4, 5, "_Frames_1.3");
-        gameBoardPanel.putItem(4, 3, "__Cats__1.3");
-        gameBoardPanel.putItem(4, 4, "__Cats__1.2");
-        gameBoardPanel.putItem(3, 4, "_Frames_1.1");
+        //for test
+        //gameBoardPanel.putItem(3, 3, "_Games__1.1");
+        //gameBoardPanel.putItem(4, 5, "_Frames_1.3");
+        //gameBoardPanel.putItem(4, 3, "__Cats__1.3");
+        //gameBoardPanel.putItem(4, 4, "__Cats__1.2");
+        //gameBoardPanel.putItem(3, 4, "_Frames_1.1");
 
 
     }
@@ -416,6 +424,7 @@ public class Gui implements View {
             //TODO: itemGrids will be manipulated
             enemyShelfPanelA = new ShelfPanel(PixelUtil.enemyGridX, PixelUtil.enemyAGridY, PixelUtil.enemyCellW, PixelUtil.enemyCellH, PixelUtil.enemyItemW, PixelUtil.enemyItemH);
             livingRoomInterface.livingRoomPane.add(enemyShelfPanelA, JLayeredPane.PALETTE_LAYER);
+            //TODO: showEveryShelf ???
         }
         if(maxSeats<=3)
         {
@@ -426,7 +435,7 @@ public class Gui implements View {
             //TODO: itemGrids will be manipulated
             enemyShelfPanelB = new ShelfPanel(PixelUtil.enemyGridX, PixelUtil.enemyBGridY, PixelUtil.enemyCellW, PixelUtil.enemyCellH, PixelUtil.enemyItemW, PixelUtil.enemyItemH);
             livingRoomInterface.livingRoomPane.add(enemyShelfPanelB, JLayeredPane.PALETTE_LAYER);
-
+            //TODO: showEveryShelf ???
 
         }
         if(maxSeats<=4)
@@ -438,7 +447,7 @@ public class Gui implements View {
             //TODO: itemGrids will be manipulated
             enemyShelfPanelC = new ShelfPanel(PixelUtil.enemyGridX, PixelUtil.enemyCGridY, PixelUtil.enemyCellW, PixelUtil.enemyCellH, PixelUtil.enemyItemW, PixelUtil.enemyItemH);
             livingRoomInterface.livingRoomPane.add(enemyShelfPanelC, JLayeredPane.PALETTE_LAYER);
-
+            //TODO: showEveryShelf ???
         }
         //TODO: who is the chairMan (first current player when start the game)
         chairManLabel = new ChairManLabel(2);
@@ -457,6 +466,11 @@ public class Gui implements View {
         //set my Hand
         myHandBoardPanel = new MyHandBoardPanel();
         livingRoomInterface.livingRoomPane.add(myHandBoardPanel, JLayeredPane.PALETTE_LAYER);
+
+        //set my shelf
+        myShelfPanel = new ShelfPanel(PixelUtil.myGridX,PixelUtil.myGridY,PixelUtil.myCellW,PixelUtil.myCellH,PixelUtil.myItemW,PixelUtil.myItemH);
+        livingRoomInterface.livingRoomPane.add(myShelfPanel,JLayeredPane.PALETTE_LAYER);
+        showPlayerShelf();
 
         //setButton Function
         try {

@@ -1,15 +1,13 @@
 package org.am21.client.view.GUI.component;
 
 
-import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.GUI.Interface.LivingRoomMenuInterface;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 
 public class LivingRoomPanel extends JPanel {
@@ -63,7 +61,6 @@ public class LivingRoomPanel extends JPanel {
 
     public LivingRoomPanel(){
 
-        Gui gui;
         //back board panel
         setSize(PixelUtil.pcWidth, PixelUtil.pcHeight);
         setLayout(null);
@@ -130,12 +127,9 @@ public class LivingRoomPanel extends JPanel {
         /**
          * open menu interface
          */
-        livingRoomMenuButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                LivingRoomMenuInterface livingRoomMenuInterface = new LivingRoomMenuInterface();
-                livingRoomMenuInterface.setVisible(true);
-            }
+        livingRoomMenuButton.addActionListener(e -> {
+            LivingRoomMenuInterface livingRoomMenuInterface = new LivingRoomMenuInterface();
+            livingRoomMenuInterface.setVisible(true);
         });
 
         panelBoard.add(livingRoomMenuButton,JLayeredPane.PALETTE_LAYER);
@@ -200,7 +194,7 @@ public class LivingRoomPanel extends JPanel {
         messageField.setFont(new Font("DejaVu Sans",Font.PLAIN,16));
         messageField.setOpaque(true);
         messageField.setForeground(new Color(85, 35, 222, 230));
-        messageField.setBorder(BorderFactory.createLineBorder(new Color(85, 35, 222, 230)));
+        messageField.setBackground(new Color(255, 255, 255, 255));
         chatPanel.add(messageField,JLayeredPane.MODAL_LAYER);
 
         sendButton = new JButton("SEND");
@@ -209,7 +203,7 @@ public class LivingRoomPanel extends JPanel {
         sendButton.setOpaque(true);
         sendButton.setBackground(new Color(85, 35, 222, 230));
         sendButton.setForeground(new Color(255, 255, 255, 255));
-        sendButton.setBorder(BorderFactory.createLineBorder(new Color(85, 35, 222, 230)));
+        sendButton.setBorder(new LineBorder(new Color(85, 35, 222, 230)));
         chatPanel.add(sendButton,JLayeredPane.MODAL_LAYER);
 
         //my hand label

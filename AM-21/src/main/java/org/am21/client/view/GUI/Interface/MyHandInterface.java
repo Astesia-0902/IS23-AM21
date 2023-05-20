@@ -1,6 +1,5 @@
 package org.am21.client.view.GUI.Interface;
 
-import org.am21.client.view.GUI.component.MyHandBoardPanel;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
 
@@ -12,7 +11,6 @@ import java.util.List;
 
 public class MyHandInterface extends JFrame {
     public int handMax = 3;
-    public MyHandBoardPanel myHandBoardPanel;
     public JLayeredPane myHandInterfacePane;
     public JLabel myHandInterfaceBack;
     public JLabel myHandLabel;
@@ -91,7 +89,6 @@ public class MyHandInterface extends JFrame {
         confirm = new JButton("CONFIRM");
         confirm.setFont(new Font("DejaVu Sans",Font.PLAIN,16));
         confirm.setBounds(PixelUtil.myHandConfirmX,PixelUtil.myHandConfirmY,PixelUtil.myHandConfirmW,PixelUtil.myHandConfirmH);
-        confirm.setForeground(new Color(4, 134, 10, 230));
         confirm.setOpaque(true);
         confirm.setBackground(new Color(4, 134, 10, 230));
         confirm.setForeground(new Color(4, 134, 10, 230));

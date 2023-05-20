@@ -226,4 +226,18 @@ public class PixelUtil {
 
     public static int myHandItemX = 3;
     public static int myHandItemY = 40;
+
+    /**
+     * menu living room interface
+     */
+
+    public static int menuLRW = 600;
+    public static int menuLRH = 500;
+
+    public static  int buttonLRX = 100;
+    public static int buttonBackLRY =50;
+    public static int buttonWaitLRY = 200;
+    public static int buttonLeaveLRY = 350;
+    public static int buttonLRW = 400;
+    public static int buttonLRH = 100;
 }

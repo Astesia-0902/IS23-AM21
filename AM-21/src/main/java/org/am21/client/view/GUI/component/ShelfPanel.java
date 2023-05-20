@@ -62,6 +62,10 @@ public class ShelfPanel extends JPanel {
         addItem(row,column);
     }
 
+    public void refreshShelf(String[][] myShelf){
+        //TODO: refreshThe shelf maybe replaced with void putItem(int row, int column) method
+
+    }
     public JLabel getItem(int row, int column){
         return this.cells[row][column];
     }

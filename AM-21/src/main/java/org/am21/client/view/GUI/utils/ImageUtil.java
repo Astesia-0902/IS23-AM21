@@ -43,6 +43,8 @@ public class ImageUtil {
                     new ImageIcon(new ImageIcon(PathUtil.getPath("misc/base_pagina2_reverse.jpg")).getImage().getScaledInstance(PixelUtil.myHandHandW, PixelUtil.myHandHandH, Image.SCALE_SMOOTH));
             case "iconSort" ->
                     new ImageIcon(new ImageIcon(PathUtil.getPath("icon tool/sort.png")).getImage().getScaledInstance(PixelUtil.myHandSortW, PixelUtil.myHandSortH, Image.SCALE_SMOOTH));
+            case "menuLRBack" ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("background/MenuLRback.jpg")).getImage().getScaledInstance(PixelUtil.menuLRW, PixelUtil.menuLRH, Image.SCALE_SMOOTH));
 
             default -> null;
         };
