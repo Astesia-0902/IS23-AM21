@@ -27,6 +27,7 @@ public class MyHandInterface extends JFrame {
         setSize(PixelUtil.myHandBackGroundW,PixelUtil.myHandBackGroundH);
         setLocation(PixelUtil.myHandBackGroundX, PixelUtil.myHandBackGroundY);
         //setBounds(PixelUtil.myHandBackGroundX, PixelUtil.myHandBackGroundY, PixelUtil.myHandBackGroundW,PixelUtil.myHandBackGroundH);
+        setUndecorated(true);
         setResizable(false);
         setTitle("My hand");
 

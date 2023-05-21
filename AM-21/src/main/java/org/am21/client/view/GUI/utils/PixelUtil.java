@@ -240,4 +240,20 @@ public class PixelUtil {
     public static int buttonLeaveLRY = 350;
     public static int buttonLRW = 400;
     public static int buttonLRH = 100;
+
+    /**
+     * game results interface
+     */
+    public static int labelRIW = 1000;
+    public static int labelRITitleH = 400;
+    public static int labelRITableH = 500;
+    public static int labelRIX = (PixelUtil.pcWidth - labelRIW) / 2;
+    public static int labelRIY = (PixelUtil.pcWidth - labelRIW) / 2;
+    public static int labelRITitleY = 0;
+    public static int labelRIRowH=110;
+
+    public static int labelRIButtonX = 640;
+    public static int labelRIButtonY = 850;
+
+
 }

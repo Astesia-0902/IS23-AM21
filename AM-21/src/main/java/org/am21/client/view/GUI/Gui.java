@@ -58,6 +58,8 @@ public class Gui implements View {
 
     public EnemyPanel enemyPanelA, enemyPanelB, enemyPanelC;
     public ShelfPanel enemyShelfPanelA, enemyShelfPanelB, enemyShelfPanelC;
+
+    public GameResultsInterface gameResultsInterface;
     public ChairManLabel chairManLabel;
     public ChatDialog chatDialog;
     public RuleDialog ruleDialog = new RuleDialog(frame);
@@ -273,12 +275,14 @@ public class Gui implements View {
                 //TODO: leave action
             }
         });
+
         return commCtrl.leaveMatch();
     }
 
     @Override
     public boolean askExitGame() throws RemoteException {
         livingRoomMenuInterface.quitGame.addActionListener(e -> livingRoomInterface.dispose());
+        gameResultsInterface.quitGame.addActionListener(e -> gameResultsInterface.dispose());
         return false;
     }
 

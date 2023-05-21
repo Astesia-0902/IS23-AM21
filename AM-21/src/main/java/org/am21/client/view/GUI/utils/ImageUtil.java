@@ -45,6 +45,8 @@ public class ImageUtil {
                     new ImageIcon(new ImageIcon(PathUtil.getPath("icon tool/sort.png")).getImage().getScaledInstance(PixelUtil.myHandSortW, PixelUtil.myHandSortH, Image.SCALE_SMOOTH));
             case "menuLRBack" ->
                     new ImageIcon(new ImageIcon(PathUtil.getPath("background/MenuLRback.jpg")).getImage().getScaledInstance(PixelUtil.menuLRW, PixelUtil.menuLRH, Image.SCALE_SMOOTH));
+            case "logoTitle"->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("Publisher material/Title 2000x2000px.png")).getImage().getScaledInstance(PixelUtil.labelRIW,PixelUtil.labelRITitleH, Image.SCALE_SMOOTH));
 
             default -> null;
         };
