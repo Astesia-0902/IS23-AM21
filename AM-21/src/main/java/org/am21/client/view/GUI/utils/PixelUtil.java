@@ -224,8 +224,8 @@ public class PixelUtil {
     public static int myHandConfirmW = pcWidth*893/10000;
     public static int myHandConfirmH = pcHeight/21;
 
-    public static int myHandItemX = 3;
-    public static int myHandItemY = 40;
+    public static int myHandItemX = pcWidth*18/10000;
+    public static int myHandItemY = pcHeight*38/1000;
 
     /**
      * menu living room interface
@@ -244,16 +244,16 @@ public class PixelUtil {
     /**
      * game results interface
      */
-    public static int labelRIW = 1000;
-    public static int labelRITitleH = 400;
-    public static int labelRITableH = 500;
+    public static int labelRIW = pcWidth*100/168;
+    public static int labelRITitleH = pcWidth*57/100;
+    public static int labelRITableH = pcHeight*10/21;
     public static int labelRIX = (PixelUtil.pcWidth - labelRIW) / 2;
     public static int labelRIY = (PixelUtil.pcWidth - labelRIW) / 2;
-    public static int labelRITitleY = 0;
-    public static int labelRIRowH=110;
+    public static int labelRITitleY = -pcHeight*2857/10000;
+    public static int labelRIRowH=pcHeight*105/1000;
 
-    public static int labelRIButtonX = 640;
-    public static int labelRIButtonY = 850;
+    public static int labelRIButtonX = pcWidth*381/1000;
+    public static int labelRIButtonY = pcHeight*81/100;
 
 
 }
