@@ -27,8 +27,6 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
         gui.waitingRoomInterface.settingButton.addActionListener(this);
         gui.waitingRoomInterface.chatButton.addActionListener(this);
         gui.waitingRoomInterface.chatButton.addMouseListener(this);
-        gui.waitingRoomInterface.helpButton.addActionListener(this);
-        gui.waitingRoomInterface.helpButton.addMouseListener(this);
         gui.waitingRoomInterface.onlineButton.addActionListener(this);
         gui.waitingRoomInterface.onlineButton.addMouseListener(this);
 
@@ -66,9 +64,7 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
             gui.askChangeSeats();
 
         }
-        if (e.getSource() == gui.waitingRoomInterface.helpButton) {
-            gui.askAssistMode();
-        }
+
         if (e.getSource() == gui.waitingRoomInterface.onlineButton) {
             try {
                 gui.showOnlinePlayer();
@@ -172,9 +168,6 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
         if (e.getSource() == gui.waitingRoomInterface.settingButton) {
             gui.waitingRoomInterface.settingButton.setForeground(new Color(106, 2, 1));
         }
-        if (e.getSource() == gui.waitingRoomInterface.helpButton) {
-            gui.waitingRoomInterface.helpButton.setIcon(gui.menuActionInterface.helpIconColor);
-        }
 
         if (e.getSource() == gui.waitingRoomInterface.chatButton) {
             gui.waitingRoomInterface.chatButton.setIcon(gui.menuActionInterface.chatIconColor);
@@ -197,9 +190,6 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
             gui.waitingRoomInterface.settingButton.setForeground(new Color(237, 179, 137));
         }
 
-        if (e.getSource() == gui.waitingRoomInterface.helpButton) {
-            gui.waitingRoomInterface.helpButton.setIcon(gui.menuActionInterface.helpIcon);
-        }
         if (e.getSource() == gui.waitingRoomInterface.chatButton) {
             gui.waitingRoomInterface.chatButton.setIcon(gui.menuActionInterface.chatIcon);
         }

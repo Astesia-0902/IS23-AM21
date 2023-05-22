@@ -25,8 +25,6 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
         gui.menuActionInterface.exitButton.addActionListener(this);
         gui.menuActionInterface.chatButton.addActionListener(this);
         gui.menuActionInterface.chatButton.addMouseListener(this);
-        gui.menuActionInterface.helpButton.addActionListener(this);
-        gui.menuActionInterface.helpButton.addMouseListener(this);
         gui.menuActionInterface.onlineButton.addActionListener(this);
         gui.menuActionInterface.onlineButton.addMouseListener(this);
 
@@ -66,9 +64,6 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
             } catch (RemoteException ex) {
                 throw new RuntimeException(ex);
             }
-        }
-        if (e.getSource() == gui.menuActionInterface.helpButton) {
-            gui.askAssistMode();
         }
         if (e.getSource() == gui.menuActionInterface.onlineButton) {
             try {
@@ -166,10 +161,6 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
             gui.menuActionInterface.exitButton.setBackground(new Color(245, 225, 199));
         }
 
-        if (e.getSource() == gui.menuActionInterface.helpButton) {
-            gui.menuActionInterface.helpButton.setIcon(gui.menuActionInterface.helpIconColor);
-        }
-
         if (e.getSource() == gui.menuActionInterface.chatButton) {
             gui.menuActionInterface.chatButton.setIcon(gui.menuActionInterface.chatIconColor);
         }
@@ -192,9 +183,6 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
             gui.menuActionInterface.exitButton.setBackground(new Color(222, 184, 135));
         }
 
-        if (e.getSource() == gui.menuActionInterface.helpButton) {
-            gui.menuActionInterface.helpButton.setIcon(gui.menuActionInterface.helpIcon);
-        }
         if (e.getSource() == gui.menuActionInterface.chatButton) {
             gui.menuActionInterface.chatButton.setIcon(gui.menuActionInterface.chatIcon);
         }

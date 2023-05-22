@@ -61,7 +61,6 @@ public class Gui implements View {
     public ChairManLabel chairManLabel;
     public ChatDialog chatDialog;
     public RuleDialog ruleDialog = new RuleDialog(frame);
-    public HelpDialog helpDialog = new HelpDialog(frame);
     public OnlineListDialog onlineListDialog;
     public MatchListInterface matchListInterface;
     //-------------------------------------------------------------
@@ -145,7 +144,6 @@ public class Gui implements View {
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
         new RuleListener(this);
-        new HelpListener(this);
     }
 
     public void init() throws Exception {
@@ -191,12 +189,12 @@ public class Gui implements View {
     @Override
     public void askMenuAction() throws RemoteException {
         if (menuActionInterface == null) {
-            menuActionInterface = new MenuActionInterface(frame);
+            menuActionInterface = new MenuActionInterface(frame, username);
             new MenuActionListener(this);
             System.out.println("MenuActionInterface done");
         } else if (menuActionInterface != null && NEED_NEW_FRAME) {
             System.out.println("New MenuAction Interface");
-            menuActionInterface = new MenuActionInterface(frame);
+            menuActionInterface = new MenuActionInterface(frame, username);
             new MenuActionListener(this);
             NEED_NEW_FRAME = false;
         }
@@ -218,10 +216,6 @@ public class Gui implements View {
     public int askChangeSeats(){
         waitingRoomInterface.maxSeatsDialog.setVisible(true);
         return 0;
-    }
-
-    public void askAssistMode() {
-        helpDialog.setVisible(true);
     }
 
     public void askWaitingAction() throws RemoteException {

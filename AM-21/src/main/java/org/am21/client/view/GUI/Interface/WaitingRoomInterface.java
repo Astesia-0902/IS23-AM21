@@ -1,5 +1,6 @@
 package org.am21.client.view.GUI.Interface;
 
+import org.am21.client.view.ClientView;
 import org.am21.client.view.GUI.component.BackGroundPanel;
 import org.am21.client.view.GUI.utils.ButtonUtil;
 import org.am21.client.view.GUI.utils.FontUtil;
@@ -24,9 +25,7 @@ public class WaitingRoomInterface extends JDialog {
     public final ImageIcon onlineIcon;
     public final JButton onlineButton;
     public final ImageIcon onlineIconColor;
-    public final ImageIcon helpIcon;
-    public final ImageIcon helpIconColor;
-    public final JButton helpButton;
+
     public final MaxSeatsDialog maxSeatsDialog;
     public String minNum;
     public String maxNum;
@@ -44,10 +43,19 @@ public class WaitingRoomInterface extends JDialog {
                 ImageUtil.resizeY(-315), ImageUtil.resizeX(980), ImageUtil.resizeY(1050)});
         BackGroundPanel backGroundPanel = new BackGroundPanel(background);
 
+        JLabel roomID = new JLabel("ID: " + ClientView.matchID);
+        roomID.setBorder(null);
+        roomID.setBounds(ImageUtil.resizeX(275), ImageUtil.resizeY(90),
+                ImageUtil.resizeX(356), ImageUtil.resizeY(108));
+        roomID.setForeground(new Color(237, 179, 137));
+        roomID.setFont(FontUtil.getFontByName("KaushanScript-Regular-1")
+                .deriveFont(Font.BOLD, ImageUtil.resizeY(20)));
+        roomID.setOpaque(false);
+
         // Waiting Players... (x/y)
         JLabel waitingMessage = new JLabel("Waiting Players...");
         waitingMessage.setBorder(null);
-        waitingMessage.setBounds(ImageUtil.resizeX(181), ImageUtil.resizeY(90),
+        waitingMessage.setBounds(ImageUtil.resizeX(181), ImageUtil.resizeY(140),
                 ImageUtil.resizeX(356), ImageUtil.resizeY(108));
         waitingMessage.setForeground(new Color(237, 179, 137));
         waitingMessage.setFont(FontUtil.getFontByName("KaushanScript-Regular-1")
@@ -58,13 +66,14 @@ public class WaitingRoomInterface extends JDialog {
         maxNum = numMax;
         numPlayer = new JLabel("(" + minNum + "/" + maxNum + ")");
         numPlayer.setBorder(null);
-        numPlayer.setBounds(ImageUtil.resizeX(420), ImageUtil.resizeY(95),
+        numPlayer.setBounds(ImageUtil.resizeX(420), ImageUtil.resizeY(145),
                 ImageUtil.resizeX(356), ImageUtil.resizeY(108));
         numPlayer.setForeground(new Color(237, 179, 137));
         numPlayer.setFont(FontUtil.getFontByName("KaushanScript-Regular-1")
                 .deriveFont(Font.PLAIN, ImageUtil.resizeY(20)));
         numPlayer.setOpaque(false);
 
+        getContentPane().add(roomID);
         getContentPane().add(waitingMessage);
         getContentPane().add(numPlayer);
 
@@ -98,17 +107,9 @@ public class WaitingRoomInterface extends JDialog {
         onlineIconColor = IconUtil.getIcon("onlineSelected");
         onlineButton = ButtonUtil.getCommandButton();
         onlineButton.setIcon(onlineIcon);
-        onlineButton.setBounds(ImageUtil.resizeX(280), ImageUtil.resizeY(85),
+        onlineButton.setBounds(ImageUtil.resizeX(340), ImageUtil.resizeY(85),
                 ImageUtil.resizeX(35), ImageUtil.resizeY(35));
         getContentPane().add(onlineButton);
-
-        helpIcon = IconUtil.getIcon("help");
-        helpIconColor = IconUtil.getIcon("helpSelected");
-        helpButton = ButtonUtil.getCommandButton();
-        helpButton.setIcon(helpIcon);
-        helpButton.setBounds(ImageUtil.resizeX(340), ImageUtil.resizeY(85),
-                ImageUtil.resizeX(35), ImageUtil.resizeY(35));
-        getContentPane().add(helpButton);
 
         backGroundPanel.setBorder(new MatteBorder(ImageUtil.resizeY(5), ImageUtil.resizeX(5),
                 ImageUtil.resizeY(5), ImageUtil.resizeX(5), new Color(139, 69, 19)));
