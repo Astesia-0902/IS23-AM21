@@ -321,6 +321,7 @@ public class GameController {
             if (GameManager.playerMatchMap.containsKey(p.getNickname())
                     && p.getMatch().matchID == (GameManager.playerMatchMap.get(p.getNickname()))
                     && p.getMatch().changeSeats(p, newMaxSeats)) {
+                VirtualViewHelper.virtualizeMatchList();
                 updatePlayersGlobalView();
                 notifyAllPlayers();
                 return true;

@@ -79,6 +79,7 @@ public class Match {
     public boolean changeSeats(Player p, int maxSeats) {
         if (gameState.equals(GameState.WaitingPlayers) && p.equals(admin) && maxSeats > 1 && maxSeats < 5) {
             this.maxSeats = maxSeats;
+            this.virtualView.setMaxSeats(maxSeats);
 
             Thread td = new Thread() {
                 @Override
