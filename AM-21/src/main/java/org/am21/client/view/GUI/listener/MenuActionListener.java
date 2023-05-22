@@ -82,8 +82,8 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
         }
 
         if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_2 ||
-                e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_3 ||
-                e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_4) {
+            e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_3 ||
+            e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_4) {
             int playerNum = 0;
 
             //TODO: MAX SEATS = 2/3/4...Create a new match with 2/3/4 players...Go to waiting room

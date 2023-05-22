@@ -47,7 +47,7 @@ public class MenuActionInterface extends JDialog {
         username.setBounds(ImageUtil.resizeX(50), ImageUtil.resizeY(8),
                 ImageUtil.resizeX(356), ImageUtil.resizeY(108));
         username.setForeground(new Color(237, 179, 137));
-        username.setFont(FontUtil.getFontByName("KaushanScript-Regular-1")
+        username.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
                 .deriveFont(Font.PLAIN, ImageUtil.resizeY(20)));
         username.setOpaque(false);
         getContentPane().add(username);

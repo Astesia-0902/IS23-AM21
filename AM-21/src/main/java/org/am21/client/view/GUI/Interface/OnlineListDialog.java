@@ -21,13 +21,13 @@ public class OnlineListDialog extends JDialog {
 
     public OnlineListDialog(JFrame frame, DefaultListModel<String> userModel) {
         super(frame);
-        setSize(ImageUtil.resizeX(200), ImageUtil.resizeY(200));
         onlineList = new JList<>(userModel);
         onlineList.setForeground(new Color(106, 2, 1, 255));
-        onlineList.setFont(FontUtil.getFontByName("Leira-Lite-2").deriveFont(Font.PLAIN,ImageUtil.resizeY(15)));
+        onlineList.setFont(new Font("Serif", Font.BOLD, ImageUtil.resizeY(15)));
 
         scrollPane = new JScrollPane(onlineList);
-        scrollPane.setBorder(new CompoundBorder(new MatteBorder(0, ImageUtil.resizeY(5), ImageUtil.resizeX(5), ImageUtil.resizeY(5),
+        scrollPane.setBorder(new CompoundBorder(new MatteBorder(0, ImageUtil.resizeY(5),
+                ImageUtil.resizeX(5), ImageUtil.resizeY(5),
                 new Color(85, 35, 222, 230)), new EmptyBorder(ImageUtil.resizeX(5),
                 ImageUtil.resizeY(5), ImageUtil.resizeX(5), ImageUtil.resizeY(5))));
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -37,7 +37,8 @@ public class OnlineListDialog extends JDialog {
         closeIcon = IconUtil.getIcon("close_Purple");
         closeIconSelect = IconUtil.getIcon("close_Fuchsia");
         closeLabel = new JLabel(closeIcon);
-        closeLabel.setBounds(ImageUtil.resizeX(320), ImageUtil.resizeY(6), ImageUtil.resizeX(25), ImageUtil.resizeY(25));
+        closeLabel.setBounds(ImageUtil.resizeX(320), ImageUtil.resizeY(6),
+                ImageUtil.resizeX(25), ImageUtil.resizeY(25));
 
         JLabel onlineList = new JLabel("Online List");
         onlineList.setBorder(null);
@@ -63,9 +64,9 @@ public class OnlineListDialog extends JDialog {
         setLocationRelativeTo(null);
         setResizable(false);
         setUndecorated(true);
-        setBackground(new Color(247, 253, 252, 128));
         setVisible(true);
         setBackground(new Color(178, 173, 204, 230));
+        pack();
         setOpacity(0.9f);
     }
 }

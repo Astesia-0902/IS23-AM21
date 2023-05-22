@@ -36,7 +36,7 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
             if (username.isEmpty()) {
                 gui.loginInterface.nicknameField.setBorder(new CompoundBorder(new MatteBorder
                         (ImageUtil.resizeY(3), ImageUtil.resizeX(3), ImageUtil.resizeY(5),
-                                ImageUtil.resizeX(5),new Color(178, 34, 34)),
+                                ImageUtil.resizeX(5), new Color(178, 34, 34)),
                         new EmptyBorder(0, ImageUtil.resizeX(50), 0, 0)));
 
             } else {
@@ -45,7 +45,7 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
                 try {
 //                    gui.loginInterface.dispose();
 //                    gui.askMenuAction();
-                    if (gui.commCtrl.logIn(username,gui.clientCallBack)){
+                    if (gui.commCtrl.logIn(username, gui.clientCallBack)) {
                         gui.username = username;
                         gui.loginInterface.dispose();
 
@@ -71,7 +71,7 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
         if (e.getSource() == gui.loginInterface.minusLabel) {
             gui.frame.setExtendedState(Frame.ICONIFIED); // minimize window
         }
-        if (e.getSource() == gui.loginInterface){
+        if (e.getSource() == gui.loginInterface) {
             gui.loginInterface.loginButton.requestFocus();
         }
     }

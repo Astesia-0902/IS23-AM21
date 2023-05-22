@@ -22,7 +22,9 @@ public class FontUtil{
         fontMap.put("KaushanScript-Regular-1","KaushanScript-Regular-1.otf");
         fontMap.put("Brizel-2","Brizel-2.ttf");
         fontMap.put("Boisu-Stroke-2","Boisu-Stroke-2.otf");
+        fontMap.put("Boisu-Full-3","Boisu-Full-3.otf");
         fontMap.put("Boisu-Fill-4","Boisu-Fill-4.otf");
+        fontMap.put("HongLeiXingShuJianTi-2","HongLeiXingShuJianTi-2.otf");
 
         InputStream inputStream = null;
         File file = null;

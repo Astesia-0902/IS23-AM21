@@ -213,7 +213,7 @@ public class Gui implements View {
         return 0;
     }
 
-    public int askChangeSeats(){
+    public int askChangeSeats() {
         waitingRoomInterface.maxSeatsDialog.setVisible(true);
         return 0;
     }
@@ -252,7 +252,7 @@ public class Gui implements View {
             String[] match = new String[ClientView.matchList.length];
             for (int i = 0; i < ClientView.matchList.length; i++) {
                 match[i] = "ID: " + ClientView.matchList[i][0] + "  |  " + ClientView.matchList[i][1]
-                        + "\t| Players: (" + ClientView.matchList[i][2] + "/" + ClientView.matchList[i][3] + ")";
+                           + " | Players: (" + ClientView.matchList[i][2] + "/" + ClientView.matchList[i][3] + ")";
             }
             for (String m : match) {
                 matchModel.addElement(m);
@@ -273,10 +273,10 @@ public class Gui implements View {
                 //TODO: leave action
             }
         });*/
-        if(livingRoomMenuInterface!=null) {
+        if (livingRoomMenuInterface != null) {
             livingRoomMenuInterface.quitGame.addActionListener(e -> livingRoomInterface.dispose());
         }
-        if(gameResultsInterface!=null) {
+        if (gameResultsInterface != null) {
             gameResultsInterface.quitGame.addActionListener(e -> gameResultsInterface.dispose());
         }
         return commCtrl.leaveMatch();
@@ -284,10 +284,10 @@ public class Gui implements View {
 
     @Override
     public boolean askExitGame() throws RemoteException {
-        if(livingRoomMenuInterface!=null) {
+        if (livingRoomMenuInterface != null) {
             livingRoomMenuInterface.quitGame.addActionListener(e -> livingRoomInterface.dispose());
         }
-        if(gameResultsInterface!=null) {
+        if (gameResultsInterface != null) {
             gameResultsInterface.quitGame.addActionListener(e -> gameResultsInterface.dispose());
         }
         if (commCtrl.exitGame()) {
@@ -299,7 +299,7 @@ public class Gui implements View {
 
     @Override
     public void showCommonGoals() {
-        commonGoalPanel = new CommonGoalPanel(ClientView.commonGoal.get(0),ClientView.commonGoal.get(1));
+        commonGoalPanel = new CommonGoalPanel(ClientView.commonGoal.get(0), ClientView.commonGoal.get(1));
         //commonGoalPanel = new CommonGoalPanel("CommonGoal2Lines", "CommonGoalDiagonal");
         livingRoomInterface.livingRoomPane.add(commonGoalPanel, JLayeredPane.PALETTE_LAYER);
 
@@ -329,7 +329,7 @@ public class Gui implements View {
 
     @Override
     public void showPlayerShelf() throws RemoteException {
-       //TODO: myShelfPanel.refreshShelf(ClientView.Shelves.get);
+        //TODO: myShelfPanel.refreshShelf(ClientView.Shelves.get);
         //TODO: ClientView.Shelves
     }
 
@@ -342,14 +342,13 @@ public class Gui implements View {
     public void showBoard() throws RemoteException {
 
         //set game Board
-        for (int i = 0; i < Storage.BOARD_ROW; i++){
-            for (int j = 0; j < Storage.BOARD_COLUMN; j++){
-                if(ClientView.virtualBoard[i][j]!=null&&!gameBoardPanel.containItem(i,j))
-                {
-                    gameBoardPanel.putItem(i, j,ClientView.virtualBoard[i][j]);
+        for (int i = 0; i < Storage.BOARD_ROW; i++) {
+            for (int j = 0; j < Storage.BOARD_COLUMN; j++) {
+                if (ClientView.virtualBoard[i][j] != null && !gameBoardPanel.containItem(i, j)) {
+                    gameBoardPanel.putItem(i, j, ClientView.virtualBoard[i][j]);
                 }
             }
-         }
+        }
 
         //for test
         //gameBoardPanel.putItem(3, 3, "_Games__1.1");
@@ -429,8 +428,7 @@ public class Gui implements View {
         showPersonalGoal();
         showCommonGoals();
 
-         if(maxSeats<=2)
-        {
+        if (maxSeats <= 2) {
             //setFirst enemy's Label
             enemyPanelA = new EnemyPanel(PixelUtil.commonY_1, ImageUtil.getBoardImage("enemyA"));
             livingRoomInterface.livingRoomPane.add(enemyPanelA, JLayeredPane.PALETTE_LAYER);
@@ -440,8 +438,7 @@ public class Gui implements View {
             livingRoomInterface.livingRoomPane.add(enemyShelfPanelA, JLayeredPane.PALETTE_LAYER);
             //TODO: showEveryShelf ???
         }
-        if(maxSeats<=3)
-        {
+        if (maxSeats <= 3) {
             //setSecond enemy's Label
             enemyPanelB = new EnemyPanel(PixelUtil.commonY_2, ImageUtil.getBoardImage("enemyB"));
             livingRoomInterface.livingRoomPane.add(enemyPanelB, JLayeredPane.PALETTE_LAYER);
@@ -452,8 +449,7 @@ public class Gui implements View {
             //TODO: showEveryShelf ???
 
         }
-        if(maxSeats<=4)
-        {
+        if (maxSeats <= 4) {
             //setThird enemy's Label
             enemyPanelC = new EnemyPanel(PixelUtil.commonY_3, ImageUtil.getBoardImage("enemyC"));
             livingRoomInterface.livingRoomPane.add(enemyPanelC, JLayeredPane.PALETTE_LAYER);
@@ -482,8 +478,8 @@ public class Gui implements View {
         livingRoomInterface.livingRoomPane.add(myHandBoardPanel, JLayeredPane.PALETTE_LAYER);
 
         //set my shelf
-        myShelfPanel = new ShelfPanel(PixelUtil.myGridX,PixelUtil.myGridY,PixelUtil.myCellW,PixelUtil.myCellH,PixelUtil.myItemW,PixelUtil.myItemH);
-        livingRoomInterface.livingRoomPane.add(myShelfPanel,JLayeredPane.PALETTE_LAYER);
+        myShelfPanel = new ShelfPanel(PixelUtil.myGridX, PixelUtil.myGridY, PixelUtil.myCellW, PixelUtil.myCellH, PixelUtil.myItemW, PixelUtil.myItemH);
+        livingRoomInterface.livingRoomPane.add(myShelfPanel, JLayeredPane.PALETTE_LAYER);
         showPlayerShelf();
 
         //setButton Function
@@ -507,7 +503,7 @@ public class Gui implements View {
 
     }
 
-    public void print(String message){
+    public void print(String message) {
         JOptionPane.showMessageDialog(frame, message);
     }
 
@@ -518,7 +514,7 @@ public class Gui implements View {
             NEW_PrivateChat = false;
             new ChatListener(this);
             //runChatMinion();
-        }else {
+        } else {
             chatDialog.reloadData();
             chatDialog.getContentPane().revalidate();
             chatDialog.getContentPane().repaint();
@@ -530,9 +526,9 @@ public class Gui implements View {
         DefaultListModel<String> userModel = new DefaultListModel<>();
         for (int i = 0; i < ClientView.onlinePlayers.length; i++) {
             if (ClientView.onlinePlayers[i][0] != null) {
-                if(ClientView.onlinePlayers[i][0].equals(username)){
+                if (ClientView.onlinePlayers[i][0].equals(username)) {
                     userModel.addElement(ClientView.onlinePlayers[i][0] + "  |  " + ClientView.onlinePlayers[i][1] + " (You) ");
-                }else {
+                } else {
                     userModel.addElement(ClientView.onlinePlayers[i][0] + "  |  " + ClientView.onlinePlayers[i][1]);
                 }
             }
@@ -541,9 +537,6 @@ public class Gui implements View {
 
         onlineListDialog = new OnlineListDialog(frame, userModel);
         new OnlineListListener(this);
-
-
-        //OnlineList onlineList = new OnlineList(frame);
     }
 
     public void replyDEBUG(String message) {
@@ -559,16 +552,6 @@ public class Gui implements View {
     public void showGameRules() {
         ruleDialog.setVisible(true);
     }
-
-    /*public static void main(String[] args) {
-        try {
-            new Gui().init();
-//            new Gui().printer("Error");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }*/
-
 
     //for living room test (it will be deleted, don't worry )
     public static void main(String[] args) {
@@ -632,7 +615,6 @@ public class Gui implements View {
     public void runChatMinion() {
 
 
-
     }
 
 
@@ -669,7 +651,7 @@ public class Gui implements View {
                         String receiver = "";
                         if (newKey[0].equals(username)) {
                             receiver = newKey[1];
-                        }else if(newKey[1].equals(username)){
+                        } else if (newKey[1].equals(username)) {
                             receiver = newKey[0];
                         }
 

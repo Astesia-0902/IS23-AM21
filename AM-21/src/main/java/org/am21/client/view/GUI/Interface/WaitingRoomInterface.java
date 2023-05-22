@@ -125,10 +125,11 @@ public class WaitingRoomInterface extends JDialog {
 
     /**
      * This method allow to reload numPlayers data
+     *
      * @param minNum players in room
      * @param maxNum max number of players for the room
      */
-    public void reloadPlayerNumber(String minNum,String maxNum){
+    public void reloadPlayerNumber(String minNum, String maxNum) {
         this.numPlayer.setText("(" + minNum + "/" + maxNum + ")");
     }
 }

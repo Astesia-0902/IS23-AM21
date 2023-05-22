@@ -76,10 +76,6 @@ public class OnlineListListener implements MouseListener, MouseMotionListener, A
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-//        if (gui.chatDialog != null) {
-//            //gui.chatDialog.setVisible(false);
-//            gui.chatDialog.dispose();
-//        }
         //Online Players List Click Event-> Open Chat Dialog if not user itself
         String user = gui.onlineListDialog.onlineList.getSelectedValue().split("\\s*\\|\\s*")[0];
         if (!Gui.myChatMap.containsKey(user) && !gui.username.equals(user)) {
@@ -91,7 +87,7 @@ public class OnlineListListener implements MouseListener, MouseMotionListener, A
         }
 
         Gui.chatReceiver = user;
-        if (gui.chatDialog!=null) {
+        if (gui.chatDialog != null) {
             gui.chatDialog.localPrivateChatMap.keySet().forEach(player -> {
                 if (player.equals(Gui.chatReceiver)) {
                     gui.chatDialog.localPrivateChatMap.get(player).setBackground(new Color(83, 46, 91, 230));

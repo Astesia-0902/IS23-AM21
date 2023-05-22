@@ -18,12 +18,13 @@ public class MatchListInterface extends JDialog {
     public JList<String> matchList;
     public JPanel topPanel;
     public JScrollPane scrollPane;
+
     public MatchListInterface(JFrame frame, DefaultListModel<String> matchModel) {
         super(frame);
-        setSize(ImageUtil.resizeX(250), ImageUtil.resizeY(400));
+        setSize(ImageUtil.resizeX(300), ImageUtil.resizeY(400));
         matchList = new JList<>(matchModel);
         matchList.setForeground(new Color(106, 2, 1, 255));
-        matchList.setFont(FontUtil.getFontByName("Leira-Lite-2").deriveFont(Font.PLAIN,ImageUtil.resizeY(15)));
+        matchList.setFont(new Font("Serif", Font.BOLD, ImageUtil.resizeY(15)));
 
         scrollPane = new JScrollPane(matchList);
         scrollPane.setBorder(new CompoundBorder(new MatteBorder(0, ImageUtil.resizeY(5), ImageUtil.resizeX(5), ImageUtil.resizeY(5),
@@ -38,14 +39,14 @@ public class MatchListInterface extends JDialog {
         closeLabel = new JLabel(closeIcon);
         closeLabel.setBounds(ImageUtil.resizeX(320), ImageUtil.resizeY(6), ImageUtil.resizeX(25), ImageUtil.resizeY(25));
 
-        JLabel onlineList = new JLabel("Match List");
-        onlineList.setBorder(null);
-        onlineList.setBounds(ImageUtil.resizeX(181), ImageUtil.resizeY(195),
+        JLabel match_list = new JLabel("Match List");
+        match_list.setBorder(null);
+        match_list.setBounds(ImageUtil.resizeX(181), ImageUtil.resizeY(195),
                 ImageUtil.resizeX(356), ImageUtil.resizeY(108));
-        onlineList.setForeground(new Color(245, 238, 252));
-        onlineList.setFont(FontUtil.getFontByName("Twenty-Regular-2").deriveFont(Font.PLAIN,
+        match_list.setForeground(new Color(245, 238, 252));
+        match_list.setFont(FontUtil.getFontByName("Twenty-Regular-2").deriveFont(Font.PLAIN,
                 ImageUtil.resizeY(16)));
-        onlineList.setOpaque(false);
+        match_list.setOpaque(false);
 
         topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
@@ -54,7 +55,7 @@ public class MatchListInterface extends JDialog {
                 ImageUtil.resizeY(5), ImageUtil.resizeX(5), ImageUtil.resizeY(5),
                 new Color(85, 35, 222, 230)));
         topPanel.add(closeLabel, BorderLayout.EAST);
-        topPanel.add(onlineList, BorderLayout.CENTER);
+        topPanel.add(match_list, BorderLayout.CENTER);
 
         add(topPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);

@@ -44,7 +44,7 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
         if (e.getSource() == gui.chatDialog.sendButton) {
             String message = gui.chatDialog.chatMessage.getText();
             //gui.handleChatMessage(message,true);
-            if(gui.commCtrl.sendPrivateMessage(message, Gui.chatReceiver, true)){
+            if (gui.commCtrl.sendPrivateMessage(message, Gui.chatReceiver, true)) {
                 gui.chatDialog.currentChatHistory = Gui.privateChatHistoryMap.get(Gui.chatReceiver);
                 gui.chatDialog.scrollPane.setViewportView(gui.chatDialog.currentChatHistory);
                 gui.askChat();

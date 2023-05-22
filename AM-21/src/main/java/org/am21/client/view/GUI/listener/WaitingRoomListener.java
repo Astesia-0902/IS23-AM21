@@ -12,7 +12,7 @@ import java.rmi.RemoteException;
 public class WaitingRoomListener implements MouseListener, MouseMotionListener, ActionListener {
     Gui gui;
     Point p = new Point();
-    int playerNum=0;
+    int playerNum = 0;
 
 
     public WaitingRoomListener(Gui gui) {
@@ -44,7 +44,7 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
         if (e.getSource() == gui.waitingRoomInterface.leaveButton) {
             try {
                 System.out.println("Try to leave");
-                if(gui.askLeaveMatch()) {
+                if (gui.askLeaveMatch()) {
                     //TEMP
                     System.out.println("Leave Waiting Room");
                     gui.GO_TO_MENU = true;
@@ -85,8 +85,8 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
         }
 
         if (e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_2 ||
-                e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_3 ||
-                e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_4) {
+            e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_3 ||
+            e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_4) {
             playerNum = 0;
 
             //TODO: MAX SEATS = 2/3/4...Create a new match with 2/3/4 players...Go to waiting room
@@ -100,12 +100,12 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
 
             if (gui.commCtrl.changeMatchSeats(playerNum)) {
                 SwingUtilities.invokeLater(() -> {
-                    gui.waitingRoomInterface.reloadPlayerNumber(gui.waitingRoomInterface.minNum,String.valueOf(playerNum));
+                    gui.waitingRoomInterface.reloadPlayerNumber(gui.waitingRoomInterface.minNum, String.valueOf(playerNum));
                     gui.waitingRoomInterface.revalidate();
                     gui.waitingRoomInterface.repaint();
                 });
 
-                gui.replyDEBUG("Number of Seats available changed" );
+                gui.replyDEBUG("Number of Seats available changed");
                 gui.waitingRoomInterface.timer = new Timer(500, e1 -> {
                     //gui.waitingRoomInterface.dispose();
                     //System.out.println("WaitingRoomInterface Disposed");

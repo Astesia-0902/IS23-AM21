@@ -20,7 +20,7 @@ import java.util.HashMap;
 
 public class ChatDialog extends JDialog {
     public JTextArea currentChatHistory;
-    public JTextField chatMessage=new JTextField("");
+    public JTextField chatMessage = new JTextField("");
     public JButton sendButton;
     public JPanel chatPanel;
     public JPanel topPanel;
@@ -75,14 +75,15 @@ public class ChatDialog extends JDialog {
         gbc.weighty = 1.0;
         //Chat displayed at least once (clicked on Online List at least once)
         localPrivateChatMap = Gui.myChatMap;
-        for (String user: localPrivateChatMap.keySet()){
+        for (String user : localPrivateChatMap.keySet()) {
             localPrivateChatMap.get(user).setForeground(new Color(106, 2, 1));
             localPrivateChatMap.get(user).setBackground(new Color(178, 173, 204, 230));
             localPrivateChatMap.get(user).setUI(new ButtonColorUI(new Color(83, 46, 91, 230)));
             localPrivateChatMap.get(user).setBorder(new CompoundBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 250, 205),
                     new Color(255, 250, 205), new Color(139, 69, 19), new Color(139, 69, 19)),
                     new EmptyBorder(0, ImageUtil.resizeX(10), 0, ImageUtil.resizeX(10))));
-            localPrivateChatMap.get(user).setFont(FontUtil.getFontByName("Leira-Lite-2").deriveFont(Font.PLAIN, ImageUtil.resizeY(18)));
+            localPrivateChatMap.get(user).setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
+                    .deriveFont(Font.PLAIN, ImageUtil.resizeY(18)));
             gbc.fill = GridBagConstraints.BOTH;
             playerPanel.add(localPrivateChatMap.get(user), gbc);
             gbc.gridy++;
@@ -172,14 +173,10 @@ public class ChatDialog extends JDialog {
     }
 
 
-    public void reloadData(){
+    public void reloadData() {
         currentChatHistory = Gui.privateChatHistoryMap.get(Gui.chatReceiver);
 
     }
-
-
-
-
 
 
 }
