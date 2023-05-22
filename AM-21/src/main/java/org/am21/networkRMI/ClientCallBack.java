@@ -57,10 +57,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
             cli.updateCLI(cli, 500);
         } else if (gui != null) {
             //TODO: wake thread
-            /*synchronized (gui.guiMinion) {
-                gui.setREFRESH(false);
-                gui.wakeMinion();
-            }*/
+
         }
     }
 

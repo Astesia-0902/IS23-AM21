@@ -3,6 +3,7 @@ package org.am21.client;
 import org.am21.client.view.ClientView;
 import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.TUI.Cli;
+import org.am21.model.enumer.SC;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -10,8 +11,10 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class SocketClient extends Thread {
-    public static final String serverName = "localhost";
-    public static final int serverPort = 8080;
+    public static final String defaultServerName = "localhost";
+    public static final int defaultServerPort = 8080;
+    public static String serverName = "localhost";
+    public static int serverPort = 8080;
     public static Socket socketClient;
     private static DataInputStream in;
     private static DataOutputStream out;
@@ -55,14 +58,19 @@ public class SocketClient extends Thread {
             case "Message" -> {
                 if (cli != null) {
                     cli.printer(messageArray[1]);
+                }else if (gui != null) {
+                    //gui.printer(message,"Successful");
+                    gui.replyDEBUG(messageArray[1]);
                 }
                 return;
             }
             case "VirtualView" -> {
+                ClientView.setFullViewVariables(messageArray[1], Integer.parseInt(messageArray[2]));
                 if (cli != null) {
-                    ClientView.setFullViewVariables(messageArray[1], Integer.parseInt(messageArray[2]));
                     cli.checkTurn();
                     cli.updateCLI(cli, 500);
+                } else if(gui!=null){
+
                 }
             }
             case "MATCH_START" -> {
@@ -71,6 +79,11 @@ public class SocketClient extends Thread {
                     ClientView.setGameOn(true);
                     ClientView.setMatchStart(true);
                     cli.updateCLI(cli, 1000);
+                }else if(gui!=null){
+                    gui.setGO_TO_MENU(false);
+                    gui.setGAME_ON(true);
+                    gui.setSTART(true);
+
                 }
             }
             case "WAIT" -> {
@@ -78,13 +91,20 @@ public class SocketClient extends Thread {
                     ClientView.convertBackMatchInfo(messageArray[1]);
                     ClientView.setGameOn(false);
                     ClientView.setGoToMenu(false);
+                }else if (gui != null) {
+                    gui.setGAME_ON(false);
+                    gui.setGO_TO_MENU(false);
                 }
             }
             case "GoToMenu" -> {
                 if (cli != null) {
                     ClientView.setGoToMenu(true);
                     ClientView.setGameOn(false);
+                }else if (gui != null) {
+                    gui.setGO_TO_MENU(true);
+                    gui.setGAME_ON(false);
                 }
+
             }
             case "EndMatch" -> {
                 if (cli != null) {
@@ -92,8 +112,13 @@ public class SocketClient extends Thread {
                     ClientView.setGoToMenu(true);
                     ClientView.setGameOn(false);
                     ClientView.setMatchStart(false);
+                }else if (gui != null) {
+                    gui.setEND(true);
+                    gui.setGO_TO_MENU(true);
+                    gui.setGAME_ON(false);
+                    gui.setSTART(false);
+                    gui.replyDEBUG(SC.WHITE_BB + "\nServer > The match ended. Good Bye! Press 'Enter'" + SC.RST);
                 }
-
             }
             case "VirtualHand" -> {
                 ClientView.convertBackHand(messageArray[1]);
@@ -106,6 +131,8 @@ public class SocketClient extends Thread {
                         cli.addMessageInLine(messageArray[1]);
                         cli.updateCLI(cli, 0);
                     }
+                }else if (gui!=null){
+                    gui.askChat();
                 }
             }
             case "ServerVirtualView" -> {
@@ -119,6 +146,13 @@ public class SocketClient extends Thread {
                 if (cli != null) {
                     //System.out.println("Update...");
                     cli.updateCLI(cli, milliseconds);
+                }else if (gui != null) {
+                    if(!gui.GAME_ON && !gui.GO_TO_MENU){
+                        //Waiting room
+                        gui.WAIT_ROOM_REFRESH=true;
+
+
+                    }
                 }
             }
 

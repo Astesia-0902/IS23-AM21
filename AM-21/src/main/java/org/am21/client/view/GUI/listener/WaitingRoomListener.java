@@ -12,6 +12,7 @@ import java.rmi.RemoteException;
 public class WaitingRoomListener implements MouseListener, MouseMotionListener, ActionListener {
     Gui gui;
     Point p = new Point();
+    int playerNum=0;
 
 
     public WaitingRoomListener(Gui gui) {
@@ -30,6 +31,14 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
         gui.waitingRoomInterface.helpButton.addMouseListener(this);
         gui.waitingRoomInterface.onlineButton.addActionListener(this);
         gui.waitingRoomInterface.onlineButton.addMouseListener(this);
+
+        gui.waitingRoomInterface.maxSeatsDialog.playerButton_2.addMouseListener(this);
+        gui.waitingRoomInterface.maxSeatsDialog.playerButton_2.addActionListener(this);
+        gui.waitingRoomInterface.maxSeatsDialog.playerButton_3.addMouseListener(this);
+        gui.waitingRoomInterface.maxSeatsDialog.playerButton_3.addActionListener(this);
+        gui.waitingRoomInterface.maxSeatsDialog.playerButton_4.addMouseListener(this);
+        gui.waitingRoomInterface.maxSeatsDialog.playerButton_4.addActionListener(this);
+        gui.waitingRoomInterface.maxSeatsDialog.closeLabel.addMouseListener(this);
     }
 
     @Override
@@ -53,11 +62,9 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
             gui.showGameRules();
         }
         if (e.getSource() == gui.waitingRoomInterface.settingButton) {
-            if (gui.commCtrl.changeMatchSeats(gui.askMaxSeats())) {
-                gui.replyDEBUG("Number of Seats available changed" );
-            } else {
-                gui.replyDEBUG("Operation failed: Only the admin are allowed to change settings");
-            }
+            //TODO: Change method of askMaxSeats in different one
+            gui.askChangeSeats();
+
         }
         if (e.getSource() == gui.waitingRoomInterface.helpButton) {
             gui.askAssistMode();
@@ -80,10 +87,65 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
             }
             gui.askChat();
         }
+
+        if (e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_2 ||
+                e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_3 ||
+                e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_4) {
+            playerNum = 0;
+
+            //TODO: MAX SEATS = 2/3/4...Create a new match with 2/3/4 players...Go to waiting room
+            if (e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_2) {
+                playerNum = 2;
+            } else if (e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_3) {
+                playerNum = 3;
+            } else if (e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_4) {
+                playerNum = 4;
+            }
+
+            if (gui.commCtrl.changeMatchSeats(playerNum)) {
+                SwingUtilities.invokeLater(() -> {
+                    gui.waitingRoomInterface.reloadPlayerNumber(gui.waitingRoomInterface.minNum,String.valueOf(playerNum));
+                    gui.waitingRoomInterface.revalidate();
+                    gui.waitingRoomInterface.repaint();
+                });
+
+                gui.replyDEBUG("Number of Seats available changed" );
+                gui.waitingRoomInterface.timer = new Timer(500, e1 -> {
+                    //gui.waitingRoomInterface.dispose();
+                    //System.out.println("WaitingRoomInterface Disposed");
+                    gui.waitingRoomInterface.maxSeatsDialog.setVisible(false);
+                    gui.waitingRoomInterface.timer.stop();
+                });
+                gui.waitingRoomInterface.timer.start();
+
+
+            } else {
+                gui.replyDEBUG("Operation failed: Only the admin are allowed to change settings");
+            }
+
+        }
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        if (e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_2) {
+            gui.waitingRoomInterface.maxSeatsDialog.playerButton_2.setIcon(gui.waitingRoomInterface.maxSeatsDialog.buttonSelectedIcon);
+            gui.waitingRoomInterface.maxSeatsDialog.playerButton_3.setIcon(gui.waitingRoomInterface.maxSeatsDialog.buttonIcon);
+            gui.waitingRoomInterface.maxSeatsDialog.playerButton_4.setIcon(gui.waitingRoomInterface.maxSeatsDialog.buttonIcon);
+        }
+        if (e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_3) {
+            gui.waitingRoomInterface.maxSeatsDialog.playerButton_2.setIcon(gui.waitingRoomInterface.maxSeatsDialog.buttonIcon);
+            gui.waitingRoomInterface.maxSeatsDialog.playerButton_3.setIcon(gui.waitingRoomInterface.maxSeatsDialog.buttonSelectedIcon);
+            gui.waitingRoomInterface.maxSeatsDialog.playerButton_4.setIcon(gui.waitingRoomInterface.maxSeatsDialog.buttonIcon);
+        }
+        if (e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_4) {
+            gui.waitingRoomInterface.maxSeatsDialog.playerButton_2.setIcon(gui.waitingRoomInterface.maxSeatsDialog.buttonIcon);
+            gui.waitingRoomInterface.maxSeatsDialog.playerButton_3.setIcon(gui.waitingRoomInterface.maxSeatsDialog.buttonIcon);
+            gui.waitingRoomInterface.maxSeatsDialog.playerButton_4.setIcon(gui.waitingRoomInterface.maxSeatsDialog.buttonSelectedIcon);
+        }
+        if (e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.closeLabel) {
+            gui.waitingRoomInterface.maxSeatsDialog.setVisible(false);
+        }
     }
 
     @Override

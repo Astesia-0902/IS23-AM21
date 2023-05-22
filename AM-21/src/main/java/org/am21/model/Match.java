@@ -79,10 +79,12 @@ public class Match {
     public boolean changeSeats(Player p, int maxSeats) {
         if (gameState.equals(GameState.WaitingPlayers) && p.equals(admin) && maxSeats > 1 && maxSeats < 5) {
             this.maxSeats = maxSeats;
+
             Thread td = new Thread() {
                 @Override
                 public void run() {
                     super.run();
+                    updatePlayersView();
                     checkRoom();
                 }
             };

@@ -53,7 +53,8 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
 
                         gui.guiMinion.start();
 
-                        //gui.askMenuAction();
+                    } else {
+                        gui.print("Same name");
                     }
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);

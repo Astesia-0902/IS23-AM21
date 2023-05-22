@@ -5,6 +5,9 @@ import org.am21.client.view.GUI.utils.PixelUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.rmi.RemoteException;
+
+import static org.am21.client.SocketClient.gui;
 
 
 public class LivingRoomMenuInterface extends JFrame {
@@ -12,7 +15,7 @@ public class LivingRoomMenuInterface extends JFrame {
     public JLayeredPane menuLRPane;
     public JLabel menuLRBack;
     public JButton backGame;
-    public JButton backWaitingRoom;
+    public JButton leaveMatch;
     public JButton quitGame;
     public LivingRoomMenuInterface(){
         int menuLRX = (PixelUtil.pcWidth - PixelUtil.menuLRW) / 2;
@@ -34,7 +37,7 @@ public class LivingRoomMenuInterface extends JFrame {
         menuLRBack.setIcon(ImageUtil.getBoardImage("menuLRBack"));
         menuLRPane.add(menuLRBack,JLayeredPane.DEFAULT_LAYER);
 
-        backGame = new JButton("BACK TO GAME");
+        backGame = new JButton("BACK TO PLAY");
         backGame.setFont(new Font("DejaVu Sans",Font.PLAIN,24));
         backGame.setBounds(PixelUtil.buttonLRX,PixelUtil.buttonBackLRY,PixelUtil.buttonLRW,PixelUtil.buttonLRH);
         backGame.setOpaque(true);
@@ -43,20 +46,38 @@ public class LivingRoomMenuInterface extends JFrame {
         backGame.addActionListener(e -> dispose());
         menuLRPane.add(backGame,JLayeredPane.PALETTE_LAYER);
 
-        backWaitingRoom = new JButton("GO TO WAITING ROOM");
-        backWaitingRoom.setFont(new Font("DejaVu Sans",Font.PLAIN,24));
-        backWaitingRoom.setBounds(PixelUtil.buttonLRX,PixelUtil.buttonWaitLRY,PixelUtil.buttonLRW,PixelUtil.buttonLRH);
-        backWaitingRoom.setOpaque(true);
-        backWaitingRoom.setBackground(new Color(203, 63, 4, 230));
-        backWaitingRoom.setForeground(new Color(203, 63, 4, 230));
-        menuLRPane.add(backWaitingRoom,JLayeredPane.PALETTE_LAYER);
+        leaveMatch = new JButton("LEAVE MATCH");
+        leaveMatch.setFont(new Font("DejaVu Sans",Font.PLAIN,24));
+        leaveMatch.setBounds(PixelUtil.buttonLRX,PixelUtil.buttonWaitLRY,PixelUtil.buttonLRW,PixelUtil.buttonLRH);
+        leaveMatch.setOpaque(true);
+        leaveMatch.setBackground(new Color(203, 63, 4, 230));
+        leaveMatch.setForeground(new Color(203, 63, 4, 230));
+        leaveMatch.addActionListener(e -> {
+            try {
+                if(gui.askLeaveMatch()){
+                    dispose();
+                }
+            } catch (RemoteException ex) {
+                throw new RuntimeException(ex);
+            }
 
-        quitGame = new JButton("LEAVE THE GAME");
+        });
+        menuLRPane.add(leaveMatch,JLayeredPane.PALETTE_LAYER);
+
+        quitGame = new JButton("EXIT GAME");
         quitGame.setFont(new Font("DejaVu Sans",Font.PLAIN,24));
         quitGame.setBounds(PixelUtil.buttonLRX,PixelUtil.buttonLeaveLRY,PixelUtil.buttonLRW,PixelUtil.buttonLRH);
         quitGame.setOpaque(true);
         quitGame.setBackground(new Color(172, 19, 5, 230));
         quitGame.setForeground(new Color(172, 19, 5, 230));
+        quitGame.addActionListener(e -> {
+            try {
+                gui.askExitGame();
+            } catch (RemoteException ex) {
+                throw new RuntimeException(ex);
+            }
+
+        });
         menuLRPane.add(quitGame,JLayeredPane.PALETTE_LAYER);
 
     }

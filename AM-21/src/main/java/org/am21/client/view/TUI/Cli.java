@@ -65,7 +65,7 @@ public class Cli implements View {
             System.out.print("""
                     What would you like to use to contact the server? RMI or Socket?
                         1  --> RMI
-                        2  --> Socket (Not completely installed)
+                        2  --> Socket
                     Enter your choice.
                     >\040""");
             try {
@@ -97,7 +97,7 @@ public class Cli implements View {
         HashMap<String, String> serverInfo = connectToServerLobby(askInfo("address", defaultAddress), askInfo("port", defaultPort));
         ClientController.iClientInputHandler = getControllerStub(serverInfo);
         commCtrl.registerCallBack(clientCallBack);
-        System.out.println("Connected to " + serverInfo.get("address")
+        System.out.println("Controller registered from " + serverInfo.get("address")
                 + ":" + serverInfo.get("port"));
     }
 
@@ -125,7 +125,11 @@ public class Cli implements View {
     //--------------------SOCKET----------------------------------------------------------------------------
     //TODO:redo
     public void askServerInfoSocket() {
+        String defaultAddress = SocketClient.defaultServerName;
+        String defaultPort = String.valueOf(SocketClient.defaultServerPort);
         SocketClient socket = new SocketClient();
+        SocketClient.serverName = askInfo("address", defaultAddress);
+        SocketClient.serverPort = Integer.parseInt(askInfo("port",defaultPort));
         SocketClient.cli = this;
         socket.start();
         delayer(500);

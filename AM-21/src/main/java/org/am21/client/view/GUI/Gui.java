@@ -31,8 +31,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
 
 import static org.am21.client.view.ClientView.maxSeats;
 
@@ -159,6 +157,7 @@ public class Gui implements View {
     }
 
     public void askServerInfoRMI() throws MalformedURLException, NotBoundException, RemoteException {
+
         Lobby lobby = (Lobby) Naming.lookup("rmi://localhost:1234/Welcome");
         try {
             HashMap<String, String> serverInfo = lobby.connect();
@@ -216,6 +215,11 @@ public class Gui implements View {
         return 0;
     }
 
+    public int askChangeSeats(){
+        waitingRoomInterface.maxSeatsDialog.setVisible(true);
+        return 0;
+    }
+
     public void askAssistMode() {
         helpDialog.setVisible(true);
     }
@@ -269,20 +273,33 @@ public class Gui implements View {
 
     @Override
     public boolean askLeaveMatch() throws RemoteException {
-        livingRoomMenuInterface.backWaitingRoom.addActionListener(new ActionListener() {
+        /*livingRoomMenuInterface.leaveMatch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TODO: leave action
             }
-        });
-
+        });*/
+        if(livingRoomMenuInterface!=null) {
+            livingRoomMenuInterface.quitGame.addActionListener(e -> livingRoomInterface.dispose());
+        }
+        if(gameResultsInterface!=null) {
+            gameResultsInterface.quitGame.addActionListener(e -> gameResultsInterface.dispose());
+        }
         return commCtrl.leaveMatch();
     }
 
     @Override
     public boolean askExitGame() throws RemoteException {
-        livingRoomMenuInterface.quitGame.addActionListener(e -> livingRoomInterface.dispose());
-        gameResultsInterface.quitGame.addActionListener(e -> gameResultsInterface.dispose());
+        if(livingRoomMenuInterface!=null) {
+            livingRoomMenuInterface.quitGame.addActionListener(e -> livingRoomInterface.dispose());
+        }
+        if(gameResultsInterface!=null) {
+            gameResultsInterface.quitGame.addActionListener(e -> gameResultsInterface.dispose());
+        }
+        if (commCtrl.exitGame()) {
+            System.exit(0);
+            return true;
+        }
         return false;
     }
 
@@ -318,7 +335,7 @@ public class Gui implements View {
 
     @Override
     public void showPlayerShelf() throws RemoteException {
-       //TODO: myShelfPanel.refreshShelf();
+       //TODO: myShelfPanel.refreshShelf(ClientView.Shelves.get);
         //TODO: ClientView.Shelves
     }
 
@@ -413,7 +430,6 @@ public class Gui implements View {
     @Override
     public void showMatchSetup() throws RemoteException {
 
-        //TODO: livingRoomInterface = new LivingRoomInterface(frame);
         livingRoomInterface = new LivingRoomInterface(frame);
         //new LivingRoomListener(this);
         showPersonalGoal();
@@ -497,6 +513,10 @@ public class Gui implements View {
 
     }
 
+    public void print(String message){
+        JOptionPane.showMessageDialog(frame, message);
+    }
+
     public void askChat() {
         convertPrivateChatsForGUI();
         if (chatDialog == null || !chatDialog.isVisible() || NEW_PrivateChat) {
@@ -516,8 +536,13 @@ public class Gui implements View {
         DefaultListModel<String> userModel = new DefaultListModel<>();
         for (int i = 0; i < ClientView.onlinePlayers.length; i++) {
             if (ClientView.onlinePlayers[i][0] != null) {
-                userModel.addElement(ClientView.onlinePlayers[i][0] + "  |  " + ClientView.onlinePlayers[i][1]);
+                if(ClientView.onlinePlayers[i][0].equals(username)){
+                    userModel.addElement(ClientView.onlinePlayers[i][0] + "  |  " + ClientView.onlinePlayers[i][1] + " (You) ");
+                }else {
+                    userModel.addElement(ClientView.onlinePlayers[i][0] + "  |  " + ClientView.onlinePlayers[i][1]);
+                }
             }
+
         }
 
         onlineListDialog = new OnlineListDialog(frame, userModel);
@@ -611,23 +636,8 @@ public class Gui implements View {
 
 
     public void runChatMinion() {
-        FutureTask<String> futureTask = new FutureTask<>(new VisualChat());
-        Thread chatWatcher = new Thread(futureTask);
-        chatWatcher.start();
 
-        try {
-            String input = futureTask.get();
-            if(input.equals("Update")){
-                convertPrivateChatsForGUI();
-                chatDialog.reloadData();
-                chatDialog.validate();
-                chatDialog.repaint();
 
-                System.out.println("Update Chat");
-            }
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
 
     }
 

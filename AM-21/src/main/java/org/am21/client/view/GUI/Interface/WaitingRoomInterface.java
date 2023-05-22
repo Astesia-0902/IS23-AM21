@@ -27,8 +27,10 @@ public class WaitingRoomInterface extends JDialog {
     public final ImageIcon helpIcon;
     public final ImageIcon helpIconColor;
     public final JButton helpButton;
+    public final MaxSeatsDialog maxSeatsDialog;
     public String minNum;
     public String maxNum;
+    public Timer timer;
 
     public JLabel numPlayer;
 
@@ -112,6 +114,7 @@ public class WaitingRoomInterface extends JDialog {
                 ImageUtil.resizeY(5), ImageUtil.resizeX(5), new Color(139, 69, 19)));
         add(backGroundPanel);
 
+        maxSeatsDialog = new MaxSeatsDialog();
         setBounds(0, 0, ImageUtil.resizeX(WIDTH), ImageUtil.resizeY(HEIGHT));
         setUndecorated(true);
         setResizable(false);
@@ -127,5 +130,4 @@ public class WaitingRoomInterface extends JDialog {
     public void reloadPlayerNumber(String minNum,String maxNum){
         this.numPlayer.setText("(" + minNum + "/" + maxNum + ")");
     }
-
 }
