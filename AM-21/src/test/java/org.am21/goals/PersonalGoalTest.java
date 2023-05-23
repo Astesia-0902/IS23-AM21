@@ -31,7 +31,7 @@ public class PersonalGoalTest {
     void setUp(){
         m = new Match(2);
         listCards = CardUtil.buildPersonalGoalCard(2);
-        c=new PlayerController("Ade",null,null);
+        c=new PlayerController("Ade");
         p= c.getPlayer();
         s=new Shelf(p);
         p.setShelf(s);

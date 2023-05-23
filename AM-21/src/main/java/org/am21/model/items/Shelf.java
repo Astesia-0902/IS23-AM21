@@ -57,8 +57,6 @@ public class Shelf extends Grid {
      * Calculate the min Limit for hand Capacity
      * Example: If there are only column with 2 slots available,
      * then 'handLimit' = 2
-     *
-     * @return
      */
     public void checkLimit() {
 /*        System.out.println("Shelf > Slot available each column");
@@ -98,9 +96,9 @@ public class Shelf extends Grid {
     /**
      * Insert an itemCard in the column, then decrease the count
      * in column (col)
-     *
-     * @param item
-     * @param col
+     * Check limit after insertion
+     * @param item ItemCard reference
+     * @param col column for insertion
      * @return true if insertion has been successful
      */
     public boolean insertInColumn(ItemCard item, int col) {

@@ -36,12 +36,10 @@ public class PlayerController {
      * PlayerController constructor is initialized by ClientGameController, when ClientInputHandler login.
      * It will create the player and add his reference
      */
-    public PlayerController(String nickname, ClientInputHandler clientInput, ClientHandlerSocket clientSocket) {
+    public PlayerController(String nickname) {
         this.player = new Player(nickname, this);
         this.hand = new Hand(this.player);
         this.player.setHand(this.hand);
-        this.clientInput = clientInput;
-        this.clientHandlerSocket = clientSocket;
     }
 
     public PlayerController(String nickname, ClientInputHandler clientInput) {
@@ -122,8 +120,7 @@ public class PlayerController {
                 GameManager.sendReply(this, ServerMessage.Hand_Full.value());
                 return false;
             }
-            //Tutti i controlli passati: posso inserirlo nella hand
-            //salvo le coordinate e il riferimento dell'item nella hand*/
+            //Saving the coordinates in hand
             hand.memCard(board.getCell(r, c), r, c);
             //Virtualize HAND and board after each Selection and Sent to the players
 
@@ -182,7 +179,7 @@ public class PlayerController {
         }
         if (player.getMatch().gamePhase == GamePhase.Selection && hand.getSelectedItems().size() > 0) {
             hand.clearHand();
-            GameManager.sendReply(this, ServerMessage.DeSel_Ok.value());
+            GameManager.sendReply(this, ServerMessage.Clear_Ok.value());
             //Update Virtual View(Hand and Board)
             player.getMatch().selectionUpdate();
             return true;
@@ -357,7 +354,7 @@ public class PlayerController {
                 GameManager.sendReply(this, ServerMessage.ReSelected.value());
                 return item;
             }
-        }//TODO: test
+        }
         return null;
     }
 

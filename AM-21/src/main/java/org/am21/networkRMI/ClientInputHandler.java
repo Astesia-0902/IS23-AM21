@@ -57,11 +57,10 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      */
     @Override
     public boolean logIn(String username, IClientCallBack clientCallBack) throws RemoteException, ServerNotActiveException {
-        playerController = new PlayerController(username, this, null);
+        playerController = new PlayerController(username, this);
         playerController.connectionType = ConnectionType.RMI;
         userHost = getClientHost();
         this.userName = username;
-        //TODO: separate CIH from playerController constructor (RMI not needed for model & controller testing)
         return GameController.login(username, playerController);
     }
 

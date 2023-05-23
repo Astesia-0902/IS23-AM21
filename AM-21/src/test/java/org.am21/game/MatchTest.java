@@ -44,11 +44,11 @@ class MatchTest {
      */
     @Test
     void testAddPlayer() throws RemoteException {
-        PlayerController c1 = new PlayerController("A", new ClientInputHandler(), null);
+        PlayerController c1 = new PlayerController("A");
         c1.clientInput.callBack = new ClientCallBack();
-        PlayerController c2 = new PlayerController("B", new ClientInputHandler(), null);
+        PlayerController c2 = new PlayerController("B");
         c2.clientInput.callBack = new ClientCallBack();
-        PlayerController c3 = new PlayerController("C", new ClientInputHandler(), null);
+        PlayerController c3 = new PlayerController("C");
         c3.clientInput.callBack = new ClientCallBack();
         m.addPlayer(c1.getPlayer());
         m.addPlayer(c2.getPlayer());
@@ -63,10 +63,10 @@ class MatchTest {
      */
     @Test
     void testInitializeMatch() throws RemoteException {
-        PlayerController c1 = new PlayerController("A", new ClientInputHandler(), null);
+        PlayerController c1 = new PlayerController("A");
         c1.clientInput.callBack = new ClientCallBack();
 
-        PlayerController c2 = new PlayerController("B", new ClientInputHandler(), null);
+        PlayerController c2 = new PlayerController("B");
         c2.clientInput.callBack = new ClientCallBack();
         m.addPlayer(c1.getPlayer());
         m.addPlayer(c2.getPlayer());

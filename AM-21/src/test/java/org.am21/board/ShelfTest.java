@@ -22,7 +22,7 @@ public class ShelfTest {
 
     @BeforeEach
     void setUp() {
-        c = new PlayerController("Ub", null, null);
+        c = new PlayerController("Ub");
         p = c.getPlayer();
         s = new Shelf(p);
     }
@@ -99,7 +99,7 @@ public class ShelfTest {
 
 
     /**
-     * Check if the limit changes when the shelves is reaching his full capacity
+     * Check if the limit changes when the shelf has reached his full capacity
      */
     @Test
     void testCheckLimit() {

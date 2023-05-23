@@ -31,8 +31,8 @@ public class GameTest {
             ClientInputHandler client2_handler = new ClientInputHandler();
             client1_handler.callBack = new ClientCallBack();
             client2_handler.callBack = new ClientCallBack();
-            client1 = new PlayerController("A", client1_handler, null);
-            client2 = new PlayerController("B", client2_handler, null);
+            client1 = new PlayerController("A");
+            client2 = new PlayerController("B");
 
         } catch (RemoteException e) {
             throw new RuntimeException(e);

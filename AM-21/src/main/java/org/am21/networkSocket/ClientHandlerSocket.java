@@ -21,7 +21,7 @@ public class ClientHandlerSocket extends Thread {
 
     public ClientHandlerSocket(Socket clientSocket) {
         this.clientSocket = clientSocket;
-        myPlayer = new PlayerController("", null, this);
+        myPlayer = new PlayerController("", this);
         myPlayer.connectionType = ConnectionType.SOCKET;
         try {
             in = new DataInputStream(clientSocket.getInputStream());

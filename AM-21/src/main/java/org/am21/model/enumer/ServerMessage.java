@@ -43,8 +43,7 @@ public enum ServerMessage {
     //Game phase (Deselection phase)
 
     DeSel_Ok("Server > Deselection successful"),
-    //TODO: maybe not necessary
-    // DeSel_No("Server > Deselection failed"),
+    Clear_Ok("Server > All selected items cleared"),
     DeSel_Null(SC.RED+"Server > You did not select any card yet. Deselection is not necessary"+SC.RST),
 
     //Game phase (Insertion phase)

@@ -8,7 +8,6 @@ import org.am21.model.items.Bag;
 import org.am21.model.items.Board;
 import org.am21.model.items.Hand;
 import org.am21.networkRMI.ClientCallBack;
-import org.am21.networkRMI.ClientInputHandler;
 import org.am21.utilities.CardPointer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -151,7 +150,7 @@ public class BoardTest {
     @Test
     void testIsOrthogonal() {
 
-        Hand h = new Hand(new PlayerController("", null, null).getPlayer());
+        Hand h = new Hand(new PlayerController("").getPlayer());
 
         h.getSelectedItems().add(new CardPointer(3, 3));
         h.getSelectedItems().get(0).item = new ItemCard("none");
@@ -217,10 +216,8 @@ public class BoardTest {
     @Test
     void testIsOrthogonal2() throws RemoteException {
         Match m1 = new Match(2);
-        PlayerController c = new PlayerController("A", new ClientInputHandler(), null);
-        PlayerController d = new PlayerController("B", new ClientInputHandler(), null);
-        c.clientInput.callBack = new ClientCallBack();
-        d.clientInput.callBack = new ClientCallBack();
+        PlayerController c = new PlayerController("A");
+        PlayerController d = new PlayerController("B");
         m1.addPlayer(c.getPlayer());
         m1.addPlayer(d.getPlayer());
 
@@ -253,8 +250,8 @@ public class BoardTest {
     @Test
     void testIsOrthogonal3() throws RemoteException {
         Match m1 = new Match(2);
-        PlayerController c = new PlayerController("A", new ClientInputHandler(), null);
-        PlayerController d = new PlayerController("B", new ClientInputHandler(), null);
+        PlayerController c = new PlayerController("A");
+        PlayerController d = new PlayerController("B");
         c.clientInput.callBack = new ClientCallBack();
         d.clientInput.callBack = new ClientCallBack();
         m1.addPlayer(c.getPlayer());

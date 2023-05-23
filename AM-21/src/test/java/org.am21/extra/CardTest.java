@@ -15,12 +15,12 @@ class CardTest {
     void testCard() {
         Match match = new Match(2);
 
-        PlayerController pCtrl1 = new PlayerController("Ambrogio", null, null);
+        PlayerController pCtrl1 = new PlayerController("Ambrogio");
         Player player1 = pCtrl1.getPlayer();
         match.addPlayer(player1);
         GameGear.printThisShelf(player1.getShelf());
 
-        PlayerController pCtrl2 = new PlayerController("Ambra", null, null);
+        PlayerController pCtrl2 = new PlayerController("Ambra");
         Player player2 = pCtrl2.getPlayer();
         match.addPlayer(player2);
         GameGear.printThisShelf(player2.getShelf());
