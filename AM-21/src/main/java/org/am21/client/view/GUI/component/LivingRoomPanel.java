@@ -7,6 +7,7 @@ import org.am21.client.view.GUI.utils.PixelUtil;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 
 
@@ -138,8 +139,10 @@ public class LivingRoomPanel extends JPanel {
         insertButton = new JButton("INSERT");
         insertButton.setFont(new Font("DejaVu Sans",Font.PLAIN,16));
         insertButton.setBounds(PixelUtil.insertButtonX,PixelUtil.commonY_4,PixelUtil.insertClearButtonW,PixelUtil.insertClearButtonH);
-        insertButton.setOpaque(true);
-        insertButton.setBackground(new Color(4, 134, 10, 230));
+        insertButton.setBorder(new MatteBorder(ImageUtil.resizeY(2), ImageUtil.resizeX(2), ImageUtil.resizeY(2),
+                ImageUtil.resizeX(2), new Color(4, 134, 10, 230)));
+        insertButton.setUI(new ButtonColorUI(new Color(136, 218, 123, 139)));
+        insertButton.setBackground(Color.WHITE);
         insertButton.setForeground(new Color(4, 134, 10, 230));
         /**
          *open my hand interface
@@ -157,8 +160,10 @@ public class LivingRoomPanel extends JPanel {
         clearButton = new JButton("CLEAR");
         clearButton.setFont(new Font("DejaVu Sans",Font.PLAIN,16));
         clearButton.setBounds(PixelUtil.clearButtonX,PixelUtil.commonY_4,PixelUtil.insertClearButtonW,PixelUtil.insertClearButtonH);
-        clearButton.setOpaque(true);
-        clearButton.setBackground(new Color(172, 19, 5, 230));
+        clearButton.setBorder(new MatteBorder(ImageUtil.resizeY(2), ImageUtil.resizeX(2), ImageUtil.resizeY(2),
+                ImageUtil.resizeX(2), new Color(178, 34, 34)));
+        clearButton.setUI(new ButtonColorUI(new Color(255, 181, 172, 139)));
+        clearButton.setBackground(Color.WHITE);
         clearButton.setForeground(new Color(172, 19, 5, 230));
         panelBoard.add(clearButton,JLayeredPane.PALETTE_LAYER);
 

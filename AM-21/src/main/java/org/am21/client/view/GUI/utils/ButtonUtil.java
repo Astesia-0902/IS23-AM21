@@ -4,6 +4,7 @@ import org.am21.client.view.GUI.component.ButtonColorUI;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class ButtonUtil {
@@ -36,7 +37,7 @@ public class ButtonUtil {
     public static JButton getCommandButton(){
         button = new JButton();
         button.setContentAreaFilled(false);
-        button.setBorder(null);
+        button.setBorder(new EmptyBorder(0,ImageUtil.resizeX(0),0,0));
         button.setFocusPainted(false);
         return button;
     }

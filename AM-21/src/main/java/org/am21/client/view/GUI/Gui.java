@@ -345,7 +345,7 @@ public class Gui implements View {
         for (int i = 0; i < Storage.BOARD_ROW; i++) {
             for (int j = 0; j < Storage.BOARD_COLUMN; j++) {
                 if (ClientView.virtualBoard[i][j] != null && !gameBoardPanel.containItem(i, j)) {
-                    gameBoardPanel.putItem(i, j, ClientView.virtualBoard[i][j]);
+                    gameBoardPanel.putItem(i, j, ClientView.virtualBoard[i][j],this);
                 }
             }
         }

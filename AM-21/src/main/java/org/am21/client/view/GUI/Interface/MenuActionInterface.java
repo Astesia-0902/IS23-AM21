@@ -96,5 +96,6 @@ public class MenuActionInterface extends JDialog {
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
+        //setOpacity(0.0f);
     }
 }

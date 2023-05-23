@@ -1,9 +1,11 @@
 package org.am21.client.view.GUI.Interface;
 
+import org.am21.client.view.GUI.component.ButtonColorUI;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.rmi.RemoteException;
 
@@ -40,8 +42,10 @@ public class LivingRoomMenuInterface extends JFrame {
         backGame = new JButton("BACK TO PLAY");
         backGame.setFont(new Font("DejaVu Sans",Font.PLAIN,24));
         backGame.setBounds(PixelUtil.buttonLRX,PixelUtil.buttonBackLRY,PixelUtil.buttonLRW,PixelUtil.buttonLRH);
-        backGame.setOpaque(true);
-        backGame.setBackground(new Color(4, 134, 10, 230));
+        backGame.setBorder(new MatteBorder(ImageUtil.resizeY(2), ImageUtil.resizeX(2), ImageUtil.resizeY(2),
+                ImageUtil.resizeX(2), new Color(4, 134, 10, 230)));
+        backGame.setUI(new ButtonColorUI(new Color(136, 218, 123, 139)));
+        backGame.setBackground(Color.WHITE);
         backGame.setForeground(new Color(4, 134, 10, 230));
         backGame.addActionListener(e -> dispose());
         menuLRPane.add(backGame,JLayeredPane.PALETTE_LAYER);
@@ -49,8 +53,10 @@ public class LivingRoomMenuInterface extends JFrame {
         leaveMatch = new JButton("LEAVE MATCH");
         leaveMatch.setFont(new Font("DejaVu Sans",Font.PLAIN,24));
         leaveMatch.setBounds(PixelUtil.buttonLRX,PixelUtil.buttonWaitLRY,PixelUtil.buttonLRW,PixelUtil.buttonLRH);
-        leaveMatch.setOpaque(true);
-        leaveMatch.setBackground(new Color(203, 63, 4, 230));
+        leaveMatch.setBorder(new MatteBorder(ImageUtil.resizeY(2), ImageUtil.resizeX(2), ImageUtil.resizeY(2),
+                ImageUtil.resizeX(2), new Color(203, 63, 4, 230)));
+        leaveMatch.setUI(new ButtonColorUI(new Color(231, 163, 135, 230)));
+        leaveMatch.setBackground(Color.WHITE);
         leaveMatch.setForeground(new Color(203, 63, 4, 230));
         leaveMatch.addActionListener(e -> {
             try {
@@ -67,8 +73,10 @@ public class LivingRoomMenuInterface extends JFrame {
         quitGame = new JButton("EXIT GAME");
         quitGame.setFont(new Font("DejaVu Sans",Font.PLAIN,24));
         quitGame.setBounds(PixelUtil.buttonLRX,PixelUtil.buttonLeaveLRY,PixelUtil.buttonLRW,PixelUtil.buttonLRH);
-        quitGame.setOpaque(true);
-        quitGame.setBackground(new Color(172, 19, 5, 230));
+        quitGame.setBorder(new MatteBorder(ImageUtil.resizeY(2), ImageUtil.resizeX(2), ImageUtil.resizeY(2),
+                ImageUtil.resizeX(2), new Color(172, 19, 5, 230)));
+        quitGame.setBackground(Color.WHITE);
+        quitGame.setUI(new ButtonColorUI(new Color(255, 181, 172, 139)));
         quitGame.setForeground(new Color(172, 19, 5, 230));
         quitGame.addActionListener(e -> {
             try {

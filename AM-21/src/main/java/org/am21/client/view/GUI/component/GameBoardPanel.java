@@ -68,7 +68,7 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
 
     }
 
-    public void putItem(int row, int column,String itemName){
+    public void putItem(int row, int column,String itemName,Gui gui){
 
         cells[row][column] = new JLabel(itemName);
         cells[row][column].setBounds(0,0,PixelUtil.gameBoardItemW,PixelUtil.gameBoardItemH);
@@ -94,6 +94,7 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
                         cells[row][column].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
                        // myHandBoard.removeItem();
                     }
+                    gui.commCtrl.selectCell(row,column);
 
 
                 }
