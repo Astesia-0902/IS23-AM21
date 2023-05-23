@@ -1,9 +1,11 @@
 package org.am21.client.view.GUI.Interface;
 
+import org.am21.client.view.GUI.component.ButtonColorUI;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -104,8 +106,11 @@ public class GameResultsInterface extends JFrame {
         quitGame = new JButton("LEAVE");
         quitGame.setFont(new Font("DejaVu Sans",Font.PLAIN,24));
         quitGame.setBounds(PixelUtil.labelRIButtonX,PixelUtil.labelRIButtonY,PixelUtil.buttonLRW,PixelUtil.buttonLRH);
-        quitGame.setOpaque(true);
-        quitGame.setBackground(new Color(172, 19, 5, 230));
+        quitGame.setUI(new ButtonColorUI(new Color(255, 181, 172, 139)));
+        quitGame.setBorder(new MatteBorder(ImageUtil.resizeY(2), ImageUtil.resizeX(2), ImageUtil.resizeY(2),
+                                ImageUtil.resizeX(2), new Color(178, 34, 34)));
+        //quitGame.setOpaque(true);
+        quitGame.setBackground(Color.WHITE);
         quitGame.setForeground(new Color(172, 19, 5, 230));
         gameResultsPane.add(quitGame,JLayeredPane.PALETTE_LAYER);
 
