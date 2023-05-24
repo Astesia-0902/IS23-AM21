@@ -38,7 +38,8 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
                 cli.updateCLI(cli, 0);
             }
         } else if (gui != null) {
-            gui.askChat();
+            gui.timeLimitedNotification(message.substring(0,message.indexOf(" ")) +" sent you a new message");
+            gui.ASK_CHAT = true;
         }
     }
 

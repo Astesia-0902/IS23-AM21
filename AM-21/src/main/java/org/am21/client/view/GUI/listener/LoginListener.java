@@ -52,6 +52,7 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
                         //TODO: Thread
 
                         gui.guiMinion.start();
+                        gui.guiMinionChat.start();
 
                     } else {
                         gui.print("Same name");

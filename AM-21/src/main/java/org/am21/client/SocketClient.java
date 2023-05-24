@@ -132,7 +132,10 @@ public class SocketClient extends Thread {
                         cli.updateCLI(cli, 0);
                     }
                 }else if (gui!=null){
-                    gui.askChat();
+
+                    gui.timeLimitedNotification(messageArray[1].substring(0,message.indexOf(" "))+" sent you a new message");
+                    gui.ASK_CHAT=true;
+
                 }
             }
             case "ServerVirtualView" -> {

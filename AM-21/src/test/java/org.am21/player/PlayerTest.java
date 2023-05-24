@@ -191,11 +191,11 @@ public class PlayerTest {
         c1.selectCell(4,1);
         c1.callEndSelection();
         //Verify if the GamePhase has changed to Insertion
-        assertTrue(m.gamePhase.equals(GamePhase.Insertion));
+        assertEquals(m.gamePhase, GamePhase.Insertion);
         c1.callEndInsertion();
         //Verify if the GamePhase has changed to Selection and the current player has changed
-        assertTrue(m.gamePhase.equals(GamePhase.Selection));
-        assertTrue(m.currentPlayer.equals(p2));
+        assertEquals(m.gamePhase, GamePhase.Selection);
+        assertEquals(m.currentPlayer, p2);
 
     }
 

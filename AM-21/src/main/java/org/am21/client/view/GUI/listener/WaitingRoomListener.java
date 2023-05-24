@@ -50,6 +50,8 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
                     gui.GO_TO_MENU = true;
                     gui.GAME_ON = false;
                     gui.NEED_NEW_FRAME = true;
+                    //Remove Match Group Chat from myChatMap
+                    Gui.myChatMap.remove("#All");
                     gui.waitingRoomInterface.dispose();
                 }
             } catch (RemoteException ex) {
@@ -60,9 +62,7 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
             gui.showGameRules();
         }
         if (e.getSource() == gui.waitingRoomInterface.settingButton) {
-            //TODO: Change method of askMaxSeats in different one
             gui.askChangeSeats();
-
         }
 
         if (e.getSource() == gui.waitingRoomInterface.onlineButton) {
@@ -73,15 +73,19 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
             }
         }
         if (e.getSource() == gui.waitingRoomInterface.chatButton) {
-            //TODO: chat
-            Gui.myChatMap.put("#All", new JButton("#All"));
+
+            if(!Gui.myChatMap.containsKey("#All")) {
+                Gui.myChatMap.put("#All", new JButton("#All"));
+            }
+            Gui.NEW_CHAT_WINDOW = true;
             Gui.chatReceiver = "#All";
             if (gui.chatDialog != null) {
-                gui.chatDialog.localPrivateChatMap.get(Gui.chatReceiver).setBackground(new Color(83, 46, 91, 230));
-                FontMetrics fm = gui.chatDialog.chatMessage.getFontMetrics(gui.chatDialog.chatMessage.getFont());
-                gui.chatDialog.chatMessage.setBorder(new EmptyBorder(0, ImageUtil.resizeX(fm.stringWidth(Gui.chatReceiver) + 30), 0, 0));
+                gui.chatDialog.localChatMap.get(Gui.chatReceiver).setBackground(new Color(83, 46, 91, 230));
+                FontMetrics fm = gui.chatDialog.chatMessageInput.getFontMetrics(gui.chatDialog.chatMessageInput.getFont());
+                gui.chatDialog.chatMessageInput.setBorder(new EmptyBorder(0, ImageUtil.resizeX(fm.stringWidth(Gui.chatReceiver) + 30), 0, 0));
             }
-            gui.askChat();
+            gui.ASK_CHAT = true;
+            //.askChat();
         }
 
         if (e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_2 ||

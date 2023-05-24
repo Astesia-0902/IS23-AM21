@@ -79,27 +79,33 @@ public class OnlineListListener implements MouseListener, MouseMotionListener, A
         //Online Players List Click Event-> Open Chat Dialog if not user itself
         String user = gui.onlineListDialog.onlineList.getSelectedValue().split("\\s*\\|\\s*")[0];
         if (!Gui.myChatMap.containsKey(user) && !gui.username.equals(user)) {
-            Gui.NEW_PrivateChat = true;
+            Gui.NEW_CHAT_WINDOW = true;
             Gui.myChatMap.put(user, new JButton(user));
             if (gui.chatDialog != null) {
                 gui.chatDialog.dispose();
             }
         }
-
-        Gui.chatReceiver = user;
-        if (gui.chatDialog != null) {
-            gui.chatDialog.localPrivateChatMap.keySet().forEach(player -> {
-                if (player.equals(Gui.chatReceiver)) {
-                    gui.chatDialog.localPrivateChatMap.get(player).setBackground(new Color(83, 46, 91, 230));
-                    gui.chatDialog.localPrivateChatMap.get(player).setForeground(Color.WHITE);
-                } else {
-                    gui.chatDialog.localPrivateChatMap.get(player).setBackground(new Color(178, 173, 204, 230));
-                    gui.chatDialog.localPrivateChatMap.get(player).setForeground(new Color(106, 2, 1));
-                }
-            });
-            FontMetrics fm = gui.chatDialog.chatMessage.getFontMetrics(gui.chatDialog.chatMessage.getFont());
-            gui.chatDialog.chatMessage.setBorder(new EmptyBorder(0, ImageUtil.resizeX(fm.stringWidth(Gui.chatReceiver) + 30), 0, 0));
+        if(!user.equals(gui.username)) {
+            Gui.chatReceiver = user;
+            if (gui.chatDialog != null) {
+                gui.chatDialog.localChatMap.keySet().forEach(player -> {
+                    if (player.equals(Gui.chatReceiver)) {
+                        gui.chatDialog.localChatMap.get(player).setBackground(new Color(83, 46, 91, 230));
+                        gui.chatDialog.localChatMap.get(player).setForeground(Color.WHITE);
+                    } else {
+                        gui.chatDialog.localChatMap.get(player).setBackground(new Color(178, 173, 204, 230));
+                        gui.chatDialog.localChatMap.get(player).setForeground(new Color(106, 2, 1));
+                    }
+                });
+                FontMetrics fm = gui.chatDialog.chatMessageInput.getFontMetrics(gui.chatDialog.chatMessageInput.getFont());
+                gui.chatDialog.chatMessageInput.setBorder(new EmptyBorder(0, ImageUtil.resizeX(fm.stringWidth(Gui.chatReceiver) + 30), 0, 0));
+            }
+            //Closing online list dialog
+            if(gui.onlineListDialog!=null) {
+                gui.onlineListDialog.dispose();
+            }
+            gui.ASK_CHAT = true;
         }
-        gui.askChat();
+        //gui.askChat();
     }
 }

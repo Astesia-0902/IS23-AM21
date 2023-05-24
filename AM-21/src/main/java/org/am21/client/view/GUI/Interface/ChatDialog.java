@@ -20,7 +20,8 @@ import java.util.HashMap;
 
 public class ChatDialog extends JDialog {
     public JTextArea currentChatHistory;
-    public JTextField chatMessage = new JTextField("");
+    public JTextField chatMessageInput = new JTextField("");
+
     public JButton sendButton;
     public JPanel chatPanel;
     public JPanel topPanel;
@@ -29,7 +30,9 @@ public class ChatDialog extends JDialog {
     public JScrollPane scrollPane;
     public ImageIcon closeIconSelect;
     public ImageIcon closeIcon;
-    public HashMap<String, JButton> localPrivateChatMap;
+    public JLabel chatRoom;
+    public GridBagConstraints gbc;
+    public HashMap<String, JButton> localChatMap;
 
     public ChatDialog(JFrame frame) {
 
@@ -42,7 +45,7 @@ public class ChatDialog extends JDialog {
         closeLabel = new JLabel(closeIcon);
         closeLabel.setBounds(ImageUtil.resizeX(320), ImageUtil.resizeY(6), ImageUtil.resizeX(25), ImageUtil.resizeY(25));
 
-        JLabel chatRoom = new JLabel("Chat Room");
+        chatRoom = new JLabel("Chat Room");
         chatRoom.setBorder(null);
         chatRoom.setBounds(ImageUtil.resizeX(181), ImageUtil.resizeY(195),
                 ImageUtil.resizeX(356), ImageUtil.resizeY(108));
@@ -67,25 +70,25 @@ public class ChatDialog extends JDialog {
         playerPanel.setBackground(new Color(126, 89, 203, 230));
         playerPanel.setBorder(new MatteBorder(0, ImageUtil.resizeY(5), 0,
                 ImageUtil.resizeY(5), new Color(85, 35, 222, 230)));
-        GridBagConstraints gbc = new GridBagConstraints();
+        gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         //Chat displayed at least once (clicked on Online List at least once)
-        localPrivateChatMap = Gui.myChatMap;
-        for (String user : localPrivateChatMap.keySet()) {
-            localPrivateChatMap.get(user).setForeground(new Color(106, 2, 1));
-            localPrivateChatMap.get(user).setBackground(new Color(178, 173, 204, 230));
-            localPrivateChatMap.get(user).setUI(new ButtonColorUI(new Color(83, 46, 91, 230)));
-            localPrivateChatMap.get(user).setBorder(new CompoundBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 250, 205),
+        localChatMap = Gui.myChatMap;
+        for (String user : localChatMap.keySet()) {
+            localChatMap.get(user).setForeground(new Color(106, 2, 1));
+            localChatMap.get(user).setBackground(new Color(178, 173, 204, 230));
+            localChatMap.get(user).setUI(new ButtonColorUI(new Color(83, 46, 91, 230)));
+            localChatMap.get(user).setBorder(new CompoundBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 250, 205),
                     new Color(255, 250, 205), new Color(139, 69, 19), new Color(139, 69, 19)),
                     new EmptyBorder(0, ImageUtil.resizeX(10), 0, ImageUtil.resizeX(10))));
-            localPrivateChatMap.get(user).setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
+            localChatMap.get(user).setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
                     .deriveFont(Font.PLAIN, ImageUtil.resizeY(18)));
             gbc.fill = GridBagConstraints.BOTH;
-            playerPanel.add(localPrivateChatMap.get(user), gbc);
+            playerPanel.add(localChatMap.get(user), gbc);
             gbc.gridy++;
 
 
@@ -101,9 +104,13 @@ public class ChatDialog extends JDialog {
                 Gui.privateChatHistoryMap.put(user, currentChatHistory);
             }
         }
-
-        currentChatHistory = Gui.privateChatHistoryMap.get(Gui.chatReceiver);
-
+        if (Gui.chatReceiver.equals("#All")) {
+            System.out.println("Setup Public Chat");
+            currentChatHistory = Gui.publicChatHistory;
+        } else {
+            System.out.println("Setup Private Chat: > "+Gui.chatReceiver);
+            currentChatHistory = Gui.privateChatHistoryMap.get(Gui.chatReceiver);
+        }
         scrollPane = new JScrollPane(currentChatHistory);
         scrollPane.setBorder(new CompoundBorder(new MatteBorder(0, 0, 0, ImageUtil.resizeY(5),
                 new Color(85, 35, 222, 230)), new EmptyBorder(ImageUtil.resizeX(5),
@@ -112,7 +119,7 @@ public class ChatDialog extends JDialog {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUI(new ScrollBarUI());
 
-        chatMessage = new JTextField(30) {
+        chatMessageInput = new JTextField(30) {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -121,13 +128,13 @@ public class ChatDialog extends JDialog {
                 g.drawString("[" + Gui.chatReceiver + "]:", ImageUtil.resizeX(5), ImageUtil.resizeY(20));
             }
         };
-
-        FontMetrics fm = chatMessage.getFontMetrics(chatMessage.getFont());
+        chatMessageInput.setFont(new Font("Serif", Font.BOLD, ImageUtil.resizeY(14)));
+        FontMetrics fm = chatMessageInput.getFontMetrics(chatMessageInput.getFont());
         int nicknameWidth = fm.stringWidth(Gui.chatReceiver);
-        chatMessage.setBorder(new EmptyBorder(0, ImageUtil.resizeX(nicknameWidth + 30), 0, 0));
-        //chatMessage.setBorder(new MatteBorder(0, ImageUtil.resizeX(40), 0, 0, new Color(126, 89, 203, 230)));
-        chatMessage.setForeground(new Color(106, 2, 1));
-        chatMessage.setFont(new Font("Serif", Font.BOLD, ImageUtil.resizeY(14)));
+        chatMessageInput.setBorder(new EmptyBorder(0, ImageUtil.resizeX(nicknameWidth + 30), 0, 0));
+        //chatMessageInput.setBorder(new MatteBorder(0, ImageUtil.resizeX(40), 0, 0, new Color(126, 89, 203, 230)));
+        chatMessageInput.setForeground(new Color(106, 2, 1));
+        chatMessageInput.setFont(new Font("Serif", Font.BOLD, ImageUtil.resizeY(14)));
 
         sendButton = new JButton("Send");
         sendButton.setForeground(new Color(106, 2, 1));
@@ -141,7 +148,7 @@ public class ChatDialog extends JDialog {
 
         chatPanel = new JPanel();
         chatPanel.setLayout(new BorderLayout());
-        chatPanel.add(chatMessage, BorderLayout.CENTER);
+        chatPanel.add(chatMessageInput, BorderLayout.CENTER);
         chatPanel.add(sendButton, BorderLayout.EAST);
         chatPanel.setBorder(new MatteBorder(ImageUtil.resizeX(3), ImageUtil.resizeY(5),
                 ImageUtil.resizeX(5), ImageUtil.resizeY(5), new Color(85, 35, 222, 255)));
@@ -168,15 +175,57 @@ public class ChatDialog extends JDialog {
         setUndecorated(true);
         setBackground(new Color(247, 253, 252, 128));
         setOpacity(0.75f);
-        setVisible(true);
+        setVisible(false);
 
     }
 
 
-    public void reloadData() {
-        currentChatHistory = Gui.privateChatHistoryMap.get(Gui.chatReceiver);
+    public void reloadChat() {
+        System.out.println("Reload Chat");
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.NORTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        localChatMap = Gui.myChatMap;
+        for (String user : localChatMap.keySet()) {
+            localChatMap.get(user).setForeground(new Color(106, 2, 1));
+            localChatMap.get(user).setBackground(new Color(178, 173, 204, 230));
+            localChatMap.get(user).setUI(new ButtonColorUI(new Color(83, 46, 91, 230)));
+            localChatMap.get(user).setBorder(new CompoundBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 250, 205),
+                    new Color(255, 250, 205), new Color(139, 69, 19), new Color(139, 69, 19)),
+                    new EmptyBorder(0, ImageUtil.resizeX(10), 0, ImageUtil.resizeX(10))));
+            localChatMap.get(user).setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
+                    .deriveFont(Font.PLAIN, ImageUtil.resizeY(18)));
+            gbc.fill = GridBagConstraints.BOTH;
+            playerPanel.add(localChatMap.get(user), gbc);
+            gbc.gridy++;
+
+
+            if (!Gui.privateChatHistoryMap.containsKey(user)) {
+                currentChatHistory = new JTextArea(ImageUtil.resizeX(10), ImageUtil.resizeY(20));
+                currentChatHistory.setEditable(false);
+                currentChatHistory.setForeground(new Color(106, 2, 1));
+                currentChatHistory.setFont(new Font("Serif", Font.BOLD, ImageUtil.resizeY(14)));
+                currentChatHistory.setLineWrap(true);
+                currentChatHistory.setWrapStyleWord(true);
+                currentChatHistory.setCaretPosition(currentChatHistory.getDocument().getLength());
+
+                Gui.privateChatHistoryMap.put(user, currentChatHistory);
+            }
+        }
+        if (Gui.chatReceiver.equals("#All")) {
+            currentChatHistory = Gui.publicChatHistory;
+        } else {
+            currentChatHistory = Gui.privateChatHistoryMap.get(Gui.chatReceiver);
+        }
+        scrollPane.setViewportView(currentChatHistory);
+
 
     }
+
+
 
 
 }

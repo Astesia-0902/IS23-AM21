@@ -1,9 +1,8 @@
 package org.am21.client.view.GUI.listener;
 
 import org.am21.client.view.GUI.Gui;
-import org.am21.client.view.GUI.utils.ImageUtil;
 
-import javax.swing.border.EmptyBorder;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -24,11 +23,11 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
 //            Gui.myChatMap.get(user).addActionListener(this);
 //            Gui.myChatMap.get(user).addMouseListener(this);
 //        }
-        gui.chatDialog.localPrivateChatMap.keySet().forEach(user -> {
-            gui.chatDialog.localPrivateChatMap.get(user).addActionListener(this);
-            gui.chatDialog.localPrivateChatMap.get(user).addMouseListener(this);
+        gui.chatDialog.localChatMap.keySet().forEach(user -> {
+            gui.chatDialog.localChatMap.get(user).addActionListener(this);
+            gui.chatDialog.localChatMap.get(user).addMouseListener(this);
         });
-//        gui.chatDialog.localPrivateChatMap.forEach((user, button) -> {
+//        gui.chatDialog.localChatMap.forEach((user, button) -> {
 //            button.addActionListener(e -> {
 //                Gui.chatReceiver = user;
 //                gui.chatDialog.currentChatHistory = Gui.currentChatHistory.get(user);
@@ -42,24 +41,66 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == gui.chatDialog.sendButton) {
-            String message = gui.chatDialog.chatMessage.getText();
-            //gui.handleChatMessage(message,true);
-            if (gui.commCtrl.sendPrivateMessage(message, Gui.chatReceiver, true)) {
+            String message = gui.chatDialog.chatMessageInput.getText();
+            System.out.println("Get Input Text..." + message);
+            if (Gui.chatReceiver.equals("#All") && gui.commCtrl.sendPublicMessage(message, true)) {
+                System.out.println("Public Message Sent");
+                gui.chatDialog.currentChatHistory = Gui.publicChatHistory;
+                gui.chatDialog.scrollPane.setViewportView(gui.chatDialog.currentChatHistory);
+                gui.chatDialog.chatMessageInput.setText("");     //Clear input box
+                SwingUtilities.invokeLater(() -> {
+                    gui.chatDialog.reloadChat();
+                    gui.chatDialog.getContentPane().revalidate();
+                    gui.chatDialog.getContentPane().repaint();
+                    System.out.println("Repaint success");
+                });
+                gui.ASK_CHAT = true;
+                //gui.askChat();
+            } else if (gui.commCtrl.sendPrivateMessage(message, Gui.chatReceiver, true)) {
+                System.out.println("Private Message Sent");
                 gui.chatDialog.currentChatHistory = Gui.privateChatHistoryMap.get(Gui.chatReceiver);
                 gui.chatDialog.scrollPane.setViewportView(gui.chatDialog.currentChatHistory);
-                gui.askChat();
-
+                gui.chatDialog.chatMessageInput.setText("");     //Clear input box
+                SwingUtilities.invokeLater(() -> {
+                    gui.chatDialog.reloadChat();
+                    gui.chatDialog.getContentPane().revalidate();
+                    gui.chatDialog.getContentPane().repaint();
+                    System.out.println("Repaint success");
+                });
+                gui.ASK_CHAT = true;
+                //gui.askChat();
+            } else {
+                System.out.println("Message not sent");
+                gui.chatDialog.chatMessageInput.setText("");     //Clear input box
             }
-            gui.chatDialog.chatMessage.setText("");     //Clear input box
+
+
         }
-        gui.chatDialog.localPrivateChatMap.keySet().forEach(user -> {
-            if (e.getSource() == gui.chatDialog.localPrivateChatMap.get(user)) {
+
+        gui.chatDialog.localChatMap.keySet().forEach(user -> {
+            if (e.getSource() == gui.chatDialog.localChatMap.get(user)) {
+                gui.chatDialog.localChatMap.get(user).setBackground(new Color(83, 46, 91, 230));
+                gui.chatDialog.localChatMap.get(user).setForeground(Color.WHITE);
                 Gui.chatReceiver = user;
-                gui.chatDialog.currentChatHistory = Gui.privateChatHistoryMap.get(user);
-                gui.chatDialog.scrollPane.setViewportView(gui.chatDialog.currentChatHistory);
-                gui.askChat();
+                new Thread(()->System.out.println(user));
+                if (user.equals("#All")) {
+                    Gui.chatReceiver = "#All";
+                    gui.chatDialog.currentChatHistory = Gui.publicChatHistory;
+                } else {
+                    Gui.chatReceiver = user;
+                    gui.chatDialog.currentChatHistory = Gui.privateChatHistoryMap.get(user);
+                }
+                gui.timeLimitedNotification("Clicked on " + Gui.chatReceiver);
+                //gui.chatDialog.scrollPane.setViewportView(gui.chatDialog.currentChatHistory);
+                if(gui.chatDialog!=null){
+                    gui.chatDialog.dispose();
+                }
+                Gui.NEW_CHAT_WINDOW = true;
+                gui.ASK_CHAT = true;
+                //gui.askChat();
             }
         });
+
     }
 
     @Override
@@ -70,7 +111,11 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            gui.chatDialog.sendButton.doClick();
+            SwingUtilities.invokeLater(() -> {
+                System.out.println("DoClick");
+                gui.chatDialog.sendButton.doClick();
+            });
+
         }
     }
 
@@ -83,25 +128,28 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == gui.chatDialog.closeLabel) {
             gui.chatDialog.setVisible(false);
+            gui.ASK_CHAT = false;
         }
         // when click on gui.chatDialog, sendButton get focus, so you can press 'Enter' to send a message
         if (e.getSource() == gui.chatDialog) {
             gui.chatDialog.sendButton.requestFocus();
         }
-        gui.chatDialog.localPrivateChatMap.keySet().forEach(user -> {
-            if (e.getSource() == gui.chatDialog.localPrivateChatMap.get(user)) {
-                gui.chatDialog.localPrivateChatMap.get(user).setBackground(new Color(83, 46, 91, 230));
-                gui.chatDialog.localPrivateChatMap.get(user).setForeground(Color.WHITE);
+        /*gui.chatDialog.localChatMap.keySet().forEach(user -> {
+            if (e.getSource() == gui.chatDialog.localChatMap.get(user)) {
+                gui.chatDialog.localChatMap.get(user).setBackground(new Color(83, 46, 91, 230));
+                gui.chatDialog.localChatMap.get(user).setForeground(Color.WHITE);
+
             } else {
-                gui.chatDialog.localPrivateChatMap.get(user).setBackground(new Color(178, 173, 204, 230));
-                gui.chatDialog.localPrivateChatMap.get(user).setForeground(new Color(106, 2, 1));
+                gui.chatDialog.localChatMap.get(user).setBackground(new Color(178, 173, 204, 230));
+                gui.chatDialog.localChatMap.get(user).setForeground(new Color(106, 2, 1));
             }
-            if (gui.chatDialog != null) {
-                FontMetrics fm = gui.chatDialog.chatMessage.getFontMetrics(gui.chatDialog.chatMessage.getFont());
-                gui.chatDialog.chatMessage.setBorder(new EmptyBorder
+            *//*if (gui.chatDialog != null) {
+                FontMetrics fm = gui.chatDialog.chatMessageInput.getFontMetrics(gui.chatDialog.chatMessageInput.getFont());
+                gui.chatDialog.chatMessageInput.setBorder(new EmptyBorder
                         (0, ImageUtil.resizeX(fm.stringWidth(Gui.chatReceiver) + 30), 0, 0));
-            }
-        });
+
+            }*//*
+        });*/
     }
 
     @Override
@@ -125,9 +173,9 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
         if (e.getSource() == gui.chatDialog.sendButton) {
             gui.chatDialog.sendButton.setBackground(new Color(243, 214, 253));
         }
-//        gui.chatDialog.localPrivateChatMap.keySet().forEach(user -> {
-//            if (e.getSource() == gui.chatDialog.localPrivateChatMap.get(user)) {
-//                gui.chatDialog.localPrivateChatMap.get(user).setBackground(new Color(243, 214, 253));
+//        gui.chatDialog.localChatMap.keySet().forEach(user -> {
+//            if (e.getSource() == gui.chatDialog.localChatMap.get(user)) {
+//                gui.chatDialog.localChatMap.get(user).setBackground(new Color(243, 214, 253));
 //            }
 //        });
     }
@@ -140,9 +188,9 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
         if (e.getSource() == gui.chatDialog.sendButton) {
             gui.chatDialog.sendButton.setBackground(new Color(178, 173, 204, 230));
         }
-//        gui.chatDialog.localPrivateChatMap.keySet().forEach(user -> {
-//            if (e.getSource() == gui.chatDialog.localPrivateChatMap.get(user)) {
-//                gui.chatDialog.localPrivateChatMap.get(user).setBackground(new Color(178, 173, 204, 230));
+//        gui.chatDialog.localChatMap.keySet().forEach(user -> {
+//            if (e.getSource() == gui.chatDialog.localChatMap.get(user)) {
+//                gui.chatDialog.localChatMap.get(user).setBackground(new Color(178, 173, 204, 230));
 //            }
 //        });
     }

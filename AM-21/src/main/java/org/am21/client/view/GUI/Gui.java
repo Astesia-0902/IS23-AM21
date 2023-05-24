@@ -63,13 +63,13 @@ public class Gui implements View {
     public MatchListInterface matchListInterface;
     //-------------------------------------------------------------
     public static HashMap<String, JButton> myChatMap = new HashMap<>(); //chatPlayer
-    public static String chatReceiver; //chatUser
+    public static String chatReceiver = "#Unknown"; //chatUser
     //Key: "Receiver", Value: Private chat History
     public static HashMap<String, JTextArea> privateChatHistoryMap = new HashMap<>();
     public static JTextArea publicChatHistory = new JTextArea();
-    public static boolean NEW_PrivateChat = false;
+    public static boolean NEW_CHAT_WINDOW = false;
 
-
+    public JDialog notification;
     //-------------------------------------------------------------------
     private SocketClient socket;
     public boolean GO_TO_MENU = true;
@@ -82,6 +82,8 @@ public class Gui implements View {
     public boolean REFRESH = false;
     public boolean WAIT_ROOM_REFRESH = false;
     public boolean NEED_NEW_FRAME = false;
+
+    public boolean ASK_CHAT = false;
     private int matchIndex;
     private Thread numThread;
     public Thread guiMinion = new Thread() {
@@ -128,6 +130,34 @@ public class Gui implements View {
                     livingRoomInterface.dispose();
                 }
             }
+
+        }
+    };
+
+    public Thread guiMinionChat = new Thread() {
+        @Override
+        public void run() {
+            super.run();
+            while (true) {
+                while (ASK_CHAT) {
+
+                    try {
+                        System.out.println("Asking chat...");
+                        askChat();
+
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
 
         }
     };
@@ -476,18 +506,93 @@ public class Gui implements View {
         JOptionPane.showMessageDialog(frame, message);
     }
 
+    public void timeLimitedNotification(String message) {
+        if (chatDialog != null && chatDialog.isVisible()) {
+            return;
+        }
+        SwingUtilities.invokeLater(() -> {
+            JDialog dialog = new JDialog(frame);
+            dialog.setUndecorated(true);
+            dialog.setSize(300, 50);
+            dialog.setLocationByPlatform(true);
+            dialog.setLocationRelativeTo(null);
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+            int x = screenSize.width - dialog.getWidth();
+            int y = 0;
+
+            // Imposta le coordinate per posizionare la notifica in alto a destra
+            dialog.setLocation(x, y);
+
+            JPanel panel = new JPanel(new BorderLayout());
+
+            JLabel label = new JLabel(message);
+            label.setHorizontalAlignment(SwingConstants.CENTER);
+
+            panel.add(label, BorderLayout.CENTER);
+
+            panel.setBackground(Color.LIGHT_GRAY);
+            panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+            dialog.getContentPane().add(panel);
+
+            Timer timer = new Timer(5000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dialog.dispose();
+                }
+            });
+            timer.setRepeats(false);
+            timer.start();
+
+            dialog.setVisible(true);
+        });
+    }
+
     public void askChat() {
         convertPrivateChatsForGUI();
-        if (chatDialog == null || !chatDialog.isVisible() || NEW_PrivateChat) {
-            chatDialog = new ChatDialog(frame);
-            NEW_PrivateChat = false;
-            new ChatListener(this);
-            //runChatMinion();
+        convertPublicChatForGUI();
+        if (chatDialog == null && !NEW_CHAT_WINDOW) {
+
+            SwingUtilities.invokeLater(() -> {
+                System.out.println("Chat Dialog created (not visible)");
+                chatDialog = new ChatDialog(frame);
+                new ChatListener(this);
+                ASK_CHAT = false;
+            });
+        } else if (chatDialog == null) {
+            SwingUtilities.invokeLater(() -> {
+                replyDEBUG("Chat Dialog created (visible)");
+                chatDialog = new ChatDialog(frame);
+                chatDialog.setVisible(true);
+                NEW_CHAT_WINDOW = false;
+                new ChatListener(this);
+                ASK_CHAT = false;
+            });
+
+
+        } else if (NEW_CHAT_WINDOW) {
+            chatDialog.setVisible(true);
+            SwingUtilities.invokeLater(() -> {
+                chatDialog.reloadChat();
+                chatDialog.getContentPane().revalidate();
+                chatDialog.getContentPane().repaint();
+                System.out.println("Repaint success");
+                ASK_CHAT = false;
+            });
+            NEW_CHAT_WINDOW = false;
         } else {
-            chatDialog.reloadData();
-            chatDialog.getContentPane().revalidate();
-            chatDialog.getContentPane().repaint();
+            // Normal chat update
+            SwingUtilities.invokeLater(() -> {
+                chatDialog.reloadChat();
+                chatDialog.getContentPane().revalidate();
+                chatDialog.getContentPane().repaint();
+                System.out.println("Repaint success");
+                ASK_CHAT = false;
+            });
+
         }
+
     }
 
     @Override
@@ -510,6 +615,7 @@ public class Gui implements View {
 
     public void replyDEBUG(String message) {
         System.out.println(message);
+        timeLimitedNotification(message);
     }
 
     @Override
@@ -581,11 +687,6 @@ public class Gui implements View {
     }
 
 
-    public void runChatMinion() {
-
-
-    }
-
 
     public void convertPrivateChatsForGUI() {
         HashMap<String, JTextArea> chatMap = new HashMap<>();
@@ -627,6 +728,9 @@ public class Gui implements View {
                         int value = entry.getValue();
                         //Insert key(receiver) and JTextArea of the Private Chat
                         chatMap.put(receiver, visualChats.get(value));
+                        if(myChatMap!=null && !myChatMap.containsKey(receiver)){
+                            myChatMap.put(receiver,new JButton(receiver));
+                        }
                     }
                 }
 
@@ -636,6 +740,30 @@ public class Gui implements View {
         // Finally
         privateChatHistoryMap = chatMap;
 
+    }
+
+    public void convertPublicChatForGUI() {
+        JTextArea historyTMP = new JTextArea(ImageUtil.resizeX(10), ImageUtil.resizeY(20));
+        historyTMP.setEditable(false);
+        historyTMP.setForeground(new Color(106, 2, 1));
+        historyTMP.setFont(new Font("Serif", Font.BOLD, ImageUtil.resizeY(14)));
+        historyTMP.setLineWrap(true);
+        historyTMP.setWrapStyleWord(true);
+        historyTMP.setCaretPosition(historyTMP.getDocument().getLength());
+        if (ClientView.publicChat != null && !ClientView.publicChat.isEmpty()) {
+            List<String> tmpChat = ClientView.publicChat;
+            for (String line : tmpChat) {
+                historyTMP.append(line + "\n");
+            }
+            historyTMP.setCaretPosition(historyTMP.getDocument().getLength());
+
+            //DEBUG print chat
+            System.out.println(historyTMP.getText());
+            System.out.println("Public CHAT update");
+        } else {
+            System.out.println("No Public chat");
+        }
+        publicChatHistory = historyTMP;
     }
 
 }
