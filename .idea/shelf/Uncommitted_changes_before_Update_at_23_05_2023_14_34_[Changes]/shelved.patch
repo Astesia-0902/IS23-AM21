@@ -1,0 +1,480 @@
+Index: AM-21/src/main/java/org/am21/client/view/GUI/utils/ButtonUtil.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.am21.client.view.GUI.utils;\r\n\r\nimport org.am21.client.view.GUI.component.ButtonColorUI;\r\n\r\nimport javax.swing.*;\r\nimport javax.swing.border.BevelBorder;\r\nimport java.awt.*;\r\n\r\npublic class ButtonUtil {\r\n    private final String s = \"\";\r\n    public static JButton button;\r\n\r\n    public static JButton getButton(String s) {\r\n        button = new JButton();\r\n        button.setBackground(new Color(222, 184, 135));\r\n        button.setUI(new ButtonColorUI(new Color(245, 225, 199)));\r\n        button.setBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 250, 205),\r\n                new Color(255, 250, 205), new Color(139, 69, 19), new Color(139, 69, 19)));\r\n        button.setFont(FontUtil.getFontByName(\"Leira-Lite-2\").deriveFont(Font.PLAIN,ImageUtil.resizeY(22)));\r\n        button.setForeground(new Color(139, 69, 19));\r\n        button.setText(s);\r\n        return button;\r\n    }\r\n\r\n    public static JButton getCommandButton(String s) {\r\n        button = new JButton(s);\r\n        button.setContentAreaFilled(false);\r\n        button.setBorder(null);\r\n        button.setFocusPainted(false);\r\n        button.setForeground(new Color(237, 179, 137));\r\n        button.setFont(FontUtil.getFontByName(\"Leira-Lite-2\").deriveFont(Font.PLAIN,ImageUtil.resizeY(22)));\r\n        button.setOpaque(false);\r\n        return button;\r\n    }\r\n\r\n    public static JButton getCommandButton(){\r\n        button = new JButton();\r\n        button.setContentAreaFilled(false);\r\n        button.setBorder(null);\r\n        button.setFocusPainted(false);\r\n        return button;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/AM-21/src/main/java/org/am21/client/view/GUI/utils/ButtonUtil.java b/AM-21/src/main/java/org/am21/client/view/GUI/utils/ButtonUtil.java
+--- a/AM-21/src/main/java/org/am21/client/view/GUI/utils/ButtonUtil.java	(revision 4860e46f7f99d5d6ecd548e7caee2a3ebefe5fd8)
++++ b/AM-21/src/main/java/org/am21/client/view/GUI/utils/ButtonUtil.java	(date 1684844476211)
+@@ -4,6 +4,7 @@
+ 
+ import javax.swing.*;
+ import javax.swing.border.BevelBorder;
++import javax.swing.border.EmptyBorder;
+ import java.awt.*;
+ 
+ public class ButtonUtil {
+@@ -29,14 +30,13 @@
+         button.setFocusPainted(false);
+         button.setForeground(new Color(237, 179, 137));
+         button.setFont(FontUtil.getFontByName("Leira-Lite-2").deriveFont(Font.PLAIN,ImageUtil.resizeY(22)));
+-        button.setOpaque(false);
+         return button;
+     }
+ 
+     public static JButton getCommandButton(){
+         button = new JButton();
+         button.setContentAreaFilled(false);
+-        button.setBorder(null);
++        button.setBorder(new EmptyBorder(0,0, 0, 0));
+         button.setFocusPainted(false);
+         return button;
+     }
+Index: AM-21/src/main/java/org/am21/client/view/GUI/utils/PixelUtil.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.am21.client.view.GUI.utils;\r\n\r\nimport java.awt.*;\r\n\r\npublic class PixelUtil {\r\n    /**\r\n     * screen size util\r\n     */\r\n    public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();\r\n    public static int pcWidth = (int) screenSize.getWidth();\r\n    public static int pcHeight = (int) screenSize.getHeight();\r\n\r\n   // public static int pcWidth = 1680;\r\n   // public static int pcHeight = 1050;\r\n\r\n\r\n    /**\r\n     * dimension util\r\n     */\r\n\r\n    public static int gameBoardW = pcWidth*4625/10000;\r\n    public static int gameBoardH = pcHeight*74/100;\r\n    public static int myShelfBoardW = pcWidth*275/1000;\r\n    public static int myShelfBoardH = pcHeight*44/100;\r\n\r\n    public static int handBoardW=pcWidth*275/1000;\r\n    public static int handBoardH=pcHeight*75/1000;\r\n\r\n    public static int commonGoalCardW = pcWidth*1458/10000;\r\n    public static int commonGoalCardH = pcHeight*157/1000;\r\n    public static int personalGoalCardW = pcWidth*982/10000;\r\n    public static int personalGoalCardH = pcHeight*2324/10000;\r\n\r\n\r\n    public static int bagW = pcWidth*5/100;\r\n    public static int bagH = pcHeight*8/100;\r\n    public static int livingRoomMenuW = pcWidth*3/100;\r\n    public static int livingRoomMenuH = pcHeight*476/10000;\r\n\r\n    public static int insertClearButtonW = pcWidth*230/1000;\r\n    public static int insertClearButtonH = pcHeight*75/1000;\r\n\r\n    public static int userMeW = pcWidth*804/10000;\r\n    public static int userMeH = pcHeight*1286/10000;\r\n\r\n    public static int enemyW = pcWidth*375/10000;\r\n    public static int enemyH = pcHeight*6/100;\r\n\r\n    public static int enemyShelfW = pcWidth*1125/10000;\r\n    public static int enemyShelfH = pcHeight*18/100;\r\n\r\n    //\r\n    public static int gameBoardCellW = pcWidth*47/1000;\r\n    public static int gameBoardCellH = pcHeight*75/1000;\r\n\r\n    public static int gameBoardItemW = gameBoardCellW *9114/10000;\r\n    public static int gameBoardItemH = gameBoardCellH *9114/10000;\r\n\r\n\r\n    public static int chairW = pcWidth*375/10000;\r\n    public static int chairH = pcHeight*6/100;\r\n\r\n\r\n    public static int myScoreW = pcWidth*9/100;\r\n    public static int myScoreH = pcHeight*95/1000;\r\n    public static int myScoreDynamicW = pcWidth*3/100;\r\n    public static int myScoreDynamicH = pcHeight/21;\r\n\r\n    public static int enemyScoreX = pcWidth*268/10000;\r\n    public static int enemyScoreY = pcHeight/30;\r\n    public static int enemyScoreW = pcWidth*10/168;\r\n    public static int enemyScoreH = pcHeight*10/105;\r\n    /**\r\n     * position util\r\n     */\r\n\r\n    // X position\r\n    public static int commonX_1 = pcWidth*125/10000;\r\n    public static int commonX_2 = pcWidth*5/100;\r\n    public static int commonX_3 = pcWidth*225/1000;\r\n    public static int commonX_4 = pcWidth*7/10;\r\n    public static int commonX_5 = pcWidth*8125/10000;\r\n\r\n    public static int personalGoalX = pcWidth*709/1000;\r\n\r\n    public static int livingRoomMenuX = pcWidth*964/1000;\r\n\r\n    public static int insertButtonX = pcWidth*2238/10000;\r\n    public static int clearButtonX=pcWidth*459/1000;\r\n    public static int userMeX = pcWidth*72/100;\r\n\r\n    public static int gameBoardGridX = pcWidth*248/1000;\r\n    public static int myHandPanelX = pcWidth*238/10000;\r\n\r\n\r\n    public static int chairManMeX = pcWidth*6845/10000;\r\n\r\n    // Y position\r\n    public static int commonY_1 = pcHeight*3/100;\r\n    public static int commonY_2 = pcHeight*23/100;\r\n    public static int commonY_3 = pcHeight*44/100;\r\n    public static int commonY_4 = pcHeight*843/1000;\r\n\r\n\r\n\r\n    public static int gameBoardY = pcHeight/10;\r\n    public static int myShelfBoardY = pcHeight*4/10;\r\n    public static int personalGoalY= pcHeight*16/100;\r\n    public static int commonGoalY_A = pcHeight*762/10000;\r\n    public static int commonGoalY_B = pcHeight*238/1000;\r\n    public static int bagY = pcHeight/100;\r\n    public static int livingRoomMenuY = pcHeight*95/10000;\r\n\r\n    public static int gameBoardGridY =  pcHeight*138/1000;\r\n\r\n    public static int chairManMeY = pcHeight/100;\r\n    public static int chairManAY = pcHeight*1238/10000;\r\n    public static int chairManBY = pcHeight*3238/10000;\r\n    public static int chairManCY = pcHeight*1875/1000;\r\n    public static int myScoreDynamicX = pcWidth*893/1000;\r\n\r\n    public static int myHandPanelY = pcHeight*3/1000;\r\n    /**\r\n     * chat util\r\n     */\r\n    public static int cPanelX = pcWidth*6/1000;\r\n    public static int cPanelY = pcHeight*6286/10000;\r\n    public static int cPanelW = pcWidth*2024/10000;\r\n    public static int cPanelH = pcHeight*286/1000;\r\n\r\n    public static int cScrollW = pcWidth*2024/10000;\r\n    public static int cScrollH = pcHeight*238/1000;\r\n    public static int cTextFieldY = pcHeight*24/100;\r\n    public static int cTextFieldW = pcWidth*143/1000;\r\n    public static int cTextFieldH = pcHeight*38/1000;\r\n    public static int cButtonX = pcWidth*146/1000;\r\n    public static int cButtonY = pcHeight*24/100;\r\n    public static int cButtonW = pcWidth*56/1000;\r\n    public static int cButtonH = pcHeight*38/1000;\r\n\r\n    /**\r\n     * Shelf grid Util\r\n     */\r\n\r\n    //position\r\n    public static int myGridX = pcWidth*727/1000;\r\n    public static int myGridY = pcHeight*428/1000;\r\n    public static int enemyGridX = pcWidth*6131/100000;\r\n    public static int enemyAGridY = pcHeight*41/1000;\r\n    public static int enemyBGridY = pcHeight*241/1000;\r\n    public static int enemyCGridY = pcHeight*45143/100000;\r\n\r\n    //cell size\r\n    public static int myCellH = pcHeight*61/1000;\r\n    public static int myCellW = pcWidth*4405/100000;\r\n    public static int enemyCellH = pcHeight*25/1000;\r\n    public static int enemyCellW = pcWidth*18/1000;\r\n\r\n    //item size\r\n    public static int myItemW = pcWidth*3155/100000;\r\n    public static int myItemH = pcHeight*5143/100000;\r\n    public static int enemyItemH = pcHeight*2/100;\r\n    public static int enemyItemW = pcWidth*131/10000;\r\n\r\n    /**\r\n     * score token util\r\n     */\r\n\r\n    public static int endGameTokenH = pcHeight*781/10000;\r\n    public static int endGameTokenW = pcWidth*488/10000;\r\n\r\n    public static int endGameTokenBoundsW = pcWidth/14;\r\n    public static int endGameTokenBoundsH = pcHeight*1143/10000;\r\n    public static int endGameTokenX = pcWidth*3405/10000;\r\n    public static int endGameTokenY = pcHeight*4724/10000;\r\n    public static int endGameTokenOriented = 9;\r\n\r\n    public static int endGameTokenRotateX = pcWidth*95/10000;\r\n    public static int endGameTokenRotateY = pcHeight/7;\r\n\r\n\r\n    public static int commonGoalTokenH = pcHeight*705/10000;\r\n    public static int commonGoalTokenW = pcWidth*44/1000;\r\n\r\n    public static int commonGoalTokenBoundsH = pcHeight*857/10000;\r\n    public static int commonGoalTokenBoundsW = pcWidth*536/10000;\r\n    public static int commonGoalTokenX = pcWidth*82/1000;\r\n    public static int commonGoalTopTokenY = pcHeight*295/10000;\r\n    public static int commonGoalBottomTokenY = pcHeight*19/100;\r\n    public static int commonGoalTokenOriented = -8;\r\n\r\n    public static int commonGoalTokenRotateX = pcWidth*536/10000;\r\n    public static int commonGoalTokenRotateY = pcHeight/210;\r\n\r\n    /**\r\n     * myHandBoard Interface\r\n     */\r\n    public static int myHandBackGroundX = pcWidth*2262/10000;\r\n    public static int myHandBackGroundY = pcHeight*375/100;\r\n\r\n    public static int myHandBackGroundW = pcWidth*4643/10000;\r\n    public static int myHandBackGroundH = pcHeight*6476/10000;\r\n\r\n    public static int myHandHandH = pcHeight*44/100;\r\n    public static int myHandHandW = pcWidth*47/1000;\r\n    public static int myHandHandX= pcWidth*10/336;\r\n    public static int myHandHandY = pcHeight/21;\r\n\r\n    public static int myHandShelfX = pcWidth*1072/10000;\r\n    public static int myHandSortX = pcWidth*10/336;\r\n    public static int myHandSortY = pcWidth*3155/10000;\r\n    public static int myHandSortW = pcWidth*100/2154;\r\n    public static int myHandSortH = pcHeight*75/1000;\r\n\r\n   public static int myHandOptionX = pcWidth*863/10000;\r\n   public static int myHandOptionXDiff = pcWidth*100/2154;\r\n    public static int myHandOptionY = pcWidth*3155/10000;\r\n    public static int handNumW = pcWidth*10/336;\r\n\r\n    public static int handNumH = pcHeight/21;\r\n\r\n    public static int myHandConfirmX = pcWidth*357/1000;\r\n    public static int myHandConfirmY = pcHeight*567/1000;\r\n    public static int myHandConfirmW = pcWidth*893/10000;\r\n    public static int myHandConfirmH = pcHeight/21;\r\n\r\n    public static int myHandItemX = pcWidth*18/10000;\r\n    public static int myHandItemY = pcHeight*38/1000;\r\n\r\n    /**\r\n     * menu living room interface\r\n     */\r\n\r\n    public static int menuLRW = 600;\r\n    public static int menuLRH = 500;\r\n\r\n    public static  int buttonLRX = 100;\r\n    public static int buttonBackLRY =50;\r\n    public static int buttonWaitLRY = 200;\r\n    public static int buttonLeaveLRY = 350;\r\n    public static int buttonLRW = 400;\r\n    public static int buttonLRH = 100;\r\n\r\n    /**\r\n     * game results interface\r\n     */\r\n    public static int labelRIW = pcWidth*100/168;\r\n    public static int labelRITitleH = pcWidth*57/100;\r\n    public static int labelRITableH = pcHeight*10/21;\r\n    public static int labelRIX = (PixelUtil.pcWidth - labelRIW) / 2;\r\n    public static int labelRIY = (PixelUtil.pcWidth - labelRIW) / 2;\r\n    public static int labelRITitleY = -pcHeight*2857/10000;\r\n    public static int labelRIRowH=pcHeight*105/1000;\r\n\r\n    public static int labelRIButtonX = pcWidth*381/1000;\r\n    public static int labelRIButtonY = pcHeight*81/100;\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/AM-21/src/main/java/org/am21/client/view/GUI/utils/PixelUtil.java b/AM-21/src/main/java/org/am21/client/view/GUI/utils/PixelUtil.java
+--- a/AM-21/src/main/java/org/am21/client/view/GUI/utils/PixelUtil.java	(revision 4860e46f7f99d5d6ecd548e7caee2a3ebefe5fd8)
++++ b/AM-21/src/main/java/org/am21/client/view/GUI/utils/PixelUtil.java	(date 1684845188004)
+@@ -10,222 +10,221 @@
+     public static int pcWidth = (int) screenSize.getWidth();
+     public static int pcHeight = (int) screenSize.getHeight();
+ 
+-   // public static int pcWidth = 1680;
+-   // public static int pcHeight = 1050;
++    // public static int pcWidth = 1680;
++    // public static int pcHeight = 1050;
+ 
+ 
+     /**
+      * dimension util
+      */
+ 
+-    public static int gameBoardW = pcWidth*4625/10000;
+-    public static int gameBoardH = pcHeight*74/100;
+-    public static int myShelfBoardW = pcWidth*275/1000;
+-    public static int myShelfBoardH = pcHeight*44/100;
++    public static int gameBoardW = pcWidth * 4625 / 10000;
++    public static int gameBoardH = pcHeight * 74 / 100;
++    public static int myShelfBoardW = pcWidth * 275 / 1000;
++    public static int myShelfBoardH = pcHeight * 44 / 100;
+ 
+-    public static int handBoardW=pcWidth*275/1000;
+-    public static int handBoardH=pcHeight*75/1000;
++    public static int handBoardW = pcWidth * 275 / 1000;
++    public static int handBoardH = pcHeight * 75 / 1000;
+ 
+-    public static int commonGoalCardW = pcWidth*1458/10000;
+-    public static int commonGoalCardH = pcHeight*157/1000;
+-    public static int personalGoalCardW = pcWidth*982/10000;
+-    public static int personalGoalCardH = pcHeight*2324/10000;
++    public static int commonGoalCardW = pcWidth * 1458 / 10000;
++    public static int commonGoalCardH = pcHeight * 157 / 1000;
++    public static int personalGoalCardW = pcWidth * 982 / 10000;
++    public static int personalGoalCardH = pcHeight * 2324 / 10000;
+ 
+ 
+-    public static int bagW = pcWidth*5/100;
+-    public static int bagH = pcHeight*8/100;
+-    public static int livingRoomMenuW = pcWidth*3/100;
+-    public static int livingRoomMenuH = pcHeight*476/10000;
++    public static int bagW = pcWidth * 5 / 100;
++    public static int bagH = pcHeight * 8 / 100;
++    public static int livingRoomMenuW = pcWidth * 3 / 100;
++    public static int livingRoomMenuH = pcHeight * 476 / 10000;
+ 
+-    public static int insertClearButtonW = pcWidth*230/1000;
+-    public static int insertClearButtonH = pcHeight*75/1000;
++    public static int insertClearButtonW = pcWidth * 230 / 1000;
++    public static int insertClearButtonH = pcHeight * 75 / 1000;
+ 
+-    public static int userMeW = pcWidth*804/10000;
+-    public static int userMeH = pcHeight*1286/10000;
++    public static int userMeW = pcWidth * 804 / 10000;
++    public static int userMeH = pcHeight * 1286 / 10000;
+ 
+-    public static int enemyW = pcWidth*375/10000;
+-    public static int enemyH = pcHeight*6/100;
++    public static int enemyW = pcWidth * 375 / 10000;
++    public static int enemyH = pcHeight * 6 / 100;
+ 
+-    public static int enemyShelfW = pcWidth*1125/10000;
+-    public static int enemyShelfH = pcHeight*18/100;
++    public static int enemyShelfW = pcWidth * 1125 / 10000;
++    public static int enemyShelfH = pcHeight * 18 / 100;
+ 
+     //
+-    public static int gameBoardCellW = pcWidth*47/1000;
+-    public static int gameBoardCellH = pcHeight*75/1000;
++    public static int gameBoardCellW = pcWidth * 47 / 1000;
++    public static int gameBoardCellH = pcHeight * 75 / 1000;
+ 
+-    public static int gameBoardItemW = gameBoardCellW *9114/10000;
+-    public static int gameBoardItemH = gameBoardCellH *9114/10000;
++    public static int gameBoardItemW = gameBoardCellW * 9114 / 10000;
++    public static int gameBoardItemH = gameBoardCellH * 9114 / 10000;
+ 
+ 
+-    public static int chairW = pcWidth*375/10000;
+-    public static int chairH = pcHeight*6/100;
++    public static int chairW = pcWidth * 375 / 10000;
++    public static int chairH = pcHeight * 6 / 100;
+ 
+ 
+-    public static int myScoreW = pcWidth*9/100;
+-    public static int myScoreH = pcHeight*95/1000;
+-    public static int myScoreDynamicW = pcWidth*3/100;
+-    public static int myScoreDynamicH = pcHeight/21;
++    public static int myScoreW = pcWidth * 9 / 100;
++    public static int myScoreH = pcHeight * 95 / 1000;
++    public static int myScoreDynamicW = pcWidth * 3 / 100;
++    public static int myScoreDynamicH = pcHeight / 21;
+ 
+-    public static int enemyScoreX = pcWidth*268/10000;
+-    public static int enemyScoreY = pcHeight/30;
+-    public static int enemyScoreW = pcWidth*10/168;
+-    public static int enemyScoreH = pcHeight*10/105;
++    public static int enemyScoreX = pcWidth * 268 / 10000;
++    public static int enemyScoreY = pcHeight / 30;
++    public static int enemyScoreW = pcWidth * 10 / 168;
++    public static int enemyScoreH = pcHeight * 10 / 105;
+     /**
+      * position util
+      */
+ 
+     // X position
+-    public static int commonX_1 = pcWidth*125/10000;
+-    public static int commonX_2 = pcWidth*5/100;
+-    public static int commonX_3 = pcWidth*225/1000;
+-    public static int commonX_4 = pcWidth*7/10;
+-    public static int commonX_5 = pcWidth*8125/10000;
++    public static int commonX_1 = pcWidth * 125 / 10000;
++    public static int commonX_2 = pcWidth * 5 / 100;
++    public static int commonX_3 = pcWidth * 225 / 1000;
++    public static int commonX_4 = pcWidth * 7 / 10;
++    public static int commonX_5 = pcWidth * 8125 / 10000;
+ 
+-    public static int personalGoalX = pcWidth*709/1000;
++    public static int personalGoalX = pcWidth * 709 / 1000;
+ 
+-    public static int livingRoomMenuX = pcWidth*964/1000;
++    public static int livingRoomMenuX = pcWidth * 964 / 1000;
+ 
+-    public static int insertButtonX = pcWidth*2238/10000;
+-    public static int clearButtonX=pcWidth*459/1000;
+-    public static int userMeX = pcWidth*72/100;
++    public static int insertButtonX = pcWidth * 2238 / 10000;
++    public static int clearButtonX = pcWidth * 459 / 1000;
++    public static int userMeX = pcWidth * 72 / 100;
+ 
+-    public static int gameBoardGridX = pcWidth*248/1000;
+-    public static int myHandPanelX = pcWidth*238/10000;
++    public static int gameBoardGridX = pcWidth * 248 / 1000;
++    public static int myHandPanelX = pcWidth * 238 / 10000;
+ 
+ 
+-    public static int chairManMeX = pcWidth*6845/10000;
++    public static int chairManMeX = pcWidth * 6845 / 10000;
+ 
+     // Y position
+-    public static int commonY_1 = pcHeight*3/100;
+-    public static int commonY_2 = pcHeight*23/100;
+-    public static int commonY_3 = pcHeight*44/100;
+-    public static int commonY_4 = pcHeight*843/1000;
++    public static int commonY_1 = pcHeight * 3 / 100;
++    public static int commonY_2 = pcHeight * 23 / 100;
++    public static int commonY_3 = pcHeight * 44 / 100;
++    public static int commonY_4 = pcHeight * 843 / 1000;
+ 
+ 
+-
+-    public static int gameBoardY = pcHeight/10;
+-    public static int myShelfBoardY = pcHeight*4/10;
+-    public static int personalGoalY= pcHeight*16/100;
+-    public static int commonGoalY_A = pcHeight*762/10000;
+-    public static int commonGoalY_B = pcHeight*238/1000;
+-    public static int bagY = pcHeight/100;
+-    public static int livingRoomMenuY = pcHeight*95/10000;
++    public static int gameBoardY = pcHeight / 10;
++    public static int myShelfBoardY = pcHeight * 4 / 10;
++    public static int personalGoalY = pcHeight * 16 / 100;
++    public static int commonGoalY_A = pcHeight * 762 / 10000;
++    public static int commonGoalY_B = pcHeight * 238 / 1000;
++    public static int bagY = pcHeight / 100;
++    public static int livingRoomMenuY = pcHeight * 95 / 10000;
+ 
+-    public static int gameBoardGridY =  pcHeight*138/1000;
++    public static int gameBoardGridY = pcHeight * 138 / 1000;
+ 
+-    public static int chairManMeY = pcHeight/100;
+-    public static int chairManAY = pcHeight*1238/10000;
+-    public static int chairManBY = pcHeight*3238/10000;
+-    public static int chairManCY = pcHeight*1875/1000;
+-    public static int myScoreDynamicX = pcWidth*893/1000;
++    public static int chairManMeY = pcHeight / 100;
++    public static int chairManAY = pcHeight * 1238 / 10000;
++    public static int chairManBY = pcHeight * 3238 / 10000;
++    public static int chairManCY = pcHeight * 1875 / 1000;
++    public static int myScoreDynamicX = pcWidth * 893 / 1000;
+ 
+-    public static int myHandPanelY = pcHeight*3/1000;
++    public static int myHandPanelY = pcHeight * 3 / 1000;
+     /**
+      * chat util
+      */
+-    public static int cPanelX = pcWidth*6/1000;
+-    public static int cPanelY = pcHeight*6286/10000;
+-    public static int cPanelW = pcWidth*2024/10000;
+-    public static int cPanelH = pcHeight*286/1000;
++    public static int cPanelX = pcWidth * 6 / 1000;
++    public static int cPanelY = pcHeight * 6286 / 10000;
++    public static int cPanelW = pcWidth * 2024 / 10000;
++    public static int cPanelH = pcHeight * 286 / 1000;
+ 
+-    public static int cScrollW = pcWidth*2024/10000;
+-    public static int cScrollH = pcHeight*238/1000;
+-    public static int cTextFieldY = pcHeight*24/100;
+-    public static int cTextFieldW = pcWidth*143/1000;
+-    public static int cTextFieldH = pcHeight*38/1000;
+-    public static int cButtonX = pcWidth*146/1000;
+-    public static int cButtonY = pcHeight*24/100;
+-    public static int cButtonW = pcWidth*56/1000;
+-    public static int cButtonH = pcHeight*38/1000;
++    public static int cScrollW = pcWidth * 2024 / 10000;
++    public static int cScrollH = pcHeight * 238 / 1000;
++    public static int cTextFieldY = pcHeight * 24 / 100;
++    public static int cTextFieldW = pcWidth * 143 / 1000;
++    public static int cTextFieldH = pcHeight * 38 / 1000;
++    public static int cButtonX = pcWidth * 146 / 1000;
++    public static int cButtonY = pcHeight * 24 / 100;
++    public static int cButtonW = pcWidth * 56 / 1000;
++    public static int cButtonH = pcHeight * 38 / 1000;
+ 
+     /**
+      * Shelf grid Util
+      */
+ 
+     //position
+-    public static int myGridX = pcWidth*727/1000;
+-    public static int myGridY = pcHeight*428/1000;
+-    public static int enemyGridX = pcWidth*6131/100000;
+-    public static int enemyAGridY = pcHeight*41/1000;
+-    public static int enemyBGridY = pcHeight*241/1000;
+-    public static int enemyCGridY = pcHeight*45143/100000;
++    public static int myGridX = pcWidth * 727 / 1000;
++    public static int myGridY = pcHeight * 428 / 1000;
++    public static int enemyGridX = pcWidth * 6131 / 100000;
++    public static int enemyAGridY = pcHeight * 41 / 1000;
++    public static int enemyBGridY = pcHeight * 241 / 1000;
++    public static int enemyCGridY = pcHeight * 45143 / 100000;
+ 
+     //cell size
+-    public static int myCellH = pcHeight*61/1000;
+-    public static int myCellW = pcWidth*4405/100000;
+-    public static int enemyCellH = pcHeight*25/1000;
+-    public static int enemyCellW = pcWidth*18/1000;
++    public static int myCellH = pcHeight * 61 / 1000;
++    public static int myCellW = pcWidth * 4405 / 100000;
++    public static int enemyCellH = pcHeight * 25 / 1000;
++    public static int enemyCellW = pcWidth * 18 / 1000;
+ 
+     //item size
+-    public static int myItemW = pcWidth*3155/100000;
+-    public static int myItemH = pcHeight*5143/100000;
+-    public static int enemyItemH = pcHeight*2/100;
+-    public static int enemyItemW = pcWidth*131/10000;
++    public static int myItemW = pcWidth * 3155 / 100000;
++    public static int myItemH = pcHeight * 5143 / 100000;
++    public static int enemyItemH = pcHeight * 2 / 100;
++    public static int enemyItemW = pcWidth * 131 / 10000;
+ 
+     /**
+      * score token util
+      */
+ 
+-    public static int endGameTokenH = pcHeight*781/10000;
+-    public static int endGameTokenW = pcWidth*488/10000;
++    public static int endGameTokenH = pcHeight * 781 / 10000;
++    public static int endGameTokenW = pcWidth * 488 / 10000;
+ 
+-    public static int endGameTokenBoundsW = pcWidth/14;
+-    public static int endGameTokenBoundsH = pcHeight*1143/10000;
+-    public static int endGameTokenX = pcWidth*3405/10000;
+-    public static int endGameTokenY = pcHeight*4724/10000;
++    public static int endGameTokenBoundsW = pcWidth / 14;
++    public static int endGameTokenBoundsH = pcHeight * 1143 / 10000;
++    public static int endGameTokenX = pcWidth * 3405 / 10000;
++    public static int endGameTokenY = pcHeight * 4724 / 10000;
+     public static int endGameTokenOriented = 9;
+ 
+-    public static int endGameTokenRotateX = pcWidth*95/10000;
+-    public static int endGameTokenRotateY = pcHeight/7;
++    public static int endGameTokenRotateX = pcWidth * 95 / 10000;
++    public static int endGameTokenRotateY = pcHeight / 7;
+ 
+ 
+-    public static int commonGoalTokenH = pcHeight*705/10000;
+-    public static int commonGoalTokenW = pcWidth*44/1000;
++    public static int commonGoalTokenH = pcHeight * 705 / 10000;
++    public static int commonGoalTokenW = pcWidth * 44 / 1000;
+ 
+-    public static int commonGoalTokenBoundsH = pcHeight*857/10000;
+-    public static int commonGoalTokenBoundsW = pcWidth*536/10000;
+-    public static int commonGoalTokenX = pcWidth*82/1000;
+-    public static int commonGoalTopTokenY = pcHeight*295/10000;
+-    public static int commonGoalBottomTokenY = pcHeight*19/100;
++    public static int commonGoalTokenBoundsH = pcHeight * 857 / 10000;
++    public static int commonGoalTokenBoundsW = pcWidth * 536 / 10000;
++    public static int commonGoalTokenX = pcWidth * 82 / 1000;
++    public static int commonGoalTopTokenY = pcHeight * 295 / 10000;
++    public static int commonGoalBottomTokenY = pcHeight * 19 / 100;
+     public static int commonGoalTokenOriented = -8;
+ 
+-    public static int commonGoalTokenRotateX = pcWidth*536/10000;
+-    public static int commonGoalTokenRotateY = pcHeight/210;
++    public static int commonGoalTokenRotateX = pcWidth * 536 / 10000;
++    public static int commonGoalTokenRotateY = pcHeight / 210;
+ 
+     /**
+      * myHandBoard Interface
+      */
+-    public static int myHandBackGroundX = pcWidth*2262/10000;
+-    public static int myHandBackGroundY = pcHeight*375/100;
++    public static int myHandBackGroundX = pcWidth * 2262 / 10000;
++    public static int myHandBackGroundY = pcHeight * 375 / 100;
+ 
+-    public static int myHandBackGroundW = pcWidth*4643/10000;
+-    public static int myHandBackGroundH = pcHeight*6476/10000;
++    public static int myHandBackGroundW = pcWidth * 4643 / 10000;
++    public static int myHandBackGroundH = pcHeight * 6476 / 10000;
+ 
+-    public static int myHandHandH = pcHeight*44/100;
+-    public static int myHandHandW = pcWidth*47/1000;
+-    public static int myHandHandX= pcWidth*10/336;
+-    public static int myHandHandY = pcHeight/21;
++    public static int myHandHandH = pcHeight * 44 / 100;
++    public static int myHandHandW = pcWidth * 47 / 1000;
++    public static int myHandHandX = pcWidth * 10 / 336;
++    public static int myHandHandY = pcHeight / 21;
+ 
+-    public static int myHandShelfX = pcWidth*1072/10000;
+-    public static int myHandSortX = pcWidth*10/336;
+-    public static int myHandSortY = pcWidth*3155/10000;
+-    public static int myHandSortW = pcWidth*100/2154;
+-    public static int myHandSortH = pcHeight*75/1000;
++    public static int myHandShelfX = pcWidth * 1072 / 10000;
++    public static int myHandSortX = pcWidth * 10 / 336;
++    public static int myHandSortY = pcWidth * 3155 / 10000;
++    public static int myHandSortW = pcWidth * 100 / 2154;
++    public static int myHandSortH = pcHeight * 75 / 1000;
+ 
+-   public static int myHandOptionX = pcWidth*863/10000;
+-   public static int myHandOptionXDiff = pcWidth*100/2154;
+-    public static int myHandOptionY = pcWidth*3155/10000;
+-    public static int handNumW = pcWidth*10/336;
++    public static int myHandOptionX = pcWidth * 863 / 10000;
++    public static int myHandOptionXDiff = pcWidth * 100 / 2154;
++    public static int myHandOptionY = pcWidth * 3155 / 10000;
++    public static int handNumW = pcWidth * 10 / 336;
+ 
+-    public static int handNumH = pcHeight/21;
++    public static int handNumH = pcHeight / 21;
+ 
+-    public static int myHandConfirmX = pcWidth*357/1000;
+-    public static int myHandConfirmY = pcHeight*567/1000;
+-    public static int myHandConfirmW = pcWidth*893/10000;
+-    public static int myHandConfirmH = pcHeight/21;
++    public static int myHandConfirmX = pcWidth * 357 / 1000;
++    public static int myHandConfirmY = pcHeight * 567 / 1000;
++    public static int myHandConfirmW = pcWidth * 893 / 10000;
++    public static int myHandConfirmH = pcHeight / 21;
+ 
+-    public static int myHandItemX = pcWidth*18/10000;
+-    public static int myHandItemY = pcHeight*38/1000;
++    public static int myHandItemX = pcWidth * 18 / 10000;
++    public static int myHandItemY = pcHeight * 38 / 1000;
+ 
+     /**
+      * menu living room interface
+@@ -234,8 +233,8 @@
+     public static int menuLRW = 600;
+     public static int menuLRH = 500;
+ 
+-    public static  int buttonLRX = 100;
+-    public static int buttonBackLRY =50;
++    public static int buttonLRX = 100;
++    public static int buttonBackLRY = 50;
+     public static int buttonWaitLRY = 200;
+     public static int buttonLeaveLRY = 350;
+     public static int buttonLRW = 400;
+@@ -244,16 +243,16 @@
+     /**
+      * game results interface
+      */
+-    public static int labelRIW = pcWidth*100/168;
+-    public static int labelRITitleH = pcWidth*57/100;
+-    public static int labelRITableH = pcHeight*10/21;
++    public static int labelRIW = pcWidth * 100 / 168;
++    public static int labelRITitleH = pcWidth * 57 / 100;
++    public static int labelRITableH = pcHeight * 10 / 21;
+     public static int labelRIX = (PixelUtil.pcWidth - labelRIW) / 2;
+     public static int labelRIY = (PixelUtil.pcWidth - labelRIW) / 2;
+-    public static int labelRITitleY = -pcHeight*2857/10000;
+-    public static int labelRIRowH=pcHeight*105/1000;
++    public static int labelRITitleY = -pcHeight * 2857 / 10000;
++    public static int labelRIRowH = pcHeight * 105 / 1000;
+ 
+-    public static int labelRIButtonX = pcWidth*381/1000;
+-    public static int labelRIButtonY = pcHeight*81/100;
++    public static int labelRIButtonX = pcWidth * 381 / 1000;
++    public static int labelRIButtonY = pcHeight * 86 / 100;
+ 
+ 
+ }
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ArtifactsWorkspaceSettings\">\r\n    <artifacts-to-build>\r\n      <artifact name=\"server_shelfie\" />\r\n    </artifacts-to-build>\r\n  </component>\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"61ec0ccc-6fec-4805-91df-bde52ce4f01d\" name=\"Changes\" comment=\"update Gui\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_05_2023_09_41_[Changes]/shelved.patch\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_05_2023_09_41__Changes_.xml\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/GameResultsInterface.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/GameResultsInterface.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"CodeInsightWorkspaceSettings\">\r\n    <option name=\"optimizeImportsOnTheFly\" value=\"true\" />\r\n  </component>\r\n  <component name=\"CoverageOptionsProvider\">\r\n    <option name=\"myAddOrReplace\" value=\"0\" />\r\n  </component>\r\n  <component name=\"ExportToHTMLSettings\">\r\n    <option name=\"OPEN_IN_BROWSER\" value=\"true\" />\r\n    <option name=\"OUTPUT_DIRECTORY\" value=\"C:\\Users\\user\\IdeaProjects\\IS23-AM21\\_deliveries\\report\\20230422\\GameTest\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"JUnit5 Test Class\" />\r\n        <option value=\"AnnotationType\" />\r\n        <option value=\"Interface\" />\r\n        <option value=\"Enum\" />\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Merge.Settings\">\r\n    <option name=\"BRANCH\" value=\"origin/main\" />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"ProblemsViewState\">\r\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2NFD0XR5dL3DHYxwIaU5VQWdQAW\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\r\n    &quot;ShowUsagesActions.previewPropertyKey&quot;: &quot;true&quot;,\r\n    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,\r\n    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,\r\n    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,\r\n    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,\r\n    &quot;create.test.in.the.same.root&quot;: &quot;true&quot;,\r\n    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,\r\n    &quot;last_directory_selection&quot;: &quot;D:/xmry/IS23-AM21/AM-21/src/main/java/org/am21/test&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;C:/Users/user/Downloads&quot;,\r\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;nodejs.jest.jest_package&quot;: &quot;&quot;,\r\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\r\n    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,\r\n    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,\r\n    &quot;project.structure.side.proportion&quot;: &quot;0.21034482&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;inlay.hints&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CreateClassDialog.RecentsKey\">\r\n      <recent name=\"org.am21.board\" />\r\n    </key>\r\n    <key name=\"CreateTestDialog.Recents.Supers\">\r\n      <recent name=\"\" />\r\n    </key>\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"$PROJECT_DIR$/AM-21/imgs/background\" />\r\n      <recent name=\"D:\\xmry\\IS23-AM21\\AM-21\\fonts\" />\r\n      <recent name=\"$PROJECT_DIR$/AM-21/imgs/icon tool\" />\r\n      <recent name=\"C:\\Users\\user\\IdeaProjects\\IS23-AM21\\AM-21\\src\\main\\java\\org\\am21\\view\\gui\" />\r\n      <recent name=\"$PROJECT_DIR$/AM-21/imgs/boards\" />\r\n    </key>\r\n    <key name=\"MoveClassesOrPackagesDialog.RECENTS_KEY\">\r\n      <recent name=\"org.am21\" />\r\n    </key>\r\n    <key name=\"CreateTestDialog.RecentsKey\">\r\n      <recent name=\"org.am21.board\" />\r\n      <recent name=\"org.am21.test\" />\r\n    </key>\r\n    <key name=\"CopyClassDialog.RECENTS_KEY\">\r\n      <recent name=\"org.am21.client.view.GUI.listener\" />\r\n      <recent name=\"org.am21.client.view.GUI.Interface\" />\r\n      <recent name=\"org.am21.client.view.GUI\" />\r\n      <recent name=\"org.am21.utilities\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Application.GameResultsInterface\">\r\n    <configuration name=\"CLITest1\" type=\"Application\" factoryName=\"Application\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.am21.client.ClientApp\" />\r\n      <module name=\"IS23-AM21\" />\r\n      <option name=\"PROGRAM_PARAMETERS\" value=\"tui\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"CLITest2\" type=\"Application\" factoryName=\"Application\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.am21.client.ClientApp\" />\r\n      <module name=\"IS23-AM21\" />\r\n      <option name=\"PROGRAM_PARAMETERS\" value=\"tui\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"CLITest3\" type=\"Application\" factoryName=\"Application\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.am21.game.CLITest\" />\r\n      <module name=\"IS23-AM21\" />\r\n      <option name=\"PROGRAM_PARAMETERS\" value=\"tui\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"CLITest5\" type=\"Application\" factoryName=\"Application\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.am21.game.CLITest\" />\r\n      <module name=\"IS23-AM21\" />\r\n      <option name=\"PROGRAM_PARAMETERS\" value=\"tui\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"FontUtil\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.am21.client.view.GUI.utils.FontUtil\" />\r\n      <module name=\"IS23-AM21\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.client.view.GUI.utils.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"GUITest\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.am21.game.GUITest\" />\r\n      <module name=\"IS23-AM21\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.game.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"GUITest1\" type=\"Application\" factoryName=\"Application\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.am21.client.ClientApp\" />\r\n      <module name=\"IS23-AM21\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"GUITest2\" type=\"Application\" factoryName=\"Application\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.am21.client.ClientApp\" />\r\n      <module name=\"IS23-AM21\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"GUITest3\" type=\"Application\" factoryName=\"Application\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.am21.client.ClientApp\" />\r\n      <module name=\"IS23-AM21\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"GUITest4\" type=\"Application\" factoryName=\"Application\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.am21.client.ClientApp\" />\r\n      <module name=\"IS23-AM21\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"GameAppTest\" type=\"Application\" factoryName=\"Application\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.am21.game.GameAppTest\" />\r\n      <module name=\"IS23-AM21\" />\r\n      <option name=\"PROGRAM_PARAMETERS\" value=\"--Server Main\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"GameResultsInterface\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.am21.client.view.GUI.Interface.GameResultsInterface\" />\r\n      <module name=\"IS23-AM21\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.client.view.GUI.Interface.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"Gui\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.am21.client.view.GUI.Gui\" />\r\n      <module name=\"IS23-AM21\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.client.view.GUI.Interface.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"LivingRoomInterface\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.am21.client.view.GUI.Interface.LivingRoomInterface\" />\r\n      <module name=\"IS23-AM21\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.client.view.GUI.Interface.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"Proto\" type=\"Application\" factoryName=\"Application\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.am21.controller.Server\" />\r\n      <module name=\"IS23-AM21\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"ServerTest\" type=\"Application\" factoryName=\"Application\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.am21.controller.ServerMain\" />\r\n      <module name=\"IS23-AM21\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"BagTest\" type=\"JUnit\" factoryName=\"JUnit\">\r\n      <module name=\"IS23-AM21\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.model.items.Bag\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.model.items.Board\" />\r\n          <option name=\"ENABLED\" value=\"false\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.utilities.BoardUtil\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.utilities.CardUtil\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"org.am21.board\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.am21.board.BagTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"\" />\r\n      <option name=\"TEST_OBJECT\" value=\"class\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"BagTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"IS23-AM21\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.board.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"org.am21.board\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.am21.board.BagTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"\" />\r\n      <option name=\"TEST_OBJECT\" value=\"class\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"BoardTest\" type=\"JUnit\" factoryName=\"JUnit\">\r\n      <module name=\"IS23-AM21\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.model.items.Board\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.model.items.Bag\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.utilities.BoardUtil\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.model.items.Grid\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"org.am21.board\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.am21.board.BoardTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"\" />\r\n      <option name=\"TEST_OBJECT\" value=\"class\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"CommonGoalTest\" type=\"JUnit\" factoryName=\"JUnit\">\r\n      <module name=\"IS23-AM21\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.utilities.CardUtil\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.goals.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.board.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.model.items.Shelf\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.model.Cards.ItemCard\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.model.items.Grid\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.model.Cards.CommonGoal\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.model.Cards.CommonGoals.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"org.am21.goals\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.am21.goals.CommonGoalTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"\" />\r\n      <option name=\"TEST_OBJECT\" value=\"class\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"GameTest\" type=\"JUnit\" factoryName=\"JUnit\">\r\n      <module name=\"IS23-AM21\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.utilities.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.board.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.controller.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.utilities.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"org.am21.game\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.am21.game.GameTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"\" />\r\n      <option name=\"TEST_OBJECT\" value=\"class\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"MatchTest\" type=\"JUnit\" factoryName=\"JUnit\">\r\n      <module name=\"IS23-AM21\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.model.Match\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.model.Player\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.controller.PlayerController\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"org.am21.game\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.am21.game.MatchTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"\" />\r\n      <option name=\"TEST_OBJECT\" value=\"class\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"PersonalGoalTest\" type=\"JUnit\" factoryName=\"JUnit\">\r\n      <module name=\"IS23-AM21\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.model.Cards.PersonalGoalCard\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.utilities.CardUtil\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.model.items.Shelf\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"org.am21.goals\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.am21.goals.PersonalGoalTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"\" />\r\n      <option name=\"TEST_OBJECT\" value=\"class\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"PlayerTest\" type=\"JUnit\" factoryName=\"JUnit\">\r\n      <module name=\"IS23-AM21\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.controller.PlayerController\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.model.Player\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.model.items.Hand\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.model.items.Board\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.model.items.Shelf\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"org.am21.player\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.am21.player.PlayerTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"\" />\r\n      <option name=\"TEST_OBJECT\" value=\"class\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"ShelfTest\" type=\"JUnit\" factoryName=\"JUnit\">\r\n      <module name=\"IS23-AM21\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"org.am21.model.items.Shelf\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"org.am21.board\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.am21.board.ShelfTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"\" />\r\n      <option name=\"TEST_OBJECT\" value=\"class\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"VirtualViewTest\" type=\"JUnit\" factoryName=\"JUnit\">\r\n      <module name=\"IS23-AM21\" />\r\n      <option name=\"PACKAGE_NAME\" value=\"org.am21.game\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.am21.game.VirtualViewTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"\" />\r\n      <option name=\"TEST_OBJECT\" value=\"class\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <list>\r\n      <item itemvalue=\"Application.GUITest1\" />\r\n      <item itemvalue=\"Application.GUITest2\" />\r\n      <item itemvalue=\"Application.GUITest3\" />\r\n      <item itemvalue=\"Application.GUITest4\" />\r\n      <item itemvalue=\"Application.CLITest1\" />\r\n      <item itemvalue=\"Application.CLITest2\" />\r\n      <item itemvalue=\"Application.CLITest3\" />\r\n      <item itemvalue=\"Application.GameAppTest\" />\r\n      <item itemvalue=\"Application.CLITest5\" />\r\n      <item itemvalue=\"Application.ServerTest\" />\r\n      <item itemvalue=\"Application.Proto\" />\r\n      <item itemvalue=\"Application.GameResultsInterface\" />\r\n      <item itemvalue=\"Application.GUITest\" />\r\n      <item itemvalue=\"Application.FontUtil\" />\r\n      <item itemvalue=\"Application.Gui\" />\r\n      <item itemvalue=\"Application.LivingRoomInterface\" />\r\n      <item itemvalue=\"JUnit.MatchTest\" />\r\n      <item itemvalue=\"JUnit.CommonGoalTest\" />\r\n      <item itemvalue=\"JUnit.BoardTest\" />\r\n      <item itemvalue=\"JUnit.ShelfTest\" />\r\n      <item itemvalue=\"JUnit.PlayerTest\" />\r\n      <item itemvalue=\"JUnit.PersonalGoalTest\" />\r\n      <item itemvalue=\"JUnit.BagTest\" />\r\n      <item itemvalue=\"JUnit.GameTest\" />\r\n      <item itemvalue=\"JUnit.VirtualViewTest\" />\r\n    </list>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Application.GameResultsInterface\" />\r\n        <item itemvalue=\"Application.Gui\" />\r\n        <item itemvalue=\"Application.GUITest\" />\r\n        <item itemvalue=\"Application.LivingRoomInterface\" />\r\n        <item itemvalue=\"Application.FontUtil\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SliceToolwindowSettings\">\r\n    <option name=\"autoScroll\" value=\"true\" />\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"61ec0ccc-6fec-4805-91df-bde52ce4f01d\" name=\"Changes\" comment=\"update Gui\" />\r\n      <created>1679250713673</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1679250713673</updated>\r\n      <workItem from=\"1679250715133\" duration=\"22000\" />\r\n      <workItem from=\"1679250813095\" duration=\"12000\" />\r\n      <workItem from=\"1679250912541\" duration=\"308000\" />\r\n      <workItem from=\"1679251381863\" duration=\"2604000\" />\r\n      <workItem from=\"1679308546002\" duration=\"349000\" />\r\n      <workItem from=\"1679308546002\" duration=\"3248000\" />\r\n      <workItem from=\"1679339055181\" duration=\"182000\" />\r\n      <workItem from=\"1680355152599\" duration=\"4883000\" />\r\n      <workItem from=\"1680417995006\" duration=\"8820000\" />\r\n      <workItem from=\"1680474797686\" duration=\"3253000\" />\r\n      <workItem from=\"1680501508839\" duration=\"8000000\" />\r\n      <workItem from=\"1680588895976\" duration=\"8012000\" />\r\n      <workItem from=\"1680608322081\" duration=\"11375000\" />\r\n      <workItem from=\"1680623672433\" duration=\"19107000\" />\r\n      <workItem from=\"1680701711746\" duration=\"14352000\" />\r\n      <workItem from=\"1680848366824\" duration=\"25424000\" />\r\n      <workItem from=\"1680907346325\" duration=\"3966000\" />\r\n      <workItem from=\"1680951551963\" duration=\"4145000\" />\r\n      <workItem from=\"1680995184877\" duration=\"1990000\" />\r\n      <workItem from=\"1681036343974\" duration=\"1835000\" />\r\n      <workItem from=\"1681131553944\" duration=\"15246000\" />\r\n      <workItem from=\"1681226309147\" duration=\"22942000\" />\r\n      <workItem from=\"1681288058934\" duration=\"19847000\" />\r\n      <workItem from=\"1681377455700\" duration=\"2639000\" />\r\n      <workItem from=\"1681398624102\" duration=\"21656000\" />\r\n      <workItem from=\"1681421652298\" duration=\"3602000\" />\r\n      <workItem from=\"1681460393180\" duration=\"12295000\" />\r\n      <workItem from=\"1681477081214\" duration=\"7986000\" />\r\n      <workItem from=\"1681541209096\" duration=\"7634000\" />\r\n      <workItem from=\"1681551899670\" duration=\"100000\" />\r\n      <workItem from=\"1681552007011\" duration=\"21000\" />\r\n      <workItem from=\"1681552047893\" duration=\"814000\" />\r\n      <workItem from=\"1681560816574\" duration=\"12870000\" />\r\n      <workItem from=\"1681577459186\" duration=\"2359000\" />\r\n      <workItem from=\"1681581643852\" duration=\"7446000\" />\r\n      <workItem from=\"1681632703543\" duration=\"5137000\" />\r\n      <workItem from=\"1681758338761\" duration=\"7840000\" />\r\n      <workItem from=\"1681825926566\" duration=\"1573000\" />\r\n      <workItem from=\"1681919105138\" duration=\"1042000\" />\r\n      <workItem from=\"1681921413336\" duration=\"449000\" />\r\n      <workItem from=\"1681925117787\" duration=\"185000\" />\r\n      <workItem from=\"1681925667465\" duration=\"4554000\" />\r\n      <workItem from=\"1681975516997\" duration=\"603000\" />\r\n      <workItem from=\"1681995021062\" duration=\"295000\" />\r\n      <workItem from=\"1682069476172\" duration=\"2902000\" />\r\n      <workItem from=\"1682113698452\" duration=\"4477000\" />\r\n      <workItem from=\"1682149826521\" duration=\"9836000\" />\r\n      <workItem from=\"1682190503949\" duration=\"10572000\" />\r\n      <workItem from=\"1682234904779\" duration=\"8324000\" />\r\n      <workItem from=\"1682257571912\" duration=\"10427000\" />\r\n      <workItem from=\"1682317780363\" duration=\"8504000\" />\r\n      <workItem from=\"1682408313525\" duration=\"20993000\" />\r\n      <workItem from=\"1682497334387\" duration=\"49000\" />\r\n      <workItem from=\"1682500173274\" duration=\"1127000\" />\r\n      <workItem from=\"1682510620073\" duration=\"17461000\" />\r\n      <workItem from=\"1682528990051\" duration=\"9228000\" />\r\n      <workItem from=\"1682538264689\" duration=\"295000\" />\r\n      <workItem from=\"1682538675635\" duration=\"9579000\" />\r\n      <workItem from=\"1682550087796\" duration=\"1964000\" />\r\n      <workItem from=\"1682576425125\" duration=\"7639000\" />\r\n      <workItem from=\"1682677331929\" duration=\"14417000\" />\r\n      <workItem from=\"1682758859302\" duration=\"9977000\" />\r\n      <workItem from=\"1682787043290\" duration=\"22037000\" />\r\n      <workItem from=\"1682878310093\" duration=\"11231000\" />\r\n      <workItem from=\"1682957891838\" duration=\"605000\" />\r\n      <workItem from=\"1682967167468\" duration=\"458000\" />\r\n      <workItem from=\"1682974046451\" duration=\"7198000\" />\r\n      <workItem from=\"1683032880678\" duration=\"17679000\" />\r\n      <workItem from=\"1683053669471\" duration=\"6104000\" />\r\n      <workItem from=\"1683113962047\" duration=\"8537000\" />\r\n      <workItem from=\"1683186128720\" duration=\"25831000\" />\r\n      <workItem from=\"1683237194054\" duration=\"2882000\" />\r\n      <workItem from=\"1683408002631\" duration=\"95000\" />\r\n      <workItem from=\"1683408378214\" duration=\"52000\" />\r\n      <workItem from=\"1683408716720\" duration=\"5798000\" />\r\n      <workItem from=\"1683415665251\" duration=\"426000\" />\r\n      <workItem from=\"1683445119174\" duration=\"2792000\" />\r\n      <workItem from=\"1683455606531\" duration=\"32551000\" />\r\n      <workItem from=\"1683758316662\" duration=\"4321000\" />\r\n      <workItem from=\"1683762848225\" duration=\"194000\" />\r\n      <workItem from=\"1683797115016\" duration=\"18383000\" />\r\n      <workItem from=\"1683825022449\" duration=\"11579000\" />\r\n      <workItem from=\"1683889615337\" duration=\"23422000\" />\r\n      <workItem from=\"1683917007992\" duration=\"1353000\" />\r\n      <workItem from=\"1683924256255\" duration=\"6007000\" />\r\n      <workItem from=\"1684053734774\" duration=\"6801000\" />\r\n      <workItem from=\"1684236597755\" duration=\"3392000\" />\r\n      <workItem from=\"1684242242699\" duration=\"3050000\" />\r\n      <workItem from=\"1684254835896\" duration=\"1736000\" />\r\n      <workItem from=\"1684271464979\" duration=\"1561000\" />\r\n      <workItem from=\"1684334292688\" duration=\"13777000\" />\r\n      <workItem from=\"1684407173823\" duration=\"97000\" />\r\n      <workItem from=\"1684413332718\" duration=\"7330000\" />\r\n      <workItem from=\"1684477986065\" duration=\"37488000\" />\r\n      <workItem from=\"1684573910080\" duration=\"6214000\" />\r\n      <workItem from=\"1684600979245\" duration=\"4713000\" />\r\n      <workItem from=\"1684678676686\" duration=\"5637000\" />\r\n      <workItem from=\"1684780591861\" duration=\"923000\" />\r\n      <workItem from=\"1684794100564\" duration=\"2364000\" />\r\n      <workItem from=\"1684839961618\" duration=\"1706000\" />\r\n      <workItem from=\"1684841686113\" duration=\"791000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"update scoringToken test\">\r\n      <created>1680516093577</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1680516093577</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"delete ScoringTokenCard.java\">\r\n      <created>1680684101816</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1680684101816</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"fixed some cli problem\">\r\n      <created>1681588933882</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1681588933882</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"update Cli\">\r\n      <created>1681644813012</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1681644813012</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"create Color.java and fixed bug\">\r\n      <created>1682600470670</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682600470670</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"fixed bug Cli\">\r\n      <created>1682605844935</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1682605844935</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00007\" summary=\"update Gui\">\r\n      <created>1684406945732</created>\r\n      <option name=\"number\" value=\"00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1684406945732</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"8\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.History.Properties\">\r\n    <option name=\"COLUMN_ID_ORDER\">\r\n      <list>\r\n        <option value=\"Default.Root\" />\r\n        <option value=\"Default.Author\" />\r\n        <option value=\"Default.Date\" />\r\n        <option value=\"Default.Subject\" />\r\n        <option value=\"Space.CommitStatus\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"74f73804-6c59-4467-bff0-edcfdcfb0c5d\">\r\n          <value>\r\n            <State>\r\n              <option name=\"SHOW_ONLY_AFFECTED_CHANGES\" value=\"true\" />\r\n              <option name=\"FILTERS\">\r\n                <map>\r\n                  <entry key=\"branch\">\r\n                    <value>\r\n                      <list>\r\n                        <option value=\"HEAD\" />\r\n                      </list>\r\n                    </value>\r\n                  </entry>\r\n                  <entry key=\"structure\">\r\n                    <value>\r\n                      <list>\r\n                        <option value=\"dir:D:/xmry/IS23-AM21/AM-21/src/test/java/org.am21\" />\r\n                      </list>\r\n                    </value>\r\n                  </entry>\r\n                </map>\r\n              </option>\r\n            </State>\r\n          </value>\r\n        </entry>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n    <option name=\"OPEN_GENERIC_TABS\">\r\n      <map>\r\n        <entry key=\"74f73804-6c59-4467-bff0-edcfdcfb0c5d\" value=\"TOOL_WINDOW\" />\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"add method Shelf as request\" />\r\n    <MESSAGE value=\"update scoringToken test\" />\r\n    <MESSAGE value=\"delete ScoringTokenCard.java\" />\r\n    <MESSAGE value=\"fixed some cli problem\" />\r\n    <MESSAGE value=\"create Color.java and fixed bug\" />\r\n    <MESSAGE value=\"fixed bug Cli\" />\r\n    <MESSAGE value=\"update Cli\" />\r\n    <MESSAGE value=\"update Gui\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"update Gui\" />\r\n  </component>\r\n  <component name=\"XDebuggerManager\">\r\n    <breakpoint-manager>\r\n      <breakpoints>\r\n        <breakpoint enabled=\"true\" type=\"java-exception\">\r\n          <properties class=\"java.lang.NullPointerException\" package=\"java.lang\" />\r\n          <option name=\"timeStamp\" value=\"13\" />\r\n        </breakpoint>\r\n      </breakpoints>\r\n    </breakpoint-manager>\r\n    <pin-to-top-manager>\r\n      <pinned-members>\r\n        <PinnedItemInfo parentTag=\"org.am21.model.items.Shelf\" memberName=\"slotCol\" />\r\n        <PinnedItemInfo parentTag=\"org.am21.model.Cards.ItemCard\" memberName=\"nameCard\" />\r\n        <PinnedItemInfo parentTag=\"org.am21.model.items.Shelf\" memberName=\"player\" />\r\n        <PinnedItemInfo parentTag=\"org.am21.model.items.Shelf\" memberName=\"matrix\" />\r\n      </pinned-members>\r\n    </pin-to-top-manager>\r\n    <watches-manager>\r\n      <configuration name=\"JUnit\">\r\n        <watch expression=\"s.slotCol\" />\r\n        <watch expression=\"s.insertLimit\" />\r\n      </configuration>\r\n    </watches-manager>\r\n  </component>\r\n  <component name=\"XSLT-Support.FileAssociations.UIState\">\r\n    <expand />\r\n    <select />\r\n  </component>\r\n  <component name=\"com.intellij.coverage.CoverageDataManagerImpl\">\r\n    <SUITE FILE_PATH=\"coverage/IS23_AM21$MatchTest.ic\" NAME=\"MatchTest Coverage Results\" MODIFIED=\"1682199892824\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>org.am21.model.Match</FILTER>\r\n      <FILTER>org.am21.model.Player</FILTER>\r\n      <FILTER>org.am21.controller.PlayerController</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/IS23_AM21$PlayerControllerTest_selectionSimulation.ic\" NAME=\"PlayerControllerTest.selectionSimulation Coverage Results\" MODIFIED=\"1680467526674\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>org.am21.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/IS23_AM21$PlayerControllerTest_randomSimulation.ic\" NAME=\"PlayerControllerTest.randomSimulation Coverage Results\" MODIFIED=\"1680449427731\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>org.am21.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/IS23_AM21$PlayerTest.ic\" NAME=\"PlayerTest Coverage Results\" MODIFIED=\"1681245462567\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>org.am21.controller.PlayerController</FILTER>\r\n      <FILTER>org.am21.model.Player</FILTER>\r\n      <FILTER>org.am21.model.items.Hand</FILTER>\r\n      <FILTER>org.am21.model.items.Board</FILTER>\r\n      <FILTER>org.am21.model.items.Shelf</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/IS23_AM21$WrongModelTest_runner.ic\" NAME=\"WrongModelTest.runner Coverage Results\" MODIFIED=\"1680734633906\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>org.am21.extra.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/IS23_AM21$ShelfTest.ic\" NAME=\"ShelfTest Coverage Results\" MODIFIED=\"1681234399840\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>org.am21.model.items.Shelf</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/IS23_AM21$PlayerTest__1_.ic\" NAME=\"PlayerTest (1) Coverage Results\" MODIFIED=\"1680734477813\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>org.am21.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/IS23_AM21$PlayerControllerTest.ic\" NAME=\"PlayerControllerTest Coverage Results\" MODIFIED=\"1680447627787\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" />\r\n    <SUITE FILE_PATH=\"coverage/IS23_AM21$BagTest.ic\" NAME=\"BagTest Coverage Results\" MODIFIED=\"1681165337612\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>org.am21.model.items.Bag</FILTER>\r\n      <FILTER>org.am21.utilities.BoardUtil</FILTER>\r\n      <FILTER>org.am21.utilities.CardUtil</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/IS23_AM21$PlayerTest_unfinishedGameSimulation.ic\" NAME=\"PlayerTest.unfinishedGameSimulation Coverage Results\" MODIFIED=\"1680734516188\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>org.am21.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/IS23_AM21$GameTest.ic\" NAME=\"GameTest Coverage Results\" MODIFIED=\"1682200260552\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>org.am21.model.*</FILTER>\r\n      <FILTER>org.am21.board.*</FILTER>\r\n      <FILTER>org.am21.controller.*</FILTER>\r\n      <FILTER>org.am21.utilities.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/IS23_AM21$WrongModelTest_testPlayerList.ic\" NAME=\"WrongModelTest.testPlayerList Coverage Results\" MODIFIED=\"1680734614689\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>org.am21.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/IS23_AM21$MatchTest_run.ic\" NAME=\"MatchTest.run Coverage Results\" MODIFIED=\"1680507582967\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>org.am21.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/IS23_AM21$CommonGoalTest.ic\" NAME=\"CommonGoalTest Coverage Results\" MODIFIED=\"1681165866156\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>org.am21.utilities.CardUtil</FILTER>\r\n      <FILTER>org.am21.goals.*</FILTER>\r\n      <FILTER>org.am21.board.*</FILTER>\r\n      <FILTER>org.am21.model.items.Shelf</FILTER>\r\n      <FILTER>org.am21.model.Cards.ItemCard</FILTER>\r\n      <FILTER>org.am21.model.items.Grid</FILTER>\r\n      <FILTER>org.am21.model.Cards.CommonGoal</FILTER>\r\n      <FILTER>org.am21.model.Cards.CommonGoals.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/IS23_AM21$BoardTest.ic\" NAME=\"BoardTest Coverage Results\" MODIFIED=\"1681165499235\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>org.am21.model.items.Board</FILTER>\r\n      <FILTER>org.am21.model.items.Bag</FILTER>\r\n      <FILTER>org.am21.utilities.BoardUtil</FILTER>\r\n      <FILTER>org.am21.model.items.Grid</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/IS23_AM21$BoardTest_testOccupation.ic\" NAME=\"BoardTest.testOccupation Coverage Results\" MODIFIED=\"1680734659047\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>org.am21.board.*</FILTER>\r\n    </SUITE>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 4860e46f7f99d5d6ecd548e7caee2a3ebefe5fd8)
++++ b/.idea/workspace.xml	(date 1684845188481)
+@@ -10,10 +10,9 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="61ec0ccc-6fec-4805-91df-bde52ce4f01d" name="Changes" comment="update Gui">
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_05_2023_09_41_[Changes]/shelved.patch" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_05_2023_09_41__Changes_.xml" beforeDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/GameResultsInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/GameResultsInterface.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/utils/ButtonUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/utils/ButtonUtil.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/utils/PixelUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/utils/PixelUtil.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -111,7 +110,7 @@
+       <recent name="org.am21.utilities" />
+     </key>
+   </component>
+-  <component name="RunManager" selected="Application.GameResultsInterface">
++  <component name="RunManager" selected="Application.GUITest2">
+     <configuration name="CLITest1" type="Application" factoryName="Application">
+       <option name="MAIN_CLASS_NAME" value="org.am21.client.ClientApp" />
+       <module name="IS23-AM21" />
+@@ -657,7 +656,7 @@
+       <workItem from="1684780591861" duration="923000" />
+       <workItem from="1684794100564" duration="2364000" />
+       <workItem from="1684839961618" duration="1706000" />
+-      <workItem from="1684841686113" duration="791000" />
++      <workItem from="1684841686113" duration="3500000" />
+     </task>
+     <task id="LOCAL-00001" summary="update scoringToken test">
+       <created>1680516093577</created>

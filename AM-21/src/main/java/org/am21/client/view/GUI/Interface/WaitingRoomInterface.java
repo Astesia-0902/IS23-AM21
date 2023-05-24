@@ -1,6 +1,5 @@
 package org.am21.client.view.GUI.Interface;
 
-import org.am21.client.view.ClientView;
 import org.am21.client.view.GUI.component.BackGroundPanel;
 import org.am21.client.view.GUI.utils.ButtonUtil;
 import org.am21.client.view.GUI.utils.FontUtil;
@@ -16,6 +15,7 @@ import java.util.HashMap;
 public class WaitingRoomInterface extends JDialog {
     public static final int WIDTH = 600;
     public static final int HEIGHT = 400;
+    public final JLabel roomID;
     public final JButton leaveButton;
     public final JButton ruleButton;
     public final JButton settingButton;
@@ -29,11 +29,12 @@ public class WaitingRoomInterface extends JDialog {
     public final MaxSeatsDialog maxSeatsDialog;
     public String minNum;
     public String maxNum;
+    public int ID;
     public Timer timer;
 
     public JLabel numPlayer;
 
-    public WaitingRoomInterface(JFrame frame, String numMiss, String numMax) {
+    public WaitingRoomInterface(JFrame frame, String numMiss, String numMax, int matchID) {
         super(frame);
         frame.setTitle("MyShelfie - Waiting Room");
 
@@ -43,7 +44,8 @@ public class WaitingRoomInterface extends JDialog {
                 ImageUtil.resizeY(-315), ImageUtil.resizeX(980), ImageUtil.resizeY(1050)});
         BackGroundPanel backGroundPanel = new BackGroundPanel(background);
 
-        JLabel roomID = new JLabel("ID: " + ClientView.matchID);
+        ID = matchID;
+        roomID = new JLabel("ID: " + ID);
         roomID.setBorder(null);
         roomID.setBounds(ImageUtil.resizeX(275), ImageUtil.resizeY(90),
                 ImageUtil.resizeX(356), ImageUtil.resizeY(108));
@@ -129,7 +131,8 @@ public class WaitingRoomInterface extends JDialog {
      * @param minNum players in room
      * @param maxNum max number of players for the room
      */
-    public void reloadPlayerNumber(String minNum, String maxNum) {
+    public void reloadPlayerNumber(String minNum, String maxNum, int matchID) {
         this.numPlayer.setText("(" + minNum + "/" + maxNum + ")");
+        this.roomID.setText("ID: " + ID);
     }
 }

@@ -104,7 +104,8 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
 
             if (gui.commCtrl.changeMatchSeats(playerNum)) {
                 SwingUtilities.invokeLater(() -> {
-                    gui.waitingRoomInterface.reloadPlayerNumber(gui.waitingRoomInterface.minNum, String.valueOf(playerNum));
+                    gui.waitingRoomInterface.reloadPlayerNumber(gui.waitingRoomInterface.minNum,
+                            String.valueOf(playerNum), gui.waitingRoomInterface.ID);
                     gui.waitingRoomInterface.revalidate();
                     gui.waitingRoomInterface.repaint();
                 });

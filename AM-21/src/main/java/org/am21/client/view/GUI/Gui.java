@@ -261,13 +261,14 @@ public class Gui implements View {
             }
         }
         String numMiss = ClientView.matchList[matchIndex][2], numMax = ClientView.matchList[matchIndex][3];
+        int matchID = ClientView.matchID;
         if (waitingRoomInterface == null || !waitingRoomInterface.isVisible()) {
-            waitingRoomInterface = new WaitingRoomInterface(frame, numMiss, numMax);
+            waitingRoomInterface = new WaitingRoomInterface(frame, numMiss, numMax, matchID);
             new WaitingRoomListener(this);
         }
         if (WAIT_ROOM_REFRESH) {
             SwingUtilities.invokeLater(() -> {
-                waitingRoomInterface.reloadPlayerNumber(numMiss, numMax);
+                waitingRoomInterface.reloadPlayerNumber(numMiss, numMax, matchID);
                 waitingRoomInterface.revalidate();
                 waitingRoomInterface.repaint();
             });
