@@ -10,6 +10,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
+import java.rmi.RemoteException;
+
+import static org.am21.client.SocketClient.gui;
 
 public class GameResultsInterface extends JFrame {
     public JLayeredPane gameResultsPane;
@@ -19,27 +22,27 @@ public class GameResultsInterface extends JFrame {
     public JLabel gameResultsBack;
     public JButton quitGame;
 
-    public GameResultsInterface(){
+    public GameResultsInterface() {
         setUndecorated(true);
         setSize(PixelUtil.pcWidth, PixelUtil.pcHeight);
         setLayout(null);
 
         gameResultsPane = new JLayeredPane();
-        gameResultsPane.setBounds(0,0,PixelUtil.pcWidth,PixelUtil.pcHeight);
+        gameResultsPane.setBounds(0, 0, PixelUtil.pcWidth, PixelUtil.pcHeight);
         gameResultsPane.setLayout(null);
         gameResultsPane.setOpaque(false);
 
         add(gameResultsPane);
 
         gameResultsBack = new JLabel();
-        gameResultsBack.setBounds(0,0,PixelUtil.pcWidth,PixelUtil.pcHeight);
+        gameResultsBack.setBounds(0, 0, PixelUtil.pcWidth, PixelUtil.pcHeight);
         gameResultsBack.setIcon(ImageUtil.getBoardImage("backGround"));
-        gameResultsPane.add(gameResultsBack,JLayeredPane.DEFAULT_LAYER);
+        gameResultsPane.add(gameResultsBack, JLayeredPane.DEFAULT_LAYER);
 
         title = new JLabel();
-        title.setBounds(PixelUtil.labelRIX,PixelUtil.labelRITitleY,PixelUtil.labelRIW,PixelUtil.labelRITitleH);
+        title.setBounds(PixelUtil.labelRIX, PixelUtil.labelRITitleY, PixelUtil.labelRIW, PixelUtil.labelRITitleH);
         title.setIcon(ImageUtil.getBoardImage("logoTitle"));
-        gameResultsPane.add(title,JLayeredPane.PALETTE_LAYER);
+        gameResultsPane.add(title, JLayeredPane.PALETTE_LAYER);
         setTitle("Game Results");
 
         // TODO: fill results
@@ -55,17 +58,16 @@ public class GameResultsInterface extends JFrame {
         String[] columnResultsName = {"Name", "Score", "Position"};
 
 
-
         DefaultTableModel tableModel = new DefaultTableModel(data, columnResultsName);
         tableResults = new JTable(tableModel);
-        tableResults.setFont(new Font("DejaVu Sans",Font.PLAIN,42));
+        tableResults.setFont(new Font("DejaVu Sans", Font.PLAIN, 42));
         tableResults.setRowHeight(PixelUtil.labelRIRowH);
         tableResults.setOpaque(false);
-       // tableResults.setBorder(BorderFactory.createEmptyBorder());
+        // tableResults.setBorder(BorderFactory.createEmptyBorder());
         tableResults.setShowGrid(false);
         tableResults.setIntercellSpacing(new Dimension(0, 0));
         tableResults.setEnabled(false);
-       // tableResults.setDefaultRenderer(Object.class, new TransparentRenderer());
+        // tableResults.setDefaultRenderer(Object.class, new TransparentRenderer());
 
         header = tableResults.getTableHeader();
         header.setFont(new Font("DejaVu Sans", Font.BOLD, 36));
@@ -104,15 +106,23 @@ public class GameResultsInterface extends JFrame {
         }
 
         quitGame = new JButton("LEAVE");
-        quitGame.setFont(new Font("DejaVu Sans",Font.PLAIN,24));
-        quitGame.setBounds(PixelUtil.labelRIButtonX,PixelUtil.labelRIButtonY,PixelUtil.buttonLRW,PixelUtil.buttonLRH);
+        quitGame.setFont(new Font("DejaVu Sans", Font.PLAIN, 24));
+        quitGame.setBounds(PixelUtil.labelRIButtonX, PixelUtil.labelRIButtonY, PixelUtil.buttonLRW, PixelUtil.buttonLRH);
         quitGame.setUI(new ButtonColorUI(new Color(255, 181, 172, 139)));
         quitGame.setBorder(new MatteBorder(ImageUtil.resizeY(2), ImageUtil.resizeX(2), ImageUtil.resizeY(2),
-                                ImageUtil.resizeX(2), new Color(178, 34, 34)));
+                ImageUtil.resizeX(2), new Color(178, 34, 34)));
         //quitGame.setOpaque(true);
         quitGame.setBackground(Color.WHITE);
         quitGame.setForeground(new Color(172, 19, 5, 230));
-        gameResultsPane.add(quitGame,JLayeredPane.PALETTE_LAYER);
+        quitGame.addActionListener(e -> {
+            try {
+                gui.askExitGame();
+            } catch (RemoteException ex) {
+                throw new RuntimeException(ex);
+            }
+
+        });
+        gameResultsPane.add(quitGame, JLayeredPane.PALETTE_LAYER);
 
 
         setLocationRelativeTo(null);

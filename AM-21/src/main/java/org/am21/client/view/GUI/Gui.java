@@ -18,8 +18,6 @@ import org.am21.networkRMI.Lobby;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.rmi.AlreadyBoundException;
@@ -252,7 +250,7 @@ public class Gui implements View {
             String[] match = new String[ClientView.matchList.length];
             for (int i = 0; i < ClientView.matchList.length; i++) {
                 match[i] = "ID: " + ClientView.matchList[i][0] + "  |  " + ClientView.matchList[i][1]
-                           + " | Players: (" + ClientView.matchList[i][2] + "/" + ClientView.matchList[i][3] + ")";
+                        + " | Players: (" + ClientView.matchList[i][2] + "/" + ClientView.matchList[i][3] + ")";
             }
             for (String m : match) {
                 matchModel.addElement(m);
@@ -273,23 +271,13 @@ public class Gui implements View {
                 //TODO: leave action
             }
         });*/
-        if (livingRoomMenuInterface != null) {
-            livingRoomMenuInterface.quitGame.addActionListener(e -> livingRoomInterface.dispose());
-        }
-        if (gameResultsInterface != null) {
-            gameResultsInterface.quitGame.addActionListener(e -> gameResultsInterface.dispose());
-        }
+
         return commCtrl.leaveMatch();
     }
 
     @Override
     public boolean askExitGame() throws RemoteException {
-        if (livingRoomMenuInterface != null) {
-            livingRoomMenuInterface.quitGame.addActionListener(e -> livingRoomInterface.dispose());
-        }
-        if (gameResultsInterface != null) {
-            gameResultsInterface.quitGame.addActionListener(e -> gameResultsInterface.dispose());
-        }
+
         if (commCtrl.exitGame()) {
             System.exit(0);
             return true;
@@ -345,18 +333,10 @@ public class Gui implements View {
         for (int i = 0; i < Storage.BOARD_ROW; i++) {
             for (int j = 0; j < Storage.BOARD_COLUMN; j++) {
                 if (ClientView.virtualBoard[i][j] != null && !gameBoardPanel.containItem(i, j)) {
-                    gameBoardPanel.putItem(i, j, ClientView.virtualBoard[i][j],this);
+                    gameBoardPanel.putItem(i, j, ClientView.virtualBoard[i][j], this);
                 }
             }
         }
-
-        //for test
-        //gameBoardPanel.putItem(3, 3, "_Games__1.1");
-        //gameBoardPanel.putItem(4, 5, "_Frames_1.3");
-        //gameBoardPanel.putItem(4, 3, "__Cats__1.3");
-        //gameBoardPanel.putItem(4, 4, "__Cats__1.2");
-        //gameBoardPanel.putItem(3, 4, "_Frames_1.1");
-
 
     }
 
@@ -372,23 +352,17 @@ public class Gui implements View {
 
     @Override
     public void askSelection() throws ServerNotActiveException, RemoteException {
-        myHandBoardPanel.refreshItem(ClientView.currentPlayerHand);
+
     }
 
     @Override
     public void askDeselection() throws ServerNotActiveException, RemoteException {
 
-        livingRoomInterface.livingRoomPanel.clearButton.addActionListener(e -> {
-            myHandBoardPanel.refreshItem(ClientView.currentPlayerHand);
-            gameBoardPanel.clearAll();
-            JOptionPane.showMessageDialog(null, "clear successful");
-
-        });
     }
 
     @Override
     public void askInsertion() throws ServerNotActiveException, RemoteException {
-        livingRoomInterface.livingRoomPanel.insertButton.addActionListener(new ActionListener() {
+       /* livingRoomInterface.livingRoomPanel.insertButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //open the myHandInterface
@@ -397,7 +371,7 @@ public class Gui implements View {
 
 
             }
-        });
+        });*/
     }
 
     @Override
@@ -424,11 +398,11 @@ public class Gui implements View {
     public void showMatchSetup() throws RemoteException {
 
         livingRoomInterface = new LivingRoomInterface(frame);
-        //new LivingRoomListener(this);
         showPersonalGoal();
         showCommonGoals();
 
-        if (maxSeats <= 2) {
+
+        if (maxSeats >= 9) {
             //setFirst enemy's Label
             enemyPanelA = new EnemyPanel(PixelUtil.commonY_1, ImageUtil.getBoardImage("enemyA"));
             livingRoomInterface.livingRoomPane.add(enemyPanelA, JLayeredPane.PALETTE_LAYER);
@@ -438,7 +412,7 @@ public class Gui implements View {
             livingRoomInterface.livingRoomPane.add(enemyShelfPanelA, JLayeredPane.PALETTE_LAYER);
             //TODO: showEveryShelf ???
         }
-        if (maxSeats <= 3) {
+        if (maxSeats >= 3) {
             //setSecond enemy's Label
             enemyPanelB = new EnemyPanel(PixelUtil.commonY_2, ImageUtil.getBoardImage("enemyB"));
             livingRoomInterface.livingRoomPane.add(enemyPanelB, JLayeredPane.PALETTE_LAYER);
@@ -449,7 +423,7 @@ public class Gui implements View {
             //TODO: showEveryShelf ???
 
         }
-        if (maxSeats <= 4) {
+        if (maxSeats >= 4) {
             //setThird enemy's Label
             enemyPanelC = new EnemyPanel(PixelUtil.commonY_3, ImageUtil.getBoardImage("enemyC"));
             livingRoomInterface.livingRoomPane.add(enemyPanelC, JLayeredPane.PALETTE_LAYER);
@@ -460,12 +434,16 @@ public class Gui implements View {
             //TODO: showEveryShelf ???
         }
         //TODO: who is the chairMan (first current player when start the game)
-        chairManLabel = new ChairManLabel(2);
+        chairManLabel = new ChairManLabel(1);
         livingRoomInterface.livingRoomPane.add(chairManLabel, JLayeredPane.PALETTE_LAYER);
+
+        //set my Hand
+        myHandBoardPanel = new MyHandBoardPanel();
+        livingRoomInterface.livingRoomPane.add(myHandBoardPanel, JLayeredPane.PALETTE_LAYER);
+
 
         //set initial game board
         gameBoardPanel = new GameBoardPanel(maxSeats);
-        //gameBoardPanel = new GameBoardPanel(4);
         livingRoomInterface.livingRoomPane.add(gameBoardPanel, JLayeredPane.PALETTE_LAYER);
 
         showBoard();
@@ -473,27 +451,18 @@ public class Gui implements View {
         //set EndGameToken
         gameBoardPanel.setScoreTokenEndGame();
 
-        //set my Hand
-        myHandBoardPanel = new MyHandBoardPanel();
-        livingRoomInterface.livingRoomPane.add(myHandBoardPanel, JLayeredPane.PALETTE_LAYER);
 
         //set my shelf
-        myShelfPanel = new ShelfPanel(PixelUtil.myGridX, PixelUtil.myGridY, PixelUtil.myCellW, PixelUtil.myCellH, PixelUtil.myItemW, PixelUtil.myItemH);
-        livingRoomInterface.livingRoomPane.add(myShelfPanel, JLayeredPane.PALETTE_LAYER);
-        showPlayerShelf();
+        //myShelfPanel = new ShelfPanel(PixelUtil.myGridX, PixelUtil.myGridY, PixelUtil.myCellW, PixelUtil.myCellH, PixelUtil.myItemW, PixelUtil.myItemH);
+        //livingRoomInterface.livingRoomPane.add(myShelfPanel, JLayeredPane.PALETTE_LAYER);
+        //showPlayerShelf();
 
-        //setButton Function
-        try {
-            askDeselection();
-        } catch (ServerNotActiveException e) {
-            throw new RuntimeException(e);
-        }
 
-        try {
+       /* try {
             askInsertion();
         } catch (ServerNotActiveException e) {
             throw new RuntimeException(e);
-        }
+        }*/
 
 
     }

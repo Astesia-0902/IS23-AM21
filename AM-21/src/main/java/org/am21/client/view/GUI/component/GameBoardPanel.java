@@ -1,5 +1,6 @@
 package org.am21.client.view.GUI.component;
 
+import org.am21.client.view.ClientView;
 import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
@@ -11,52 +12,52 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.rmi.RemoteException;
+import java.rmi.server.ServerNotActiveException;
 import java.util.List;
 
 public class GameBoardPanel extends JPanel implements MouseListener, ActionListener {
     Gui gui;
     Point p = new Point();
-    private final int GridRowsMax=9;
-    private final int GridColumnsMax=9;
+    private final int GridRowsMax = 9;
+    private final int GridColumnsMax = 9;
 
 
     public List<Coordinates> boundaries;
     public JLayeredPane gameBoardPane;
-    public JLayeredPane[][] grids = new JLayeredPane[GridRowsMax][GridColumnsMax] ;
+    public JLayeredPane[][] grids = new JLayeredPane[GridRowsMax][GridColumnsMax];
 
     public JLabel[][] cells = new JLabel[GridRowsMax][GridColumnsMax];
 
     public ScoringTokenLabel scoreTokenEndGame;
-    public GameBoardPanel(int maxSeat){
-        System.out.println(maxSeat);
+
+    public GameBoardPanel(int maxSeat) {
+
         boundaries = BoardUtil.boardBounder(maxSeat);
         System.out.println(boundaries.size());
-        setBounds(PixelUtil.gameBoardGridX, PixelUtil.gameBoardGridY,GridRowsMax*PixelUtil.gameBoardCellW,GridColumnsMax*PixelUtil.gameBoardCellH);
-       // this.setSize(this.GridRowsMax*this.cellSize,this.GridColumnsMax*this.cellSize);
+        setBounds(PixelUtil.gameBoardGridX, PixelUtil.gameBoardGridY, GridRowsMax * PixelUtil.gameBoardCellW, GridColumnsMax * PixelUtil.gameBoardCellH);
+        // this.setSize(this.GridRowsMax*this.cellSize,this.GridColumnsMax*this.cellSize);
         setLayout(null);
         setOpaque(false);
 
         gameBoardPane = new JLayeredPane();
-        gameBoardPane.setBounds(0,0,GridRowsMax*PixelUtil.gameBoardCellW,GridColumnsMax*PixelUtil.gameBoardCellH);
+        gameBoardPane.setBounds(0, 0, GridRowsMax * PixelUtil.gameBoardCellW, GridColumnsMax * PixelUtil.gameBoardCellH);
         gameBoardPane.setLayout(null);
         //gameBoardPane.setOpaque(false);
         add(gameBoardPane);
 
         //draw a grid container
-        int k=0;
-        if(maxSeat==2){
-            k=1;
+        int k = 0;
+        if (maxSeat == 2) {
+            k = 1;
         }
-        for(int i=0+k; i<GridRowsMax-k;i++)
-        {
-            for(int j=0;j<GridColumnsMax;j++)
-            {
-                if(boundaries.get(i).x<=j&&j<=boundaries.get(i).y)
-                {
+        for (int i = 0 + k; i < GridRowsMax - k; i++) {
+            for (int j = 0; j < GridColumnsMax; j++) {
+                if (boundaries.get(i).x <= j && j <= boundaries.get(i).y) {
                     grids[i][j] = new JLayeredPane();
-                    grids[i][j].setBounds(j*PixelUtil.gameBoardCellW,i*PixelUtil.gameBoardCellH,PixelUtil.gameBoardCellW,PixelUtil.gameBoardCellH);
+                    grids[i][j].setBounds(j * PixelUtil.gameBoardCellW, i * PixelUtil.gameBoardCellH, PixelUtil.gameBoardCellW, PixelUtil.gameBoardCellH);
                     grids[i][j].setLayout(null);
-                    gameBoardPane.add(grids[i][j],JLayeredPane.DEFAULT_LAYER);
+                    gameBoardPane.add(grids[i][j], JLayeredPane.DEFAULT_LAYER);
 
                     //putItem(i,j);
                 }
@@ -68,38 +69,52 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
 
     }
 
-    public void putItem(int row, int column,String itemName,Gui gui){
+    public void putItem(int row, int column, String itemName, Gui gui) {
 
         cells[row][column] = new JLabel(itemName);
-        cells[row][column].setBounds(0,0,PixelUtil.gameBoardItemW,PixelUtil.gameBoardItemH);
+        cells[row][column].setBounds(0, 0, PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH);
         cells[row][column].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
-        cells[row][column].setIcon(ImageUtil.getItemImage(itemName,PixelUtil.gameBoardItemW,PixelUtil.gameBoardItemH));
+        cells[row][column].setIcon(ImageUtil.getItemImage(itemName, PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH));
+
+
         cells[row][column].addMouseListener(new MouseAdapter() {
 
             @Override
             public void mouseClicked(MouseEvent e) {
+
+                try {
+                    gui.askSelection();
+                } catch (ServerNotActiveException | RemoteException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                //catch the border color
                 Border border = cells[row][column].getBorder();
-                if(border instanceof LineBorder) {
+                if (border instanceof LineBorder) {
                     Color edgeColor = ((LineBorder) border).getLineColor(); //get item border color
-
-
+                    //TODO: fixe double clicked selected/deselected
                     //do select
-                    if(edgeColor.equals(new Color(0, 0, 0, 255))){
+                    if (edgeColor.equals(new Color(0, 0, 0, 255)) && gui.commCtrl.selectCell(row, column)) {
+                        cells[row][column].setBorder(BorderFactory.createLineBorder(new Color(4, 134, 10, 230), 4));
+                        // myHandBoard.putItem(cells[row][column]);
 
-                            cells[row][column].setBorder(BorderFactory.createLineBorder(new Color(4, 134, 10, 230), 4));
-                           // myHandBoard.putItem(cells[row][column]);
 
-                    } else{
+                    } else if (edgeColor.equals(new Color(4, 134, 10, 230)) && gui.commCtrl.selectCell(row, column)) {
                         //do deselect
                         cells[row][column].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
-                       // myHandBoard.removeItem();
+                        // myHandBoard.removeItem();
                     }
-                    gui.commCtrl.selectCell(row,column);
+                    gui.myHandBoardPanel.refreshItem(ClientView.currentPlayerHand);
 
 
                 }
 
+
+                //JOptionPane.showMessageDialog(null,"error");
+
+
             }
+
             @Override
             public void mousePressed(MouseEvent e) {
 
@@ -120,45 +135,44 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
             }
 
 
-
-
         });
-        addItem(row,column);
+
+
+        addItem(row, column);
+
     }
 
-    public boolean containItem(int row, int column){
+    public boolean containItem(int row, int column) {
         return this.cells[row][column] != null;
     }
 
-    public void addItem(int row,int column){
-        grids[row][column].add(cells[row][column],JLayeredPane.MODAL_LAYER);
+    public void addItem(int row, int column) {
+        grids[row][column].add(cells[row][column], JLayeredPane.MODAL_LAYER);
 
     }
-    public void removeItem(int row,int column){
+
+    public void removeItem(int row, int column) {
         this.grids[row][column].remove(this.cells[row][column]);
     }
 
 
-    public void setScoreTokenEndGame(){
-        scoreTokenEndGame = new ScoringTokenLabel(ImageUtil.getScoreTokenImage(1),PixelUtil.endGameTokenW,PixelUtil.endGameTokenH,PixelUtil.endGameTokenOriented,PixelUtil.endGameTokenRotateX,PixelUtil.endGameTokenRotateY);
-        scoreTokenEndGame.setBounds(PixelUtil.endGameTokenX,PixelUtil.endGameTokenY,PixelUtil.endGameTokenBoundsW,PixelUtil.endGameTokenBoundsH);
+    public void setScoreTokenEndGame() {
+        scoreTokenEndGame = new ScoringTokenLabel(ImageUtil.getScoreTokenImage(1), PixelUtil.endGameTokenW, PixelUtil.endGameTokenH, PixelUtil.endGameTokenOriented, PixelUtil.endGameTokenRotateX, PixelUtil.endGameTokenRotateY);
+        scoreTokenEndGame.setBounds(PixelUtil.endGameTokenX, PixelUtil.endGameTokenY, PixelUtil.endGameTokenBoundsW, PixelUtil.endGameTokenBoundsH);
         //scoreTokenEndGame.setBackground(new Color(0, 0, 0, 0));
         scoreTokenEndGame.setOpaque(false);
-        gameBoardPane.add(scoreTokenEndGame,JLayeredPane.PALETTE_LAYER);
+        gameBoardPane.add(scoreTokenEndGame, JLayeredPane.PALETTE_LAYER);
     }
 
 
-    public void getScoreTokenEndGame(){
+    public void getScoreTokenEndGame() {
         gameBoardPane.remove(scoreTokenEndGame);
     }
 
-    public void clearAll(){
-        for(int i=0; i<GridRowsMax;i++)
-        {
-            for(int j=0;j<GridColumnsMax;j++)
-            {
-                if(cells[i][j]!=null)
-                {
+    public void clearAll() {
+        for (int i = 0; i < GridRowsMax; i++) {
+            for (int j = 0; j < GridColumnsMax; j++) {
+                if (cells[i][j] != null) {
                     cells[i][j].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
 
                 }
@@ -167,9 +181,11 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
         }
 
     }
+
     public void actionPerformed(ActionEvent e) {
 
     }
+
     public void mouseClicked(MouseEvent e) {
 
 

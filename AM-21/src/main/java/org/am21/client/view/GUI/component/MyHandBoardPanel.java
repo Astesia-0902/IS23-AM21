@@ -9,7 +9,7 @@ import java.util.List;
 public class MyHandBoardPanel extends JPanel{
     public final int handMax = 3;
     public JLayeredPane[] handGrid = new JLayeredPane[handMax];
-    public JLabel[] myHandItem = new JLabel[handMax];
+    public JLabel[] myHandItem;
 
     public MyHandBoardPanel(){
 
@@ -33,20 +33,25 @@ public class MyHandBoardPanel extends JPanel{
      */
     public void refreshItem(List<String> myItem){
 
-        for(int i=0; i<handMax;i++)
+        for (JLayeredPane pane : handGrid) {
+            pane.removeAll();
+        }
+
+        myHandItem = new JLabel[myItem.size()];
+
+        for(int i=0; i<myItem.size();i++)
         {
             myHandItem[i] = new JLabel();
-            if(i<myItem.size())
-                myHandItem[i].setIcon(ImageUtil.getItemImage(myItem.get(i),PixelUtil.gameBoardItemW,PixelUtil.gameBoardItemH));
-            else
-                myHandItem[i].setIcon(null);
-
+            myHandItem[i].setIcon(ImageUtil.getItemImage(myItem.get(i),PixelUtil.gameBoardItemW,PixelUtil.gameBoardItemH));
             myHandItem[i].setLocation(PixelUtil.myHandPanelX, PixelUtil.myHandPanelY);
             myHandItem[i].setSize(PixelUtil.gameBoardItemW,PixelUtil.gameBoardItemH);
 
             handGrid[i].add(myHandItem[i],JLayeredPane.PALETTE_LAYER);
+
         }
 
+        revalidate();
+        repaint();
            /* myHandItem[myHandNum] = new JLabel();
             myHandItem[myHandNum].setIcon(cellsItem.getIcon());
             myHandItem[myHandNum].setLocation(PixelUtil.myHandPanelX, PixelUtil.myHandPanelY);
@@ -56,6 +61,6 @@ public class MyHandBoardPanel extends JPanel{
 
             myHandNum++;*/
 
-    }
 
+    }
 }

@@ -6,12 +6,9 @@ import org.am21.client.view.GUI.utils.PixelUtil;
 import javax.swing.*;
 
 public class LivingRoomInterface extends JDialog{
-
     public JLayeredPane livingRoomPane;
     public LivingRoomPanel livingRoomPanel;
-    public ShelfPanel myShelfPanel;
     public LivingRoomInterface(JFrame frame){
-
         super(frame);
 
         try{
@@ -20,10 +17,7 @@ public class LivingRoomInterface extends JDialog{
             livingRoomPane.setBounds(0,0, PixelUtil.pcWidth,PixelUtil.pcHeight);
 
             livingRoomPanel = new LivingRoomPanel();
-           // myShelfPanel = new ShelfPanel(PixelUtil.myGridX,PixelUtil.myGridY,PixelUtil.myCellW,PixelUtil.myCellH,PixelUtil.myItemW,PixelUtil.myItemH);
-
             livingRoomPane.add(livingRoomPanel,JLayeredPane.DEFAULT_LAYER);
-           // livingRoomPane.add(myShelfPanel,JLayeredPane.PALETTE_LAYER);
 
             getContentPane().add(livingRoomPane);
 
@@ -31,7 +25,6 @@ public class LivingRoomInterface extends JDialog{
             setLayout(null);
             setUndecorated(true);
             setLocationRelativeTo(null);
-            //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             setVisible(true);
             System.out.println("Your PC have: \nhigh:"+ PixelUtil.pcHeight+"\nwide:"+PixelUtil.pcWidth);
 

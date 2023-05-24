@@ -8,11 +8,9 @@ import java.awt.*;
 
 
 public class CommonGoalPanel extends JPanel {
-
     public JLayeredPane commonGoalPane;
     public JLabel commonGoalTopLabel;
     public JLabel commonGoalBottomLabel;
-
 
     public ScoringTokenLabel scoreTokenEmpty;
     public ScoringTokenLabel scoreTokenTop;
@@ -22,19 +20,14 @@ public class CommonGoalPanel extends JPanel {
 
         setBounds(PixelUtil.commonX_5, PixelUtil.commonGoalY_A, PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH + (PixelUtil.commonGoalY_B - PixelUtil.commonGoalY_A));
         setLayout(null);
-        //setOpaque(false);
 
         commonGoalPane = new JLayeredPane();
         commonGoalPane.setBounds(0, 0, PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH + (PixelUtil.commonGoalY_B - PixelUtil.commonGoalY_A));
         commonGoalPane.setLayout(null);
-        //commonGoalPane.setOpaque(false);
         add(commonGoalPane);
 
-
         setTopCard(topCardName);
-        //setTopBeginToken(value);
         setBottomCard(bottomCardName);
-        //setBottomBeginToken(value);
     }
 
 
