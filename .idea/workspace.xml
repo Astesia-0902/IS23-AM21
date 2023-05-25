@@ -10,15 +10,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="61ec0ccc-6fec-4805-91df-bde52ce4f01d" name="Changes" comment="update Gui">
-      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/ChatRunnable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/DebugNotification.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_05_2023_14_34__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_05_2023_14_34__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2023_15_18__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2023_15_18__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2023_20_34__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2023_20_34__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_05_2023_11_15_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_05_2023_11_15__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Gui.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Gui.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/ChatDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Interface/ChatDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/ChatListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/ChatListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/OnlineListListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/OnlineListListener.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,7 +114,7 @@
       <recent name="org.am21.utilities" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Proto">
+  <component name="RunManager" selected="Application.GUITest3">
     <configuration name="CLITest1" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.am21.client.ClientApp" />
       <module name="IS23-AM21" />
@@ -681,7 +679,8 @@
       <workItem from="1684875337690" duration="8242000" />
       <workItem from="1684925944476" duration="18032000" />
       <workItem from="1684970477886" duration="3255000" />
-      <workItem from="1685005310171" duration="15825000" />
+      <workItem from="1685005310171" duration="16563000" />
+      <workItem from="1685022931240" duration="10751000" />
     </task>
     <task id="LOCAL-00001" summary="update scoringToken test">
       <created>1680516093577</created>
@@ -809,53 +808,23 @@
           <option name="timeStamp" value="13" />
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/ChatListener.java</url>
-          <line>74</line>
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/ChatListener.java</url>
-          <line>75</line>
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/ChatListener.java</url>
-          <line>77</line>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/ChatListener.java</url>
-          <line>90</line>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/ChatListener.java</url>
-          <line>103</line>
-          <option name="timeStamp" value="19" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Gui.java</url>
-          <line>144</line>
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Gui.java</url>
-          <line>573</line>
+          <line>570</line>
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Gui.java</url>
-          <line>579</line>
+          <line>576</line>
           <option name="timeStamp" value="23" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Gui.java</url>
-          <line>584</line>
+          <line>581</line>
           <option name="timeStamp" value="24" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Gui.java</url>
-          <line>597</line>
+          <line>594</line>
           <option name="timeStamp" value="25" />
         </line-breakpoint>
       </breakpoints>

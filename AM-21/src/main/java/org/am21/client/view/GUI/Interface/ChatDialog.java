@@ -1,5 +1,6 @@
 package org.am21.client.view.GUI.Interface;
 
+import org.am21.client.view.ClientView;
 import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.GUI.component.ButtonColorUI;
 import org.am21.client.view.GUI.component.ScrollBarUI;
@@ -16,12 +17,14 @@ import java.awt.*;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ChatDialog extends JDialog {
     public JTextArea currentChatHistory;
     public JTextField chatMessageInput = new JTextField("");
-
     public JButton sendButton;
     public JPanel chatPanel;
     public JPanel topPanel;
@@ -54,8 +57,9 @@ public class ChatDialog extends JDialog {
 
     });
     public ChatDialog(JFrame frame) {
-
         super(frame);
+        convertPrivateChatsForGUI();
+        convertPublicChatForGUI();
         //setModal(false);       // If you do not close this window you will not be able to move the following windows
         setSize(ImageUtil.resizeX(500), ImageUtil.resizeY(500));
 
@@ -147,7 +151,7 @@ public class ChatDialog extends JDialog {
                 g.drawString("[" + Gui.chatReceiver + "]:", ImageUtil.resizeX(5), ImageUtil.resizeY(20));
             }
         };
-        chatMessageInput.setFont(new Font("Serif", Font.BOLD, ImageUtil.resizeY(14)));
+        //chatMessageInput.setFont(new Font("Serif", Font.BOLD, ImageUtil.resizeY(14)));
         FontMetrics fm = chatMessageInput.getFontMetrics(chatMessageInput.getFont());
         int nicknameWidth = fm.stringWidth(Gui.chatReceiver);
         chatMessageInput.setBorder(new EmptyBorder(0, ImageUtil.resizeX(nicknameWidth + 30), 0, 0));
@@ -203,6 +207,8 @@ public class ChatDialog extends JDialog {
 
 
     public void reloadChat() {
+        convertPrivateChatsForGUI();
+        convertPublicChatForGUI();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -242,8 +248,89 @@ public class ChatDialog extends JDialog {
             currentChatHistory = Gui.privateChatHistoryMap.get(Gui.chatReceiver);
         }
         scrollPane.setViewportView(currentChatHistory);
+        getRootPane().setDefaultButton(sendButton);
 
 
+    }
+
+    public void convertPrivateChatsForGUI() {
+        //HashMap<String, JTextArea> chatMap = new HashMap<>();
+        java.util.List<JTextArea> visualChats = new ArrayList<>();
+        System.out.println("Convert Private Chats");
+        if (ClientView.privateChats != null && !ClientView.privateChats.isEmpty()) {
+            java.util.List<java.util.List<String>> privateChatsList = ClientView.privateChats;
+            for (java.util.List<String> chat : privateChatsList) {
+                JTextArea historyTMP = new JTextArea(ImageUtil.resizeX(10), ImageUtil.resizeY(20));
+                historyTMP.setEditable(false);
+                historyTMP.setForeground(new Color(106, 2, 1));
+                historyTMP.setFont(new Font("Serif", Font.BOLD, ImageUtil.resizeY(14)));
+                historyTMP.setLineWrap(true);
+                historyTMP.setWrapStyleWord(true);
+                historyTMP.setCaretPosition(historyTMP.getDocument().getLength());
+                for (String line : chat) {
+                    historyTMP.append(line + "\n");
+                }
+                historyTMP.setCaretPosition(historyTMP.getDocument().getLength());
+                //DEBUG print chat
+                System.out.println(historyTMP.getText());
+                visualChats.add(historyTMP);
+
+            }
+
+            // ChatMap (Keys)
+            if (ClientView.chatMap != null && !ClientView.chatMap.isEmpty()) {
+                for (Map.Entry<String, Integer> entry : ClientView.chatMap.entrySet()) {
+                    String key = entry.getKey();
+                    if (key.startsWith(Gui.username) || key.endsWith(Gui.username)) {
+                        String[] newKey = key.split("@");
+                        String receiver = "";
+                        if (newKey[0].equals(Gui.username)) {
+                            receiver = newKey[1];
+                        } else if (newKey[1].equals(Gui.username)) {
+                            receiver = newKey[0];
+                        }
+
+                        int value = entry.getValue();
+                        //Insert key(receiver) and JTextArea of the Private Chat
+                        // Direct Update
+                        Gui.privateChatHistoryMap.put(receiver, visualChats.get(value));
+
+                        //chatMap.put(receiver, visualChats.get(value));
+                        if (Gui.myChatMap != null && !Gui.myChatMap.containsKey(receiver)) {
+                            Gui.myChatMap.put(receiver, new JButton(receiver));
+                        }
+                    }
+                }
+
+            }
+
+        }
+        // Finally
+        //privateChatHistoryMap = chatMap;
+
+    }
+
+    public void convertPublicChatForGUI() {
+        JTextArea historyTMP = new JTextArea(ImageUtil.resizeX(10), ImageUtil.resizeY(20));
+        historyTMP.setEditable(false);
+        historyTMP.setForeground(new Color(106, 2, 1));
+        historyTMP.setFont(new Font("Serif", Font.BOLD, ImageUtil.resizeY(14)));
+        historyTMP.setLineWrap(true);
+        historyTMP.setWrapStyleWord(true);
+        historyTMP.setCaretPosition(historyTMP.getDocument().getLength());
+        if (ClientView.publicChat != null && !ClientView.publicChat.isEmpty()) {
+            List<String> tmpChat = ClientView.publicChat;
+            for (String line : tmpChat) {
+                historyTMP.append(line + "\n");
+            }
+            historyTMP.setCaretPosition(historyTMP.getDocument().getLength());
+
+            //DEBUG print chat
+            System.out.println(historyTMP.getText());
+        } else {
+            System.out.println("No Public chat");
+        }
+        Gui.publicChatHistory = historyTMP;
     }
 
 

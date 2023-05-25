@@ -2,8 +2,10 @@ package org.am21.client.view.GUI.listener;
 
 import org.am21.client.view.GUI.DebugNotification;
 import org.am21.client.view.GUI.Gui;
+import org.am21.client.view.GUI.utils.ImageUtil;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -89,6 +91,7 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
                 gui.ASK_CHAT = true;
                 //gui.askChat();
             } else if (gui.commCtrl.sendPrivateMessage(message, Gui.chatReceiver, true)) {
+                System.out.flush();
                 System.out.println("Private Message Sent");
                 gui.chatDialog.currentChatHistory = Gui.privateChatHistoryMap.get(Gui.chatReceiver);
                 //gui.chatDialog.scrollPane.setViewportView(gui.chatDialog.currentChatHistory);
@@ -113,18 +116,38 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
             if (e.getSource() == gui.chatDialog.localChatMap.get(user)) {
                 gui.chatDialog.localChatMap.get(user).setBackground(new Color(83, 46, 91, 230));
                 gui.chatDialog.localChatMap.get(user).setForeground(Color.WHITE);
+
+
+                    Gui.NEW_CHAT_WINDOW = true;
+                    Gui.myChatMap.put(user, new JButton(user));
+                    if (gui.chatDialog != null) {
+                        gui.chatDialog.dispose();
+                    }
+
                 Gui.chatReceiver = user;
+                if (gui.chatDialog != null) {
+                    FontMetrics fm = gui.chatDialog.chatMessageInput.getFontMetrics(gui.chatDialog.chatMessageInput.getFont());
+                    gui.chatDialog.chatMessageInput.setBorder(new EmptyBorder(0, ImageUtil.resizeX(fm.stringWidth(Gui.chatReceiver) + 30), 0, 0));
+                }
+                gui.ASK_CHAT = true;
+
+
+
+
+
+                //---------------------------
+                /*Gui.chatReceiver = user;
                 if (user.equals("#All")) {
                     Gui.chatReceiver = "#All";
                     gui.chatDialog.currentChatHistory = Gui.publicChatHistory;
                 } else {
                     Gui.chatReceiver = user;
                     gui.chatDialog.currentChatHistory = Gui.privateChatHistoryMap.get(user);
-                }
+                }*/
                 gui.timeLimitedNotification("Clicked on " + Gui.chatReceiver);
                 //gui.chatDialog.scrollPane.setViewportView(gui.chatDialog.currentChatHistory);
-                Gui.NEW_CHAT_WINDOW = true;
-                gui.ASK_CHAT = true;
+                //Gui.NEW_CHAT_WINDOW = true;
+                //gui.ASK_CHAT = true;
                 //gui.askChat();
             }
         });
