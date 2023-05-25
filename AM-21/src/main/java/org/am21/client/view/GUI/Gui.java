@@ -69,8 +69,6 @@ public class Gui implements View {
     public static HashMap<String, JTextArea> privateChatHistoryMap = new HashMap<>();
     public static JTextArea publicChatHistory = new JTextArea();
     public static boolean NEW_CHAT_WINDOW = false;
-
-    public JDialog notification;
     //-------------------------------------------------------------------
     private SocketClient socket;
     public boolean GO_TO_MENU = true;

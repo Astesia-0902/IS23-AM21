@@ -79,14 +79,14 @@ public class OnlineListListener implements MouseListener, MouseMotionListener, A
         //Online Players List Click Event-> Open Chat Dialog if not user itself
         String user = gui.onlineListDialog.onlineList.getSelectedValue().split("\\s*\\|\\s*")[0];
         //if (!Gui.myChatMap.containsKey(user) && !gui.username.equals(user)) {
-        if (!gui.username.equals(user)) {
+        if (!Gui.username.equals(user)) {
             Gui.NEW_CHAT_WINDOW = true;
             Gui.myChatMap.put(user, new JButton(user));
             if (gui.chatDialog != null) {
                 gui.chatDialog.dispose();
             }
         }
-        if(!user.equals(gui.username)) {
+        if(!user.equals(Gui.username)) {
             Gui.chatReceiver = user;
             if (gui.chatDialog != null) {
                 gui.chatDialog.localChatMap.keySet().forEach(player -> {

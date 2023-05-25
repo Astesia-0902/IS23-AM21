@@ -133,7 +133,7 @@ public class SocketClient extends Thread {
                     }
                 }else if (gui!=null){
 
-                    gui.timeLimitedNotification(messageArray[1].substring(0,message.indexOf(" "))+" sent you a new message");
+                    gui.timeLimitedNotification(messageArray[1].substring(0,messageArray[1].indexOf(" "))+" sent you a new message");
                     gui.ASK_CHAT=true;
 
                 }

@@ -3,6 +3,7 @@ package org.am21.client.view.GUI.Interface;
 import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.GUI.component.ButtonColorUI;
 import org.am21.client.view.GUI.component.ScrollBarUI;
+import org.am21.client.view.GUI.listener.ChatListener;
 import org.am21.client.view.GUI.utils.FontUtil;
 import org.am21.client.view.GUI.utils.IconUtil;
 import org.am21.client.view.GUI.utils.ImageUtil;
@@ -32,13 +33,10 @@ public class ChatDialog extends JDialog {
     public JLabel chatRoom;
     public GridBagConstraints gbc;
     public HashMap<String, JButton> localChatMap;
-
     public OutputStream outputStream;
-
     public PrintStream printStream;
 
-
-    public Thread inputMinion = new Thread(()->{
+    public Thread inputMinion = new Thread(() -> {
         outputStream = new OutputStream() {
             @Override
             public void write(int b) {
@@ -48,10 +46,8 @@ public class ChatDialog extends JDialog {
         };
         printStream = new PrintStream(outputStream, true, StandardCharsets.UTF_8);
         System.setOut(printStream);
-
-
-
     });
+
     public ChatDialog(JFrame frame) {
         super(frame);
         setSize(ImageUtil.resizeX(500), ImageUtil.resizeY(500));
@@ -110,13 +106,35 @@ public class ChatDialog extends JDialog {
             playerPanel.add(localChatMap.get(user), gbc);
             gbc.gridy++;
 
-            currentChatHistory = Gui.privateChatHistoryMap.get(user);
+
+            /*if (!Gui.privateChatHistoryMap.containsKey(user)) {
+                currentChatHistory = new JTextArea(ImageUtil.resizeX(10), ImageUtil.resizeY(20));
+                currentChatHistory.setEditable(false);
+                currentChatHistory.setForeground(new Color(106, 2, 1));
+                currentChatHistory.setFont(new Font("Serif", Font.BOLD, ImageUtil.resizeY(14)));
+                currentChatHistory.setLineWrap(true);
+                currentChatHistory.setWrapStyleWord(true);
+                currentChatHistory.setCaretPosition(currentChatHistory.getDocument().getLength());
+
+                Gui.privateChatHistoryMap.put(user, currentChatHistory);
+            }*/
+            if (!Gui.privateChatHistoryMap.containsKey(user)) {
+                JTextArea tmpText = new JTextArea(ImageUtil.resizeX(10), ImageUtil.resizeY(20));
+                tmpText.setEditable(false);
+                tmpText.setForeground(new Color(106, 2, 1));
+                tmpText.setFont(new Font("Serif", Font.BOLD, ImageUtil.resizeY(14)));
+                tmpText.setLineWrap(true);
+                tmpText.setWrapStyleWord(true);
+                tmpText.setCaretPosition(tmpText.getDocument().getLength());
+            }
+
         }
+        // Choose chatHistory to show on interface
         if (Gui.chatReceiver.equals("#All")) {
             System.out.println("Setup Public Chat");
             currentChatHistory = Gui.publicChatHistory;
         } else {
-            System.out.println("Setup Private Chat: > "+Gui.chatReceiver);
+            System.out.println("Setup Private Chat: > " + Gui.chatReceiver);
             currentChatHistory = Gui.privateChatHistoryMap.get(Gui.chatReceiver);
         }
 
@@ -215,7 +233,19 @@ public class ChatDialog extends JDialog {
 
                 Gui.privateChatHistoryMap.put(user, tmpChatHistory);
             }
+            if (user.equals(Gui.chatReceiver)) {
+                localChatMap.get(user).setBackground(new Color(83, 46, 91, 230));
+                localChatMap.get(user).setForeground(Color.WHITE);
+            }
         }
+        //Update Listeners for user button
+        if (ChatListener.instance != null) {
+            localChatMap.keySet().forEach(button -> {
+                localChatMap.get(button).addActionListener(ChatListener.instance);
+                localChatMap.get(button).addMouseListener(ChatListener.instance);
+            });
+        }
+
         if (Gui.chatReceiver.equals("#All")) {
             currentChatHistory = Gui.publicChatHistory;
         } else {
