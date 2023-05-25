@@ -92,14 +92,13 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
                 Border border = cells[row][column].getBorder();
                 if (border instanceof LineBorder) {
                     Color edgeColor = ((LineBorder) border).getLineColor(); //get item border color
-                    //TODO: fixe double clicked selected/deselected
                     //do select
                     if (edgeColor.equals(new Color(0, 0, 0, 255)) && gui.commCtrl.selectCell(row, column)) {
                         cells[row][column].setBorder(BorderFactory.createLineBorder(new Color(4, 134, 10, 230), 4));
                         // myHandBoard.putItem(cells[row][column]);
 
 
-                    } else if (edgeColor.equals(new Color(4, 134, 10, 230)) && gui.commCtrl.selectCell(row, column)) {
+                    } else if (edgeColor.equals(new Color(4, 134, 10, 230)) && !gui.commCtrl.selectCell(row, column)) {
                         //do deselect
                         cells[row][column].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
                         // myHandBoard.removeItem();
@@ -108,7 +107,8 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
 
 
                 }
-
+                revalidate();
+                repaint();
 
                 //JOptionPane.showMessageDialog(null,"error");
 

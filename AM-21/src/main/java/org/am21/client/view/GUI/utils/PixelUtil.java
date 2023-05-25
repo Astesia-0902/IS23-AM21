@@ -145,9 +145,7 @@ public class PixelUtil {
     public static int myGridX = pcWidth * 727 / 1000;
     public static int myGridY = pcHeight * 428 / 1000;
     public static int enemyGridX = pcWidth * 6131 / 100000;
-    public static int enemyAGridY = pcHeight * 41 / 1000;
-    public static int enemyBGridY = pcHeight * 241 / 1000;
-    public static int enemyCGridY = pcHeight * 45143 / 100000;
+    public static int enemyGridY = pcHeight*1143/100000; //12
 
     //cell size
     public static int myCellH = pcHeight * 61 / 1000;

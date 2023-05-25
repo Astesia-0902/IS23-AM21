@@ -8,7 +8,6 @@ import org.am21.client.view.GUI.component.*;
 import org.am21.client.view.GUI.listener.*;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PathUtil;
-import org.am21.client.view.GUI.utils.PixelUtil;
 import org.am21.client.view.TUI.Storage;
 import org.am21.client.view.View;
 import org.am21.networkRMI.ClientCallBack;
@@ -53,8 +52,7 @@ public class Gui implements View {
     public MyHandBoardPanel myHandBoardPanel;
     public ShelfPanel myShelfPanel;
 
-    public EnemyPanel enemyPanelA, enemyPanelB, enemyPanelC;
-    public ShelfPanel enemyShelfPanelA, enemyShelfPanelB, enemyShelfPanelC;
+    public HashMap<String, EnemyPanel> enemiesStatus;
 
     public GameResultsInterface gameResultsInterface;
     public ChairManLabel chairManLabel;
@@ -159,8 +157,8 @@ public class Gui implements View {
     public Object chatLock = new Object();
 
     public ChatRunnable chatRun = new ChatRunnable(this);
-    public Thread guiDialogMinion = new Thread(chatRun){
-        public void setVisibleTrue(){
+    public Thread guiDialogMinion = new Thread(chatRun) {
+        public void setVisibleTrue() {
             chatRun.gui.chatDialog.setVisible(true);
         }
     };
@@ -447,38 +445,6 @@ public class Gui implements View {
         showPersonalGoal();
         showCommonGoals();
 
-
-        if (maxSeats >= 9) {
-            //setFirst enemy's Label
-            enemyPanelA = new EnemyPanel(PixelUtil.commonY_1, ImageUtil.getBoardImage("enemyA"));
-            livingRoomInterface.livingRoomPane.add(enemyPanelA, JLayeredPane.PALETTE_LAYER);
-
-            //TODO: itemGrids will be manipulated
-            enemyShelfPanelA = new ShelfPanel(PixelUtil.enemyGridX, PixelUtil.enemyAGridY, PixelUtil.enemyCellW, PixelUtil.enemyCellH, PixelUtil.enemyItemW, PixelUtil.enemyItemH);
-            livingRoomInterface.livingRoomPane.add(enemyShelfPanelA, JLayeredPane.PALETTE_LAYER);
-            //TODO: showEveryShelf ???
-        }
-        if (maxSeats >= 3) {
-            //setSecond enemy's Label
-            enemyPanelB = new EnemyPanel(PixelUtil.commonY_2, ImageUtil.getBoardImage("enemyB"));
-            livingRoomInterface.livingRoomPane.add(enemyPanelB, JLayeredPane.PALETTE_LAYER);
-
-            //TODO: itemGrids will be manipulated
-            enemyShelfPanelB = new ShelfPanel(PixelUtil.enemyGridX, PixelUtil.enemyBGridY, PixelUtil.enemyCellW, PixelUtil.enemyCellH, PixelUtil.enemyItemW, PixelUtil.enemyItemH);
-            livingRoomInterface.livingRoomPane.add(enemyShelfPanelB, JLayeredPane.PALETTE_LAYER);
-            //TODO: showEveryShelf ???
-
-        }
-        if (maxSeats >= 4) {
-            //setThird enemy's Label
-            enemyPanelC = new EnemyPanel(PixelUtil.commonY_3, ImageUtil.getBoardImage("enemyC"));
-            livingRoomInterface.livingRoomPane.add(enemyPanelC, JLayeredPane.PALETTE_LAYER);
-
-            //TODO: itemGrids will be manipulated
-            enemyShelfPanelC = new ShelfPanel(PixelUtil.enemyGridX, PixelUtil.enemyCGridY, PixelUtil.enemyCellW, PixelUtil.enemyCellH, PixelUtil.enemyItemW, PixelUtil.enemyItemH);
-            livingRoomInterface.livingRoomPane.add(enemyShelfPanelC, JLayeredPane.PALETTE_LAYER);
-            //TODO: showEveryShelf ???
-        }
         //TODO: who is the chairMan (first current player when start the game)
         chairManLabel = new ChairManLabel(1);
         livingRoomInterface.livingRoomPane.add(chairManLabel, JLayeredPane.PALETTE_LAYER);
@@ -696,8 +662,6 @@ public class Gui implements View {
     public void setREFRESH(boolean REFRESH) {
         this.REFRESH = REFRESH;
     }
-
-
 
 
     public void convertPrivateChatsForGUI() {

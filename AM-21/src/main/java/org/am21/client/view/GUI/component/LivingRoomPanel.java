@@ -11,8 +11,6 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
-import java.rmi.RemoteException;
-import java.rmi.server.ServerNotActiveException;
 
 import static org.am21.client.SocketClient.gui;
 
@@ -168,15 +166,12 @@ public class LivingRoomPanel extends JPanel {
         clearButton.setBackground(Color.WHITE);
         clearButton.setForeground(new Color(172, 19, 5, 230));
         clearButton.addActionListener(e -> {
-            try {
-                gui.askDeselection();
-            } catch (ServerNotActiveException | RemoteException ex) {
-                throw new RuntimeException(ex);
+            if(gui.commCtrl.deselectCards())
+            {
+                gui.myHandBoardPanel.refreshItem(ClientView.currentPlayerHand);
+                gui.gameBoardPanel.clearAll();
+                JOptionPane.showMessageDialog(null, "clear successful");
             }
-
-            gui.myHandBoardPanel.refreshItem(ClientView.currentPlayerHand);
-            gui.gameBoardPanel.clearAll();
-            JOptionPane.showMessageDialog(null, "clear successful");
 
         });
         panelBoard.add(clearButton, JLayeredPane.PALETTE_LAYER);
