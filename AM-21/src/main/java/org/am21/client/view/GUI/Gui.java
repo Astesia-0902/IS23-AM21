@@ -136,6 +136,7 @@ public class Gui implements View {
         }
     };
 
+
     public Thread guiMinionChat = new Thread() {
         @Override
         public void run() {
@@ -143,14 +144,9 @@ public class Gui implements View {
             while (true) {
                 while (ASK_CHAT) {
 
-                    try {
-                        System.out.println("Asking chat...");
-                        askChat();
-
-                        Thread.sleep(200);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
+                    System.out.println("Asking chat...");
+                    askChat();
+                    System.out.println("Close AskChat");
 
                 }
                 try {
@@ -161,6 +157,26 @@ public class Gui implements View {
             }
 
 
+        }
+    };
+    public Object chatLock = new Object();
+
+    public ChatRunnable chatRun = new ChatRunnable(this);
+    public Thread guiDialogMinion = new Thread(chatRun){
+        public void setVisibleTrue(){
+            chatRun.gui.chatDialog.setVisible(true);
+        }
+    };
+
+
+    public Thread guiChatListenerMinion = new Thread() {
+        @Override
+        public void run() {
+            super.run();
+            synchronized (chatLock) {
+                System.out.println("ChatListener start");
+                new ChatListener(chatRun.gui);
+            }
         }
     };
 
@@ -556,44 +572,39 @@ public class Gui implements View {
         convertPrivateChatsForGUI();
         convertPublicChatForGUI();
         if (chatDialog == null && !NEW_CHAT_WINDOW) {
+            ASK_CHAT = false;
+            guiDialogMinion.start();
+            guiChatListenerMinion.start();
+            System.out.println("Continue1");
 
+        } else if (chatDialog == null && NEW_CHAT_WINDOW) {
+            ASK_CHAT = false;
+            guiDialogMinion.start();
+            guiChatListenerMinion.start();
+            System.out.println("Continue2");
+        } else if (chatDialog != null && NEW_CHAT_WINDOW) {
+            ASK_CHAT = false;
             SwingUtilities.invokeLater(() -> {
-                System.out.println("Chat Dialog created (not visible)");
-                chatDialog = new ChatDialog(frame);
-                new ChatListener(this);
-                ASK_CHAT = false;
-            });
-        } else if (chatDialog == null) {
-            SwingUtilities.invokeLater(() -> {
-                replyDEBUG("Chat Dialog created (visible)");
-                chatDialog = new ChatDialog(frame);
                 chatDialog.setVisible(true);
-                NEW_CHAT_WINDOW = false;
-                new ChatListener(this);
-                ASK_CHAT = false;
-            });
-
-
-        } else if (NEW_CHAT_WINDOW) {
-            chatDialog.setVisible(true);
-            SwingUtilities.invokeLater(() -> {
                 chatDialog.reloadChat();
                 chatDialog.getContentPane().revalidate();
                 chatDialog.getContentPane().repaint();
-                System.out.println("Repaint success");
-                ASK_CHAT = false;
+                //System.out.println("Repaint success(Visible)");
+                //chatDialog.setVisible(true);
+
             });
+            System.out.println("Continue3");
             NEW_CHAT_WINDOW = false;
         } else {
+            ASK_CHAT = false;
             // Normal chat update
             SwingUtilities.invokeLater(() -> {
                 chatDialog.reloadChat();
                 chatDialog.getContentPane().revalidate();
                 chatDialog.getContentPane().repaint();
-                System.out.println("Repaint success");
-                ASK_CHAT = false;
+                //System.out.println("Repaint success");
             });
-
+            System.out.println("Continue4");
         }
 
     }
@@ -618,7 +629,7 @@ public class Gui implements View {
 
     public void replyDEBUG(String message) {
         System.out.println(message);
-        timeLimitedNotification(message);
+        //timeLimitedNotification(message);
     }
 
     @Override
@@ -690,7 +701,6 @@ public class Gui implements View {
     }
 
 
-
     public void convertPrivateChatsForGUI() {
         HashMap<String, JTextArea> chatMap = new HashMap<>();
         List<JTextArea> visualChats = new ArrayList<>();
@@ -712,7 +722,7 @@ public class Gui implements View {
                 //DEBUG print chat
                 System.out.println(historyTMP.getText());
                 visualChats.add(historyTMP);
-                System.out.println("CHAT update");
+
             }
 
             // ChatMap (Keys)
@@ -731,8 +741,8 @@ public class Gui implements View {
                         int value = entry.getValue();
                         //Insert key(receiver) and JTextArea of the Private Chat
                         chatMap.put(receiver, visualChats.get(value));
-                        if(myChatMap!=null && !myChatMap.containsKey(receiver)){
-                            myChatMap.put(receiver,new JButton(receiver));
+                        if (myChatMap != null && !myChatMap.containsKey(receiver)) {
+                            myChatMap.put(receiver, new JButton(receiver));
                         }
                     }
                 }
@@ -762,7 +772,6 @@ public class Gui implements View {
 
             //DEBUG print chat
             System.out.println(historyTMP.getText());
-            System.out.println("Public CHAT update");
         } else {
             System.out.println("No Public chat");
         }

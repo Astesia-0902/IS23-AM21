@@ -34,10 +34,29 @@ public class ChatDialog extends JDialog {
     public GridBagConstraints gbc;
     public HashMap<String, JButton> localChatMap;
 
+    public OutputStream outputStream;
+
+    public PrintStream printStream;
+
+
+    public Thread inputMinion = new Thread(()->{
+        outputStream = new OutputStream() {
+            @Override
+            public void write(int b) {
+                //currentChatHistory.append(String.valueOf((char) b));
+                //currentChatHistory.setCaretPosition(currentChatHistory.getDocument().getLength());
+            }
+        };
+        printStream = new PrintStream(outputStream, true, StandardCharsets.UTF_8);
+        System.setOut(printStream);
+
+
+
+    });
     public ChatDialog(JFrame frame) {
 
         super(frame);
-        //setModal(true);       // If you do not close this window you will not be able to move the following windows
+        //setModal(false);       // If you do not close this window you will not be able to move the following windows
         setSize(ImageUtil.resizeX(500), ImageUtil.resizeY(500));
 
         closeIcon = IconUtil.getIcon("close_Purple");
@@ -149,6 +168,7 @@ public class ChatDialog extends JDialog {
         chatPanel = new JPanel();
         chatPanel.setLayout(new BorderLayout());
         chatPanel.add(chatMessageInput, BorderLayout.CENTER);
+        getRootPane().setDefaultButton(sendButton);
         chatPanel.add(sendButton, BorderLayout.EAST);
         chatPanel.setBorder(new MatteBorder(ImageUtil.resizeX(3), ImageUtil.resizeY(5),
                 ImageUtil.resizeX(5), ImageUtil.resizeY(5), new Color(85, 35, 222, 255)));
@@ -157,7 +177,7 @@ public class ChatDialog extends JDialog {
         add(topPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
         add(chatPanel, BorderLayout.SOUTH);
-        OutputStream outputStream = new OutputStream() {
+        /*OutputStream outputStream = new OutputStream() {
             @Override
             public void write(int b) {
                 //currentChatHistory.append(String.valueOf((char) b));
@@ -166,23 +186,24 @@ public class ChatDialog extends JDialog {
         };
 
         PrintStream printStream = new PrintStream(outputStream, true, StandardCharsets.UTF_8);
-        System.setOut(printStream);
+        System.setOut(printStream);*/
 
-        getRootPane().setDefaultButton(sendButton);
+        inputMinion.start();
+        //getRootPane().setDefaultButton(sendButton);
 
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(frame);
+        //setLocationRelativeTo(null);
+
         setResizable(false);
         setUndecorated(true);
         setBackground(new Color(247, 253, 252, 128));
         setOpacity(0.75f);
-        setVisible(false);
-
+        System.out.println("End ChatDialog constructor");
     }
 
 
     public void reloadChat() {
-        System.out.println("Reload Chat");
-        GridBagConstraints gbc = new GridBagConstraints();
+        gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.NORTH;
@@ -204,15 +225,15 @@ public class ChatDialog extends JDialog {
 
 
             if (!Gui.privateChatHistoryMap.containsKey(user)) {
-                currentChatHistory = new JTextArea(ImageUtil.resizeX(10), ImageUtil.resizeY(20));
-                currentChatHistory.setEditable(false);
-                currentChatHistory.setForeground(new Color(106, 2, 1));
-                currentChatHistory.setFont(new Font("Serif", Font.BOLD, ImageUtil.resizeY(14)));
-                currentChatHistory.setLineWrap(true);
-                currentChatHistory.setWrapStyleWord(true);
-                currentChatHistory.setCaretPosition(currentChatHistory.getDocument().getLength());
+                JTextArea tmpChatHistory = new JTextArea(ImageUtil.resizeX(10), ImageUtil.resizeY(20));
+                tmpChatHistory.setEditable(false);
+                tmpChatHistory.setForeground(new Color(106, 2, 1));
+                tmpChatHistory.setFont(new Font("Serif", Font.BOLD, ImageUtil.resizeY(14)));
+                tmpChatHistory.setLineWrap(true);
+                tmpChatHistory.setWrapStyleWord(true);
+                tmpChatHistory.setCaretPosition(tmpChatHistory.getDocument().getLength());
 
-                Gui.privateChatHistoryMap.put(user, currentChatHistory);
+                Gui.privateChatHistoryMap.put(user, tmpChatHistory);
             }
         }
         if (Gui.chatReceiver.equals("#All")) {

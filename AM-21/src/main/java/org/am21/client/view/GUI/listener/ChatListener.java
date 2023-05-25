@@ -1,5 +1,6 @@
 package org.am21.client.view.GUI.listener;
 
+import org.am21.client.view.GUI.DebugNotification;
 import org.am21.client.view.GUI.Gui;
 
 import javax.swing.*;
@@ -7,26 +8,56 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class ChatListener implements MouseListener, MouseMotionListener, ActionListener, KeyListener {
-    Gui gui;
-    Point p = new Point();
+    public Gui gui;
+    public Point p = new Point();
+
+
+    SwingWorker<Void, Void> worker = new SwingWorker<>() {
+        protected Void doInBackground() throws Exception {
+            gui.chatDialog.sendButton.addMouseListener(ChatListener.this);
+            gui.chatDialog.sendButton.addMouseMotionListener(ChatListener.this);
+            gui.chatDialog.sendButton.addActionListener(ChatListener.this);
+            gui.chatDialog.addMouseListener(ChatListener.this);
+            gui.chatDialog.addMouseMotionListener(ChatListener.this);
+            gui.chatDialog.closeLabel.addMouseListener(ChatListener.this);
+            gui.chatDialog.playerPanel.addMouseListener(ChatListener.this);
+
+
+            gui.chatDialog.localChatMap.keySet().forEach(user -> {
+                gui.chatDialog.localChatMap.get(user).addActionListener(ChatListener.this);
+                gui.chatDialog.localChatMap.get(user).addMouseListener(ChatListener.this);
+            });
+
+            return null;
+        }
+
+        protected void done() {
+
+        }
+    };
 
     public ChatListener(Gui gui) {
         this.gui = gui;
-        gui.chatDialog.sendButton.addMouseListener(this);
+        SwingUtilities.invokeLater(()->{
+            worker.execute();
+        });
+
+        /*gui.chatDialog.sendButton.addMouseListener(this);
         gui.chatDialog.sendButton.addMouseMotionListener(this);
         gui.chatDialog.sendButton.addActionListener(this);
         gui.chatDialog.addMouseListener(this);
         gui.chatDialog.addMouseMotionListener(this);
         gui.chatDialog.closeLabel.addMouseListener(this);
-        gui.chatDialog.playerPanel.addMouseListener(this);
+        gui.chatDialog.playerPanel.addMouseListener(this);*/
 //        for (String user : Gui.myChatMap.keySet()) {
 //            Gui.myChatMap.get(user).addActionListener(this);
 //            Gui.myChatMap.get(user).addMouseListener(this);
 //        }
-        gui.chatDialog.localChatMap.keySet().forEach(user -> {
+        new Thread( new DebugNotification("Listener done2")).start();
+        /*gui.chatDialog.localChatMap.keySet().forEach(user -> {
             gui.chatDialog.localChatMap.get(user).addActionListener(this);
             gui.chatDialog.localChatMap.get(user).addMouseListener(this);
-        });
+        });*/
 //        gui.chatDialog.localChatMap.forEach((user, button) -> {
 //            button.addActionListener(e -> {
 //                Gui.chatReceiver = user;
@@ -36,37 +67,38 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
 //            });
 //            button.addMouseListener(this);
 //        });
+        new Thread( new DebugNotification("Listener done3")).start();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == gui.chatDialog.sendButton) {
             String message = gui.chatDialog.chatMessageInput.getText();
-            System.out.println("Get Input Text..." + message);
+            new Thread( new DebugNotification("Get Input Text..." + message)).start();
             if (Gui.chatReceiver.equals("#All") && gui.commCtrl.sendPublicMessage(message, true)) {
                 System.out.println("Public Message Sent");
                 gui.chatDialog.currentChatHistory = Gui.publicChatHistory;
-                gui.chatDialog.scrollPane.setViewportView(gui.chatDialog.currentChatHistory);
+                //gui.chatDialog.scrollPane.setViewportView(gui.chatDialog.currentChatHistory);
                 gui.chatDialog.chatMessageInput.setText("");     //Clear input box
-                SwingUtilities.invokeLater(() -> {
+                /*SwingUtilities.invokeLater(() -> {
                     gui.chatDialog.reloadChat();
                     gui.chatDialog.getContentPane().revalidate();
                     gui.chatDialog.getContentPane().repaint();
                     System.out.println("Repaint success");
-                });
+                });*/
                 gui.ASK_CHAT = true;
                 //gui.askChat();
             } else if (gui.commCtrl.sendPrivateMessage(message, Gui.chatReceiver, true)) {
                 System.out.println("Private Message Sent");
                 gui.chatDialog.currentChatHistory = Gui.privateChatHistoryMap.get(Gui.chatReceiver);
-                gui.chatDialog.scrollPane.setViewportView(gui.chatDialog.currentChatHistory);
+                //gui.chatDialog.scrollPane.setViewportView(gui.chatDialog.currentChatHistory);
                 gui.chatDialog.chatMessageInput.setText("");     //Clear input box
-                SwingUtilities.invokeLater(() -> {
+                /*SwingUtilities.invokeLater(() -> {
                     gui.chatDialog.reloadChat();
                     gui.chatDialog.getContentPane().revalidate();
                     gui.chatDialog.getContentPane().repaint();
                     System.out.println("Repaint success");
-                });
+                });*/
                 gui.ASK_CHAT = true;
                 //gui.askChat();
             } else {
@@ -82,7 +114,6 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
                 gui.chatDialog.localChatMap.get(user).setBackground(new Color(83, 46, 91, 230));
                 gui.chatDialog.localChatMap.get(user).setForeground(Color.WHITE);
                 Gui.chatReceiver = user;
-                new Thread(()->System.out.println(user));
                 if (user.equals("#All")) {
                     Gui.chatReceiver = "#All";
                     gui.chatDialog.currentChatHistory = Gui.publicChatHistory;
@@ -92,9 +123,6 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
                 }
                 gui.timeLimitedNotification("Clicked on " + Gui.chatReceiver);
                 //gui.chatDialog.scrollPane.setViewportView(gui.chatDialog.currentChatHistory);
-                if(gui.chatDialog!=null){
-                    gui.chatDialog.dispose();
-                }
                 Gui.NEW_CHAT_WINDOW = true;
                 gui.ASK_CHAT = true;
                 //gui.askChat();
@@ -128,7 +156,7 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == gui.chatDialog.closeLabel) {
             gui.chatDialog.setVisible(false);
-            gui.ASK_CHAT = false;
+            //gui.ASK_CHAT = false;
         }
         // when click on gui.chatDialog, sendButton get focus, so you can press 'Enter' to send a message
         if (e.getSource() == gui.chatDialog) {
