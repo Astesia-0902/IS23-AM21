@@ -27,7 +27,9 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import static org.am21.client.view.ClientView.maxSeats;
 
@@ -566,8 +568,8 @@ public class Gui implements View {
     }
 
     public void askChat() {
-        //convertPrivateChatsForGUI();
-        //convertPublicChatForGUI();
+        convertPrivateChatsForGUI();
+        convertPublicChatForGUI();
         if (chatDialog == null && !NEW_CHAT_WINDOW) {
             ASK_CHAT = false;
             guiDialogMinion.start();
@@ -700,4 +702,83 @@ public class Gui implements View {
 
 
 
+    public void convertPrivateChatsForGUI() {
+        //HashMap<String, JTextArea> chatMap = new HashMap<>();
+        java.util.List<JTextArea> visualChats = new ArrayList<>();
+        System.out.println("Convert Private Chats");
+        if (ClientView.privateChats != null && !ClientView.privateChats.isEmpty()) {
+            java.util.List<java.util.List<String>> privateChatsList = ClientView.privateChats;
+            for (java.util.List<String> chat : privateChatsList) {
+                JTextArea historyTMP = new JTextArea(ImageUtil.resizeX(10), ImageUtil.resizeY(20));
+                historyTMP.setEditable(false);
+                historyTMP.setForeground(new Color(106, 2, 1));
+                historyTMP.setFont(new Font("Serif", Font.BOLD, ImageUtil.resizeY(14)));
+                historyTMP.setLineWrap(true);
+                historyTMP.setWrapStyleWord(true);
+                historyTMP.setCaretPosition(historyTMP.getDocument().getLength());
+                for (String line : chat) {
+                    historyTMP.append(line + "\n");
+                }
+                historyTMP.setCaretPosition(historyTMP.getDocument().getLength());
+                //DEBUG print chat
+                System.out.println(historyTMP.getText());
+                visualChats.add(historyTMP);
+
+            }
+
+            // ChatMap (Keys)
+            if (ClientView.chatMap != null && !ClientView.chatMap.isEmpty()) {
+                for (Map.Entry<String, Integer> entry : ClientView.chatMap.entrySet()) {
+                    String key = entry.getKey();
+                    if (key.startsWith(Gui.username) || key.endsWith(Gui.username)) {
+                        String[] newKey = key.split("@");
+                        String receiver = "";
+                        if (newKey[0].equals(Gui.username)) {
+                            receiver = newKey[1];
+                        } else if (newKey[1].equals(Gui.username)) {
+                            receiver = newKey[0];
+                        }
+
+                        int value = entry.getValue();
+                        //Insert key(receiver) and JTextArea of the Private Chat
+                        // Direct Update
+                        Gui.privateChatHistoryMap.put(receiver, visualChats.get(value));
+
+                        //chatMap.put(receiver, visualChats.get(value));
+                        if (Gui.myChatMap != null && !Gui.myChatMap.containsKey(receiver)) {
+                            Gui.myChatMap.put(receiver, new JButton(receiver));
+                        }
+                    }
+                }
+
+            }
+
+        }
+        // Finally
+        //privateChatHistoryMap = chatMap;
+
+    }
+
+    public void convertPublicChatForGUI() {
+        JTextArea historyTMP = new JTextArea(ImageUtil.resizeX(10), ImageUtil.resizeY(20));
+        historyTMP.setEditable(false);
+        historyTMP.setForeground(new Color(106, 2, 1));
+        historyTMP.setFont(new Font("Serif", Font.BOLD, ImageUtil.resizeY(14)));
+        historyTMP.setLineWrap(true);
+        historyTMP.setWrapStyleWord(true);
+        historyTMP.setCaretPosition(historyTMP.getDocument().getLength());
+        if (ClientView.publicChat != null && !ClientView.publicChat.isEmpty()) {
+            java.util.List<String> tmpChat = ClientView.publicChat;
+            for (String line : tmpChat) {
+                historyTMP.append(line + "\n");
+            }
+            historyTMP.setCaretPosition(historyTMP.getDocument().getLength());
+
+            //DEBUG print chat
+            System.out.println(historyTMP.getText());
+        } else {
+            System.out.println("No Public chat");
+        }
+        Gui.publicChatHistory = historyTMP;
+    }
 }
