@@ -191,7 +191,7 @@ public class PixelUtil {
      * myHandBoard Interface
      */
     public static int myHandBackGroundX = pcWidth * 2262 / 10000;
-    public static int myHandBackGroundY = pcHeight * 375 / 100;
+    public static int myHandBackGroundY = pcHeight*2857/10000;
 
     public static int myHandBackGroundW = pcWidth * 4643 / 10000;
     public static int myHandBackGroundH = pcHeight * 6476 / 10000;
@@ -218,6 +218,9 @@ public class PixelUtil {
     public static int myHandConfirmY = pcHeight * 567 / 1000;
     public static int myHandConfirmW = pcWidth * 893 / 10000;
     public static int myHandConfirmH = pcHeight / 21;
+
+    //public static int myHandBackX =
+    //public static int myHandBackY =
 
     public static int myHandItemX = pcWidth * 18 / 10000;
     public static int myHandItemY = pcHeight * 38 / 1000;

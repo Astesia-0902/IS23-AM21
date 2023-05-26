@@ -8,6 +8,7 @@ import org.am21.client.view.GUI.component.*;
 import org.am21.client.view.GUI.listener.*;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PathUtil;
+import org.am21.client.view.GUI.utils.PixelUtil;
 import org.am21.client.view.TUI.Storage;
 import org.am21.client.view.View;
 import org.am21.networkRMI.ClientCallBack;
@@ -49,6 +50,7 @@ public class Gui implements View {
     public WaitingRoomInterface waitingRoomInterface;
     public LivingRoomInterface livingRoomInterface;
     public LivingRoomMenuInterface livingRoomMenuInterface;
+    public MyHandInterface myHandInterface;
     public PersonalGoalPanel personalGoalPanel;
     public CommonGoalPanel commonGoalPanel;
     public GameBoardPanel gameBoardPanel;
@@ -424,16 +426,11 @@ public class Gui implements View {
 
     @Override
     public void askInsertion() throws ServerNotActiveException, RemoteException {
-       /* livingRoomInterface.livingRoomPanel.insertButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //open the myHandInterface
-                MyHandInterface myHandInterface = new MyHandInterface(ClientView.currentPlayerHand);
-                myHandInterface.setVisible(true);
+        myHandInterface = new MyHandInterface();
+        myHandInterface.refreshItem(ClientView.currentPlayerHand);
+        //TODO: refresh shelf
 
 
-            }
-        });*/
     }
 
     @Override
@@ -490,9 +487,9 @@ public class Gui implements View {
         announceCurrentPlayer();
 
         //set my shelf
-        //myShelfPanel = new ShelfPanel(PixelUtil.myGridX, PixelUtil.myGridY, PixelUtil.myCellW, PixelUtil.myCellH, PixelUtil.myItemW, PixelUtil.myItemH);
-        //livingRoomInterface.livingRoomPane.add(myShelfPanel, JLayeredPane.PALETTE_LAYER);
-        //showPlayerShelf();
+        myShelfPanel = new ShelfPanel(PixelUtil.myGridX, PixelUtil.myGridY, PixelUtil.myCellW, PixelUtil.myCellH, PixelUtil.myItemW, PixelUtil.myItemH);
+        livingRoomInterface.livingRoomPane.add(myShelfPanel, JLayeredPane.PALETTE_LAYER);
+
 
 
     }

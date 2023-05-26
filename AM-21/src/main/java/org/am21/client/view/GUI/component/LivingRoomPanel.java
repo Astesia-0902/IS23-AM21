@@ -3,7 +3,6 @@ package org.am21.client.view.GUI.component;
 
 import org.am21.client.view.ClientView;
 import org.am21.client.view.GUI.Interface.LivingRoomMenuInterface;
-import org.am21.client.view.GUI.Interface.MyHandInterface;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
 
@@ -11,6 +10,8 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
+import java.rmi.RemoteException;
+import java.rmi.server.ServerNotActiveException;
 
 import static org.am21.client.SocketClient.gui;
 
@@ -151,8 +152,13 @@ public class LivingRoomPanel extends JPanel {
          *open my hand interface
          */
         insertButton.addActionListener(e -> {
-            MyHandInterface myHandInterface = new MyHandInterface();
-            myHandInterface.setVisible(true);
+            try {
+                gui.askInsertion();
+            } catch (ServerNotActiveException ex) {
+                throw new RuntimeException(ex);
+            } catch (RemoteException ex) {
+                throw new RuntimeException(ex);
+            }
         });
         panelBoard.add(insertButton, JLayeredPane.PALETTE_LAYER);
 
@@ -165,12 +171,15 @@ public class LivingRoomPanel extends JPanel {
         clearButton.setUI(new ButtonColorUI(new Color(255, 181, 172, 139)));
         clearButton.setBackground(Color.WHITE);
         clearButton.setForeground(new Color(172, 19, 5, 230));
-        clearButton.addActionListener(e -> {
+        clearButton.addActionListener(e ->
+        {
             if (gui.commCtrl.deselectCards()) {
                 gui.myHandBoardPanel.refreshItem(ClientView.currentPlayerHand);
                 gui.gameBoardPanel.clearAll();
                 JOptionPane.showMessageDialog(null, "clear successful");
             }
+
+
 
         });
         panelBoard.add(clearButton, JLayeredPane.PALETTE_LAYER);

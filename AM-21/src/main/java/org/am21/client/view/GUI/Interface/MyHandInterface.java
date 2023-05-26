@@ -24,14 +24,18 @@ public class MyHandInterface extends JFrame {
     public JButton sort;
     public ButtonGroup optionGroup;
     public JButton confirm;
+    public JButton backToSelect;
 
     public MyHandInterface() {
-         setSize(PixelUtil.myHandBackGroundW,PixelUtil.myHandBackGroundH);
-         setLocation(PixelUtil.myHandBackGroundX, PixelUtil.myHandBackGroundY);
-        //setBounds(PixelUtil.myHandBackGroundX, PixelUtil.myHandBackGroundY, PixelUtil.myHandBackGroundW, PixelUtil.myHandBackGroundH);
+         //setSize(PixelUtil.myHandBackGroundW,PixelUtil.myHandBackGroundH);
+         //setLocationRelativeTo(null);
+        setBounds(PixelUtil.myHandBackGroundX, PixelUtil.myHandBackGroundY, PixelUtil.myHandBackGroundW, PixelUtil.myHandBackGroundH);
+        //setBounds(0,0, PixelUtil.myHandBackGroundW, PixelUtil.myHandBackGroundH);
+
         setUndecorated(true);
         setResizable(false);
         setTitle("My hand");
+        setLayout(null);
 
 
         myHandInterfacePane = new JLayeredPane();
@@ -52,6 +56,7 @@ public class MyHandInterface extends JFrame {
         myHandInterfacePane.add(myHandLabel, JLayeredPane.PALETTE_LAYER);
 
 
+        //hand grids
         for (int i = 0; i < handMax; i++) {
             handGrid[i] = new JLayeredPane();
             handGrid[i].setBounds(0, i * ((PixelUtil.myHandHandH) / 3), PixelUtil.myHandHandW, (PixelUtil.myHandHandH) / 3);
@@ -59,6 +64,7 @@ public class MyHandInterface extends JFrame {
 
             add(handGrid[i]);
         }
+
 
 
 
@@ -84,6 +90,14 @@ public class MyHandInterface extends JFrame {
             myHandInterfacePane.add(radioButton, JLayeredPane.PALETTE_LAYER);
         }
 
+        backToSelect = new JButton("BACK");
+        backToSelect.setFont(new Font("DejaVu Sans", Font.PLAIN, 16));
+        backToSelect.setBounds(3, PixelUtil.myHandConfirmY, PixelUtil.myHandConfirmW, PixelUtil.myHandConfirmH);
+        backToSelect.setBorder(new MatteBorder(ImageUtil.resizeY(2), ImageUtil.resizeX(2), ImageUtil.resizeY(2),
+                ImageUtil.resizeX(2), new Color(172, 19, 5, 230)));
+        backToSelect.setUI(new ButtonColorUI(new Color(182, 150, 146, 230)));
+        backToSelect.setBackground(Color.WHITE);
+        backToSelect.setForeground(new Color(172, 19, 5, 230));
 
         confirm = new JButton("CONFIRM");
         confirm.setFont(new Font("DejaVu Sans", Font.PLAIN, 16));
@@ -107,6 +121,9 @@ public class MyHandInterface extends JFrame {
             }
         });
         myHandInterfacePane.add(confirm, JLayeredPane.PALETTE_LAYER);
+
+
+        setVisible(true);
 
     }
 
@@ -132,5 +149,8 @@ public class MyHandInterface extends JFrame {
         repaint();
     }
 
+    public static void main(String[] args) {
+        new MyHandInterface();
 
+    }
 }
