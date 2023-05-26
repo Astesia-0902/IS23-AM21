@@ -22,4 +22,6 @@ public interface ICommunication {
     void sendServerVirtualView(String serverVirtualView, PlayerController pc);
 
     void notifyUpdate(PlayerController ctrl, int milliseconds);
+
+    void ping(PlayerController ctrl);
 }

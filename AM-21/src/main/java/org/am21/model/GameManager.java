@@ -109,7 +109,7 @@ public class GameManager {
      * @return
      */
     public static boolean gameCleaner() {
-        checkUsersConnection();
+        //checkUsersConnection();
         synchronized (matchList) {
             List<Match> toDoList = new ArrayList<>();
             for (Match m :matchList) {
@@ -168,12 +168,19 @@ public class GameManager {
      * If not the user status should change to Offline
      */
     public static void checkUsersConnection(){
-        VirtualViewHelper.virtualizeServerVirtualView();
+        boolean off=false;
         synchronized (players){
             for(Player p : players){
                 // Test players connection
-                CommunicationController.instance.sendServerVirtualView(VirtualViewHelper.convertServerVirtualViewToJSON(),p.getController());
+                CommunicationController.instance.ping(p.getController());
+                if(p.getStatus().equals(UserStatus.Offline)){
+                    off = true;
+                }
             }
+
+        }
+        if(off){
+            // Game Cleaner
 
         }
 

@@ -12,10 +12,12 @@
     <list default="true" id="800ee988-8dce-43ff-867f-ca064b189a74" name="Changes" comment="update Gui">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/CommunicationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/CommunicationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/ICommunication.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/ICommunication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/Server.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/GameManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/GameManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientCallBack.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientCallBack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/IClientCallBack.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/IClientCallBack.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkSocket/ClientHandlerSocket.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkSocket/ClientHandlerSocket.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/VirtualViewHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/VirtualViewHelper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,7 +115,7 @@
       <recent name="org.am21.utilities" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.CLITest2">
+  <component name="RunManager" selected="Application.GUITest3">
     <configuration name="CLITest1" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.am21.client.ClientApp" />
       <module name="IS23-AM21" />

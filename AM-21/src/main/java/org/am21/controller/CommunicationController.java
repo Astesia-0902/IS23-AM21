@@ -187,5 +187,18 @@ public class CommunicationController implements ICommunication {
             ctrl.clientHandlerSocket.callback(messageToClient);
         }
     }
+    @Override
+    public void ping(PlayerController ctrl){
+        if(ctrl.connectionType == ConnectionType.RMI){
+            try{
+                ctrl.clientInput.callBack.ping();
+            }catch (RemoteException e){
+                ctrl.getPlayer().setStatus(UserStatus.Offline);
+            }
+        }else if(ctrl.connectionType == ConnectionType.SOCKET){
+            String messageToClient = "ping";
+            ctrl.clientHandlerSocket.callback(messageToClient);
+        }
+    }
 
 }

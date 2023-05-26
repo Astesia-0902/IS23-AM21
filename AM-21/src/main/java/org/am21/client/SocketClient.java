@@ -158,6 +158,9 @@ public class SocketClient extends Thread {
                     }
                 }
             }
+            case "ping" ->{
+                return;
+            }
 
             default -> System.out.println("Unknown Server Message: " + message);
         }

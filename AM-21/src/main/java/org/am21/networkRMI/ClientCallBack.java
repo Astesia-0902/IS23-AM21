@@ -169,4 +169,9 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
             }
         }
     }
+
+    @Override
+    public void ping() throws RemoteException{
+        //
+    }
 }

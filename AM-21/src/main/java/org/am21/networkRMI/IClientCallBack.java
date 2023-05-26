@@ -16,4 +16,6 @@ public interface IClientCallBack extends Remote {
     void sendVirtualPublicChat(String virtualPublicChat) throws RemoteException;
     void sendServerVirtualView(String serverVV) throws RemoteException;
     void notifyUpdate(int milliseconds) throws RemoteException;
+
+    void ping() throws RemoteException;
 }

@@ -29,6 +29,23 @@ public class Server {
     public static int number = 0;
     private static Thread inputThread;
 
+    private static Thread serverMinion = new Thread(){
+        @Override
+        public void run() {
+            super.run();
+            while(true){
+
+                GameManager.checkUsersConnection();
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+        }
+    };
+
     public static void main(String[] args) throws RemoteException {
         try {
             SocketServer server = new SocketServer();
@@ -39,6 +56,8 @@ public class Server {
 
             Lobby guardian = new Welcome();
             Naming.bind("rmi://localhost:1234/Welcome",guardian);
+
+            serverMinion.start();
 
             System.out.println("Server is ready");
             while (true){

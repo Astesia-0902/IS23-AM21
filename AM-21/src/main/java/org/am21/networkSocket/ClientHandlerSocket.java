@@ -46,8 +46,7 @@ public class ClientHandlerSocket extends Thread {
         } catch (IOException | ServerNotActiveException e) {
             myPlayer.getPlayer().setStatus(UserStatus.Offline);
             System.out.println("Socket > Client Disconnected");
-            //GameManager.gameCleaner();
-            //GameManager.removeOfflinePlayer(myPlayer.getPlayer());
+
         }
     }
 
@@ -63,8 +62,7 @@ public class ClientHandlerSocket extends Thread {
         } catch (IOException e) {
             myPlayer.getPlayer().setStatus(UserStatus.Offline);
             System.out.println("Socket > Client Disconnected");
-            //GameManager.gameCleaner();
-            //GameManager.removeOfflinePlayer(myPlayer.getPlayer());
+
         }
     }
 

@@ -41,8 +41,8 @@ public class GameController {
      * @return true if login successfully, false if the username already exists.
      */
     public static boolean login(String username, PlayerController playerController) {
-        GameManager.checkUsersConnection();
-        GameManager.playerCleaner();
+        //GameManager.checkUsersConnection();
+        //GameManager.playerCleaner();
         if (GameManager.checkNameSake(username)) {
             return false;
         }
