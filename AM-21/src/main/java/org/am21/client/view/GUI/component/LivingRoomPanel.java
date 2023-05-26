@@ -152,6 +152,7 @@ public class LivingRoomPanel extends JPanel {
          *open my hand interface
          */
         insertButton.addActionListener(e -> {
+
             try {
                 gui.askInsertion();
             } catch (ServerNotActiveException ex) {
@@ -159,6 +160,8 @@ public class LivingRoomPanel extends JPanel {
             } catch (RemoteException ex) {
                 throw new RuntimeException(ex);
             }
+
+
         });
         panelBoard.add(insertButton, JLayeredPane.PALETTE_LAYER);
 
@@ -178,7 +181,6 @@ public class LivingRoomPanel extends JPanel {
                 gui.gameBoardPanel.clearAll();
                 JOptionPane.showMessageDialog(null, "clear successful");
             }
-
 
 
         });

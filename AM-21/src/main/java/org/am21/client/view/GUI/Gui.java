@@ -426,8 +426,9 @@ public class Gui implements View {
 
     @Override
     public void askInsertion() throws ServerNotActiveException, RemoteException {
+
         myHandInterface = new MyHandInterface();
-        myHandInterface.refreshItem(ClientView.currentPlayerHand);
+        myHandInterface.refreshItem(ClientView.currentPlayerHand,this);
         //TODO: refresh shelf
 
 
