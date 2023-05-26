@@ -77,7 +77,7 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
                 Gui.NEW_CHAT_WINDOW = true;
                 gui.ASK_CHAT = true;
 
-            }else{
+            } else {
                 gui.timeLimitedNotification("myChatMap empty");
             }
 

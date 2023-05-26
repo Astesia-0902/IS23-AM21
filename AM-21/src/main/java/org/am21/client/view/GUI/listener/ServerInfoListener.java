@@ -8,6 +8,8 @@ import org.am21.networkRMI.IClientInput;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.MalformedURLException;
@@ -15,7 +17,7 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
-public class ServerInfoListener implements MouseListener, MouseMotionListener, ActionListener, KeyListener {
+public class ServerInfoListener implements MouseListener, MouseMotionListener, ActionListener, KeyListener, DocumentListener {
     Gui gui;
     Point p = new Point();
 
@@ -28,8 +30,10 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
         gui.serverInfoInterface.returnLabel.addMouseListener(this);
         gui.serverInfoInterface.portField.addActionListener(this);
         gui.serverInfoInterface.portField.addKeyListener(this);
+        gui.serverInfoInterface.portField.getDocument().addDocumentListener(this);
         gui.serverInfoInterface.addressField.addActionListener(this);
         gui.serverInfoInterface.addressField.addKeyListener(this);
+        gui.serverInfoInterface.addressField.getDocument().addDocumentListener(this);
         gui.serverInfoInterface.confirmButton.addActionListener(this);
         gui.serverInfoInterface.confirmButton.addKeyListener(this);
     }
@@ -168,5 +172,26 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    @Override
+    public void insertUpdate(DocumentEvent e) {
+        updateButtonState();
+    }
+
+    @Override
+    public void removeUpdate(DocumentEvent e) {
+        updateButtonState();
+    }
+
+    @Override
+    public void changedUpdate(DocumentEvent e) {
+        updateButtonState();
+    }
+
+    private void updateButtonState() {
+        gui.serverInfoInterface.confirmButton.setEnabled(
+                !gui.serverInfoInterface.addressField.getText().trim().isEmpty() &&
+                !gui.serverInfoInterface.portField.getText().trim().isEmpty());
     }
 }

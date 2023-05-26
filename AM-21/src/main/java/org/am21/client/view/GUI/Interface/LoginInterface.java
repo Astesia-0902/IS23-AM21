@@ -49,6 +49,7 @@ public class LoginInterface extends JDialog {
         loginButton = ButtonUtil.getButton("Login");
         loginButton.setBounds(ImageUtil.resizeX(254), ImageUtil.resizeY(320),
                 ImageUtil.resizeX(82), ImageUtil.resizeY(33));
+        loginButton.setEnabled(false);
         getContentPane().add(loginButton);
 
         // Nickname Field

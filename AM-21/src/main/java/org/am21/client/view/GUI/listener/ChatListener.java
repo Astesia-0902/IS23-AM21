@@ -3,7 +3,6 @@ package org.am21.client.view.GUI.listener;
 import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.GUI.utils.ImageUtil;
 
-import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
@@ -68,15 +67,15 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
 
         gui.chatDialog.localChatMap.keySet().forEach(user -> {
             if (e.getSource() == gui.chatDialog.localChatMap.get(user)) {
-
-                gui.chatDialog.localChatMap.get(user).setBackground(new Color(83, 46, 91, 230));
-                gui.chatDialog.localChatMap.get(user).setForeground(Color.WHITE);
+//
+//                gui.chatDialog.localChatMap.get(user).setBackground(new Color(83, 46, 91, 230));
+//                gui.chatDialog.localChatMap.get(user).setForeground(Color.WHITE);
 
                 Gui.NEW_CHAT_WINDOW = true;
-                //Gui.myChatMap.put(user, new JButton(user));
-                if (gui.chatDialog != null) {
-                    //gui.chatDialog.dispose();
-                }
+//                //Gui.myChatMap.put(user, new JButton(user));
+//                if (gui.chatDialog != null) {
+//                    //gui.chatDialog.dispose();
+//                }
 
 
                 Gui.chatReceiver = user;

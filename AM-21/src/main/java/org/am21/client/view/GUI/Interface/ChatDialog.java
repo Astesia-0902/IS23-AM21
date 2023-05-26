@@ -177,7 +177,7 @@ public class ChatDialog extends JDialog {
         chatPanel = new JPanel();
         chatPanel.setLayout(new BorderLayout());
         chatPanel.add(chatMessageInput, BorderLayout.CENTER);
-        getRootPane().setDefaultButton(sendButton);
+        //getRootPane().setDefaultButton(sendButton);
         chatPanel.add(sendButton, BorderLayout.EAST);
         chatPanel.setBorder(new MatteBorder(ImageUtil.resizeX(3), ImageUtil.resizeY(5),
                 ImageUtil.resizeX(5), ImageUtil.resizeY(5), new Color(85, 35, 222, 255)));

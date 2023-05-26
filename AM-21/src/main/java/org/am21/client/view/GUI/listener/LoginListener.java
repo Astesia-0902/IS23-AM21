@@ -1,15 +1,13 @@
 package org.am21.client.view.GUI.listener;
 
 import org.am21.client.view.GUI.Gui;
-import org.am21.client.view.GUI.utils.ImageUtil;
 
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.MatteBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
 
-public class LoginListener implements MouseListener, MouseMotionListener, ActionListener, KeyListener {
+public class LoginListener implements MouseListener, MouseMotionListener, ActionListener, KeyListener, DocumentListener {
     Gui gui;
     Point p = new Point();
 
@@ -21,6 +19,7 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
         gui.loginInterface.minusLabel.addMouseListener(this);
         gui.loginInterface.nicknameField.addActionListener(this);
         gui.loginInterface.nicknameField.addKeyListener(this);
+        gui.loginInterface.nicknameField.getDocument().addDocumentListener(this);
         gui.loginInterface.loginButton.addKeyListener(this);
         gui.loginInterface.loginButton.addMouseListener(this);
         gui.loginInterface.loginButton.addActionListener(this);
@@ -33,15 +32,15 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
             // Get username
             String username = gui.loginInterface.nicknameField.getText().trim();
 
-            if (username.isEmpty()) {
-                gui.loginInterface.nicknameField.setBorder(new CompoundBorder(new MatteBorder
-                        (ImageUtil.resizeY(3), ImageUtil.resizeX(3), ImageUtil.resizeY(5),
-                                ImageUtil.resizeX(5), new Color(178, 34, 34)),
-                        new EmptyBorder(0, ImageUtil.resizeX(50), 0, 0)));
-
-            } else {
+//            if (username.isEmpty()) {
+//                gui.loginInterface.nicknameField.setBorder(new CompoundBorder(new MatteBorder
+//                        (ImageUtil.resizeY(3), ImageUtil.resizeX(3), ImageUtil.resizeY(5),
+//                                ImageUtil.resizeX(5), new Color(178, 34, 34)),
+//                        new EmptyBorder(0, ImageUtil.resizeX(50), 0, 0)));
+//
+//            } else {
                 // Login successful and close the login frame
-
+                if(!username.isEmpty()) {
                 try {
 //                    gui.loginInterface.dispose();
 //                    gui.askMenuAction();
@@ -149,5 +148,24 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    @Override
+    public void insertUpdate(DocumentEvent e) {
+        updateButtonState();
+    }
+
+    @Override
+    public void removeUpdate(DocumentEvent e) {
+        updateButtonState();
+    }
+
+    @Override
+    public void changedUpdate(DocumentEvent e) {
+        updateButtonState();
+    }
+
+    private void updateButtonState() {
+        gui.loginInterface.loginButton.setEnabled(!gui.loginInterface.nicknameField.getText().trim().isEmpty());
     }
 }
