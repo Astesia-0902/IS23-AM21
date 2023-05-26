@@ -4,7 +4,11 @@ import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class EnemyPanel extends JPanel {
     public JLayeredPane enemyPane;
@@ -13,7 +17,9 @@ public class EnemyPanel extends JPanel {
     public ShelfPanel enemyShelf;
     public JLabel enemyScoreDynamic;
 
-    public EnemyPanel(int posY, ImageIcon imgPic, String nickname) {
+    public ChairManLabel chairManLabel;
+
+    public EnemyPanel(int posY, ImageIcon imgPic, String nickname, String chairMan, int score) {
         setBounds(0, posY, PixelUtil.commonX_2 + PixelUtil.enemyShelfW, PixelUtil.enemyShelfH);
         setLayout(null);
         setOpaque(false);
@@ -34,7 +40,7 @@ public class EnemyPanel extends JPanel {
         enemyBoard.setIcon(ImageUtil.getShelfImage(PixelUtil.enemyShelfW, PixelUtil.enemyShelfH));
         enemyPane.add(enemyBoard, JLayeredPane.DEFAULT_LAYER);
 
-        enemyScoreDynamic = new JLabel("99");
+        enemyScoreDynamic = new JLabel(String.valueOf(score));
         enemyScoreDynamic.setBounds(PixelUtil.enemyScoreX, PixelUtil.enemyScoreY, PixelUtil.enemyScoreW, PixelUtil.enemyScoreH);
         enemyScoreDynamic.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
         enemyScoreDynamic.setForeground(new Color(0, 0, 0, 255));
@@ -42,6 +48,36 @@ public class EnemyPanel extends JPanel {
 
         enemyShelf = new ShelfPanel(PixelUtil.enemyGridX, PixelUtil.enemyGridY, PixelUtil.enemyCellW, PixelUtil.enemyCellH, PixelUtil.enemyItemW, PixelUtil.enemyItemH);
         enemyPane.add(enemyShelf, JLayeredPane.PALETTE_LAYER);
+        //TODO: add over turn refreshing shelf method
+
+        if (chairMan.equals(nickname)) {
+            chairManLabel = new ChairManLabel(false);
+            enemyPane.add(chairManLabel, JLayeredPane.MODAL_LAYER);
+        }
+
+
+    }
+
+    public void isTurn() {
+        Border originalBorder = enemyPic.getBorder();
+        Border flashingBorder = new LineBorder(Color.GREEN);
+
+        Timer timer = new Timer(350, new ActionListener() {
+            private boolean isFlashing = false;
+
+            public void actionPerformed(ActionEvent e) {
+                if (isFlashing) {
+                    enemyPic.setBorder(originalBorder);
+                } else {
+                    enemyPic.setBorder(flashingBorder);
+                }
+                isFlashing = !isFlashing;
+            }
+        });
+        timer.setRepeats(true);
+        timer.start();
 
     }
 }
+
+

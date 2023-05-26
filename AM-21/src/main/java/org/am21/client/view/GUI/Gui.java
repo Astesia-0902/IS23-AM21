@@ -16,6 +16,8 @@ import org.am21.networkRMI.Lobby;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.am21.client.view.ClientView.currentPlayer;
 import static org.am21.client.view.ClientView.maxSeats;
 
 public class Gui implements View {
@@ -309,12 +312,6 @@ public class Gui implements View {
 
     @Override
     public boolean askLeaveMatch() throws RemoteException {
-        /*livingRoomMenuInterface.leaveMatch.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //TODO: leave action
-            }
-        });*/
 
         return commCtrl.leaveMatch();
     }
@@ -351,7 +348,28 @@ public class Gui implements View {
 
     @Override
     public void announceCurrentPlayer() throws RemoteException {
+        //if my turn
+        if (currentPlayer.equals(username)) {
+            Border originalBorder = livingRoomInterface.livingRoomPanel.gameBoardLabel.getBorder();
+            Border flashingBorder = new LineBorder(Color.GREEN);
 
+            Timer timer = new Timer(350, new ActionListener() {
+                private boolean isFlashing = false;
+
+                public void actionPerformed(ActionEvent e) {
+                    if (isFlashing) {
+                        livingRoomInterface.livingRoomPanel.gameBoardLabel.setBorder(originalBorder);
+                    } else {
+                        livingRoomInterface.livingRoomPanel.gameBoardLabel.setBorder(flashingBorder);
+                    }
+                    isFlashing = !isFlashing;
+                }
+            });
+            timer.setRepeats(true);
+            timer.start();
+        } else {
+            livingRoomInterface.enemiesPanel.get(currentPlayer).isTurn();
+        }
     }
 
     @Override
@@ -445,9 +463,11 @@ public class Gui implements View {
         showPersonalGoal();
         showCommonGoals();
 
-        //TODO: who is the chairMan (first current player when start the game)
-        chairManLabel = new ChairManLabel(1);
-        livingRoomInterface.livingRoomPane.add(chairManLabel, JLayeredPane.PALETTE_LAYER);
+        //if me is chairMan
+        if (username.equals(currentPlayer)) {
+            chairManLabel = new ChairManLabel(true);
+            livingRoomInterface.livingRoomPane.add(chairManLabel, JLayeredPane.PALETTE_LAYER);
+        }
 
         //set my Hand
         myHandBoardPanel = new MyHandBoardPanel();
@@ -463,18 +483,16 @@ public class Gui implements View {
         //set EndGameToken
         gameBoardPanel.setScoreTokenEndGame();
 
+        //TODO:refresh my score
+        //set my score
+        livingRoomInterface.livingRoomPanel.myScoreDynamic.setText(String.valueOf(ClientView.scores.get(ClientView.getPlayerIndex(username))));
+
+        announceCurrentPlayer();
 
         //set my shelf
         //myShelfPanel = new ShelfPanel(PixelUtil.myGridX, PixelUtil.myGridY, PixelUtil.myCellW, PixelUtil.myCellH, PixelUtil.myItemW, PixelUtil.myItemH);
         //livingRoomInterface.livingRoomPane.add(myShelfPanel, JLayeredPane.PALETTE_LAYER);
         //showPlayerShelf();
-
-
-       /* try {
-            askInsertion();
-        } catch (ServerNotActiveException e) {
-            throw new RuntimeException(e);
-        }*/
 
 
     }

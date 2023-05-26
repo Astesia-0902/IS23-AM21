@@ -166,8 +166,7 @@ public class LivingRoomPanel extends JPanel {
         clearButton.setBackground(Color.WHITE);
         clearButton.setForeground(new Color(172, 19, 5, 230));
         clearButton.addActionListener(e -> {
-            if(gui.commCtrl.deselectCards())
-            {
+            if (gui.commCtrl.deselectCards()) {
                 gui.myHandBoardPanel.refreshItem(ClientView.currentPlayerHand);
                 gui.gameBoardPanel.clearAll();
                 JOptionPane.showMessageDialog(null, "clear successful");
@@ -239,7 +238,7 @@ public class LivingRoomPanel extends JPanel {
         panelBoard.add(myScoreBand, JLayeredPane.PALETTE_LAYER);
 
         //my score dynamic view
-        myScoreDynamic = new JLabel("99");
+        myScoreDynamic = new JLabel();
         myScoreDynamic.setBounds(PixelUtil.myScoreDynamicX, PixelUtil.commonY_1, PixelUtil.myScoreDynamicW, PixelUtil.myScoreDynamicH);
         myScoreDynamic.setFont(new Font("DejaVu Sans", Font.PLAIN, 30));
         myScoreDynamic.setForeground(new Color(0, 0, 0, 255));

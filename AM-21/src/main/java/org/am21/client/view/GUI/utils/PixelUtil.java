@@ -113,9 +113,7 @@ public class PixelUtil {
     public static int gameBoardGridY = pcHeight * 138 / 1000;
 
     public static int chairManMeY = pcHeight / 100;
-    public static int chairManAY = pcHeight * 1238 / 10000;
-    public static int chairManBY = pcHeight * 3238 / 10000;
-    public static int chairManCY = pcHeight * 1875 / 1000;
+    public static int chairManEnemyY = pcHeight*1143/10000;//120
     public static int myScoreDynamicX = pcWidth * 893 / 1000;
 
     public static int myHandPanelY = pcHeight * 3 / 1000;

@@ -19,6 +19,7 @@ public class LivingRoomInterface extends JDialog {
     public List<String> enemyList;
     public HashMap<String, EnemyPanel> enemiesPanel;
 
+
     public LivingRoomInterface(JFrame frame) {
         super(frame);
 
@@ -35,28 +36,32 @@ public class LivingRoomInterface extends JDialog {
                 if (!name.equals(gui.username)) {
 
                     enemyList.add(name);
+
                 }
             }
 
 
             if (enemyList.size() >= 1) {
+                //TODO:refresh score
                 //setFirst enemy's Label
-                EnemyPanel enemyPanelA = new EnemyPanel(PixelUtil.commonY_1, ImageUtil.getBoardImage("enemyA"), enemyList.get(0));
+                EnemyPanel enemyPanelA = new EnemyPanel(PixelUtil.commonY_1, ImageUtil.getBoardImage("enemyA"), enemyList.get(0), ClientView.currentPlayer, ClientView.scores.get(ClientView.getPlayerIndex(enemyList.get(0))));
                 livingRoomPane.add(enemyPanelA, JLayeredPane.PALETTE_LAYER);
 
                 enemiesPanel.put(enemyList.get(0), enemyPanelA);
             }
             if (enemyList.size() >= 2) {
+                //TODO:refresh score
                 //setSecond enemy's Label
-                EnemyPanel enemyPanelB = new EnemyPanel(PixelUtil.commonY_2, ImageUtil.getBoardImage("enemyB"), enemyList.get(1));
+                EnemyPanel enemyPanelB = new EnemyPanel(PixelUtil.commonY_2, ImageUtil.getBoardImage("enemyB"), enemyList.get(1), ClientView.currentPlayer, ClientView.scores.get(ClientView.getPlayerIndex(enemyList.get(1))));
                 livingRoomPane.add(enemyPanelB, JLayeredPane.PALETTE_LAYER);
 
                 enemiesPanel.put(enemyList.get(1), enemyPanelB);
 
             }
             if (enemyList.size() >= 3) {
+                //TODO:refresh score
                 //setThird enemy's Label
-                EnemyPanel enemyPanelC = new EnemyPanel(PixelUtil.commonY_3, ImageUtil.getBoardImage("enemyC"), enemyList.get(2));
+                EnemyPanel enemyPanelC = new EnemyPanel(PixelUtil.commonY_3, ImageUtil.getBoardImage("enemyC"), enemyList.get(2), ClientView.currentPlayer, ClientView.scores.get(ClientView.getPlayerIndex(enemyList.get(2))));
                 livingRoomPane.add(enemyPanelC, JLayeredPane.PALETTE_LAYER);
 
                 enemiesPanel.put(enemyList.get(2), enemyPanelC);

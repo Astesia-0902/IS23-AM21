@@ -9,15 +9,12 @@ public class ChairManLabel extends JPanel {
     public JLayeredPane chairPane;
     public JLabel chairLabel;
 
-    //TODO: please completed
-    public ChairManLabel(int playerID){
-        switch (playerID) {
-            case 1 -> setChairMan(PixelUtil.commonX_1, PixelUtil.chairManAY);
-            case 2 -> setChairMan(PixelUtil.commonX_1, PixelUtil.chairManBY);
-            case 3 -> setChairMan(PixelUtil.commonX_1, PixelUtil.chairManCY);
-            default -> //Me
-                    setChairMan(PixelUtil.chairManMeX, PixelUtil.chairManMeY);
-        }
+    public ChairManLabel(boolean isMe){
+
+        if(isMe)
+            setChairMan(PixelUtil.chairManMeX, PixelUtil.chairManMeY);
+        else
+            setChairMan(PixelUtil.commonX_1, PixelUtil.chairManEnemyY);
 
     }
 
