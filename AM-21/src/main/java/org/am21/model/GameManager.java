@@ -95,9 +95,11 @@ public class GameManager {
 
     public static void removeOfflinePlayer(Player p){
         synchronized (players){
-            players.remove(p);
-            VirtualViewHelper.virtualizeOnlinePlayers();
-            GameController.updatePlayersGlobalView();
+            if(p.getStatus().equals(UserStatus.Offline)) {
+                players.remove(p);
+                VirtualViewHelper.virtualizeOnlinePlayers();
+                GameController.updatePlayersGlobalView();
+            }
         }
 
     }
@@ -166,6 +168,7 @@ public class GameManager {
      * If not the user status should change to Offline
      */
     public static void checkUsersConnection(){
+        VirtualViewHelper.virtualizeServerVirtualView();
         synchronized (players){
             for(Player p : players){
                 // Test players connection

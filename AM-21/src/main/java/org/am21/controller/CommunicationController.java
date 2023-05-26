@@ -1,6 +1,5 @@
 package org.am21.controller;
 
-import org.am21.model.GameManager;
 import org.am21.model.enumer.ConnectionType;
 import org.am21.model.enumer.UserStatus;
 
@@ -18,8 +17,6 @@ public class CommunicationController implements ICommunication {
             } catch (RemoteException e) {
                 //throw new RuntimeException(e);
                 myPlayer.getPlayer().setStatus(UserStatus.Offline);
-                GameManager.gameCleaner();
-                GameManager.removeOfflinePlayer(myPlayer.getPlayer());
             }
         } else if(myPlayer.connectionType == ConnectionType.SOCKET){
 

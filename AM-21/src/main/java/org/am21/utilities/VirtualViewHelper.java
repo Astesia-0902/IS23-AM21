@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import org.am21.model.GameManager;
 import org.am21.model.Match;
 import org.am21.model.Player;
+import org.am21.model.chat.ServerChatManager;
 import org.am21.model.enumer.UserStatus;
 import org.am21.model.items.Shelf;
 import org.am21.model.virtualview.ServerVirtualView;
@@ -410,6 +411,13 @@ public class VirtualViewHelper {
     public static void printJSON() {
         String json = convertServerVirtualViewToJSON();
         System.out.println(json);
+    }
+
+    public static void virtualizeServerVirtualView(){
+        virtualizeOnlinePlayers();
+        virtualizeMatchList();
+        virtualizeChatMap(ServerChatManager.getChatMap());
+        virtualizePrivateChats(ServerChatManager.getPrivateChats());
     }
 
 }

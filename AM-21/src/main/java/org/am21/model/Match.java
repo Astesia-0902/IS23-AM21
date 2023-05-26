@@ -1,6 +1,7 @@
 package org.am21.model;
 
 import org.am21.controller.CommunicationController;
+import org.am21.controller.GameController;
 import org.am21.model.Cards.CommonGoal;
 import org.am21.model.Cards.PersonalGoalCard;
 import org.am21.model.chat.ChatManager;
@@ -387,8 +388,10 @@ public class Match {
         currentPlayer = chairman;
         setGamePhase(GamePhase.Selection);
         //TODO: test it
+        VirtualViewHelper.virtualizeMatchList();
         VirtualViewHelper.buildVirtualView(this);
         updatePlayersView();
+        GameController.updatePlayersGlobalView();
         for (Player p : playerList) {
             CommunicationController.instance.notifyStart(matchID, p.getController());
         }
