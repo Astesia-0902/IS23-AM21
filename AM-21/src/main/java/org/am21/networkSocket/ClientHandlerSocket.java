@@ -60,7 +60,8 @@ public class ClientHandlerSocket extends Thread {
             out.writeUTF(message);
             out.flush();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            myPlayer.getPlayer().setStatus(UserStatus.Offline);
+            System.out.println("Socket > Client Disconnected");
         }
     }
 

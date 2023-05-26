@@ -25,6 +25,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class MatchTest {
     Match m;
 
+    /**
+     * SetUp: a empty match with 2 players
+     */
     @BeforeEach
     void setUp() {
 
@@ -43,16 +46,14 @@ class MatchTest {
      * Result expected: There should be 2 players in the match
      */
     @Test
-    void testAddPlayer() throws RemoteException {
+    void testAddPlayer()  {
         PlayerController c1 = new PlayerController("A");
-        c1.clientInput.callBack = new ClientCallBack();
         PlayerController c2 = new PlayerController("B");
-        c2.clientInput.callBack = new ClientCallBack();
         PlayerController c3 = new PlayerController("C");
-        c3.clientInput.callBack = new ClientCallBack();
         m.addPlayer(c1.getPlayer());
         m.addPlayer(c2.getPlayer());
-        m.addPlayer(c3.getPlayer());
+
+        assertFalse(m.addPlayer(c3.getPlayer()));
 
         assertEquals(2, m.playerList.size());
     }
@@ -73,7 +74,7 @@ class MatchTest {
         //startMatch() is called automatically
         //startFirstRound() is called after that
         //Check gamestate
-        assertTrue(m.gameState.equals(GameState.GameGoing));
+        assertEquals(m.gameState, GameState.GameGoing);
         //Check chairman
         assertTrue(m.playerList.contains(m.chairman));
         //Check if all players personal goal are different

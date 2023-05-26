@@ -3,6 +3,9 @@ package org.am21.model;
 import org.am21.controller.CommunicationController;
 import org.am21.controller.GameController;
 import org.am21.controller.PlayerController;
+import org.am21.model.enumer.GameState;
+import org.am21.model.enumer.UserStatus;
+import org.am21.utilities.VirtualViewHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,7 +65,7 @@ public class GameManager {
      * @return
      */
     public static boolean checkNameSake(String name) {
-        synchronized (GameManager.players) {
+        synchronized (players) {
             for (Player p : players) {
                 if (name.equals(p.getNickname())) {
                     return true;
@@ -70,6 +73,107 @@ public class GameManager {
             }
         }
         return false;
+    }
+
+    /**
+     * Check each player from the game, if their status are Offline, they will be removed from the players list
+     */
+    public static void playerCleaner(){
+        synchronized (players){
+            List<Player> copy = new ArrayList<>(players);
+            for(Player p: copy){
+                if(p.getStatus().equals(UserStatus.Offline)){
+                    players.remove(p);
+                }
+            }
+            VirtualViewHelper.virtualizeOnlinePlayers();
+            GameController.updatePlayersGlobalView();
+            GameController.notifyAllPlayers();
+            System.out.println("Player cleaned");
+        }
+    }
+
+    public static void removeOfflinePlayer(Player p){
+        synchronized (players){
+            players.remove(p);
+            VirtualViewHelper.virtualizeOnlinePlayers();
+            GameController.updatePlayersGlobalView();
+        }
+
+    }
+
+    /**
+     * Control if there is any Match Closed, if so destroy it
+     * @return
+     */
+    public static boolean gameCleaner() {
+        checkUsersConnection();
+        synchronized (matchList) {
+            List<Match> toDoList = new ArrayList<>();
+            for (Match m :matchList) {
+                //Check if match members are all offline, if so close it
+                if (m.gameState.equals(GameState.GameGoing)) {
+                    boolean toDelete = false;
+                    synchronized (m.playerList) {
+                        for (Player p : m.playerList) {
+                            // If a player is Offline, then the match need to be cleaned
+                            if (p.getStatus().equals(UserStatus.Offline)) {
+                                toDelete = true;
+                                break;
+                            }
+                        }
+
+                    }
+
+                    if (toDelete) {
+                        synchronized (m.playerList) {
+                            for (Player p : m.playerList) {
+                                p.setStatus(UserStatus.Online);
+                                p.setMatch(null);
+                                p.setShelf(null);
+                                synchronized (playerMatchMap) {
+                                    playerMatchMap.remove(p.getNickname());
+                                }
+                            }
+                            m.playerList.clear();
+                        }
+                        m.setGameState(GameState.Closed);
+                    }
+                }
+
+
+                //Check if match is closed
+                if (m.gameState.equals(GameState.Closed)) {
+                    toDoList.add(m);
+                }
+            }
+            for (Match x : toDoList) {
+                matchList.remove(x);
+                System.out.println("Removed match " + x.matchID);
+            }
+            if (toDoList.size() > 0) {
+                VirtualViewHelper.virtualizeMatchList();
+                GameController.updatePlayersGlobalView();
+                GameController.notifyAllPlayers();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Call a generic method to test if the user is still connected.
+     * If not the user status should change to Offline
+     */
+    public static void checkUsersConnection(){
+        synchronized (players){
+            for(Player p : players){
+                // Test players connection
+                CommunicationController.instance.sendServerVirtualView(VirtualViewHelper.convertServerVirtualViewToJSON(),p.getController());
+            }
+
+        }
+
     }
 
     /**

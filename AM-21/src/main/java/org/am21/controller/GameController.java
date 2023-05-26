@@ -1,7 +1,6 @@
 package org.am21.controller;
 
 import org.am21.model.GameManager;
-import org.am21.model.Match;
 import org.am21.model.Player;
 import org.am21.model.chat.ServerChatManager;
 import org.am21.model.enumer.GameState;
@@ -14,8 +13,6 @@ import org.am21.utilities.VirtualViewHelper;
 
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GameController {
 
@@ -44,6 +41,8 @@ public class GameController {
      * @return true if login successfully, false if the username already exists.
      */
     public static boolean login(String username, PlayerController playerController) {
+        GameManager.checkUsersConnection();
+        GameManager.playerCleaner();
         if (GameManager.checkNameSake(username)) {
             return false;
         }
@@ -73,6 +72,10 @@ public class GameController {
      * @param playerController
      */
     public static boolean joinGame(int matchID, String userName, PlayerController playerController) {
+        if (GameManager.gameCleaner()) {
+            System.out.println("Server cleaned");
+        }
+
         synchronized (GameManager.playerMatchMap) {
             synchronized (GameManager.matchList) {
                 if (joinGameHelper(matchID, userName, playerController)) {
@@ -130,7 +133,7 @@ public class GameController {
      * @param playerController
      */
     public static boolean createMatch(String userName, Integer createMatchRequestCount, int playerNum, PlayerController playerController) {
-        if(gameCleaner()){
+        if (GameManager.gameCleaner()) {
             System.out.println("Server cleaned");
         }
 
@@ -146,27 +149,9 @@ public class GameController {
         return false;
     }
 
-    /**
-     * Control if there is any Match Closed, if so destroy it
-     * @return
-     */
-    public static boolean gameCleaner(){
-        synchronized (GameManager.matchList){
-            List<Integer> toDoList = new ArrayList<>();
-            for(Match m:GameManager.matchList){
-                if(m.gameState.equals(GameState.Closed)){
-                    toDoList.add(GameManager.matchList.indexOf(m));
-                }
-            }
-            for (Integer x : toDoList){
-                GameManager.matchList.remove(x);
-            }
-            if(toDoList.size()>0){
-                return true;
-            }
-        }
-        return false;
-    }
+
+
+
 
 
     /**
@@ -180,7 +165,6 @@ public class GameController {
             /*System.out.println("Message from the server: the player already exists in a match. " +
                     "Create a new match will cause the player leave the current match." +
                     "Do you want to continue?");*/
-            //TODO:
             GameManager.sendReply(playerController, ServerMessage.PExists.value());
             createMatchRequestCount = 1;
         } else if (GameManager.playerMatchMap.containsKey(userName) && createMatchRequestCount == 1) {
@@ -343,7 +327,7 @@ public class GameController {
                         for (Player player : GameManager.players) {
                             if (player.getController() != null && !player.getStatus().equals(UserStatus.Offline)) {
                                 CommunicationController.instance.sendMessageToClient(SC.YELLOW + "\nServer > Insertion Limit changed to: " + newLimit + SC.RST, player.getController());
-                                CommunicationController.instance.notifyUpdate(player.getController(),1000);
+                                CommunicationController.instance.notifyUpdate(player.getController(), 1000);
                             }
                         }
                     }
@@ -371,43 +355,43 @@ public class GameController {
         return true;
     }
 
-    public static boolean forwardPrivateMessage(String message,String receiver, PlayerController ctrl,boolean live) {
-        synchronized (GameManager.players){
-            if(!GameManager.players.contains(ctrl.getPlayer()) ){
+    public static boolean forwardPrivateMessage(String message, String receiver, PlayerController ctrl, boolean live) {
+        synchronized (GameManager.players) {
+            if (!GameManager.players.contains(ctrl.getPlayer())) {
                 return false;
             }
         }
         Player sender = ctrl.getPlayer();
-        if(sender.getNickname().equals(receiver) || ServerChatManager.isOnline(receiver)==null){
+        if (sender.getNickname().equals(receiver) || ServerChatManager.isOnline(receiver) == null) {
             return false;
         }
-        ServerChatManager.handlePrivateChatMessage(ctrl.getPlayer(),receiver,message);
+        ServerChatManager.handlePrivateChatMessage(ctrl.getPlayer(), receiver, message);
         String formalMessage = "\n" + sender.getNickname() + " whispers > " + message;
         VirtualViewHelper.virtualizePrivateChats(ServerChatManager.getPrivateChats());
         VirtualViewHelper.virtualizeChatMap(ServerChatManager.getChatMap());
         //DEBUG
         VirtualViewHelper.printJSON();
         updatePlayersGlobalView();
-        Player p_receiver=ServerChatManager.isOnline(receiver);
-        GameManager.sendChatNotification(p_receiver.getController(),formalMessage);
+        Player p_receiver = ServerChatManager.isOnline(receiver);
+        GameManager.sendChatNotification(p_receiver.getController(), formalMessage);
 
         return true;
     }
 
-    public static void updatePlayersGlobalView(){
-        synchronized (GameManager.players){
-            for (Player p:GameManager.players){
-                if(!p.getStatus().equals(UserStatus.Offline))
-                    CommunicationController.instance.sendServerVirtualView(VirtualViewHelper.convertServerVirtualViewToJSON(),p.getController());
+    public static void updatePlayersGlobalView() {
+        synchronized (GameManager.players) {
+            for (Player p : GameManager.players) {
+                if (!p.getStatus().equals(UserStatus.Offline))
+                    CommunicationController.instance.sendServerVirtualView(VirtualViewHelper.convertServerVirtualViewToJSON(), p.getController());
             }
         }
     }
 
-    public static void notifyAllPlayers(){
-        synchronized (GameManager.players){
-            for (Player p:GameManager.players){
-                if(!p.getStatus().equals(UserStatus.Offline))
-                    CommunicationController.instance.notifyUpdate(p.getController(),0);
+    public static void notifyAllPlayers() {
+        synchronized (GameManager.players) {
+            for (Player p : GameManager.players) {
+                if (!p.getStatus().equals(UserStatus.Offline))
+                    CommunicationController.instance.notifyUpdate(p.getController(), 0);
             }
         }
     }
