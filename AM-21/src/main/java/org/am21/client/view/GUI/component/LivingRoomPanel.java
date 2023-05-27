@@ -153,12 +153,13 @@ public class LivingRoomPanel extends JPanel {
          */
         insertButton.addActionListener(e -> {
 
-            try {
-                gui.askInsertion();
-            } catch (ServerNotActiveException ex) {
-                throw new RuntimeException(ex);
-            } catch (RemoteException ex) {
-                throw new RuntimeException(ex);
+            if(gui.commCtrl.confirmSelection())
+            {
+                try {
+                    gui.askInsertion();
+                } catch (ServerNotActiveException | RemoteException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
 
 
@@ -178,7 +179,7 @@ public class LivingRoomPanel extends JPanel {
         {
             if (gui.commCtrl.deselectCards()) {
                 gui.myHandBoardPanel.refreshItem(ClientView.currentPlayerHand);
-                gui.gameBoardPanel.clearAll();
+                gui.gameBoardPanel.clearSelectColor();
                 JOptionPane.showMessageDialog(null, "clear successful");
             }
 

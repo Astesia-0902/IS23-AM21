@@ -224,6 +224,9 @@ public class PixelUtil {
     public static int myHandItemX = pcWidth * 18 / 10000; //3
     public static int myHandItemY = pcHeight * 38 / 1000;//39.9
 
+    public static int myHandShelfGridX = pcWidth*1345/10000; //226
+    public static int myHandShelfGridY = pcHeight*7328/100000; //76
+
     /**
      * menu living room interface
      */

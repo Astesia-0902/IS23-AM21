@@ -9,7 +9,6 @@ import org.am21.client.view.GUI.listener.*;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PathUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
-import org.am21.client.view.TUI.Storage;
 import org.am21.client.view.View;
 import org.am21.networkRMI.ClientCallBack;
 import org.am21.networkRMI.IClientInput;
@@ -33,6 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.am21.client.SocketClient.gui;
 import static org.am21.client.view.ClientView.currentPlayer;
 import static org.am21.client.view.ClientView.maxSeats;
 
@@ -44,6 +44,7 @@ public class Gui implements View {
     public String root;
     public static String username; //Client username
     public CommunicationInterface communicationInterface;
+    public Timer announceTimer;
     public LoginInterface loginInterface;
     public ServerInfoInterface serverInfoInterface;
     public MenuActionInterface menuActionInterface;
@@ -355,7 +356,7 @@ public class Gui implements View {
             Border originalBorder = livingRoomInterface.livingRoomPanel.gameBoardLabel.getBorder();
             Border flashingBorder = new LineBorder(Color.GREEN);
 
-            Timer timer = new Timer(350, new ActionListener() {
+            announceTimer = new Timer(350, new ActionListener() {
                 private boolean isFlashing = false;
 
                 public void actionPerformed(ActionEvent e) {
@@ -367,9 +368,16 @@ public class Gui implements View {
                     isFlashing = !isFlashing;
                 }
             });
-            timer.setRepeats(true);
-            timer.start();
+            announceTimer.setRepeats(true);
+            announceTimer.start();
+
+            //if(livingRoomInterface.enemiesPanel.get(currentPlayer).waitTimer!=null)
+            //livingRoomInterface.enemiesPanel.get(currentPlayer).waitTimer.stop();
+
         } else {
+            // if(announceTimer!=null)
+            //   announceTimer.stop();
+
             livingRoomInterface.enemiesPanel.get(currentPlayer).isTurn();
         }
     }
@@ -381,8 +389,13 @@ public class Gui implements View {
 
     @Override
     public void showPlayerShelf() throws RemoteException {
-        //TODO: myShelfPanel.refreshShelf(ClientView.Shelves.get);
-        //TODO: ClientView.Shelves
+        myShelfPanel.refreshShelf(ClientView.shelves.get(ClientView.getPlayerIndex(username)));
+        myHandBoardPanel.refreshItem(ClientView.currentPlayerHand);
+        //end turn
+        gameBoardPanel.clearBoard();
+        showBoard();
+        announceCurrentPlayer();
+
     }
 
     @Override
@@ -394,13 +407,7 @@ public class Gui implements View {
     public void showBoard() throws RemoteException {
 
         //set game Board
-        for (int i = 0; i < Storage.BOARD_ROW; i++) {
-            for (int j = 0; j < Storage.BOARD_COLUMN; j++) {
-                if (ClientView.virtualBoard[i][j] != null && !gameBoardPanel.containItem(i, j)) {
-                    gameBoardPanel.putItem(i, j, ClientView.virtualBoard[i][j], this);
-                }
-            }
-        }
+        gameBoardPanel.refreshBoard(ClientView.virtualBoard, this);
 
     }
 
@@ -426,11 +433,8 @@ public class Gui implements View {
 
     @Override
     public void askInsertion() throws ServerNotActiveException, RemoteException {
-
-        myHandInterface = new MyHandInterface();
-        myHandInterface.refreshItem(ClientView.currentPlayerHand,this);
-        //TODO: refresh shelf
-
+        gui.myHandInterface = new MyHandInterface(this);
+        myHandInterface.refreshHand(ClientView.currentPlayerHand);
 
     }
 
@@ -473,7 +477,7 @@ public class Gui implements View {
 
 
         //set initial game board
-        gameBoardPanel = new GameBoardPanel(maxSeats);
+        gameBoardPanel = new GameBoardPanel(maxSeats, this);
         livingRoomInterface.livingRoomPane.add(gameBoardPanel, JLayeredPane.PALETTE_LAYER);
 
         showBoard();
@@ -490,7 +494,6 @@ public class Gui implements View {
         //set my shelf
         myShelfPanel = new ShelfPanel(PixelUtil.myGridX, PixelUtil.myGridY, PixelUtil.myCellW, PixelUtil.myCellH, PixelUtil.myItemW, PixelUtil.myItemH);
         livingRoomInterface.livingRoomPane.add(myShelfPanel, JLayeredPane.PALETTE_LAYER);
-
 
 
     }

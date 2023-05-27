@@ -1,8 +1,10 @@
 package org.am21.client.view.GUI.component;
 
 import org.am21.client.view.GUI.utils.ImageUtil;
+import org.am21.client.view.GUI.utils.PathUtil;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class ShelfPanel extends JPanel {
     public int GridRowsMax = 6;
@@ -21,7 +23,6 @@ public class ShelfPanel extends JPanel {
 
     public ShelfPanel(int GridX, int GridY, int cellWidth, int cellHeight, int itemWidth, int itemHeight) {
 
-
         this.itemWidth = itemWidth;
         this.itemHeight = itemHeight;
         this.cellHeight = cellHeight;
@@ -32,12 +33,6 @@ public class ShelfPanel extends JPanel {
         setBounds(GridX, GridY, GridColumnsMax * this.cellWidth, GridRowsMax * this.cellHeight);
         setLayout(null);
         setOpaque(false);
-
-        /*this.shelfBoardPane = new JLayeredPane();
-        this.shelfBoardPane.setBounds(0,0,this.GridColumnsMax*this.cellWidth,this.GridRowsMax*this.cellHeight);
-        this.shelfBoardPane.setLayout(null);
-        this.shelfBoardPane.setOpaque(false);
-        this.add(this.shelfBoardPane);*/
 
         for (int i = 0; i < GridRowsMax; i++) {
             for (int j = 0; j < GridColumnsMax; j++) {
@@ -52,15 +47,11 @@ public class ShelfPanel extends JPanel {
         }
     }
 
-    //TODO: used when finishing insertion
     public void refreshShelf(String[][] myShelf) {
 
-        for (int i = 0; i < GridRowsMax; i++) {
-            for (int j = 0; j < GridColumnsMax; j++) {
-                JLayeredPane pane = grids[i][j];
-                if (pane != null) {
-                    pane.getParent().remove(pane);
-                }
+        for (JLayeredPane[] pane : grids) {
+            for (int i = 0; i < pane.length; i++) {
+                pane[i].removeAll();
             }
         }
 
@@ -68,10 +59,13 @@ public class ShelfPanel extends JPanel {
 
         for (int i = 0; i < myShelf.length; i++) {
             for (int j = 0; j < myShelf[0].length; j++) {
-                cells[i][j] = new JLabel();
-                cells[i][j].setBounds((this.cellWidth - itemWidth) / 2, (this.cellHeight - itemHeight) / 2, itemWidth, itemHeight);
-                cells[i][j].setIcon(ImageUtil.getItemImage(myShelf[i][j], itemWidth, itemHeight));
-                grids[i][j].add(cells[i][j], JLayeredPane.MODAL_LAYER);
+                if (myShelf[i][j] != null) {
+                    cells[i][j] = new JLabel();
+                    cells[i][j].setBounds((this.cellWidth - itemWidth) / 2, (this.cellHeight - itemHeight) / 2, itemWidth, itemHeight);
+                    cells[i][j].setIcon(ImageUtil.getItemImage(myShelf[i][j], itemWidth, itemHeight));
+                    grids[i][j].add(cells[i][j], JLayeredPane.MODAL_LAYER);
+                }
+
             }
         }
 
@@ -80,12 +74,40 @@ public class ShelfPanel extends JPanel {
 
     }
 
-    public JLabel getItem(int row, int column) {
-        return this.cells[row][column];
+    public void previewInsertShelf(int column, int[] row, String[][] futureShelf) {
+        for (JLayeredPane[] pane : grids) {
+            for (int i = 0; i < pane.length; i++) {
+                pane[i].removeAll();
+            }
+        }
+
+        cells = new JLabel[futureShelf.length][futureShelf[0].length];
+
+        for (int i = 0; i < futureShelf.length; i++) {
+            for (int j = 0; j < futureShelf[0].length; j++) {
+                if (futureShelf[i][j] != null) {
+                    cells[i][j] = new JLabel();
+                    cells[i][j].setBounds((this.cellWidth - itemWidth) / 2, (this.cellHeight - itemHeight) / 2, itemWidth, itemHeight);
+                    cells[i][j].setIcon(ImageUtil.getItemImage(futureShelf[i][j], itemWidth, itemHeight));
+                    grids[i][j].add(cells[i][j], JLayeredPane.MODAL_LAYER);
+                }
+
+            }
+        }
+        for (int i = 0; i < row.length; i++) {
+            if (row[i] == 1)
+                cells[i][column].setBorder(BorderFactory.createLineBorder(new Color(4, 245, 237, 230), 3));
+        }
+
+        revalidate();
+        repaint();
+
     }
 
-    public void removeItem(int row, int column) {
-        grids[row][column].remove(cells[row][column]);
+    public void putItem(int row, int column) {
+        cells[row][column] = new JLabel();
+        cells[row][column].setBounds((this.cellWidth - itemWidth) / 2, (this.cellHeight - itemHeight) / 2, itemWidth, itemHeight);
+        cells[row][column].setIcon(new ImageIcon(new ImageIcon(PathUtil.getPath("icon tool/U2.jpg")).getImage().getScaledInstance(itemWidth, itemHeight, Image.SCALE_SMOOTH)));
+        grids[row][column].add(cells[row][column], JLayeredPane.MODAL_LAYER);
     }
-
 }

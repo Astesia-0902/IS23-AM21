@@ -11,14 +11,14 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
 import java.util.List;
 
-public class GameBoardPanel extends JPanel implements MouseListener, ActionListener {
-    Gui gui;
-    Point p = new Point();
+
+public class GameBoardPanel extends JPanel {
     private final int GridRowsMax = 9;
     private final int GridColumnsMax = 9;
 
@@ -27,23 +27,20 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
     public JLayeredPane gameBoardPane;
     public JLayeredPane[][] grids = new JLayeredPane[GridRowsMax][GridColumnsMax];
 
-    public JLabel[][] cells = new JLabel[GridRowsMax][GridColumnsMax];
+    public JLabel[][] cells;
 
     public ScoringTokenLabel scoreTokenEndGame;
 
-    public GameBoardPanel(int maxSeat) {
+    public GameBoardPanel(int maxSeat, Gui gui) {
 
         boundaries = BoardUtil.boardBounder(maxSeat);
-        System.out.println(boundaries.size());
         setBounds(PixelUtil.gameBoardGridX, PixelUtil.gameBoardGridY, GridRowsMax * PixelUtil.gameBoardCellW, GridColumnsMax * PixelUtil.gameBoardCellH);
-        // this.setSize(this.GridRowsMax*this.cellSize,this.GridColumnsMax*this.cellSize);
         setLayout(null);
         setOpaque(false);
 
         gameBoardPane = new JLayeredPane();
         gameBoardPane.setBounds(0, 0, GridRowsMax * PixelUtil.gameBoardCellW, GridColumnsMax * PixelUtil.gameBoardCellH);
         gameBoardPane.setLayout(null);
-        //gameBoardPane.setOpaque(false);
         add(gameBoardPane);
 
         //draw a grid container
@@ -51,7 +48,7 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
         if (maxSeat == 2) {
             k = 1;
         }
-        for (int i = 0 + k; i < GridRowsMax - k; i++) {
+        for (int i = k; i < GridRowsMax - k; i++) {
             for (int j = 0; j < GridColumnsMax; j++) {
                 if (boundaries.get(i).x <= j && j <= boundaries.get(i).y) {
                     grids[i][j] = new JLayeredPane();
@@ -59,24 +56,46 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
                     grids[i][j].setLayout(null);
                     gameBoardPane.add(grids[i][j], JLayeredPane.DEFAULT_LAYER);
 
-                    //putItem(i,j);
                 }
             }
 
         }
 
-        //setScoreTokenEndGame(PixelUtil.endGameTokenX,PixelUtil.endGameTokenY);
+    }
+
+    public void clearBoard() {
+        for (JLayeredPane[] pane : grids) {
+            for (int i = 0; i < pane.length; i++) {
+                if (pane[i] != null)
+                    pane[i].removeAll();
+            }
+        }
+    }
+
+    public void refreshBoard(String[][] gameBoard, Gui gui) {
+
+        cells = new JLabel[GridRowsMax][GridColumnsMax];
+
+        for (int i = 0; i < gameBoard.length; i++) {
+            for (int j = 0; j < gameBoard[0].length; j++) {
+
+                if (gameBoard[i][j] != null) {
+                    cells[i][j] = new JLabel();
+                    cells[i][j].setBounds(0, 0, PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH);
+                    cells[i][j].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
+                    cells[i][j].setIcon(ImageUtil.getItemImage(gameBoard[i][j], PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH));
+                    actionItem(i, j, gui);
+                    grids[i][j].add(cells[i][j], JLayeredPane.MODAL_LAYER);
+                }
+            }
+        }
+
+        revalidate();
+        repaint();
 
     }
 
-    public void putItem(int row, int column, String itemName, Gui gui) {
-
-        cells[row][column] = new JLabel(itemName);
-        cells[row][column].setBounds(0, 0, PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH);
-        cells[row][column].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
-        cells[row][column].setIcon(ImageUtil.getItemImage(itemName, PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH));
-
-
+    public void actionItem(int row, int column, Gui gui) {
         cells[row][column].addMouseListener(new MouseAdapter() {
 
             @Override
@@ -112,47 +131,10 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
 
                 //JOptionPane.showMessageDialog(null,"error");
 
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
             }
 
 
         });
-
-
-        addItem(row, column);
-
-    }
-
-    public boolean containItem(int row, int column) {
-        return this.cells[row][column] != null;
-    }
-
-    public void addItem(int row, int column) {
-        grids[row][column].add(cells[row][column], JLayeredPane.MODAL_LAYER);
-
-    }
-
-    public void removeItem(int row, int column) {
-        this.grids[row][column].remove(this.cells[row][column]);
     }
 
 
@@ -169,7 +151,7 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
         gameBoardPane.remove(scoreTokenEndGame);
     }
 
-    public void clearAll() {
+    public void clearSelectColor() {
         for (int i = 0; i < GridRowsMax; i++) {
             for (int j = 0; j < GridColumnsMax; j++) {
                 if (cells[i][j] != null) {
@@ -182,28 +164,4 @@ public class GameBoardPanel extends JPanel implements MouseListener, ActionListe
 
     }
 
-    public void actionPerformed(ActionEvent e) {
-
-    }
-
-    public void mouseClicked(MouseEvent e) {
-
-
-    }
-
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    public void mouseExited(MouseEvent e) {
-
-    }
 }

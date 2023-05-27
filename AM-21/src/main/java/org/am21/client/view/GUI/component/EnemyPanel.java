@@ -18,6 +18,7 @@ public class EnemyPanel extends JPanel {
     public JLabel enemyScoreDynamic;
 
     public ChairManLabel chairManLabel;
+    public Timer waitTimer;
 
     public EnemyPanel(int posY, ImageIcon imgPic, String nickname, String chairMan, int score) {
         setBounds(0, posY, PixelUtil.commonX_2 + PixelUtil.enemyShelfW, PixelUtil.enemyShelfH);
@@ -62,7 +63,7 @@ public class EnemyPanel extends JPanel {
         Border originalBorder = enemyPic.getBorder();
         Border flashingBorder = new LineBorder(Color.GREEN);
 
-        Timer timer = new Timer(350, new ActionListener() {
+        waitTimer = new Timer(350, new ActionListener() {
             private boolean isFlashing = false;
 
             public void actionPerformed(ActionEvent e) {
@@ -74,8 +75,8 @@ public class EnemyPanel extends JPanel {
                 isFlashing = !isFlashing;
             }
         });
-        timer.setRepeats(true);
-        timer.start();
+        waitTimer.setRepeats(true);
+        waitTimer.start();
 
     }
 }
