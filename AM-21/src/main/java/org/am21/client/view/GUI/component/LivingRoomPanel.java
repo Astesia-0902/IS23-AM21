@@ -8,9 +8,12 @@ import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
 
@@ -60,6 +63,7 @@ public class LivingRoomPanel extends JPanel {
     public JLabel myScoreBand;
 
     public JLabel myScoreDynamic;
+    public Timer waitTimer;
 
 
     public LivingRoomPanel(Gui gui) {
@@ -255,6 +259,27 @@ public class LivingRoomPanel extends JPanel {
         panelBoard.add(myScoreDynamic, JLayeredPane.PALETTE_LAYER);
 
 
+        setTurnTimer();
+    }
+
+    public void setTurnTimer() {
+        Border originalBorder = gameBoardLabel.getBorder();
+        Border flashingBorder = new LineBorder(Color.GREEN);
+
+        waitTimer = new Timer(350, new ActionListener() {
+            private boolean isFlashing = false;
+
+            public void actionPerformed(ActionEvent e) {
+                if (isFlashing) {
+                    gameBoardLabel.setBorder(originalBorder);
+                } else {
+                    gameBoardLabel.setBorder(flashingBorder);
+                }
+                isFlashing = !isFlashing;
+            }
+        });
+        waitTimer.setRepeats(true);
+        //waitTimer.start();
     }
 
     public void refreshMyScore(int score) {

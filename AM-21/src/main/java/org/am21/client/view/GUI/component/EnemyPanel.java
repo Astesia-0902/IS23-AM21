@@ -56,10 +56,13 @@ public class EnemyPanel extends JPanel {
             enemyPane.add(chairManLabel, JLayeredPane.MODAL_LAYER);
         }
 
+        setTurnTimer();
+
 
     }
 
-    public void refreshTurnColor() {
+    public void setTurnTimer() {
+
         Border originalBorder = enemyPic.getBorder();
         Border flashingBorder = new LineBorder(Color.GREEN);
 
@@ -76,15 +79,22 @@ public class EnemyPanel extends JPanel {
             }
         });
         waitTimer.setRepeats(true);
-        waitTimer.start();
+        // waitTimer.start();
 
     }
 
-    public void refreshEnemyShelf(String[][] shelfStatus){
+    public void changeStatus(boolean isTurn) {
+        if (isTurn)
+            waitTimer.start();
+        else
+            waitTimer.stop();
+    }
+
+    public void refreshEnemyShelf(String[][] shelfStatus) {
         enemyShelf.refreshShelf(shelfStatus);
     }
 
-    public void refreshEnemyScores(int score){
+    public void refreshEnemyScores(int score) {
         enemyScoreDynamic.setText(String.valueOf(score));
     }
 }
