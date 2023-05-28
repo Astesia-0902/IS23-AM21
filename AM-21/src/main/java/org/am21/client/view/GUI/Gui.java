@@ -16,8 +16,6 @@ import org.am21.networkRMI.Lobby;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,7 +30,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.am21.client.SocketClient.gui;
 import static org.am21.client.view.ClientView.currentPlayer;
 import static org.am21.client.view.ClientView.maxSeats;
 
@@ -331,15 +328,14 @@ public class Gui implements View {
 
     @Override
     public void showCommonGoals() {
-        //set CommonGoal Token
-        commonGoalPanel.refreshScoringTokens(ClientView.commonGoalScore.get(0),ClientView.commonGoalScore.get(1));
+        //refreshing CommonGoal Token
+        commonGoalPanel.refreshScoringTokens(ClientView.commonGoalScore.get(0), ClientView.commonGoalScore.get(1));
 
     }
 
     @Override
     public void showPersonalGoal() throws RemoteException {
         personalGoalPanel = new PersonalGoalPanel(ClientView.personalGoal);
-        //personalGoalPanel = new PersonalGoalPanel(7);
         livingRoomInterface.livingRoomPane.add(personalGoalPanel, JLayeredPane.PALETTE_LAYER);
     }
 
@@ -355,6 +351,8 @@ public class Gui implements View {
 
         showPlayersStats(); //TODO: fixe refresh users scores show problem
 
+        showEveryShelf(); //refresh enemy's shelf
+
         showWhoIsPlaying(); //TODO: fix change color player problem
 
         //TODO: end token ???
@@ -363,35 +361,33 @@ public class Gui implements View {
 
     @Override
     public void showWhoIsPlaying() {
-        //if my turn
         if (currentPlayer.equals(username)) {
-            Border originalBorder = livingRoomInterface.livingRoomPanel.gameBoardLabel.getBorder();
-            Border flashingBorder = new LineBorder(Color.GREEN);
+            // it's my turn
+            if (livingRoomInterface.livingRoomPanel.waitTimer != null)
+                livingRoomInterface.livingRoomPanel.waitTimer.start();
+            // livingRoomInterface.enemiesPanel.get(currentPlayer).waitTimer.stop();
 
-            announceTimer = new Timer(350, new ActionListener() {
-                private boolean isFlashing = false;
-
-                public void actionPerformed(ActionEvent e) {
-                    if (isFlashing) {
-                        livingRoomInterface.livingRoomPanel.gameBoardLabel.setBorder(originalBorder);
-                    } else {
-                        livingRoomInterface.livingRoomPanel.gameBoardLabel.setBorder(flashingBorder);
-                    }
-                    isFlashing = !isFlashing;
+            for (EnemyPanel enemyPanel : livingRoomInterface.enemiesPanel.values()) {
+                if (enemyPanel.waitTimer != null) {
+                    enemyPanel.waitTimer.stop();
                 }
-            });
-            announceTimer.setRepeats(true);
-            announceTimer.start();
-
-            //if(livingRoomInterface.enemiesPanel.get(currentPlayer).waitTimer!=null)
-            //livingRoomInterface.enemiesPanel.get(currentPlayer).waitTimer.stop();
-
+            }
         } else {
-            // if(announceTimer!=null)
-            //   announceTimer.stop();
+            // enemies turn
+            if (livingRoomInterface.livingRoomPanel.waitTimer != null)
+                livingRoomInterface.livingRoomPanel.waitTimer.stop();
+            //  livingRoomInterface.enemiesPanel.get(currentPlayer).waitTimer.start();
 
-            livingRoomInterface.enemiesPanel.get(currentPlayer).refreshTurnColor();
+            if (livingRoomInterface.enemiesPanel.containsKey(currentPlayer)) {
+                EnemyPanel enemyPanel = livingRoomInterface.enemiesPanel.get(currentPlayer);
+                if (enemyPanel.waitTimer != null) {
+                    enemyPanel.waitTimer.start();
+                }
+            }
         }
+
+        //if my turn
+
     }
 
     @Override
@@ -440,7 +436,7 @@ public class Gui implements View {
 
     @Override
     public void askInsertion() throws ServerNotActiveException, RemoteException {
-        gui.myHandInterface = new MyHandInterface(this);
+        myHandInterface = new MyHandInterface(this);
         myHandInterface.refreshHand(ClientView.currentPlayerHand);
 
     }
@@ -476,7 +472,7 @@ public class Gui implements View {
         livingRoomInterface.livingRoomPane.add(commonGoalPanel, JLayeredPane.PALETTE_LAYER);
 
         //set CommonGoal Token
-        commonGoalPanel.setScoreToken(ClientView.commonGoalScore.get(0),ClientView.commonGoalScore.get(1));
+        commonGoalPanel.setScoreToken(ClientView.commonGoalScore.get(0), ClientView.commonGoalScore.get(1));
 
         //if me is chairMan
         if (username.equals(currentPlayer)) {
@@ -509,6 +505,11 @@ public class Gui implements View {
         myShelfPanel = new ShelfPanel(PixelUtil.myGridX, PixelUtil.myGridY, PixelUtil.myCellW, PixelUtil.myCellH, PixelUtil.myItemW, PixelUtil.myItemH);
         livingRoomInterface.livingRoomPane.add(myShelfPanel, JLayeredPane.PALETTE_LAYER);
 
+        //set Timer
+        if (currentPlayer.equals(username))
+            livingRoomInterface.livingRoomPanel.waitTimer.start();
+        else
+            livingRoomInterface.enemiesPanel.get(currentPlayer).waitTimer.start();
 
     }
 

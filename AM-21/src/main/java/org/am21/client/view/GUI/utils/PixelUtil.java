@@ -140,8 +140,8 @@ public class PixelUtil {
      */
 
     //position
-    public static int myGridX = pcWidth * 727 / 1000;
-    public static int myGridY = pcHeight * 428 / 1000;
+    public static int myGridX = pcWidth * 72738 / 100000;
+    public static int myGridY = pcHeight * 4267 / 10000;
     public static int enemyGridX = pcWidth * 6131 / 100000;
     public static int enemyGridY = pcHeight * 1143 / 100000; //12
 

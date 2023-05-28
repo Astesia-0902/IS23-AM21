@@ -62,6 +62,7 @@ public class ShelfPanel extends JPanel {
                 if (myShelf[i][j] != null) {
                     cells[i][j] = new JLabel();
                     cells[i][j].setBounds((this.cellWidth - itemWidth) / 2, (this.cellHeight - itemHeight) / 2, itemWidth, itemHeight);
+                    cells[i][j].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
                     cells[i][j].setIcon(ImageUtil.getItemImage(myShelf[i][j], itemWidth, itemHeight));
                     grids[i][j].add(cells[i][j], JLayeredPane.MODAL_LAYER);
                 }
@@ -88,6 +89,7 @@ public class ShelfPanel extends JPanel {
                 if (futureShelf[i][j] != null) {
                     cells[i][j] = new JLabel();
                     cells[i][j].setBounds((this.cellWidth - itemWidth) / 2, (this.cellHeight - itemHeight) / 2, itemWidth, itemHeight);
+                    cells[i][j].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
                     cells[i][j].setIcon(ImageUtil.getItemImage(futureShelf[i][j], itemWidth, itemHeight));
                     grids[i][j].add(cells[i][j], JLayeredPane.MODAL_LAYER);
                 }

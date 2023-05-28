@@ -4,6 +4,7 @@ import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 
 public class MyHandBoardPanel extends JPanel {
@@ -42,6 +43,7 @@ public class MyHandBoardPanel extends JPanel {
         for (int i = 0; i < myItem.size(); i++) {
             myHandItem[i] = new JLabel();
             myHandItem[i].setIcon(ImageUtil.getItemImage(myItem.get(i), PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH));
+            myHandItem[i].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
             myHandItem[i].setLocation(PixelUtil.myHandPanelX, PixelUtil.myHandPanelY);
             myHandItem[i].setSize(PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH);
 
