@@ -3,6 +3,7 @@ package org.am21.networkSocket;
 import org.am21.controller.CommunicationController;
 import org.am21.controller.GameController;
 import org.am21.controller.PlayerController;
+import org.am21.model.GameManager;
 import org.am21.model.enumer.ConnectionType;
 import org.am21.model.enumer.UserStatus;
 
@@ -10,7 +11,9 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.SocketException;
 import java.rmi.server.ServerNotActiveException;
+import java.util.TimerTask;
 
 public class ClientHandlerSocket extends Thread {
     public Socket clientSocket;
@@ -37,16 +40,30 @@ public class ClientHandlerSocket extends Thread {
     @Override
     public void run() {
         try {
-
             //Receive message from client
             while (true) {
                 String req = in.readUTF();
                 handleClientMessage(req);
             }
         } catch (IOException | ServerNotActiveException e) {
-            myPlayer.getPlayer().setStatus(UserStatus.Offline);
-            System.out.println("Socket > Client Disconnected");
+            //CommunicationController.instance.handlePlayerOffline(myPlayer);
+        }
+    }
 
+
+    /**
+     * Check if client is close
+     *
+     * @return true if client is close, else false
+     */
+    public Boolean isServerClose() {
+        try {
+            //send to client, if success, return false, else return true
+            out.writeUTF("ping");
+            out.flush();
+            return false;
+        } catch (Exception se) {
+            return true;
         }
     }
 
@@ -60,9 +77,8 @@ public class ClientHandlerSocket extends Thread {
             out.writeUTF(message);
             out.flush();
         } catch (IOException e) {
-            myPlayer.getPlayer().setStatus(UserStatus.Offline);
-            System.out.println("Socket > Client Disconnected");
-
+            System.out.println("Error send message to client");
+            //CommunicationController.instance.handlePlayerOffline(myPlayer);
         }
     }
 
@@ -71,89 +87,89 @@ public class ClientHandlerSocket extends Thread {
             System.out.println("Empty message from:" + clientSocket.getRemoteSocketAddress());
             return;
         }
-        String[] messageParts= message.split("\\|");
+        String[] messageParts = message.split("\\|");
         switch (messageParts[0]) {
             case "login":
                 String username = messageParts[1];
-                CommunicationController.instance.returnBool("login",GameController.login(username, myPlayer),myPlayer);
+                CommunicationController.instance.returnBool("login", GameController.login(username, myPlayer), myPlayer);
                 //System.out.println("> " + username +" logged in from:" + clientSocket.getRemoteSocketAddress());
                 break;
 
             case "join":
                 int gameId = Integer.parseInt(messageParts[1]);
-                CommunicationController.instance.returnBool("join",GameController.joinGame(gameId, myPlayer.getPlayer().getNickname(), myPlayer),myPlayer);
+                CommunicationController.instance.returnBool("join", GameController.joinGame(gameId, myPlayer.getPlayer().getNickname(), myPlayer), myPlayer);
                 break;
 
             case "createMatch":
                 int playerCount = Integer.parseInt(messageParts[1]);
                 CommunicationController.instance.returnBool("createMatch",
-                        GameController.createMatch(myPlayer.getPlayer().getNickname(), 0, playerCount, myPlayer),myPlayer);
+                        GameController.createMatch(myPlayer.getPlayer().getNickname(), 0, playerCount, myPlayer), myPlayer);
                 break;
 
             case "selectCell":
                 int row = Integer.parseInt(messageParts[1]);
                 int col = Integer.parseInt(messageParts[2]);
-                CommunicationController.instance.returnBool("selectCell",GameController.selectCell(row, col, myPlayer),myPlayer);
+                CommunicationController.instance.returnBool("selectCell", GameController.selectCell(row, col, myPlayer), myPlayer);
                 break;
 
             case "confirmSelection":
-                CommunicationController.instance.returnBool("confirmSelection",GameController.confirmSelection(myPlayer),myPlayer);
+                CommunicationController.instance.returnBool("confirmSelection", GameController.confirmSelection(myPlayer), myPlayer);
                 break;
 
             case "deselectCards":
-                CommunicationController.instance.returnBool("deselectCards",GameController.deselectCards(myPlayer),myPlayer);
+                CommunicationController.instance.returnBool("deselectCards", GameController.deselectCards(myPlayer), myPlayer);
                 break;
 
             case "sortHand":
                 int pos1 = Integer.parseInt(messageParts[1]);
                 int pos2 = Integer.parseInt(messageParts[2]);
-                CommunicationController.instance.returnBool("sortHand",GameController.sortHand(pos1, pos2, myPlayer),myPlayer);
+                CommunicationController.instance.returnBool("sortHand", GameController.sortHand(pos1, pos2, myPlayer), myPlayer);
                 break;
 
             case "insertInColumn":
                 int column = Integer.parseInt(messageParts[1]);
-                CommunicationController.instance.returnBool("insertInColumn",GameController.insertInColumn(column, myPlayer),myPlayer);
+                CommunicationController.instance.returnBool("insertInColumn", GameController.insertInColumn(column, myPlayer), myPlayer);
                 break;
 
             case "leaveMatch":
-                CommunicationController.instance.returnBool("leaveMatch",GameController.leaveMatch(myPlayer),myPlayer);
+                CommunicationController.instance.returnBool("leaveMatch", GameController.leaveMatch(myPlayer), myPlayer);
                 break;
 
             case "exitGame":
-                CommunicationController.instance.returnBool("exitGame",GameController.exitGame(myPlayer),myPlayer);
+                CommunicationController.instance.returnBool("exitGame", GameController.exitGame(myPlayer), myPlayer);
                 break;
 
             case "endTurn":
-                CommunicationController.instance.returnBool("endTurn",GameController.endTurn(myPlayer),myPlayer);
+                CommunicationController.instance.returnBool("endTurn", GameController.endTurn(myPlayer), myPlayer);
                 break;
 
             case "getVirtualView":
                 GameController.getVirtualView(myPlayer);
-                CommunicationController.instance.returnBool("getVirtualView",true,myPlayer);
+                CommunicationController.instance.returnBool("getVirtualView", true, myPlayer);
                 break;
 
             case "changeMatchSeats":
                 int newMaxSeats = Integer.parseInt(messageParts[1]);
-                CommunicationController.instance.returnBool("changeMatchSeats",GameController.changeMatchSeats(newMaxSeats, myPlayer),myPlayer);
+                CommunicationController.instance.returnBool("changeMatchSeats", GameController.changeMatchSeats(newMaxSeats, myPlayer), myPlayer);
                 break;
 
             case "changeInsertLimit":
                 int newInsertLimit = Integer.parseInt(messageParts[1]);
-                CommunicationController.instance.returnBool("changeInsertLimit",GameController.changeInsertLimit(newInsertLimit, myPlayer),myPlayer);
+                CommunicationController.instance.returnBool("changeInsertLimit", GameController.changeInsertLimit(newInsertLimit, myPlayer), myPlayer);
                 break;
             case "sendPublicMessage":
                 String publicMessage = messageParts[1];
                 Boolean live_public = Boolean.valueOf(messageParts[2]);
-                CommunicationController.instance.returnBool("sendPublicMessage",GameController.forwardPublicMessage(publicMessage,myPlayer, live_public),myPlayer);
+                CommunicationController.instance.returnBool("sendPublicMessage", GameController.forwardPublicMessage(publicMessage, myPlayer, live_public), myPlayer);
                 break;
             case "sendPrivateMessage":
                 String privateMessage = messageParts[1];
                 String receiver_private = messageParts[2];
                 Boolean live_private = Boolean.valueOf(messageParts[3]);
-                CommunicationController.instance.returnBool("sendPrivateMessage",GameController.forwardPrivateMessage(privateMessage,receiver_private,myPlayer,live_private),myPlayer);
+                CommunicationController.instance.returnBool("sendPrivateMessage", GameController.forwardPrivateMessage(privateMessage, receiver_private, myPlayer, live_private), myPlayer);
                 break;
             default:
-                System.out.println( "["+messageParts[0]+"] Unknown command from" + clientSocket.getRemoteSocketAddress());
+                System.out.println("[" + messageParts[0] + "] Unknown command from" + clientSocket.getRemoteSocketAddress());
         }
     }
 }

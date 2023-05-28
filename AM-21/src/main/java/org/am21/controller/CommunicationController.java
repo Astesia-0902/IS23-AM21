@@ -1,6 +1,7 @@
 package org.am21.controller;
 
 import org.am21.model.enumer.ConnectionType;
+import org.am21.model.enumer.GameState;
 import org.am21.model.enumer.UserStatus;
 
 import java.rmi.RemoteException;
@@ -18,36 +19,39 @@ public class CommunicationController implements ICommunication {
                 //throw new RuntimeException(e);
                 myPlayer.getPlayer().setStatus(UserStatus.Offline);
             }
-        } else if(myPlayer.connectionType == ConnectionType.SOCKET){
+        } else if (myPlayer.connectionType == ConnectionType.SOCKET) {
 
-                String messageToClient = "Message" + "|" + message;
-                myPlayer.clientHandlerSocket.callback(messageToClient);
+            String messageToClient = "Message" + "|" + message;
+            myPlayer.clientHandlerSocket.callback(messageToClient);
 
         }
     }
 
     @Override
     public void sendVirtualView(String virtualView, int pIndex, PlayerController myPlayer) {
+        if (myPlayer.getPlayer().getStatus() != UserStatus.GameMember)
+            return;
+
         if (myPlayer.connectionType == ConnectionType.RMI) {
             try {
                 myPlayer.clientInput.callBack.sendVirtualView(virtualView, pIndex);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
-        } else if(myPlayer.connectionType == ConnectionType.SOCKET){
+        } else if (myPlayer.connectionType == ConnectionType.SOCKET) {
             String messageToClient = "VirtualView" + "|" + virtualView + "|" + pIndex;
             myPlayer.clientHandlerSocket.callback(messageToClient);
         }
     }
 
-    public void sendVirtualPublicChat(String virtualPublicChat, PlayerController pCtrl){
+    public void sendVirtualPublicChat(String virtualPublicChat, PlayerController pCtrl) {
         if (pCtrl.connectionType == ConnectionType.RMI) {
             try {
                 pCtrl.clientInput.callBack.sendVirtualPublicChat(virtualPublicChat);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
-        } else if(pCtrl.connectionType == ConnectionType.SOCKET){
+        } else if (pCtrl.connectionType == ConnectionType.SOCKET) {
             String messageToClient = "PublicChat" + "|" + virtualPublicChat;
             pCtrl.clientHandlerSocket.callback(messageToClient);
         }
@@ -63,7 +67,7 @@ public class CommunicationController implements ICommunication {
             } catch (RemoteException | ServerNotActiveException e) {
                 throw new RuntimeException(e);
             }
-        } else if(myPlayer.connectionType == ConnectionType.SOCKET){
+        } else if (myPlayer.connectionType == ConnectionType.SOCKET) {
             String messageToClient = "MATCH_START" + "|" + id;
             myPlayer.clientHandlerSocket.callback(messageToClient);
         }
@@ -78,9 +82,9 @@ public class CommunicationController implements ICommunication {
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
-        } else if(myPlayer.connectionType == ConnectionType.SOCKET){
-                String messageToClient = "WAIT" + "|" + info;
-                myPlayer.clientHandlerSocket.callback(messageToClient);
+        } else if (myPlayer.connectionType == ConnectionType.SOCKET) {
+            String messageToClient = "WAIT" + "|" + info;
+            myPlayer.clientHandlerSocket.callback(messageToClient);
 
         }
     }
@@ -94,7 +98,7 @@ public class CommunicationController implements ICommunication {
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
-        } else if(myPlayer.connectionType == ConnectionType.SOCKET){
+        } else if (myPlayer.connectionType == ConnectionType.SOCKET) {
             String messageToClient = "GoToMenu";
             myPlayer.clientHandlerSocket.callback(messageToClient);
         }
@@ -108,7 +112,7 @@ public class CommunicationController implements ICommunication {
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
-        } else if(myPlayer.connectionType == ConnectionType.SOCKET){
+        } else if (myPlayer.connectionType == ConnectionType.SOCKET) {
             String messageToClient = "EndMatch";
             myPlayer.clientHandlerSocket.callback(messageToClient);
         }
@@ -122,7 +126,7 @@ public class CommunicationController implements ICommunication {
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
-        } else if(myPlayer.connectionType == ConnectionType.SOCKET){
+        } else if (myPlayer.connectionType == ConnectionType.SOCKET) {
             String messageToClient = "VirtualHand" + "|" + JSONHand;
             myPlayer.clientHandlerSocket.callback(messageToClient);
         }
@@ -131,27 +135,28 @@ public class CommunicationController implements ICommunication {
     /**
      * Socket Only
      * Message for return value of the methods
+     *
      * @param method the name of the method that needs a feedback
-     * @param value true if the method return true, otherwise false
+     * @param value  true if the method return true, otherwise false
      * @param pCtrl
      */
     @Override
-    public void returnBool(String method, boolean value,PlayerController pCtrl) {
-        if(pCtrl.connectionType == ConnectionType.SOCKET){
-            String messageToClient = "Return" + "|" + method +"|"+ value;
+    public void returnBool(String method, boolean value, PlayerController pCtrl) {
+        if (pCtrl.connectionType == ConnectionType.SOCKET) {
+            String messageToClient = "Return" + "|" + method + "|" + value;
             pCtrl.clientHandlerSocket.callback(messageToClient);
         }
     }
 
     @Override
     public void sendChatNotification(String message, PlayerController pc) {
-        if(pc.connectionType == ConnectionType.RMI){
+        if (pc.connectionType == ConnectionType.RMI) {
             try {
                 pc.clientInput.callBack.sendChatNotification(message);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
-        }else if(pc.connectionType == ConnectionType.SOCKET){
+        } else if (pc.connectionType == ConnectionType.SOCKET) {
             String messageToClient = "ChatNotification" + "|" + message;
             pc.clientHandlerSocket.callback(messageToClient);
 
@@ -159,8 +164,8 @@ public class CommunicationController implements ICommunication {
     }
 
     @Override
-    public void sendServerVirtualView(String serverVirtualView,PlayerController pc){
-        if(pc.connectionType == ConnectionType.RMI){
+    public void sendServerVirtualView(String serverVirtualView, PlayerController pc) {
+        if (pc.connectionType == ConnectionType.RMI) {
             try {
                 pc.clientInput.callBack.sendServerVirtualView(serverVirtualView);
             } catch (RemoteException e) {
@@ -168,37 +173,50 @@ public class CommunicationController implements ICommunication {
 
                 //throw new RuntimeException(e);
             }
-        }else if(pc.connectionType == ConnectionType.SOCKET){
+        } else if (pc.connectionType == ConnectionType.SOCKET) {
             String messageToClient = "ServerVirtualView" + "|" + serverVirtualView;
             pc.clientHandlerSocket.callback(messageToClient);
         }
     }
 
     @Override
-    public void notifyUpdate(PlayerController ctrl,int milliseconds) {
-        if(ctrl.connectionType == ConnectionType.RMI){
-            try{
+    public void notifyUpdate(PlayerController ctrl, int milliseconds) {
+        if (ctrl.connectionType == ConnectionType.RMI) {
+            try {
                 ctrl.clientInput.callBack.notifyUpdate(milliseconds);
-            }catch (RemoteException e){
-                ctrl.getPlayer().setStatus(UserStatus.Offline);
+            } catch (RemoteException e) {
+                //ctrl.getPlayer().setStatus(UserStatus.Offline);
             }
-        }else if(ctrl.connectionType == ConnectionType.SOCKET){
+        } else if (ctrl.connectionType == ConnectionType.SOCKET) {
             String messageToClient = "notifyUpdate" + "|" + milliseconds;
             ctrl.clientHandlerSocket.callback(messageToClient);
         }
     }
+
     @Override
-    public void ping(PlayerController ctrl){
-        if(ctrl.connectionType == ConnectionType.RMI){
-            try{
+    public void ping(PlayerController ctrl) {
+        //System.out.println("Checking if " + ctrl.getPlayer().getNickname() + " is online");
+        if (ctrl.connectionType == ConnectionType.RMI) {
+            try {
                 ctrl.clientInput.callBack.ping();
-            }catch (RemoteException e){
-                ctrl.getPlayer().setStatus(UserStatus.Offline);
+            } catch (RemoteException e) {
+                handlePlayerOffline(ctrl);
             }
-        }else if(ctrl.connectionType == ConnectionType.SOCKET){
-            String messageToClient = "ping";
-            ctrl.clientHandlerSocket.callback(messageToClient);
+        } else if (ctrl.connectionType == ConnectionType.SOCKET) {
+            if (ctrl.clientHandlerSocket.isServerClose()) {
+                handlePlayerOffline(ctrl);
+            }
         }
     }
 
+    public void handlePlayerOffline(PlayerController ctrl) {
+        if (ctrl.getPlayer().getMatch() != null && ctrl.getPlayer().getMatch().gameState.equals(GameState.GameGoing) && ctrl.getPlayer().getStatus() != UserStatus.Suspended) {
+            ctrl.getPlayer().setStatus(UserStatus.Suspended);
+            System.out.println(ctrl.getPlayer().getNickname() + " is suspended");
+            ctrl.getPlayer().getMatch().sendTextToAll("Player " + ctrl.getPlayer().getNickname() + " is suspended", false, true);
+        } else if (ctrl.getPlayer().getStatus() != UserStatus.Offline) {
+            ctrl.getPlayer().setStatus(UserStatus.Offline);
+            System.out.println(ctrl.getPlayer().getNickname() + " is offline");
+        }
+    }
 }

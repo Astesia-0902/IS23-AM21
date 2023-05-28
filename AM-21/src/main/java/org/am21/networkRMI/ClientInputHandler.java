@@ -4,6 +4,7 @@ import org.am21.controller.GameController;
 import org.am21.controller.PlayerController;
 import org.am21.model.GameManager;
 import org.am21.model.enumer.ConnectionType;
+
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
@@ -24,7 +25,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      * @since JDK1.1
      */
     public ClientInputHandler() throws RemoteException {
-        playerController = new PlayerController("",this);
+        playerController = new PlayerController("", this);
         playerController.connectionType = ConnectionType.RMI;
     }
 
@@ -35,11 +36,9 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
 
     /**
      * @return the result of the operation
-     * @throws ServerNotActiveException if the client is not active
      */
     //TODO:When the command is not from the current player, the command should be ignored.
-    public boolean checkPlayerActionPhase() throws ServerNotActiveException {
-        String userHost = getClientHost();
+    public boolean checkPlayerActionPhase() {
         synchronized (GameManager.playerMatchMap) {
             synchronized (GameManager.matchList) {
                 return GameManager.playerMatchMap.containsKey(userName) &&
@@ -78,7 +77,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     /**
      * @param matchID matchID
      * @return true if the operation is successful, false if the match is full
-     * @throws RemoteException if failed to export object
+     * @throws RemoteException          if failed to export object
      * @throws ServerNotActiveException if the client is not active
      */
     @Override
@@ -163,6 +162,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     /**
      * This method is called after the login of the player
      * It allows the server to register Client's CallBack Interface
+     *
      * @param callBack
      * @throws RemoteException
      */
@@ -186,26 +186,28 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
 
     /**
      * This method allows the Client to send a Message in the Match's Chat
+     *
      * @param message the message
-     * @param live indicates if the message was sent by live Chat (true) or not (false)
+     * @param live    indicates if the message was sent by live Chat (true) or not (false)
      * @return true if the message was correctly sent, otherwise false
      * @throws RemoteException when the Remote Invocation fails
      */
     @Override
     public boolean sendPublicMessage(String message, boolean live) throws RemoteException {
-        return GameController.forwardPublicMessage(message,playerController,live);
+        return GameController.forwardPublicMessage(message, playerController, live);
     }
 
     /**
      * This method allows the Client to Send a Message to Specific Online Players
-     * @param message the message
+     *
+     * @param message  the message
      * @param receiver the online player who will receive the message
-     * @param live indicates if the message was sent by live Chat (true) or not (false)
+     * @param live     indicates if the message was sent by live Chat (true) or not (false)
      * @return true if the message was sent to the receiver, otherwise false
      * @throws RemoteException when the Remote Invocation fails
      */
     @Override
     public boolean sendPrivateMessage(String message, String receiver, boolean live) throws RemoteException {
-        return GameController.forwardPrivateMessage(message,receiver,playerController,live);
+        return GameController.forwardPrivateMessage(message, receiver, playerController, live);
     }
 }

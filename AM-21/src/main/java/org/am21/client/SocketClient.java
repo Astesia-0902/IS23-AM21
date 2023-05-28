@@ -58,7 +58,7 @@ public class SocketClient extends Thread {
             case "Message" -> {
                 if (cli != null) {
                     cli.printer(messageArray[1]);
-                }else if (gui != null) {
+                } else if (gui != null) {
                     //gui.printer(message,"Successful");
                     gui.replyDEBUG(messageArray[1]);
                 }
@@ -69,7 +69,7 @@ public class SocketClient extends Thread {
                 if (cli != null) {
                     cli.checkTurn();
                     cli.updateCLI(cli, 500);
-                } else if(gui!=null){
+                } else if (gui != null) {
 
                 }
             }
@@ -79,7 +79,7 @@ public class SocketClient extends Thread {
                     ClientView.setGameOn(true);
                     ClientView.setMatchStart(true);
                     cli.updateCLI(cli, 1000);
-                }else if(gui!=null){
+                } else if (gui != null) {
                     gui.setGO_TO_MENU(false);
                     gui.setGAME_ON(true);
                     gui.setSTART(true);
@@ -91,7 +91,7 @@ public class SocketClient extends Thread {
                     ClientView.convertBackMatchInfo(messageArray[1]);
                     ClientView.setGameOn(false);
                     ClientView.setGoToMenu(false);
-                }else if (gui != null) {
+                } else if (gui != null) {
                     gui.setGAME_ON(false);
                     gui.setGO_TO_MENU(false);
                 }
@@ -100,7 +100,7 @@ public class SocketClient extends Thread {
                 if (cli != null) {
                     ClientView.setGoToMenu(true);
                     ClientView.setGameOn(false);
-                }else if (gui != null) {
+                } else if (gui != null) {
                     gui.setGO_TO_MENU(true);
                     gui.setGAME_ON(false);
                 }
@@ -112,7 +112,7 @@ public class SocketClient extends Thread {
                     ClientView.setGoToMenu(true);
                     ClientView.setGameOn(false);
                     ClientView.setMatchStart(false);
-                }else if (gui != null) {
+                } else if (gui != null) {
                     gui.setEND(true);
                     gui.setGO_TO_MENU(true);
                     gui.setGAME_ON(false);
@@ -131,10 +131,10 @@ public class SocketClient extends Thread {
                         cli.addMessageInLine(messageArray[1]);
                         cli.updateCLI(cli, 0);
                     }
-                }else if (gui!=null){
+                } else if (gui != null) {
 
-                    gui.timeLimitedNotification(messageArray[1].substring(0,messageArray[1].indexOf(" "))+" sent you a new message");
-                    gui.ASK_CHAT=true;
+                    gui.timeLimitedNotification(messageArray[1].substring(0, messageArray[1].indexOf(" ")) + " sent you a new message");
+                    gui.ASK_CHAT = true;
 
                 }
             }
@@ -149,16 +149,16 @@ public class SocketClient extends Thread {
                 if (cli != null) {
                     //System.out.println("Update...");
                     cli.updateCLI(cli, milliseconds);
-                }else if (gui != null) {
-                    if(!gui.GAME_ON && !gui.GO_TO_MENU){
+                } else if (gui != null) {
+                    if (!gui.GAME_ON && !gui.GO_TO_MENU) {
                         //Waiting room
-                        gui.WAIT_ROOM_REFRESH=true;
+                        gui.WAIT_ROOM_REFRESH = true;
 
 
                     }
                 }
             }
-            case "ping" ->{
+            case "ping" -> {
                 return;
             }
 

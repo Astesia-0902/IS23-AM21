@@ -164,14 +164,12 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
             if(!gui.GAME_ON && !gui.GO_TO_MENU){
                 //Waiting room
                 gui.WAIT_ROOM_REFRESH=true;
-
-
             }
         }
     }
 
     @Override
     public void ping() throws RemoteException{
-        //
+        //Nothing to do
     }
 }

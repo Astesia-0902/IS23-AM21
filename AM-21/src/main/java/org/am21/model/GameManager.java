@@ -4,6 +4,7 @@ import org.am21.controller.CommunicationController;
 import org.am21.controller.GameController;
 import org.am21.controller.PlayerController;
 import org.am21.model.enumer.GameState;
+import org.am21.model.enumer.SC;
 import org.am21.model.enumer.UserStatus;
 import org.am21.utilities.VirtualViewHelper;
 
@@ -78,14 +79,15 @@ public class GameManager {
     /**
      * Check each player from the game, if their status are Offline, they will be removed from the players list
      */
-    public static void playerCleaner(){
-        synchronized (players){
+    public static void playerCleaner() {
+        synchronized (players) {
             List<Player> copy = new ArrayList<>(players);
-            for(Player p: copy){
-                if(p.getStatus().equals(UserStatus.Offline)){
+            for (Player p : copy) {
+                if (p.getStatus().equals(UserStatus.Offline)) {
                     players.remove(p);
                 }
             }
+
             VirtualViewHelper.virtualizeOnlinePlayers();
             GameController.updatePlayersGlobalView();
             GameController.notifyAllPlayers();
@@ -93,9 +95,9 @@ public class GameManager {
         }
     }
 
-    public static void removeOfflinePlayer(Player p){
-        synchronized (players){
-            if(p.getStatus().equals(UserStatus.Offline)) {
+    public static void removeOfflinePlayer(Player p) {
+        synchronized (players) {
+            if (p.getStatus().equals(UserStatus.Offline)) {
                 players.remove(p);
                 VirtualViewHelper.virtualizeOnlinePlayers();
                 GameController.updatePlayersGlobalView();
@@ -106,13 +108,14 @@ public class GameManager {
 
     /**
      * Control if there is any Match Closed, if so destroy it
+     *
      * @return
      */
     public static boolean gameCleaner() {
         //checkUsersConnection();
         synchronized (matchList) {
             List<Match> toDoList = new ArrayList<>();
-            for (Match m :matchList) {
+            for (Match m : matchList) {
                 //Check if match members are all offline, if so close it
                 if (m.gameState.equals(GameState.GameGoing)) {
                     boolean toDelete = false;
@@ -124,7 +127,6 @@ public class GameManager {
                                 break;
                             }
                         }
-
                     }
 
                     if (toDelete) {
@@ -167,23 +169,42 @@ public class GameManager {
      * Call a generic method to test if the user is still connected.
      * If not the user status should change to Offline
      */
-    public static void checkUsersConnection(){
-        boolean off=false;
-        synchronized (players){
-            for(Player p : players){
+    public static void checkUsersConnection() {
+        List<PlayerController> toRemove = new ArrayList<>();
+        synchronized (players) {
+            for (Player p : players) {
+                if (p.getStatus() == UserStatus.Offline || p.getStatus() == UserStatus.Suspended) {
+                    continue;
+                }
                 // Test players connection
+                //Not synchronized because it will be called from the controller
                 CommunicationController.instance.ping(p.getController());
-                if(p.getStatus().equals(UserStatus.Offline)){
-                    off = true;
+                if (p.getStatus().equals(UserStatus.Offline)) {
+                    toRemove.add(p.getController());
+                } else if (p.getStatus().equals(UserStatus.Suspended)) {
+                    //TODO:Suspend the player
+                    //if the player suspended is the current player, then skip his turn
+                    if (p.getMatch() != null && p.getMatch().gameState.equals(GameState.GameGoing) && p.getMatch().currentPlayer.equals(p)) {
+                        p.getMatch().callEndTurnRoutine();
+                    }
+                    p.getMatch().sendTextToAll(SC.YELLOW_BB + "\nServer > " + p.getNickname() + " suspended." + SC.RST, false, false);
                 }
             }
-
         }
-        if(off){
+
+        if (!toRemove.isEmpty()) {
             // Game Cleaner
-
+            for (PlayerController pc : toRemove) {
+                GameController.removePlayerFromMatch(pc, pc.getPlayer().getMatch().matchID);
+                removeOfflinePlayer(pc.getPlayer());
+                pc.getPlayer().getMatch().sendTextToAll("Player " + pc.getPlayer().getNickname() + " is offline, he has been removed from the match", false, false);
+            }
         }
 
+    }
+
+    private static void checkMatchClose(){
+        
     }
 
     /**
@@ -193,20 +214,29 @@ public class GameManager {
      * @param m  ServerMessage
      */
     public static void sendReply(PlayerController pc, String m) {
+        if (pc.getPlayer().getStatus().equals(UserStatus.Suspended) || pc.getPlayer().getStatus().equals(UserStatus.Offline)) {
+            return;
+        }
         if (SERVER_COMM) {
-            CommunicationController.instance.sendMessageToClient(m,pc);
+            CommunicationController.instance.sendMessageToClient(m, pc);
         }
     }
 
 
-    public static void sendChatNotification(PlayerController pc, String m){
-        if(SERVER_COMM){
-            CommunicationController.instance.sendChatNotification(m,pc);
+    public static void sendChatNotification(PlayerController pc, String m) {
+        if (pc.getPlayer().getStatus().equals(UserStatus.Suspended) || pc.getPlayer().getStatus().equals(UserStatus.Offline)) {
+            return;
+        }
+        if (SERVER_COMM) {
+            CommunicationController.instance.sendChatNotification(m, pc);
         }
     }
 
-    public static void notifyUpdate(PlayerController ctrl,int milliseconds){
-        CommunicationController.instance.notifyUpdate(ctrl,milliseconds);
+    public static void notifyUpdate(PlayerController ctrl, int milliseconds) {
+        if (ctrl.getPlayer().getStatus().equals(UserStatus.Suspended) || ctrl.getPlayer().getStatus().equals(UserStatus.Offline)) {
+            return;
+        }
+        CommunicationController.instance.notifyUpdate(ctrl, milliseconds);
     }
 
 }

@@ -214,7 +214,7 @@ public class Match {
                 firstToComplete.setPlayerScore(firstToComplete.getPlayerScore() + 1);
                 gameState = GameState.LastRound;
                 VirtualViewHelper.virtualizeEndGame(this);
-                sendTextToAll(LastRound.value(), true,true);
+                sendTextToAll(LastRound.value(), true, true);
             }
             this.nextTurn();
             endTurnUpdate();
@@ -367,14 +367,14 @@ public class Match {
         for (Player player : playerList) {
             GameManager.playerMatchMap.put(player.getNickname(), matchID);
         }
-        sendTextToAll(BB.value(),true ,false);
+        sendTextToAll(BB.value(), true, false);
 
         //Initialization of the board
         board = new Board(this);
         if (board.firstSetup()) {
-            sendTextToAll(BB_Ok.value(),true,false);
+            sendTextToAll(BB_Ok.value(), true, false);
         } else {
-            sendTextToAll(BB_No.value(), true,false);
+            sendTextToAll(BB_No.value(), true, false);
         }
         setGameState(GameState.Ready);
     }
@@ -403,13 +403,17 @@ public class Match {
      */
     public void nextTurn() {
         sendTextToAll(SC.YELLOW_BB + "\nServer > " + currentPlayer.getNickname() + " ended his turn" + SC.RST, false, false);
-        currentPlayer = playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats);
+        do {
+            currentPlayer = playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats);
+             if (currentPlayer.getStatus().equals(UserStatus.Suspended)) {
+                sendTextToAll(SC.YELLOW_BB + "\nServer > " + currentPlayer.getNickname() + " his turn is skipped" + SC.RST, false, true);
+            }
+        } while (currentPlayer.getStatus().equals(UserStatus.Suspended));
         setGamePhase(GamePhase.Selection);
         if (currentPlayer.getController().clientInput != null || currentPlayer.getController().clientHandlerSocket != null) {
             String message = SC.RED_B + "Server[!] > " + currentPlayer.getNickname() + "! It's your turn." + SC.RST;
             CommunicationController.instance.sendMessageToClient(message, currentPlayer.getController());
         }
-
     }
 
 
@@ -419,7 +423,8 @@ public class Match {
      */
     public void updatePlayersView() {
         for (Player p : playerList) {
-            CommunicationController.instance.sendVirtualView(getJSONVirtualView(), playerList.indexOf(p), p.getController());
+            if(p.getStatus() == UserStatus.GameMember)
+                CommunicationController.instance.sendVirtualView(getJSONVirtualView(), playerList.indexOf(p), p.getController());
         }
     }
 
@@ -451,7 +456,7 @@ public class Match {
     /**
      * Send a text message to each player of this match
      *
-     * @param message message from the server
+     * @param message              message from the server
      * @param includeCurrentPlayer if false the message is not sent to the currentPlayer
      */
     public void sendTextToAll(String message, boolean includeCurrentPlayer, boolean update) {
@@ -468,7 +473,7 @@ public class Match {
      * Send Chat notification to all player in the match except the sender
      *
      * @param message message to send
-     * @param sender player name of the sender
+     * @param sender  player name of the sender
      */
     public void sendPublicChatNotification(String message, String sender) {
         for (Player p : playerList) {
