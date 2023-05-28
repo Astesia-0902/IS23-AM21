@@ -129,7 +129,7 @@ public class Cli implements View {
         String defaultPort = String.valueOf(SocketClient.defaultServerPort);
         SocketClient socket = new SocketClient();
         SocketClient.serverName = askInfo("address", defaultAddress);
-        SocketClient.serverPort = Integer.parseInt(askInfo("port",defaultPort));
+        SocketClient.serverPort = Integer.parseInt(askInfo("port", defaultPort));
         SocketClient.cli = this;
         socket.start();
         delayer(500);
@@ -302,7 +302,7 @@ public class Cli implements View {
                 case "more", "mo" -> askMoreOptions();
                 case "open", "op" -> askPrivateChat();
                 case "hand", "ha" -> showHand();
-                case "pgoal", "pg" -> showPersonalGoal();
+                case "pgoal", "pg" -> {showPersonalGoal();askToContinue();}
                 case "cgoal", "cg" -> showCommonGoals();
                 case "shelf", "sf" -> {
                     showPlayerShelf();
@@ -875,11 +875,11 @@ public class Cli implements View {
                                             System.out.println(Color.YELLOW + "Inserted in the column: " + column + Color.RESET);
                                             NOT_SEL_YET = true;
                                             SEL_MODE = false;
+                                            setCAFalse();
                                             if (commCtrl.endTurn()) {
                                                 System.out.println(Color.YELLOW + "- End Turn -" + Color.RESET);
                                             }
                                             delayer(1000);
-                                            setCAFalse();
                                             return;
                                         }
                                     }
@@ -1006,6 +1006,7 @@ public class Cli implements View {
         System.out.println();
         return true;
     }
+
     public String showItemInCell(int row, int column) {
         return ClientView.virtualBoard[row][column];
     }
@@ -1027,10 +1028,41 @@ public class Cli implements View {
 
     }
 
+    /**
+     * This method convert the gameResults in the TUI view format
+     */
     public void showGameResults() {
-        for (String r : gameResults) {
-            System.out.println(r);
+        if(ClientView.gameResults==null || ClientView.gameResults.length==1){
+            System.out.println("No Results");
             askToContinue();
+        }else {
+            List<String> gameResultsTmp = new ArrayList<>(ClientView.gameResults.length);
+
+            for (int i = 0; i < ClientView.gameResults.length - 1; i++) {
+                String line =
+                        "* " + ClientView.gameResults[i][0] + " Score:\n" +
+                                "+ " + ClientView.gameResults[i][1] + " Common points\n" +
+                                "+ " + ClientView.gameResults[i][2] + " Personal points\n" +
+                                "+ " + ClientView.gameResults[i][3] + " Group points\n";
+                if (ClientView.gameResults[i][4] != null) {
+                    line += "+ 1 Endgame Token\n";
+                }
+                line += "Total: " + ClientView.gameResults[i][5] + "\n";
+
+                gameResultsTmp.add(i, line);
+
+            }
+            String winner = "\n No winner for this match!\n";
+            if (ClientView.gameResults[ClientView.gameResults.length - 1][0] != null) {
+                winner = "\n The winner is " + ClientView.gameResults[ClientView.gameResults.length - 1][0] + "!!\n";
+            }
+            gameResultsTmp.add(ClientView.gameResults.length - 1, winner);
+
+            for (String r : gameResultsTmp) {
+                System.out.println(r);
+                askToContinue();
+            }
+
         }
     }
 
@@ -1054,7 +1086,7 @@ public class Cli implements View {
                 switch (object) {
                     case "open", "op" -> askPrivateChat();
                     case "hand", "ha" -> showHand();
-                    case "pgoal", "pg" -> showPersonalGoal();
+                    case "pgoal", "pg" -> {showPersonalGoal();askToContinue();}
                     case "cgoal", "cg" -> showCommonGoals();
                     case "shelf", "sh" -> {
                         showPlayerShelf();
@@ -1344,6 +1376,7 @@ public class Cli implements View {
 
     /**
      * Print the private Chat
+     *
      * @param index index of the private chat in ClientView.privateChats
      */
     public void printPrivateChat(int index) {
@@ -1407,6 +1440,7 @@ public class Cli implements View {
 
     /**
      * Method to get the Chat Key
+     *
      * @param name1 player 1 name
      * @param name2 player 2 name
      * @return key for ClientView.chatMap

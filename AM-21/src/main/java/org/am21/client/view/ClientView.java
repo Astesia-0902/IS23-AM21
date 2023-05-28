@@ -14,6 +14,12 @@ public class ClientView {
     public static int matchID; //Match id
     public static int maxSeats; //Match max players number
     public static String admin; //Match admin Nickname
+    /**
+     * VirtualBoard Legend:
+     * null : cell empty
+     * "item name" : cell occupied by an item
+     * ">item name" : selected cell (related to ">" presence)
+     */
     public static String[][] virtualBoard; //Match Virtual board
     public static List<String> playersList; //Match Players List Nickname
     public static String currentPlayer; //Match currentPlayer
@@ -25,7 +31,18 @@ public class ClientView {
     public static List<String[][]> shelves; //Match List of Shelves
     public static List<String> currentPlayerHand; //Match Current player hand
     public static boolean endGameToken; // Match EndgameToken
-    public static List<String> gameResults; //Match Game Results //TODO: fragment
+    /**
+     * gameResults legend :
+     * for i in players.size() :  i as player index
+     * [i][0] - Player name
+     * [i][1] - Common Goal points
+     * [i][2] - Personal Goal Points
+     * [i][3] - Shelf Group Points
+     * [i][4] - Eventual Endgame token or null (if no token for the player)
+     * [i][5] - Total Score;
+     * [players.size()][0] - Winner name or null (if no winner)
+     */
+    public static String[][] gameResults; //Match Game Results
     //------------------------------------------
     public static List<String> publicChat; //Match group Chat
     public static List<List<String>> privateChats; // Server Private Chats
@@ -65,7 +82,7 @@ public class ClientView {
         admin = jsonObject.getString("admin");
         endGameToken = jsonObject.getBoolean("endGameToken");
         maxSeats = jsonObject.getInteger("maxSeats");
-        gameResults = jsonObject.getJSONArray("gameResults").toJavaList(String.class);
+        gameResults = jsonObject.getObject("gameResults",String[][].class);
     }
 
     /**

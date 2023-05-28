@@ -33,7 +33,7 @@ public class VirtualView implements Serializable {
     public boolean endGameToken;
     public List<Integer> scores;
     public List<Integer> hiddenPoints;
-    public List<String> gameResults;
+    public String[][] gameResults;
     //---------------------------------------
     public List<String> publicChat;
     //--------------------------------
@@ -57,7 +57,7 @@ public class VirtualView implements Serializable {
         this.endGameToken = false;
         this.scores = new ArrayList<>();
         this.hiddenPoints = new ArrayList<>();
-        this.gameResults = new ArrayList<>();
+        this.gameResults = new String[1][1];
         this.publicChat = new ArrayList<>();
         this.commonGoals = new ArrayList<>();
         this.players = new ArrayList<>();
@@ -192,11 +192,11 @@ public class VirtualView implements Serializable {
         this.admin = admin;
     }
 
-    public List<String> getGameResults() {
+    public String[][] getGameResults() {
         return gameResults;
     }
 
-    public void setGameResults(List<String> gameResults) {
+    public void setGameResults(String[][] gameResults) {
         this.gameResults = gameResults;
     }
 

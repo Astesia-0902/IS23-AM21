@@ -244,32 +244,50 @@ public class Match {
     }
 
     /**
-     * TODO: rewrite better
-     *
-     * @return a list of String, each string contains Points Info
+     * This method return a matrix, which contains game results data
+     * 0 - Player name
+     * 1 - Common Goal points
+     * 2 - Personal Goal Points
+     * 3 - Shelf Group Points
+     * 4 - Eventual Endgame token
+     * 5 - Total Score;
+     * @return Game Results Matrix
      */
-    public List<String> checkGamePoints() {
+    public String[][] checkGamePoints() {
         Player p;
-        List<String> res = new ArrayList<>(playerList.size());
-        for (int i = 0; i < playerList.size(); i++) {
-            p = playerList.get(i);
-            int common = p.getPlayerScore();
-            int personal = p.getHiddenPoints();
-            int group = p.getShelf().getGroupPoints();
-            int total = common + personal + group;
-            res.add("* " + p.getNickname() + " Score:\n" +
-                    "+ " + common + " Common points\n" +
-                    "+ " + personal + " Personal points\n" +
-                    "+ " + group + " Group points\n"
-            );
-            if (p.equals(firstToComplete)) {
-                res.set(i, res.get(i) + "+ 1 Endgame Token\n");
-            }
-            res.set(i, res.get(i) + "Total: " + total + "\n");
+        String[][] resultsMatrix;
+        synchronized (playerList) {
+            resultsMatrix = new String[playerList.size()+1][6];
+            List<String> res = new ArrayList<>(playerList.size());
+            for (int i = 0; i < playerList.size(); i++) {
+                p = playerList.get(i);
+                int common = p.getPlayerScore();
+                int personal = p.getHiddenPoints();
+                int group = p.getShelf().getGroupPoints();
+                int total = common + personal + group;
+                res.add("* " + p.getNickname() + " Score:\n" +
+                        "+ " + common + " Common points\n" +
+                        "+ " + personal + " Personal points\n" +
+                        "+ " + group + " Group points\n"
+                );
+                resultsMatrix[i][0] = p.getNickname();  // set player name
+                resultsMatrix[i][1] = String.valueOf(common); // set common points
+                resultsMatrix[i][2] = String.valueOf(personal); // set personal points
+                resultsMatrix[i][3] = String.valueOf(group); // set shelf points
+                resultsMatrix[i][4] = null; // set default value for endgame token
+                resultsMatrix[i][5] = String.valueOf(total); // set total score
 
-            p.getController().addScore(personal + group);
+
+                if (p.equals(firstToComplete)) {
+                    res.set(i, res.get(i) + "+ 1 Endgame Token\n");
+                    resultsMatrix[i][4] = "1";
+                }
+                res.set(i, res.get(i) + "Total: " + total + "\n");
+                // Adding score
+                p.getController().addScore(personal + group);
+            }
         }
-        return res;
+        return resultsMatrix;
     }
 
 
@@ -282,15 +300,16 @@ public class Match {
      * - Remove all the players from the match
      */
     private boolean endMatch() {
-        List<String> gameRes = checkGamePoints();
-        VirtualViewHelper.updateVirtualScores(this);
+        String[][] gameResults = checkGamePoints();
         decideWinner();
         if (winner != null) {
-            gameRes.add("\n The winner is " + winner.getNickname() + "!!\n");
+            //gameRes.add("\n The winner is " + winner.getNickname() + "!!\n");
+            gameResults[playerList.size()][0] = winner.getNickname();
         } else {
-            gameRes.add("\n No winner for this match!\n");
+            //gameRes.add("\n No winner for this match!\n");
         }
-        VirtualViewHelper.virtualizeGameResults(this, gameRes);
+        VirtualViewHelper.updateVirtualScores(this);
+        VirtualViewHelper.virtualizeGameResults(this, gameResults);
         updatePlayersView();
 
         //Print the Final Stats of the Match
@@ -413,6 +432,7 @@ public class Match {
         if (currentPlayer.getController().clientInput != null || currentPlayer.getController().clientHandlerSocket != null) {
             String message = SC.RED_B + "Server[!] > " + currentPlayer.getNickname() + "! It's your turn." + SC.RST;
             CommunicationController.instance.sendMessageToClient(message, currentPlayer.getController());
+            //GameManager.notifyUpdate(currentPlayer.getController(),100);
         }
     }
 

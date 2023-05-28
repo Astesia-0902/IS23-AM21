@@ -48,7 +48,7 @@ public class VirtualViewHelper {
         List<Integer> scores = new ArrayList<>();
         List<Integer> hiddenPoints = new ArrayList<>();
         List<String[][]> shelves = new ArrayList<>();
-        List<String> tmp = new ArrayList<>();
+        //List<String> tmp = new ArrayList<>();
         for (Player player : match.playerList) {
             players.add(player.getNickname());
             int stringLength = player.getMyPersonalGoal().getNameCard().length();
@@ -58,14 +58,13 @@ public class VirtualViewHelper {
             scores.add(player.getPlayerScore());
             shelves.add(virtualizeShelves(player.getShelf()));
             hiddenPoints.add(player.getHiddenPoints());
-            tmp.add("");
         }
         match.virtualView.setPlayers(players);
         match.virtualView.setPersonalGoals(personalGoals);
         match.virtualView.setShelves(shelves);
         match.virtualView.setScores(scores);
         match.virtualView.setHiddenPoints(hiddenPoints);
-        match.virtualView.gameResults = tmp;
+        match.virtualView.gameResults = new String[match.playerList.size()+1][6];
     }
 
     /**
@@ -300,7 +299,7 @@ public class VirtualViewHelper {
         }
     }
 
-    public static void virtualizeGameResults(Match m, List<String> gR) {
+    public static void virtualizeGameResults(Match m, String[][] gR) {
         m.virtualView.gameResults = gR;
     }
 
