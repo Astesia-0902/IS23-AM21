@@ -12,12 +12,13 @@ public class ScoringTokenLabel extends JPanel {
 
 
     /**
-     * rotation Label for tokens score card
-     * @param img image
-     * @param rotateH image dimension
+     * rotation Label for tokens card
+     *
+     * @param img      image
+     * @param rotateH  image dimension
      * @param oriented grade of orientation
      */
-    public ScoringTokenLabel(ImageIcon img, int rotateH,int rotateW,int oriented,int rotateX, int rotateY) {
+    public ScoringTokenLabel(ImageIcon img, int rotateH, int rotateW, int oriented, int rotateX, int rotateY) {
         label = new JLabel(img);
         this.oriented = oriented;
         this.rotateX = rotateX;
@@ -25,6 +26,11 @@ public class ScoringTokenLabel extends JPanel {
         setPreferredSize(new Dimension(rotateW, rotateH));
     }
 
+    /**
+     * used for rotate tokens position
+     *
+     * @param g the <code>Graphics</code> object to protect
+     */
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;

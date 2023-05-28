@@ -38,7 +38,7 @@ public class MyHandInterface extends JFrame {
     public List<Integer> posSort = new ArrayList<>();
     public int[] vectorFreeColumn;
     public String[][] previewShelf;
-    public int finalColumn = 0;
+    public int finalColumn = -1;
 
     public MyHandInterface(Gui gui) {
 
@@ -255,12 +255,12 @@ public class MyHandInterface extends JFrame {
         confirm.setForeground(new Color(4, 134, 10, 230));
         confirm.addActionListener(e -> {
             Window window = SwingUtilities.windowForComponent(confirm);
-            if (finalColumn != 0) {
+            if (finalColumn != -1) {
 
                 if (gui.commCtrl.insertInColumn(finalColumn)) {
                     gui.commCtrl.endTurn();
                     try {
-                        gui.showPlayerShelf();
+                        gui.announceCurrentPlayer();
                     } catch (RemoteException ex) {
                         throw new RuntimeException(ex);
                     }

@@ -113,7 +113,7 @@ public class PixelUtil {
     public static int gameBoardGridY = pcHeight * 138 / 1000;
 
     public static int chairManMeY = pcHeight / 100;
-    public static int chairManEnemyY = pcHeight*1143/10000;//120
+    public static int chairManEnemyY = pcHeight * 1143 / 10000;//120
     public static int myScoreDynamicX = pcWidth * 893 / 1000;
 
     public static int myHandPanelY = pcHeight * 3 / 1000;
@@ -143,7 +143,7 @@ public class PixelUtil {
     public static int myGridX = pcWidth * 727 / 1000;
     public static int myGridY = pcHeight * 428 / 1000;
     public static int enemyGridX = pcWidth * 6131 / 100000;
-    public static int enemyGridY = pcHeight*1143/100000; //12
+    public static int enemyGridY = pcHeight * 1143 / 100000; //12
 
     //cell size
     public static int myCellH = pcHeight * 61 / 1000;
@@ -191,7 +191,7 @@ public class PixelUtil {
      * myHandBoard Interface
      */
     public static int myHandBackGroundX = pcWidth * 2262 / 10000;
-    public static int myHandBackGroundY = pcHeight*2857/10000;
+    public static int myHandBackGroundY = pcHeight * 2857 / 10000;
 
     public static int myHandBackGroundW = pcWidth * 4643 / 10000;
     public static int myHandBackGroundH = pcHeight * 6476 / 10000;
@@ -214,18 +214,16 @@ public class PixelUtil {
 
     public static int handNumH = pcHeight / 21;
 
-    public static int myHandConfirmX = pcWidth*366/1000;
+    public static int myHandConfirmX = pcWidth * 366 / 1000;
     public static int myHandConfirmY = pcHeight * 567 / 1000;
     public static int myHandConfirmW = pcWidth * 893 / 10000;
     public static int myHandConfirmH = pcHeight / 21;
 
-    public static int myHandBackY = pcHeight/105;
-
     public static int myHandItemX = pcWidth * 18 / 10000; //3
     public static int myHandItemY = pcHeight * 38 / 1000;//39.9
 
-    public static int myHandShelfGridX = pcWidth*1345/10000; //226
-    public static int myHandShelfGridY = pcHeight*7328/100000; //76
+    public static int myHandShelfGridX = pcWidth * 1345 / 10000; //226
+    public static int myHandShelfGridY = pcHeight * 7328 / 100000; //76
 
     /**
      * menu living room interface

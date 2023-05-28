@@ -20,7 +20,7 @@ public class EnemyPanel extends JPanel {
     public ChairManLabel chairManLabel;
     public Timer waitTimer;
 
-    public EnemyPanel(int posY, ImageIcon imgPic, String nickname, String chairMan, int score) {
+    public EnemyPanel(int posY, ImageIcon imgPic, String nickname, String chairMan, String[][] shelfStatus) {
         setBounds(0, posY, PixelUtil.commonX_2 + PixelUtil.enemyShelfW, PixelUtil.enemyShelfH);
         setLayout(null);
         setOpaque(false);
@@ -41,15 +41,15 @@ public class EnemyPanel extends JPanel {
         enemyBoard.setIcon(ImageUtil.getShelfImage(PixelUtil.enemyShelfW, PixelUtil.enemyShelfH));
         enemyPane.add(enemyBoard, JLayeredPane.DEFAULT_LAYER);
 
-        enemyScoreDynamic = new JLabel(String.valueOf(score));
+        enemyScoreDynamic = new JLabel();
         enemyScoreDynamic.setBounds(PixelUtil.enemyScoreX, PixelUtil.enemyScoreY, PixelUtil.enemyScoreW, PixelUtil.enemyScoreH);
         enemyScoreDynamic.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
         enemyScoreDynamic.setForeground(new Color(0, 0, 0, 255));
         enemyPane.add(enemyScoreDynamic, JLayeredPane.MODAL_LAYER);
 
         enemyShelf = new ShelfPanel(PixelUtil.enemyGridX, PixelUtil.enemyGridY, PixelUtil.enemyCellW, PixelUtil.enemyCellH, PixelUtil.enemyItemW, PixelUtil.enemyItemH);
+        enemyShelf.refreshShelf(shelfStatus);
         enemyPane.add(enemyShelf, JLayeredPane.PALETTE_LAYER);
-        //TODO: add over turn refreshing shelf method
 
         if (chairMan.equals(nickname)) {
             chairManLabel = new ChairManLabel(false);
@@ -59,7 +59,7 @@ public class EnemyPanel extends JPanel {
 
     }
 
-    public void isTurn() {
+    public void refreshTurnColor() {
         Border originalBorder = enemyPic.getBorder();
         Border flashingBorder = new LineBorder(Color.GREEN);
 
@@ -78,6 +78,14 @@ public class EnemyPanel extends JPanel {
         waitTimer.setRepeats(true);
         waitTimer.start();
 
+    }
+
+    public void refreshEnemyShelf(String[][] shelfStatus){
+        enemyShelf.refreshShelf(shelfStatus);
+    }
+
+    public void refreshEnemyScores(int score){
+        enemyScoreDynamic.setText(String.valueOf(score));
     }
 }
 

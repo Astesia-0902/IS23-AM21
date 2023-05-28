@@ -331,15 +331,9 @@ public class Gui implements View {
 
     @Override
     public void showCommonGoals() {
-        commonGoalPanel = new CommonGoalPanel(ClientView.commonGoal.get(0), ClientView.commonGoal.get(1));
-        //commonGoalPanel = new CommonGoalPanel("CommonGoal2Lines", "CommonGoalDiagonal");
-        livingRoomInterface.livingRoomPane.add(commonGoalPanel, JLayeredPane.PALETTE_LAYER);
-
         //set CommonGoal Token
-        commonGoalPanel.setScoreTokenTop(ClientView.commonGoalScore.get(0));
-        //commonGoalPanel.setScoreTokenTop(2);
-        commonGoalPanel.setScoreTokenBottom(ClientView.commonGoalScore.get(1));
-        //commonGoalPanel.setScoreTokenBottom(4);
+        commonGoalPanel.refreshScoringTokens(ClientView.commonGoalScore.get(0),ClientView.commonGoalScore.get(1));
+
     }
 
     @Override
@@ -351,6 +345,24 @@ public class Gui implements View {
 
     @Override
     public void announceCurrentPlayer() throws RemoteException {
+
+        myShelfPanel.refreshShelf(ClientView.shelves.get(ClientView.getPlayerIndex(username)));
+        //go to end turn
+        myHandBoardPanel.refreshItem(ClientView.currentPlayerHand);
+        //end turn
+
+        showBoard(); //TODO: fix refresh game board delay problem
+
+        showPlayersStats(); //TODO: fixe refresh users scores show problem
+
+        showWhoIsPlaying(); //TODO: fix change color player problem
+
+        //TODO: end token ???
+        //TODO: results interface ???
+    }
+
+    @Override
+    public void showWhoIsPlaying() {
         //if my turn
         if (currentPlayer.equals(username)) {
             Border originalBorder = livingRoomInterface.livingRoomPanel.gameBoardLabel.getBorder();
@@ -378,41 +390,36 @@ public class Gui implements View {
             // if(announceTimer!=null)
             //   announceTimer.stop();
 
-            livingRoomInterface.enemiesPanel.get(currentPlayer).isTurn();
+            livingRoomInterface.enemiesPanel.get(currentPlayer).refreshTurnColor();
         }
     }
 
     @Override
-    public void showWhoIsPlaying() {
-
-    }
-
-    @Override
     public void showPlayerShelf() throws RemoteException {
-        myShelfPanel.refreshShelf(ClientView.shelves.get(ClientView.getPlayerIndex(username)));
-        myHandBoardPanel.refreshItem(ClientView.currentPlayerHand);
-        //end turn
-        gameBoardPanel.clearBoard();
-        showBoard();
-        announceCurrentPlayer();
+
 
     }
 
     @Override
     public void showEveryShelf() throws RemoteException {
-
+        //refresh enemies shelf
+        livingRoomInterface.refreshEnemiesShelves(ClientView.shelves);
     }
 
     @Override
     public void showBoard() throws RemoteException {
-
-        //set game Board
+        //refresh game Board
         gameBoardPanel.refreshBoard(ClientView.virtualBoard, this);
 
     }
 
     @Override
     public void showPlayersStats() throws RemoteException {
+        //refresh my score
+        livingRoomInterface.livingRoomPanel.refreshMyScore(ClientView.scores.get(ClientView.getPlayerIndex(username)));
+        //refresh enemies score
+        livingRoomInterface.refreshEnemiesScores(ClientView.scores);
+
 
     }
 
@@ -461,9 +468,15 @@ public class Gui implements View {
     @Override
     public void showMatchSetup() throws RemoteException {
 
-        livingRoomInterface = new LivingRoomInterface(frame);
+        livingRoomInterface = new LivingRoomInterface(frame, this);
         showPersonalGoal();
-        showCommonGoals();
+
+        //set common goal
+        commonGoalPanel = new CommonGoalPanel(ClientView.commonGoal.get(0), ClientView.commonGoal.get(1));
+        livingRoomInterface.livingRoomPane.add(commonGoalPanel, JLayeredPane.PALETTE_LAYER);
+
+        //set CommonGoal Token
+        commonGoalPanel.setScoreToken(ClientView.commonGoalScore.get(0),ClientView.commonGoalScore.get(1));
 
         //if me is chairMan
         if (username.equals(currentPlayer)) {
@@ -477,19 +490,20 @@ public class Gui implements View {
 
 
         //set initial game board
-        gameBoardPanel = new GameBoardPanel(maxSeats, this);
+        gameBoardPanel = new GameBoardPanel(maxSeats);
         livingRoomInterface.livingRoomPane.add(gameBoardPanel, JLayeredPane.PALETTE_LAYER);
 
-        showBoard();
+        //set the game board
+        gameBoardPanel.fillingBoard(ClientView.virtualBoard, this);
 
         //set EndGameToken
         gameBoardPanel.setScoreTokenEndGame();
 
-        //TODO:refresh my score
-        //set my score
-        livingRoomInterface.livingRoomPanel.myScoreDynamic.setText(String.valueOf(ClientView.scores.get(ClientView.getPlayerIndex(username))));
+        //refresh every one score
+        showPlayersStats();
 
-        announceCurrentPlayer();
+        //show the color of current player
+        showWhoIsPlaying();
 
         //set my shelf
         myShelfPanel = new ShelfPanel(PixelUtil.myGridX, PixelUtil.myGridY, PixelUtil.myCellW, PixelUtil.myCellH, PixelUtil.myItemW, PixelUtil.myItemH);

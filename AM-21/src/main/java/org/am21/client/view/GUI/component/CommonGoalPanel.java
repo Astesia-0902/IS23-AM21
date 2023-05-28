@@ -16,7 +16,7 @@ public class CommonGoalPanel extends JPanel {
     public ScoringTokenLabel scoreTokenTop;
     public ScoringTokenLabel scoreTokenBottom;
 
-    public CommonGoalPanel(String topCardName,String bottomCardName) {
+    public CommonGoalPanel(String topCardName, String bottomCardName) {
 
         setBounds(PixelUtil.commonX_5, PixelUtil.commonGoalY_A, PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH + (PixelUtil.commonGoalY_B - PixelUtil.commonGoalY_A));
         setLayout(null);
@@ -31,6 +31,11 @@ public class CommonGoalPanel extends JPanel {
     }
 
 
+    /**
+     * label of first common goal
+     *
+     * @param topCardName name of common goal
+     */
     public void setTopCard(String topCardName) {
 
         commonGoalTopLabel = new JLabel();
@@ -38,9 +43,14 @@ public class CommonGoalPanel extends JPanel {
         commonGoalTopLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
         commonGoalTopLabel.setIcon(ImageUtil.getCommonGoalCardImage(topCardName));
         commonGoalPane.add(commonGoalTopLabel, JLayeredPane.DEFAULT_LAYER);
-        setScoreTokenEmpty(PixelUtil.commonGoalTokenX,PixelUtil.commonGoalTopTokenY);
+
     }
 
+    /**
+     * label of second common goal
+     *
+     * @param bottomCardName name of common goal
+     */
     public void setBottomCard(String bottomCardName) {
 
         commonGoalBottomLabel = new JLabel();
@@ -48,38 +58,81 @@ public class CommonGoalPanel extends JPanel {
         commonGoalBottomLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
         commonGoalBottomLabel.setIcon(ImageUtil.getCommonGoalCardImage(bottomCardName));
         commonGoalPane.add(commonGoalBottomLabel, JLayeredPane.DEFAULT_LAYER);
-        setScoreTokenEmpty(PixelUtil.commonGoalTokenX,PixelUtil.commonGoalBottomTokenY);
+
     }
 
-    public void setScoreTokenEmpty(int posX,int posY){
+    /**
+     * label of empty score
+     *
+     * @param posX index x of first or second card tokens
+     * @param posY index y of first or second card tokens
+     */
+    public void setScoreTokenEmpty(int posX, int posY) {
 
-        scoreTokenEmpty = new ScoringTokenLabel(ImageUtil.getBoardImage("commonGoalTokenEmpty"),PixelUtil.commonGoalTokenW,PixelUtil.commonGoalTokenH,PixelUtil.commonGoalTokenOriented,PixelUtil.commonGoalTokenRotateX,PixelUtil.commonGoalTokenRotateY);
-        scoreTokenEmpty.setBounds(posX,posY,PixelUtil.commonGoalTokenBoundsW,PixelUtil.commonGoalTokenBoundsH);
-         scoreTokenEmpty.setOpaque(false);
-       // scoreTokenEmpty.setBackground(new Color(0, 0, 0, 0));
-        commonGoalPane.add(scoreTokenEmpty,JLayeredPane.PALETTE_LAYER);
+        scoreTokenEmpty = new ScoringTokenLabel(ImageUtil.getBoardImage("commonGoalTokenEmpty"), PixelUtil.commonGoalTokenW, PixelUtil.commonGoalTokenH, PixelUtil.commonGoalTokenOriented, PixelUtil.commonGoalTokenRotateX, PixelUtil.commonGoalTokenRotateY);
+        scoreTokenEmpty.setBounds(posX, posY, PixelUtil.commonGoalTokenBoundsW, PixelUtil.commonGoalTokenBoundsH);
+        scoreTokenEmpty.setOpaque(false);
+        // scoreTokenEmpty.setBackground(new Color(0, 0, 0, 0));
+        commonGoalPane.add(scoreTokenEmpty, JLayeredPane.PALETTE_LAYER);
     }
 
-    public void setScoreTokenTop(int value){
-        scoreTokenTop = new ScoringTokenLabel(ImageUtil.getScoreTokenImage(value),PixelUtil.commonGoalTokenW,PixelUtil.commonGoalTokenH,PixelUtil.commonGoalTokenOriented,PixelUtil.commonGoalTokenRotateX,PixelUtil.commonGoalTokenRotateY);
-        scoreTokenTop.setBounds(PixelUtil.commonGoalTokenX,PixelUtil.commonGoalTopTokenY,PixelUtil.commonGoalTokenBoundsW,PixelUtil.commonGoalTokenBoundsH);
-        scoreTokenTop.setOpaque(false);
-        commonGoalPane.add(scoreTokenTop,JLayeredPane.MODAL_LAYER);
+    /**
+     * score token of first common goal
+     *
+     * @param value value of token
+     */
+    public void setScoreTokenTop(int value) {
+        if (value == 0)
+            setScoreTokenEmpty(PixelUtil.commonGoalTokenX, PixelUtil.commonGoalTopTokenY);
+        else {
+            scoreTokenTop = new ScoringTokenLabel(ImageUtil.getScoreTokenImage(value), PixelUtil.commonGoalTokenW, PixelUtil.commonGoalTokenH, PixelUtil.commonGoalTokenOriented, PixelUtil.commonGoalTokenRotateX, PixelUtil.commonGoalTokenRotateY);
+            scoreTokenTop.setBounds(PixelUtil.commonGoalTokenX, PixelUtil.commonGoalTopTokenY, PixelUtil.commonGoalTokenBoundsW, PixelUtil.commonGoalTokenBoundsH);
+            scoreTokenTop.setOpaque(false);
+            commonGoalPane.add(scoreTokenTop, JLayeredPane.MODAL_LAYER);
+        }
+
     }
 
-    public void setScoreTokenBottom(int value){
-        scoreTokenBottom = new ScoringTokenLabel(ImageUtil.getScoreTokenImage(value),PixelUtil.commonGoalTokenW,PixelUtil.commonGoalTokenH,PixelUtil.commonGoalTokenOriented,PixelUtil.commonGoalTokenRotateX,PixelUtil.commonGoalTokenRotateY);
-        scoreTokenBottom.setBounds(PixelUtil.commonGoalTokenX,PixelUtil.commonGoalBottomTokenY,PixelUtil.commonGoalTokenBoundsW,PixelUtil.commonGoalTokenBoundsH);
-         scoreTokenBottom.setOpaque(false);
-        commonGoalPane.add(scoreTokenBottom,JLayeredPane.MODAL_LAYER);
+    /**
+     * score token of second common goal
+     *
+     * @param value value of token
+     */
+    public void setScoreTokenBottom(int value) {
+        if (value == 0)
+            setScoreTokenEmpty(PixelUtil.commonGoalTokenX, PixelUtil.commonGoalBottomTokenY);
+        else {
+            scoreTokenBottom = new ScoringTokenLabel(ImageUtil.getScoreTokenImage(value), PixelUtil.commonGoalTokenW, PixelUtil.commonGoalTokenH, PixelUtil.commonGoalTokenOriented, PixelUtil.commonGoalTokenRotateX, PixelUtil.commonGoalTokenRotateY);
+            scoreTokenBottom.setBounds(PixelUtil.commonGoalTokenX, PixelUtil.commonGoalBottomTokenY, PixelUtil.commonGoalTokenBoundsW, PixelUtil.commonGoalTokenBoundsH);
+            scoreTokenBottom.setOpaque(false);
+            commonGoalPane.add(scoreTokenBottom, JLayeredPane.MODAL_LAYER);
+        }
+
     }
 
-    public void getScoreTokenTop(){
+    /**
+     * refreshing tokens of both common goal
+     *
+     * @param topValue    first common goal token
+     * @param bottomValue second common goal token
+     */
+    public void refreshScoringTokens(int topValue, int bottomValue) {
         commonGoalPane.remove(scoreTokenTop);
+        commonGoalPane.remove(scoreTokenBottom);
+
+        setScoreToken(topValue, bottomValue);
+
     }
 
-    public void getScoreTokenBottom(){
-        commonGoalPane.remove(scoreTokenBottom);
+    /**
+     * put a new score token of both common goal
+     *
+     * @param topValue    first common goal token
+     * @param bottomValue second common goal token
+     */
+    public void setScoreToken(int topValue, int bottomValue) {
+        setScoreTokenTop(topValue);
+        setScoreTokenBottom(bottomValue);
     }
 
 }

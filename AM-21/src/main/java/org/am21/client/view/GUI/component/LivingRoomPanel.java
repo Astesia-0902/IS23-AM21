@@ -2,6 +2,7 @@ package org.am21.client.view.GUI.component;
 
 
 import org.am21.client.view.ClientView;
+import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.GUI.Interface.LivingRoomMenuInterface;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
@@ -12,8 +13,6 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
-
-import static org.am21.client.SocketClient.gui;
 
 
 public class LivingRoomPanel extends JPanel {
@@ -36,7 +35,6 @@ public class LivingRoomPanel extends JPanel {
     //game board
     public JLabel gameBoardLabel;
 
-
     //personal goal
     public JLabel personalGoalLabel;
 
@@ -48,7 +46,6 @@ public class LivingRoomPanel extends JPanel {
 
     //bag
     public JLabel bagLabel;
-
 
     //chat box
     public JTextArea chatHistory;
@@ -65,7 +62,7 @@ public class LivingRoomPanel extends JPanel {
     public JLabel myScoreDynamic;
 
 
-    public LivingRoomPanel() {
+    public LivingRoomPanel(Gui gui) {
         //back board panel
         setSize(PixelUtil.pcWidth, PixelUtil.pcHeight);
         setLayout(null);
@@ -123,14 +120,35 @@ public class LivingRoomPanel extends JPanel {
         bagLabel.setIcon(ImageUtil.getBoardImage("bagClose"));
         panelBoard.add(bagLabel, JLayeredPane.PALETTE_LAYER);
 
+        //my hand label
+        handBoardLabel = new JLabel();
+        handBoardLabel.setBounds(PixelUtil.commonX_4, PixelUtil.commonY_4, PixelUtil.handBoardW, PixelUtil.handBoardH);
+        handBoardLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
+        handBoardLabel.setIcon(ImageUtil.getBoardImage("handBoard"));
+        panelBoard.add(handBoardLabel, JLayeredPane.PALETTE_LAYER);
+
+        //user Me
+        myLabel = new JLabel();
+        myLabel.setBounds(PixelUtil.userMeX, PixelUtil.commonY_1, PixelUtil.userMeW, PixelUtil.userMeH);
+        myLabel.setIcon(ImageUtil.getBoardImage("iconMe"));
+        panelBoard.add(myLabel, JLayeredPane.PALETTE_LAYER);
+
+        //my score
+        myScoreBand = new JLabel("Score:");
+        myScoreBand.setBounds(PixelUtil.commonX_5, PixelUtil.livingRoomMenuY, PixelUtil.myScoreW, PixelUtil.myScoreH);
+        myScoreBand.setFont(new Font("DejaVu Sans", Font.PLAIN, 30));
+        myScoreBand.setForeground(new Color(85, 35, 222, 230));
+        panelBoard.add(myScoreBand, JLayeredPane.PALETTE_LAYER);
+
+//------------------------------------------------------------------ function of game --------------------------------------------------------------------------------------------------------
         //Menu button
         livingRoomMenuButton = new JButton();
         livingRoomMenuButton.setBounds(PixelUtil.livingRoomMenuX, PixelUtil.livingRoomMenuY, PixelUtil.livingRoomMenuW, PixelUtil.livingRoomMenuH);
         livingRoomMenuButton.setForeground(new Color(164, 91, 9, 255));
         livingRoomMenuButton.setOpaque(false);
         livingRoomMenuButton.setIcon(ImageUtil.getBoardImage("iconMenu"));
-        /**
-         * open menu interface
+        /*
+          open menu interface
          */
         livingRoomMenuButton.addActionListener(e -> {
             LivingRoomMenuInterface livingRoomMenuInterface = new LivingRoomMenuInterface();
@@ -148,13 +166,12 @@ public class LivingRoomPanel extends JPanel {
         insertButton.setUI(new ButtonColorUI(new Color(136, 218, 123, 139)));
         insertButton.setBackground(Color.WHITE);
         insertButton.setForeground(new Color(4, 134, 10, 230));
-        /**
-         *open my hand interface
+        /*
+         open my hand interface
          */
         insertButton.addActionListener(e -> {
 
-            if(gui.commCtrl.confirmSelection())
-            {
+            if (gui.commCtrl.confirmSelection()) {
                 try {
                     gui.askInsertion();
                 } catch (ServerNotActiveException | RemoteException ex) {
@@ -229,25 +246,6 @@ public class LivingRoomPanel extends JPanel {
         sendButton.setBorder(new LineBorder(new Color(85, 35, 222, 230)));
         chatPanel.add(sendButton, JLayeredPane.MODAL_LAYER);
 
-        //my hand label
-        handBoardLabel = new JLabel();
-        handBoardLabel.setBounds(PixelUtil.commonX_4, PixelUtil.commonY_4, PixelUtil.handBoardW, PixelUtil.handBoardH);
-        handBoardLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
-        handBoardLabel.setIcon(ImageUtil.getBoardImage("handBoard"));
-        panelBoard.add(handBoardLabel, JLayeredPane.PALETTE_LAYER);
-
-        //user Me
-        myLabel = new JLabel();
-        myLabel.setBounds(PixelUtil.userMeX, PixelUtil.commonY_1, PixelUtil.userMeW, PixelUtil.userMeH);
-        myLabel.setIcon(ImageUtil.getBoardImage("iconMe"));
-        panelBoard.add(myLabel, JLayeredPane.PALETTE_LAYER);
-
-        //my score
-        myScoreBand = new JLabel("Score:");
-        myScoreBand.setBounds(PixelUtil.commonX_5, PixelUtil.livingRoomMenuY, PixelUtil.myScoreW, PixelUtil.myScoreH);
-        myScoreBand.setFont(new Font("DejaVu Sans", Font.PLAIN, 30));
-        myScoreBand.setForeground(new Color(85, 35, 222, 230));
-        panelBoard.add(myScoreBand, JLayeredPane.PALETTE_LAYER);
 
         //my score dynamic view
         myScoreDynamic = new JLabel();
@@ -257,6 +255,10 @@ public class LivingRoomPanel extends JPanel {
         panelBoard.add(myScoreDynamic, JLayeredPane.PALETTE_LAYER);
 
 
+    }
+
+    public void refreshMyScore(int score) {
+        myScoreDynamic.setText(String.valueOf(score));
     }
 
 
