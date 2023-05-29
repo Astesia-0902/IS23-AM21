@@ -106,6 +106,8 @@ public class CommunicationController implements ICommunication {
 
     @Override
     public void notifyEndMatch(PlayerController myPlayer) {
+        if (myPlayer.getPlayer().getStatus() != UserStatus.GameMember)
+            return;
         if (myPlayer.connectionType == ConnectionType.RMI) {
             try {
                 myPlayer.clientInput.callBack.notifyEndMatch();

@@ -1,6 +1,7 @@
 package org.am21.controller;
 
 import org.am21.model.GameManager;
+import org.am21.model.Match;
 import org.am21.model.Player;
 import org.am21.model.chat.ServerChatManager;
 import org.am21.model.enumer.GameState;
@@ -22,10 +23,10 @@ public class GameController {
     public static boolean checkPlayerActionPhase(PlayerController playerController) {
         String username = playerController.getPlayer().getNickname();
         synchronized (GameManager.playerMatchMap) {
-            synchronized (GameManager.matchList) {
-                if (GameManager.playerMatchMap.containsKey(username) &&
-                        username.equals(GameManager.matchList.
-                                get(GameManager.playerMatchMap.get(username)).currentPlayer.getNickname())) {
+            synchronized (GameManager.matchMap) {
+                Match match = GameManager.matchMap.get(GameManager.playerMatchMap.get(username));
+                if (GameManager.playerMatchMap.containsKey(username) && match.gameState.equals(GameState.GameGoing) &&
+                        match.currentPlayer.getNickname() == username) {
                     return true;
                 }
                 GameManager.sendReply(playerController, ServerMessage.NotYourTurn.value());
@@ -77,7 +78,7 @@ public class GameController {
         }
 
         synchronized (GameManager.playerMatchMap) {
-            synchronized (GameManager.matchList) {
+            synchronized (GameManager.matchMap) {
                 if (joinGameHelper(matchID, userName, playerController)) {
                     return true;
                 }
@@ -92,13 +93,13 @@ public class GameController {
      * @param playerController
      */
     private static boolean joinGameHelper(int matchID, String userName, PlayerController playerController) {
-        if (GameManager.matchList.size() < (matchID + 1) || GameManager.matchList.get(matchID) == null) {
+        if (GameManager.matchMap.size() < (matchID + 1) || GameManager.matchMap.containsKey(matchID)) {
             //System.out.println("Server >  The specified match does not exist.");
             GameManager.sendReply(playerController, ServerMessage.FindM_No.value());
             return false;
         }
 
-        if (GameManager.matchList.get(matchID).gameState == GameState.GameGoing) {
+        if (GameManager.matchMap.get(matchID).gameState == GameState.GameGoing) {
             if (!GameManager.playerMatchMap.containsKey(userName)) {
                 //System.out.println("Message from the server: the player not exists in any match.");
                 GameManager.sendReply(playerController, ServerMessage.PExists_No.value());
@@ -111,9 +112,9 @@ public class GameController {
                 }
             }
             //if the match is not started, the player join the match
-        } else if (GameManager.matchList.get(matchID).gameState == GameState.WaitingPlayers) {
+        } else if (GameManager.matchMap.get(matchID).gameState == GameState.WaitingPlayers) {
             GameManager.sendReply(playerController, ServerMessage.FindM_Ok.value());
-            if (!GameManager.matchList.get(matchID).addPlayer(playerController.getPlayer())) {
+            if (!GameManager.matchMap.get(matchID).addPlayer(playerController.getPlayer())) {
                 //System.out.println("Message from the server: the match is full.");
                 GameManager.sendReply(playerController, ServerMessage.FullM.value());
                 return false;
@@ -138,7 +139,7 @@ public class GameController {
         }
 
         synchronized (GameManager.playerMatchMap) {
-            synchronized (GameManager.matchList) {
+            synchronized (GameManager.matchMap) {
                 if (createMatchHelper(userName, createMatchRequestCount, playerNum, playerController)) {
                     //System.out.println("Message from the server: the match is created.");
                     GameManager.sendReply(playerController, ServerMessage.CreateM_Ok.value());
@@ -148,10 +149,6 @@ public class GameController {
         }
         return false;
     }
-
-
-
-
 
 
     /**
@@ -205,8 +202,8 @@ public class GameController {
                 if (GameManager.matchList.get(matchID).gameState == GameState.Closed) {
                     GameManager.matchList.remove(matchID);
                     VirtualViewHelper.virtualizeMatchList();
-
                 }
+                updatePlayersGlobalView();
             }
 
             return true;

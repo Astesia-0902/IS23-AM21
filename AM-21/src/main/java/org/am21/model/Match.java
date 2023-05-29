@@ -169,6 +169,7 @@ public class Match {
                     GameManager.playerMatchMap.remove(player.getNickname());
                 }
                 VirtualViewHelper.virtualizeMatchList();
+                VirtualViewHelper.virtualizeOnlinePlayers();
                 updatePlayersView();
                 sendTextToAll(SC.YELLOW_BB + "\nServer > " + player.getNickname() + " left the match" + SC.RST, true, true);
                 checkRoom();
@@ -233,6 +234,7 @@ public class Match {
 
     /**
      * This method check if the player has completed any CommonGoal
+     *
      * @param player player that need to check the goal
      */
     public void checkCommonGoals(Player player) {
@@ -268,6 +270,7 @@ public class Match {
             resultsMatrix = new String[playerList.size() + 1][6];
             for (int i = 0; i < playerList.size(); i++) {
                 p = playerList.get(i);
+
                 int common = p.getPlayerScore();
                 int personal = p.getHiddenPoints();
                 int group = p.getShelf().getGroupPoints();
@@ -280,8 +283,7 @@ public class Match {
                 resultsMatrix[i][4] = null; // set default value for endgame token
                 resultsMatrix[i][5] = String.valueOf(total); // set total score
 
-
-                if (p.equals(firstToComplete)) {
+                if (p.equals(firstToComplete) && p.getStatus().equals(UserStatus.GameMember)) {
                     resultsMatrix[i][4] = "1";
                 }
                 // Adding score
@@ -462,6 +464,10 @@ public class Match {
         Player topPlayer = null;
         int maxScore = 0;
         for (Player p : playerList) {
+            if (p.getStatus().equals(UserStatus.Suspended)) {
+                continue;
+            }
+
             if (p.getPlayerScore() > maxScore) {
                 topPlayer = p;
                 maxScore = p.getPlayerScore();

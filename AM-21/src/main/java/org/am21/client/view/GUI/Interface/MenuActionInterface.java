@@ -58,7 +58,7 @@ public class MenuActionInterface extends JDialog {
         getContentPane().add(createButton);
 
         joinButton = ButtonUtil.getButton("Join Match");
-        //joinButton.setEnabled(false);
+        joinButton.setEnabled(ClientView.matchList != null);
         joinButton.setBounds(ImageUtil.resizeX(150), ImageUtil.resizeY(180),
                 ImageUtil.resizeX(300), ImageUtil.resizeY(50));
         getContentPane().add(joinButton);

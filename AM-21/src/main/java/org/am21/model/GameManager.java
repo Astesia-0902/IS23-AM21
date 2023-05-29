@@ -14,16 +14,19 @@ public class GameManager {
     public static boolean SERVER_COMM = true;
 
     public static GameManager game;
-    /**Key: player name, Value: match id*/
+    /**
+     * Key: player name, Value: match id
+     */
     public static final HashMap<String, Integer> playerMatchMap = new HashMap<String, Integer>();
     public static final List<Match> matchList = new ArrayList<Match>();
+    public static Integer matchIndex = 0;
+    public static final HashMap<Integer, Match> matchMap = new HashMap<Integer, Match>();
     public static final List<Player> players = new ArrayList<>();
 
     //TODO: for testing
     public static int client_connected = 0;
 
     public GameManager(GameController controller) {
-
     }
 
     public int getNumPlayers() {
@@ -37,16 +40,24 @@ public class GameManager {
     public void removePlayer(Player player) {
         players.remove(player);
     }
+    public static Integer pushNewMatch(Match match){
+        synchronized (matchMap){
+            matchMap.put(matchIndex, match);
+            matchIndex++;
+            return matchIndex-1;
+        }
+    }
+
 
     public static boolean createMatch(int playerNum, PlayerController playerController) {
-        synchronized (matchList) {
+        synchronized (matchMap) {
             if (playerNum < 2 || playerNum > 4) {
                 return false;
             }
 
             Match match = new Match(playerNum);
-            matchList.add(match);
-            match.matchID = matchList.indexOf(match);
+            int matchID = pushNewMatch(match);
+            match.matchID = matchID;
             match.admin = playerController.getPlayer();
             match.virtualView.setAdmin(playerController.getPlayer().getNickname());
             match.virtualView.setMatchID(match.matchID);
@@ -97,8 +108,8 @@ public class GameManager {
         synchronized (players) {
             if (p.getStatus().equals(UserStatus.Offline)) {
                 players.remove(p);
-                VirtualViewHelper.virtualizeOnlinePlayers();
-                GameController.updatePlayersGlobalView();
+//                VirtualViewHelper.virtualizeOnlinePlayers();
+//                GameController.updatePlayersGlobalView();
             }
         }
 
@@ -111,9 +122,9 @@ public class GameManager {
      */
     public static boolean gameCleaner() {
         //checkUsersConnection();
-        synchronized (matchList) {
+        synchronized (matchMap) {
             List<Match> toDoList = new ArrayList<>();
-            for (Match m : matchList) {
+            for (Match m : matchMap.values()) {
                 //Check if match members are all offline, if so close it
                 if (m.gameState.equals(GameState.GameGoing)) {
                     boolean toDelete = false;
@@ -150,7 +161,7 @@ public class GameManager {
                 }
             }
             for (Match x : toDoList) {
-                matchList.remove(x);
+                matchMap.remove(x.matchID);
                 System.out.println("Removed match " + x.matchID);
             }
             if (toDoList.size() > 0) {
@@ -195,17 +206,18 @@ public class GameManager {
             // Game Cleaner
             for (PlayerController pc : toRemove) {
                 if (pc.getPlayer().getMatch() != null) {
-                    GameController.removePlayerFromMatch(pc, pc.getPlayer().getMatch().matchID);
                     pc.getPlayer().getMatch().sendTextToAll("Player " + pc.getPlayer().getNickname() + " is offline, he has been removed from the match", false, false);
+                    GameController.removePlayerFromMatch(pc, pc.getPlayer().getMatch().matchID);
                 }
                 removeOfflinePlayer(pc.getPlayer());
             }
         }
-
+        GameController.updatePlayersGlobalView();
+        GameController.notifyAllPlayers();
     }
 
     private static void checkMatchPause(int matchID) {
-        Match m = matchList.get(matchID);
+        Match m = matchMap.get(matchID);
         int activePlayers = 0;
         for (Player p : m.playerList) {
             if (p.getStatus().equals(UserStatus.GameMember)) {
@@ -248,6 +260,10 @@ public class GameManager {
 
     private static void handleMatchPauseTimeout(int matchID) {
         //TODO:the last player should be the winner
+        if (matchList.get(matchID).gameState.equals(GameState.Closed)) {
+            return;
+        }
+        cancelMatchPauseTimer(matchID);
         Match m = matchList.get(matchID);
         m.endMatch();
         System.out.println("Match " + matchID + " ended because of timeout, the last active player won.");
