@@ -18,7 +18,7 @@ public class GameManager {
      * Key: player name, Value: match id
      */
     public static final HashMap<String, Integer> playerMatchMap = new HashMap<String, Integer>();
-    public static final List<Match> matchList = new ArrayList<Match>();
+    //public static final List<Match> matchList = new ArrayList<Match>();
     public static Integer matchIndex = 0;
     public static final HashMap<Integer, Match> matchMap = new HashMap<Integer, Match>();
     public static final List<Player> players = new ArrayList<>();
@@ -165,7 +165,7 @@ public class GameManager {
                 System.out.println("Removed match " + x.matchID);
             }
             if (toDoList.size() > 0) {
-                VirtualViewHelper.virtualizeMatchList();
+                VirtualViewHelper.virtualizeMatchMap();
                 GameController.updatePlayersGlobalView();
                 GameController.notifyAllPlayers();
                 return true;
@@ -211,9 +211,10 @@ public class GameManager {
                 }
                 removeOfflinePlayer(pc.getPlayer());
             }
+            GameController.updatePlayersGlobalView();
+            GameController.notifyAllPlayers();
         }
-        GameController.updatePlayersGlobalView();
-        GameController.notifyAllPlayers();
+
     }
 
     private static void checkMatchPause(int matchID) {
@@ -234,7 +235,7 @@ public class GameManager {
     }
 
     private static void pauseMatch(int matchID) {
-        Match m = matchList.get(matchID);
+        Match m = matchMap.get(matchID);
         m.pauseMatch();
         startPauseTimer(matchID, m);
         m.sendTextToAll(SC.YELLOW_BB + "\nServer > Match paused, waiting for other players to reconnect. If non one reconnect within 60s, the last active player will be the winner." + SC.RST, true, false);
@@ -260,17 +261,17 @@ public class GameManager {
 
     private static void handleMatchPauseTimeout(int matchID) {
         //TODO:the last player should be the winner
-        if (matchList.get(matchID).gameState.equals(GameState.Closed)) {
+        if (matchMap.get(matchID).gameState.equals(GameState.Closed)) {
             return;
         }
         cancelMatchPauseTimer(matchID);
-        Match m = matchList.get(matchID);
+        Match m = matchMap.get(matchID);
         m.endMatch();
         System.out.println("Match " + matchID + " ended because of timeout, the last active player won.");
     }
 
     private static void resetMatchPauseTimer(int matchID) {
-        Match m = matchList.get(matchID);
+        Match m = matchMap.get(matchID);
         if (m.pauseTimer != null) {
             m.pauseTimer.cancel();
             startPauseTimer(matchID, m);
@@ -278,7 +279,7 @@ public class GameManager {
     }
 
     private static void cancelMatchPauseTimer(int matchID) {
-        Match m = matchList.get(matchID);
+        Match m = matchMap.get(matchID);
         if (m.pauseTimer != null) {
             m.pauseTimer.cancel();
             m.pauseTimer = null;

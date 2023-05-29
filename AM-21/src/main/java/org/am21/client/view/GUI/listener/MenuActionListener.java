@@ -78,7 +78,7 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
                 gui.ASK_CHAT = true;
 
             } else {
-                gui.timeLimitedNotification("myChatMap empty");
+                gui.timeLimitedNotification("myChatMap empty", 1000);
             }
 
 
@@ -97,7 +97,7 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
             } else if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_4) {
                 playerNum = 4;
             }
-
+            gui.menuActionInterface.maxSeatsDialog.dispose();
             if (gui.commCtrl.createMatch(playerNum)) {
                 gui.replyDEBUG("Created match");
 

@@ -359,9 +359,11 @@ public class MyHandInterface extends JFrame {
             handGrid[handMax - 1 - i].add(myHandItem[i], JLayeredPane.PALETTE_LAYER);
 
         }
+        SwingUtilities.invokeLater(()->{
+            revalidate();
+            repaint();
+        });
 
-        revalidate();
-        repaint();
     }
 
     /**

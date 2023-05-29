@@ -518,8 +518,9 @@ public class Cli implements View {
         if (matchList == null || matchList.length == 0) System.out.println("No Match Found");
         else {
             for (int i = 0; i < matchList.length; i++) {
-                if (matchList[i][0] == null)
+                if (matchList[i][0] == null) {
                     continue;
+                }
                 System.out.println("[ID: " + matchList[i][0] + " | " + matchList[i][1] + " | Players: (" + matchList[i][2] + "/" + matchList[i][3] + ")]");
             }
         }

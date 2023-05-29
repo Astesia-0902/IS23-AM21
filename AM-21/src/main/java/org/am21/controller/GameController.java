@@ -93,7 +93,7 @@ public class GameController {
      * @param playerController
      */
     private static boolean joinGameHelper(int matchID, String userName, PlayerController playerController) {
-        if (GameManager.matchMap.size() < (matchID + 1) || GameManager.matchMap.containsKey(matchID)) {
+        if (!GameManager.matchMap.containsKey(matchID)) {
             //System.out.println("Server >  The specified match does not exist.");
             GameManager.sendReply(playerController, ServerMessage.FindM_No.value());
             return false;
@@ -105,7 +105,7 @@ public class GameController {
                 GameManager.sendReply(playerController, ServerMessage.PExists_No.value());
                 return false;
             } else {
-                if (!GameManager.matchList.get(matchID).addPlayer(playerController.getPlayer())) {
+                if (!GameManager.matchMap.get(matchID).addPlayer(playerController.getPlayer())) {
                     //System.out.println("Message from the server: the match is full.");
                     GameManager.sendReply(playerController, ServerMessage.FullM.value());
                     return false;
@@ -167,7 +167,7 @@ public class GameController {
         } else if (GameManager.playerMatchMap.containsKey(userName) && createMatchRequestCount == 1) {
             createMatchRequestCount = 0;
             if (GameManager.createMatch(playerNum, playerController)) {
-                VirtualViewHelper.virtualizeMatchList();
+                VirtualViewHelper.virtualizeMatchMap();
                 updatePlayersGlobalView();
                 notifyAllPlayers();
                 return true;
@@ -180,7 +180,7 @@ public class GameController {
 
         } else if (!GameManager.playerMatchMap.containsKey(userName)) {
             if (GameManager.createMatch(playerNum, playerController)) {
-                VirtualViewHelper.virtualizeMatchList();
+                VirtualViewHelper.virtualizeMatchMap();
                 updatePlayersGlobalView();
                 notifyAllPlayers();
                 return true;
@@ -196,12 +196,12 @@ public class GameController {
 
     public static boolean removePlayerFromMatch(PlayerController ctrl, int matchID) {
         if (GameManager.playerMatchMap.containsKey(ctrl.getPlayer().getNickname())) {
-            synchronized (GameManager.matchList) {
-                GameManager.matchList.get(matchID).removePlayer(ctrl.getPlayer());
+            synchronized (GameManager.matchMap) {
+                GameManager.matchMap.get(matchID).removePlayer(ctrl.getPlayer());
                 //TODO: add a method that check if the match is close then delete instance
-                if (GameManager.matchList.get(matchID).gameState == GameState.Closed) {
-                    GameManager.matchList.remove(matchID);
-                    VirtualViewHelper.virtualizeMatchList();
+                if (GameManager.matchMap.get(matchID).gameState == GameState.Closed) {
+                    GameManager.matchMap.remove(matchID);
+                    VirtualViewHelper.virtualizeMatchMap();
                 }
                 updatePlayersGlobalView();
             }
@@ -302,7 +302,7 @@ public class GameController {
             if (GameManager.playerMatchMap.containsKey(p.getNickname())
                     && p.getMatch().matchID == (GameManager.playerMatchMap.get(p.getNickname()))
                     && p.getMatch().changeSeats(p, newMaxSeats)) {
-                VirtualViewHelper.virtualizeMatchList();
+                VirtualViewHelper.virtualizeMatchMap();
                 updatePlayersGlobalView();
                 notifyAllPlayers();
                 return true;

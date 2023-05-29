@@ -6,16 +6,16 @@
 - ###   10699404 Ken Chen [@KenChen](https://github.com/KenChen00) <br>ken.chen@mail.polimi.it
 - ###   10705881 Yang Hao Mao ([@Yang Hao Mao](https://github.com/Leomyh))<br>yanghao.mao@mail.polimi.it
 
-| Functionality                 |                             State                             |
-| :----------------------------:| :-----------------------------------------------------------: |
-| Basic rules                   |:red_circle:
-| Socket                        |:red_circle:
-| GUI                           |:red_circle:
-| TUI                           |:red_circle:
-| Multiple games                |:red_circle:
-| Persistence                   |:red_circle:
-| Resilience to disconnections  |:red_circle:
-| Chat                          |:red_circle:
+|        Functionality         |      State      |
+|:----------------------------:|:---------------:|
+|         Basic rules          | :green_circle:  |
+|            Socket            | :green_circle:  |
+|             GUI              | :orange_circle: |
+|             TUI              | :green_circle:  |
+|        Multiple games        | :green_circle:  |
+|         Persistence          |  :red_circle:   |
+| Resilience to disconnections | :orange_circle: |
+|             Chat             | :green_circle:  |
 
 ## Test Coverage
 

@@ -363,13 +363,15 @@ public class VirtualViewHelper {
      * - matchID
      * - match's gameState
      */
-    public static void virtualizeMatchList() {
+    public static void virtualizeMatchMap() {
         Match m;
-        synchronized (GameManager.matchList) {
-            String[][] vMatchList = new String[GameManager.matchList.size()][4];
+        synchronized (GameManager.matchMap) {
+            List<Match> equalList = new ArrayList<>(GameManager.matchMap.values());
+            String[][] vMatchList = new String[GameManager.matchMap.size()][4];
 
-            for (int i = 0; i < GameManager.matchList.size(); i++) {
-                m = GameManager.matchList.get(i);
+            for (int i = 0; i < equalList.size(); i++) {
+
+                m = equalList.get(i);
                 String[] tmpMatch = {
                         String.valueOf(m.matchID),
                         String.valueOf(m.gameState),
@@ -415,7 +417,7 @@ public class VirtualViewHelper {
 
     public static void virtualizeServerVirtualView() {
         virtualizeOnlinePlayers();
-        virtualizeMatchList();
+        virtualizeMatchMap();
         virtualizeChatMap(ServerChatManager.getChatMap());
         virtualizePrivateChats(ServerChatManager.getPrivateChats());
     }

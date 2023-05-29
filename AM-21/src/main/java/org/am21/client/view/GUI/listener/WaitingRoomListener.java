@@ -1,5 +1,6 @@
 package org.am21.client.view.GUI.listener;
 
+import org.am21.client.view.ClientView;
 import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.GUI.utils.ImageUtil;
 
@@ -47,8 +48,8 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
                 if (gui.askLeaveMatch()) {
                     //TEMP
                     System.out.println("Leave Waiting Room");
-                    gui.GO_TO_MENU = true;
-                    gui.GAME_ON = false;
+                    ClientView.setGoToMenu(true);
+                    ClientView.setGameOn(false);
                     gui.NEED_NEW_FRAME = true;
                     //Remove Match Group Chat from myChatMap
                     Gui.myChatMap.remove("#All");

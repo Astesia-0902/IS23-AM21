@@ -10,8 +10,8 @@ import org.am21.networkRMI.ClientInputHandler;
 import org.am21.networkRMI.IClientInput;
 
 import java.rmi.Naming;
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
@@ -37,7 +37,7 @@ public class GameAppTest {
                     printOnlinePlayers();
                 }
                 if (input.equals("ml")) {
-                    printMatchList();
+                    printMatchMap();
                 }
 
                 //Thread.sleep(1000);
@@ -73,7 +73,7 @@ public class GameAppTest {
     }
 
     private static void resetServer() {
-        GameManager.matchList.clear();
+        GameManager.matchMap.clear();
         GameManager.playerMatchMap.clear();
         GameManager.client_connected = 0;
         GameManager.players.clear();
@@ -95,13 +95,14 @@ public class GameAppTest {
 
     }
 
-    private static void printMatchList() throws RemoteException {
-        String message="";
+    private static void printMatchMap() {
+        String message = "";
         System.out.println("Match List: ");
-        synchronized (GameManager.matchList) {
-            if(GameManager.matchList.size()>0){
-                for (Match m : GameManager.matchList){
-                    message += ("[ID: "+m.matchID+" | "+m.gameState+" | Players: ("+m.playerList.size()+"/"+m.maxSeats+")]\n");
+        synchronized (GameManager.matchMap) {
+            if (GameManager.matchMap.size() > 0) {
+                for (Map.Entry<Integer, Match>  entry : GameManager.matchMap.entrySet()) {
+                    Match m = entry.getValue();
+                    message += ("[ID: " + m.matchID + " | " + m.gameState + " | Players: (" + m.playerList.size() + "/" + m.maxSeats + ")]\n");
                 }
             }
         }

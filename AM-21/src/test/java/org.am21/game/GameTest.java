@@ -43,7 +43,7 @@ public class GameTest {
 
     @AfterEach
     void tearDown() {
-        GameManager.matchList.clear();
+        GameManager.matchMap.clear();
         GameManager.playerMatchMap.clear();
 
     }
@@ -55,9 +55,9 @@ public class GameTest {
     void testCreateAndJoinMatch() {
         GameController.createMatch(client1.getPlayer().getNickname(), 0, 2, client1);
         GameController.joinGame(0, client2.getPlayer().getNickname(), client2);
-        assertNotNull(GameManager.matchList.get(0));
+        assertNotNull(GameManager.matchMap.get(0));
         assertNotNull(GameManager.playerMatchMap.get("A"));
-        Match m = GameManager.matchList.get(0);
+        Match m = GameManager.matchMap.get(0);
         assertTrue(m.gameState == GameState.GameGoing);
 
     }
@@ -66,7 +66,7 @@ public class GameTest {
     void testGameSimulation2Players() {
         GameController.createMatch(client1.getPlayer().getNickname(), 0, 2, client1);
         GameController.joinGame(0, client2.getPlayer().getNickname(), client2);
-        Match m = GameManager.matchList.get(0);
+        Match m = GameManager.matchMap.get(0);
         //Select x2
         assertTrue(m.currentPlayer.getController().selectCell(1, 4));
         assertTrue(m.currentPlayer.getController().selectCell(1, 3));

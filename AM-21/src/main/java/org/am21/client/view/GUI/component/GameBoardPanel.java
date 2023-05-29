@@ -87,6 +87,10 @@ public class GameBoardPanel extends JPanel {
     public void refreshBoard(String[][] gameBoard, Gui gui) {
         clearBoard();
         fillingBoard(gameBoard, gui);
+        SwingUtilities.invokeLater(()->{
+            revalidate();
+            repaint();
+        });
     }
 
     /**
@@ -99,6 +103,11 @@ public class GameBoardPanel extends JPanel {
                     pane[i].removeAll();
             }
         }
+        SwingUtilities.invokeLater(()->{
+            System.out.println("Board cleaned");
+            revalidate();
+            repaint();
+        });
     }
 
     /**
@@ -124,9 +133,12 @@ public class GameBoardPanel extends JPanel {
                 }
             }
         }
+        SwingUtilities.invokeLater(()->{
+            System.out.println("Board refilled");
+            revalidate();
+            repaint();
+        });
 
-        revalidate();
-        repaint();
 
     }
 

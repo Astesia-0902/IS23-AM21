@@ -98,6 +98,12 @@ public class MenuActionInterface extends JDialog {
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
-        //setOpacity(0.0f);
+    }
+
+
+    public void reloadMenu() {
+        joinButton.setEnabled(!(ClientView.matchList == null || ClientView.matchList.length == 0));
+
+
     }
 }

@@ -9,7 +9,6 @@ import org.am21.client.view.GUI.listener.*;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PathUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
-import org.am21.client.view.View;
 import org.am21.networkRMI.ClientCallBack;
 import org.am21.networkRMI.IClientInput;
 import org.am21.networkRMI.Lobby;
@@ -32,7 +31,7 @@ import java.util.Map;
 
 import static org.am21.client.view.ClientView.*;
 
-public class Gui implements View {
+public class Gui {
     public JFrame frame = new JFrame("MyShelfie");
     public ClientCommunicationController commCtrl;
     public IClientInput iClientInputHandler;
@@ -71,19 +70,21 @@ public class Gui implements View {
     public static boolean NEW_CHAT_WINDOW = false;
     //-------------------------------------------------------------------
     private SocketClient socket;
-    public boolean GO_TO_MENU = true;
+    //public boolean GO_TO_MENU = true;
     //If true askPlayerMove, if false askWaitingAction
-    public boolean GAME_ON = false;
-    public boolean START = false;
+    //public boolean GAME_ON = false;
+    //public boolean START = false;
     //If true GoToEndRoom
-    public boolean END = false;
+    //public boolean END = false;
     public boolean REFRESH = false;
+    public boolean MENU_REFRESH = false;
     public boolean WAIT_ROOM_REFRESH = false;
+    public boolean GAME_BOARD_REFRESH = false;
+
     public boolean NEED_NEW_FRAME = false;
 
     public boolean ASK_CHAT = false;
     private int matchIndex;
-    private Thread numThread;
     public Thread guiMinion = new Thread() {
         @Override
         public void run() {
@@ -111,13 +112,24 @@ public class Gui implements View {
                 if (waitingRoomInterface != null) {
                     System.out.println("WaitingRoomInterface Disposed");
                     waitingRoomInterface.dispose();
-                    waitingRoomInterface = null;
+                    //waitingRoomInterface = null;
                 }
                 while (GAME_ON && !GO_TO_MENU) {
                     try {
-                        if (START) {
+                        if (MATCH_START) {
                             showMatchSetup();
-                            START = false;
+                            ClientView.setMatchStart(false);
+                        } else if (GAME_BOARD_REFRESH) {
+                            SwingUtilities.invokeLater(()->{
+                                try {
+                                    announceCurrentPlayer();
+                                } catch (RemoteException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            });
+
+                            GAME_BOARD_REFRESH = false;
+                            System.out.println("Reload Game Board");
                         }
                         Thread.sleep(200);
                     } catch (RemoteException | InterruptedException e) {
@@ -156,7 +168,6 @@ public class Gui implements View {
         }
     };
     public final Object chatLock = new Object();
-
     public ChatRunnable chatRun = new ChatRunnable(this);
     public Thread guiDialogMinion = new Thread(chatRun);
 
@@ -218,13 +229,13 @@ public class Gui implements View {
 
     }
 
-    @Override
+
     public void askLogin() throws RemoteException {
         loginInterface = new LoginInterface(frame);
         new LoginListener(this);
     }
 
-    @Override
+
     public void askMenuAction() throws RemoteException {
         if (menuActionInterface == null) {
             menuActionInterface = new MenuActionInterface(frame, username);
@@ -235,17 +246,25 @@ public class Gui implements View {
             menuActionInterface = new MenuActionInterface(frame, username);
             new MenuActionListener(this);
             NEED_NEW_FRAME = false;
+        } else if (MENU_REFRESH && menuActionInterface != null) {
+            SwingUtilities.invokeLater(() -> {
+                menuActionInterface.reloadMenu();
+                menuActionInterface.revalidate();
+                menuActionInterface.repaint();
+                System.out.println("Menu repainted");
+            });
+            MENU_REFRESH = false;
+
         }
+
 
     }
 
-    @Override
     public boolean askCreateMatch() throws Exception {
 
         return false;
     }
 
-    @Override
     public int askMaxSeats() {
         menuActionInterface.maxSeatsDialog.setVisible(true);
         return 0;
@@ -283,14 +302,14 @@ public class Gui implements View {
         }
     }
 
-    @Override
+
     public boolean askJoinMatch() {
         DefaultListModel<String> matchModel = new DefaultListModel<>();
         if (ClientView.matchList != null) {
             String[] match = new String[ClientView.matchList.length];
             for (int i = 0; i < ClientView.matchList.length; i++) {
                 match[i] = "ID: " + ClientView.matchList[i][0] + "  |  " + ClientView.matchList[i][1]
-                           + " | Players: (" + ClientView.matchList[i][2] + "/" + ClientView.matchList[i][3] + ")";
+                        + " | Players: (" + ClientView.matchList[i][2] + "/" + ClientView.matchList[i][3] + ")";
             }
             for (String m : match) {
                 matchModel.addElement(m);
@@ -303,13 +322,13 @@ public class Gui implements View {
         return false;
     }
 
-    @Override
+
     public boolean askLeaveMatch() throws RemoteException {
 
         return commCtrl.leaveMatch();
     }
 
-    @Override
+
     public boolean askExitGame() throws RemoteException {
 
         if (commCtrl.exitGame()) {
@@ -319,44 +338,57 @@ public class Gui implements View {
         return false;
     }
 
-    @Override
+
     public void showCommonGoals() {
         //refreshing CommonGoal Token
         commonGoalPanel.refreshScoringTokens(commonGoalScore.get(0), commonGoalScore.get(1));
 
     }
 
-    @Override
+
     public void showPersonalGoal() throws RemoteException {
         personalGoalPanel = new PersonalGoalPanel(personalGoal);
         livingRoomInterface.livingRoomPane.add(personalGoalPanel, JLayeredPane.PALETTE_LAYER);
     }
 
-    @Override
-    public void announceCurrentPlayer() throws RemoteException {
 
-        myShelfPanel.refreshShelf(shelves.get(getPlayerIndex(username)));
+    public void announceCurrentPlayer() throws RemoteException {
+        SwingUtilities.invokeLater(() -> {
+            myShelfPanel.refreshShelf(shelves.get(getPlayerIndex(username)));
+        });
         //go to end turn
-        myHandBoardPanel.refreshItem(currentPlayerHand);
+        SwingUtilities.invokeLater(() -> {
+            myHandBoardPanel.refreshItem(currentPlayerHand);
+        });
         //end turn
 
         //TODO: need notifyToAll for update all board, shelf and score view
-        showBoard(); //refresh board
-        showEveryShelf(); //refresh enemy's shelf
-
-        showPlayersStats(); //TODO:refresh users scores change in real time ???
-
-        showWhoIsPlaying(); //TODO: fix change color player problem
-
+        SwingUtilities.invokeLater(() -> {
+            showBoard(); //refresh board
+        });
+        SwingUtilities.invokeLater(() -> {
+            showEveryShelf(); //refresh enemy's shelf
+        });
+        SwingUtilities.invokeLater(() -> {
+            showPlayersStats(); //TODO:refresh users scores change in real time ???
+        });
+        SwingUtilities.invokeLater(() -> {
+            showWhoIsPlaying(); //TODO: fix change color player problem
+        });
         //TODO: end token ???
 
-        if (isEND()) {
+        if (MATCH_END) {
             gameResultsInterface = new GameResultsInterface(this, gameResults);
-            setEND(false);
+            ClientView.setMatchEnd(false);
         }
+        SwingUtilities.invokeLater(() -> {
+            livingRoomInterface.revalidate();
+            livingRoomInterface.repaint();
+        });
+
     }
 
-    @Override
+
     public void showWhoIsPlaying() {
         if (currentPlayer.equals(username)) {
             // it's my turn
@@ -384,30 +416,33 @@ public class Gui implements View {
         }
 
         //if my turn
-
+        SwingUtilities.invokeLater(() -> {
+            livingRoomInterface.revalidate();
+            livingRoomInterface.repaint();
+        });
     }
 
-    @Override
+
     public void showPlayerShelf() throws RemoteException {
 
 
     }
 
-    @Override
-    public void showEveryShelf() throws RemoteException {
+
+    public void showEveryShelf() {
         //refresh enemies shelf
         livingRoomInterface.refreshEnemiesShelves(shelves);
     }
 
-    @Override
-    public void showBoard() throws RemoteException {
+
+    public void showBoard() {
         //refresh game Board
         gameBoardPanel.refreshBoard(virtualBoard, this);
 
     }
 
-    @Override
-    public void showPlayersStats() throws RemoteException {
+
+    public void showPlayersStats() {
         //refresh my score
         livingRoomInterface.livingRoomPanel.refreshMyScore(scores.get(getPlayerIndex(username)));
         //refresh enemies score
@@ -416,49 +451,49 @@ public class Gui implements View {
 
     }
 
-    @Override
+
     public void askPlayerMove() throws RemoteException, ServerNotActiveException {
 
     }
 
-    @Override
+
     public void askSelection() throws ServerNotActiveException, RemoteException {
 
     }
 
-    @Override
-    public void askDeselection() throws ServerNotActiveException, RemoteException {
+
+    public void askDeselection() {
 
     }
 
-    @Override
+
     public void askInsertion() throws ServerNotActiveException, RemoteException {
         myHandInterface = new MyHandInterface(this);
         myHandInterface.refreshHand(currentPlayerHand);
 
     }
 
-    @Override
+
     public void handleChatMessage(String message, boolean live) {
         System.out.println(message);
     }
 
-    @Override
+
     public void showEndGameToken() {
 
     }
 
-    @Override
+
     public void showTimer() {
 
     }
 
-    @Override
+
     public void showMatchList() throws RemoteException {
 
     }
 
-    @Override
+
     public void showMatchSetup() throws RemoteException {
 
         livingRoomInterface = new LivingRoomInterface(frame, this);
@@ -510,7 +545,7 @@ public class Gui implements View {
 
     }
 
-    @Override
+
     public void askShowObject() throws RemoteException {
 
     }
@@ -519,7 +554,7 @@ public class Gui implements View {
         JOptionPane.showMessageDialog(frame, message);
     }
 
-    public void timeLimitedNotification(String message) {
+    public void timeLimitedNotification(String message, int time) {
         if (chatDialog != null && chatDialog.isVisible()) {
             return;
         }
@@ -549,7 +584,7 @@ public class Gui implements View {
 
             dialog.getContentPane().add(panel);
 
-            Timer timer = new Timer(5000, new ActionListener() {
+            Timer timer = new Timer(time, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     dialog.dispose();
@@ -602,7 +637,7 @@ public class Gui implements View {
 
     }
 
-    @Override
+
     public void showOnlinePlayer() throws RemoteException {
         DefaultListModel<String> userModel = new DefaultListModel<>();
         for (int i = 0; i < ClientView.onlinePlayers.length; i++) {
@@ -627,12 +662,12 @@ public class Gui implements View {
         //timeLimitedNotification(message);
     }
 
-    @Override
+
     public void showGoalDescription(String CommonGoalCard) {
 
     }
 
-    @Override
+
     public void showGameRules() {
         ruleDialog.setVisible(true);
     }
@@ -646,38 +681,6 @@ public class Gui implements View {
         }
     }
 
-    public boolean isGO_TO_MENU() {
-        return GO_TO_MENU;
-    }
-
-    public void setGO_TO_MENU(boolean GO_TO_MENU) {
-        this.GO_TO_MENU = GO_TO_MENU;
-    }
-
-    public boolean isGAME_ON() {
-        return GAME_ON;
-    }
-
-    public void setGAME_ON(boolean GAME_ON) {
-        this.GAME_ON = GAME_ON;
-    }
-
-    public boolean isSTART() {
-        return START;
-    }
-
-    public void setSTART(boolean START) {
-        this.START = START;
-    }
-
-
-    public boolean isEND() {
-        return END;
-    }
-
-    public void setEND(boolean END) {
-        this.END = END;
-    }
 
     public boolean isREFRESH() {
         return REFRESH;

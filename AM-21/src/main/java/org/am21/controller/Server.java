@@ -17,6 +17,7 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
@@ -63,7 +64,7 @@ public class Server {
                     printPlayers();
                 }
                 if (input.equals("ml")) {
-                    printMatchList();
+                    printMatchMap();
                 }
                 if (input.equals("bl")) {
                     printBindList();
@@ -132,7 +133,7 @@ public class Server {
     }
 
     private static void resetServer() {
-        GameManager.matchList.clear();
+        GameManager.matchMap.clear();
         GameManager.playerMatchMap.clear();
         GameManager.client_connected = 0;
         GameManager.players.clear();
@@ -142,9 +143,7 @@ public class Server {
             path += "rmi://localhost:8807/";
             try {
                 Naming.unbind(path + i);
-            } catch (RemoteException | MalformedURLException e) {
-                throw new RuntimeException(e);
-            } catch (NotBoundException e) {
+            } catch (RemoteException | MalformedURLException | NotBoundException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -166,12 +165,13 @@ public class Server {
 
     }
 
-    private static void printMatchList() {
+    private static void printMatchMap() {
         String message = "";
         System.out.println("Match List: ");
-        synchronized (GameManager.matchList) {
-            if (GameManager.matchList.size() > 0) {
-                for (Match m : GameManager.matchList) {
+        synchronized (GameManager.matchMap) {
+            if (GameManager.matchMap.size() > 0) {
+                for (Map.Entry<Integer, Match>  entry : GameManager.matchMap.entrySet()) {
+                    Match m = entry.getValue();
                     message += ("[ID: " + m.matchID + " | " + m.gameState + " | Players: (" + m.playerList.size() + "/" + m.maxSeats + ")]\n");
                 }
             }

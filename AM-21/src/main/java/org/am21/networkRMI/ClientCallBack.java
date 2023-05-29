@@ -25,6 +25,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
         } else if (gui != null) {
             //gui.printer(message,"Successful");
             gui.replyDEBUG(message);
+            gui.timeLimitedNotification(message,500);
         }
     }
 
@@ -38,7 +39,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
                 cli.updateCLI(cli, 0);
             }
         } else if (gui != null) {
-            gui.timeLimitedNotification(message.substring(0,message.indexOf(" ")) +" sent you a new message");
+            gui.timeLimitedNotification(message.substring(0,message.indexOf(" ")) +" sent you a new message",1000 );
             gui.ASK_CHAT = true;
         }
     }
@@ -57,7 +58,11 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
             cli.checkTurn();
             cli.updateCLI(cli, 500);
         } else if (gui != null) {
-            //TODO: wake thread
+            if(ClientView.GAME_ON && !ClientView.GO_TO_MENU){
+                //Gameplay
+                gui.GAME_BOARD_REFRESH = true;
+
+            }
 
         }
     }
@@ -69,16 +74,14 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
      */
     @Override
     public void notifyStart(int id) throws RemoteException {
+        ClientView.setGoToMenu(false);
+        ClientView.setGameOn(true);
+        ClientView.setMatchStart(true);
         if (cli != null) {
-            ClientView.setGoToMenu(false);
-            ClientView.setGameOn(true);
-            ClientView.setMatchStart(true);
             cli.updateCLI(cli, 1000);
         } else if (gui != null) {
-            gui.setGO_TO_MENU(false);
-            gui.setGAME_ON(true);
-            gui.setSTART(true);
-            //TODO: wake thread
+
+
 
         }
     }
@@ -92,12 +95,12 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     @Override
     public void notifyToWait(String jsonInfo) throws RemoteException {
         ClientView.convertBackMatchInfo(jsonInfo);
+        ClientView.setGameOn(false);
+        ClientView.setGoToMenu(false);
         if (cli != null) {
-            ClientView.setGameOn(false);
-            ClientView.setGoToMenu(false);
+
         } else if (gui != null) {
-            gui.setGAME_ON(false);
-            gui.setGO_TO_MENU(false);
+
         }
     }
 
@@ -108,12 +111,12 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
      */
     @Override
     public void notifyGoToMenu() throws RemoteException {
+        ClientView.setGoToMenu(true);
+        ClientView.setGameOn(false);
         if (cli != null) {
-            ClientView.setGoToMenu(true);
-            ClientView.setGameOn(false);
+
         } else if (gui != null) {
-            gui.setGO_TO_MENU(true);
-            gui.setGAME_ON(false);
+
         }
     }
 
@@ -124,19 +127,14 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
      */
     @Override
     public void notifyEndMatch() throws RemoteException {
+        ClientView.setMatchEnd(true);
+        ClientView.setGoToMenu(true);
+        ClientView.setGameOn(false);
+        ClientView.setMatchStart(false);
         if (cli != null) {
 
-            ClientView.setMatchEnd(true);
-            ClientView.setGoToMenu(true);
-            ClientView.setGameOn(false);
-            ClientView.setMatchStart(false);
-
         } else if (gui != null) {
-            gui.setEND(true);
-            gui.setGO_TO_MENU(true);
-            gui.setGAME_ON(false);
-            gui.setSTART(false);
-            gui.replyDEBUG(SC.WHITE_BB + "\nServer > The match ended. Good Bye! Press 'Enter'" + SC.RST);
+            gui.replyDEBUG(SC.WHITE_BB + "\nServer > The match ended. Good Bye!" + SC.RST);
         }
     }
 
@@ -161,9 +159,16 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
             //System.out.println("Update...");
             cli.updateCLI(cli, milliseconds);
         } else if (gui != null) {
-            if(!gui.GAME_ON && !gui.GO_TO_MENU){
+            if(ClientView.GO_TO_MENU){
+                //Menu
+                gui.MENU_REFRESH = true;
+            }else if(!ClientView.GAME_ON && !ClientView.GO_TO_MENU){
                 //Waiting room
-                gui.WAIT_ROOM_REFRESH=true;
+                gui.WAIT_ROOM_REFRESH = true;
+            }else if(ClientView.GAME_ON && !ClientView.GO_TO_MENU){
+                //Gameplay
+                gui.GAME_BOARD_REFRESH = true;
+
             }
         }
     }

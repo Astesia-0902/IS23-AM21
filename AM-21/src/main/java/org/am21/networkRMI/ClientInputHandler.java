@@ -40,9 +40,9 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     //TODO:When the command is not from the current player, the command should be ignored.
     public boolean checkPlayerActionPhase() {
         synchronized (GameManager.playerMatchMap) {
-            synchronized (GameManager.matchList) {
+            synchronized (GameManager.matchMap) {
                 return GameManager.playerMatchMap.containsKey(userName) &&
-                        userName.equals(GameManager.matchList.
+                        userName.equals(GameManager.matchMap.
                                 get(GameManager.playerMatchMap.get(userName)).currentPlayer.getNickname());
             }
         }

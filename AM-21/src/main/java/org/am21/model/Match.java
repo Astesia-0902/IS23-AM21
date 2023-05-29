@@ -121,7 +121,7 @@ public class Match {
                 checkRoom();
                 //If, after checkRoom(), the match did not start, send Client to Waiting Phase
                 if (gameState == GameState.WaitingPlayers) {
-                    VirtualViewHelper.virtualizeMatchList();
+                    VirtualViewHelper.virtualizeMatchMap();
                     CommunicationController.instance.notifyToWait(VirtualViewHelper.convertMatchInfoToJSON(this), player.getController());
                     if (chatManager.publicChatMessages.size() > 0) {
                         CommunicationController.instance.sendVirtualPublicChat(VirtualViewHelper.convertPublicChatToJSON(this.virtualView), player.getController());
@@ -168,7 +168,7 @@ public class Match {
                 synchronized (GameManager.playerMatchMap) {
                     GameManager.playerMatchMap.remove(player.getNickname());
                 }
-                VirtualViewHelper.virtualizeMatchList();
+                VirtualViewHelper.virtualizeMatchMap();
                 VirtualViewHelper.virtualizeOnlinePlayers();
                 updatePlayersView();
                 sendTextToAll(SC.YELLOW_BB + "\nServer > " + player.getNickname() + " left the match" + SC.RST, true, true);
@@ -409,7 +409,7 @@ public class Match {
         currentPlayer = chairman;
         setGamePhase(GamePhase.Selection);
         //TODO: test it VV
-        VirtualViewHelper.virtualizeMatchList();
+        VirtualViewHelper.virtualizeMatchMap();
         VirtualViewHelper.buildVirtualView(this);
         updatePlayersView();
         GameController.updatePlayersGlobalView();

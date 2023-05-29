@@ -59,7 +59,7 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
 
                 gui.ASK_CHAT = true;
             } else {
-                gui.timeLimitedNotification("Message not sent");
+                gui.timeLimitedNotification("Message not sent", 5000);
                 gui.chatDialog.chatMessageInput.setText("");     //Clear input box
             }
             gui.chatDialog.chatMessageInput.setText("");     //Clear input box
@@ -93,7 +93,7 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
                     Gui.chatReceiver = user;
                     gui.chatDialog.currentChatHistory = Gui.privateChatHistoryMap.get(user);
                 }*/
-                gui.timeLimitedNotification("Clicked on " + Gui.chatReceiver);
+                gui.timeLimitedNotification("Clicked on " + Gui.chatReceiver,1000 );
 
             }
         });

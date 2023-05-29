@@ -59,8 +59,9 @@ public class SocketClient extends Thread {
                 if (cli != null) {
                     cli.printer(messageArray[1]);
                 } else if (gui != null) {
-                    //gui.printer(message,"Successful");
                     gui.replyDEBUG(messageArray[1]);
+                    gui.timeLimitedNotification(message,500);
+
                 }
                 return;
             }
@@ -70,54 +71,54 @@ public class SocketClient extends Thread {
                     cli.checkTurn();
                     cli.updateCLI(cli, 500);
                 } else if (gui != null) {
+                    if(ClientView.GAME_ON && !ClientView.GO_TO_MENU){
+                        //Gameplay
+                        gui.GAME_BOARD_REFRESH = true;
 
+                    }
                 }
             }
             case "notifyStart" -> {
+                ClientView.setGoToMenu(false);
+                ClientView.setGameOn(true);
+                ClientView.setMatchStart(true);
                 if (cli != null) {
-                    ClientView.setGoToMenu(false);
-                    ClientView.setGameOn(true);
-                    ClientView.setMatchStart(true);
+
                     cli.updateCLI(cli, 1000);
                 } else if (gui != null) {
-                    gui.setGO_TO_MENU(false);
-                    gui.setGAME_ON(true);
-                    gui.setSTART(true);
 
                 }
             }
             case "notifyWait" -> {
+                ClientView.convertBackMatchInfo(messageArray[1]);
+                ClientView.setGameOn(false);
+                ClientView.setGoToMenu(false);
                 if (cli != null) {
-                    ClientView.convertBackMatchInfo(messageArray[1]);
-                    ClientView.setGameOn(false);
-                    ClientView.setGoToMenu(false);
+
                 } else if (gui != null) {
-                    gui.setGAME_ON(false);
-                    gui.setGO_TO_MENU(false);
+
                 }
             }
             case "notifyGoToMenu" -> {
+                ClientView.setGoToMenu(true);
+                ClientView.setGameOn(false);
                 if (cli != null) {
-                    ClientView.setGoToMenu(true);
-                    ClientView.setGameOn(false);
+
                 } else if (gui != null) {
-                    gui.setGO_TO_MENU(true);
-                    gui.setGAME_ON(false);
+
                 }
 
             }
             case "notifyEndMatch" -> {
+                ClientView.setMatchEnd(true);
+                ClientView.setGoToMenu(true);
+                ClientView.setGameOn(false);
+                ClientView.setMatchStart(false);
                 if (cli != null) {
-                    ClientView.setMatchEnd(true);
-                    ClientView.setGoToMenu(true);
-                    ClientView.setGameOn(false);
-                    ClientView.setMatchStart(false);
+
                 } else if (gui != null) {
-                    gui.setEND(true);
-                    gui.setGO_TO_MENU(true);
-                    gui.setGAME_ON(false);
-                    gui.setSTART(false);
-                    gui.replyDEBUG(SC.WHITE_BB + "\nServer > The match ended. Good Bye! Press 'Enter'" + SC.RST);
+
+                    gui.replyDEBUG(SC.WHITE_BB + "\nServer > The match ended. Good Bye!" + SC.RST);
                 }
             }
             case "virtualHand" -> {
@@ -133,7 +134,7 @@ public class SocketClient extends Thread {
                     }
                 } else if (gui != null) {
 
-                    gui.timeLimitedNotification(messageArray[1].substring(0, messageArray[1].indexOf(" ")) + " sent you a new message");
+                    gui.timeLimitedNotification(messageArray[1].substring(0, messageArray[1].indexOf(" ")) + " sent you a new message", 5000);
                     gui.ASK_CHAT = true;
 
                 }
@@ -150,10 +151,15 @@ public class SocketClient extends Thread {
                     //System.out.println("Update...");
                     cli.updateCLI(cli, milliseconds);
                 } else if (gui != null) {
-                    if (!gui.GAME_ON && !gui.GO_TO_MENU) {
+                    if(ClientView.GO_TO_MENU){
+                        //Menu
+                        gui.MENU_REFRESH = true;
+                    }else if(!ClientView.GAME_ON && !ClientView.GO_TO_MENU){
                         //Waiting room
                         gui.WAIT_ROOM_REFRESH = true;
-
+                    }else if(ClientView.GAME_ON && !ClientView.GO_TO_MENU){
+                        //Gameplay
+                        gui.GAME_BOARD_REFRESH = true;
 
                     }
                 }
