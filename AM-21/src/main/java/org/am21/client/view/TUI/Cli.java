@@ -311,7 +311,7 @@ public class Cli implements View {
                     askToContinue();
                 }
                 case "board", "bo" -> showBoard();
-                case "stats", "st" -> showPlayersStats();
+                case "stats", "st" -> {showPlayersStats();askToContinue();}
                 case "rules", "ru" -> showGameRules();
                 case "end", "en" -> showEndGameToken();
                 case "online", "on" -> showOnlinePlayer();
@@ -444,7 +444,14 @@ public class Cli implements View {
 
     @Override
     public boolean askJoinMatch() {
+        if(matchList==null || matchList.length==0){
+            System.out.println(Color.RED+"No Match available. Create a new one."+Color.RESET);
+            delayer(1000);
+            return false;
+        }
+
         int matchID;
+
         try {
             String value;
             do {

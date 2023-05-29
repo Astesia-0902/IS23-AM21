@@ -11,7 +11,6 @@ import org.am21.networkRMI.Lobby;
 import org.am21.networkRMI.Welcome;
 import org.am21.networkSocket.SocketServer;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
@@ -33,23 +32,6 @@ public class Server {
     public static int number = 0;
     private static Thread inputThread;
 
-    private static Thread serverMinion = new Thread() {
-        @Override
-        public void run() {
-            super.run();
-            while (true) {
-
-                GameManager.checkUsersConnection();
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-
-        }
-    };
-
     private static class HeartbeatTask extends TimerTask {
         @Override
         public void run() {
@@ -68,7 +50,6 @@ public class Server {
             Lobby guardian = new Welcome();
             Naming.bind("rmi://localhost:1234/Welcome", guardian);
 
-            //serverMinion.start();
             Timer timer = new Timer();
             timer.schedule(new HeartbeatTask(), 1000, 10000);
 
