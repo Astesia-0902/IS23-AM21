@@ -16,6 +16,7 @@ import org.am21.utilities.VirtualViewHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 import static org.am21.model.enumer.ServerMessage.*;
 
@@ -34,7 +35,7 @@ public class Match {
     public VirtualView virtualView;
     public Player chairman;
     public ChatManager chatManager;
-    public MyTimer timer;
+    public Timer pauseTimer;
     public Player winner;
 
     public Match(int maxSeats) {
@@ -176,6 +177,10 @@ public class Match {
         }
     }
 
+    public void matchPause() {
+        setGameState(GameState.Pause);
+    }
+
     /**
      * This method is called at the end of each player's turn
      */
@@ -251,13 +256,14 @@ public class Match {
      * 3 - Shelf Group Points
      * 4 - Eventual Endgame token
      * 5 - Total Score;
+     *
      * @return Game Results Matrix
      */
     public String[][] checkGamePoints() {
         Player p;
         String[][] resultsMatrix;
         synchronized (playerList) {
-            resultsMatrix = new String[playerList.size()+1][6];
+            resultsMatrix = new String[playerList.size() + 1][6];
             List<String> res = new ArrayList<>(playerList.size());
             for (int i = 0; i < playerList.size(); i++) {
                 p = playerList.get(i);
@@ -299,7 +305,7 @@ public class Match {
      * - Reset players score<br>
      * - Remove all the players from the match
      */
-    private boolean endMatch() {
+    public boolean endMatch() {
         String[][] gameResults = checkGamePoints();
         decideWinner();
         if (winner != null) {
@@ -421,10 +427,16 @@ public class Match {
      * This method set up the next turn
      */
     public void nextTurn() {
+        if (gameState.equals(GameState.Closed) || gameState.equals(GameState.Pause)) {
+            currentPlayer = null;
+            sendTextToAll(SC.RED_B + "Server[!] > The match is closed or paused" + SC.RST, true, false);
+            return;
+        }
+
         sendTextToAll(SC.YELLOW_BB + "\nServer > " + currentPlayer.getNickname() + " ended his turn" + SC.RST, false, false);
         do {
             currentPlayer = playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats);
-             if (currentPlayer.getStatus().equals(UserStatus.Suspended)) {
+            if (currentPlayer.getStatus().equals(UserStatus.Suspended)) {
                 sendTextToAll(SC.YELLOW_BB + "\nServer > " + currentPlayer.getNickname() + " his turn is skipped" + SC.RST, false, true);
             }
         } while (currentPlayer.getStatus().equals(UserStatus.Suspended));
@@ -443,7 +455,7 @@ public class Match {
      */
     public void updatePlayersView() {
         for (Player p : playerList) {
-            if(p.getStatus() == UserStatus.GameMember)
+            if (p.getStatus() == UserStatus.GameMember)
                 CommunicationController.instance.sendVirtualView(getJSONVirtualView(), playerList.indexOf(p), p.getController());
         }
     }

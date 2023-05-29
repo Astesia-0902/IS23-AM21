@@ -33,22 +33,22 @@ public class Server {
     public static int number = 0;
     private static Thread inputThread;
 
-    private static Thread serverMinion = new Thread() {
-        @Override
-        public void run() {
-            super.run();
-            while (true) {
-
-                GameManager.checkUsersConnection();
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-
-        }
-    };
+//    private static Thread serverMinion = new Thread() {
+//        @Override
+//        public void run() {
+//            super.run();
+//            while (true) {
+//
+//                GameManager.checkUsersConnection();
+//                try {
+//                    Thread.sleep(10000);
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//
+//        }
+//    };
 
     private static class HeartbeatTask extends TimerTask {
         @Override
