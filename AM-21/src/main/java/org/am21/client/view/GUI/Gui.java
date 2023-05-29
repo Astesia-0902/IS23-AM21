@@ -157,14 +157,10 @@ public class Gui implements View {
 
         }
     };
-    public Object chatLock = new Object();
+    public final Object chatLock = new Object();
 
     public ChatRunnable chatRun = new ChatRunnable(this);
-    public Thread guiDialogMinion = new Thread(chatRun) {
-        public void setVisibleTrue() {
-            chatRun.gui.chatDialog.setVisible(true);
-        }
-    };
+    public Thread guiDialogMinion = new Thread(chatRun);
 
 
     public Thread guiChatListenerMinion = new Thread() {

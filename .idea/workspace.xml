@@ -10,14 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="800ee988-8dce-43ff-867f-ca064b189a74" name="Changes" comment="update Gui">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_05_2023_18_00_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_05_2023_18_00__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/ClientView.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/ClientView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Gui.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Gui.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/Cli.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/Cli.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/virtualview/VirtualView.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/virtualview/VirtualView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/VirtualViewHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/VirtualViewHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,7 +111,7 @@
       <recent name="org.am21.utilities" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.CLITest1">
+  <component name="RunManager" selected="Application.CLITest2">
     <configuration name="CLITest1" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.am21.client.ClientApp" />
       <module name="IS23-AM21" />
@@ -680,7 +676,8 @@
       <workItem from="1685005310171" duration="16563000" />
       <workItem from="1685022931240" duration="10751000" />
       <workItem from="1685114887213" duration="9147000" />
-      <workItem from="1685308489900" duration="7169000" />
+      <workItem from="1685308489900" duration="7383000" />
+      <workItem from="1685350621249" duration="3336000" />
     </task>
     <task id="LOCAL-00001" summary="update scoringToken test">
       <created>1680516093577</created>
