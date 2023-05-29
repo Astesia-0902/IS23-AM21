@@ -30,8 +30,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.am21.client.view.ClientView.currentPlayer;
-import static org.am21.client.view.ClientView.maxSeats;
+import static org.am21.client.view.ClientView.*;
 
 public class Gui implements View {
     public JFrame frame = new JFrame("MyShelfie");
@@ -325,34 +324,38 @@ public class Gui implements View {
     @Override
     public void showCommonGoals() {
         //refreshing CommonGoal Token
-        commonGoalPanel.refreshScoringTokens(ClientView.commonGoalScore.get(0), ClientView.commonGoalScore.get(1));
+        commonGoalPanel.refreshScoringTokens(commonGoalScore.get(0), commonGoalScore.get(1));
 
     }
 
     @Override
     public void showPersonalGoal() throws RemoteException {
-        personalGoalPanel = new PersonalGoalPanel(ClientView.personalGoal);
+        personalGoalPanel = new PersonalGoalPanel(personalGoal);
         livingRoomInterface.livingRoomPane.add(personalGoalPanel, JLayeredPane.PALETTE_LAYER);
     }
 
     @Override
     public void announceCurrentPlayer() throws RemoteException {
 
-        myShelfPanel.refreshShelf(ClientView.shelves.get(ClientView.getPlayerIndex(username)));
+        myShelfPanel.refreshShelf(shelves.get(getPlayerIndex(username)));
         //go to end turn
-        myHandBoardPanel.refreshItem(ClientView.currentPlayerHand);
+        myHandBoardPanel.refreshItem(currentPlayerHand);
         //end turn
 
-        showBoard(); //TODO: fix refresh game board delay problem
-
-        showPlayersStats(); //TODO: fixe refresh users scores show problem
-
+        //TODO: need notifyToAll for update all board, shelf and score view
+        showBoard(); //refresh board
         showEveryShelf(); //refresh enemy's shelf
+
+        showPlayersStats(); //TODO:refresh users scores change in real time ???
 
         showWhoIsPlaying(); //TODO: fix change color player problem
 
         //TODO: end token ???
-        //TODO: results interface ???
+
+        if (isEND()) {
+            gameResultsInterface = new GameResultsInterface(this,gameResults);
+            setEND(false);
+        }
     }
 
     @Override
@@ -395,22 +398,22 @@ public class Gui implements View {
     @Override
     public void showEveryShelf() throws RemoteException {
         //refresh enemies shelf
-        livingRoomInterface.refreshEnemiesShelves(ClientView.shelves);
+        livingRoomInterface.refreshEnemiesShelves(shelves);
     }
 
     @Override
     public void showBoard() throws RemoteException {
         //refresh game Board
-        gameBoardPanel.refreshBoard(ClientView.virtualBoard, this);
+        gameBoardPanel.refreshBoard(virtualBoard, this);
 
     }
 
     @Override
     public void showPlayersStats() throws RemoteException {
         //refresh my score
-        livingRoomInterface.livingRoomPanel.refreshMyScore(ClientView.scores.get(ClientView.getPlayerIndex(username)));
+        livingRoomInterface.livingRoomPanel.refreshMyScore(scores.get(getPlayerIndex(username)));
         //refresh enemies score
-        livingRoomInterface.refreshEnemiesScores(ClientView.scores);
+        livingRoomInterface.refreshEnemiesScores(scores);
 
 
     }
@@ -433,7 +436,7 @@ public class Gui implements View {
     @Override
     public void askInsertion() throws ServerNotActiveException, RemoteException {
         myHandInterface = new MyHandInterface(this);
-        myHandInterface.refreshHand(ClientView.currentPlayerHand);
+        myHandInterface.refreshHand(currentPlayerHand);
 
     }
 
@@ -464,11 +467,11 @@ public class Gui implements View {
         showPersonalGoal();
 
         //set common goal
-        commonGoalPanel = new CommonGoalPanel(ClientView.commonGoal.get(0), ClientView.commonGoal.get(1));
+        commonGoalPanel = new CommonGoalPanel(commonGoal.get(0), commonGoal.get(1));
         livingRoomInterface.livingRoomPane.add(commonGoalPanel, JLayeredPane.PALETTE_LAYER);
 
         //set CommonGoal Token
-        commonGoalPanel.setScoreToken(ClientView.commonGoalScore.get(0), ClientView.commonGoalScore.get(1));
+        commonGoalPanel.setScoreToken(commonGoalScore.get(0), commonGoalScore.get(1));
 
         //if me is chairMan
         if (username.equals(currentPlayer)) {

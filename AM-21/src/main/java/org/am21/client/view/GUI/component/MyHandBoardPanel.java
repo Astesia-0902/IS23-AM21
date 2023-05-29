@@ -14,6 +14,14 @@ public class MyHandBoardPanel extends JPanel {
 
     public MyHandBoardPanel() {
 
+        setMyHandBoardPanel();
+
+    }
+
+    /**
+     * base set
+     */
+    public void setMyHandBoardPanel() {
         setBounds(PixelUtil.commonX_4, PixelUtil.commonY_4, PixelUtil.handBoardW, PixelUtil.handBoardH);
         setLayout(null);
         setOpaque(false);
@@ -24,7 +32,6 @@ public class MyHandBoardPanel extends JPanel {
             handGrid[i].setLayout(null);
             add(handGrid[i]);
         }
-
     }
 
     /**

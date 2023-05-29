@@ -67,7 +67,66 @@ public class LivingRoomPanel extends JPanel {
 
 
     public LivingRoomPanel(Gui gui) {
-        //back board panel
+
+        setLivingRoomPanel();
+
+//------------------------------------------------------------------ function of game --------------------------------------------------------------------------------------------------------
+        setMenuButton(gui);
+
+        setInsertButton(gui);
+
+        setClearButton(gui);
+
+
+        //chat box TODO: completed with chat waitingRoomInterface
+        chatPanel = new JLayeredPane();
+        chatPanel.setBounds(PixelUtil.cPanelX, PixelUtil.cPanelY, PixelUtil.cPanelW, PixelUtil.cPanelH);
+        chatPanel.setLayout(null);
+        panelBoard.add(chatPanel, JLayeredPane.PALETTE_LAYER);
+
+        chatHistory = new JTextArea();
+        chatHistory.setEditable(false);
+        chatHistory.setFont(new Font("DejaVu Sans", Font.PLAIN, 12));
+        //this.currentChatHistory.setBounds(10,910,340,40);
+        chatHistory.setOpaque(false);
+        //this.currentChatHistory.setForeground(new Color(0, 0, 0, 64));
+        //this.currentChatHistory.setBorder(BorderFactory.createLineBorder(new Color(172, 19, 5, 230)));
+
+        scrollHistoryPane = new JScrollPane(chatHistory);
+        scrollHistoryPane.setBounds(0, 0, PixelUtil.cScrollW, PixelUtil.cScrollH);
+        scrollHistoryPane.setOpaque(false);
+        scrollHistoryPane.getViewport().setOpaque(false);
+        //this.scrollHistoryPane.setBackground(new Color(243, 175, 58, 255));
+        scrollHistoryPane.setForeground(new Color(85, 35, 222, 230));
+        scrollHistoryPane.setBorder(BorderFactory.createLineBorder(new Color(85, 35, 222, 230)));
+        chatPanel.add(scrollHistoryPane, JLayeredPane.MODAL_LAYER);
+
+
+        messageField = new JTextField();
+        messageField.setBounds(0, PixelUtil.cTextFieldY, PixelUtil.cTextFieldW, PixelUtil.cTextFieldH);
+        messageField.setFont(new Font("DejaVu Sans", Font.PLAIN, 16));
+        messageField.setOpaque(true);
+        messageField.setForeground(new Color(85, 35, 222, 230));
+        messageField.setBackground(new Color(255, 255, 255, 255));
+        chatPanel.add(messageField, JLayeredPane.MODAL_LAYER);
+
+        sendButton = new JButton("SEND");
+        sendButton.setBounds(PixelUtil.cButtonX, PixelUtil.cButtonY, PixelUtil.cButtonW, PixelUtil.cButtonH);
+        sendButton.setFont(new Font("DejaVu Sans", Font.PLAIN, 16));
+        sendButton.setOpaque(true);
+        sendButton.setBackground(new Color(85, 35, 222, 230));
+        sendButton.setForeground(new Color(255, 255, 255, 255));
+        sendButton.setBorder(new LineBorder(new Color(85, 35, 222, 230)));
+        chatPanel.add(sendButton, JLayeredPane.MODAL_LAYER);
+
+
+        setTurnTimer();
+    }
+
+    /**
+     * base set
+     */
+    public void setLivingRoomPanel() {
         setSize(PixelUtil.pcWidth, PixelUtil.pcHeight);
         setLayout(null);
         setOpaque(false);
@@ -144,8 +203,19 @@ public class LivingRoomPanel extends JPanel {
         myScoreBand.setForeground(new Color(85, 35, 222, 230));
         panelBoard.add(myScoreBand, JLayeredPane.PALETTE_LAYER);
 
-//------------------------------------------------------------------ function of game --------------------------------------------------------------------------------------------------------
-        //Menu button
+        myScoreDynamic = new JLabel();
+        myScoreDynamic.setBounds(PixelUtil.myScoreDynamicX, PixelUtil.commonY_1, PixelUtil.myScoreDynamicW, PixelUtil.myScoreDynamicH);
+        myScoreDynamic.setFont(new Font("DejaVu Sans", Font.PLAIN, 30));
+        myScoreDynamic.setForeground(new Color(0, 0, 0, 255));
+        panelBoard.add(myScoreDynamic, JLayeredPane.PALETTE_LAYER);
+
+    }
+
+    /**
+     * menu button function
+     */
+    public void setMenuButton(Gui gui) {
+
         livingRoomMenuButton = new JButton();
         livingRoomMenuButton.setBounds(PixelUtil.livingRoomMenuX, PixelUtil.livingRoomMenuY, PixelUtil.livingRoomMenuW, PixelUtil.livingRoomMenuH);
         livingRoomMenuButton.setForeground(new Color(164, 91, 9, 255));
@@ -155,13 +225,19 @@ public class LivingRoomPanel extends JPanel {
           open menu interface
          */
         livingRoomMenuButton.addActionListener(e -> {
-            LivingRoomMenuInterface livingRoomMenuInterface = new LivingRoomMenuInterface();
+            LivingRoomMenuInterface livingRoomMenuInterface = new LivingRoomMenuInterface(gui);
             livingRoomMenuInterface.setVisible(true);
         });
 
         panelBoard.add(livingRoomMenuButton, JLayeredPane.PALETTE_LAYER);
+    }
 
-        //Insert input button
+    /**
+     * insert action button
+     * @param gui GUI
+     */
+    public void setInsertButton(Gui gui) {
+
         insertButton = new JButton("INSERT");
         insertButton.setFont(new Font("DejaVu Sans", Font.PLAIN, 16));
         insertButton.setBounds(PixelUtil.insertButtonX, PixelUtil.commonY_4, PixelUtil.insertClearButtonW, PixelUtil.insertClearButtonH);
@@ -186,8 +262,14 @@ public class LivingRoomPanel extends JPanel {
 
         });
         panelBoard.add(insertButton, JLayeredPane.PALETTE_LAYER);
+    }
 
-        //clear selection button
+    /**
+     * clear action button
+     * @param gui GUI
+     */
+    public void setClearButton(Gui gui) {
+
         clearButton = new JButton("CLEAR");
         clearButton.setFont(new Font("DejaVu Sans", Font.PLAIN, 16));
         clearButton.setBounds(PixelUtil.clearButtonX, PixelUtil.commonY_4, PixelUtil.insertClearButtonW, PixelUtil.insertClearButtonH);
@@ -207,59 +289,6 @@ public class LivingRoomPanel extends JPanel {
 
         });
         panelBoard.add(clearButton, JLayeredPane.PALETTE_LAYER);
-
-
-        //chat box TODO: completed with chat waitingRoomInterface
-        chatPanel = new JLayeredPane();
-        chatPanel.setBounds(PixelUtil.cPanelX, PixelUtil.cPanelY, PixelUtil.cPanelW, PixelUtil.cPanelH);
-        chatPanel.setLayout(null);
-        panelBoard.add(chatPanel, JLayeredPane.PALETTE_LAYER);
-
-        chatHistory = new JTextArea();
-        chatHistory.setEditable(false);
-        chatHistory.setFont(new Font("DejaVu Sans", Font.PLAIN, 12));
-        //this.currentChatHistory.setBounds(10,910,340,40);
-        chatHistory.setOpaque(false);
-        //this.currentChatHistory.setForeground(new Color(0, 0, 0, 64));
-        //this.currentChatHistory.setBorder(BorderFactory.createLineBorder(new Color(172, 19, 5, 230)));
-
-        scrollHistoryPane = new JScrollPane(chatHistory);
-        scrollHistoryPane.setBounds(0, 0, PixelUtil.cScrollW, PixelUtil.cScrollH);
-        scrollHistoryPane.setOpaque(false);
-        scrollHistoryPane.getViewport().setOpaque(false);
-        //this.scrollHistoryPane.setBackground(new Color(243, 175, 58, 255));
-        scrollHistoryPane.setForeground(new Color(85, 35, 222, 230));
-        scrollHistoryPane.setBorder(BorderFactory.createLineBorder(new Color(85, 35, 222, 230)));
-        chatPanel.add(scrollHistoryPane, JLayeredPane.MODAL_LAYER);
-
-
-        messageField = new JTextField();
-        messageField.setBounds(0, PixelUtil.cTextFieldY, PixelUtil.cTextFieldW, PixelUtil.cTextFieldH);
-        messageField.setFont(new Font("DejaVu Sans", Font.PLAIN, 16));
-        messageField.setOpaque(true);
-        messageField.setForeground(new Color(85, 35, 222, 230));
-        messageField.setBackground(new Color(255, 255, 255, 255));
-        chatPanel.add(messageField, JLayeredPane.MODAL_LAYER);
-
-        sendButton = new JButton("SEND");
-        sendButton.setBounds(PixelUtil.cButtonX, PixelUtil.cButtonY, PixelUtil.cButtonW, PixelUtil.cButtonH);
-        sendButton.setFont(new Font("DejaVu Sans", Font.PLAIN, 16));
-        sendButton.setOpaque(true);
-        sendButton.setBackground(new Color(85, 35, 222, 230));
-        sendButton.setForeground(new Color(255, 255, 255, 255));
-        sendButton.setBorder(new LineBorder(new Color(85, 35, 222, 230)));
-        chatPanel.add(sendButton, JLayeredPane.MODAL_LAYER);
-
-
-        //my score dynamic view
-        myScoreDynamic = new JLabel();
-        myScoreDynamic.setBounds(PixelUtil.myScoreDynamicX, PixelUtil.commonY_1, PixelUtil.myScoreDynamicW, PixelUtil.myScoreDynamicH);
-        myScoreDynamic.setFont(new Font("DejaVu Sans", Font.PLAIN, 30));
-        myScoreDynamic.setForeground(new Color(0, 0, 0, 255));
-        panelBoard.add(myScoreDynamic, JLayeredPane.PALETTE_LAYER);
-
-
-        setTurnTimer();
     }
 
     public void setTurnTimer() {

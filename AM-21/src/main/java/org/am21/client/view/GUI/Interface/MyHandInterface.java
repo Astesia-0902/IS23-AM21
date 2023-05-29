@@ -42,112 +42,17 @@ public class MyHandInterface extends JFrame {
 
     public MyHandInterface(Gui gui) {
 
-        setBounds(PixelUtil.myHandBackGroundX, PixelUtil.myHandBackGroundY, PixelUtil.myHandBackGroundW, PixelUtil.myHandBackGroundH);
-        setUndecorated(true);
-        setResizable(false);
-        setTitle("My hand");
-        setLayout(null);
+        setMyHandInterfacePane();
 
-        myHandInterfacePane = new JLayeredPane();
-        myHandInterfacePane.setBounds(0, 0, PixelUtil.myHandBackGroundW, PixelUtil.myHandBackGroundH);
-        myHandInterfacePane.setLayout(null);
-        myHandInterfacePane.setOpaque(false);
-        add(myHandInterfacePane);
+        setMyHandGrids();
 
-        //background
-        myHandInterfaceBack = new JLabel();
-        myHandInterfaceBack.setBounds(0, 0, PixelUtil.myHandBackGroundW, PixelUtil.myHandBackGroundH);
-        myHandInterfaceBack.setIcon(ImageUtil.getBoardImage("myHandBack"));
-        myHandInterfacePane.add(myHandInterfaceBack, JLayeredPane.DEFAULT_LAYER);
+        storeOriginalShelf();
 
-        myHandLabel = new JLabel();
-        myHandLabel.setBounds(PixelUtil.myHandHandX, PixelUtil.myHandHandY, PixelUtil.myHandHandW, PixelUtil.myHandHandH);
-        myHandLabel.setIcon(ImageUtil.getBoardImage("myHandHand"));
-        myHandInterfacePane.add(myHandLabel, JLayeredPane.PALETTE_LAYER);
+        setPreviewPanel();
 
-        //hand grids
-        for (int i = 0; i < handMax; i++) {
-            handGrid[i] = new JLayeredPane();
-            handGrid[i].setBounds(PixelUtil.myHandHandX, PixelUtil.myHandHandY + (i * ((PixelUtil.myHandHandH) / 3)), PixelUtil.myHandHandW, (PixelUtil.myHandHandH) / 3);
-            handGrid[i].setLayout(null);
-            handGrid[i].setBackground(Color.WHITE);
-            myHandInterfacePane.add(handGrid[i], JLayeredPane.MODAL_LAYER);
-        }
+        setSortButton(gui);
 
-        myShelfBoardLabel = new JLabel();
-        myShelfBoardLabel.setBounds(PixelUtil.myHandShelfX, PixelUtil.myHandHandY, PixelUtil.myShelfBoardW, PixelUtil.myShelfBoardH);
-        myShelfBoardLabel.setIcon(ImageUtil.getShelfImage(PixelUtil.myShelfBoardW, PixelUtil.myShelfBoardH));
-        myHandInterfacePane.add(myShelfBoardLabel, JLayeredPane.PALETTE_LAYER);
-
-        //current shelf
-        originalShelf = new ShelfPanel(PixelUtil.myHandShelfGridX, PixelUtil.myHandShelfGridY, PixelUtil.myCellW, PixelUtil.myCellH, PixelUtil.myItemW, PixelUtil.myItemH);
-        originalShelf.refreshShelf(ClientView.shelves.get(ClientView.getPlayerIndex(Gui.username)));
-        // myHandInterfacePane.add(shelfPanel, JLayeredPane.MODAL_LAYER);
-
-        //available column for preview
-        vectorFreeColumn = availableColumn();
-
-        //initialize preview shelf matrix
-        previewShelf = restoreShelf(ClientView.shelves.get(ClientView.getPlayerIndex(Gui.username)));
-
-        //set preview panel
-        previewPanel = new ShelfPanel(PixelUtil.myHandShelfGridX, PixelUtil.myHandShelfGridY, PixelUtil.myCellW, PixelUtil.myCellH, PixelUtil.myItemW, PixelUtil.myItemH);
-        previewPanel.refreshShelf(previewShelf);
-        myHandInterfacePane.add(previewPanel, JLayeredPane.MODAL_LAYER);
-
-        sort = new JButton();
-        sort.setBounds(PixelUtil.myHandSortX, PixelUtil.myHandSortY, PixelUtil.myHandSortW, PixelUtil.myHandSortH);
-        sort.setForeground(new Color(164, 91, 9, 255));
-        sort.setOpaque(false);
-        sort.setIcon(ImageUtil.getBoardImage("iconSort"));
-        sort.addActionListener(e -> {
-
-            if (posSort.size() == 2) {
-                if (gui.commCtrl.sortHand(posSort.get(0), posSort.get(1)))
-                    System.out.println("sort successful");
-                else
-                    System.out.println("failed");
-                refreshHand(ClientView.currentPlayerHand); //refresh new board
-                posSort.clear(); //clear list
-            }
-
-        });
-        myHandInterfacePane.add(sort, JLayeredPane.PALETTE_LAYER);
-
-
-        //button group
-        optionGroup = new ButtonGroup();
-
-        JRadioButton selCol1 = new JRadioButton();
-        selCol1.setIcon(ImageUtil.getNumberImage(1 + "gray"));
-        selCol1.setBounds(PixelUtil.myHandOptionX + PixelUtil.myHandOptionXDiff, PixelUtil.myHandOptionY, PixelUtil.handNumW, PixelUtil.handNumH);
-        selCol1.setOpaque(false);
-
-        JRadioButton selCol2 = new JRadioButton();
-        selCol2.setIcon(ImageUtil.getNumberImage(2 + "gray"));
-        selCol2.setBounds(PixelUtil.myHandOptionX + 2 * PixelUtil.myHandOptionXDiff, PixelUtil.myHandOptionY, PixelUtil.handNumW, PixelUtil.handNumH);
-        selCol2.setOpaque(false);
-
-        JRadioButton selCol3 = new JRadioButton();
-        selCol3.setIcon(ImageUtil.getNumberImage(3 + "gray"));
-        selCol3.setBounds(PixelUtil.myHandOptionX + 3 * PixelUtil.myHandOptionXDiff, PixelUtil.myHandOptionY, PixelUtil.handNumW, PixelUtil.handNumH);
-        selCol3.setOpaque(false);
-
-        JRadioButton selCol4 = new JRadioButton();
-        selCol4.setIcon(ImageUtil.getNumberImage(4 + "gray"));
-        selCol4.setBounds(PixelUtil.myHandOptionX + 4 * PixelUtil.myHandOptionXDiff, PixelUtil.myHandOptionY, PixelUtil.handNumW, PixelUtil.handNumH);
-        selCol4.setOpaque(false);
-
-        JRadioButton selCol5 = new JRadioButton();
-        selCol5.setIcon(ImageUtil.getNumberImage(5 + "gray"));
-        selCol5.setBounds(PixelUtil.myHandOptionX + 5 * PixelUtil.myHandOptionXDiff, PixelUtil.myHandOptionY, PixelUtil.handNumW, PixelUtil.handNumH);
-        selCol5.setOpaque(false);
-
-        optionGroup.add(selCol1);
-        optionGroup.add(selCol2);
-        optionGroup.add(selCol3);
-        optionGroup.add(selCol4);
-        optionGroup.add(selCol5);
+        setColumnOptionGroupButton();
 
         /*ShelfPanel testPanel = new ShelfPanel(PixelUtil.myHandShelfGridX, PixelUtil.myHandShelfGridY, PixelUtil.myCellW, PixelUtil.myCellH, PixelUtil.myItemW, PixelUtil.myItemH);
         String[][] matrix = new String[6][5];
@@ -185,6 +90,151 @@ public class MyHandInterface extends JFrame {
         myHandInterfacePane.add(testPanel, JLayeredPane.MODAL_LAYER);*/
 
         //int[] row = {1, 1, 1, 0, 0, 0};
+
+        setConfirmButton(gui);
+
+        setVisible(true);
+
+    }
+
+    /**
+     * base set
+     */
+    public void setMyHandInterfacePane() {
+        setBounds(PixelUtil.myHandBackGroundX, PixelUtil.myHandBackGroundY, PixelUtil.myHandBackGroundW, PixelUtil.myHandBackGroundH);
+        setUndecorated(true);
+        setResizable(false);
+        setTitle("My hand");
+        setLayout(null);
+
+        myHandInterfacePane = new JLayeredPane();
+        myHandInterfacePane.setBounds(0, 0, PixelUtil.myHandBackGroundW, PixelUtil.myHandBackGroundH);
+        myHandInterfacePane.setLayout(null);
+        myHandInterfacePane.setOpaque(false);
+        add(myHandInterfacePane);
+
+        //background
+        myHandInterfaceBack = new JLabel();
+        myHandInterfaceBack.setBounds(0, 0, PixelUtil.myHandBackGroundW, PixelUtil.myHandBackGroundH);
+        myHandInterfaceBack.setIcon(ImageUtil.getBoardImage("myHandBack"));
+        myHandInterfacePane.add(myHandInterfaceBack, JLayeredPane.DEFAULT_LAYER);
+
+        //hand label
+        myHandLabel = new JLabel();
+        myHandLabel.setBounds(PixelUtil.myHandHandX, PixelUtil.myHandHandY, PixelUtil.myHandHandW, PixelUtil.myHandHandH);
+        myHandLabel.setIcon(ImageUtil.getBoardImage("myHandHand"));
+        myHandInterfacePane.add(myHandLabel, JLayeredPane.PALETTE_LAYER);
+
+        //shelf label
+        myShelfBoardLabel = new JLabel();
+        myShelfBoardLabel.setBounds(PixelUtil.myHandShelfX, PixelUtil.myHandHandY, PixelUtil.myShelfBoardW, PixelUtil.myShelfBoardH);
+        myShelfBoardLabel.setIcon(ImageUtil.getShelfImage(PixelUtil.myShelfBoardW, PixelUtil.myShelfBoardH));
+        myHandInterfacePane.add(myShelfBoardLabel, JLayeredPane.PALETTE_LAYER);
+    }
+
+    /**
+     * grids base set
+     */
+    public void setMyHandGrids() {
+
+        for (int i = 0; i < handMax; i++) {
+            handGrid[i] = new JLayeredPane();
+            handGrid[i].setBounds(PixelUtil.myHandHandX, PixelUtil.myHandHandY + (i * ((PixelUtil.myHandHandH) / 3)), PixelUtil.myHandHandW, (PixelUtil.myHandHandH) / 3);
+            handGrid[i].setLayout(null);
+            handGrid[i].setBackground(Color.WHITE);
+            myHandInterfacePane.add(handGrid[i], JLayeredPane.MODAL_LAYER);
+        }
+    }
+
+    /**
+     * store the original shelf
+     */
+    public void storeOriginalShelf() {
+
+        originalShelf = new ShelfPanel(PixelUtil.myHandShelfGridX, PixelUtil.myHandShelfGridY, PixelUtil.myCellW, PixelUtil.myCellH, PixelUtil.myItemW, PixelUtil.myItemH);
+        originalShelf.refreshShelf(ClientView.shelves.get(ClientView.getPlayerIndex(Gui.username)));
+
+    }
+
+    /**
+     * view the preview panel
+     */
+    public void setPreviewPanel() {
+        //available column for preview
+        vectorFreeColumn = availableColumn();
+
+        //initialize preview shelf matrix
+        previewShelf = restoreShelf(ClientView.shelves.get(ClientView.getPlayerIndex(Gui.username)));
+
+        //set preview panel
+        previewPanel = new ShelfPanel(PixelUtil.myHandShelfGridX, PixelUtil.myHandShelfGridY, PixelUtil.myCellW, PixelUtil.myCellH, PixelUtil.myItemW, PixelUtil.myItemH);
+        previewPanel.refreshShelf(previewShelf);
+        myHandInterfacePane.add(previewPanel, JLayeredPane.MODAL_LAYER);
+    }
+
+    /**
+     * sort button function
+     *
+     * @param gui GUI
+     */
+    public void setSortButton(Gui gui) {
+        sort = new JButton();
+        sort.setBounds(PixelUtil.myHandSortX, PixelUtil.myHandSortY, PixelUtil.myHandSortW, PixelUtil.myHandSortH);
+        sort.setForeground(new Color(164, 91, 9, 255));
+        sort.setOpaque(false);
+        sort.setIcon(ImageUtil.getBoardImage("iconSort"));
+        sort.addActionListener(e -> {
+
+            if (posSort.size() == 2) {
+                if (gui.commCtrl.sortHand(posSort.get(0), posSort.get(1)))
+                    System.out.println("sort successful");
+                else
+                    System.out.println("failed");
+                refreshHand(ClientView.currentPlayerHand); //refresh new board
+                posSort.clear(); //clear list
+            }
+
+        });
+        myHandInterfacePane.add(sort, JLayeredPane.PALETTE_LAYER);
+    }
+
+    /**
+     * column function
+     */
+    public void setColumnOptionGroupButton() {
+        //button group
+        optionGroup = new ButtonGroup();
+
+        JRadioButton selCol1 = new JRadioButton();
+        selCol1.setIcon(ImageUtil.getNumberImage(1 + "gray"));
+        selCol1.setBounds(PixelUtil.myHandOptionX + PixelUtil.myHandOptionXDiff, PixelUtil.myHandOptionY, PixelUtil.handNumW, PixelUtil.handNumH);
+        selCol1.setOpaque(false);
+
+        JRadioButton selCol2 = new JRadioButton();
+        selCol2.setIcon(ImageUtil.getNumberImage(2 + "gray"));
+        selCol2.setBounds(PixelUtil.myHandOptionX + 2 * PixelUtil.myHandOptionXDiff, PixelUtil.myHandOptionY, PixelUtil.handNumW, PixelUtil.handNumH);
+        selCol2.setOpaque(false);
+
+        JRadioButton selCol3 = new JRadioButton();
+        selCol3.setIcon(ImageUtil.getNumberImage(3 + "gray"));
+        selCol3.setBounds(PixelUtil.myHandOptionX + 3 * PixelUtil.myHandOptionXDiff, PixelUtil.myHandOptionY, PixelUtil.handNumW, PixelUtil.handNumH);
+        selCol3.setOpaque(false);
+
+        JRadioButton selCol4 = new JRadioButton();
+        selCol4.setIcon(ImageUtil.getNumberImage(4 + "gray"));
+        selCol4.setBounds(PixelUtil.myHandOptionX + 4 * PixelUtil.myHandOptionXDiff, PixelUtil.myHandOptionY, PixelUtil.handNumW, PixelUtil.handNumH);
+        selCol4.setOpaque(false);
+
+        JRadioButton selCol5 = new JRadioButton();
+        selCol5.setIcon(ImageUtil.getNumberImage(5 + "gray"));
+        selCol5.setBounds(PixelUtil.myHandOptionX + 5 * PixelUtil.myHandOptionXDiff, PixelUtil.myHandOptionY, PixelUtil.handNumW, PixelUtil.handNumH);
+        selCol5.setOpaque(false);
+
+        optionGroup.add(selCol1);
+        optionGroup.add(selCol2);
+        optionGroup.add(selCol3);
+        optionGroup.add(selCol4);
+        optionGroup.add(selCol5);
 
         selCol1.addActionListener(e -> {
             if (vectorFreeColumn[0] >= ClientView.currentPlayerHand.size()) {
@@ -244,7 +294,14 @@ public class MyHandInterface extends JFrame {
         myHandInterfacePane.add(selCol3, JLayeredPane.PALETTE_LAYER);
         myHandInterfacePane.add(selCol4, JLayeredPane.PALETTE_LAYER);
         myHandInterfacePane.add(selCol5, JLayeredPane.PALETTE_LAYER);
+    }
 
+    /**
+     * confirm button function
+     *
+     * @param gui GUI
+     */
+    public void setConfirmButton(Gui gui) {
         confirm = new JButton("CONFIRM");
         confirm.setFont(new Font("DejaVu Sans", Font.PLAIN, 16));
         confirm.setBounds(PixelUtil.myHandConfirmX, PixelUtil.myHandConfirmY, PixelUtil.myHandConfirmW, PixelUtil.myHandConfirmH);
@@ -258,12 +315,14 @@ public class MyHandInterface extends JFrame {
             if (finalColumn != -1) {
 
                 if (gui.commCtrl.insertInColumn(finalColumn)) {
-                    gui.commCtrl.endTurn();
-                    try {
-                        gui.announceCurrentPlayer();
-                    } catch (RemoteException ex) {
-                        throw new RuntimeException(ex);
+                    if (gui.commCtrl.endTurn()) {
+                        try {
+                            gui.announceCurrentPlayer();
+                        } catch (RemoteException ex) {
+                            throw new RuntimeException(ex);
+                        }
                     }
+
                 }
 
                 window.dispose();
@@ -274,10 +333,6 @@ public class MyHandInterface extends JFrame {
 
         });
         myHandInterfacePane.add(confirm, JLayeredPane.PALETTE_LAYER);
-
-
-        setVisible(true);
-
     }
 
     /**
@@ -301,7 +356,7 @@ public class MyHandInterface extends JFrame {
             myHandItem[i].setSize(PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH);
 
             actionItem(i);
-            handGrid[i].add(myHandItem[i], JLayeredPane.PALETTE_LAYER);
+            handGrid[handMax - 1 - i].add(myHandItem[i], JLayeredPane.PALETTE_LAYER);
 
         }
 
@@ -397,18 +452,4 @@ public class MyHandInterface extends JFrame {
         return newShelf;
     }
 
-    public static void main(String[] args) {
-        try {
-            MyHandInterface my = new MyHandInterface(new Gui());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        List<String> stringList = new ArrayList<>();
-
-        stringList.add("_Games__1.1");
-        stringList.add("_Plants_1.3");
-        stringList.add("Trophies1.3");
-        //my.refreshItem(stringList);
-
-    }
 }

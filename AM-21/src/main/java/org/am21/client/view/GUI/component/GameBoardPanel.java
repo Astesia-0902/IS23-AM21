@@ -31,7 +31,16 @@ public class GameBoardPanel extends JPanel {
 
     public GameBoardPanel(int maxSeat) {
 
-        boundaries = BoardUtil.boardBounder(maxSeat);
+        setGameBoardPane();
+
+        drawGameBoardGrids(maxSeat);
+
+    }
+
+    /**
+     * base set
+     */
+    public void setGameBoardPane() {
         setBounds(PixelUtil.gameBoardGridX, PixelUtil.gameBoardGridY, GridRowsMax * PixelUtil.gameBoardCellW, GridColumnsMax * PixelUtil.gameBoardCellH);
         setLayout(null);
         setOpaque(false);
@@ -40,8 +49,16 @@ public class GameBoardPanel extends JPanel {
         gameBoardPane.setBounds(0, 0, GridRowsMax * PixelUtil.gameBoardCellW, GridColumnsMax * PixelUtil.gameBoardCellH);
         gameBoardPane.setLayout(null);
         add(gameBoardPane);
+    }
 
-        //draw a grid container
+    /**
+     * draw a game board grids container
+     *
+     * @param maxSeat num of player
+     */
+    public void drawGameBoardGrids(int maxSeat) {
+        boundaries = BoardUtil.boardBounder(maxSeat);
+
         int k = 0;
         if (maxSeat == 2) {
             k = 1;
@@ -58,7 +75,6 @@ public class GameBoardPanel extends JPanel {
             }
 
         }
-
     }
 
     /**

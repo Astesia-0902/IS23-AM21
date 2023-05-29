@@ -28,6 +28,17 @@ public class ShelfPanel extends JPanel {
         this.cellHeight = cellHeight;
         this.cellWidth = cellWidth;
 
+        setShelfPanel(GridX, GridY);
+    }
+
+    /**
+     * base set
+     *
+     * @param GridX position X of shelf
+     * @param GridY position Y of shelf
+     */
+    public void setShelfPanel(int GridX, int GridY) {
+
         cells = new JLabel[GridRowsMax][GridColumnsMax];
 
         setBounds(GridX, GridY, GridColumnsMax * this.cellWidth, GridRowsMax * this.cellHeight);
@@ -39,7 +50,6 @@ public class ShelfPanel extends JPanel {
                 grids[i][j] = new JLayeredPane();
                 grids[i][j].setBounds(j * this.cellWidth, i * this.cellHeight, this.cellWidth, this.cellHeight);
                 grids[i][j].setLayout(null);
-                //this.shelfBoardPane.add(this.grids[i][j],JLayeredPane.DEFAULT_LAYER);
                 add(grids[i][j]);
                 //putItem(i,j);
             }
@@ -47,6 +57,11 @@ public class ShelfPanel extends JPanel {
         }
     }
 
+    /**
+     * refresh the shelf
+     *
+     * @param myShelf virtual Shelf
+     */
     public void refreshShelf(String[][] myShelf) {
 
         for (JLayeredPane[] pane : grids) {
@@ -75,6 +90,13 @@ public class ShelfPanel extends JPanel {
 
     }
 
+    /**
+     * preview Shelf utility for insert interface
+     *
+     * @param column      column witch you want insert
+     * @param row         row will be inserted
+     * @param futureShelf the virtual Shelf
+     */
     public void previewInsertShelf(int column, int[] row, String[][] futureShelf) {
         for (JLayeredPane[] pane : grids) {
             for (int i = 0; i < pane.length; i++) {

@@ -18,6 +18,16 @@ public class CommonGoalPanel extends JPanel {
 
     public CommonGoalPanel(String topCardName, String bottomCardName) {
 
+        setCommonGoalPane();
+
+        setTopCard(topCardName);
+        setBottomCard(bottomCardName);
+    }
+
+    /**
+     * base set
+     */
+    public void setCommonGoalPane() {
         setBounds(PixelUtil.commonX_5, PixelUtil.commonGoalY_A, PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH + (PixelUtil.commonGoalY_B - PixelUtil.commonGoalY_A));
         setLayout(null);
 
@@ -25,11 +35,7 @@ public class CommonGoalPanel extends JPanel {
         commonGoalPane.setBounds(0, 0, PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH + (PixelUtil.commonGoalY_B - PixelUtil.commonGoalY_A));
         commonGoalPane.setLayout(null);
         add(commonGoalPane);
-
-        setTopCard(topCardName);
-        setBottomCard(bottomCardName);
     }
-
 
     /**
      * label of first common goal
@@ -72,7 +78,6 @@ public class CommonGoalPanel extends JPanel {
         scoreTokenEmpty = new ScoringTokenLabel(ImageUtil.getBoardImage("commonGoalTokenEmpty"), PixelUtil.commonGoalTokenW, PixelUtil.commonGoalTokenH, PixelUtil.commonGoalTokenOriented, PixelUtil.commonGoalTokenRotateX, PixelUtil.commonGoalTokenRotateY);
         scoreTokenEmpty.setBounds(posX, posY, PixelUtil.commonGoalTokenBoundsW, PixelUtil.commonGoalTokenBoundsH);
         scoreTokenEmpty.setOpaque(false);
-        // scoreTokenEmpty.setBackground(new Color(0, 0, 0, 0));
         commonGoalPane.add(scoreTokenEmpty, JLayeredPane.PALETTE_LAYER);
     }
 
@@ -122,6 +127,8 @@ public class CommonGoalPanel extends JPanel {
 
         setScoreToken(topValue, bottomValue);
 
+        revalidate();
+        repaint();
     }
 
     /**

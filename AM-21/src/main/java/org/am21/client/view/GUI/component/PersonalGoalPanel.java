@@ -13,6 +13,13 @@ public class PersonalGoalPanel extends JPanel {
 
     public PersonalGoalPanel(int cardNum) {
 
+        setPersonalGoalPanel(cardNum);
+    }
+
+    /**
+     * base set
+     */
+    public void setPersonalGoalPanel(int cardNum) {
         setBounds(PixelUtil.personalGoalX, PixelUtil.personalGoalY, PixelUtil.personalGoalCardW, PixelUtil.personalGoalCardH);
         setLayout(null);
         setOpaque(false);

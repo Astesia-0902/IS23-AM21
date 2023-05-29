@@ -1,5 +1,6 @@
 package org.am21.client.view.GUI.Interface;
 
+import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.GUI.component.ButtonColorUI;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
@@ -8,8 +9,6 @@ import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.rmi.RemoteException;
-
-import static org.am21.client.SocketClient.gui;
 
 
 public class LivingRoomMenuInterface extends JFrame {
@@ -20,7 +19,22 @@ public class LivingRoomMenuInterface extends JFrame {
     public JButton leaveMatch;
     public JButton quitGame;
 
-    public LivingRoomMenuInterface() {
+    public LivingRoomMenuInterface(Gui gui) {
+
+        setLivingRoomMenuInterfacePane();
+
+        setBackGameButton();
+
+        setLeaveButton(gui);
+
+        setQuitButton(gui);
+
+    }
+
+    /**
+     * base set
+     */
+    public void setLivingRoomMenuInterfacePane() {
         int menuLRX = (PixelUtil.pcWidth - PixelUtil.menuLRW) / 2;
         int menuLRY = (PixelUtil.pcHeight - PixelUtil.menuLRH) / 2;
         setBounds(menuLRX, menuLRY, PixelUtil.menuLRW, PixelUtil.menuLRH);
@@ -38,7 +52,12 @@ public class LivingRoomMenuInterface extends JFrame {
         menuLRBack.setBounds(0, 0, PixelUtil.menuLRW, PixelUtil.menuLRH);
         menuLRBack.setIcon(ImageUtil.getBoardImage("menuLRBack"));
         menuLRPane.add(menuLRBack, JLayeredPane.DEFAULT_LAYER);
+    }
 
+    /**
+     * back game button function
+     */
+    public void setBackGameButton() {
         backGame = new JButton("BACK TO PLAY");
         backGame.setFont(new Font("DejaVu Sans", Font.PLAIN, 24));
         backGame.setBounds(PixelUtil.buttonLRX, PixelUtil.buttonBackLRY, PixelUtil.buttonLRW, PixelUtil.buttonLRH);
@@ -49,7 +68,12 @@ public class LivingRoomMenuInterface extends JFrame {
         backGame.setForeground(new Color(4, 134, 10, 230));
         backGame.addActionListener(e -> dispose());
         menuLRPane.add(backGame, JLayeredPane.PALETTE_LAYER);
+    }
 
+    /**
+     * leave button function
+     */
+    public void setLeaveButton(Gui gui) {
         leaveMatch = new JButton("LEAVE MATCH");
         leaveMatch.setFont(new Font("DejaVu Sans", Font.PLAIN, 24));
         leaveMatch.setBounds(PixelUtil.buttonLRX, PixelUtil.buttonWaitLRY, PixelUtil.buttonLRW, PixelUtil.buttonLRH);
@@ -69,7 +93,12 @@ public class LivingRoomMenuInterface extends JFrame {
 
         });
         menuLRPane.add(leaveMatch, JLayeredPane.PALETTE_LAYER);
+    }
 
+    /**
+     * quit button function
+     */
+    public void setQuitButton(Gui gui) {
         quitGame = new JButton("EXIT GAME");
         quitGame.setFont(new Font("DejaVu Sans", Font.PLAIN, 24));
         quitGame.setBounds(PixelUtil.buttonLRX, PixelUtil.buttonLeaveLRY, PixelUtil.buttonLRW, PixelUtil.buttonLRH);
@@ -87,6 +116,5 @@ public class LivingRoomMenuInterface extends JFrame {
 
         });
         menuLRPane.add(quitGame, JLayeredPane.PALETTE_LAYER);
-
     }
 }

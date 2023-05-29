@@ -1,5 +1,6 @@
 package org.am21.client.view.GUI.Interface;
 
+import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.GUI.component.ButtonColorUI;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
@@ -12,7 +13,6 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.rmi.RemoteException;
 
-import static org.am21.client.SocketClient.gui;
 
 public class GameResultsInterface extends JFrame {
     public JLayeredPane gameResultsPane;
@@ -21,47 +21,53 @@ public class GameResultsInterface extends JFrame {
     public JLabel title;
     public JLabel gameResultsBack;
     public JButton quitGame;
+    public String[][] data;
+    public static int columnResults = 7;
 
-    public GameResultsInterface() {
-        setUndecorated(true);
-        setSize(PixelUtil.pcWidth, PixelUtil.pcHeight);
-        setLayout(null);
+    public GameResultsInterface(Gui gui, String[][] gameResults) {
+//public GameResultsInterface() {
+        setBackGround();
 
-        gameResultsPane = new JLayeredPane();
-        gameResultsPane.setBounds(0, 0, PixelUtil.pcWidth, PixelUtil.pcHeight);
-        gameResultsPane.setLayout(null);
-        gameResultsPane.setOpaque(false);
+       /* data = new String[gameResults.length-1][columnResults];
 
-        add(gameResultsPane);
+        for(int i = 0 ; i<gameResults.length-1;i++)
+        {
+            for(int j = 0 ;j<columnResults-1;j++)
+            {
+                if(gameResults[i][j]!=null)
+                    data[i][j] = gameResults[i][j];
+            }
 
-        gameResultsBack = new JLabel();
-        gameResultsBack.setBounds(0, 0, PixelUtil.pcWidth, PixelUtil.pcHeight);
-        gameResultsBack.setIcon(ImageUtil.getBoardImage("backGround"));
-        gameResultsPane.add(gameResultsBack, JLayeredPane.DEFAULT_LAYER);
+        }
+        Arrays.sort(data, Comparator.comparing(row -> -Integer.parseInt(row[6])));
 
-        title = new JLabel();
-        title.setBounds(PixelUtil.labelRIX, PixelUtil.labelRITitleY, PixelUtil.labelRIW, PixelUtil.labelRITitleH);
-        title.setIcon(ImageUtil.getBoardImage("logoTitle"));
-        gameResultsPane.add(title, JLayeredPane.PALETTE_LAYER);
-        setTitle("Game Results");
+        for(int i = 0; i< gameResults.length -1 ; i++)
+        {
+            data[i][columnResults-1] = String.valueOf(i+1);
+        }*/
+   /* Object[][] data = {
+            {"Player A", 25, 1},
+            {"You", 21, 2},
+            {"Player B", 14, 3},
+            {"Player C", 3, 4}
+    };*/
 
-        // TODO: fill results
+        data = new String[gameResults.length - 1][6];
 
-        Object[][] data = {
-                {"Player A", 25, 1},
-                {"You", 21, 2},
-                {"Player B", 14, 3},
-                {"Player C", 3, 4}
-        };
+        for (int i = 0; i < gameResults.length - 1; i++) {
+            for (int j = 0; j < 6; j++) {
+                data[i][j] = gameResults[i][j];
+            }
 
+        }
+        // String[] columnResultsName = {"Name","C-Goal", "P-Goal","S-Group","Endgame","Total","Position"};
 
-        String[] columnResultsName = {"Name", "Score", "Position"};
-
+        String[] columnResultsName = {"Name", "C-Goal", "P-Goal", "S-Group", "Endgame", "Total"};
 
         DefaultTableModel tableModel = new DefaultTableModel(data, columnResultsName);
         tableResults = new JTable(tableModel);
         tableResults.setFont(new Font("DejaVu Sans", Font.PLAIN, 42));
-        tableResults.setRowHeight(PixelUtil.labelRIRowH);
+        tableResults.setRowHeight(PixelUtil.labelRITableRowH);
         tableResults.setOpaque(false);
         // tableResults.setBorder(BorderFactory.createEmptyBorder());
         tableResults.setShowGrid(false);
@@ -79,9 +85,8 @@ public class GameResultsInterface extends JFrame {
         JScrollPane scrollPane = new JScrollPane(tableResults);
         scrollPane.setOpaque(false);
         scrollPane.getViewport().setOpaque(false);
-        scrollPane.setBounds(PixelUtil.labelRIX, PixelUtil.labelRIY, PixelUtil.labelRIW, PixelUtil.labelRITableH);
+        scrollPane.setBounds(0, PixelUtil.labelRIY, PixelUtil.pcWidth, PixelUtil.labelRITableH);
         gameResultsPane.add(scrollPane, JLayeredPane.PALETTE_LAYER);
-
         DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -105,6 +110,43 @@ public class GameResultsInterface extends JFrame {
             tableResults.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
         }
 
+
+        //-button quit ------------------------------------------------------------------------------------------------
+
+        //callQuitGame(gui);
+
+        //-------------------------------------------------------------------------------------------------------
+
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    public void setBackGround() {
+        setUndecorated(true);
+        setSize(PixelUtil.pcWidth, PixelUtil.pcHeight);
+        setLayout(null);
+
+        gameResultsPane = new JLayeredPane();
+        gameResultsPane.setBounds(0, 0, PixelUtil.pcWidth, PixelUtil.pcHeight);
+        gameResultsPane.setLayout(null);
+        gameResultsPane.setOpaque(false);
+
+        add(gameResultsPane);
+
+        gameResultsBack = new JLabel();
+        gameResultsBack.setBounds(0, 0, PixelUtil.pcWidth, PixelUtil.pcHeight);
+        gameResultsBack.setIcon(ImageUtil.getBoardImage("backGround"));
+        gameResultsPane.add(gameResultsBack, JLayeredPane.DEFAULT_LAYER);
+
+        title = new JLabel();
+        title.setBounds(PixelUtil.labelRITitleX, PixelUtil.labelRITitleY, PixelUtil.labelRITitleW, PixelUtil.labelRITitleH);
+        title.setIcon(ImageUtil.getBoardImage("logoTitle"));
+        gameResultsPane.add(title, JLayeredPane.PALETTE_LAYER);
+        setTitle("Game Results");
+
+    }
+
+    public void callQuitGame(Gui gui) {
         quitGame = new JButton("LEAVE");
         quitGame.setFont(new Font("DejaVu Sans", Font.PLAIN, 24));
         quitGame.setBounds(PixelUtil.labelRIButtonX, PixelUtil.labelRIButtonY, PixelUtil.buttonLRW, PixelUtil.buttonLRH);
@@ -123,16 +165,11 @@ public class GameResultsInterface extends JFrame {
 
         });
         gameResultsPane.add(quitGame, JLayeredPane.PALETTE_LAYER);
-
-
-        setLocationRelativeTo(null);
-        setVisible(true);
     }
-
 
     public static void main(String[] args) {
         try {
-            new GameResultsInterface();
+            // new GameResultsInterface();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -242,13 +242,14 @@ public class PixelUtil {
     /**
      * game results interface
      */
-    public static int labelRIW = pcWidth * 100 / 168;
+    public static int labelRITitleW = pcWidth * 100 / 168;
     public static int labelRITitleH = pcWidth * 57 / 100;
+
     public static int labelRITableH = pcHeight * 10 / 21;
-    public static int labelRIX = (PixelUtil.pcWidth - labelRIW) / 2;
-    public static int labelRIY = (PixelUtil.pcWidth - labelRIW) / 2;
+    public static int labelRITitleX = (PixelUtil.pcWidth - labelRITitleW) / 2;
+    public static int labelRIY = (PixelUtil.pcWidth - labelRITitleW) / 2;
     public static int labelRITitleY = -pcHeight * 2857 / 10000;
-    public static int labelRIRowH = pcHeight * 105 / 1000;
+    public static int labelRITableRowH = pcHeight * 105 / 1000;
 
     public static int labelRIButtonX = pcWidth * 381 / 1000;
     public static int labelRIButtonY = pcHeight * 86 / 100;

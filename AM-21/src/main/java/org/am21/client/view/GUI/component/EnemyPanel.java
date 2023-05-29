@@ -20,7 +20,28 @@ public class EnemyPanel extends JPanel {
     public ChairManLabel chairManLabel;
     public Timer waitTimer;
 
-    public EnemyPanel(int posY, ImageIcon imgPic, String nickname, String chairMan, String[][] shelfStatus) {
+    public EnemyPanel(int posY, ImageIcon imgPic, String nickname, String chairMan, String[][] virtualShelf) {
+
+        setEnemyPane(posY);
+
+        setEnemyBackGround(imgPic, nickname);
+
+        setEnemyShelf(virtualShelf);
+
+        setEnemyChair(chairMan, nickname);
+
+        setTurnTimer();
+
+
+    }
+
+    /**
+     * base set
+     *
+     * @param posY pane position Y of enemy
+     */
+
+    public void setEnemyPane(int posY) {
         setBounds(0, posY, PixelUtil.commonX_2 + PixelUtil.enemyShelfW, PixelUtil.enemyShelfH);
         setLayout(null);
         setOpaque(false);
@@ -29,7 +50,15 @@ public class EnemyPanel extends JPanel {
         enemyPane.setLayout(null);
         enemyPane.setOpaque(false);
         add(enemyPane);
+    }
 
+    /**
+     * base set
+     *
+     * @param imgPic   pic of profile
+     * @param nickname name of enemy
+     */
+    public void setEnemyBackGround(ImageIcon imgPic, String nickname) {
         enemyPic = new JLabel(nickname);
         enemyPic.setBounds(PixelUtil.commonX_1, 0, PixelUtil.enemyW, PixelUtil.enemyH);
         enemyPic.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
@@ -46,19 +75,32 @@ public class EnemyPanel extends JPanel {
         enemyScoreDynamic.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
         enemyScoreDynamic.setForeground(new Color(0, 0, 0, 255));
         enemyPane.add(enemyScoreDynamic, JLayeredPane.MODAL_LAYER);
+    }
 
+    /**
+     * shelf of enemy
+     *
+     * @param virtualShelf virtualShelf of enemy
+     */
+
+    public void setEnemyShelf(String[][] virtualShelf) {
         enemyShelf = new ShelfPanel(PixelUtil.enemyGridX, PixelUtil.enemyGridY, PixelUtil.enemyCellW, PixelUtil.enemyCellH, PixelUtil.enemyItemW, PixelUtil.enemyItemH);
-        enemyShelf.refreshShelf(shelfStatus);
+        enemyShelf.refreshShelf(virtualShelf);
         enemyPane.add(enemyShelf, JLayeredPane.PALETTE_LAYER);
 
+    }
+
+    /**
+     * chairMan set, if he does, set
+     *
+     * @param chairMan name of chairMan
+     * @param nickname name of enemy
+     */
+    public void setEnemyChair(String chairMan, String nickname) {
         if (chairMan.equals(nickname)) {
             chairManLabel = new ChairManLabel(false);
             enemyPane.add(chairManLabel, JLayeredPane.MODAL_LAYER);
         }
-
-        setTurnTimer();
-
-
     }
 
     public void setTurnTimer() {
