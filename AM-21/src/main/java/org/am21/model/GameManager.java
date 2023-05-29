@@ -8,9 +8,7 @@ import org.am21.model.enumer.SC;
 import org.am21.model.enumer.UserStatus;
 import org.am21.utilities.VirtualViewHelper;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class GameManager {
     public static boolean SERVER_COMM = true;
@@ -188,6 +186,7 @@ public class GameManager {
                         p.getMatch().callEndTurnRoutine();
                     }
                     p.getMatch().sendTextToAll(SC.YELLOW_BB + "\nServer > " + p.getNickname() + " suspended." + SC.RST, false, false);
+                    checkMatchPause(p.getMatch().matchID);
                 }
             }
         }
@@ -195,16 +194,80 @@ public class GameManager {
         if (!toRemove.isEmpty()) {
             // Game Cleaner
             for (PlayerController pc : toRemove) {
-                GameController.removePlayerFromMatch(pc, pc.getPlayer().getMatch().matchID);
+                if (pc.getPlayer().getMatch() != null) {
+                    GameController.removePlayerFromMatch(pc, pc.getPlayer().getMatch().matchID);
+                    pc.getPlayer().getMatch().sendTextToAll("Player " + pc.getPlayer().getNickname() + " is offline, he has been removed from the match", false, false);
+                }
                 removeOfflinePlayer(pc.getPlayer());
-                pc.getPlayer().getMatch().sendTextToAll("Player " + pc.getPlayer().getNickname() + " is offline, he has been removed from the match", false, false);
             }
         }
 
     }
 
-    private static void checkMatchClose(){
-        
+    private static void checkMatchPause(int matchID) {
+        Match m = matchList.get(matchID);
+        int activePlayers = 0;
+        for (Player p : m.playerList) {
+            if (p.getStatus().equals(UserStatus.GameMember)) {
+                activePlayers++;
+            }
+        }
+
+        if (activePlayers == 1) {
+            matchPause(matchID);
+        } else if (activePlayers < 1) {
+            //TODO: Eliminate the match
+            m.setGameState(GameState.Closed);
+        }
+    }
+
+    private static void matchPause(int matchID) {
+        Match m = matchList.get(matchID);
+        m.matchPause();
+        startPauseTimer(matchID, m);
+        m.sendTextToAll(SC.YELLOW_BB + "\nServer > Match paused, waiting for other players to reconnect. If non one reconnect within 60s, the last active player will be the winner." + SC.RST, true, false);
+    }
+
+    private static void startPauseTimer(int matchID, Match m) {
+        m.pauseTimer = new Timer();
+        m.pauseTimer.schedule(new MatchPauseTask(matchID), 1000 * 60);
+    }
+
+    private static class MatchPauseTask extends TimerTask {
+        private int matchID;
+
+        public MatchPauseTask(int matchID) {
+            this.matchID = matchID;
+        }
+
+        @Override
+        public void run() {
+            handleMatchPauseTimeout(matchID);
+        }
+    }
+
+    private static void handleMatchPauseTimeout(int matchID) {
+        //TODO:the last player should be the winner
+        Match m = matchList.get(matchID);
+        m.endMatch();
+        System.out.println("Match " + matchID + " ended because of timeout, the last active player won.");
+    }
+
+    private static void resetMatchPauseTimer(int matchID) {
+        Match m = matchList.get(matchID);
+        if (m.pauseTimer != null) {
+            m.pauseTimer.cancel();
+            startPauseTimer(matchID, m);
+        }
+    }
+
+    private static void cancelMatchPauseTimer(int matchID) {
+        Match m = matchList.get(matchID);
+        if (m.pauseTimer != null) {
+            m.pauseTimer.cancel();
+            m.pauseTimer = null;
+            m.setGameState(GameState.GameGoing);
+        }
     }
 
     /**

@@ -64,7 +64,7 @@ public class VirtualViewHelper {
         match.virtualView.setShelves(shelves);
         match.virtualView.setScores(scores);
         match.virtualView.setHiddenPoints(hiddenPoints);
-        match.virtualView.gameResults = new String[match.playerList.size()+1][6];
+        match.virtualView.gameResults = new String[match.playerList.size() + 1][6];
     }
 
     /**
@@ -162,7 +162,8 @@ public class VirtualViewHelper {
      * @param match the match
      */
     public static void virtualizeCurrentPlayer(Match match) {
-        match.virtualView.setCurrentPlayer(match.currentPlayer.getNickname());
+        if (match.currentPlayer != null)
+            match.virtualView.setCurrentPlayer(match.currentPlayer.getNickname());
     }
 
     /**
@@ -324,7 +325,7 @@ public class VirtualViewHelper {
      */
     public static void virtualizePublicChat(Match m, List<String> chat) {
         List<String> tmpChat = new ArrayList<>();
-        for(int i=0;i<chat.size();i++){
+        for (int i = 0; i < chat.size(); i++) {
             tmpChat.add(chat.get(i));
         }
         m.virtualView.setPublicChat(tmpChat);
@@ -336,9 +337,9 @@ public class VirtualViewHelper {
 
     public static void virtualizePrivateChats(List<List<String>> chats) {
         String[][] virtualChats = new String[chats.size()][];
-        for(int i=0; i<virtualChats.length;i++){
+        for (int i = 0; i < virtualChats.length; i++) {
             virtualChats[i] = new String[chats.get(i).size()];
-            for(int l=0;l<chats.get(i).size();l++){
+            for (int l = 0; l < chats.get(i).size(); l++) {
                 virtualChats[i][l] = chats.get(i).get(l);
             }
         }
@@ -348,9 +349,9 @@ public class VirtualViewHelper {
     public static void virtualizeChatMap(HashMap<String, Integer> map) {
         String[][] virtualMap = new String[map.keySet().size()][2];
         List<String> keys = map.keySet().stream().toList();
-        for(int i=0; i<virtualMap.length;i++){
-            virtualMap[i][0]= String.valueOf(keys.get(i));
-            virtualMap[i][1]= String.valueOf(map.get(keys.get(i)));
+        for (int i = 0; i < virtualMap.length; i++) {
+            virtualMap[i][0] = String.valueOf(keys.get(i));
+            virtualMap[i][1] = String.valueOf(map.get(keys.get(i)));
         }
         ServerVirtualView.instance.setVirtualChatMap(virtualMap);
     }
@@ -367,7 +368,7 @@ public class VirtualViewHelper {
         synchronized (GameManager.matchList) {
             String[][] vMatchList = new String[GameManager.matchList.size()][4];
 
-            for(int i=0; i<GameManager.matchList.size();i++) {
+            for (int i = 0; i < GameManager.matchList.size(); i++) {
                 m = GameManager.matchList.get(i);
                 String[] tmpMatch = {
                         String.valueOf(m.matchID),
@@ -376,7 +377,7 @@ public class VirtualViewHelper {
                         String.valueOf(m.maxSeats)
                 };
 
-                vMatchList[i]=(tmpMatch);
+                vMatchList[i] = (tmpMatch);
             }
             ServerVirtualView.instance.setVirtualMatchList(vMatchList);
         }
@@ -386,7 +387,7 @@ public class VirtualViewHelper {
 
         synchronized (GameManager.players) {
             String[][] vOnlinePlayers = new String[GameManager.players.size()][2];
-            for (int i=0,t=0; i<GameManager.players.size();i++) {
+            for (int i = 0, t = 0; i < GameManager.players.size(); i++) {
                 Player p = GameManager.players.get(i);
                 if (!p.getStatus().equals(UserStatus.Offline)) {
                     String[] tmpPlayerData = {
@@ -412,7 +413,7 @@ public class VirtualViewHelper {
         System.out.println(json);
     }
 
-    public static void virtualizeServerVirtualView(){
+    public static void virtualizeServerVirtualView() {
         virtualizeOnlinePlayers();
         virtualizeMatchList();
         virtualizeChatMap(ServerChatManager.getChatMap());

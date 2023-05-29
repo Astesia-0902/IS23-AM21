@@ -8,12 +8,14 @@ package org.am21.model.enumer;
  * {@link #GameGoing}: the match has started and the players are playing.
  * {@link #LastRound}: the players are playing the last Round, when it ends, the room will close.
  * {@link #Closed}: the match ended, ready to be cleared from GameManager
+ *
  * @version 1.0
  */
 public enum GameState {
     WaitingPlayers,
     Ready,
     GameGoing,
+    Pause,
     LastRound,
     Closed
 }
