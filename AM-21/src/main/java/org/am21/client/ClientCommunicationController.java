@@ -11,12 +11,12 @@ import java.rmi.server.ServerNotActiveException;
 public class ClientCommunicationController {
     public Cli cli;
     public Gui gui;
-    private static String METHOD_KEY = "method";
+    private static String methodKey = "method";
 
     private static boolean METHOD_RETURN = true;
 
     public synchronized static void setMethodKey(String methodKey) {
-        METHOD_KEY = methodKey;
+        ClientCommunicationController.methodKey = methodKey;
     }
 
     public synchronized static void setMethodReturn(boolean methodReturn) {
@@ -26,21 +26,17 @@ public class ClientCommunicationController {
     /**
      * This method set the Attribute WAIT_SOCKET to true
      */
-    public void makeCliWait() {
-        if (cli != null) {
-            ClientView.setWaitSocket(true);
-        }else if (gui!=null) {
-            gui.WAIT_SOCKET=true;
-        }
+    public void makeClientWait() {
+        ClientView.setWaitSocket(true);
     }
 
     /**
      * While the WAIT_SOCKET is true the Client main thread will wait until the socket Receives a Return of the method
      * @param method the specific method name the socket is waiting
      */
-    public void wait_Socket(String method) {
+    public void waitingMethodReturn(String method) {
         if (cli != null) {
-            while (ClientView.WAIT_SOCKET && !METHOD_KEY.equals(method)) {
+            while (ClientView.WAIT_SOCKET && !methodKey.equals(method)) {
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException e) {
@@ -49,9 +45,9 @@ public class ClientCommunicationController {
             }
 
             //Reset
-            METHOD_KEY = "method";
+            methodKey = "method";
         }else if (gui != null) {
-            while (gui.WAIT_SOCKET && !METHOD_KEY.equals(method)) {
+            while (ClientView.WAIT_SOCKET && !methodKey.equals(method)) {
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException e) {
@@ -60,7 +56,7 @@ public class ClientCommunicationController {
             }
 
             //Reset
-            METHOD_KEY = "method";
+            methodKey = "method";
         }
     }
 
@@ -72,10 +68,10 @@ public class ClientCommunicationController {
                 throw new RuntimeException(e);
             }
         } else {
-            makeCliWait();
+            makeClientWait();
             String messageToServer = "join" + "|" + matchID;
             SocketClient.messageToServer(messageToServer);
-            wait_Socket("join");
+            waitingMethodReturn("join");
             return METHOD_RETURN;
         }
     }
@@ -88,10 +84,10 @@ public class ClientCommunicationController {
                 throw new RuntimeException(e);
             }
         } else {
-            makeCliWait();
+            makeClientWait();
             String messageToServer = "login" + "|" + username;
             SocketClient.messageToServer(messageToServer);
-            wait_Socket("login");
+            waitingMethodReturn("login");
             return METHOD_RETURN;
         }
     }
@@ -104,10 +100,10 @@ public class ClientCommunicationController {
                 throw new RuntimeException(e);
             }
         } else {
-            makeCliWait();
+            makeClientWait();
             String messageToServer = "createMatch" + "|" + playerNum;
             SocketClient.messageToServer(messageToServer);
-            wait_Socket("createMatch");
+            waitingMethodReturn("createMatch");
             return METHOD_RETURN;
         }
     }
@@ -121,10 +117,10 @@ public class ClientCommunicationController {
                 throw new RuntimeException(e);
             }
         } else {
-            makeCliWait();
+            makeClientWait();
             String messageToServer = "selectCell" + "|" + row + "|" + col;
             SocketClient.messageToServer(messageToServer);
-            wait_Socket("selectCell");
+            waitingMethodReturn("selectCell");
             return METHOD_RETURN;
         }
     }
@@ -138,10 +134,10 @@ public class ClientCommunicationController {
                 throw new RuntimeException(e);
             }
         } else {
-            makeCliWait();
+            makeClientWait();
             String messageToServer = "confirmSelection";
             SocketClient.messageToServer(messageToServer);
-            wait_Socket("confirmSelection");
+            waitingMethodReturn("confirmSelection");
             return METHOD_RETURN;
         }
     }
@@ -154,10 +150,10 @@ public class ClientCommunicationController {
                 throw new RuntimeException(e);
             }
         } else {
-            makeCliWait();
+            makeClientWait();
             String messageToServer = "insertInColumn" + "|" + colNum;
             SocketClient.messageToServer(messageToServer);
-            wait_Socket("insertInColumn");
+            waitingMethodReturn("insertInColumn");
             return METHOD_RETURN;
         }
     }
@@ -170,10 +166,10 @@ public class ClientCommunicationController {
                 throw new RuntimeException(e);
             }
         } else {
-            makeCliWait();
+            makeClientWait();
             String messageToServer = "deselectCards";
             SocketClient.messageToServer(messageToServer);
-            wait_Socket("deselectCards");
+            waitingMethodReturn("deselectCards");
             return METHOD_RETURN;
         }
     }
@@ -186,10 +182,10 @@ public class ClientCommunicationController {
                 throw new RuntimeException(e);
             }
         } else {
-            makeCliWait();
+            makeClientWait();
             String messageToServer = "sortHand" + "|" + pos1 + "|" + pos2;
             SocketClient.messageToServer(messageToServer);
-            wait_Socket("sortHand");
+            waitingMethodReturn("sortHand");
             return METHOD_RETURN;
         }
     }
@@ -202,10 +198,10 @@ public class ClientCommunicationController {
                 throw new RuntimeException(e);
             }
         } else {
-            makeCliWait();
+            makeClientWait();
             String messageToServer = "leaveMatch";
             SocketClient.messageToServer(messageToServer);
-            wait_Socket("leaveMatch");
+            waitingMethodReturn("leaveMatch");
             return METHOD_RETURN;
         }
     }
@@ -218,10 +214,10 @@ public class ClientCommunicationController {
                 throw new RuntimeException(e);
             }
         } else {
-            makeCliWait();
+            makeClientWait();
             String messageToServer = "exitGame";
             SocketClient.messageToServer(messageToServer);
-            wait_Socket("exitGame");
+            waitingMethodReturn("exitGame");
             return METHOD_RETURN;
         }
     }
@@ -235,10 +231,10 @@ public class ClientCommunicationController {
                 throw new RuntimeException(e);
             }
         } else {
-            makeCliWait();
+            makeClientWait();
             String messageToServer = "getVirtualView";
             SocketClient.messageToServer(messageToServer);
-            wait_Socket("getVirtualView");
+            waitingMethodReturn("getVirtualView");
         }
     }
 
@@ -263,10 +259,10 @@ public class ClientCommunicationController {
                 throw new RuntimeException(e);
             }
         } else {
-            makeCliWait();
+            makeClientWait();
             String messageToSend = "endTurn";
             SocketClient.messageToServer(messageToSend);
-            wait_Socket("endTurn");
+            waitingMethodReturn("endTurn");
             return METHOD_RETURN;
         }
 
@@ -280,10 +276,10 @@ public class ClientCommunicationController {
                 throw new RuntimeException(e);
             }
         } else {
-            makeCliWait();
+            makeClientWait();
             String messageToSend = "changeMatchSeats" + "|" + newMaxSeats;
             SocketClient.messageToServer(messageToSend);
-            wait_Socket("changeMatchSeats");
+            waitingMethodReturn("changeMatchSeats");
             return METHOD_RETURN;
         }
     }
@@ -296,10 +292,10 @@ public class ClientCommunicationController {
                 throw new RuntimeException(e);
             }
         } else {
-            makeCliWait();
+            makeClientWait();
             String messageToSend = "changeInsertLimit" + "|" + newLimit;
             SocketClient.messageToServer(messageToSend);
-            wait_Socket("changeInsertLimit");
+            waitingMethodReturn("changeInsertLimit");
             return METHOD_RETURN;
         }
 
@@ -313,10 +309,10 @@ public class ClientCommunicationController {
                 throw new RuntimeException(e);
             }
         } else {
-            makeCliWait();
+            makeClientWait();
             String messageToSend = "sendPublicMessage" + "|" + message + "|" + live;
             SocketClient.messageToServer(messageToSend);
-            wait_Socket("sendPublicMessage");
+            waitingMethodReturn("sendPublicMessage");
             return METHOD_RETURN;
         }
     }
@@ -329,10 +325,10 @@ public class ClientCommunicationController {
                 throw new RuntimeException(e);
             }
         } else {
-            makeCliWait();
+            makeClientWait();
             String messageToSend = "sendPrivateMessage" + "|" + message + "|" + receiver + "|" + live;
             SocketClient.messageToServer(messageToSend);
-            wait_Socket("sendPrivateMessage");
+            waitingMethodReturn("sendPrivateMessage");
             return METHOD_RETURN;
         }
     }

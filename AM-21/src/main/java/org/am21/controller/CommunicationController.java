@@ -21,7 +21,7 @@ public class CommunicationController implements ICommunication {
             }
         } else if (myPlayer.connectionType == ConnectionType.SOCKET) {
 
-            String messageToClient = "Message" + "|" + message;
+            String messageToClient = "message" + "|" + message;
             myPlayer.clientHandlerSocket.callback(messageToClient);
 
         }
@@ -39,7 +39,7 @@ public class CommunicationController implements ICommunication {
                 throw new RuntimeException(e);
             }
         } else if (myPlayer.connectionType == ConnectionType.SOCKET) {
-            String messageToClient = "VirtualView" + "|" + virtualView + "|" + pIndex;
+            String messageToClient = "virtualView" + "|" + virtualView + "|" + pIndex;
             myPlayer.clientHandlerSocket.callback(messageToClient);
         }
     }
@@ -52,7 +52,7 @@ public class CommunicationController implements ICommunication {
                 throw new RuntimeException(e);
             }
         } else if (pCtrl.connectionType == ConnectionType.SOCKET) {
-            String messageToClient = "PublicChat" + "|" + virtualPublicChat;
+            String messageToClient = "publicChat" + "|" + virtualPublicChat;
             pCtrl.clientHandlerSocket.callback(messageToClient);
         }
 
@@ -68,7 +68,7 @@ public class CommunicationController implements ICommunication {
                 throw new RuntimeException(e);
             }
         } else if (myPlayer.connectionType == ConnectionType.SOCKET) {
-            String messageToClient = "MATCH_START" + "|" + id;
+            String messageToClient = "notifyStart" + "|" + id;
             myPlayer.clientHandlerSocket.callback(messageToClient);
         }
 
@@ -83,7 +83,7 @@ public class CommunicationController implements ICommunication {
                 throw new RuntimeException(e);
             }
         } else if (myPlayer.connectionType == ConnectionType.SOCKET) {
-            String messageToClient = "WAIT" + "|" + info;
+            String messageToClient = "notifyWait" + "|" + info;
             myPlayer.clientHandlerSocket.callback(messageToClient);
 
         }
@@ -99,7 +99,7 @@ public class CommunicationController implements ICommunication {
                 throw new RuntimeException(e);
             }
         } else if (myPlayer.connectionType == ConnectionType.SOCKET) {
-            String messageToClient = "GoToMenu";
+            String messageToClient = "notifyGoToMenu";
             myPlayer.clientHandlerSocket.callback(messageToClient);
         }
     }
@@ -113,7 +113,7 @@ public class CommunicationController implements ICommunication {
                 throw new RuntimeException(e);
             }
         } else if (myPlayer.connectionType == ConnectionType.SOCKET) {
-            String messageToClient = "EndMatch";
+            String messageToClient = "notifyEndMatch";
             myPlayer.clientHandlerSocket.callback(messageToClient);
         }
     }
@@ -127,7 +127,7 @@ public class CommunicationController implements ICommunication {
                 throw new RuntimeException(e);
             }
         } else if (myPlayer.connectionType == ConnectionType.SOCKET) {
-            String messageToClient = "VirtualHand" + "|" + JSONHand;
+            String messageToClient = "virtualHand" + "|" + JSONHand;
             myPlayer.clientHandlerSocket.callback(messageToClient);
         }
     }
@@ -143,7 +143,7 @@ public class CommunicationController implements ICommunication {
     @Override
     public void returnBool(String method, boolean value, PlayerController pCtrl) {
         if (pCtrl.connectionType == ConnectionType.SOCKET) {
-            String messageToClient = "Return" + "|" + method + "|" + value;
+            String messageToClient = "return" + "|" + method + "|" + value;
             pCtrl.clientHandlerSocket.callback(messageToClient);
         }
     }
@@ -157,7 +157,7 @@ public class CommunicationController implements ICommunication {
                 throw new RuntimeException(e);
             }
         } else if (pc.connectionType == ConnectionType.SOCKET) {
-            String messageToClient = "ChatNotification" + "|" + message;
+            String messageToClient = "chatNotification" + "|" + message;
             pc.clientHandlerSocket.callback(messageToClient);
 
         }
@@ -174,7 +174,7 @@ public class CommunicationController implements ICommunication {
                 //throw new RuntimeException(e);
             }
         } else if (pc.connectionType == ConnectionType.SOCKET) {
-            String messageToClient = "ServerVirtualView" + "|" + serverVirtualView;
+            String messageToClient = "serverVirtualView" + "|" + serverVirtualView;
             pc.clientHandlerSocket.callback(messageToClient);
         }
     }

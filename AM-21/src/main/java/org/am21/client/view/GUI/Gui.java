@@ -77,7 +77,6 @@ public class Gui implements View {
     public boolean START = false;
     //If true GoToEndRoom
     public boolean END = false;
-    public boolean WAIT_SOCKET = false;
     public boolean REFRESH = false;
     public boolean WAIT_ROOM_REFRESH = false;
     public boolean NEED_NEW_FRAME = false;
@@ -678,14 +677,6 @@ public class Gui implements View {
 
     public void setEND(boolean END) {
         this.END = END;
-    }
-
-    public boolean isWAIT_SOCKET() {
-        return WAIT_SOCKET;
-    }
-
-    public void setWAIT_SOCKET(boolean WAIT_SOCKET) {
-        this.WAIT_SOCKET = WAIT_SOCKET;
     }
 
     public boolean isREFRESH() {

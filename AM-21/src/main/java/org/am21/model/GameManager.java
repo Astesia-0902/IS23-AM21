@@ -14,7 +14,7 @@ public class GameManager {
     public static boolean SERVER_COMM = true;
 
     public static GameManager game;
-    //Key: player name, Value: match id
+    /**Key: player name, Value: match id*/
     public static final HashMap<String, Integer> playerMatchMap = new HashMap<String, Integer>();
     public static final List<Match> matchList = new ArrayList<Match>();
     public static final List<Player> players = new ArrayList<>();
@@ -214,16 +214,16 @@ public class GameManager {
         }
 
         if (activePlayers == 1) {
-            matchPause(matchID);
+            pauseMatch(matchID);
         } else if (activePlayers < 1) {
             //TODO: Eliminate the match
             m.setGameState(GameState.Closed);
         }
     }
 
-    private static void matchPause(int matchID) {
+    private static void pauseMatch(int matchID) {
         Match m = matchList.get(matchID);
-        m.matchPause();
+        m.pauseMatch();
         startPauseTimer(matchID, m);
         m.sendTextToAll(SC.YELLOW_BB + "\nServer > Match paused, waiting for other players to reconnect. If non one reconnect within 60s, the last active player will be the winner." + SC.RST, true, false);
     }

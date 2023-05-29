@@ -51,11 +51,11 @@ public class SocketClient extends Thread {
     public void handleServerMessage(String message) {
         String[] messageArray = message.split("\\|", 3);
         switch (messageArray[0]) {
-            case "Return" -> {
+            case "return" -> {
                 ClientCommunicationController.setMethodKey(messageArray[1]);
                 ClientCommunicationController.setMethodReturn(Boolean.parseBoolean(messageArray[2]));
             }
-            case "Message" -> {
+            case "message" -> {
                 if (cli != null) {
                     cli.printer(messageArray[1]);
                 } else if (gui != null) {
@@ -64,7 +64,7 @@ public class SocketClient extends Thread {
                 }
                 return;
             }
-            case "VirtualView" -> {
+            case "virtualView" -> {
                 ClientView.setFullViewVariables(messageArray[1], Integer.parseInt(messageArray[2]));
                 if (cli != null) {
                     cli.checkTurn();
@@ -73,7 +73,7 @@ public class SocketClient extends Thread {
 
                 }
             }
-            case "MATCH_START" -> {
+            case "notifyStart" -> {
                 if (cli != null) {
                     ClientView.setGoToMenu(false);
                     ClientView.setGameOn(true);
@@ -86,7 +86,7 @@ public class SocketClient extends Thread {
 
                 }
             }
-            case "WAIT" -> {
+            case "notifyWait" -> {
                 if (cli != null) {
                     ClientView.convertBackMatchInfo(messageArray[1]);
                     ClientView.setGameOn(false);
@@ -96,7 +96,7 @@ public class SocketClient extends Thread {
                     gui.setGO_TO_MENU(false);
                 }
             }
-            case "GoToMenu" -> {
+            case "notifyGoToMenu" -> {
                 if (cli != null) {
                     ClientView.setGoToMenu(true);
                     ClientView.setGameOn(false);
@@ -106,7 +106,7 @@ public class SocketClient extends Thread {
                 }
 
             }
-            case "EndMatch" -> {
+            case "notifyEndMatch" -> {
                 if (cli != null) {
                     ClientView.setMatchEnd(true);
                     ClientView.setGoToMenu(true);
@@ -120,10 +120,10 @@ public class SocketClient extends Thread {
                     gui.replyDEBUG(SC.WHITE_BB + "\nServer > The match ended. Good Bye! Press 'Enter'" + SC.RST);
                 }
             }
-            case "VirtualHand" -> {
+            case "virtualHand" -> {
                 ClientView.convertBackHand(messageArray[1]);
             }
-            case "ChatNotification" -> {
+            case "chatNotification" -> {
                 if (cli != null) {
                     if (cli.CHAT_MODE) {
                         cli.refreshChat();
@@ -138,10 +138,10 @@ public class SocketClient extends Thread {
 
                 }
             }
-            case "ServerVirtualView" -> {
+            case "serverVirtualView" -> {
                 ClientView.updateServerView(messageArray[1]);
             }
-            case "PublicChat" -> {
+            case "publicChat" -> {
                 ClientView.convertBackPublicChat(messageArray[1]);
             }
             case "notifyUpdate" -> {

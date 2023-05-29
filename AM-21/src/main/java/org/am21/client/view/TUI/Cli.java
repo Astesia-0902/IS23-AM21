@@ -209,7 +209,7 @@ public class Cli implements View {
                 }
                 case "help", "h", "he" -> askHelp();
 
-                default -> System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
+                default -> System.out.println(Color.RED + "The [" + option + "] command cannot be found! Please try again."
                         + Color.RESET);
             }
         }

@@ -5,13 +5,15 @@ import org.am21.controller.GameController;
 import org.am21.model.Cards.CommonGoal;
 import org.am21.model.Cards.PersonalGoalCard;
 import org.am21.model.chat.ChatManager;
-import org.am21.model.enumer.*;
+import org.am21.model.enumer.GamePhase;
+import org.am21.model.enumer.GameState;
+import org.am21.model.enumer.SC;
+import org.am21.model.enumer.UserStatus;
 import org.am21.model.items.Board;
 import org.am21.model.items.Shelf;
 import org.am21.model.virtualview.VirtualView;
 import org.am21.utilities.CardUtil;
 import org.am21.utilities.CommonGoalUtil;
-import org.am21.utilities.MyTimer;
 import org.am21.utilities.VirtualViewHelper;
 
 import java.util.ArrayList;
@@ -45,7 +47,6 @@ public class Match {
         commonGoals = new ArrayList<>(2);
         chatManager = new ChatManager(this);
         virtualView = new VirtualView();
-        virtualView.setMaxSeats(maxSeats);
 
     }
 
@@ -97,11 +98,10 @@ public class Match {
         return false;
     }
 
-
     /**
-     * Add player to this match.
-     * And, eventually, when there are enough players,
-     * it will call the method to initialize the match {@link #initializeMatch()}
+     * Add player to this match and in the GameManager.matchMap. Reset Player data regarding the match
+     * Also the method checkRoom() will be called to check if the game can starts
+     * If the match is not started yet, the Client will receive a notification and sent to the Waiting Room
      *
      * @param player player that need to be added to the match
      * @return true if the addition is successful, otherwise false
@@ -134,13 +134,15 @@ public class Match {
         }
     }
 
-
     /**
      * This method allows to safely remove the player from the match.
+     * If the player was the admin, the role will be passed on the next player in list if possible.
      * Operations:
      * - Update PlayerList<br>
      * - Update Player's game items<br>
      * - Update PlayerMatchMap<br>
+     * - Update VirtualView (Server and Match)
+     * - Call CheckRoom() to check if it needs to end the match.
      *
      * @param player player who left the match
      * @return true if the operation is successful, otherwise false
@@ -177,12 +179,16 @@ public class Match {
         }
     }
 
-    public void matchPause() {
+    public void pauseMatch() {
         setGameState(GameState.Pause);
     }
 
     /**
      * This method is called at the end of each player's turn
+     * It will call method to check if the current player has reached any goal, or completed the shelf, so it can initiate last round.
+     * It checks if the board need to be refilled.
+     * It checks if the conditions to end the match are respected.
+     * And obviously call the nextTurn() method and update Virtual views.
      */
     public void callEndTurnRoutine() {
         //Check if currentPlayer has achieved any Common goal
@@ -211,10 +217,9 @@ public class Match {
 
             // Check if the CurrentPlayer is the first to complete his shelf
             if (currentPlayer.getShelf().getTotSlotAvail() == 0 && gameState != GameState.LastRound) {
-                //TODO: Server message
-                //System.out.println("Match > Congratulations! " + currentPlayer.getNickname() + " has completed the shelves first");
+                String message = SC.BLUE_BOLD + "Server > " + currentPlayer.getNickname() + " obtained the endgame token by completing the shelf first." + SC.RST;
+                sendTextToAll(message, true, false);
                 this.setEndGameToken(false);
-                //System.out.println("Match > virtualizeEndGame Token assigned");
                 firstToComplete = currentPlayer;
                 firstToComplete.setPlayerScore(firstToComplete.getPlayerScore() + 1);
                 gameState = GameState.LastRound;
@@ -227,20 +232,17 @@ public class Match {
     }
 
     /**
-     * This method check if the player has completed any Goal
-     *
-     * @param player player that need to check
+     * This method check if the player has completed any CommonGoal
+     * @param player player that need to check the goal
      */
     public void checkCommonGoals(Player player) {
         for (CommonGoal goal : commonGoals) {
             if (goal.checkGoal(player.getShelf()) && !goal.achievedPlayers.contains(player)) {
                 // Give player points/scoreToken
                 //Server Message: announce how many points the player's got
-                if (player.getController().clientInput != null || player.getController().clientHandlerSocket != null) {
-                    String mex = "Server > " + player.getNickname() + " acquired " + goal.tokenStack.get(0) + " points";
-                    CommunicationController.instance.sendMessageToClient(mex, player.getController());
-                    CommunicationController.instance.notifyUpdate(player.getController(), 1000);
-                }
+                String mex = "Server > " + player.getNickname() + " acquired " + goal.tokenStack.get(0) + " points";
+                CommunicationController.instance.sendMessageToClient(mex, player.getController());
+                CommunicationController.instance.notifyUpdate(player.getController(), 1000);
                 goal.commonGoalAchieved(player);
                 sendTextToAll(SC.YELLOW_BB + "Server > " + player.getNickname() + " achieved a Common Goal!"
                         + " Press 'Enter'\n" + SC.RST, true, true);
@@ -264,18 +266,13 @@ public class Match {
         String[][] resultsMatrix;
         synchronized (playerList) {
             resultsMatrix = new String[playerList.size() + 1][6];
-            List<String> res = new ArrayList<>(playerList.size());
             for (int i = 0; i < playerList.size(); i++) {
                 p = playerList.get(i);
                 int common = p.getPlayerScore();
                 int personal = p.getHiddenPoints();
                 int group = p.getShelf().getGroupPoints();
                 int total = common + personal + group;
-                res.add("* " + p.getNickname() + " Score:\n" +
-                        "+ " + common + " Common points\n" +
-                        "+ " + personal + " Personal points\n" +
-                        "+ " + group + " Group points\n"
-                );
+
                 resultsMatrix[i][0] = p.getNickname();  // set player name
                 resultsMatrix[i][1] = String.valueOf(common); // set common points
                 resultsMatrix[i][2] = String.valueOf(personal); // set personal points
@@ -285,10 +282,8 @@ public class Match {
 
 
                 if (p.equals(firstToComplete)) {
-                    res.set(i, res.get(i) + "+ 1 Endgame Token\n");
                     resultsMatrix[i][4] = "1";
                 }
-                res.set(i, res.get(i) + "Total: " + total + "\n");
                 // Adding score
                 p.getController().addScore(personal + group);
             }
@@ -301,7 +296,7 @@ public class Match {
      * This method is called when the match ends.
      * Operations:
      * - Declare the absolute winner<br>
-     * - Show the final game stats.<br>
+     * - Calculate the game results<br>
      * - Reset players score<br>
      * - Remove all the players from the match
      */
@@ -372,7 +367,7 @@ public class Match {
      * Declare who is player turn
      * And setting Turn Phase
      */
-    public void initializeMatch() {
+    private void initializeMatch() {
         //Determine the chairman player
         chairman = playerList.get((int) (Math.random() * maxSeats));
 
@@ -406,13 +401,12 @@ public class Match {
 
     /**
      * Command to start the first round.
-     * State: {@link GameState#GameGoing}
      */
     private void startFirstRound() {
         gameState = GameState.GameGoing;
         currentPlayer = chairman;
         setGamePhase(GamePhase.Selection);
-        //TODO: test it
+        //TODO: test it VV
         VirtualViewHelper.virtualizeMatchList();
         VirtualViewHelper.buildVirtualView(this);
         updatePlayersView();
@@ -444,14 +438,12 @@ public class Match {
         if (currentPlayer.getController().clientInput != null || currentPlayer.getController().clientHandlerSocket != null) {
             String message = SC.RED_B + "Server[!] > " + currentPlayer.getNickname() + "! It's your turn." + SC.RST;
             CommunicationController.instance.sendMessageToClient(message, currentPlayer.getController());
-            //GameManager.notifyUpdate(currentPlayer.getController(),100);
         }
     }
 
 
     /**
-     * Update each player with the new version of the virtual view
-     * When? When the match begins and when the turn of a player ends
+     * Update match's players with the new version of the virtual view.
      */
     public void updatePlayersView() {
         for (Player p : playerList) {

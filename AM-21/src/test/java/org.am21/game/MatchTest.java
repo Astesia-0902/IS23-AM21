@@ -8,9 +8,8 @@ import org.am21.model.Match;
 import org.am21.model.Player;
 import org.am21.model.enumer.GamePhase;
 import org.am21.model.enumer.GameState;
+import org.am21.model.enumer.UserStatus;
 import org.am21.model.items.Shelf;
-import org.am21.networkRMI.ClientCallBack;
-import org.am21.networkRMI.ClientInputHandler;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +25,7 @@ class MatchTest {
     Match m;
 
     /**
-     * SetUp: a empty match with 2 players
+     * SetUp: an empty match with 2 players
      */
     @BeforeEach
     void setUp() {
@@ -51,29 +50,30 @@ class MatchTest {
         PlayerController c2 = new PlayerController("B");
         PlayerController c3 = new PlayerController("C");
         m.addPlayer(c1.getPlayer());
+        // Control if the gameState is WaitingPlayers
+        assertEquals(GameState.WaitingPlayers,m.gameState);
+
         m.addPlayer(c2.getPlayer());
 
         assertFalse(m.addPlayer(c3.getPlayer()));
+        assertNotEquals(c3.getPlayer().getStatus(), UserStatus.GameMember);
 
         assertEquals(2, m.playerList.size());
     }
 
     /**
-     * Test if the method works correctly
-     * When called verify if all the attributes are correct.
+     * Test if the method initializeMatch() works correctly
+     * When called verify that all the attributes are correct.
      */
     @Test
-    void testInitializeMatch() throws RemoteException {
+    void testInitializeMatch() {
         PlayerController c1 = new PlayerController("A");
-        c1.clientInput.callBack = new ClientCallBack();
-
         PlayerController c2 = new PlayerController("B");
-        c2.clientInput.callBack = new ClientCallBack();
         m.addPlayer(c1.getPlayer());
         m.addPlayer(c2.getPlayer());
         //startMatch() is called automatically
         //startFirstRound() is called after that
-        //Check gamestate
+        //Check gameState
         assertEquals(m.gameState, GameState.GameGoing);
         //Check chairman
         assertTrue(m.playerList.contains(m.chairman));
@@ -89,7 +89,7 @@ class MatchTest {
         //Check if common goals are different
         assertFalse(m.commonGoals.get(0).equals(m.commonGoals.get(1)));
 
-        //Check if board is completely refilled
+        //Check if board is completely filled
         int k = 0;
         if (m.maxSeats == 2) k = 1;
         for (int i = 0 + k; i < m.board.boundaries.size() - k; i++) {
@@ -102,27 +102,73 @@ class MatchTest {
     /**
      * Setup: MaxSeats: 4
      * We have 3 players waiting to begin. One gets removed.
-     * Test if removePlayer() works.
+     * Test if removePlayer() works and the match is not ended.
      */
     @Test
-    void testRemovePlayer() throws RemoteException {
+    void testRemovePlayer() {
         m = new Match(4);
-        PlayerController c1 = new PlayerController("A", new ClientInputHandler());
-        c1.clientInput.callBack = new ClientCallBack();
-        PlayerController c2 = new PlayerController("B", new ClientInputHandler());
-        c2.clientInput.callBack = new ClientCallBack();
-        PlayerController c3 = new PlayerController("C", new ClientInputHandler());
-        c3.clientInput.callBack = new ClientCallBack();
+        PlayerController c1 = new PlayerController("A");
+        PlayerController c2 = new PlayerController("B");
+        PlayerController c3 = new PlayerController("C");
 
         m.addPlayer(c1.getPlayer());
         m.addPlayer(c2.getPlayer());
         m.addPlayer(c3.getPlayer());
         //Match not started yet
+        m.removePlayer(c1.getPlayer());
+
+        assertEquals(m.gameState,GameState.WaitingPlayers);
+        assertTrue(m.playerList.get(0).equals(c2.getPlayer()));
+        assertEquals(2, m.playerList.size());
+        assertFalse(GameManager.playerMatchMap.containsKey(c1.getPlayer().getNickname()));
+
+    }
+
+    /**
+     * Testing the removal of a player from the match, when it has already begun.
+     * Results: Match should be Closed
+     */
+    @Test
+    void testRemovePlayerDuringMatch(){
+        m = new Match(3);
+        PlayerController c1 = new PlayerController("A");
+        PlayerController c2 = new PlayerController("B");
+        PlayerController c3 = new PlayerController("C");
+
+        m.addPlayer(c1.getPlayer());
+        m.addPlayer(c2.getPlayer());
+        m.addPlayer(c3.getPlayer());
+        //Match not started yet
+        m.removePlayer(c1.getPlayer());
+        assertEquals(GameState.Closed,m.gameState);
+    }
+
+    /**
+     * Test what happens when the admin is removed.
+     * The admin should change if there are other players.
+     * If the admin was the only one in the room, then the match get Closed.
+     * Setup: 2 player in a room with maximum 3 seats
+     * Test: remove admin, and then again.
+     */
+    @Test
+    void testRemoveAdmin(){
+        PlayerController c1 = new PlayerController("A");
+        PlayerController c2 = new PlayerController("B");
+        GameManager.createMatch(3,c1);
+        m = c1.getPlayer().getMatch();
+
+        m.addPlayer(c2.getPlayer());
+
+        assertEquals(m.admin,c1.getPlayer());
 
         m.removePlayer(c1.getPlayer());
 
-        assertTrue(m.playerList.get(0).equals(c2.getPlayer()));
-        assertEquals(2, m.playerList.size());
+        assertEquals(m.admin,c2.getPlayer());
+
+        m.removePlayer(c2.getPlayer());
+        assertEquals(GameState.Closed,m.gameState);
+        assertFalse(GameManager.playerMatchMap.containsKey(c1.getPlayer().getNickname()));
+        assertFalse(GameManager.playerMatchMap.containsKey(c2.getPlayer().getNickname()));
 
     }
 
@@ -135,20 +181,17 @@ class MatchTest {
      * - CurrentPlayer contained in playerList
      */
     @Test
-    void testStartFirstRound() throws RemoteException {
+    void testStartFirstRound() {
         m = new Match(2);
-        PlayerController c1 = new PlayerController("A", new ClientInputHandler());
-        c1.clientInput.callBack = new ClientCallBack();
-        PlayerController c2 = new PlayerController("B", new ClientInputHandler());
-        c2.clientInput.callBack = new ClientCallBack();
+        PlayerController c1 = new PlayerController("A");
+        PlayerController c2 = new PlayerController("B");
         m.addPlayer(c1.getPlayer());
         m.addPlayer(c2.getPlayer());
         //Match initialized, then it should call startFirstRound() automatically
 
-        assertTrue(m.gameState == GameState.GameGoing);
-        assertTrue(m.gamePhase == GamePhase.Selection);
+        assertEquals(m.gameState, GameState.GameGoing);
+        assertEquals(m.gamePhase, GamePhase.Selection);
         assertTrue(m.playerList.contains(m.currentPlayer));
-        //TODO: assertNotNull(m.timer);
 
     }
 
@@ -163,19 +206,17 @@ class MatchTest {
     @Test
     void testCheckRoomAndEndMatch() throws RemoteException {
         m = new Match(2);
-        PlayerController c1 = new PlayerController("A", new ClientInputHandler());
-        c1.clientInput.callBack = new ClientCallBack();
-        PlayerController c2 = new PlayerController("B", new ClientInputHandler());
-        c2.clientInput.callBack = new ClientCallBack();
+        PlayerController c1 = new PlayerController("A");
+        PlayerController c2 = new PlayerController("B");
         m.addPlayer(c1.getPlayer());
         m.addPlayer(c2.getPlayer());
         //Match started
-        assertTrue(m.gameState == GameState.GameGoing);
+        assertEquals(m.gameState, GameState.GameGoing);
         m.removePlayer(c1.getPlayer());
-        assertTrue(m.gameState == GameState.Closed);
+        assertEquals(m.gameState, GameState.Closed);
         assertEquals(0, m.playerList.size());
-        assertFalse(GameManager.playerMatchMap.containsKey(c1.getPlayer()));
-        assertFalse(GameManager.playerMatchMap.containsKey(c2.getPlayer()));
+        assertFalse(GameManager.playerMatchMap.containsKey(c1.getPlayer().getNickname()));
+        assertFalse(GameManager.playerMatchMap.containsKey(c2.getPlayer().getNickname()));
 
     }
 
@@ -183,16 +224,12 @@ class MatchTest {
      * Test if the current player after calling nextTurn() is the next in list
      */
     @Test
-    void testNextTurn() throws RemoteException {
+    void testNextTurn()  {
         m = new Match(4);
-        PlayerController c1 = new PlayerController("A", new ClientInputHandler());
-        c1.clientInput.callBack = new ClientCallBack();
-        PlayerController c2 = new PlayerController("B", new ClientInputHandler());
-        c2.clientInput.callBack = new ClientCallBack();
-        PlayerController c3 = new PlayerController("C", new ClientInputHandler());
-        c3.clientInput.callBack = new ClientCallBack();
-        PlayerController c4 = new PlayerController("D", new ClientInputHandler());
-        c4.clientInput.callBack = new ClientCallBack();
+        PlayerController c1 = new PlayerController("A");
+        PlayerController c2 = new PlayerController("B");
+        PlayerController c3 = new PlayerController("C");
+        PlayerController c4 = new PlayerController("D");
         m.addPlayer(c1.getPlayer());
         m.addPlayer(c2.getPlayer());
         m.addPlayer(c3.getPlayer());
@@ -201,10 +238,10 @@ class MatchTest {
 
         Player prev = m.currentPlayer;
         m.nextTurn();
-        assertTrue(m.currentPlayer.equals(m.playerList.get((m.playerList.indexOf(prev) + 1) % m.maxSeats)));
-
-
+        assertEquals(m.currentPlayer, m.playerList.get((m.playerList.indexOf(prev) + 1) % m.maxSeats));
     }
+
+
 
     /**
      * Setup:
@@ -219,13 +256,11 @@ class MatchTest {
     @Test
     void testCallEndTurnRoutine() throws RemoteException {
         m = new Match(2);
-        PlayerController c1 = new PlayerController("A", new ClientInputHandler());
-        c1.clientInput.callBack = new ClientCallBack();
-        PlayerController c2 = new PlayerController("B", new ClientInputHandler());
-        c2.clientInput.callBack = new ClientCallBack();
+        PlayerController c1 = new PlayerController("A");
+        PlayerController c2 = new PlayerController("B");
         m.addPlayer(c1.getPlayer());
         m.addPlayer(c2.getPlayer());
-        m.currentPlayer = c1.getPlayer();
+        m.currentPlayer = c1.getPlayer();   //set c1.getPlayer() as current player
         c1.selectCell(4, 1); //Need a card in my hand to call end selection
         Shelf s = c1.getPlayer().getShelf();
         c1.callEndSelection();
@@ -240,13 +275,13 @@ class MatchTest {
         }
         assertEquals(0, s.getTotSlotAvail());
         c1.callEndInsertion();
-        assertTrue(m.gameState == GameState.LastRound);
+        assertEquals(m.gameState, GameState.LastRound);
         assertFalse(m.isEndGameToken());
         assertEquals(m.getFirstToComplete(), c1.getPlayer());
         c2.selectCell(5, 1);
         c2.callEndSelection();
         c2.callEndInsertion();
-        assertTrue(m.gameState == GameState.Closed);
+        assertEquals(m.gameState, GameState.Closed);
     }
 
     /**
@@ -261,14 +296,10 @@ class MatchTest {
     @Test
     void testDeclareWinner() throws RemoteException {
         m = new Match(4);
-        PlayerController c1 = new PlayerController("A", new ClientInputHandler());
-        c1.clientInput.callBack = new ClientCallBack();
-        PlayerController c2 = new PlayerController("B", new ClientInputHandler());
-        c2.clientInput.callBack = new ClientCallBack();
-        PlayerController c3 = new PlayerController("C", new ClientInputHandler());
-        c3.clientInput.callBack = new ClientCallBack();
-        PlayerController c4 = new PlayerController("D", new ClientInputHandler());
-        c4.clientInput.callBack = new ClientCallBack();
+        PlayerController c1 = new PlayerController("A");
+        PlayerController c2 = new PlayerController("B");
+        PlayerController c3 = new PlayerController("C");
+        PlayerController c4 = new PlayerController("D");
         m.addPlayer(c1.getPlayer());
         m.addPlayer(c2.getPlayer());
         m.addPlayer(c3.getPlayer());
@@ -288,27 +319,21 @@ class MatchTest {
         m.removePlayer(c3.getPlayer());
         assertEquals(GameState.Closed, m.gameState);
         assertEquals(c1.getPlayer(), m.winner);
-
-
     }
 
     /**
      * What if every player has 0 score?
      * I expect no winner
      * What if someone leaves the match?
-     * I expect no winner
+     * I expect a winner if the remaining players has some points: in this case, the player who got 5 points
      */
     @Test
-    void testDeclareWinner2() throws RemoteException {
+    void testDeclareWinner2() {
         m = new Match(4);
-        PlayerController c1 = new PlayerController("A", new ClientInputHandler());
-        c1.clientInput.callBack = new ClientCallBack();
-        PlayerController c2 = new PlayerController("B", new ClientInputHandler());
-        c2.clientInput.callBack = new ClientCallBack();
-        PlayerController c3 = new PlayerController("C", new ClientInputHandler());
-        c3.clientInput.callBack = new ClientCallBack();
-        PlayerController c4 = new PlayerController("D", new ClientInputHandler());
-        c4.clientInput.callBack = new ClientCallBack();
+        PlayerController c1 = new PlayerController("A");
+        PlayerController c2 = new PlayerController("B");
+        PlayerController c3 = new PlayerController("C");
+        PlayerController c4 = new PlayerController("D");
         m.addPlayer(c1.getPlayer());
         m.addPlayer(c2.getPlayer());
         m.addPlayer(c3.getPlayer());
@@ -316,13 +341,104 @@ class MatchTest {
         assertEquals(0, c1.getPlayer().getPlayerScore());
         m.decideWinner();
         assertNull(m.winner);
-
+        c4.addScore(5); //player 4 got 5 points
         m.removePlayer(c2.getPlayer());
         assertEquals(GameState.Closed, m.gameState);
-        assertNull(m.winner);
+        assertEquals(c4.getPlayer(),m.winner);
+    }
 
+    /**
+     * Test the resizing of the room from 3 to 2.
+     * In the room there are originally 2 players, so the match is still in waitingPlayers phase.
+     * After changing the size, the match should start.
+     */
+    @Test
+    void testChangeSeats() throws InterruptedException {
+        PlayerController c1 = new PlayerController("A");
+        PlayerController c2 = new PlayerController("B");
+        GameManager.createMatch(3,c1);
+
+        m = c1.getPlayer().getMatch();
+        assertEquals(m.maxSeats,3);
+        assertEquals(c1.getPlayer(),m.admin);
+        m.addPlayer(c2.getPlayer());
+        assertTrue(m.changeSeats(c1.getPlayer(),2));
+        assertEquals(m.maxSeats,2);
+        assertEquals(2,m.playerList.size());
+        Thread.sleep(200);
+        assertEquals(GameState.GameGoing,m.gameState);
 
     }
 
+    /**
+     * Test if a player who has not the role of admin can change the setting of the seats
+     * Answer is no.
+     */
+    @Test
+    void testNotAdmin(){
+        PlayerController c1 = new PlayerController("A");
+        PlayerController c2 = new PlayerController("B");
+        GameManager.createMatch(3,c1);
+
+        m = c1.getPlayer().getMatch();
+        m.addPlayer(c2.getPlayer());
+        assertFalse(m.changeSeats(c2.getPlayer(),2));
+    }
+
+    /**
+     * Setup: 2 player with some points
+     * Test: When endMatch is called, there should be a winner(c2) and the players removed from player list and playerMatchMap.
+     */
+    @Test
+    void testEndMatch(){
+        PlayerController c1 = new PlayerController("A");
+        PlayerController c2 = new PlayerController("B");
+        m.addPlayer(c1.getPlayer());
+        m.addPlayer(c2.getPlayer());
+        c1.addScore(5);
+        c2.addScore(10);
+        m.endMatch();
+        assertEquals(m.winner,c2.getPlayer());
+        assertEquals(UserStatus.Online,c1.getPlayer().getStatus());
+        assertEquals(UserStatus.Online,c2.getPlayer().getStatus());
+        assertFalse(GameManager.playerMatchMap.containsKey(c1.getPlayer().getNickname()));
+        assertFalse(GameManager.playerMatchMap.containsKey(c2.getPlayer().getNickname()));
+        assertEquals(m.gameState,GameState.Closed);
+        assertEquals(m.playerList.size(),0);
+
+    }
+
+    /**
+     * Setup: Match paused
+     * Test nextTurn()
+     * TODO
+     */
+    @Test
+    void testGamePauseNextTurn(){
+
+    }
+
+    /**
+     * Setup:
+     * Player who has achieved a common Goal
+     * Test1: the points it should get and the model of the goal
+     * Test2: Achieve for the second time the same goal -> not possible
+     * TODO
+     */
+    @Test
+    void testCheckCommonGoals(){
+
+    }
+
+    /**
+     * Setup:
+     * Player shelf with some points for Personal Goal, Common Goal, Shelf Points
+     * Test: if result is correct
+     * TODO
+     */
+    @Test
+    void testCheckGamePoints(){
+
+    }
 
 }
