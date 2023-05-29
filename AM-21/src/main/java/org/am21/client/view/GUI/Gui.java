@@ -257,10 +257,9 @@ public class Gui implements View {
     }
 
     public void askWaitingAction() throws RemoteException {
-        //synchronized (guiMinion) {
         if (chatDialog != null) {
-            //chatDialog.dispose();
-            //onlineListDialog.dispose();
+            chatDialog.setVisible(false);
+            onlineListDialog.setVisible(false);
         }
 
         for (int i = 0; i < ClientView.matchList.length; i++) {
@@ -291,7 +290,7 @@ public class Gui implements View {
             String[] match = new String[ClientView.matchList.length];
             for (int i = 0; i < ClientView.matchList.length; i++) {
                 match[i] = "ID: " + ClientView.matchList[i][0] + "  |  " + ClientView.matchList[i][1]
-                        + " | Players: (" + ClientView.matchList[i][2] + "/" + ClientView.matchList[i][3] + ")";
+                           + " | Players: (" + ClientView.matchList[i][2] + "/" + ClientView.matchList[i][3] + ")";
             }
             for (String m : match) {
                 matchModel.addElement(m);
@@ -352,7 +351,7 @@ public class Gui implements View {
         //TODO: end token ???
 
         if (isEND()) {
-            gameResultsInterface = new GameResultsInterface(this,gameResults);
+            gameResultsInterface = new GameResultsInterface(this, gameResults);
             setEND(false);
         }
     }
@@ -580,7 +579,6 @@ public class Gui implements View {
         } else if (chatDialog != null && NEW_CHAT_WINDOW) {
             ASK_CHAT = false;
             SwingUtilities.invokeLater(() -> {
-                chatDialog.setVisible(true);
                 chatDialog.reloadChat();
                 chatDialog.getContentPane().revalidate();
                 chatDialog.getContentPane().repaint();
@@ -618,8 +616,10 @@ public class Gui implements View {
 
         }
 
-        onlineListDialog = new OnlineListDialog(frame, userModel);
-        new OnlineListListener(this);
+        if (onlineListDialog == null || !onlineListDialog.isVisible()) {
+            onlineListDialog = new OnlineListDialog(frame, userModel);
+            new OnlineListListener(this);
+        }
     }
 
     public void replyDEBUG(String message) {
