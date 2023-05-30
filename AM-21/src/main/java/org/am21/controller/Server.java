@@ -40,6 +40,10 @@ public class Server {
     }
 
     public static void main(String[] args) throws RemoteException {
+        System.out.print("Server address: ");
+        String serverAddress = readLine();
+
+
         try {
             SocketServer server = new SocketServer();
             server.start();
@@ -48,7 +52,7 @@ public class Server {
             LocateRegistry.createRegistry(8807);
 
             Lobby guardian = new Welcome();
-            Naming.bind("rmi://localhost:1234/Welcome", guardian);
+            Naming.bind("rmi://"+serverAddress+":1234/Welcome", guardian);
 
             Timer timer = new Timer();
             timer.schedule(new HeartbeatTask(), 1000, 10000);

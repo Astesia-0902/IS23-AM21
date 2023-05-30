@@ -48,18 +48,19 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
         if (e.getSource() == gui.serverInfoInterface.confirmButton) {
             String defaultAddress;
             String defaultPort;
-            if(ClientController.isRMI){
-                defaultAddress="localhost";
-                defaultPort="1234";
+            if (ClientController.isRMI) {
+                defaultAddress = "localhost";
+                defaultPort = "1234";
 
-            }else {
+            } else {
                 defaultAddress = SocketClient.defaultServerName;
                 defaultPort = String.valueOf(SocketClient.defaultServerPort);
             }
             String address = gui.serverInfoInterface.addressField.getText().trim();
             String port = gui.serverInfoInterface.portField.getText().trim();
 
-            if (address.isEmpty() || port.isEmpty() || !address.equals(defaultAddress) || !port.equals(defaultPort)) {
+            //if (address.isEmpty() || port.isEmpty() || !address.equals(defaultAddress) || !port.equals(defaultPort)) {
+            if (address.isEmpty() || port.isEmpty()) {
                 gui.serverInfoInterface.addressField.setBorder(new CompoundBorder(new MatteBorder
                         (ImageUtil.resizeY(3), ImageUtil.resizeX(3), ImageUtil.resizeY(3),
                                 ImageUtil.resizeX(3), new Color(178, 34, 34)),
@@ -70,7 +71,7 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
                         new EmptyBorder(0, ImageUtil.resizeX(50), 0, 0)));
             } else {
                 gui.serverInfoInterface.dispose();
-                if(ClientController.isRMI) {
+                if (ClientController.isRMI) {
                     try {
                         Lobby lobby = (Lobby) Naming.lookup("rmi://" + address + ":" + port + "/Welcome");
                         HashMap<String, String> serverInfo;
@@ -87,18 +88,26 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
                         gui.commCtrl.registerCallBack(gui.clientCallBack);
                         gui.askLogin();
                     } catch (NotBoundException | MalformedURLException | RemoteException ex) {
-                        throw new RuntimeException(ex);
+                        gui.timeLimitedNotification("No server found",1000);
+                        gui.askServerInfoRMI();
                     }
-                }else {
+                } else {
                     SocketClient socket = new SocketClient();
                     SocketClient.serverName = address;
                     SocketClient.serverPort = Integer.parseInt(port);
                     SocketClient.gui = gui;
-                    socket.start();
-                    try {
-                        gui.askLogin();
-                    } catch (RemoteException ex) {
-                        throw new RuntimeException(ex);
+
+                    if (!SocketClient.connectToServer()) {
+                        //Server not found
+                        gui.timeLimitedNotification("No server found",1000);
+                        gui.askServerInfoSocket();
+                    } else {
+                        socket.start();
+                        try {
+                            gui.askLogin();
+                        } catch (RemoteException ex) {
+                            throw new RuntimeException(ex);
+                        }
                     }
 
                 }
@@ -222,6 +231,6 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
     private void updateButtonState() {
         gui.serverInfoInterface.confirmButton.setEnabled(
                 !gui.serverInfoInterface.addressField.getText().trim().isEmpty() &&
-                !gui.serverInfoInterface.portField.getText().trim().isEmpty());
+                        !gui.serverInfoInterface.portField.getText().trim().isEmpty());
     }
 }

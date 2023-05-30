@@ -24,10 +24,10 @@ public class SocketClient extends Thread {
     @Override
     public void run() {
         try {
-            socketClient = new Socket(serverName, serverPort);
+            /*socketClient = new Socket(serverName, serverPort);
             System.out.println("Connected to " + socketClient.getRemoteSocketAddress());
             in = new DataInputStream(socketClient.getInputStream());
-            out = new DataOutputStream(socketClient.getOutputStream());
+            out = new DataOutputStream(socketClient.getOutputStream());*/
             while (true) {
                 String response = in.readUTF();
                 //TODO:Handle message from the server
@@ -35,7 +35,6 @@ public class SocketClient extends Thread {
             }
         } catch (IOException e) {
             System.out.println("Server Disconnected");
-            //throw new RuntimeException(e);
         }
     }
 
@@ -46,6 +45,19 @@ public class SocketClient extends Thread {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static boolean connectToServer() {
+        try {
+            socketClient = new Socket(serverName, serverPort);
+
+            System.out.println("Connected to " + socketClient.getRemoteSocketAddress());
+            in = new DataInputStream(socketClient.getInputStream());
+            out = new DataOutputStream(socketClient.getOutputStream());
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
     }
 
     public void handleServerMessage(String message) {
@@ -60,7 +72,7 @@ public class SocketClient extends Thread {
                     cli.printer(messageArray[1]);
                 } else if (gui != null) {
                     gui.replyDEBUG(messageArray[1]);
-                    gui.timeLimitedNotification(message,500);
+                    gui.timeLimitedNotification(message, 500);
 
                 }
                 return;
@@ -71,7 +83,7 @@ public class SocketClient extends Thread {
                     cli.checkTurn();
                     cli.updateCLI(cli, 500);
                 } else if (gui != null) {
-                    if(ClientView.GAME_ON && !ClientView.GO_TO_MENU){
+                    if (ClientView.GAME_ON && !ClientView.GO_TO_MENU) {
                         //Gameplay
                         gui.GAME_BOARD_REFRESH = true;
 
@@ -151,13 +163,13 @@ public class SocketClient extends Thread {
                     //System.out.println("Update...");
                     cli.updateCLI(cli, milliseconds);
                 } else if (gui != null) {
-                    if(ClientView.GO_TO_MENU){
+                    if (ClientView.GO_TO_MENU) {
                         //Menu
                         gui.MENU_REFRESH = true;
-                    }else if(!ClientView.GAME_ON && !ClientView.GO_TO_MENU){
+                    } else if (!ClientView.GAME_ON && !ClientView.GO_TO_MENU) {
                         //Waiting room
                         gui.WAIT_ROOM_REFRESH = true;
-                    }else if(ClientView.GAME_ON && !ClientView.GO_TO_MENU){
+                    } else if (ClientView.GAME_ON && !ClientView.GO_TO_MENU) {
                         //Gameplay
                         gui.GAME_BOARD_REFRESH = true;
 

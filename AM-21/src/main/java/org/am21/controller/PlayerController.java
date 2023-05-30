@@ -174,7 +174,7 @@ public class PlayerController {
         if (!isMyTurn(player)) {
             return false;
         }
-        if (player.getMatch().gamePhase == GamePhase.Selection && hand.getSelectedItems().size() > 0) {
+        if (isGamePhase(GamePhase.Selection) && hand.getSelectedItems().size() > 0) {
             hand.clearHand();
             GameManager.sendReply(this, ServerMessage.Clear_Ok.value());
             //Update Virtual View(Hand and Board)
@@ -219,7 +219,7 @@ public class PlayerController {
         if (!isMyTurn(player)) {
             return false;
         }
-        if (player.getMatch().gamePhase == GamePhase.Insertion) {
+        if (isGamePhase(GamePhase.Insertion)) {
             for (CardPointer card : hand.getSelectedItems()) {
                 if (player.getMatch().board.isOccupied(card.x, card.y)) {
                     player.getMatch().board.setCell(card.x, card.y, null);
@@ -271,7 +271,7 @@ public class PlayerController {
      * @return
      */
     public boolean changeHandOrder(int i, int j) {
-        if (isMyTurn(player) && player.getMatch().gamePhase == GamePhase.Insertion && hand.changeOrder(i, j)) {
+        if (isMyTurn(player) && isGamePhase(GamePhase.Insertion) && hand.changeOrder(i, j)) {
             // Virtual View Update --> Hand
             player.getMatch().sortUpdate();
             GameManager.sendReply(this, ServerMessage.Sort_Ok.value());
@@ -313,7 +313,7 @@ public class PlayerController {
      * @return
      */
     public void callEndInsertion() {
-        if (player.getMatch().gamePhase == GamePhase.Insertion) {
+        if (isGamePhase(GamePhase.Insertion)) {
             player.getMatch().setGamePhase(GamePhase.Default);
             //At the end of each turn, Player's hiddenPoints get updated (0-12)
             player.setHiddenPoints(player.getMyPersonalGoal().calculatePoints());

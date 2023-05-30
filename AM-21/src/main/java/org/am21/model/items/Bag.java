@@ -57,7 +57,7 @@ public class Bag {
             for(int j = borders.get(i).x; j<= borders.get(i).y; j++){
 
                 if (!board.isOccupied(i, j)) {
-                    if ((itemCollection.size()-bagIndex )>0) {
+                    if ((itemCollection.size()-bagIndex)>0) {
                         board.setCell(i, j, itemCollection.get(bagIndex));
                         bagIndex++;
 
@@ -65,8 +65,6 @@ public class Bag {
                 }
             }
         }
-        //System.out.println("Bag > Refill completed");
-        //System.out.println("Bag > Items remaining: "+ (this.itemCollection.size()-bagIndex));
         return true;
     }
 }

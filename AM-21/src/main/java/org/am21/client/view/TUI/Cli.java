@@ -94,7 +94,10 @@ public class Cli implements View {
         // First connection to the server --> Obtain the path for RMI
         String defaultAddress = "localhost";
         String defaultPort = "1234";
-        HashMap<String, String> serverInfo = connectToServerLobby(askInfo("address", defaultAddress), askInfo("port", defaultPort));
+        HashMap<String, String> serverInfo;
+        do {
+            serverInfo = connectToServerLobby(askInfo("address", defaultAddress), askInfo("port", defaultPort));
+        }while(serverInfo==null);
         ClientController.iClientInputHandler = getControllerStub(serverInfo);
         commCtrl.registerCallBack(clientCallBack);
         System.out.println("Controller registered from " + serverInfo.get("address")
@@ -107,7 +110,7 @@ public class Cli implements View {
             Lobby lobby = (Lobby) Naming.lookup("rmi://" + address + ":" + port + "/Welcome");
             infoMap = lobby.connect();
         } catch (AlreadyBoundException | NotBoundException | RemoteException | MalformedURLException e) {
-            throw new RuntimeException(e);
+            return null;
         }
         return infoMap;
     }
@@ -125,12 +128,15 @@ public class Cli implements View {
     //--------------------SOCKET----------------------------------------------------------------------------
     //TODO:redo
     public void askServerInfoSocket() {
-        String defaultAddress = SocketClient.defaultServerName;
-        String defaultPort = String.valueOf(SocketClient.defaultServerPort);
-        SocketClient socket = new SocketClient();
-        SocketClient.serverName = askInfo("address", defaultAddress);
-        SocketClient.serverPort = Integer.parseInt(askInfo("port", defaultPort));
-        SocketClient.cli = this;
+        SocketClient socket;
+        do {
+            String defaultAddress = SocketClient.defaultServerName;
+            String defaultPort = String.valueOf(SocketClient.defaultServerPort);
+            socket = new SocketClient();
+            SocketClient.serverName = askInfo("address", defaultAddress);
+            SocketClient.serverPort = Integer.parseInt(askInfo("port", defaultPort));
+            SocketClient.cli = this;
+        }while(!SocketClient.connectToServer());
         socket.start();
         delayer(500);
     }
