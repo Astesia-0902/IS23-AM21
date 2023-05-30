@@ -140,14 +140,14 @@ public class PixelUtil {
      */
 
     //position
-    public static int myGridX = pcWidth * 72738 / 100000;
-    public static int myGridY = pcHeight * 4267 / 10000;
+    public static int myGridX = pcWidth * 72738 / 100000;//1221.998
+    public static int myGridY = 448; //448
     public static int enemyGridX = pcWidth * 6131 / 100000;
-    public static int enemyGridY = pcHeight * 1143 / 100000; //12
+    public static int enemyGridY = 12; //12
 
     //cell size
-    public static int myCellH = pcHeight * 61 / 1000;
-    public static int myCellW = pcWidth * 4405 / 100000;
+    public static int myCellH = pcHeight * 61 / 1000;//64
+    public static int myCellW = pcWidth * 4405 / 100000; //74
     public static int enemyCellH = pcHeight * 25 / 1000;
     public static int enemyCellW = pcWidth * 18 / 1000;
 
@@ -199,10 +199,10 @@ public class PixelUtil {
     public static int myHandHandH = pcHeight * 44 / 100; //462
     public static int myHandHandW = pcWidth * 47 / 1000; //78.96
     public static int myHandHandX = pcWidth * 10 / 336;
-    public static int myHandHandY = pcHeight / 21;
+    public static int myHandHandY = pcHeight / 21; //50
 
-    public static int myHandShelfX = pcWidth * 1072 / 10000;
-    public static int myHandSortX = pcWidth * 10 / 336;
+    public static int myHandShelfX = pcWidth * 1072 / 10000; //180
+    public static int myHandSortX = pcWidth * 10 / 336; //
     public static int myHandSortY = pcWidth * 3155 / 10000;
     public static int myHandSortW = pcWidth * 100 / 2154;
     public static int myHandSortH = pcHeight * 75 / 1000;
