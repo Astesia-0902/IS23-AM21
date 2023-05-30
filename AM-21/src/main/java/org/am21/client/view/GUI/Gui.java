@@ -250,7 +250,7 @@ public class Gui {
     }
 
     public void askWaitingAction() throws RemoteException {
-        if (chatDialog != null) {
+        if (chatDialog != null || onlineListDialog != null) {
             chatDialog.setVisible(false);
             onlineListDialog.setVisible(false);
         }

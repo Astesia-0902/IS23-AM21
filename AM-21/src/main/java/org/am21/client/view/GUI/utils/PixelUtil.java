@@ -18,105 +18,105 @@ public class PixelUtil {
      * dimension util
      */
 
-    public static int gameBoardW = pcWidth * 4625 / 10000;
-    public static int gameBoardH = pcHeight * 74 / 100;
-    public static int myShelfBoardW = pcWidth * 275 / 1000;
-    public static int myShelfBoardH = pcHeight * 44 / 100;
+    public static int gameBoardW = ImageUtil.resizeX(833);
+    public static int gameBoardH = ImageUtil.resizeY(788);
+    public static int myShelfBoardW = ImageUtil.resizeX(495);
+    public static int myShelfBoardH = ImageUtil.resizeY(468);
 
-    public static int handBoardW = pcWidth * 275 / 1000; //462
-    public static int handBoardH = pcHeight * 75 / 1000;//78.75
+    public static int handBoardW = ImageUtil.resizeX(495);
+    public static int handBoardH = ImageUtil.resizeY(80);
 
-    public static int commonGoalCardW = pcWidth * 1458 / 10000;
-    public static int commonGoalCardH = pcHeight * 157 / 1000;
-    public static int personalGoalCardW = pcWidth * 982 / 10000;
-    public static int personalGoalCardH = pcHeight * 2324 / 10000;
+    public static int commonGoalCardW = ImageUtil.resizeX(262);
+    public static int commonGoalCardH = ImageUtil.resizeY(167);
+    public static int personalGoalCardW = ImageUtil.resizeX(177);
+    public static int personalGoalCardH = ImageUtil.resizeY(248);
 
 
-    public static int bagW = pcWidth * 5 / 100;
-    public static int bagH = pcHeight * 8 / 100;
-    public static int livingRoomMenuW = pcWidth * 3 / 100;
-    public static int livingRoomMenuH = pcHeight * 476 / 10000;
+    public static int bagW = ImageUtil.resizeX(90);
+    public static int bagH = ImageUtil.resizeY(85);
+    public static int livingRoomMenuW = ImageUtil.resizeX(54);
+    public static int livingRoomMenuH = ImageUtil.resizeY(51);
 
-    public static int insertClearButtonW = pcWidth * 230 / 1000;
-    public static int insertClearButtonH = pcHeight * 75 / 1000;
+    public static int insertClearButtonW = ImageUtil.resizeX(414);
+    public static int insertClearButtonH = ImageUtil.resizeY(80);
 
-    public static int userMeW = pcWidth * 804 / 10000;
-    public static int userMeH = pcHeight * 1286 / 10000;
+    public static int userMeW = ImageUtil.resizeX(145);
+    public static int userMeH = ImageUtil.resizeY(137);
 
-    public static int enemyW = pcWidth * 375 / 10000;
-    public static int enemyH = pcHeight * 6 / 100;
+    public static int enemyW = ImageUtil.resizeX(68);
+    public static int enemyH = ImageUtil.resizeY(64);
 
-    public static int enemyShelfW = pcWidth * 1125 / 10000;
-    public static int enemyShelfH = pcHeight * 18 / 100;
+    public static int enemyShelfW = ImageUtil.resizeX(203);
+    public static int enemyShelfH = ImageUtil.resizeY(192);
 
     //
-    public static int gameBoardCellW = pcWidth * 47 / 1000;
-    public static int gameBoardCellH = pcHeight * 75 / 1000;
+    public static int gameBoardCellW = ImageUtil.resizeX(85);
+    public static int gameBoardCellH = ImageUtil.resizeY(80);
 
-    public static int gameBoardItemW = gameBoardCellW * 9114 / 10000;
-    public static int gameBoardItemH = gameBoardCellH * 9114 / 10000;
-
-
-    public static int chairW = pcWidth * 375 / 10000;
-    public static int chairH = pcHeight * 6 / 100;
+    public static int gameBoardItemW = ImageUtil.resizeX(77);
+    public static int gameBoardItemH = ImageUtil.resizeY(73);
 
 
-    public static int myScoreW = pcWidth * 9 / 100;
-    public static int myScoreH = pcHeight * 95 / 1000;
-    public static int myScoreDynamicW = pcWidth * 3 / 100;
-    public static int myScoreDynamicH = pcHeight / 21;
+    public static int chairW = ImageUtil.resizeX(68);
+    public static int chairH = ImageUtil.resizeY(64);
 
-    public static int enemyScoreX = pcWidth * 268 / 10000;
-    public static int enemyScoreY = pcHeight / 30;
-    public static int enemyScoreW = pcWidth * 10 / 168;
-    public static int enemyScoreH = pcHeight * 10 / 105;
+
+    public static int myScoreW = ImageUtil.resizeX(162);
+    public static int myScoreH = ImageUtil.resizeY(101);
+    public static int myScoreDynamicW = ImageUtil.resizeX(54);
+    public static int myScoreDynamicH = ImageUtil.resizeY(51);
+
+    public static int enemyScoreX = ImageUtil.resizeX(48);
+    public static int enemyScoreY = ImageUtil.resizeY(36);
+    public static int enemyScoreW = ImageUtil.resizeX(107);
+    public static int enemyScoreH = ImageUtil.resizeY(101);
     /**
      * position util
      */
 
     // X position
-    public static int commonX_1 = pcWidth * 125 / 10000;
-    public static int commonX_2 = pcWidth * 5 / 100;
-    public static int commonX_3 = pcWidth * 225 / 1000;
-    public static int commonX_4 = pcWidth * 7 / 10;
-    public static int commonX_5 = pcWidth * 8125 / 10000;
+    public static int commonX_1 = ImageUtil.resizeX(22);
+    public static int commonX_2 = ImageUtil.resizeX(90);
+    public static int commonX_3 = ImageUtil.resizeX(405);
+    public static int commonX_4 = ImageUtil.resizeX(1260);
+    public static int commonX_5 = ImageUtil.resizeX(1462);
 
-    public static int personalGoalX = pcWidth * 709 / 1000;
+    public static int personalGoalX = ImageUtil.resizeX(1276);
 
-    public static int livingRoomMenuX = pcWidth * 964 / 1000;
+    public static int livingRoomMenuX = ImageUtil.resizeX(1735);
 
-    public static int insertButtonX = pcWidth * 2238 / 10000;
-    public static int clearButtonX = pcWidth * 459 / 1000;
-    public static int userMeX = pcWidth * 72 / 100;
+    public static int insertButtonX = ImageUtil.resizeX(403);
+    public static int clearButtonX = ImageUtil.resizeX(826);
+    public static int userMeX = ImageUtil.resizeX(1296);
 
-    public static int gameBoardGridX = pcWidth * 248 / 1000;//416.64
-    public static int myHandPanelX = pcWidth * 238 / 10000;//39.98
+    public static int gameBoardGridX = ImageUtil.resizeX(446);
+    public static int myHandPanelX = ImageUtil.resizeX(43);
 
 
-    public static int chairManMeX = pcWidth * 6845 / 10000;
+    public static int chairManMeX = ImageUtil.resizeX(1232);
 
     // Y position
-    public static int commonY_1 = pcHeight * 3 / 100;
-    public static int commonY_2 = pcHeight * 23 / 100;
-    public static int commonY_3 = pcHeight * 44 / 100;
-    public static int commonY_4 = pcHeight * 843 / 1000;
+    public static int commonY_1 = ImageUtil.resizeY(32);
+    public static int commonY_2 = ImageUtil.resizeY(245);
+    public static int commonY_3 = ImageUtil.resizeY(469);
+    public static int commonY_4 = ImageUtil.resizeY(898);
 
 
-    public static int gameBoardY = pcHeight / 10;
-    public static int myShelfBoardY = pcHeight * 4 / 10;
-    public static int personalGoalY = pcHeight * 16 / 100;
-    public static int commonGoalY_A = pcHeight * 762 / 10000;
-    public static int commonGoalY_B = pcHeight * 238 / 1000;
-    public static int bagY = pcHeight / 100;
-    public static int livingRoomMenuY = pcHeight * 95 / 10000;
+    public static int gameBoardY = ImageUtil.resizeY(106);
+    public static int myShelfBoardY = ImageUtil.resizeY(426);
+    public static int personalGoalY = ImageUtil.resizeY(170);
+    public static int commonGoalY_A = ImageUtil.resizeY(81);
+    public static int commonGoalY_B = ImageUtil.resizeY(253);
+    public static int bagY = ImageUtil.resizeY(11);
+    public static int livingRoomMenuY = ImageUtil.resizeY(10);
 
-    public static int gameBoardGridY = pcHeight * 138 / 1000;
+    public static int gameBoardGridY = ImageUtil.resizeY(147);
 
-    public static int chairManMeY = pcHeight / 100;
-    public static int chairManEnemyY = pcHeight * 1143 / 10000;//120
-    public static int myScoreDynamicX = pcWidth * 893 / 1000;
+    public static int chairManMeY = ImageUtil.resizeY(11);
+    public static int chairManEnemyY = ImageUtil.resizeY(122);
+    public static int myScoreDynamicX = ImageUtil.resizeX(1607);
 
-    public static int myHandPanelY = pcHeight * 3 / 1000;
+    public static int myHandPanelY = ImageUtil.resizeY(3);
     /**
      * chat util
      */
@@ -140,119 +140,119 @@ public class PixelUtil {
      */
 
     //position
-    public static int myGridX = pcWidth * 72738 / 100000;//1221.998
-    public static int myGridY = 448; //448
-    public static int enemyGridX = pcWidth * 6131 / 100000;
-    public static int enemyGridY = 12; //12
+    public static int myGridX = ImageUtil.resizeX(1310);
+    public static int myGridY = ImageUtil.resizeY(455);
+    public static int enemyGridX = ImageUtil.resizeX(110);
+    public static int enemyGridY = ImageUtil.resizeY(12);
 
     //cell size
-    public static int myCellH = pcHeight * 61 / 1000;//64
-    public static int myCellW = pcWidth * 4405 / 100000; //74
-    public static int enemyCellH = pcHeight * 25 / 1000;
-    public static int enemyCellW = pcWidth * 18 / 1000;
+    public static int myCellH = ImageUtil.resizeY(65);
+    public static int myCellW = ImageUtil.resizeX(79);
+    public static int enemyCellH = ImageUtil.resizeY(27);
+    public static int enemyCellW = ImageUtil.resizeX(32);
 
     //item size
-    public static int myItemW = pcWidth * 3155 / 100000;
-    public static int myItemH = pcHeight * 5143 / 100000;
-    public static int enemyItemH = pcHeight * 2 / 100;
-    public static int enemyItemW = pcWidth * 131 / 10000;
+    public static int myItemW = ImageUtil.resizeX(59);
+    public static int myItemH = ImageUtil.resizeY(57);
+    public static int enemyItemH = ImageUtil.resizeY(23);
+    public static int enemyItemW = ImageUtil.resizeX(25);
 
     /**
      * score token util
      */
 
-    public static int endGameTokenH = pcHeight * 781 / 10000;
-    public static int endGameTokenW = pcWidth * 488 / 10000;
+    public static int endGameTokenH = ImageUtil.resizeY(83);
+    public static int endGameTokenW = ImageUtil.resizeX(88);
 
-    public static int endGameTokenBoundsW = pcWidth / 14;
-    public static int endGameTokenBoundsH = pcHeight * 1143 / 10000;
-    public static int endGameTokenX = pcWidth * 3405 / 10000;
-    public static int endGameTokenY = pcHeight * 4724 / 10000;
+    public static int endGameTokenBoundsW = ImageUtil.resizeX(129);
+    public static int endGameTokenBoundsH = ImageUtil.resizeY(122);
+    public static int endGameTokenX = ImageUtil.resizeX(613);
+    public static int endGameTokenY = ImageUtil.resizeY(503);
     public static int endGameTokenOriented = 9;
 
-    public static int endGameTokenRotateX = pcWidth * 95 / 10000;
-    public static int endGameTokenRotateY = pcHeight / 7;
+    public static int endGameTokenRotateX = ImageUtil.resizeX(17);
+    public static int endGameTokenRotateY = ImageUtil.resizeY(152);
 
 
-    public static int commonGoalTokenH = pcHeight * 705 / 10000;
-    public static int commonGoalTokenW = pcWidth * 44 / 1000;
+    public static int commonGoalTokenH = ImageUtil.resizeY(75);
+    public static int commonGoalTokenW = ImageUtil.resizeX(79);
 
-    public static int commonGoalTokenBoundsH = pcHeight * 857 / 10000;
-    public static int commonGoalTokenBoundsW = pcWidth * 536 / 10000;
-    public static int commonGoalTokenX = pcWidth * 82 / 1000;
-    public static int commonGoalTopTokenY = pcHeight * 295 / 10000;
-    public static int commonGoalBottomTokenY = pcHeight * 19 / 100;
+    public static int commonGoalTokenBoundsH = ImageUtil.resizeY(91);
+    public static int commonGoalTokenBoundsW = ImageUtil.resizeX(96);
+    public static int commonGoalTokenX = ImageUtil.resizeX(148);
+    public static int commonGoalTopTokenY = ImageUtil.resizeY(31);
+    public static int commonGoalBottomTokenY = ImageUtil.resizeY(202);
     public static int commonGoalTokenOriented = -8;
 
-    public static int commonGoalTokenRotateX = pcWidth * 536 / 10000;
-    public static int commonGoalTokenRotateY = pcHeight / 210;
+    public static int commonGoalTokenRotateX = ImageUtil.resizeX(96);
+    public static int commonGoalTokenRotateY = ImageUtil.resizeY(5);
 
     /**
      * myHandBoard Interface
      */
-    public static int myHandBackGroundX = pcWidth * 2262 / 10000;
-    public static int myHandBackGroundY = pcHeight * 2857 / 10000;
+    public static int myHandBackGroundX = ImageUtil.resizeX(407);
+    public static int myHandBackGroundY = ImageUtil.resizeY(304);
 
-    public static int myHandBackGroundW = pcWidth * 4643 / 10000;
-    public static int myHandBackGroundH = pcHeight * 6476 / 10000;
+    public static int myHandBackGroundW = ImageUtil.resizeX(836);
+    public static int myHandBackGroundH = ImageUtil.resizeY(690);
 
-    public static int myHandHandH = pcHeight * 44 / 100; //462
-    public static int myHandHandW = pcWidth * 47 / 1000; //78.96
-    public static int myHandHandX = pcWidth * 10 / 336;
-    public static int myHandHandY = pcHeight / 21; //50
+    public static int myHandHandH = ImageUtil.resizeY(469);
+    public static int myHandHandW = ImageUtil.resizeX(85);
+    public static int myHandHandX = ImageUtil.resizeX(54);
+    public static int myHandHandY = ImageUtil.resizeY(51);
 
-    public static int myHandShelfX = pcWidth * 1072 / 10000; //180
-    public static int myHandSortX = pcWidth * 10 / 336; //
-    public static int myHandSortY = pcWidth * 3155 / 10000;
-    public static int myHandSortW = pcWidth * 100 / 2154;
-    public static int myHandSortH = pcHeight * 75 / 1000;
+    public static int myHandShelfX = ImageUtil.resizeX(193);
+    public static int myHandSortX = ImageUtil.resizeX(54);
+    public static int myHandSortY = ImageUtil.resizeY(568);
+    public static int myHandSortW = ImageUtil.resizeX(84);
+    public static int myHandSortH = ImageUtil.resizeY(80);
 
-    public static int myHandOptionX = pcWidth * 863 / 10000;
-    public static int myHandOptionXDiff = pcWidth * 100 / 2154;
-    public static int myHandOptionY = pcWidth * 3155 / 10000;
-    public static int handNumW = pcWidth * 10 / 336;
+    public static int myHandOptionX = ImageUtil.resizeX(155);
+    public static int myHandOptionXDiff = ImageUtil.resizeX(84);
+    public static int myHandOptionY = ImageUtil.resizeY(568);
+    public static int handNumW = ImageUtil.resizeX(54);
 
-    public static int handNumH = pcHeight / 21;
+    public static int handNumH = ImageUtil.resizeY(51);
 
-    public static int myHandConfirmX = pcWidth * 366 / 1000;
-    public static int myHandConfirmY = pcHeight * 567 / 1000;
-    public static int myHandConfirmW = pcWidth * 893 / 10000;
-    public static int myHandConfirmH = pcHeight / 21;
+    public static int myHandConfirmX = ImageUtil.resizeX(659);
+    public static int myHandConfirmY = ImageUtil.resizeY(604);
+    public static int myHandConfirmW = ImageUtil.resizeX(161);
+    public static int myHandConfirmH = ImageUtil.resizeY(51);
 
-    public static int myHandItemX = pcWidth * 18 / 10000; //3
-    public static int myHandItemY = pcHeight * 38 / 1000;//39.9
+    public static int myHandItemX = ImageUtil.resizeX(3);
+    public static int myHandItemY = ImageUtil.resizeY(40);
 
-    public static int myHandShelfGridX = pcWidth * 1345 / 10000; //226
-    public static int myHandShelfGridY = pcHeight * 7328 / 100000; //76
+    public static int myHandShelfGridX = ImageUtil.resizeX(242);
+    public static int myHandShelfGridY = ImageUtil.resizeY(78);
 
     /**
      * menu living room interface
      */
 
-    public static int menuLRW = 600;
-    public static int menuLRH = 500;
+    public static int menuLRW = ImageUtil.resizeX(600);
+    public static int menuLRH = ImageUtil.resizeY(500);
 
-    public static int buttonLRX = 100;
-    public static int buttonBackLRY = 50;
-    public static int buttonWaitLRY = 200;
-    public static int buttonLeaveLRY = 350;
-    public static int buttonLRW = 400;
-    public static int buttonLRH = 100;
+    public static int buttonLRX = ImageUtil.resizeX(100);
+    public static int buttonBackLRY = ImageUtil.resizeY(50);
+    public static int buttonWaitLRY = ImageUtil.resizeY(200);
+    public static int buttonLeaveLRY = ImageUtil.resizeY(350);
+    public static int buttonLRW = ImageUtil.resizeX(400);
+    public static int buttonLRH = ImageUtil.resizeY(100);
 
     /**
      * game results interface
      */
-    public static int labelRITitleW = pcWidth * 100 / 168;
-    public static int labelRITitleH = pcWidth * 57 / 100;
+    public static int labelRITitleW = ImageUtil.resizeX(1071);
+    public static int labelRITitleH = ImageUtil.resizeY(1026);
 
-    public static int labelRITableH = pcHeight * 10 / 21;
-    public static int labelRITitleX = (PixelUtil.pcWidth - labelRITitleW) / 2;
-    public static int labelRIY = (PixelUtil.pcWidth - labelRITitleW) / 2;
-    public static int labelRITitleY = -pcHeight * 2857 / 10000;
-    public static int labelRITableRowH = pcHeight * 105 / 1000;
+    public static int labelRITableH = ImageUtil.resizeY(507);
+    public static int labelRITitleX = ImageUtil.resizeX(365);
+    public static int labelRIY = ImageUtil.resizeY(365);
+    public static int labelRITitleY = ImageUtil.resizeY(-304);
+    public static int labelRITableRowH = ImageUtil.resizeY(112);
 
-    public static int labelRIButtonX = pcWidth * 381 / 1000;
-    public static int labelRIButtonY = pcHeight * 86 / 100;
+    public static int labelRIButtonX = ImageUtil.resizeX(686);
+    public static int labelRIButtonY = ImageUtil.resizeY(916);
 
 
 }
