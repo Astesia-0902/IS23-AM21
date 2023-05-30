@@ -57,6 +57,8 @@ public class LivingRoomPanel extends JPanel {
     public JLayeredPane chatPanel;
     public JButton sendButton;
 
+    public JButton openChat;
+
     //hand board
     public JLabel handBoardLabel;
 
@@ -76,6 +78,15 @@ public class LivingRoomPanel extends JPanel {
         setInsertButton(gui);
 
         setClearButton(gui);
+
+        /*openChat = new JButton();
+        openChat.setBounds(PixelUtil.cButtonX, PixelUtil.cButtonY, PixelUtil.cButtonW, PixelUtil.cButtonH);
+        openChat.setFont(new Font("DejaVu Sans", Font.PLAIN, 16));
+        openChat.setOpaque(true);
+        openChat.setBackground(new Color(85, 35, 222, 230));
+        openChat.setForeground(new Color(255, 255, 255, 255));
+        openChat.setBorder(new LineBorder(new Color(85, 35, 222, 230)));
+        panelBoard.add(sendButton, JLayeredPane.MODAL_LAYER);*/
 
 
         //chat box TODO: completed with chat waitingRoomInterface
@@ -308,12 +319,14 @@ public class LivingRoomPanel extends JPanel {
             }
         });
         waitTimer.setRepeats(true);
-        //waitTimer.start();
     }
 
     public void refreshMyScore(int score) {
         myScoreDynamic.setText(String.valueOf(score));
     }
 
+    public void setBorderColor(){
+        gameBoardLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
+    }
 
 }

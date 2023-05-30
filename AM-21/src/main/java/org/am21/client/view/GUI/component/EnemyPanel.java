@@ -125,19 +125,16 @@ public class EnemyPanel extends JPanel {
 
     }
 
-    public void changeStatus(boolean isTurn) {
-        if (isTurn)
-            waitTimer.start();
-        else
-            waitTimer.stop();
-    }
-
     public void refreshEnemyShelf(String[][] shelfStatus) {
         enemyShelf.refreshShelf(shelfStatus);
     }
 
     public void refreshEnemyScores(int score) {
         enemyScoreDynamic.setText(String.valueOf(score));
+    }
+
+    public void setStatusBorder() {
+        enemyPic.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
     }
 }
 

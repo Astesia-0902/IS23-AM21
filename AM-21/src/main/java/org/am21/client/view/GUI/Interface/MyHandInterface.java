@@ -18,7 +18,8 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyHandInterface extends JFrame {
+public class MyHandInterface extends JDialog {
+
     public int handMax = 3;
     public int rowMax = 6;
     public int columnMax = 5;
@@ -41,7 +42,7 @@ public class MyHandInterface extends JFrame {
     public int finalColumn = -1;
 
     public MyHandInterface(Gui gui) {
-
+        super(gui.livingRoomInterface,true);
         setMyHandInterfacePane();
 
         setMyHandGrids();
@@ -120,10 +121,10 @@ public class MyHandInterface extends JFrame {
         myHandInterfacePane.add(myHandInterfaceBack, JLayeredPane.DEFAULT_LAYER);
 
         //hand label
-        myHandLabel = new JLabel();
+       /* myHandLabel = new JLabel();
         myHandLabel.setBounds(PixelUtil.myHandHandX, PixelUtil.myHandHandY, PixelUtil.myHandHandW, PixelUtil.myHandHandH);
         myHandLabel.setIcon(ImageUtil.getBoardImage("myHandHand"));
-        myHandInterfacePane.add(myHandLabel, JLayeredPane.PALETTE_LAYER);
+        myHandInterfacePane.add(myHandLabel, JLayeredPane.PALETTE_LAYER);*/
 
         //shelf label
         myShelfBoardLabel = new JLabel();
@@ -143,6 +144,7 @@ public class MyHandInterface extends JFrame {
             handGrid[i].setLayout(null);
             handGrid[i].setBackground(Color.WHITE);
             myHandInterfacePane.add(handGrid[i], JLayeredPane.MODAL_LAYER);
+
         }
     }
 
@@ -354,7 +356,6 @@ public class MyHandInterface extends JFrame {
             myHandItem[i].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
             myHandItem[i].setLocation(PixelUtil.myHandItemX, PixelUtil.myHandItemY);
             myHandItem[i].setSize(PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH);
-
             actionItem(i);
             handGrid[handMax - 1 - i].add(myHandItem[i], JLayeredPane.PALETTE_LAYER);
 
@@ -363,6 +364,7 @@ public class MyHandInterface extends JFrame {
             revalidate();
             repaint();
         });
+
 
     }
 
