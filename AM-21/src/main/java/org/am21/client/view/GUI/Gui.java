@@ -11,7 +11,6 @@ import org.am21.client.view.GUI.utils.PathUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
 import org.am21.networkRMI.ClientCallBack;
 import org.am21.networkRMI.IClientInput;
-import org.am21.networkRMI.Lobby;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -19,10 +18,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.net.MalformedURLException;
-import java.rmi.AlreadyBoundException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
 import java.util.ArrayList;
@@ -36,7 +31,7 @@ public class Gui {
     public ClientCommunicationController commCtrl;
     public IClientInput iClientInputHandler;
     public ClientCallBack clientCallBack;
-    public String root;
+    public static String root;
     public static String username; //Client username
     public CommunicationInterface communicationInterface;
     public Timer announceTimer;
@@ -203,29 +198,25 @@ public class Gui {
 
     }
 
-    public void askServerInfoRMI() throws MalformedURLException, NotBoundException, RemoteException {
+    public void askServerInfoRMI(){
 
-        Lobby lobby = (Lobby) Naming.lookup("rmi://localhost:1234/Welcome");
-        try {
-            HashMap<String, String> serverInfo = lobby.connect();
-            root = serverInfo.get("root");
-        } catch (AlreadyBoundException e) {
-            throw new RuntimeException(e);
-        }
+
 
         serverInfoInterface = new ServerInfoInterface(frame);
         new ServerInfoListener(this);
     }
 
     public void askServerInfoSocket() {
-        socket = new SocketClient();
-        SocketClient.gui = this;
-        socket.start();
-        try {
+        //socket = new SocketClient();
+        //SocketClient.gui = this;
+        //socket.start();
+        serverInfoInterface = new ServerInfoInterface(frame);
+        new ServerInfoListener(this);
+        /*try {
             askLogin();
         } catch (RemoteException e) {
             throw new RuntimeException(e);
-        }
+        }*/
 
     }
 

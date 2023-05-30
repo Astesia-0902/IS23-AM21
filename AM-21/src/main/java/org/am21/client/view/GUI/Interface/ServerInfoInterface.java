@@ -1,5 +1,7 @@
 package org.am21.client.view.GUI.Interface;
 
+import org.am21.client.ClientController;
+import org.am21.client.SocketClient;
 import org.am21.client.view.GUI.component.BackGroundPanel;
 import org.am21.client.view.GUI.utils.ButtonUtil;
 import org.am21.client.view.GUI.utils.IconUtil;
@@ -30,6 +32,16 @@ public class ServerInfoInterface extends JDialog {
 
     public ServerInfoInterface(JFrame frame) {
         super(frame);
+        String defaultAddress;
+        String defaultPort;
+        if(ClientController.isRMI){
+            defaultAddress="localhost";
+            defaultPort="1234";
+        }else{
+            defaultAddress = SocketClient.defaultServerName;
+            defaultPort = String.valueOf(SocketClient.defaultServerPort);
+        }
+
         frame.setTitle("MyShelfie - Server Info");
 
         HashMap<BufferedImage, int[]> background = new HashMap<>();
@@ -70,7 +82,7 @@ public class ServerInfoInterface extends JDialog {
                 addressIcon.paintIcon(addressField, g, ImageUtil.resizeX(5), ImageUtil.resizeY(5));
             }
         };
-        addressField.setText("localhost");
+        addressField.setText(defaultAddress);
         addressField.setForeground(new Color(255, 255, 240));
         addressField.setFont(new Font("Serif", Font.BOLD, ImageUtil.resizeY(23)));
         addressField.setBackground(new Color(222, 184, 135));
@@ -90,7 +102,9 @@ public class ServerInfoInterface extends JDialog {
                 portIcon.paintIcon(portField, g, ImageUtil.resizeX(5), ImageUtil.resizeY(5));
             }
         };
-        portField.setText("8807");
+        //portField.setText("8807");
+        portField.setText(defaultPort);
+
         portField.setForeground(new Color(255, 255, 240));
         portField.setFont(new Font("Serif", Font.BOLD, ImageUtil.resizeY(23)));
         portField.setBorder(new CompoundBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 250, 205),

@@ -1,9 +1,11 @@
 package org.am21.client.view.GUI.listener;
 
 import org.am21.client.ClientController;
+import org.am21.client.SocketClient;
 import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.networkRMI.IClientInput;
+import org.am21.networkRMI.Lobby;
 
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -13,9 +15,11 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.MalformedURLException;
+import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.HashMap;
 
 public class ServerInfoListener implements MouseListener, MouseMotionListener, ActionListener, KeyListener, DocumentListener {
     Gui gui;
@@ -42,10 +46,20 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
     public void actionPerformed(ActionEvent e) {
         // ASK SERVER INFO
         if (e.getSource() == gui.serverInfoInterface.confirmButton) {
+            String defaultAddress;
+            String defaultPort;
+            if(ClientController.isRMI){
+                defaultAddress="localhost";
+                defaultPort="1234";
+
+            }else {
+                defaultAddress = SocketClient.defaultServerName;
+                defaultPort = String.valueOf(SocketClient.defaultServerPort);
+            }
             String address = gui.serverInfoInterface.addressField.getText().trim();
             String port = gui.serverInfoInterface.portField.getText().trim();
 
-            if (address.isEmpty() || port.isEmpty() || !address.equals("localhost") || !port.equals("8807")) {
+            if (address.isEmpty() || port.isEmpty() || !address.equals(defaultAddress) || !port.equals(defaultPort)) {
                 gui.serverInfoInterface.addressField.setBorder(new CompoundBorder(new MatteBorder
                         (ImageUtil.resizeY(3), ImageUtil.resizeX(3), ImageUtil.resizeY(3),
                                 ImageUtil.resizeX(3), new Color(178, 34, 34)),
@@ -56,23 +70,39 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
                         new EmptyBorder(0, ImageUtil.resizeX(50), 0, 0)));
             } else {
                 gui.serverInfoInterface.dispose();
-                try {
-                    gui.iClientInputHandler = (IClientInput) Naming.lookup("rmi://" + address + ":" + port + "/"
-                                                                           + gui.root);
+                if(ClientController.isRMI) {
+                    try {
+                        Lobby lobby = (Lobby) Naming.lookup("rmi://" + address + ":" + port + "/Welcome");
+                        HashMap<String, String> serverInfo;
+                        try {
+                            serverInfo = lobby.connect();
+                            Gui.root = serverInfo.get("root");
+                        } catch (AlreadyBoundException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        gui.iClientInputHandler = (IClientInput) Naming.lookup("rmi://" + serverInfo.get("address") + ":" + serverInfo.get("port") + "/"
+                                + gui.root);
 
-                    ClientController.iClientInputHandler = gui.iClientInputHandler;
-                    gui.commCtrl.registerCallBack(gui.clientCallBack);
-                    gui.askLogin();
-                } catch (NotBoundException | MalformedURLException | RemoteException ex) {
-                    throw new RuntimeException(ex);
+                        ClientController.iClientInputHandler = gui.iClientInputHandler;
+                        gui.commCtrl.registerCallBack(gui.clientCallBack);
+                        gui.askLogin();
+                    } catch (NotBoundException | MalformedURLException | RemoteException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }else {
+                    SocketClient socket = new SocketClient();
+                    SocketClient.serverName = address;
+                    SocketClient.serverPort = Integer.parseInt(port);
+                    SocketClient.gui = gui;
+                    socket.start();
+                    try {
+                        gui.askLogin();
+                    } catch (RemoteException ex) {
+                        throw new RuntimeException(ex);
+                    }
+
                 }
-                // Login successful and close the login frame
-//                try {
-//
-//                    gui.askLogin();
-//                } catch (Exception ex) {
-//                    throw new RuntimeException(ex);
-//                }
+
             }
 
         }
