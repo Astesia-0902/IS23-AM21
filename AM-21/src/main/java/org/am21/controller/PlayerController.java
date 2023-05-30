@@ -2,10 +2,7 @@ package org.am21.controller;
 
 import org.am21.model.GameManager;
 import org.am21.model.Player;
-import org.am21.model.enumer.ConnectionType;
-import org.am21.model.enumer.GamePhase;
-import org.am21.model.enumer.SC;
-import org.am21.model.enumer.ServerMessage;
+import org.am21.model.enumer.*;
 import org.am21.model.items.Board;
 import org.am21.model.items.Hand;
 import org.am21.model.items.Shelf;
@@ -356,6 +353,34 @@ public class PlayerController {
             }
         }
         return null;
+    }
+
+    /**
+     * This method is called when a player is disconnected during a match.
+     * It allows to drop the selected items, from the hand, back to the board.
+     * @return true if any item is dropped, otherwise false:
+     */
+    public boolean dropHand(){
+        if(player.getStatus().equals(UserStatus.Suspended) || player.getStatus().equals( UserStatus.Offline)){
+            //If the player is suspended or offline, and has any item in hand,
+            // then the selected items will be dropped back to the board
+            List<CardPointer> hand = player.getHand().getSelectedItems();
+            if(hand.size()>0){
+                for(CardPointer item : hand){
+                    if(!player.getMatch().board.isOccupied(item.x,item.y)){
+                        //The card is not on the board then put it back
+                        player.getMatch().board.setCell(item.x,item.y,item.item);
+                    }
+                }
+                // Clear Hand
+                player.getHand().getSelectedItems().clear();
+                VirtualViewHelper.virtualizeBoard(player.getMatch());
+                VirtualViewHelper.virtualizeCurrentPlayerHand(player.getMatch());
+                player.getMatch().updatePlayersView();
+                return true;
+            }
+        }
+        return false;
     }
 
 }

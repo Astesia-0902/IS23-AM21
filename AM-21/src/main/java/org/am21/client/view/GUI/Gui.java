@@ -1,7 +1,6 @@
 package org.am21.client.view.GUI;
 
 import org.am21.client.ClientCommunicationController;
-import org.am21.client.SocketClient;
 import org.am21.client.view.ClientView;
 import org.am21.client.view.GUI.Interface.*;
 import org.am21.client.view.GUI.component.*;
@@ -64,20 +63,11 @@ public class Gui {
     public static JTextArea publicChatHistory = new JTextArea();
     public static boolean NEW_CHAT_WINDOW = false;
     //-------------------------------------------------------------------
-    private SocketClient socket;
-    //public boolean GO_TO_MENU = true;
-    //If true askPlayerMove, if false askWaitingAction
-    //public boolean GAME_ON = false;
-    //public boolean START = false;
-    //If true GoToEndRoom
-    //public boolean END = false;
     public boolean REFRESH = false;
     public boolean MENU_REFRESH = false;
     public boolean WAIT_ROOM_REFRESH = false;
     public boolean GAME_BOARD_REFRESH = false;
-
     public boolean NEED_NEW_FRAME = false;
-
     public boolean ASK_CHAT = false;
     private int matchIndex;
     public Thread guiMinion = new Thread() {
@@ -204,24 +194,13 @@ public class Gui {
     }
 
     public void askServerInfoRMI() {
-
-
         serverInfoInterface = new ServerInfoInterface(frame);
         new ServerInfoListener(this);
     }
 
     public void askServerInfoSocket() {
-        //socket = new SocketClient();
-        //SocketClient.gui = this;
-        //socket.start();
         serverInfoInterface = new ServerInfoInterface(frame);
         new ServerInfoListener(this);
-        /*try {
-            askLogin();
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }*/
-
     }
 
 
