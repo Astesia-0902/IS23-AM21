@@ -127,8 +127,19 @@ public class GameBoardPanel extends JPanel {
                     cells[i][j] = new JLabel();
                     cells[i][j].setBounds(0, 0, PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH);
                     cells[i][j].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
-                    cells[i][j].setIcon(ImageUtil.getItemImage(gameBoard[i][j], PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH));
-                    actionItem(i, j, gui);
+                    if(gameBoard[i][j].startsWith(">"))
+                    {
+                        cells[i][j].setIcon(ImageUtil.getItemImage(gameBoard[i][j].substring(1), PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH));
+
+
+                    }
+                    else
+                    {
+                        //cells[i][j].setText(gameBoard[i][j]);
+                        cells[i][j].setIcon(ImageUtil.getItemImage(gameBoard[i][j], PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH));
+
+                    }
+                     actionItem(i, j, gui);
                     grids[i][j].add(cells[i][j], JLayeredPane.MODAL_LAYER);
                 }
             }

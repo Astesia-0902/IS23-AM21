@@ -97,7 +97,11 @@ public class Cli implements View {
         HashMap<String, String> serverInfo;
         do {
             serverInfo = connectToServerLobby(askInfo("address", defaultAddress), askInfo("port", defaultPort));
-        }while(serverInfo==null);
+            if(serverInfo!=null){
+                break;
+            }
+            System.out.println("Server not found");
+        }while(true);
         ClientController.iClientInputHandler = getControllerStub(serverInfo);
         commCtrl.registerCallBack(clientCallBack);
         System.out.println("Controller registered from " + serverInfo.get("address")
@@ -1520,12 +1524,15 @@ public class Cli implements View {
         do {
             System.out.print("Enter the server " + type + ": [" + defaultValue + "]");
             String value = readLine();
+            String[] fragments = value.split("\\.");
 
             if (value.equals("")) {
                 return defaultValue;
-            } else if (value.equals("localhost")) {
+            } else if (type.equals("address") && fragments.length==4) {
                 return value;
-            } else {
+            } else if(type.equals("port") && fragments.length==0){
+                return value;
+            }else{
                 System.out.println(Color.RED + "Invalid " + type + "!" + Color.RESET);
             }
         } while (true);

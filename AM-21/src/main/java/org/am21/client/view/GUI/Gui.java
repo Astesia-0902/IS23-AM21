@@ -347,7 +347,7 @@ public class Gui {
             showPlayersStats(); //TODO:refresh users scores change in real time ???
         });
         SwingUtilities.invokeLater(() -> {
-            showWhoIsPlaying(); //TODO: fix change color player problem
+            showWhoIsPlaying(); //change player color
         });
         //TODO: end token ???
 
@@ -362,7 +362,7 @@ public class Gui {
 
     }
 
-    public void askEndRoom(){
+    public void askEndRoom() {
         gameResultsInterface = new GameResultsInterface(this, gameResults);
     }
 
@@ -372,18 +372,18 @@ public class Gui {
             // it's my turn
             if (livingRoomInterface.livingRoomPanel.waitTimer != null)
                 livingRoomInterface.livingRoomPanel.waitTimer.start();
-            // livingRoomInterface.enemiesPanel.get(currentPlayer).waitTimer.stop();
 
             for (EnemyPanel enemyPanel : livingRoomInterface.enemiesPanel.values()) {
                 if (enemyPanel.waitTimer != null) {
                     enemyPanel.waitTimer.stop();
+                    enemyPanel.setStatusBorder();
                 }
             }
         } else {
             // enemies turn
             if (livingRoomInterface.livingRoomPanel.waitTimer != null)
                 livingRoomInterface.livingRoomPanel.waitTimer.stop();
-            //  livingRoomInterface.enemiesPanel.get(currentPlayer).waitTimer.start();
+                livingRoomInterface.livingRoomPanel.setBorderColor();
 
             if (livingRoomInterface.enemiesPanel.containsKey(currentPlayer)) {
                 EnemyPanel enemyPanel = livingRoomInterface.enemiesPanel.get(currentPlayer);
