@@ -85,6 +85,11 @@ public class Gui {
         public void run() {
             super.run();
             while (true) {
+                if (MATCH_END) {
+                    ClientView.setMatchEnd(false);
+                    askEndRoom();
+                }
+
                 while (!GAME_ON && GO_TO_MENU) {
                     try {
                         askMenuAction();
@@ -115,7 +120,7 @@ public class Gui {
                             showMatchSetup();
                             ClientView.setMatchStart(false);
                         } else if (GAME_BOARD_REFRESH) {
-                            SwingUtilities.invokeLater(()->{
+                            SwingUtilities.invokeLater(() -> {
                                 try {
                                     announceCurrentPlayer();
                                 } catch (RemoteException e) {
@@ -198,8 +203,7 @@ public class Gui {
 
     }
 
-    public void askServerInfoRMI(){
-
+    public void askServerInfoRMI() {
 
 
         serverInfoInterface = new ServerInfoInterface(frame);
@@ -368,15 +372,19 @@ public class Gui {
         });
         //TODO: end token ???
 
-        if (MATCH_END) {
+        /*if (MATCH_END) {
             gameResultsInterface = new GameResultsInterface(this, gameResults);
             ClientView.setMatchEnd(false);
-        }
+        }*/
         SwingUtilities.invokeLater(() -> {
             livingRoomInterface.revalidate();
             livingRoomInterface.repaint();
         });
 
+    }
+
+    public void askEndRoom(){
+        gameResultsInterface = new GameResultsInterface(this, gameResults);
     }
 
 
