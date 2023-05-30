@@ -40,11 +40,12 @@ public class GameManager {
     public void removePlayer(Player player) {
         players.remove(player);
     }
-    public static Integer pushNewMatch(Match match){
-        synchronized (matchMap){
+
+    public static Integer pushNewMatch(Match match) {
+        synchronized (matchMap) {
             matchMap.put(matchIndex, match);
             matchIndex++;
-            return matchIndex-1;
+            return matchIndex - 1;
         }
     }
 
@@ -78,6 +79,17 @@ public class GameManager {
         synchronized (players) {
             for (Player p : players) {
                 if (name.equals(p.getNickname())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean checkNameReconnection(String name) {
+        synchronized (players) {
+            for (Player p : players) {
+                if (name.equals(p.getNickname()) && p.getStatus().equals(UserStatus.Suspended)) {
                     return true;
                 }
             }
@@ -194,6 +206,7 @@ public class GameManager {
                     //TODO:Suspend the player
                     //if the player suspended is the current player, then skip his turn
                     if (p.getMatch() != null && p.getMatch().gameState.equals(GameState.GameGoing) && p.getMatch().currentPlayer.equals(p)) {
+                        p.getController().dropHand();
                         p.getMatch().callEndTurnRoutine();
                     }
                     p.getMatch().sendTextToAll(SC.YELLOW_BB + "\nServer > " + p.getNickname() + " suspended." + SC.RST, false, false);
@@ -217,7 +230,7 @@ public class GameManager {
 
     }
 
-    private static void checkMatchPause(int matchID) {
+    public static void checkMatchPause(int matchID) {
         Match m = matchMap.get(matchID);
         int activePlayers = 0;
         for (Player p : m.playerList) {
@@ -231,6 +244,8 @@ public class GameManager {
         } else if (activePlayers < 1) {
             //TODO: Eliminate the match
             m.setGameState(GameState.Closed);
+        } else {
+            matchResume(matchID);
         }
     }
 
@@ -283,8 +298,17 @@ public class GameManager {
         if (m.pauseTimer != null) {
             m.pauseTimer.cancel();
             m.pauseTimer = null;
-            m.setGameState(GameState.GameGoing);
         }
+    }
+
+    public static void matchResume(int matchIndex) {
+        Match m = matchMap.get(matchIndex);
+        if (!m.gameState.equals(GameState.Pause))
+            return;
+        m.setGameState(GameState.GameGoing);
+        cancelMatchPauseTimer(matchIndex);
+        m.callEndTurnRoutine();
+        System.out.println("Match " + matchIndex + " resumed.");
     }
 
     /**

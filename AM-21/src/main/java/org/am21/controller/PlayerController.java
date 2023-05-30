@@ -123,7 +123,7 @@ public class PlayerController {
 
             GameManager.sendReply(this, ServerMessage.Selection_Ok.value());
             player.getMatch().sendTextToAll("\n" +
-                    SC.YELLOW + player.getNickname() + " selected the cell [" + r + "," + c + "]." + SC.RST, false,false);
+                    SC.YELLOW + player.getNickname() + " selected the cell [" + r + "," + c + "]." + SC.RST, false, false);
             player.getMatch().selectionUpdate();
             return true;
         }
@@ -238,7 +238,7 @@ public class PlayerController {
      * @return true if the insertion is successful
      */
     public boolean tryToInsert(int col) {
-        if (!isMyTurn(player) || !isGamePhase(GamePhase.Insertion) || isHandEmpty() || col<0 || col>= Shelf.SHELF_COLUMN) {
+        if (!isMyTurn(player) || !isGamePhase(GamePhase.Insertion) || isHandEmpty() || col < 0 || col >= Shelf.SHELF_COLUMN) {
             return false;
         }
         if (player.getShelf().slotCol.get(col) < hand.getSelectedItems().size()) {
@@ -283,6 +283,7 @@ public class PlayerController {
     /**
      * Verify if is the current Player correspond with the one calling this method
      * //TODO:useless? now in checkActionphase
+     *
      * @param player player
      * @return false if is not player's turn
      */
@@ -383,5 +384,11 @@ public class PlayerController {
         return false;
     }
 
+    public void reconnectPlayer() {
+        player.setStatus(UserStatus.GameMember);
+        GameManager.checkMatchPause(player.getMatch().matchID);
+        System.out.println("Player " + player.getNickname() + " reconnected");
+        player.getMatch().sendTextToAll(SC.YELLOW + "\nServer > " + player.getNickname() + " reconnected to the match.", true, true);
+    }
 }
 

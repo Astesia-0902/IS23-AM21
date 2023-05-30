@@ -4,10 +4,7 @@ import org.am21.model.GameManager;
 import org.am21.model.Match;
 import org.am21.model.Player;
 import org.am21.model.chat.ServerChatManager;
-import org.am21.model.enumer.GameState;
-import org.am21.model.enumer.SC;
-import org.am21.model.enumer.ServerMessage;
-import org.am21.model.enumer.UserStatus;
+import org.am21.model.enumer.*;
 import org.am21.model.items.Shelf;
 import org.am21.networkRMI.IClientCallBack;
 import org.am21.utilities.VirtualViewHelper;
@@ -44,6 +41,27 @@ public class GameController {
     public static boolean login(String username, PlayerController playerController) {
         //GameManager.checkUsersConnection();
         //GameManager.playerCleaner();
+        if (GameManager.checkNameReconnection(username)) {
+            Match match = GameManager.matchMap.get(GameManager.playerMatchMap.get(username));
+            for (Player player : match.playerList) {
+                if (player.getNickname().equals(username)) {
+//                    if (playerController.connectionType == ConnectionType.SOCKET) {
+//                        player.getController().clientHandlerSocket = playerController.clientHandlerSocket;
+//                        playerController.clientHandlerSocket.myPlayer = playerInGame;
+//                    } else if (playerController.connectionType == ConnectionType.RMI) {
+//                        player.getController().clientInput = playerController.clientInput;
+//                        playerController.clientInput.playerController = playerInGame;
+//                    }
+                    player.setController(null);
+                    playerController.setPlayer(player);
+                    player.setController(playerController);
+                    playerController.reconnectPlayer();
+                    CommunicationController.instance.notifyStart(match.matchID, playerController);
+                    return true;
+                }
+            }
+        }
+
         if (GameManager.checkNameSake(username)) {
             return false;
         }
