@@ -47,7 +47,9 @@ public class MyHandBoardPanel extends JPanel {
 
         myHandItem = new JLabel[myItem.size()];
 
+
         for (int i = 0; i < myItem.size(); i++) {
+
             myHandItem[i] = new JLabel();
             myHandItem[i].setIcon(ImageUtil.getItemImage(myItem.get(i), PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH));
             myHandItem[i].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
@@ -58,7 +60,7 @@ public class MyHandBoardPanel extends JPanel {
 
         }
 
-        SwingUtilities.invokeLater(()->{
+        SwingUtilities.invokeLater(() -> {
             revalidate();
             repaint();
         });

@@ -46,8 +46,8 @@ public class PixelUtil {
     public static int enemyW = ImageUtil.resizeX(68);
     public static int enemyH = ImageUtil.resizeY(64);
 
-    public static int enemyShelfW = ImageUtil.resizeX(203);
-    public static int enemyShelfH = ImageUtil.resizeY(192);
+    public static int enemyShelfW = ImageUtil.resizeX(202);
+    public static int enemyShelfH = ImageUtil.resizeY(191);
 
     //
     public static int gameBoardCellW = ImageUtil.resizeX(85);
@@ -141,15 +141,15 @@ public class PixelUtil {
 
     //position
     public static int myGridX = ImageUtil.resizeX(1310);
-    public static int myGridY = ImageUtil.resizeY(455);
-    public static int enemyGridX = ImageUtil.resizeX(110);
+    public static int myGridY = ImageUtil.resizeY(454);
+    public static int enemyGridX = ImageUtil.resizeX(111);
     public static int enemyGridY = ImageUtil.resizeY(12);
 
     //cell size
     public static int myCellH = ImageUtil.resizeY(65);
-    public static int myCellW = ImageUtil.resizeX(79);
+    public static int myCellW = ImageUtil.resizeX(80);
     public static int enemyCellH = ImageUtil.resizeY(27);
-    public static int enemyCellW = ImageUtil.resizeX(32);
+    public static int enemyCellW = ImageUtil.resizeX(33);
 
     //item size
     public static int myItemW = ImageUtil.resizeX(59);
@@ -220,7 +220,7 @@ public class PixelUtil {
     public static int myHandConfirmH = ImageUtil.resizeY(51);
 
     public static int myHandItemX = ImageUtil.resizeX(3);
-    public static int myHandItemY = ImageUtil.resizeY(40);
+    public static int myHandItemY = ImageUtil.resizeY(43);
 
     public static int myHandShelfGridX = ImageUtil.resizeX(242);
     public static int myHandShelfGridY = ImageUtil.resizeY(78);

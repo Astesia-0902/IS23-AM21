@@ -336,7 +336,6 @@ public class Gui {
         });
         //end turn
 
-        //TODO: need notifyToAll for update all board, shelf and score view
         SwingUtilities.invokeLater(() -> {
             showBoard(); //refresh board
         });
@@ -344,7 +343,7 @@ public class Gui {
             showEveryShelf(); //refresh enemy's shelf
         });
         SwingUtilities.invokeLater(() -> {
-            showPlayersStats(); //TODO:refresh users scores change in real time ???
+            showPlayersStats(); // refresh shelf
         });
         SwingUtilities.invokeLater(() -> {
             showWhoIsPlaying(); //change player color

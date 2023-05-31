@@ -28,41 +28,22 @@ public class GameResultsInterface extends JFrame {
 //public GameResultsInterface() {
         setBackGround();
 
-       /* data = new String[gameResults.length-1][columnResults];
+        String winner = gameResults[gameResults.length - 1][0];
 
-        for(int i = 0 ; i<gameResults.length-1;i++)
-        {
-            for(int j = 0 ;j<columnResults-1;j++)
-            {
-                if(gameResults[i][j]!=null)
-                    data[i][j] = gameResults[i][j];
-            }
-
-        }
-        Arrays.sort(data, Comparator.comparing(row -> -Integer.parseInt(row[6])));
-
-        for(int i = 0; i< gameResults.length -1 ; i++)
-        {
-            data[i][columnResults-1] = String.valueOf(i+1);
-        }*/
-   /* Object[][] data = {
-            {"Player A", 25, 1},
-            {"You", 21, 2},
-            {"Player B", 14, 3},
-            {"Player C", 3, 4}
-    };*/
-
-        data = new String[gameResults.length - 1][6];
+        data = new String[gameResults.length - 1][columnResults];
 
         for (int i = 0; i < gameResults.length - 1; i++) {
-            for (int j = 0; j < 6; j++) {
+            for (int j = 0; j < columnResults - 1; j++) {
                 data[i][j] = gameResults[i][j];
             }
-
+            if (winner.equals(data[i][0]))
+                data[i][columnResults - 1] = "Winner";
         }
+
+
         // String[] columnResultsName = {"Name","C-Goal", "P-Goal","S-Group","Endgame","Total","Position"};
 
-        String[] columnResultsName = {"Name", "C-Goal", "P-Goal", "S-Group", "Endgame", "Total"};
+        String[] columnResultsName = {"Name", "C-Goal", "P-Goal", "S-Group", "Endgame", "Total", "Results"};
 
         DefaultTableModel tableModel = new DefaultTableModel(data, columnResultsName);
         tableResults = new JTable(tableModel);

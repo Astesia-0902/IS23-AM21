@@ -104,7 +104,6 @@ public class GameBoardPanel extends JPanel {
             }
         }
         SwingUtilities.invokeLater(()->{
-            System.out.println("Board cleaned");
             revalidate();
             repaint();
         });
@@ -145,7 +144,6 @@ public class GameBoardPanel extends JPanel {
             }
         }
         SwingUtilities.invokeLater(()->{
-            System.out.println("Board refilled");
             revalidate();
             repaint();
         });

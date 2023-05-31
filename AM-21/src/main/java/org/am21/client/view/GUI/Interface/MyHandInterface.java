@@ -55,43 +55,6 @@ public class MyHandInterface extends JDialog {
 
         setColumnOptionGroupButton();
 
-        /*ShelfPanel testPanel = new ShelfPanel(PixelUtil.myHandShelfGridX, PixelUtil.myHandShelfGridY, PixelUtil.myCellW, PixelUtil.myCellH, PixelUtil.myItemW, PixelUtil.myItemH);
-        String[][] matrix = new String[6][5];
-        matrix[0][0] = "_Games__1.1";
-        matrix[0][1] = "_Games__1.1";
-        matrix[0][2] = null;
-        matrix[0][3] = "_Games__1.1";
-        matrix[0][4] = null;
-        matrix[1][0] = "_Games__1.1";
-        matrix[1][1] = "_Games__1.1";
-        matrix[1][2] = "_Games__1.1";
-        matrix[1][3] = "_Games__1.1";
-        matrix[1][4] = null;
-        matrix[2][0] = "_Games__1.1";
-        matrix[2][1] = "_Games__1.1";
-        matrix[2][2] = null;
-        matrix[2][3] = "_Games__1.1";
-        matrix[2][4] = null;
-        matrix[3][0] = "_Games__1.1";
-        matrix[3][1] = "_Games__1.1";
-        matrix[3][2] = null;
-        matrix[3][3] = "_Games__1.1";
-        matrix[3][4] = "_Games__1.1";
-        matrix[4][0] = "_Games__1.1";
-        matrix[4][1] = "_Games__1.1";
-        matrix[4][2] = null;
-        matrix[4][3] = "_Games__1.1";
-        matrix[4][4] = "_Games__1.1";
-        matrix[5][0] = "_Games__1.1";
-        matrix[5][1] = "_Games__1.1";
-        matrix[5][2] = null;
-        matrix[5][3] = "_Games__1.1";
-        matrix[5][4] = "_Games__1.1";
-        testPanel.refreshShelf(matrix);
-        myHandInterfacePane.add(testPanel, JLayeredPane.MODAL_LAYER);*/
-
-        //int[] row = {1, 1, 1, 0, 0, 0};
-
         setConfirmButton(gui);
 
         setVisible(true);
@@ -121,10 +84,10 @@ public class MyHandInterface extends JDialog {
         myHandInterfacePane.add(myHandInterfaceBack, JLayeredPane.DEFAULT_LAYER);
 
         //hand label
-       /* myHandLabel = new JLabel();
+        myHandLabel = new JLabel();
         myHandLabel.setBounds(PixelUtil.myHandHandX, PixelUtil.myHandHandY, PixelUtil.myHandHandW, PixelUtil.myHandHandH);
         myHandLabel.setIcon(ImageUtil.getBoardImage("myHandHand"));
-        myHandInterfacePane.add(myHandLabel, JLayeredPane.PALETTE_LAYER);*/
+        myHandInterfacePane.add(myHandLabel, JLayeredPane.PALETTE_LAYER);
 
         //shelf label
         myShelfBoardLabel = new JLabel();
@@ -349,10 +312,16 @@ public class MyHandInterface extends JDialog {
         }
 
         myHandItem = new JLabel[myItem.size()];
-
+        //myHandItem = new JLabel[3];
+        /*for (String item : myItem) {
+            System.out.println(item);
+        }*/
         for (int i = 0; i < myItem.size(); i++) {
+
             myHandItem[i] = new JLabel();
             myHandItem[i].setIcon(ImageUtil.getItemImage(myItem.get(i), PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH));
+            //myHandItem[i].setIcon(ImageUtil.getItemImage("_Frames_1.2", PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH));
+
             myHandItem[i].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
             myHandItem[i].setLocation(PixelUtil.myHandItemX, PixelUtil.myHandItemY);
             myHandItem[i].setSize(PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH);
