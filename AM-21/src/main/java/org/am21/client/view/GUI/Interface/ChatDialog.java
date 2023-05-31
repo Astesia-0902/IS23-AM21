@@ -21,7 +21,7 @@ import java.util.HashMap;
 
 public class ChatDialog extends JDialog {
     public JTextArea currentChatHistory;
-    public JTextField chatMessageInput = new JTextField("");
+    public JTextField chatMessageInput;
     public JButton sendButton;
     public JPanel chatPanel;
     public JPanel topPanel;
@@ -48,9 +48,9 @@ public class ChatDialog extends JDialog {
         System.setOut(printStream);
     });
 
-    public ChatDialog(JFrame frame) {
+    public ChatDialog(JFrame frame, int width, int height) {
         super(frame);
-        setSize(ImageUtil.resizeX(500), ImageUtil.resizeY(500));
+        setSize(ImageUtil.resizeX(width), ImageUtil.resizeY(height));
 
         // topPanel:
         // [ Chat Room                                                                    | x ]
@@ -70,6 +70,7 @@ public class ChatDialog extends JDialog {
 
 
         topPanel = new JPanel();
+
         topPanel.setLayout(new BorderLayout());
         topPanel.setBackground(new Color(126, 89, 203, 230));
         topPanel.setBorder(new MatteBorder(ImageUtil.resizeX(5),
@@ -106,18 +107,6 @@ public class ChatDialog extends JDialog {
             playerPanel.add(localChatMap.get(user), gbc);
             gbc.gridy++;
 
-
-            /*if (!Gui.privateChatHistoryMap.containsKey(user)) {
-                currentChatHistory = new JTextArea(ImageUtil.resizeX(10), ImageUtil.resizeY(20));
-                currentChatHistory.setEditable(false);
-                currentChatHistory.setForeground(new Color(106, 2, 1));
-                currentChatHistory.setFont(new Font("Serif", Font.BOLD, ImageUtil.resizeY(14)));
-                currentChatHistory.setLineWrap(true);
-                currentChatHistory.setWrapStyleWord(true);
-                currentChatHistory.setCaretPosition(currentChatHistory.getDocument().getLength());
-
-                Gui.privateChatHistoryMap.put(user, currentChatHistory);
-            }*/
             if (!Gui.privateChatHistoryMap.containsKey(user)) {
                 JTextArea tmpText = new JTextArea(ImageUtil.resizeX(10), ImageUtil.resizeY(20));
                 tmpText.setEditable(false);
@@ -127,6 +116,7 @@ public class ChatDialog extends JDialog {
                 tmpText.setWrapStyleWord(true);
                 tmpText.setCaretPosition(tmpText.getDocument().getLength());
             }
+
 
         }
         // Choose chatHistory to show on interface

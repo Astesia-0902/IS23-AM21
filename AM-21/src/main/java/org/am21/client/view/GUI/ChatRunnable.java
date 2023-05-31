@@ -19,7 +19,7 @@ public class ChatRunnable implements Runnable{
                 gui.chatDialog.setVisible(true);
             }else {
                 synchronized (gui.chatLock) {
-                    gui.chatDialog = new ChatDialog(gui.frame);
+                    gui.chatDialog = new ChatDialog(gui.frame, 500, 500);
                 }
                 System.out.println("Chat Dialog created (visible)");
                 Gui.NEW_CHAT_WINDOW = false;
@@ -27,7 +27,7 @@ public class ChatRunnable implements Runnable{
             }
         }else{
             synchronized (gui.chatLock) {
-                gui.chatDialog = new ChatDialog(gui.frame);
+                gui.chatDialog = new ChatDialog(gui.frame, 500, 500);
             }
             gui.chatDialog.setVisible(false);
             System.out.println("Chat Dialog created (not visible)");

@@ -42,7 +42,7 @@ public class MyHandInterface extends JDialog {
     public int finalColumn = -1;
 
     public MyHandInterface(Gui gui) {
-        super(gui.livingRoomInterface,true);
+        super(gui.livingRoomInterface, true);
         setMyHandInterfacePane();
 
         setMyHandGrids();
@@ -107,7 +107,6 @@ public class MyHandInterface extends JDialog {
             handGrid[i].setLayout(null);
             handGrid[i].setBackground(Color.WHITE);
             myHandInterfacePane.add(handGrid[i], JLayeredPane.MODAL_LAYER);
-
         }
     }
 
@@ -148,6 +147,7 @@ public class MyHandInterface extends JDialog {
         sort.setForeground(new Color(164, 91, 9, 255));
         sort.setOpaque(false);
         sort.setIcon(ImageUtil.getBoardImage("iconSort"));
+        refreshHand(ClientView.currentPlayerHand); //refresh new board
         sort.addActionListener(e -> {
 
             if (posSort.size() == 2) {
@@ -329,7 +329,7 @@ public class MyHandInterface extends JDialog {
             handGrid[handMax - 1 - i].add(myHandItem[i], JLayeredPane.PALETTE_LAYER);
 
         }
-        SwingUtilities.invokeLater(()->{
+        SwingUtilities.invokeLater(() -> {
             revalidate();
             repaint();
         });
