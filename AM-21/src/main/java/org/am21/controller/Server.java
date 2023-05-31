@@ -40,9 +40,14 @@ public class Server {
     }
 
     public static void main(String[] args) throws RemoteException {
-        System.out.print("Server address: ");
-        String serverAddress = readLine();
-
+        String serverAddress;
+        System.out.print("Enter Server address (Press 'Enter' for 'localhost'): ");
+        String inputAddress = readLine();
+        if(inputAddress.equals("")){
+            serverAddress="localhost";
+        }else{
+            serverAddress=inputAddress;
+        }
 
         try {
             SocketServer server = new SocketServer();
@@ -57,7 +62,7 @@ public class Server {
             Timer timer = new Timer();
             timer.schedule(new HeartbeatTask(), 1000, 10000);
 
-            System.out.println("Server is ready");
+            System.out.println("Server is ready "+"["+serverAddress+"]" );
             while (true) {
                 String input = readLine();
                 if (input.equals("reset")) {
