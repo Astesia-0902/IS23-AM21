@@ -1,7 +1,6 @@
 package org.am21.client.view.GUI.component;
 
 import org.am21.client.view.GUI.utils.ImageUtil;
-import org.am21.client.view.GUI.utils.PathUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,14 +8,10 @@ import java.awt.*;
 public class ShelfPanel extends JPanel {
     public int GridRowsMax = 6;
     public int GridColumnsMax = 5;
-
     public int cellHeight;
     public int cellWidth;
-
-
     public int itemWidth;
     public int itemHeight;
-
     public JLayeredPane[][] grids = new JLayeredPane[GridRowsMax][GridColumnsMax];
 
     public JLabel[][] cells;
@@ -51,7 +46,6 @@ public class ShelfPanel extends JPanel {
                 grids[i][j].setBounds(j * this.cellWidth, i * this.cellHeight, this.cellWidth, this.cellHeight);
                 grids[i][j].setLayout(null);
                 add(grids[i][j]);
-                //putItem(i,j);
             }
 
         }
@@ -84,7 +78,7 @@ public class ShelfPanel extends JPanel {
 
             }
         }
-        SwingUtilities.invokeLater(()->{
+        SwingUtilities.invokeLater(() -> {
             revalidate();
             repaint();
         });
@@ -125,15 +119,10 @@ public class ShelfPanel extends JPanel {
                 cells[i][column].setBorder(BorderFactory.createLineBorder(new Color(4, 245, 237, 230), 3));
         }
 
-        revalidate();
-        repaint();
+        SwingUtilities.invokeLater(() -> {
+            revalidate();
+            repaint();
+        });
 
-    }
-
-    public void putItem(int row, int column) {
-        cells[row][column] = new JLabel();
-        cells[row][column].setBounds((this.cellWidth - itemWidth) / 2, (this.cellHeight - itemHeight) / 2, itemWidth, itemHeight);
-        cells[row][column].setIcon(new ImageIcon(new ImageIcon(PathUtil.getPath("icon tool/U2.jpg")).getImage().getScaledInstance(itemWidth, itemHeight, Image.SCALE_SMOOTH)));
-        grids[row][column].add(cells[row][column], JLayeredPane.MODAL_LAYER);
     }
 }

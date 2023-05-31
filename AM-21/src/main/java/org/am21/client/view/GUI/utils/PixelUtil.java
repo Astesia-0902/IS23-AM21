@@ -120,21 +120,14 @@ public class PixelUtil {
     /**
      * chat util
      */
-    public static int cPanelX = pcWidth * 6 / 1000;
-    public static int cPanelY = pcHeight * 6286 / 10000;
-    public static int cPanelW = pcWidth * 2024 / 10000;
-    public static int cPanelH = pcHeight * 286 / 1000;
 
-    public static int cScrollW = pcWidth * 2024 / 10000;
-    public static int cScrollH = pcHeight * 238 / 1000;
-    public static int cTextFieldY = pcHeight * 24 / 100;
-    public static int cTextFieldW = pcWidth * 143 / 1000;
-    public static int cTextFieldH = pcHeight * 38 / 1000;
-    public static int cButtonX = pcWidth * 146 / 1000;
-    public static int cButtonY = pcHeight * 24 / 100;
-    public static int cButtonW = pcWidth * 56 / 1000;
-    public static int cButtonH = pcHeight * 38 / 1000;
+    public static int cButtonY = ImageUtil.resizeY(978);
+    public static int cButtonW = ImageUtil.resizeX(68);
+    public static int cButtonH = ImageUtil.resizeY(34);
 
+    public static int cWindowW = ImageUtil.resizeX(292);
+    public static int cWindowH = ImageUtil.resizeY(300);
+    public static int cWindowY = ImageUtil.resizeY(660);
     /**
      * Shelf grid Util
      */
@@ -219,7 +212,7 @@ public class PixelUtil {
     public static int myHandConfirmW = ImageUtil.resizeX(161);
     public static int myHandConfirmH = ImageUtil.resizeY(51);
 
-    public static int myHandItemX = ImageUtil.resizeX(3);
+    public static int myHandItemX = ImageUtil.resizeX(4);
     public static int myHandItemY = ImageUtil.resizeY(43);
 
     public static int myHandShelfGridX = ImageUtil.resizeX(242);

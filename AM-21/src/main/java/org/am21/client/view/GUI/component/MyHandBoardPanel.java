@@ -47,7 +47,6 @@ public class MyHandBoardPanel extends JPanel {
 
         myHandItem = new JLabel[myItem.size()];
 
-
         for (int i = 0; i < myItem.size(); i++) {
 
             myHandItem[i] = new JLabel();

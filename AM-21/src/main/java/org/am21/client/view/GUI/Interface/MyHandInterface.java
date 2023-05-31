@@ -147,7 +147,7 @@ public class MyHandInterface extends JDialog {
         sort.setForeground(new Color(164, 91, 9, 255));
         sort.setOpaque(false);
         sort.setIcon(ImageUtil.getBoardImage("iconSort"));
-        refreshHand(ClientView.currentPlayerHand); //refresh new board
+        refreshHand(ClientView.currentPlayerHand); //refresh board
         sort.addActionListener(e -> {
 
             if (posSort.size() == 2) {
@@ -312,16 +312,11 @@ public class MyHandInterface extends JDialog {
         }
 
         myHandItem = new JLabel[myItem.size()];
-        //myHandItem = new JLabel[3];
-        /*for (String item : myItem) {
-            System.out.println(item);
-        }*/
+
         for (int i = 0; i < myItem.size(); i++) {
 
             myHandItem[i] = new JLabel();
             myHandItem[i].setIcon(ImageUtil.getItemImage(myItem.get(i), PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH));
-            //myHandItem[i].setIcon(ImageUtil.getItemImage("_Frames_1.2", PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH));
-
             myHandItem[i].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
             myHandItem[i].setLocation(PixelUtil.myHandItemX, PixelUtil.myHandItemY);
             myHandItem[i].setSize(PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH);

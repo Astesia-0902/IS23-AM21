@@ -87,7 +87,7 @@ public class GameBoardPanel extends JPanel {
     public void refreshBoard(String[][] gameBoard, Gui gui) {
         clearBoard();
         fillingBoard(gameBoard, gui);
-        SwingUtilities.invokeLater(()->{
+        SwingUtilities.invokeLater(() -> {
             revalidate();
             repaint();
         });
@@ -103,7 +103,7 @@ public class GameBoardPanel extends JPanel {
                     pane[i].removeAll();
             }
         }
-        SwingUtilities.invokeLater(()->{
+        SwingUtilities.invokeLater(() -> {
             revalidate();
             repaint();
         });
@@ -126,24 +126,21 @@ public class GameBoardPanel extends JPanel {
                     cells[i][j] = new JLabel();
                     cells[i][j].setBounds(0, 0, PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH);
                     cells[i][j].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
-                    if(gameBoard[i][j].startsWith(">"))
-                    {
+                    if (gameBoard[i][j].startsWith(">")) {
                         cells[i][j].setIcon(ImageUtil.getItemImage(gameBoard[i][j].substring(1), PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH));
 
 
-                    }
-                    else
-                    {
+                    } else {
                         //cells[i][j].setText(gameBoard[i][j]);
                         cells[i][j].setIcon(ImageUtil.getItemImage(gameBoard[i][j], PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH));
 
                     }
-                     actionItem(i, j, gui);
+                    actionItem(i, j, gui);
                     grids[i][j].add(cells[i][j], JLayeredPane.MODAL_LAYER);
                 }
             }
         }
-        SwingUtilities.invokeLater(()->{
+        SwingUtilities.invokeLater(() -> {
             revalidate();
             repaint();
         });
@@ -223,6 +220,56 @@ public class GameBoardPanel extends JPanel {
                 }
             }
         }
+    }
+
+    /**
+     * enemy action game board view
+     *
+     * @param gameBoard virtualBoard
+     * @param gui       GUI
+     */
+    public void enemyViewBoard(String[][] gameBoard, Gui gui) {
+        cells = new JLabel[GridRowsMax][GridColumnsMax];
+
+        for (int i = 0; i < gameBoard.length; i++) {
+            for (int j = 0; j < gameBoard[0].length; j++) {
+
+                if (gameBoard[i][j] != null) {
+                    cells[i][j] = new JLabel();
+                    cells[i][j].setBounds(0, 0, PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH);
+                    if (gameBoard[i][j].startsWith(">")) {
+                        cells[i][j].setIcon(ImageUtil.getItemImage(gameBoard[i][j].substring(1), PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH));
+                        cells[i][j].setBorder(BorderFactory.createLineBorder(new Color(245, 76, 4, 230), 2));
+
+                    } else {
+                        cells[i][j].setIcon(ImageUtil.getItemImage(gameBoard[i][j], PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH));
+                        cells[i][j].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
+
+                    }
+                    actionItem(i, j, gui);
+                    grids[i][j].add(cells[i][j], JLayeredPane.MODAL_LAYER);
+                }
+            }
+        }
+        SwingUtilities.invokeLater(() -> {
+            revalidate();
+            repaint();
+        });
+    }
+
+    /**
+     * refresh enemy action on game board
+     *
+     * @param gameBoard virtualBoard
+     * @param gui       GUI
+     */
+    public void refreshEnemyView(String[][] gameBoard, Gui gui) {
+        clearBoard();
+        enemyViewBoard(gameBoard, gui);
+        SwingUtilities.invokeLater(() -> {
+            revalidate();
+            repaint();
+        });
     }
 
     public void getScoreTokenEndGame() {

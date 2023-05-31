@@ -382,7 +382,7 @@ public class Gui {
             // enemies turn
             if (livingRoomInterface.livingRoomPanel.waitTimer != null)
                 livingRoomInterface.livingRoomPanel.waitTimer.stop();
-                livingRoomInterface.livingRoomPanel.setBorderColor();
+            livingRoomInterface.livingRoomPanel.setBorderColor();
 
             if (livingRoomInterface.enemiesPanel.containsKey(currentPlayer)) {
                 EnemyPanel enemyPanel = livingRoomInterface.enemiesPanel.get(currentPlayer);
@@ -390,6 +390,7 @@ public class Gui {
                     enemyPanel.waitTimer.start();
                 }
             }
+            gameBoardPanel.refreshEnemyView(virtualBoard, this); //refresh enemy action on the game board
         }
 
         //if my turn

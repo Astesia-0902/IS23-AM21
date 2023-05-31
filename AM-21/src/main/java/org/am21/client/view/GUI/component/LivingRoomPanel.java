@@ -3,6 +3,7 @@ package org.am21.client.view.GUI.component;
 
 import org.am21.client.view.ClientView;
 import org.am21.client.view.GUI.Gui;
+import org.am21.client.view.GUI.Interface.ChatDialog;
 import org.am21.client.view.GUI.Interface.LivingRoomMenuInterface;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
@@ -50,13 +51,7 @@ public class LivingRoomPanel extends JPanel {
     //bag
     public JLabel bagLabel;
 
-    //chat box
-    public JTextArea chatHistory;
-    public JTextField messageField;
-    public JScrollPane scrollHistoryPane;
-    public JLayeredPane chatPanel;
-    public JButton sendButton;
-
+    //chat button
     public JButton openChat;
 
     //hand board
@@ -79,59 +74,9 @@ public class LivingRoomPanel extends JPanel {
 
         setClearButton(gui);
 
-        /*openChat = new JButton();
-        openChat.setBounds(PixelUtil.cButtonX, PixelUtil.cButtonY, PixelUtil.cButtonW, PixelUtil.cButtonH);
-        openChat.setFont(new Font("DejaVu Sans", Font.PLAIN, 16));
-        openChat.setOpaque(true);
-        openChat.setBackground(new Color(85, 35, 222, 230));
-        openChat.setForeground(new Color(255, 255, 255, 255));
-        openChat.setBorder(new LineBorder(new Color(85, 35, 222, 230)));
-        panelBoard.add(sendButton, JLayeredPane.MODAL_LAYER);*/
+        setChatButton(gui);
 
-
-        //chat box TODO: completed with chat waitingRoomInterface
-        chatPanel = new JLayeredPane();
-        chatPanel.setBounds(PixelUtil.cPanelX, PixelUtil.cPanelY, PixelUtil.cPanelW, PixelUtil.cPanelH);
-        chatPanel.setLayout(null);
-        panelBoard.add(chatPanel, JLayeredPane.PALETTE_LAYER);
-
-        chatHistory = new JTextArea();
-        chatHistory.setEditable(false);
-        chatHistory.setFont(new Font("DejaVu Sans", Font.PLAIN, 12));
-        //this.currentChatHistory.setBounds(10,910,340,40);
-        chatHistory.setOpaque(false);
-        //this.currentChatHistory.setForeground(new Color(0, 0, 0, 64));
-        //this.currentChatHistory.setBorder(BorderFactory.createLineBorder(new Color(172, 19, 5, 230)));
-
-        scrollHistoryPane = new JScrollPane(chatHistory);
-        scrollHistoryPane.setBounds(0, 0, PixelUtil.cScrollW, PixelUtil.cScrollH);
-        scrollHistoryPane.setOpaque(false);
-        scrollHistoryPane.getViewport().setOpaque(false);
-        //this.scrollHistoryPane.setBackground(new Color(243, 175, 58, 255));
-        scrollHistoryPane.setForeground(new Color(85, 35, 222, 230));
-        scrollHistoryPane.setBorder(BorderFactory.createLineBorder(new Color(85, 35, 222, 230)));
-        chatPanel.add(scrollHistoryPane, JLayeredPane.MODAL_LAYER);
-
-
-        messageField = new JTextField();
-        messageField.setBounds(0, PixelUtil.cTextFieldY, PixelUtil.cTextFieldW, PixelUtil.cTextFieldH);
-        messageField.setFont(new Font("DejaVu Sans", Font.PLAIN, 16));
-        messageField.setOpaque(true);
-        messageField.setForeground(new Color(85, 35, 222, 230));
-        messageField.setBackground(new Color(255, 255, 255, 255));
-        chatPanel.add(messageField, JLayeredPane.MODAL_LAYER);
-
-        sendButton = new JButton("SEND");
-        sendButton.setBounds(PixelUtil.cButtonX, PixelUtil.cButtonY, PixelUtil.cButtonW, PixelUtil.cButtonH);
-        sendButton.setFont(new Font("DejaVu Sans", Font.PLAIN, 16));
-        sendButton.setOpaque(true);
-        sendButton.setBackground(new Color(85, 35, 222, 230));
-        sendButton.setForeground(new Color(255, 255, 255, 255));
-        sendButton.setBorder(new LineBorder(new Color(85, 35, 222, 230)));
-        chatPanel.add(sendButton, JLayeredPane.MODAL_LAYER);
-
-
-        setTurnTimer();
+        setFlashingTimer();
     }
 
     /**
@@ -245,6 +190,7 @@ public class LivingRoomPanel extends JPanel {
 
     /**
      * insert action button
+     *
      * @param gui GUI
      */
     public void setInsertButton(Gui gui) {
@@ -261,7 +207,6 @@ public class LivingRoomPanel extends JPanel {
          open my hand interface
          */
         insertButton.addActionListener(e -> {
-
             if (gui.commCtrl.confirmSelection()) {
                 try {
                     gui.askInsertion();
@@ -269,14 +214,13 @@ public class LivingRoomPanel extends JPanel {
                     throw new RuntimeException(ex);
                 }
             }
-
-
         });
         panelBoard.add(insertButton, JLayeredPane.PALETTE_LAYER);
     }
 
     /**
      * clear action button
+     *
      * @param gui GUI
      */
     public void setClearButton(Gui gui) {
@@ -296,13 +240,36 @@ public class LivingRoomPanel extends JPanel {
                 gui.gameBoardPanel.clearSelectColor();
                 JOptionPane.showMessageDialog(null, "clear successful");
             }
-
-
         });
         panelBoard.add(clearButton, JLayeredPane.PALETTE_LAYER);
     }
 
-    public void setTurnTimer() {
+    /**
+     * chat action button
+     *
+     * @param gui GUI
+     */
+    public void setChatButton(Gui gui) {
+        openChat = new JButton("CHAT");
+        openChat.setBounds(PixelUtil.commonX_1, PixelUtil.cButtonY, PixelUtil.cButtonW, PixelUtil.cButtonH);
+        openChat.setFont(new Font("DejaVu Sans", Font.PLAIN, 16));
+        openChat.setBorder(new MatteBorder(ImageUtil.resizeY(2), ImageUtil.resizeX(2), ImageUtil.resizeY(2),
+                ImageUtil.resizeX(2), new Color(85, 35, 222, 230)));
+        openChat.setUI(new ButtonColorUI(new Color(178, 157, 225, 230)));
+        openChat.setBackground(Color.WHITE);
+        openChat.setForeground(new Color(85, 35, 222, 230));
+        openChat.addActionListener(e -> {
+            ChatDialog livingRoomChat = new ChatDialog(gui.frame, PixelUtil.cWindowW, PixelUtil.cWindowH);
+            livingRoomChat.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
+            livingRoomChat.setVisible(true);
+        });
+        panelBoard.add(openChat, JLayeredPane.MODAL_LAYER);
+    }
+
+    /**
+     * set border flashing
+     */
+    public void setFlashingTimer() {
         Border originalBorder = gameBoardLabel.getBorder();
         Border flashingBorder = new LineBorder(Color.GREEN);
 
@@ -321,11 +288,19 @@ public class LivingRoomPanel extends JPanel {
         waitTimer.setRepeats(true);
     }
 
+    /**
+     * refreshing score on the board
+     *
+     * @param score common goal score
+     */
     public void refreshMyScore(int score) {
         myScoreDynamic.setText(String.valueOf(score));
     }
 
-    public void setBorderColor(){
+    /**
+     * restore the border color from flashing action
+     */
+    public void setBorderColor() {
         gameBoardLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
     }
 

@@ -4,9 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ImageUtil {
-    public static ImageIcon getShelfImage(int widthShelfImage,int heightShelfImage){
+    public static ImageIcon getShelfImage(int widthShelfImage, int heightShelfImage) {
 
-        return new ImageIcon(new ImageIcon(PathUtil.getPath("boards/bookshelf_orth.png")).getImage().getScaledInstance(widthShelfImage,heightShelfImage, Image.SCALE_SMOOTH));
+        return new ImageIcon(new ImageIcon(PathUtil.getPath("boards/bookshelf_orth.png")).getImage().getScaledInstance(widthShelfImage, heightShelfImage, Image.SCALE_SMOOTH));
     }
 
     public static ImageIcon getBoardImage(String name) {
@@ -39,14 +39,14 @@ public class ImageUtil {
                     new ImageIcon(new ImageIcon(PathUtil.getPath("scoring tokens/scoring_back_EMPTY.jpg")).getImage().getScaledInstance(PixelUtil.commonGoalTokenW, PixelUtil.commonGoalTokenH, Image.SCALE_SMOOTH));
             case "myHandBack" ->
                     new ImageIcon(new ImageIcon(PathUtil.getPath("background/myHandBack.jpg")).getImage().getScaledInstance(PixelUtil.myHandBackGroundW, PixelUtil.myHandBackGroundH, Image.SCALE_SMOOTH));
-            case"myHandHand" ->
+            case "myHandHand" ->
                     new ImageIcon(new ImageIcon(PathUtil.getPath("misc/base_pagina2_reverse.jpg")).getImage().getScaledInstance(PixelUtil.myHandHandW, PixelUtil.myHandHandH, Image.SCALE_SMOOTH));
             case "iconSort" ->
                     new ImageIcon(new ImageIcon(PathUtil.getPath("icon tool/sort.png")).getImage().getScaledInstance(PixelUtil.myHandSortW, PixelUtil.myHandSortH, Image.SCALE_SMOOTH));
             case "menuLRBack" ->
                     new ImageIcon(new ImageIcon(PathUtil.getPath("background/MenuLRback.jpg")).getImage().getScaledInstance(PixelUtil.menuLRW, PixelUtil.menuLRH, Image.SCALE_SMOOTH));
-            case "logoTitle"->
-                    new ImageIcon(new ImageIcon(PathUtil.getPath("Publisher material/Title 2000x2000px.png")).getImage().getScaledInstance(PixelUtil.labelRITitleW,PixelUtil.labelRITitleH, Image.SCALE_SMOOTH));
+            case "logoTitle" ->
+                    new ImageIcon(new ImageIcon(PathUtil.getPath("Publisher material/Title 2000x2000px.png")).getImage().getScaledInstance(PixelUtil.labelRITitleW, PixelUtil.labelRITitleH, Image.SCALE_SMOOTH));
 
             default -> null;
         };
@@ -104,7 +104,7 @@ public class ImageUtil {
                     new ImageIcon(new ImageIcon(PathUtil.getPath("personal goal cards/Personal_Goals9.png")).getImage().getScaledInstance(PixelUtil.personalGoalCardW, PixelUtil.personalGoalCardH, Image.SCALE_SMOOTH));
             case 10 ->
                     new ImageIcon(new ImageIcon(PathUtil.getPath("personal goal cards/Personal_Goals10.png")).getImage().getScaledInstance(PixelUtil.personalGoalCardW, PixelUtil.personalGoalCardH, Image.SCALE_SMOOTH));
-            case 11->
+            case 11 ->
                     new ImageIcon(new ImageIcon(PathUtil.getPath("personal goal cards/Personal_Goals11.png")).getImage().getScaledInstance(PixelUtil.personalGoalCardW, PixelUtil.personalGoalCardH, Image.SCALE_SMOOTH));
             case 12 ->
                     new ImageIcon(new ImageIcon(PathUtil.getPath("personal goal cards/Personal_Goals12.png")).getImage().getScaledInstance(PixelUtil.personalGoalCardW, PixelUtil.personalGoalCardH, Image.SCALE_SMOOTH));
@@ -175,7 +175,7 @@ public class ImageUtil {
         return new ImageIcon(new ImageIcon(PathUtil.getPath("misc/firstplayertoken.png")).getImage().getScaledInstance(PixelUtil.chairW, PixelUtil.chairH, Image.SCALE_SMOOTH));
     }
 
-    public static ImageIcon getNumberImage(String numColor){
+    public static ImageIcon getNumberImage(String numColor) {
         return switch (numColor) {
             case "1black" ->
                     new ImageIcon(new ImageIcon(PathUtil.getPath("number/shuzi1-3.png")).getImage().getScaledInstance(PixelUtil.handNumW, PixelUtil.handNumH, Image.SCALE_SMOOTH));
@@ -215,12 +215,13 @@ public class ImageUtil {
     }
 
 
-    public static int resizeX(int element){
+    public static int resizeX(int element) {
         double size = (double) element / 1800;
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         return (int) (screenSize.width * size);
     }
-    public static int resizeY(int element){
+
+    public static int resizeY(int element) {
         double size = (double) element / 1065;
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         return (int) (screenSize.height * size);

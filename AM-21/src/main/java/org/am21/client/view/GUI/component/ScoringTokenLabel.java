@@ -4,12 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ScoringTokenLabel extends JPanel {
-
     private JLabel label;
     private int oriented;
     private int rotateX;
     private int rotateY;
-
 
     /**
      * rotation Label for tokens card

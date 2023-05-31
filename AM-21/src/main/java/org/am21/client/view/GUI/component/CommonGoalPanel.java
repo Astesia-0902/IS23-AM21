@@ -11,7 +11,6 @@ public class CommonGoalPanel extends JPanel {
     public JLayeredPane commonGoalPane;
     public JLabel commonGoalTopLabel;
     public JLabel commonGoalBottomLabel;
-
     public ScoringTokenLabel scoreTokenEmpty;
     public ScoringTokenLabel scoreTokenTop;
     public ScoringTokenLabel scoreTokenBottom;
@@ -127,8 +126,10 @@ public class CommonGoalPanel extends JPanel {
 
         setScoreToken(topValue, bottomValue);
 
-        revalidate();
-        repaint();
+        SwingUtilities.invokeLater(() -> {
+            revalidate();
+            repaint();
+        });
     }
 
     /**

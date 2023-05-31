@@ -7,12 +7,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PersonalGoalPanel extends JPanel {
-
     public JLayeredPane personalGoalPane;
     public JLabel personalGoalLabel;
 
     public PersonalGoalPanel(int cardNum) {
-
         setPersonalGoalPanel(cardNum);
     }
 
