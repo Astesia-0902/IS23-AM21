@@ -173,6 +173,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     public void registerCallBack(String path) throws RemoteException {
         try {
             callBack = (IClientCallBack) Naming.lookup(path);
+            callBack.ping();
         } catch (NotBoundException | MalformedURLException e) {
             throw new RuntimeException(e);
         }
