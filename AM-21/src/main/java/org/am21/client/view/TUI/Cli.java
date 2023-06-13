@@ -98,9 +98,10 @@ public class Cli implements View {
         // Determine my address
         String clientBind = "";
 
+
         String clientAddress = "localhost";
         clientAddress = askInfo("client address","localhost");
-
+        System.setProperty("java.rmi.server.hostname",clientAddress);
         /*InetAddress localHost = null;
         try {
             localHost = InetAddress.getLocalHost();
@@ -113,7 +114,7 @@ public class Cli implements View {
         try {
             LocateRegistry.createRegistry(7777);
             clientBind = "rmi://" + clientAddress + ":7777/Callback";
-            Naming.bind(clientBind, clientCallBack);
+            Naming.bind(clientBind, this.clientCallBack);
         } catch (AlreadyBoundException | MalformedURLException | RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -149,8 +150,11 @@ public class Cli implements View {
 
     public IClientInput getControllerStub(HashMap<String, String> serverInfo) {
         try {
+            System.out.println("Server path to stub: "+ "rmi://" + serverInfo.get("address") + ":"
+                    + serverInfo.get("port") + "/" + serverInfo.get("root"));
             return (IClientInput) Naming.lookup("rmi://" + serverInfo.get("address") + ":"
                     + serverInfo.get("port") + "/" + serverInfo.get("root"));
+
         } catch (NotBoundException | MalformedURLException | RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -1566,7 +1570,7 @@ public class Cli implements View {
 
             if (value.equals("")) {
                 return defaultValue;
-            } else if (type.equals("address") && fragments.length == 4) {
+            } else if (type.endsWith("address") && fragments.length == 4) {
                 return value;
             } else if (type.equals("port") && fragments.length == 0) {
                 return value;

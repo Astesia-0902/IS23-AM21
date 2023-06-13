@@ -88,7 +88,7 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
 
                     System.out.println("Your ip address is : " + clientAddress);
                     try {
-                        LocateRegistry.createRegistry(7777);
+                        LocateRegistry.createRegistry(8806);
                         clientBind = "rmi://" + clientAddress + ":7777/Callback";
                         Naming.bind(clientBind, gui.clientCallBack);
                     } catch (AlreadyBoundException | MalformedURLException | RemoteException e3) {
