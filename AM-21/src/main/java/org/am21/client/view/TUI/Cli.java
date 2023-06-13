@@ -101,21 +101,21 @@ public class Cli implements View {
 
         String clientAddress = "localhost";
         clientAddress = askInfo("client address","localhost");
+
+        // Create and set the custom socket factory
+        //RMISocketFactory.setSocketFactory(new CustomSocketFactory(bindAddress));
         System.setProperty("java.rmi.server.hostname",clientAddress);
-        /*InetAddress localHost = null;
-        try {
-            localHost = InetAddress.getLocalHost();
-        } catch (UnknownHostException e) {
-            throw new RuntimeException(e);
-        }*/
-        //clientAddress = localHost.getHostAddress();
+
 
         System.out.println("Your ip address is : " + clientAddress);
         try {
             LocateRegistry.createRegistry(7777);
             clientBind = "rmi://" + clientAddress + ":7777/Callback";
-            Naming.bind(clientBind, this.clientCallBack);
-        } catch (AlreadyBoundException | MalformedURLException | RemoteException e) {
+            //Naming.bind(clientBind, this.clientCallBack);
+            Naming.rebind(clientBind, clientCallBack);
+
+
+        } catch (MalformedURLException | RemoteException e) {
             throw new RuntimeException(e);
         }
 

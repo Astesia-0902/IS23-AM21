@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.server.RemoteServer;
 import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -173,8 +174,10 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     public void registerCallBack(String path) throws RemoteException {
         try {
             callBack = (IClientCallBack) Naming.lookup(path);
+            String clientIP = RemoteServer.getClientHost();
+            System.out.println("Client IP address: " + clientIP);
             callBack.ping();
-        } catch (NotBoundException | MalformedURLException e) {
+        } catch (NotBoundException | MalformedURLException | ServerNotActiveException e) {
             throw new RuntimeException(e);
         }
         GameManager.client_connected++;
