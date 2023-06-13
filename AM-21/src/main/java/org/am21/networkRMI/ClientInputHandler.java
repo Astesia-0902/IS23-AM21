@@ -5,6 +5,9 @@ import org.am21.controller.PlayerController;
 import org.am21.model.GameManager;
 import org.am21.model.enumer.ConnectionType;
 
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
@@ -163,12 +166,17 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      * This method is called after the login of the player
      * It allows the server to register Client's CallBack Interface
      *
-     * @param callBack
+     * @param path the path to find client callback
      * @throws RemoteException
      */
     @Override
-    public void registerCallBack(IClientCallBack callBack) throws RemoteException {
-        GameController.registerCallBack(callBack, playerController);
+    public void registerCallBack(String path) throws RemoteException {
+        try {
+            callBack = (IClientCallBack) Naming.lookup(path);
+        } catch (NotBoundException | MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+        GameManager.client_connected++;
         System.out.println("Client Callback registered:" + GameManager.client_connected);
     }
 

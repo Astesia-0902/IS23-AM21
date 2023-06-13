@@ -14,11 +14,14 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
+import java.net.UnknownHostException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.util.HashMap;
 
 public class ServerInfoListener implements MouseListener, MouseMotionListener, ActionListener, KeyListener, DocumentListener {
@@ -72,6 +75,25 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
             } else {
                 gui.serverInfoInterface.dispose();
                 if (ClientController.isRMI) {
+                    // Determine my address
+                    String clientBind = "";
+                    String clientAddress = "localhost";
+                    InetAddress localHost = null;
+                    try {
+                        localHost = InetAddress.getLocalHost();
+                    } catch (UnknownHostException e2) {
+                        throw new RuntimeException(e2);
+                    }
+                    clientAddress = localHost.getHostAddress();
+
+                    System.out.println("Your ip address is : " + clientAddress);
+                    try {
+                        LocateRegistry.createRegistry(7777);
+                        clientBind = "rmi://" + clientAddress + ":7777/Callback";
+                        Naming.bind(clientBind, gui.clientCallBack);
+                    } catch (AlreadyBoundException | MalformedURLException | RemoteException e3) {
+                        throw new RuntimeException(e3);
+                    }
                     try {
                         Lobby lobby = (Lobby) Naming.lookup("rmi://" + address + ":" + port + "/Welcome");
                         HashMap<String, String> serverInfo;
@@ -85,7 +107,7 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
                                 + gui.root);
 
                         ClientController.iClientInputHandler = gui.iClientInputHandler;
-                        gui.commCtrl.registerCallBack(gui.clientCallBack);
+                        gui.commCtrl.registerCallBack(clientBind);
                         gui.askLogin();
                     } catch (NotBoundException | MalformedURLException | RemoteException ex) {
                         gui.timeLimitedNotification("No server found",1000);

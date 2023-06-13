@@ -9,14 +9,18 @@ import org.am21.networkRMI.ClientCallBack;
 import org.am21.networkRMI.IClientInput;
 import org.am21.networkRMI.Lobby;
 
+import java.net.InetAddress;
 import java.net.MalformedURLException;
+import java.net.UnknownHostException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.ServerNotActiveException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
@@ -38,9 +42,6 @@ public class Cli implements View {
 
     public Cli() throws RemoteException {
         this.clientCallBack = new ClientCallBack();
-        LocateRegistry.createRegistry(7777);
-       // Naming.bind(this.clientCallBack);
-
         this.clientCallBack.cli = this;
 
         waitingThreads = 0;
@@ -96,19 +97,40 @@ public class Cli implements View {
      * RMI : TUI allows the user to insert the Server Address and Port to Connect with The Server
      */
     public void askServerInfoRMI() {
+        // Determine my address
+        String clientBind = "";
+        String clientAddress = "localhost";
+        InetAddress localHost = null;
+        try {
+            localHost = InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
+        clientAddress = localHost.getHostAddress();
+
+        System.out.println("Your ip address is : " + clientAddress);
+        try {
+            LocateRegistry.createRegistry(7777);
+            clientBind = "rmi://" + clientAddress + ":7777/Callback";
+            Naming.bind(clientBind, clientCallBack);
+        } catch (AlreadyBoundException | MalformedURLException | RemoteException e) {
+            throw new RuntimeException(e);
+        }
+
+
         // First connection to the server --> Obtain the path for RMI
         String defaultAddress = "localhost";
         String defaultPort = "1234";
         HashMap<String, String> serverInfo;
         do {
             serverInfo = connectToServerLobby(askInfo("address", defaultAddress), askInfo("port", defaultPort));
-            if(serverInfo!=null){
+            if (serverInfo != null) {
                 break;
             }
             System.out.println("Server not found");
-        }while(true);
+        } while (true);
         ClientController.iClientInputHandler = getControllerStub(serverInfo);
-        commCtrl.registerCallBack(clientCallBack);
+        commCtrl.registerCallBack(clientBind);
         System.out.println("Controller registered from " + serverInfo.get("address")
                 + ":" + serverInfo.get("port"));
     }
@@ -145,7 +167,7 @@ public class Cli implements View {
             SocketClient.serverName = askInfo("address", defaultAddress);
             SocketClient.serverPort = Integer.parseInt(askInfo("port", defaultPort));
             SocketClient.cli = this;
-        }while(!SocketClient.connectToServer());
+        } while (!SocketClient.connectToServer());
         socket.start();
         delayer(500);
     }
@@ -224,8 +246,9 @@ public class Cli implements View {
                 }
                 case "help", "h", "he" -> askHelp();
 
-                default -> System.out.println(Color.RED + "The [" + option + "] command cannot be found! Please try again."
-                        + Color.RESET);
+                default ->
+                        System.out.println(Color.RED + "The [" + option + "] command cannot be found! Please try again."
+                                + Color.RESET);
             }
         }
         NEED_TO_REFRESH = false;
@@ -317,7 +340,10 @@ public class Cli implements View {
                 case "more", "mo" -> askMoreOptions();
                 case "open", "op" -> askPrivateChat();
                 case "hand", "ha" -> showHand();
-                case "pgoal", "pg" -> {showPersonalGoal();askToContinue();}
+                case "pgoal", "pg" -> {
+                    showPersonalGoal();
+                    askToContinue();
+                }
                 case "cgoal", "cg" -> showCommonGoals();
                 case "shelf", "sf" -> {
                     showPlayerShelf();
@@ -326,7 +352,10 @@ public class Cli implements View {
                     askToContinue();
                 }
                 case "board", "bo" -> showBoard();
-                case "stats", "st" -> {showPlayersStats();askToContinue();}
+                case "stats", "st" -> {
+                    showPlayersStats();
+                    askToContinue();
+                }
                 case "rules", "ru" -> showGameRules();
                 case "end", "en" -> showEndGameToken();
                 case "online", "on" -> showOnlinePlayer();
@@ -459,8 +488,8 @@ public class Cli implements View {
 
     @Override
     public boolean askJoinMatch() {
-        if(matchList==null || matchList.length==0){
-            System.out.println(Color.RED+"No Match available. Create a new one."+Color.RESET);
+        if (matchList == null || matchList.length == 0) {
+            System.out.println(Color.RED + "No Match available. Create a new one." + Color.RESET);
             delayer(1000);
             return false;
         }
@@ -1055,10 +1084,10 @@ public class Cli implements View {
      * This method convert the gameResults in the TUI view format
      */
     public void showGameResults() {
-        if(ClientView.gameResults==null || ClientView.gameResults.length==1){
+        if (ClientView.gameResults == null || ClientView.gameResults.length == 1) {
             System.out.println("No Results");
             askToContinue();
-        }else {
+        } else {
             List<String> gameResultsTmp = new ArrayList<>(ClientView.gameResults.length);
 
             for (int i = 0; i < ClientView.gameResults.length - 1; i++) {
@@ -1109,7 +1138,10 @@ public class Cli implements View {
                 switch (object) {
                     case "open", "op" -> askPrivateChat();
                     case "hand", "ha" -> showHand();
-                    case "pgoal", "pg" -> {showPersonalGoal();askToContinue();}
+                    case "pgoal", "pg" -> {
+                        showPersonalGoal();
+                        askToContinue();
+                    }
                     case "cgoal", "cg" -> showCommonGoals();
                     case "shelf", "sh" -> {
                         showPlayerShelf();
@@ -1533,11 +1565,11 @@ public class Cli implements View {
 
             if (value.equals("")) {
                 return defaultValue;
-            } else if (type.equals("address") && fragments.length==4) {
+            } else if (type.equals("address") && fragments.length == 4) {
                 return value;
-            } else if(type.equals("port") && fragments.length==0){
+            } else if (type.equals("port") && fragments.length == 0) {
                 return value;
-            }else{
+            } else {
                 System.out.println(Color.RED + "Invalid " + type + "!" + Color.RESET);
             }
         } while (true);

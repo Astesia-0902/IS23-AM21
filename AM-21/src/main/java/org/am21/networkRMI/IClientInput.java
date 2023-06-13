@@ -34,7 +34,7 @@ public interface IClientInput extends Remote {
 
     String getVirtualView() throws RemoteException;
 
-    void registerCallBack(IClientCallBack callBack) throws RemoteException;
+    void registerCallBack(String path) throws RemoteException;
 
     boolean endTurn() throws RemoteException, ServerNotActiveException;
 

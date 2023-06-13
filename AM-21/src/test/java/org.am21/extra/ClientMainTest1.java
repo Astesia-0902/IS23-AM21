@@ -1,6 +1,5 @@
 package org.am21.extra;
 
-import org.am21.networkRMI.ClientCallBack;
 import org.am21.networkRMI.IClientInput;
 
 import java.net.MalformedURLException;
@@ -19,7 +18,7 @@ public class ClientMainTest1 {
         IClientInput clientInput = (IClientInput) registry.lookup("ClientInputHandler");
         //IClientInput clientInput = (IClientInput) Naming.lookup("rmi://localhost:8807/ClientInputHandler");
         //ClientGameController.IClientInputHandler = clientInput;
-        clientInput.registerCallBack(new ClientCallBack());
+        clientInput.registerCallBack("");
         System.out.println("Client 1 is ready");
         //TODO:Use callback to get the message from server
         while (true) {

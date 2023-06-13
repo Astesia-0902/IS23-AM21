@@ -301,6 +301,7 @@ public class GameController {
      * @param playerController the player controller
      */
     public static void registerCallBack(IClientCallBack callBack, PlayerController playerController) {
+
         playerController.clientInput.callBack = callBack;
         GameManager.client_connected++;
     }

@@ -241,11 +241,11 @@ public class ClientCommunicationController {
     /**
      * RMI only
      *
-     * @param callBack the callback to register
+     * @param callBackPath the callback to register
      */
-    public void registerCallBack(IClientCallBack callBack) {
+    public void registerCallBack(String callBackPath) {
         try {
-            ClientController.iClientInputHandler.registerCallBack(callBack);
+            ClientController.iClientInputHandler.registerCallBack(callBackPath);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
