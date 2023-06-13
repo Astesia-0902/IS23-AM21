@@ -9,9 +9,7 @@ import org.am21.networkRMI.ClientCallBack;
 import org.am21.networkRMI.IClientInput;
 import org.am21.networkRMI.Lobby;
 
-import java.net.InetAddress;
 import java.net.MalformedURLException;
-import java.net.UnknownHostException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -99,14 +97,17 @@ public class Cli implements View {
     public void askServerInfoRMI() {
         // Determine my address
         String clientBind = "";
+
         String clientAddress = "localhost";
-        InetAddress localHost = null;
+        clientAddress = askInfo("client address","localhost");
+
+        /*InetAddress localHost = null;
         try {
             localHost = InetAddress.getLocalHost();
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
-        }
-        clientAddress = localHost.getHostAddress();
+        }*/
+        //clientAddress = localHost.getHostAddress();
 
         System.out.println("Your ip address is : " + clientAddress);
         try {
@@ -123,7 +124,7 @@ public class Cli implements View {
         String defaultPort = "1234";
         HashMap<String, String> serverInfo;
         do {
-            serverInfo = connectToServerLobby(askInfo("address", defaultAddress), askInfo("port", defaultPort));
+            serverInfo = connectToServerLobby(askInfo("server address", defaultAddress), askInfo("port", defaultPort));
             if (serverInfo != null) {
                 break;
             }
@@ -164,8 +165,8 @@ public class Cli implements View {
             String defaultAddress = SocketClient.defaultServerName;
             String defaultPort = String.valueOf(SocketClient.defaultServerPort);
             socket = new SocketClient();
-            SocketClient.serverName = askInfo("address", defaultAddress);
-            SocketClient.serverPort = Integer.parseInt(askInfo("port", defaultPort));
+            SocketClient.serverName = askInfo("server address", defaultAddress);
+            SocketClient.serverPort = Integer.parseInt(askInfo("server port", defaultPort));
             SocketClient.cli = this;
         } while (!SocketClient.connectToServer());
         socket.start();
@@ -1559,7 +1560,7 @@ public class Cli implements View {
     public String askInfo(String type, String defaultValue) {
 
         do {
-            System.out.print("Enter the server " + type + ": [" + defaultValue + "]");
+            System.out.print("Enter the " + type + ": [" + defaultValue + "]");
             String value = readLine();
             String[] fragments = value.split("\\.");
 
