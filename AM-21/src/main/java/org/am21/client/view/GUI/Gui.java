@@ -79,10 +79,6 @@ public class Gui {
                     ClientView.setMatchEnd(false);
                     askEndRoom();
                 }
-                if(gameResultsInterface!=null){
-                    System.out.println("Game Result dispose");
-                    gameResultsInterface.dispose();
-                }
 
                 while (!MATCH_END && !GAME_ON && GO_TO_MENU) {
                     try {
@@ -354,6 +350,16 @@ public class Gui {
         });
         //TODO: end token ???
 
+       /* while (MATCH_END && GO_TO_MENU && !GAME_ON) {
+            ClientView.setMatchEnd(false);
+            askEndRoom();
+        }
+        if(gameResultsInterface!=null)
+        {
+
+            System.exit(0);
+        }*/
+
         /*if (MATCH_END) {
             gameResultsInterface = new GameResultsInterface(this, gameResults);
             ClientView.setMatchEnd(false);
@@ -367,6 +373,7 @@ public class Gui {
 
     public void askEndRoom() {
         gameResultsInterface = new GameResultsInterface(this, gameResults);
+        gameResultsInterface.setVisible(true);
     }
 
 
@@ -462,7 +469,7 @@ public class Gui {
 
 
     public void showEndGameToken() {
-
+        gameBoardPanel.pickScoreTokenEndGame();
     }
 
 

@@ -36,7 +36,7 @@ public class GameResultsInterface extends JFrame {
             for (int j = 0; j < columnResults - 1; j++) {
                 data[i][j] = gameResults[i][j];
             }
-            if (winner.equals(data[i][0]))
+            if (winner!=null&&winner.equals(data[i][0]))
                 data[i][columnResults - 1] = "Winner";
         }
 

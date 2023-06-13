@@ -9,11 +9,14 @@ import org.am21.client.view.GUI.utils.PixelUtil;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
 
@@ -249,6 +252,7 @@ public class LivingRoomPanel extends JPanel {
      * @param gui GUI
      */
     public void setChatButton(Gui gui) {
+
         openChat = new JButton("CHAT");
         openChat.setBounds(PixelUtil.commonX_1, PixelUtil.cButtonY, PixelUtil.cButtonW, PixelUtil.cButtonH);
         openChat.setFont(new Font("DejaVu Sans", Font.PLAIN, 16));
@@ -258,10 +262,35 @@ public class LivingRoomPanel extends JPanel {
         openChat.setBackground(Color.WHITE);
         openChat.setForeground(new Color(85, 35, 222, 230));
         openChat.addActionListener(e -> {
-            gui.askChat();
+            if(!Gui.myChatMap.containsKey("#All")) {
+                Gui.myChatMap.put("#All", new JButton("#All"));
+            }
+
+            Gui.chatReceiver = "#All";
+            if (gui.chatDialog != null) {
+                gui.chatDialog.localChatMap.get(Gui.chatReceiver).setBackground(new Color(83, 46, 91, 230));
+                FontMetrics fm = gui.chatDialog.chatMessageInput.getFontMetrics(gui.chatDialog.chatMessageInput.getFont());
+                gui.chatDialog.chatMessageInput.setBorder(new EmptyBorder(0, ImageUtil.resizeX(fm.stringWidth(Gui.chatReceiver) + 30), 0, 0));
+            }
+
+            Gui.NEW_CHAT_WINDOW = true;
+            gui.ASK_CHAT = true;
+
             gui.chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
             gui.chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);
+
+
+            try {
+                gui.showOnlinePlayer();
+            } catch (RemoteException ex) {
+                throw new RuntimeException(ex);
+            }
             gui.chatDialog.setVisible(true);
+
+            SwingUtilities.invokeLater(() -> {
+                gui.chatDialog.revalidate();
+                gui.chatDialog.repaint();
+            });
         });
         panelBoard.add(openChat, JLayeredPane.MODAL_LAYER);
     }

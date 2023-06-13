@@ -177,6 +177,7 @@ public class GameBoardPanel extends JPanel {
 
 
                     } else if (edgeColor.equals(new Color(4, 134, 10, 230)) && !gui.commCtrl.selectCell(row, column)) {
+
                         //do deselect
                         cells[row][column].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
                         // myHandBoard.removeItem();
@@ -272,7 +273,7 @@ public class GameBoardPanel extends JPanel {
         });
     }
 
-    public void getScoreTokenEndGame() {
+    public void pickScoreTokenEndGame() {
         gameBoardPane.remove(scoreTokenEndGame);
     }
 
