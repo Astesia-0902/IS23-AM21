@@ -75,12 +75,16 @@ public class Gui {
         public void run() {
             super.run();
             while (true) {
-                if (MATCH_END) {
+                while (MATCH_END && GO_TO_MENU && !GAME_ON) {
                     ClientView.setMatchEnd(false);
                     askEndRoom();
                 }
+                if(gameResultsInterface!=null){
+                    System.out.println("Game Result dispose");
+                    gameResultsInterface.dispose();
+                }
 
-                while (!GAME_ON && GO_TO_MENU) {
+                while (!MATCH_END && !GAME_ON && GO_TO_MENU) {
                     try {
                         askMenuAction();
                         Thread.sleep(200);

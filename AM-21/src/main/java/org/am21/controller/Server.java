@@ -53,6 +53,8 @@ public class Server {
             SocketServer server = new SocketServer();
             server.start();
 
+            Welcome.serverAddress= serverAddress;
+
             LocateRegistry.createRegistry(1234);
             LocateRegistry.createRegistry(8807);
 
@@ -96,7 +98,7 @@ public class Server {
         }
         for (int i = number; i > 0; i--) {
             String path = "";
-            path += "rmi://localhost:8807/";
+            path += "rmi://"+Welcome.serverAddress+":8807/";
             System.out.println((path + i));
         }
 
@@ -109,7 +111,7 @@ public class Server {
 
     public static String newBind(String root) {
         String path = "";
-        path += "rmi://localhost:8807/";
+        path += "rmi://"+Welcome.serverAddress+":8807/";
         path += root;
         return path;
     }
@@ -149,7 +151,7 @@ public class Server {
 
         for (int i = number; i > 0; i--) {
             String path = "";
-            path += "rmi://localhost:8807/";
+            path += "rmi://"+Welcome.serverAddress+":8807/";
             try {
                 Naming.unbind(path + i);
             } catch (RemoteException | MalformedURLException | NotBoundException e) {

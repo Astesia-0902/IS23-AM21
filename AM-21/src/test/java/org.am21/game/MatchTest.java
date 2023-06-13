@@ -409,12 +409,25 @@ class MatchTest {
     }
 
     /**
-     * Setup: Match paused
+     * Setup: Match paused due to players who have lost connection during the match
      * Test nextTurn()
+     *
      * TODO
      */
     @Test
     void testGamePauseNextTurn(){
+        PlayerController c1 = new PlayerController("A");
+        PlayerController c2 = new PlayerController("B");
+        m.addPlayer(c1.getPlayer());
+        m.addPlayer(c2.getPlayer());
+
+        assertEquals(m.gameState,GameState.GameGoing);
+
+        c1.getPlayer().setStatus(UserStatus.Suspended);
+
+        assertEquals(m.gameState,GameState.Pause);
+
+
 
     }
 
