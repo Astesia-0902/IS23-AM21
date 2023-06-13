@@ -39,7 +39,7 @@ public class Cli implements View {
     public Cli() throws RemoteException {
         this.clientCallBack = new ClientCallBack();
         LocateRegistry.createRegistry(7777);
-        Naming.bind(this.clientCallBack,);
+       // Naming.bind(this.clientCallBack);
 
         this.clientCallBack.cli = this;
 

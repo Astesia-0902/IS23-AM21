@@ -3,7 +3,6 @@ package org.am21.client.view.GUI.component;
 
 import org.am21.client.view.ClientView;
 import org.am21.client.view.GUI.Gui;
-import org.am21.client.view.GUI.Interface.ChatDialog;
 import org.am21.client.view.GUI.Interface.LivingRoomMenuInterface;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
@@ -259,9 +258,10 @@ public class LivingRoomPanel extends JPanel {
         openChat.setBackground(Color.WHITE);
         openChat.setForeground(new Color(85, 35, 222, 230));
         openChat.addActionListener(e -> {
-            ChatDialog livingRoomChat = new ChatDialog(gui.frame, PixelUtil.cWindowW, PixelUtil.cWindowH);
-            livingRoomChat.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
-            livingRoomChat.setVisible(true);
+            gui.askChat();
+            gui.chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
+            gui.chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);
+            gui.chatDialog.setVisible(true);
         });
         panelBoard.add(openChat, JLayeredPane.MODAL_LAYER);
     }

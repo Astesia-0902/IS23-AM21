@@ -134,7 +134,7 @@ public class PixelUtil {
 
     //position
     public static int myGridX = ImageUtil.resizeX(1310);
-    public static int myGridY = ImageUtil.resizeY(454);
+    public static int myGridY = ImageUtil.resizeY(455);
     public static int enemyGridX = ImageUtil.resizeX(111);
     public static int enemyGridY = ImageUtil.resizeY(12);
 
