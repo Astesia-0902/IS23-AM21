@@ -5,6 +5,7 @@ import org.am21.model.Cards.ItemCard;
 import org.am21.model.Match;
 import org.am21.model.Player;
 import org.am21.model.enumer.GamePhase;
+import org.am21.model.enumer.UserStatus;
 import org.am21.model.items.Board;
 import org.am21.model.items.Shelf;
 import org.am21.utilities.CardPointer;
@@ -287,6 +288,38 @@ public class PlayerTest {
     @Test
     void testTryToInsert4(){
         assertFalse(c1.tryToInsert(0));
+    }
+
+    /**
+     * Player got suspended from the match while he already selected some cards.
+     */
+    @Test
+    void testDropHand(){
+        c1.selectCell(1,4);
+        c1.selectCell(1,3);
+        c1.getPlayer().setStatus(UserStatus.Suspended);
+        c1.dropHand();
+        assertEquals(0,c1.getHand().getSelectedItems().size());
+
+    }
+
+    /**
+     * Player got suspended from the match while he already picked some cards.
+     * The cards should get back on the board.
+     */
+    @Test
+    void testDropHand2(){
+        c1.selectCell(1,4);
+        c1.selectCell(1,3);
+        c1.callEndSelection();
+        assertFalse(m.board.isOccupied(1,4));
+        assertFalse(m.board.isOccupied(1,3));
+        c1.getPlayer().setStatus(UserStatus.Suspended);
+        c1.dropHand();
+        assertTrue(m.board.isOccupied(1,4));
+        assertTrue(m.board.isOccupied(1,3));
+        assertEquals(0,c1.getHand().getSelectedItems().size());
+
     }
 
 

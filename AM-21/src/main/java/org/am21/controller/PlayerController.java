@@ -196,7 +196,6 @@ public class PlayerController {
             return false;
         }
         if (hand.getSelectedItems().size() == 0) {
-            //TODO: test
             //Cannot confirm selection there are no selected items
             return false;
         }
@@ -306,12 +305,14 @@ public class PlayerController {
         if (player.getMatch().gamePhase == gamePhase) {
             return true;
         }
-        //TODO: message of wrong phase
+        GameManager.sendReply(player.getController(),ServerMessage.WrongPhase.value());
         return false;
     }
 
     /**
-     * @return
+     * This method is called at the end of the insertion.
+     * It recalculates the hidden points, which show how many points the player should get from the personal goal
+     * It calls match's callEndTurnRoutine() method.
      */
     public void callEndInsertion() {
         if (isGamePhase(GamePhase.Insertion)) {
@@ -333,9 +334,11 @@ public class PlayerController {
 
     public boolean isHandEmpty() {
         if (hand.getSelectedItems().size() == 0) {
+            GameManager.sendReply(player.getController(),ServerMessage.HandEmpty.value());
             return true;
         }
-        //TODO: server message: No card selected
+
+
         return false;
     }
 
@@ -384,6 +387,9 @@ public class PlayerController {
         return false;
     }
 
+    /**
+     * This method allow the player to reconnect to the match he got suspended from.
+     */
     public void reconnectPlayer() {
         player.setStatus(UserStatus.GameMember);
         GameManager.checkMatchPause(player.getMatch().matchID);

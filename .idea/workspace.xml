@@ -10,15 +10,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4b6f2ca9-18c9-4d69-80a1-4d1fd0e1ac50" name="Changes" comment="update Gui">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_30_05_2023_16_18__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_30_05_2023_17_49__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_30_05_2023_21_36__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_31_05_2023_19_35__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_31_05_2023_23_26__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/Cli.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/Cli.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientCallBack.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientCallBack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientInputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientInputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/PlayerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/PlayerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/enumer/ServerMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/enumer/ServerMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/extra/ClientMainTest1.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/extra/ClientMainTest2.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/MatchTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/MatchTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/goals/CommonGoalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/goals/CommonGoalTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/player/PlayerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/player/PlayerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +32,7 @@
   </component>
   <component name="ExportToHTMLSettings">
     <option name="OPEN_IN_BROWSER" value="true" />
-    <option name="OUTPUT_DIRECTORY" value="C:\Users\user\IdeaProjects\IS23-AM21\_deliveries\report\20230524\PlayerTest" />
+    <option name="OUTPUT_DIRECTORY" value="C:\Users\user\IdeaProjects\IS23-AM21\_deliveries\report\20230615\MatchTest" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -76,7 +75,7 @@
     "create.test.in.the.same.root": "true",
     "extract.method.default.visibility": "private",
     "last_directory_selection": "D:/xmry/IS23-AM21/AM-21/src/main/java/org/am21/test",
-    "last_opened_file_path": "D:/Coding/IS23-AM21/AM-21",
+    "last_opened_file_path": "C:/Users/user/IdeaProjects/IS23-AM21/_deliveries/report/20230615/MatchTest",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
@@ -116,7 +115,7 @@
       <recent name="org.am21.utilities" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.RMI-TUI1">
+  <component name="RunManager" selected="JUnit.PlayerTest">
     <configuration name="CLITest1" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.am21.client.ClientApp" />
       <module name="IS23-AM21" />
@@ -324,6 +323,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="CommonGoalTest.testCommGoalXShape" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="IS23-AM21" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.am21.goals.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.am21.goals" />
+      <option name="MAIN_CLASS_NAME" value="org.am21.goals.CommonGoalTest" />
+      <option name="METHOD_NAME" value="testCommGoalXShape" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="GameTest" type="JUnit" factoryName="JUnit">
       <module name="IS23-AM21" />
       <extension name="coverage">
@@ -361,11 +376,11 @@
         </pattern>
         <pattern>
           <option name="PATTERN" value="org.am21.model.Player" />
-          <option name="ENABLED" value="true" />
+          <option name="ENABLED" value="false" />
         </pattern>
         <pattern>
           <option name="PATTERN" value="org.am21.controller.PlayerController" />
-          <option name="ENABLED" value="true" />
+          <option name="ENABLED" value="false" />
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="org.am21.game" />
@@ -376,7 +391,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MatchTest.testChangeSeats" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MatchTest.testCheckCommonGoals2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="IS23-AM21" />
       <extension name="coverage">
         <pattern>
@@ -386,13 +401,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="org.am21.game" />
       <option name="MAIN_CLASS_NAME" value="org.am21.game.MatchTest" />
-      <option name="METHOD_NAME" value="testChangeSeats" />
+      <option name="METHOD_NAME" value="testCheckCommonGoals2" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MatchTest.testDeclareWinner2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MatchTest.testCheckGamePoints" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="IS23-AM21" />
       <extension name="coverage">
         <pattern>
@@ -402,55 +417,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="org.am21.game" />
       <option name="MAIN_CLASS_NAME" value="org.am21.game.MatchTest" />
-      <option name="METHOD_NAME" value="testDeclareWinner2" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MatchTest.testEndMatch" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="IS23-AM21" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.am21.game.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.am21.game" />
-      <option name="MAIN_CLASS_NAME" value="org.am21.game.MatchTest" />
-      <option name="METHOD_NAME" value="testEndMatch" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MatchTest.testGamePauseNextTurn" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="IS23-AM21" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.am21.game.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.am21.game" />
-      <option name="MAIN_CLASS_NAME" value="org.am21.game.MatchTest" />
-      <option name="METHOD_NAME" value="testGamePauseNextTurn" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MatchTest.testNotAdmin" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="IS23-AM21" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.am21.game.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.am21.game" />
-      <option name="MAIN_CLASS_NAME" value="org.am21.game.MatchTest" />
-      <option name="METHOD_NAME" value="testNotAdmin" />
+      <option name="METHOD_NAME" value="testCheckGamePoints" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -497,17 +464,49 @@
         </pattern>
         <pattern>
           <option name="PATTERN" value="org.am21.model.items.Board" />
-          <option name="ENABLED" value="true" />
+          <option name="ENABLED" value="false" />
         </pattern>
         <pattern>
           <option name="PATTERN" value="org.am21.model.items.Shelf" />
-          <option name="ENABLED" value="true" />
+          <option name="ENABLED" value="false" />
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="org.am21.player" />
       <option name="MAIN_CLASS_NAME" value="org.am21.player.PlayerTest" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PlayerTest.testDropHand" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="IS23-AM21" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.am21.player.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.am21.player" />
+      <option name="MAIN_CLASS_NAME" value="org.am21.player.PlayerTest" />
+      <option name="METHOD_NAME" value="testDropHand" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PlayerTest.testDropHand2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="IS23-AM21" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.am21.player.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.am21.player" />
+      <option name="MAIN_CLASS_NAME" value="org.am21.player.PlayerTest" />
+      <option name="METHOD_NAME" value="testDropHand2" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -560,19 +559,19 @@
       <item itemvalue="JUnit.BagTest" />
       <item itemvalue="JUnit.GameTest" />
       <item itemvalue="JUnit.VirtualViewTest" />
-      <item itemvalue="JUnit.MatchTest.testGamePauseNextTurn" />
-      <item itemvalue="JUnit.MatchTest.testChangeSeats" />
-      <item itemvalue="JUnit.MatchTest.testDeclareWinner2" />
-      <item itemvalue="JUnit.MatchTest.testEndMatch" />
-      <item itemvalue="JUnit.MatchTest.testNotAdmin" />
+      <item itemvalue="JUnit.CommonGoalTest.testCommGoalXShape" />
+      <item itemvalue="JUnit.MatchTest.testCheckCommonGoals2" />
+      <item itemvalue="JUnit.MatchTest.testCheckGamePoints" />
+      <item itemvalue="JUnit.PlayerTest.testDropHand" />
+      <item itemvalue="JUnit.PlayerTest.testDropHand2" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.MatchTest.testGamePauseNextTurn" />
-        <item itemvalue="JUnit.MatchTest.testNotAdmin" />
-        <item itemvalue="JUnit.MatchTest.testChangeSeats" />
-        <item itemvalue="JUnit.MatchTest.testEndMatch" />
-        <item itemvalue="JUnit.MatchTest.testDeclareWinner2" />
+        <item itemvalue="JUnit.PlayerTest.testDropHand2" />
+        <item itemvalue="JUnit.PlayerTest.testDropHand" />
+        <item itemvalue="JUnit.MatchTest.testCheckGamePoints" />
+        <item itemvalue="JUnit.CommonGoalTest.testCommGoalXShape" />
+        <item itemvalue="JUnit.MatchTest.testCheckCommonGoals2" />
       </list>
     </recent_temporary>
   </component>
@@ -703,7 +702,8 @@
       <workItem from="1686663029618" duration="12000" />
       <workItem from="1686663067096" duration="4840000" />
       <workItem from="1686674829196" duration="767000" />
-      <workItem from="1686679502713" duration="4764000" />
+      <workItem from="1686679502713" duration="6076000" />
+      <workItem from="1686833653734" duration="10437000" />
     </task>
     <task id="LOCAL-00001" summary="update scoringToken test">
       <created>1680516093577</created>
@@ -835,6 +835,12 @@
           <line>247</line>
           <option name="timeStamp" value="15" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-field">
+          <url>file://$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/virtualview/VirtualView.java</url>
+          <line>32</line>
+          <properties field="endGameToken" class="org.am21.model.virtualview.VirtualView" />
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>
@@ -866,10 +872,8 @@
     <SUITE FILE_PATH="coverage/IS23_AM21$PlayerTest__1_.ic" NAME="PlayerTest (1) Coverage Results" MODIFIED="1680734477813" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>org.am21.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/IS23_AM21$MatchTest.ic" NAME="MatchTest Coverage Results" MODIFIED="1682199892824" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/IS23_AM21$MatchTest.ic" NAME="MatchTest Coverage Results" MODIFIED="1686845163914" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>org.am21.model.Match</FILTER>
-      <FILTER>org.am21.model.Player</FILTER>
-      <FILTER>org.am21.controller.PlayerController</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/IS23_AM21$PlayerTest.ic" NAME="PlayerTest Coverage Results" MODIFIED="1681245462567" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>org.am21.controller.PlayerController</FILTER>
@@ -881,6 +885,9 @@
     <SUITE FILE_PATH="coverage/IS23_AM21$PlayerControllerTest.ic" NAME="PlayerControllerTest Coverage Results" MODIFIED="1680447627787" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/IS23_AM21$MatchTest_run.ic" NAME="MatchTest.run Coverage Results" MODIFIED="1680507582967" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>org.am21.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IS23_AM21$MatchTest_testCheckGamePoints.ic" NAME="MatchTest.testCheckGamePoints Coverage Results" MODIFIED="1686844984905" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>org.am21.game.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/IS23_AM21$BagTest.ic" NAME="BagTest Coverage Results" MODIFIED="1681165337612" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>org.am21.model.items.Bag</FILTER>

@@ -89,6 +89,8 @@ public enum ServerMessage {
 
     //Any phase
     Error("Error"),
+    WrongPhase("Wrong phase. Cannot use this command."),
+    HandEmpty("No item selected"),
 
     //NOt your turn
     NotYourTurn(SC.RED_B+"Server > Wait. It's not your turn"+SC.RST);

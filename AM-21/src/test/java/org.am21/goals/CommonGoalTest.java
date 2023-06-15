@@ -490,18 +490,36 @@ public class CommonGoalTest {
      * Setup:
      * A X with (1,1) as root
      */
-    //TODO: check with root in (0,0)
     @Test
     void testCommGoalXShape() {
         card = new CommonGoalXShape(2);
+        String[][] wish = {
+                {"","","","",""},
+                {"","","","",""},
+                {"","","","",""},
+                {ItemType.__Cats__ + "1.1",ItemType._Plants_ + "1.1",ItemType.__Cats__ + "1.1","",""},
+                {ItemType._Plants_ + "1.1",ItemType.__Cats__ + "1.1",ItemType._Plants_ + "1.1","",""},
+                {ItemType.__Cats__ + "1.1",ItemType._Plants_ + "1.1",ItemType.__Cats__ + "1.1","",""}
+        };
+        String[][] wish2 = {
+                {"","","","",""},
+                {"","",ItemType.__Cats__ + "1.1","",ItemType.__Cats__ + "1.1"},
+                {"","",ItemType._Plants_ + "1.1",ItemType.__Cats__ + "1.1",""},
+                {ItemType.__Cats__ + "1.1",ItemType._Plants_ + "1.1",ItemType.Trophies + "1.1","",ItemType.__Cats__ + "1.1"},
+                {ItemType._Plants_ + "1.1",ItemType.__Cats__ + "1.1",ItemType._Plants_ + "1.1","",ItemType._Plants_ + "1.1"},
+                {ItemType.__Cats__ + "1.1",ItemType._Plants_ + "1.1",ItemType.__Cats__ + "1.1","",ItemType._Plants_ + "1.1"}
+        };
 
-        s.setCell(0,0,new ItemCard(ItemType.__Cats__ + "1.1"));
-        s.setCell(1,1,new ItemCard(ItemType.__Cats__ + "1.1"));
-        s.setCell(2,0,new ItemCard(ItemType.__Cats__ + "1.1"));
-        s.setCell(0,2,new ItemCard(ItemType.__Cats__ + "1.1"));
-        s.setCell(2,2,new ItemCard(ItemType.__Cats__ + "1.1"));
+        fillTheShelfAsIWish(wish,s);
 
         assertTrue(card.checkGoal(s));
+
+        s = new Shelf(c.getPlayer());
+
+        fillTheShelfAsIWish(wish2,s);
+
+        assertFalse(card.checkGoal(s));
+
     }
 
     @Test
@@ -547,6 +565,19 @@ public class CommonGoalTest {
 
         assertFalse(card.checkGoal(s));
 
+    }
+
+    private void fillTheShelfAsIWish(String[][] wish, Shelf shelf) {
+        if (wish != null && wish.length > 0 && wish.length == shelf.gRow && wish[0].length == shelf.gColumn) {
+
+            for (int i = 0; i < wish.length; i++) {
+                for (int j = 0; j < wish[i].length; j++) {
+                    if(wish[i][j]!=null && !wish[i][j].equals("")) {
+                        shelf.setCell(i, j, new ItemCard(wish[i][j]));
+                    }
+                }
+            }
+        }
     }
 
 

@@ -1,8 +1,10 @@
 package org.am21.game;
 
 import org.am21.controller.PlayerController;
+import org.am21.model.Cards.CommonGoals.CommonGoalXShape;
 import org.am21.model.Cards.ItemCard;
 import org.am21.model.Cards.ItemType;
+import org.am21.model.Cards.PersonalGoalCard;
 import org.am21.model.GameManager;
 import org.am21.model.Match;
 import org.am21.model.Player;
@@ -45,13 +47,13 @@ class MatchTest {
      * Result expected: There should be 2 players in the match
      */
     @Test
-    void testAddPlayer()  {
+    void testAddPlayer() {
         PlayerController c1 = new PlayerController("A");
         PlayerController c2 = new PlayerController("B");
         PlayerController c3 = new PlayerController("C");
         m.addPlayer(c1.getPlayer());
         // Control if the gameState is WaitingPlayers
-        assertEquals(GameState.WaitingPlayers,m.gameState);
+        assertEquals(GameState.WaitingPlayers, m.gameState);
 
         m.addPlayer(c2.getPlayer());
 
@@ -117,7 +119,7 @@ class MatchTest {
         //Match not started yet
         m.removePlayer(c1.getPlayer());
 
-        assertEquals(m.gameState,GameState.WaitingPlayers);
+        assertEquals(m.gameState, GameState.WaitingPlayers);
         assertTrue(m.playerList.get(0).equals(c2.getPlayer()));
         assertEquals(2, m.playerList.size());
         assertFalse(GameManager.playerMatchMap.containsKey(c1.getPlayer().getNickname()));
@@ -129,7 +131,7 @@ class MatchTest {
      * Results: Match should be Closed
      */
     @Test
-    void testRemovePlayerDuringMatch(){
+    void testRemovePlayerDuringMatch() {
         m = new Match(3);
         PlayerController c1 = new PlayerController("A");
         PlayerController c2 = new PlayerController("B");
@@ -140,7 +142,7 @@ class MatchTest {
         m.addPlayer(c3.getPlayer());
         //Match not started yet
         m.removePlayer(c1.getPlayer());
-        assertEquals(GameState.Closed,m.gameState);
+        assertEquals(GameState.Closed, m.gameState);
     }
 
     /**
@@ -151,22 +153,22 @@ class MatchTest {
      * Test: remove admin, and then again.
      */
     @Test
-    void testRemoveAdmin(){
+    void testRemoveAdmin() {
         PlayerController c1 = new PlayerController("A");
         PlayerController c2 = new PlayerController("B");
-        GameManager.createMatch(3,c1);
+        GameManager.createMatch(3, c1);
         m = c1.getPlayer().getMatch();
 
         m.addPlayer(c2.getPlayer());
 
-        assertEquals(m.admin,c1.getPlayer());
+        assertEquals(m.admin, c1.getPlayer());
 
         m.removePlayer(c1.getPlayer());
 
-        assertEquals(m.admin,c2.getPlayer());
+        assertEquals(m.admin, c2.getPlayer());
 
         m.removePlayer(c2.getPlayer());
-        assertEquals(GameState.Closed,m.gameState);
+        assertEquals(GameState.Closed, m.gameState);
         assertFalse(GameManager.playerMatchMap.containsKey(c1.getPlayer().getNickname()));
         assertFalse(GameManager.playerMatchMap.containsKey(c2.getPlayer().getNickname()));
 
@@ -224,7 +226,7 @@ class MatchTest {
      * Test if the current player after calling nextTurn() is the next in list
      */
     @Test
-    void testNextTurn()  {
+    void testNextTurn() {
         m = new Match(4);
         PlayerController c1 = new PlayerController("A");
         PlayerController c2 = new PlayerController("B");
@@ -240,7 +242,6 @@ class MatchTest {
         m.nextTurn();
         assertEquals(m.currentPlayer, m.playerList.get((m.playerList.indexOf(prev) + 1) % m.maxSeats));
     }
-
 
 
     /**
@@ -344,7 +345,7 @@ class MatchTest {
         c4.addScore(5); //player 4 got 5 points
         m.removePlayer(c2.getPlayer());
         assertEquals(GameState.Closed, m.gameState);
-        assertEquals(c4.getPlayer(),m.winner);
+        assertEquals(c4.getPlayer(), m.winner);
     }
 
     /**
@@ -356,17 +357,17 @@ class MatchTest {
     void testChangeSeats() throws InterruptedException {
         PlayerController c1 = new PlayerController("A");
         PlayerController c2 = new PlayerController("B");
-        GameManager.createMatch(3,c1);
+        GameManager.createMatch(3, c1);
 
         m = c1.getPlayer().getMatch();
-        assertEquals(m.maxSeats,3);
-        assertEquals(c1.getPlayer(),m.admin);
+        assertEquals(m.maxSeats, 3);
+        assertEquals(c1.getPlayer(), m.admin);
         m.addPlayer(c2.getPlayer());
-        assertTrue(m.changeSeats(c1.getPlayer(),2));
-        assertEquals(m.maxSeats,2);
-        assertEquals(2,m.playerList.size());
+        assertTrue(m.changeSeats(c1.getPlayer(), 2));
+        assertEquals(m.maxSeats, 2);
+        assertEquals(2, m.playerList.size());
         Thread.sleep(200);
-        assertEquals(GameState.GameGoing,m.gameState);
+        assertEquals(GameState.GameGoing, m.gameState);
 
     }
 
@@ -375,14 +376,14 @@ class MatchTest {
      * Answer is no.
      */
     @Test
-    void testNotAdmin(){
+    void testNotAdmin() {
         PlayerController c1 = new PlayerController("A");
         PlayerController c2 = new PlayerController("B");
-        GameManager.createMatch(3,c1);
+        GameManager.createMatch(3, c1);
 
         m = c1.getPlayer().getMatch();
         m.addPlayer(c2.getPlayer());
-        assertFalse(m.changeSeats(c2.getPlayer(),2));
+        assertFalse(m.changeSeats(c2.getPlayer(), 2));
     }
 
     /**
@@ -390,7 +391,7 @@ class MatchTest {
      * Test: When endMatch is called, there should be a winner(c2) and the players removed from player list and playerMatchMap.
      */
     @Test
-    void testEndMatch(){
+    void testEndMatch() {
         PlayerController c1 = new PlayerController("A");
         PlayerController c2 = new PlayerController("B");
         m.addPlayer(c1.getPlayer());
@@ -398,48 +399,152 @@ class MatchTest {
         c1.addScore(5);
         c2.addScore(10);
         m.endMatch();
-        assertEquals(m.winner,c2.getPlayer());
-        assertEquals(UserStatus.Online,c1.getPlayer().getStatus());
-        assertEquals(UserStatus.Online,c2.getPlayer().getStatus());
+        assertEquals(m.winner, c2.getPlayer());
+        assertEquals(UserStatus.Online, c1.getPlayer().getStatus());
+        assertEquals(UserStatus.Online, c2.getPlayer().getStatus());
         assertFalse(GameManager.playerMatchMap.containsKey(c1.getPlayer().getNickname()));
         assertFalse(GameManager.playerMatchMap.containsKey(c2.getPlayer().getNickname()));
-        assertEquals(m.gameState,GameState.Closed);
-        assertEquals(m.playerList.size(),0);
+        assertEquals(m.gameState, GameState.Closed);
+        assertEquals(m.playerList.size(), 0);
 
     }
 
     /**
-     * Setup: Match paused due to players who have lost connection during the match
+     * Setup: The Game is paused
      * Test nextTurn()
-     *
-     * TODO
+     * There should not be a current player
      */
     @Test
-    void testGamePauseNextTurn(){
+    void testGamePauseNextTurn() {
         PlayerController c1 = new PlayerController("A");
         PlayerController c2 = new PlayerController("B");
         m.addPlayer(c1.getPlayer());
         m.addPlayer(c2.getPlayer());
 
-        assertEquals(m.gameState,GameState.GameGoing);
+        assertEquals(m.gameState, GameState.GameGoing);
+        m.pauseMatch();
+        m.nextTurn();
 
-        c1.getPlayer().setStatus(UserStatus.Suspended);
+        assertNull(m.currentPlayer);
+    }
 
-        assertEquals(m.gameState,GameState.Pause);
+    /**
+     * Setup: A player is suspended from the match due to connection loss
+     * Test if his turn is skipped after a call of nextTurn() method
+     */
+    @Test
+    void testSuspendedPlayerNextTurn() {
+        PlayerController c1 = new PlayerController("A");
+        PlayerController c2 = new PlayerController("B");
+        m.addPlayer(c1.getPlayer());
+        m.addPlayer(c2.getPlayer());
 
-
+        assertEquals(m.gameState, GameState.GameGoing);
+        if (!c1.getPlayer().equals(m.currentPlayer)) {
+            c1.getPlayer().setStatus(UserStatus.Suspended);
+            m.nextTurn();
+            m.nextTurn();
+            assertEquals(c2.getPlayer(), m.currentPlayer);
+        } else {
+            c2.getPlayer().setStatus(UserStatus.Suspended);
+            m.nextTurn();
+            m.nextTurn();
+            assertEquals(c1.getPlayer(), m.currentPlayer);
+        }
 
     }
 
     /**
      * Setup:
      * Player who has achieved a common Goal
-     * Test1: the points it should get and the model of the goal
-     * Test2: Achieve for the second time the same goal -> not possible
-     * TODO
+     * Test1: the model of the goal and the player score
      */
     @Test
-    void testCheckCommonGoals(){
+    void testCheckCommonGoals1() {
+        PlayerController c1 = new PlayerController("A");
+        PlayerController c2 = new PlayerController("B");
+        m.addPlayer(c1.getPlayer());
+        m.addPlayer(c2.getPlayer());
+
+        // Match started
+        // Forced setting: Common Goal
+        Shelf currShelf = m.currentPlayer.getShelf();
+        m.commonGoals.set(0, new CommonGoalXShape(2));
+        String[][] wish = {
+                {"", "", "", "", ""},
+                {"", "", "", "", ""},
+                {"", "", "", "", ""},
+                {ItemType.__Cats__ + "1.1", ItemType._Plants_ + "1.1", ItemType.__Cats__ + "1.1", "", ""},
+                {ItemType._Plants_ + "1.1", ItemType.__Cats__ + "1.1", ItemType._Plants_ + "1.1", "", ""},
+                {ItemType.__Cats__ + "1.1", ItemType._Plants_ + "1.1", ItemType.__Cats__ + "1.1", "", ""}
+        };
+
+        fillTheShelfAsIWish(wish, currShelf);
+        m.callEndTurnRoutine();
+        // Token Stack top is 4
+        assertEquals(4, m.commonGoals.get(0).tokenStack.get(0));
+
+        //Achieved players contains one player
+        assertEquals(1, m.commonGoals.get(0).achievedPlayers.size());
+
+        if (m.currentPlayer.equals(c1.getPlayer())) {
+            assertEquals(8, c2.getPlayer().getPlayerScore());
+        } else {
+            assertEquals(8, c1.getPlayer().getPlayerScore());
+        }
+
+
+    }
+
+    /**
+     * Setup:
+     * Player who has already achieved a common Goal
+     * Test2: Achieve for the second time the same goal -> not possible
+     */
+    @Test
+    void testCheckCommonGoals2() {
+        PlayerController c1 = new PlayerController("A");
+        PlayerController c2 = new PlayerController("B");
+        m.addPlayer(c1.getPlayer());
+        m.addPlayer(c2.getPlayer());
+
+        // Match started
+        // Forced setting: Common Goal
+        m.currentPlayer=c1.getPlayer();
+        Shelf currShelf = m.currentPlayer.getShelf();
+        m.commonGoals.set(0, new CommonGoalXShape(2));
+        String[][] wish = {
+                {"", "", "", "", ""},
+                {"", "", "", "", ""},
+                {"", "", "", "", ""},
+                {ItemType.__Cats__ + "1.1", ItemType._Plants_ + "1.1", ItemType.__Cats__ + "1.1", "", ""},
+                {ItemType._Plants_ + "1.1", ItemType.__Cats__ + "1.1", ItemType._Plants_ + "1.1", "", ""},
+                {ItemType.__Cats__ + "1.1", ItemType._Plants_ + "1.1", ItemType.__Cats__ + "1.1", "", ""}
+        };
+
+        fillTheShelfAsIWish(wish, currShelf);
+        m.callEndTurnRoutine();
+        m.callEndTurnRoutine();
+
+        String[][] wish2 = {
+                {"", "", "", "", ""},
+                {"", "", "", "", ""},
+                {ItemType._Plants_ + "1.1", "", ItemType._Plants_ + "1.1", "", ""},
+                {ItemType.__Cats__ + "1.1", ItemType._Plants_ + "1.1", ItemType.__Cats__ + "1.1", "", ""},
+                {ItemType._Plants_ + "1.1", ItemType.__Cats__ + "1.1", ItemType._Plants_ + "1.1", "", ""},
+                {ItemType.__Cats__ + "1.1", ItemType._Plants_ + "1.1", ItemType.__Cats__ + "1.1", "", ""}
+        };
+        currShelf = m.currentPlayer.getShelf();
+        fillTheShelfAsIWish(wish2, currShelf);
+        m.callEndTurnRoutine();
+        // Token Stack top is 4
+        assertEquals(4, m.commonGoals.get(0).tokenStack.get(0));
+
+        //Achieved players contains one player
+        assertEquals(1, m.commonGoals.get(0).achievedPlayers.size());
+
+        assertEquals(8, c1.getPlayer().getPlayerScore());
+
 
     }
 
@@ -447,11 +552,57 @@ class MatchTest {
      * Setup:
      * Player shelf with some points for Personal Goal, Common Goal, Shelf Points
      * Test: if result is correct
-     * TODO
      */
     @Test
-    void testCheckGamePoints(){
+    void testCheckGamePoints() {
+        PlayerController c1 = new PlayerController("A");
+        PlayerController c2 = new PlayerController("B");
+        m.addPlayer(c1.getPlayer());
+        m.addPlayer(c2.getPlayer());
+
+        // Match started
+        // Forced setting: Common Goal
+        Shelf currShelf = m.currentPlayer.getShelf();
+        m.currentPlayer.setMyPersonalGoal(new PersonalGoalCard("PERSONAL_GOAL03"));
+        m.currentPlayer.getMyPersonalGoal().player=m.currentPlayer;
+        m.commonGoals.set(0, new CommonGoalXShape(2));
+        String[][] wish = {
+                {"", "", "", "", ""},
+                {"", "", "", "", ""},
+                {"", ItemType._Plants_ + "1.1", ItemType._Plants_ + "1.1", "", ""},
+                {ItemType.__Cats__ + "1.1", ItemType._Plants_ + "1.1", ItemType.__Cats__ + "1.1", "", ""},
+                {ItemType._Plants_ + "1.1", ItemType.__Cats__ + "1.1", ItemType._Plants_ + "1.1", "", ""},
+                {ItemType.__Cats__ + "1.1", ItemType._Plants_ + "1.1", ItemType.__Cats__ + "1.1", "", ""}
+        };
+
+        fillTheShelfAsIWish(wish, currShelf);
+        m.checkCommonGoals(m.currentPlayer);
+        m.currentPlayer.setHiddenPoints(m.currentPlayer.getMyPersonalGoal().calculatePoints());
+        String[][] points = m.checkGamePoints();
+        assertEquals("8",points[m.playerList.indexOf(m.currentPlayer)][1]);
+        assertEquals("1",points[m.playerList.indexOf(m.currentPlayer)][2]);
+        assertEquals("2",points[m.playerList.indexOf(m.currentPlayer)][3]);
+        assertNull(points[m.playerList.indexOf(m.currentPlayer)][4]);
+        assertEquals("11",points[m.playerList.indexOf(m.currentPlayer)][5]);
+
 
     }
 
+    /**
+     * This method is used to custom fill a shelf
+     * @param wish shelf markup for filling
+     * @param shelf player shelf
+     */
+    private void fillTheShelfAsIWish(String[][] wish, Shelf shelf) {
+        if (wish != null && wish.length > 0 && wish.length == shelf.gRow && wish[0].length == shelf.gColumn) {
+
+            for (int i = 0; i < wish.length; i++) {
+                for (int j = 0; j < wish[i].length; j++) {
+                    if (wish[i][j] != null && !wish[i][j].equals("")) {
+                        shelf.setCell(i, j, new ItemCard(wish[i][j]));
+                    }
+                }
+            }
+        }
+    }
 }
