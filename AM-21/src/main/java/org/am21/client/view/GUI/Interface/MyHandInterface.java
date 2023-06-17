@@ -280,6 +280,7 @@ public class MyHandInterface extends JDialog {
             if (finalColumn != -1) {
 
                 if (gui.commCtrl.insertInColumn(finalColumn)) {
+                    gui.timeLimitedNotification("Insertion successful",500);
                     if (gui.commCtrl.endTurn()) {
                         try {
                             gui.announceCurrentPlayer();
@@ -291,7 +292,7 @@ public class MyHandInterface extends JDialog {
                 }
 
                 window.dispose();
-                JOptionPane.showMessageDialog(null, "insertion successful");
+
             } else
                 JOptionPane.showMessageDialog(null, "please select the column");
 

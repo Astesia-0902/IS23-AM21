@@ -9,8 +9,6 @@ public class ChatRunnable implements Runnable{
 
     }
 
-
-
     @Override
     public void run() {
         if(Gui.NEW_CHAT_WINDOW){

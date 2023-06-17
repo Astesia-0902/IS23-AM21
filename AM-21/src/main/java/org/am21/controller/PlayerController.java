@@ -233,7 +233,7 @@ public class PlayerController {
     /**
      * Request for the Shelf to insert all the selected cards in a column(col)
      *
-     * @param col
+     * @param col number of column (0-6)
      * @return true if the insertion is successful
      */
     public boolean tryToInsert(int col) {
@@ -267,7 +267,7 @@ public class PlayerController {
      *
      * @param i is position 1
      * @param j is position 2
-     * @return
+     * @return true if the order has been changed, otherwise false
      */
     public boolean changeHandOrder(int i, int j) {
         if (isMyTurn(player) && isGamePhase(GamePhase.Insertion) && hand.changeOrder(i, j)) {
@@ -281,15 +281,12 @@ public class PlayerController {
 
     /**
      * Verify if is the current Player correspond with the one calling this method
-     * //TODO:useless? now in checkActionphase
      *
      * @param player player
      * @return false if is not player's turn
      */
     public boolean isMyTurn(Player player) {
         if (player.getMatch().currentPlayer != player) {
-            // Not player turn
-            //GameManager.sendReply(this, ServerMessage.NotYourTurn,false);
             return false;
         }
         return true;
@@ -326,7 +323,7 @@ public class PlayerController {
     /**
      * Method to add points to current player's Score
      *
-     * @param points
+     * @param points points to add
      */
     public void addScore(int points) {
         player.setPlayerScore(player.getPlayerScore() + points);

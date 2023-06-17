@@ -437,10 +437,10 @@ public class Match {
             }
         } while (currentPlayer.getStatus().equals(UserStatus.Suspended));
         setGamePhase(GamePhase.Selection);
-        if (currentPlayer.getController().clientInput != null || currentPlayer.getController().clientHandlerSocket != null) {
-            String message = SC.RED_B + "Server[!] > " + currentPlayer.getNickname() + "! It's your turn." + SC.RST;
-            CommunicationController.instance.sendMessageToClient(message, currentPlayer.getController());
-        }
+
+        String message = SC.RED_B + "Server[!] > " + currentPlayer.getNickname() + "! It's your turn." + SC.RST;
+        CommunicationController.instance.sendMessageToClient(message, currentPlayer.getController());
+
     }
 
 

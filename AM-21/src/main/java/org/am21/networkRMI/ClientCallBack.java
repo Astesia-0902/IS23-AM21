@@ -23,9 +23,11 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
         if (cli != null) {
             cli.printer(message);
         } else if (gui != null) {
-            //gui.printer(message,"Successful");
-            gui.replyDEBUG(message);
-            gui.timeLimitedNotification(message,500);
+            new Thread(()->{
+                gui.replyDEBUG(message);
+                gui.timeLimitedNotification(message,500);
+            }).start();
+
         }
     }
 

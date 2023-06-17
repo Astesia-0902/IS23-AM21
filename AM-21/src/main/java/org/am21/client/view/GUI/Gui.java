@@ -88,6 +88,12 @@ public class Gui {
                         throw new RuntimeException(e);
                     }
                 }
+                if (chatDialog != null) {
+                    chatDialog.setVisible(false);
+                }
+                if(onlineListDialog != null){
+                    onlineListDialog.setVisible(false);
+                }
 
                 while (!GAME_ON && !GO_TO_MENU) {
                     try {
@@ -99,10 +105,18 @@ public class Gui {
 
                 }
 
+
                 if (waitingRoomInterface != null) {
                     System.out.println("WaitingRoomInterface Disposed");
                     waitingRoomInterface.dispose();
                     //waitingRoomInterface = null;
+                }
+
+                if (chatDialog != null) {
+                    chatDialog.setVisible(false);
+                }
+                if(onlineListDialog != null){
+                    onlineListDialog.setVisible(false);
                 }
                 while (GAME_ON && !GO_TO_MENU) {
                     try {
@@ -250,10 +264,7 @@ public class Gui {
     }
 
     public void askWaitingAction() throws RemoteException {
-        if (chatDialog != null || onlineListDialog != null) {
-            chatDialog.setVisible(false);
-            onlineListDialog.setVisible(false);
-        }
+
 
         for (int i = 0; i < ClientView.matchList.length; i++) {
             if (Integer.parseInt(ClientView.matchList[i][0]) == ClientView.matchID) {

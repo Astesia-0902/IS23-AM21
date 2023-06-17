@@ -100,11 +100,11 @@ public class Cli implements View {
 
 
         String clientAddress = "localhost";
-        clientAddress = askInfo("client address","localhost");
+        clientAddress = askInfo("client address", "localhost");
 
         // Create and set the custom socket factory
         //RMISocketFactory.setSocketFactory(new CustomSocketFactory(bindAddress));
-        System.setProperty("java.rmi.server.hostname",clientAddress);
+        System.setProperty("java.rmi.server.hostname", clientAddress);
 
 
         System.out.println("Your ip address is : " + clientAddress);
@@ -150,7 +150,7 @@ public class Cli implements View {
 
     public IClientInput getControllerStub(HashMap<String, String> serverInfo) {
         try {
-            System.out.println("Server path to stub: "+ "rmi://" + serverInfo.get("address") + ":"
+            System.out.println("Server path to stub: " + "rmi://" + serverInfo.get("address") + ":"
                     + serverInfo.get("port") + "/" + serverInfo.get("root"));
             return (IClientInput) Naming.lookup("rmi://" + serverInfo.get("address") + ":"
                     + serverInfo.get("port") + "/" + serverInfo.get("root"));
@@ -162,7 +162,6 @@ public class Cli implements View {
 
 
     //--------------------SOCKET----------------------------------------------------------------------------
-    //TODO:redo
     public void askServerInfoSocket() {
         SocketClient socket;
         do {
@@ -344,7 +343,10 @@ public class Cli implements View {
                 }
                 case "more", "mo" -> askMoreOptions();
                 case "open", "op" -> askPrivateChat();
-                case "hand", "ha" -> showHand();
+                case "hand", "ha" -> {
+                    showHand();
+                    askToContinue();
+                }
                 case "pgoal", "pg" -> {
                     showPersonalGoal();
                     askToContinue();

@@ -22,8 +22,8 @@ public class GameController {
         synchronized (GameManager.playerMatchMap) {
             synchronized (GameManager.matchMap) {
                 Match match = GameManager.matchMap.get(GameManager.playerMatchMap.get(username));
-                if (GameManager.playerMatchMap.containsKey(username) && match.gameState.equals(GameState.GameGoing) &&
-                        match.currentPlayer.getNickname() == username) {
+                if (GameManager.playerMatchMap.containsKey(username) && (match.gameState.equals(GameState.GameGoing)||match.gameState.equals(GameState.LastRound) )&&
+                        match.currentPlayer.getNickname().equals(username)) {
                     return true;
                 }
                 GameManager.sendReply(playerController, ServerMessage.NotYourTurn.value());
