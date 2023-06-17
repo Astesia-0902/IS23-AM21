@@ -70,6 +70,12 @@ public class PixelUtil {
     public static int enemyScoreY = ImageUtil.resizeY(36);
     public static int enemyScoreW = ImageUtil.resizeX(107);
     public static int enemyScoreH = ImageUtil.resizeY(101);
+
+    public static int enemyNameX = ImageUtil.resizeX(292);
+
+    public static int enemyNameW = ImageUtil.resizeX(45);
+
+
     /**
      * position util
      */

@@ -16,6 +16,7 @@ public class EnemyPanel extends JPanel {
     public JLabel enemyBoard;
     public ShelfPanel enemyShelf;
     public JLabel enemyScoreDynamic;
+    public JLabel enemyName;
     public ChairManLabel chairManLabel;
     public Timer waitTimer;
 
@@ -40,11 +41,11 @@ public class EnemyPanel extends JPanel {
      */
 
     public void setEnemyPane(int posY) {
-        setBounds(0, posY, PixelUtil.commonX_2 + PixelUtil.enemyShelfW, PixelUtil.enemyShelfH);
+        setBounds(0, posY, PixelUtil.commonX_2 + PixelUtil.enemyShelfW+ PixelUtil.enemyNameW, PixelUtil.enemyShelfH);
         setLayout(null);
         setOpaque(false);
         enemyPane = new JLayeredPane();
-        enemyPane.setBounds(0, 0, PixelUtil.commonX_2 + PixelUtil.enemyShelfW, PixelUtil.enemyShelfH);
+        enemyPane.setBounds(0, 0, PixelUtil.commonX_2 + PixelUtil.enemyShelfW+ PixelUtil.enemyNameW, PixelUtil.enemyShelfH);
         enemyPane.setLayout(null);
         enemyPane.setOpaque(false);
         add(enemyPane);
@@ -73,6 +74,12 @@ public class EnemyPanel extends JPanel {
         enemyScoreDynamic.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
         enemyScoreDynamic.setForeground(new Color(0, 0, 0, 255));
         enemyPane.add(enemyScoreDynamic, JLayeredPane.MODAL_LAYER);
+
+        enemyName = new JLabel(nickname);
+        enemyName.setBounds(PixelUtil.commonX_2+PixelUtil.enemyShelfW, 0, PixelUtil.enemyNameW, PixelUtil.enemyShelfH);
+        enemyName.setFont(new Font("DejaVu Sans", Font.PLAIN, 14));
+        enemyName.setForeground(new Color(4, 30, 134, 230));
+        enemyPane.add(enemyName, JLayeredPane.POPUP_LAYER);
     }
 
     /**

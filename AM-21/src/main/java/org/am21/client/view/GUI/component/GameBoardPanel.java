@@ -275,6 +275,12 @@ public class GameBoardPanel extends JPanel {
 
     public void pickScoreTokenEndGame() {
         gameBoardPane.remove(scoreTokenEndGame);
+
+        SwingUtilities.invokeLater(() -> {
+            revalidate();
+            repaint();
+        });
+
     }
 
 }
