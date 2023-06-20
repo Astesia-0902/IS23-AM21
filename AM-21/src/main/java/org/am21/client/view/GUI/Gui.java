@@ -91,7 +91,7 @@ public class Gui {
                 if (chatDialog != null) {
                     chatDialog.setVisible(false);
                 }
-                if(onlineListDialog != null){
+                if (onlineListDialog != null) {
                     onlineListDialog.setVisible(false);
                 }
 
@@ -115,7 +115,7 @@ public class Gui {
                 if (chatDialog != null) {
                     chatDialog.setVisible(false);
                 }
-                if(onlineListDialog != null){
+                if (onlineListDialog != null) {
                     onlineListDialog.setVisible(false);
                 }
                 while (GAME_ON && !GO_TO_MENU) {
@@ -347,25 +347,18 @@ public class Gui {
         });
 
 
-        SwingUtilities.invokeLater(() -> {
-            showBoard(); //refresh board
-        });
-        SwingUtilities.invokeLater(() -> {
-            showEveryShelf(); //refresh enemy's shelf
-        });
-        SwingUtilities.invokeLater(() -> {
-            showPlayersStats(); // refresh shelf
-        });
-        SwingUtilities.invokeLater(() -> {
-            showWhoIsPlaying(); //change player color
-        });
-        SwingUtilities.invokeLater(()->{
-            showCommonGoals();  //Update common goal token
-        });
-
-        SwingUtilities.invokeLater(()->{
-            showEndGameToken();  //Update endgame token
-        });
+        //refresh board
+        SwingUtilities.invokeLater(this::showBoard);
+        //refresh enemy's shelf
+        SwingUtilities.invokeLater(this::showEveryShelf);
+        // refresh shelf
+        SwingUtilities.invokeLater(this::showPlayersStats);
+        //change player color
+        SwingUtilities.invokeLater(this::showWhoIsPlaying);
+        //Update common goal token
+        SwingUtilities.invokeLater(this::showCommonGoals);
+        //Update endgame token
+        SwingUtilities.invokeLater(this::showEndGameToken);
 
        /* while (MATCH_END && GO_TO_MENU && !GAME_ON) {
             ClientView.setMatchEnd(false);
@@ -411,13 +404,22 @@ public class Gui {
             if (livingRoomInterface.livingRoomPanel.waitTimer != null)
                 livingRoomInterface.livingRoomPanel.waitTimer.stop();
             livingRoomInterface.livingRoomPanel.setBorderColor();
+            
 
-            if (livingRoomInterface.enemiesPanel.containsKey(currentPlayer)) {
-                EnemyPanel enemyPanel = livingRoomInterface.enemiesPanel.get(currentPlayer);
+            for (EnemyPanel enemyPanel : livingRoomInterface.enemiesPanel.values()) {
                 if (enemyPanel.waitTimer != null) {
-                    enemyPanel.waitTimer.start();
+                    if (enemyPanel.enemyName.getText().equals(currentPlayer))
+                        enemyPanel.waitTimer.start();
+                    else {
+                        enemyPanel.waitTimer.stop();
+                        enemyPanel.setStatusBorder();
+                    }
+
                 }
+
+
             }
+
             gameBoardPanel.refreshEnemyView(virtualBoard, this); //refresh enemy action on the game board
         }
 
@@ -486,7 +488,7 @@ public class Gui {
 
 
     public void showEndGameToken() {
-        if(!endGameToken)
+        if (!endGameToken)
             gameBoardPanel.pickScoreTokenEndGame();
     }
 
@@ -511,7 +513,7 @@ public class Gui {
         livingRoomInterface.livingRoomPane.add(commonGoalPanel, JLayeredPane.PALETTE_LAYER);
 
         //set common goal description
-        showGoalDescription(commonGoalPanel.commonGoalTopLabel,Storage.goalCommonMap.get(commonGoal.get(0)));
+        showGoalDescription(commonGoalPanel.commonGoalTopLabel, Storage.goalCommonMap.get(commonGoal.get(0)));
         showGoalDescription(commonGoalPanel.commonGoalBottomLabel, Storage.goalCommonMap.get(commonGoal.get(1)));
 
         //set CommonGoal Token
@@ -573,7 +575,7 @@ public class Gui {
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
             //int x = (screenSize.width - dialog.getWidth());
-            int x = (screenSize.width/2-dialog.getWidth()/2);
+            int x = (screenSize.width / 2 - dialog.getWidth() / 2);
             int y = 0;
 
             dialog.setLocation(x, y);
@@ -673,7 +675,7 @@ public class Gui {
 
 
     public void showGoalDescription(JLabel commonGoalLabel, String description) {
-        if(commonGoalPanel!=null){
+        if (commonGoalPanel != null) {
             commonGoalPanel.showDescription(commonGoalLabel, description);
         }
 
@@ -692,7 +694,6 @@ public class Gui {
             throw new RuntimeException(e);
         }
     }
-
 
 
     public void convertPrivateChatsForGUI() {
@@ -775,15 +776,15 @@ public class Gui {
         Gui.publicChatHistory = historyTMP;
     }
 
-    public void setAskChat(boolean value){
+    public void setAskChat(boolean value) {
         synchronized (askChat) {
             askChat = value;
         }
     }
 
-    public void setNewChatWindow(boolean value){
-        synchronized (newChatWindow){
-            newChatWindow =value;
+    public void setNewChatWindow(boolean value) {
+        synchronized (newChatWindow) {
+            newChatWindow = value;
         }
     }
 }
