@@ -1,5 +1,7 @@
 # Prova Finale Ingegneria del Software 2023
 ## IS23-AM21
+![Display_1](https://github.com/Astesia-0902/IS23-AM21/assets/126017235/1f510880-3d28-471b-8d72-9ab52f193b75)
+
 
 - ###   10708445 Jialiang Ding([@Astesia](https://github.com/Astesia-0902))<br>jialiang.ding@mail.polimi.it
 - ###   10752734 Simona Cai ([@SimonaCai](https://github.com/SimonaCai))<br>simona.cai@mail.polimi.it
