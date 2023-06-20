@@ -5,17 +5,19 @@ import org.am21.client.ClientController;
 import org.am21.client.SocketClient;
 import org.am21.client.view.ClientView;
 import org.am21.client.view.View;
-import org.am21.networkRMI.ClientCallBack;
-import org.am21.networkRMI.IClientInput;
-import org.am21.networkRMI.Lobby;
+import org.am21.networkRMI.*;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.RMISocketFactory;
 import java.rmi.server.ServerNotActiveException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -94,7 +96,7 @@ public class Cli implements View {
     /**
      * RMI : TUI allows the user to insert the Server Address and Port to Connect with The Server
      */
-    public void askServerInfoRMI() {
+    public void askServerInfoRMI(){
         // Determine my address
         String clientBind = "";
 
@@ -109,13 +111,14 @@ public class Cli implements View {
 
         System.out.println("Your ip address is : " + clientAddress);
         try {
-            LocateRegistry.createRegistry(7777);
-            clientBind = "rmi://" + clientAddress + ":7777/Callback";
+            RMISocketFactory.setSocketFactory(new MyRMISocketFactory(clientAddress, 7777));
+            Registry registry = LocateRegistry.createRegistry(7777);
+            ClientCallBack callbackStub = (ClientCallBack) UnicastRemoteObject.exportObject(clientCallBack, 0);
+            registry.bind("Callback", callbackStub);
+            //clientBind = "rmi://" + clientAddress + ":7777/Callback";
             //Naming.bind(clientBind, this.clientCallBack);
-            Naming.rebind(clientBind, clientCallBack);
-
-
-        } catch (MalformedURLException | RemoteException e) {
+            //Naming.rebind(clientBind, clientCallBack);
+        } catch (IOException | AlreadyBoundException e) {
             throw new RuntimeException(e);
         }
 

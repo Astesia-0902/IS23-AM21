@@ -5,10 +5,7 @@ import org.am21.model.GameManager;
 import org.am21.model.Match;
 import org.am21.model.Player;
 import org.am21.model.enumer.ServerMessage;
-import org.am21.networkRMI.ClientInputHandler;
-import org.am21.networkRMI.IClientInput;
-import org.am21.networkRMI.Lobby;
-import org.am21.networkRMI.Welcome;
+import org.am21.networkRMI.*;
 import org.am21.networkSocket.SocketServer;
 
 import java.net.MalformedURLException;
@@ -17,6 +14,9 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.RMISocketFactory;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -32,6 +32,7 @@ import java.util.concurrent.FutureTask;
 public class Server {
     public static int number = 0;
     private static Thread inputThread;
+
     private static class HeartbeatTask extends TimerTask {
         @Override
         public void run() {
@@ -43,28 +44,32 @@ public class Server {
         String serverAddress;
         System.out.print("Enter Server address (Press 'Enter' for 'localhost'): ");
         String inputAddress = readLine();
-        if(inputAddress.equals("")){
-            serverAddress="localhost";
-        }else{
-            serverAddress=inputAddress;
+        if (inputAddress.equals("")) {
+            serverAddress = "localhost";
+        } else {
+            serverAddress = inputAddress;
         }
 
         try {
             SocketServer server = new SocketServer();
             server.start();
 
-            Welcome.serverAddress= serverAddress;
+            RMISocketFactory.setSocketFactory(new MyRMISocketFactory(serverAddress, 1234));
 
-            LocateRegistry.createRegistry(1234);
-            LocateRegistry.createRegistry(8807);
+            Welcome.serverAddress = serverAddress;
+
+            Registry registry1234 = LocateRegistry.createRegistry(1234);
+            Registry registry8807 =LocateRegistry.createRegistry(8807);
 
             Lobby guardian = new Welcome();
-            Naming.bind("rmi://"+serverAddress+":1234/Welcome", guardian);
+            Lobby guardianStub = (Lobby) UnicastRemoteObject.exportObject(guardian, 0);
+            registry1234.bind("Welcome", guardianStub);
+            //Naming.bind("rmi://" + serverAddress + ":1234/Welcome", guardian);
 
             Timer timer = new Timer();
             timer.schedule(new HeartbeatTask(), 1000, 10000);
 
-            System.out.println("Server is ready "+"["+serverAddress+"]" );
+            System.out.println("Server is ready " + "[" + serverAddress + "]");
             while (true) {
                 String input = readLine();
                 if (input.equals("reset")) {
@@ -98,7 +103,7 @@ public class Server {
         }
         for (int i = number; i > 0; i--) {
             String path = "";
-            path += "rmi://"+Welcome.serverAddress+":8807/";
+            path += "rmi://" + Welcome.serverAddress + ":8807/";
             System.out.println((path + i));
         }
 
@@ -111,7 +116,7 @@ public class Server {
 
     public static String newBind(String root) {
         String path = "";
-        path += "rmi://"+Welcome.serverAddress+":8807/";
+        path += "rmi://" + Welcome.serverAddress + ":8807/";
         path += root;
         return path;
     }
@@ -122,7 +127,10 @@ public class Server {
 
     public static void done() throws RemoteException, MalformedURLException, AlreadyBoundException {
         IClientInput cIH = new ClientInputHandler();
-        welcomeNewClient(newBind(genNewRoot()), cIH);
+        IClientInput stub = (IClientInput) UnicastRemoteObject.exportObject(cIH, 0);
+        Registry registry8807 = LocateRegistry.getRegistry(8807);
+        registry8807.bind(genNewRoot(), stub);
+        //welcomeNewClient(newBind(genNewRoot()), cIH);
     }
 
     private static String readLine() {
@@ -151,7 +159,7 @@ public class Server {
 
         for (int i = number; i > 0; i--) {
             String path = "";
-            path += "rmi://"+Welcome.serverAddress+":8807/";
+            path += "rmi://" + Welcome.serverAddress + ":8807/";
             try {
                 Naming.unbind(path + i);
             } catch (RemoteException | MalformedURLException | NotBoundException e) {
@@ -181,7 +189,7 @@ public class Server {
         System.out.println("Match List: ");
         synchronized (GameManager.matchMap) {
             if (GameManager.matchMap.size() > 0) {
-                for (Map.Entry<Integer, Match>  entry : GameManager.matchMap.entrySet()) {
+                for (Map.Entry<Integer, Match> entry : GameManager.matchMap.entrySet()) {
                     Match m = entry.getValue();
                     message += ("[ID: " + m.matchID + " | " + m.gameState + " | Players: (" + m.playerList.size() + "/" + m.maxSeats + ")]\n");
                 }
