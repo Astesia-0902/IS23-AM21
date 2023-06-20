@@ -111,12 +111,12 @@ public class Cli implements View {
 
         System.out.println("Your ip address is : " + clientAddress);
         try {
-            RMISocketFactory.setSocketFactory(new MyRMISocketFactory(clientAddress, 7777));
+            //RMISocketFactory.setSocketFactory(new MyRMISocketFactory(clientAddress, 7777));
             Registry registry = LocateRegistry.createRegistry(7777);
             UnicastRemoteObject.unexportObject(clientCallBack, true);
             IClientCallBack callbackStub = (IClientCallBack) UnicastRemoteObject.exportObject(clientCallBack, 7777);
             registry.bind("Callback", callbackStub);
-            //clientBind = "rmi://" + clientAddress + ":7777/Callback";
+            clientBind = "rmi://" + clientAddress + ":7777/Callback";
             //Naming.bind(clientBind, this.clientCallBack);
             //Naming.rebind(clientBind, clientCallBack);
         } catch (IOException | AlreadyBoundException e) {
@@ -144,7 +144,9 @@ public class Cli implements View {
     public HashMap<String, String> connectToServerLobby(String address, String port) {
         HashMap<String, String> infoMap;
         try {
-            Lobby lobby = (Lobby) Naming.lookup("rmi://" + address + ":" + port + "/Welcome");
+            Registry registry = LocateRegistry.getRegistry(address, Integer.parseInt(port));
+            Lobby lobby = (Lobby) registry.lookup("Welcome");
+            //Lobby lobby = (Lobby) Naming.lookup("rmi://" + address + ":" + port + "/Welcome");
             infoMap = lobby.connect();
         } catch (AlreadyBoundException | NotBoundException | RemoteException | MalformedURLException e) {
             return null;

@@ -29,7 +29,7 @@ public class MyRMISocketFactory extends RMISocketFactory {
         InetAddress address = InetAddress.getByName(serverAddress);
         int portToUse = this.port;
         Socket ans = new Socket(address, portToUse);
-        System.out.println("Socket > Client connected to " + ans.getRemoteSocketAddress() + ":" + ans.getInetAddress());
+        System.out.println("RMI Socket Factory > Client connected to " + ans.getRemoteSocketAddress() + ":" + ans.getInetAddress());
         return ans;
     }
 

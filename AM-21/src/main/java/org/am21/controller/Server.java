@@ -55,7 +55,7 @@ public class Server {
             SocketServer server = new SocketServer();
             server.start();
 
-            RMISocketFactory.setSocketFactory(new MyRMISocketFactory(serverAddress, 1234));
+            //RMISocketFactory.setSocketFactory(new MyRMISocketFactory(serverAddress, 1234));
 
             Welcome.serverAddress = serverAddress;
 
@@ -65,7 +65,7 @@ public class Server {
             Lobby guardian = new Welcome();
             UnicastRemoteObject.unexportObject(guardian, true);
             Lobby guardianStub = (Lobby) UnicastRemoteObject.exportObject(guardian, 0);
-            registry1234.rebind("Welcome", guardianStub);
+            registry1234.bind("Welcome", guardianStub);
             //System.out.println(Arrays.toString(Arrays.stream(registry1234.list()).toArray()));
             //Naming.bind("rmi://" + serverAddress + ":1234/Welcome", guardianStub);
 
