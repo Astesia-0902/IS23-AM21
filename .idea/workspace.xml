@@ -11,12 +11,8 @@
   <component name="ChangeListManager">
     <list default="true" id="4b6f2ca9-18c9-4d69-80a1-4d1fd0e1ac50" name="Changes" comment="update Gui">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/ServerInfoListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/ServerInfoListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/Cli.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/Cli.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/PlayerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/PlayerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/virtualview/ServerVirtualView.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/virtualview/ServerVirtualView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/VirtualViewTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/VirtualViewTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +110,7 @@
       <recent name="org.am21.utilities" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.VirtualViewTest.testViewLastRound">
+  <component name="RunManager" selected="Application.GUITest1">
     <configuration name="CLITest1" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.am21.client.ClientApp" />
       <module name="IS23-AM21" />
@@ -705,7 +701,7 @@
       <workItem from="1686833653734" duration="11255000" />
       <workItem from="1686990959321" duration="1315000" />
       <workItem from="1687029275783" duration="11749000" />
-      <workItem from="1687246323234" duration="10103000" />
+      <workItem from="1687246323234" duration="11821000" />
     </task>
     <task id="LOCAL-00001" summary="update scoringToken test">
       <created>1680516093577</created>
