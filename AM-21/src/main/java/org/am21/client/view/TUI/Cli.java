@@ -1559,7 +1559,7 @@ public class Cli implements View {
         System.out.println("-----------------------------------------------------------");
     }
 
-    public void     printer(String message) {
+    public void printer(String message) {
         System.out.println(message);
     }
 

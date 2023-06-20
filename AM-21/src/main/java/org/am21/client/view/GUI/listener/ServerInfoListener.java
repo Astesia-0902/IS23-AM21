@@ -4,6 +4,7 @@ import org.am21.client.ClientController;
 import org.am21.client.SocketClient;
 import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.GUI.utils.ImageUtil;
+import org.am21.networkRMI.IClientCallBack;
 import org.am21.networkRMI.IClientInput;
 import org.am21.networkRMI.Lobby;
 
@@ -22,6 +23,8 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 
 public class ServerInfoListener implements MouseListener, MouseMotionListener, ActionListener, KeyListener, DocumentListener {
@@ -84,14 +87,19 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
                     } catch (UnknownHostException e2) {
                         throw new RuntimeException(e2);
                     }
-                    clientAddress = localHost.getHostAddress();
+                    //TODO: add an input for Client Address
+                    clientAddress = "192.168.20.23";
+                    System.setProperty("java.rmi.server.hostname", clientAddress);
 
                     System.out.println("Your ip address is : " + clientAddress);
                     try {
-                        LocateRegistry.createRegistry(8806);
+                        Registry registry = LocateRegistry.createRegistry(7777);
+                        UnicastRemoteObject.unexportObject(gui.clientCallBack, true);
+                        IClientCallBack callbackStub = (IClientCallBack) UnicastRemoteObject.exportObject(gui.clientCallBack, 7777);
+                        registry.bind("Callback", callbackStub);
                         clientBind = "rmi://" + clientAddress + ":7777/Callback";
-                        Naming.bind(clientBind, gui.clientCallBack);
-                    } catch (AlreadyBoundException | MalformedURLException | RemoteException e3) {
+
+                    } catch (AlreadyBoundException | RemoteException e3) {
                         throw new RuntimeException(e3);
                     }
                     try {
