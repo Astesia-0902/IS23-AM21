@@ -8,6 +8,7 @@ import org.am21.client.view.GUI.listener.*;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PathUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
+import org.am21.client.view.TUI.Storage;
 import org.am21.networkRMI.ClientCallBack;
 import org.am21.networkRMI.IClientInput;
 
@@ -338,13 +339,13 @@ public class Gui {
 
     public void announceCurrentPlayer() throws RemoteException {
         SwingUtilities.invokeLater(() -> {
-            myShelfPanel.refreshShelf(shelves.get(getPlayerIndex(username)));
+            myShelfPanel.refreshShelf(shelves.get(getPlayerIndex(username))); //refresh my shelf
         });
-        //go to end turn
+
         SwingUtilities.invokeLater(() -> {
-            myHandBoardPanel.refreshItem(currentPlayerHand);
+            myHandBoardPanel.refreshItem(currentPlayerHand); //refresh hand panel
         });
-        //end turn
+
 
         SwingUtilities.invokeLater(() -> {
             showBoard(); //refresh board
@@ -358,6 +359,10 @@ public class Gui {
         SwingUtilities.invokeLater(() -> {
             showWhoIsPlaying(); //change player color
         });
+        SwingUtilities.invokeLater(()->{
+            showCommonGoals();  //Update common goal token
+        });
+
         SwingUtilities.invokeLater(()->{
             showEndGameToken();  //Update endgame token
         });
@@ -481,7 +486,8 @@ public class Gui {
 
 
     public void showEndGameToken() {
-        gameBoardPanel.pickScoreTokenEndGame();
+        if(!endGameToken)
+            gameBoardPanel.pickScoreTokenEndGame();
     }
 
 
@@ -503,6 +509,10 @@ public class Gui {
         //set common goal
         commonGoalPanel = new CommonGoalPanel(commonGoal.get(0), commonGoal.get(1));
         livingRoomInterface.livingRoomPane.add(commonGoalPanel, JLayeredPane.PALETTE_LAYER);
+
+        //set common goal description
+        showGoalDescription(commonGoalPanel.commonGoalTopLabel,Storage.goalCommonMap.get(commonGoal.get(0)));
+        showGoalDescription(commonGoalPanel.commonGoalBottomLabel, Storage.goalCommonMap.get(commonGoal.get(1)));
 
         //set CommonGoal Token
         commonGoalPanel.setScoreToken(commonGoalScore.get(0), commonGoalScore.get(1));
@@ -662,7 +672,10 @@ public class Gui {
     }
 
 
-    public void showGoalDescription(String CommonGoalCard) {
+    public void showGoalDescription(JLabel commonGoalLabel, String description) {
+        if(commonGoalPanel!=null){
+            commonGoalPanel.showDescription(commonGoalLabel, description);
+        }
 
     }
 
