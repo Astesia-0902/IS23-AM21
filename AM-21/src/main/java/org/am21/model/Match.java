@@ -229,6 +229,7 @@ public class Match {
             }
             this.nextTurn();
             endTurnUpdate();
+            sendNotificationToAll();
         }
     }
 
@@ -440,7 +441,7 @@ public class Match {
 
         String message = SC.RED_B + "Server[!] > " + currentPlayer.getNickname() + "! It's your turn." + SC.RST;
         CommunicationController.instance.sendMessageToClient(message, currentPlayer.getController());
-
+        GameManager.notifyUpdate(currentPlayer.getController(), 0);
     }
 
 
@@ -448,9 +449,11 @@ public class Match {
      * Update match's players with the new version of the virtual view.
      */
     public void updatePlayersView() {
-        for (Player p : playerList) {
-            if (p.getStatus() == UserStatus.GameMember)
-                CommunicationController.instance.sendVirtualView(getJSONVirtualView(), playerList.indexOf(p), p.getController());
+        synchronized (playerList) {
+            for (Player p : playerList) {
+                if (p.getStatus() == UserStatus.GameMember)
+                    CommunicationController.instance.sendVirtualView(getJSONVirtualView(), playerList.indexOf(p), p.getController());
+            }
         }
     }
 
@@ -463,16 +466,18 @@ public class Match {
         Player tiePlayer = null;
         Player topPlayer = null;
         int maxScore = 0;
-        for (Player p : playerList) {
-            if (p.getStatus().equals(UserStatus.Suspended)) {
-                continue;
-            }
+        synchronized (playerList) {
+            for (Player p : playerList) {
+                if (p.getStatus().equals(UserStatus.Suspended)) {
+                    continue;
+                }
 
-            if (p.getPlayerScore() > maxScore) {
-                topPlayer = p;
-                maxScore = p.getPlayerScore();
-            } else if (p.getPlayerScore() == maxScore) {
-                tiePlayer = p;
+                if (p.getPlayerScore() > maxScore) {
+                    topPlayer = p;
+                    maxScore = p.getPlayerScore();
+                } else if (p.getPlayerScore() == maxScore) {
+                    tiePlayer = p;
+                }
             }
         }
         if (topPlayer != null && tiePlayer != null && tiePlayer.getPlayerScore() == topPlayer.getPlayerScore()) {
@@ -490,12 +495,14 @@ public class Match {
      * @param includeCurrentPlayer if false the message is not sent to the currentPlayer
      */
     public void sendTextToAll(String message, boolean includeCurrentPlayer, boolean update) {
-        for (Player p : playerList) {
-            if (!includeCurrentPlayer && p.equals(currentPlayer)) {
-                continue;
+        synchronized (playerList) {
+            for (Player p : playerList) {
+                if (!includeCurrentPlayer && p.equals(currentPlayer)) {
+                    continue;
+                }
+                GameManager.sendReply(p.getController(), message);
+                if (update) GameManager.notifyUpdate(p.getController(), 1000);
             }
-            GameManager.sendReply(p.getController(), message);
-            if (update) GameManager.notifyUpdate(p.getController(), 1000);
         }
     }
 
@@ -506,11 +513,13 @@ public class Match {
      * @param sender  player name of the sender
      */
     public void sendPublicChatNotification(String message, String sender) {
-        for (Player p : playerList) {
-            if (p.getNickname().equals(sender)) {
-                continue;
+        synchronized (playerList) {
+            for (Player p : playerList) {
+                if (p.getNickname().equals(sender)) {
+                    continue;
+                }
+                GameManager.sendChatNotification(p.getController(), message);
             }
-            GameManager.sendChatNotification(p.getController(), message);
         }
     }
 
@@ -518,8 +527,10 @@ public class Match {
      * Update each player view with the new JSONHand
      */
     public void updateVirtualHand() {
-        for (Player p : playerList) {
-            CommunicationController.instance.sendVirtualHand(VirtualViewHelper.convertVirtualHandToJSON(virtualView), p.getController());
+        synchronized (playerList) {
+            for (Player p : playerList) {
+                CommunicationController.instance.sendVirtualHand(VirtualViewHelper.convertVirtualHandToJSON(virtualView), p.getController());
+            }
         }
     }
 
@@ -565,8 +576,18 @@ public class Match {
     }
 
     public void updatePlayersPublicChats() {
-        for (Player p : playerList) {
-            CommunicationController.instance.sendVirtualPublicChat(VirtualViewHelper.convertPublicChatToJSON(virtualView), p.getController());
+        synchronized (playerList) {
+            for (Player p : playerList) {
+                CommunicationController.instance.sendVirtualPublicChat(VirtualViewHelper.convertPublicChatToJSON(virtualView), p.getController());
+            }
+        }
+    }
+
+    public void sendNotificationToAll() {
+        synchronized (playerList) {
+            for (Player p : playerList) {
+                GameManager.notifyUpdate(p.getController(), 0);
+            }
         }
     }
 

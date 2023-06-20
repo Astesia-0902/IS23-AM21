@@ -79,9 +79,9 @@ public class PlayerController {
      * <p>
      * To revisit
      *
-     * @param r
-     * @param c
-     * @return false : Selection failed
+     * @param r row
+     * @param c column
+     * @return false : Selection failed, true: selection successful
      */
     public boolean selectCell(int r, int c) {
         if (!isMyTurn(player) || !isGamePhase(GamePhase.Selection)) {
@@ -141,7 +141,6 @@ public class PlayerController {
      * @return true if just one card is deselected, false if other cards needs to be deselected
      */
     private boolean deselectCell(CardPointer item) {
-        //TODO: to test
         if (hand.getSelectedItems().size() > 2) {
             //Re-selected item removed
             hand.getSelectedItems().remove(item);
@@ -265,8 +264,8 @@ public class PlayerController {
     /**
      * This method will call another one in Hand to swap the position of two cards
      *
-     * @param i is position 1
-     * @param j is position 2
+     * @param i is position 1 (0-3)
+     * @param j is position 2 (0-3)
      * @return true if the order has been changed, otherwise false
      */
     public boolean changeHandOrder(int i, int j) {
@@ -299,7 +298,7 @@ public class PlayerController {
      * @return true if the gamePhase is the same of the match game phase
      */
     public boolean isGamePhase(GamePhase gamePhase) {
-        if (player.getMatch().gamePhase == gamePhase) {
+        if (player.getMatch().gamePhase.equals(gamePhase)) {
             return true;
         }
         GameManager.sendReply(player.getController(),ServerMessage.WrongPhase.value());
@@ -375,9 +374,7 @@ public class PlayerController {
                 }
                 // Clear Hand
                 player.getHand().getSelectedItems().clear();
-                VirtualViewHelper.virtualizeBoard(player.getMatch());
-                VirtualViewHelper.virtualizeCurrentPlayerHand(player.getMatch());
-                player.getMatch().updatePlayersView();
+                player.getMatch().selectionUpdate();
                 return true;
             }
         }

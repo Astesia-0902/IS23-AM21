@@ -5,7 +5,10 @@ import org.am21.client.ClientController;
 import org.am21.client.SocketClient;
 import org.am21.client.view.ClientView;
 import org.am21.client.view.View;
-import org.am21.networkRMI.*;
+import org.am21.networkRMI.ClientCallBack;
+import org.am21.networkRMI.IClientCallBack;
+import org.am21.networkRMI.IClientInput;
+import org.am21.networkRMI.Lobby;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -15,7 +18,6 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.RMISocketFactory;
 import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -1520,22 +1522,26 @@ public class Cli implements View {
     public List<String> lostMessages = new ArrayList<>();
 
     public void addMessageInLine(String message) {
-        lostMessages.add(message);
+        synchronized (lostMessages) {
+            lostMessages.add(message);
+        }
     }
 
     public void showLostMessages() {
         System.out.println();
-        if (lostMessages.size() < 1)
-            return;
-        System.out.print(Color.RED + "Received Messages :" + Color.RESET);
-        for (String line : lostMessages) {
-            System.out.print(line);
-            delayer(500);
-        }
-        System.out.println();
-        delayer(1000);
-        lostMessages.clear();
 
+        synchronized (lostMessages) {
+            if (lostMessages.size() < 1)
+                return;
+            System.out.print(Color.RED + "Received Messages :" + Color.RESET);
+            for (String line : lostMessages) {
+                System.out.print(line);
+                delayer(500);
+            }
+            System.out.println();
+            delayer(1000);
+            lostMessages.clear();
+        }
     }
     //------------------------------CLI tools-------------------------------------------
 
@@ -1553,7 +1559,7 @@ public class Cli implements View {
         System.out.println("-----------------------------------------------------------");
     }
 
-    public void printer(String message) {
+    public void     printer(String message) {
         System.out.println(message);
     }
 
@@ -1642,7 +1648,6 @@ public class Cli implements View {
                         synchronized (cli) {
                             delayer(milliseconds);
                             NEED_TO_REFRESH = true;
-                            this.interrupt();
                         }
                     }
                 } finally {

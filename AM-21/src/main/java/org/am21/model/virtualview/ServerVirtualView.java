@@ -2,7 +2,6 @@ package org.am21.model.virtualview;
 
 import java.io.Serializable;
 
-//TODO: Serializable needed?
 public class ServerVirtualView implements Serializable {
     public static final ServerVirtualView instance = new ServerVirtualView();
 
