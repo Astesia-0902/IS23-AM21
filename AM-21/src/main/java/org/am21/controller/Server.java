@@ -17,6 +17,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.RMISocketFactory;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -62,8 +63,10 @@ public class Server {
             Registry registry8807 =LocateRegistry.createRegistry(8807);
 
             Lobby guardian = new Welcome();
-            Lobby guardianStub = (Lobby) UnicastRemoteObject.exportObject(guardian, 0);
+            UnicastRemoteObject.unexportObject(guardian, true);
+            Lobby guardianStub = (Lobby) UnicastRemoteObject.exportObject(guardian, 1234);
             registry1234.bind("Welcome", guardianStub);
+            System.out.println();
             //Naming.bind("rmi://" + serverAddress + ":1234/Welcome", guardian);
 
             Timer timer = new Timer();
@@ -92,7 +95,7 @@ public class Server {
             }
 
         } catch (Exception ignored) {
-
+            throw new RuntimeException("Server exception: " + ignored.toString());
         }
     }
 
@@ -127,7 +130,8 @@ public class Server {
 
     public static void done() throws RemoteException, MalformedURLException, AlreadyBoundException {
         IClientInput cIH = new ClientInputHandler();
-        IClientInput stub = (IClientInput) UnicastRemoteObject.exportObject(cIH, 0);
+        UnicastRemoteObject.unexportObject(cIH, true);
+        IClientInput stub = (IClientInput) UnicastRemoteObject.exportObject(cIH, 8807);
         Registry registry8807 = LocateRegistry.getRegistry(8807);
         registry8807.bind(genNewRoot(), stub);
         //welcomeNewClient(newBind(genNewRoot()), cIH);

@@ -113,7 +113,8 @@ public class Cli implements View {
         try {
             RMISocketFactory.setSocketFactory(new MyRMISocketFactory(clientAddress, 7777));
             Registry registry = LocateRegistry.createRegistry(7777);
-            ClientCallBack callbackStub = (ClientCallBack) UnicastRemoteObject.exportObject(clientCallBack, 0);
+            UnicastRemoteObject.unexportObject(clientCallBack, true);
+            IClientCallBack callbackStub = (IClientCallBack) UnicastRemoteObject.exportObject(clientCallBack, 7777);
             registry.bind("Callback", callbackStub);
             //clientBind = "rmi://" + clientAddress + ":7777/Callback";
             //Naming.bind(clientBind, this.clientCallBack);
