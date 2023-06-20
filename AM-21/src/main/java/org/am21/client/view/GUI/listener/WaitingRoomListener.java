@@ -78,15 +78,14 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
             if(!Gui.myChatMap.containsKey("#All")) {
                 Gui.myChatMap.put("#All", new JButton("#All"));
             }
-            Gui.NEW_CHAT_WINDOW = true;
+            gui.setNewChatWindow(true);
             Gui.chatReceiver = "#All";
             if (gui.chatDialog != null) {
                 gui.chatDialog.localChatMap.get(Gui.chatReceiver).setBackground(new Color(83, 46, 91, 230));
                 FontMetrics fm = gui.chatDialog.chatMessageInput.getFontMetrics(gui.chatDialog.chatMessageInput.getFont());
                 gui.chatDialog.chatMessageInput.setBorder(new EmptyBorder(0, ImageUtil.resizeX(fm.stringWidth(Gui.chatReceiver) + 30), 0, 0));
             }
-            gui.ASK_CHAT = true;
-            //.askChat();
+            gui.setAskChat(true);
         }
 
         if (e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_2 ||

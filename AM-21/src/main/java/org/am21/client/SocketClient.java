@@ -71,8 +71,10 @@ public class SocketClient extends Thread {
                 if (cli != null) {
                     cli.printer(messageArray[1]);
                 } else if (gui != null) {
-                    gui.replyDEBUG(messageArray[1]);
-                    gui.timeLimitedNotification(message, 500);
+                    new Thread(()->{
+                        gui.replyDEBUG(messageArray[1]);
+                        gui.timeLimitedNotification(messageArray[1].substring(6),5000);
+                    }).start();
 
                 }
                 return;
@@ -147,7 +149,7 @@ public class SocketClient extends Thread {
                 } else if (gui != null) {
 
                     gui.timeLimitedNotification(messageArray[1].substring(0, messageArray[1].indexOf(" ")) + " sent you a new message", 5000);
-                    gui.ASK_CHAT = true;
+                    gui.setAskChat(true);
 
                 }
             }

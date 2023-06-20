@@ -74,8 +74,8 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
         }
         if (e.getSource() == gui.menuActionInterface.chatButton) {
             if (!Gui.myChatMap.isEmpty()) {
-                Gui.NEW_CHAT_WINDOW = true;
-                gui.ASK_CHAT = true;
+                gui.setNewChatWindow(true);
+                gui.setAskChat(true);
 
             } else {
                 gui.timeLimitedNotification("myChatMap empty", 1000);

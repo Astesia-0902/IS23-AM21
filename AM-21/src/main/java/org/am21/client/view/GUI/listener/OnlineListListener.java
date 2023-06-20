@@ -80,7 +80,7 @@ public class OnlineListListener implements MouseListener, MouseMotionListener, A
         String user = gui.onlineListDialog.onlineList.getSelectedValue().split("\\s*\\|\\s*")[0];
         //if (!Gui.myChatMap.containsKey(user) && !gui.username.equals(user)) {
         if (!Gui.username.equals(user)) {
-            Gui.NEW_CHAT_WINDOW = true;
+            gui.setNewChatWindow(true);
             Gui.myChatMap.put(user, new JButton(user));
             if (gui.chatDialog != null) {
                 gui.chatDialog.dispose();
@@ -105,7 +105,7 @@ public class OnlineListListener implements MouseListener, MouseMotionListener, A
             if(gui.onlineListDialog!=null) {
                 gui.onlineListDialog.dispose();
             }
-            gui.ASK_CHAT = true;
+            gui.setAskChat(true);
         }
         //gui.askChat();
     }

@@ -33,7 +33,6 @@ public class Gui {
     public static String root;
     public static String username; //Client username
     public CommunicationInterface communicationInterface;
-    public Timer announceTimer;
     public LoginInterface loginInterface;
     public ServerInfoInterface serverInfoInterface;
     public MenuActionInterface menuActionInterface;
@@ -61,14 +60,14 @@ public class Gui {
     //Key: "Receiver", Value: Private chat History
     public static HashMap<String, JTextArea> privateChatHistoryMap = new HashMap<>();
     public static JTextArea publicChatHistory = new JTextArea();
-    public static boolean NEW_CHAT_WINDOW = false;
+    public static Boolean newChatWindow = false;
     //-------------------------------------------------------------------
-    public boolean REFRESH = false;
+
     public boolean MENU_REFRESH = false;
     public boolean WAIT_ROOM_REFRESH = false;
     public boolean GAME_BOARD_REFRESH = false;
     public boolean NEED_NEW_FRAME = false;
-    public boolean ASK_CHAT = false;
+    public Boolean askChat = false;
     private int matchIndex;
     public Thread guiMinion = new Thread() {
         @Override
@@ -154,7 +153,7 @@ public class Gui {
         public void run() {
             super.run();
             while (true) {
-                while (ASK_CHAT) {
+                while (askChat) {
 
                     System.out.println("Asking chat...");
                     askChat();
@@ -359,7 +358,9 @@ public class Gui {
         SwingUtilities.invokeLater(() -> {
             showWhoIsPlaying(); //change player color
         });
-        //TODO: end token ???
+        SwingUtilities.invokeLater(()->{
+            showEndGameToken();  //Update endgame token
+        });
 
        /* while (MATCH_END && GO_TO_MENU && !GAME_ON) {
             ClientView.setMatchEnd(false);
@@ -545,11 +546,6 @@ public class Gui {
 
     }
 
-
-    public void askShowObject() throws RemoteException {
-
-    }
-
     public void print(String message) {
         JOptionPane.showMessageDialog(frame, message);
     }
@@ -566,10 +562,10 @@ public class Gui {
             dialog.setLocationRelativeTo(null);
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-            int x = screenSize.width - dialog.getWidth();
+            //int x = (screenSize.width - dialog.getWidth());
+            int x = (screenSize.width/2-dialog.getWidth()/2);
             int y = 0;
 
-            // Imposta le coordinate per posizionare la notifica in alto a destra
             dialog.setLocation(x, y);
 
             JPanel panel = new JPanel(new BorderLayout());
@@ -600,19 +596,22 @@ public class Gui {
     public void askChat() {
         convertPrivateChatsForGUI();
         convertPublicChatForGUI();
-        if (chatDialog == null && !NEW_CHAT_WINDOW) {
-            ASK_CHAT = false;
+        if (chatDialog == null && !newChatWindow) {
+            setAskChat(false);
+
             guiDialogMinion.start();
             guiChatListenerMinion.start();
             System.out.println("Continue1");
 
-        } else if (chatDialog == null && NEW_CHAT_WINDOW) {
-            ASK_CHAT = false;
+        } else if (chatDialog == null && newChatWindow) {
+            setAskChat(false);
+
             guiDialogMinion.start();
             guiChatListenerMinion.start();
             System.out.println("Continue2");
-        } else if (chatDialog != null && NEW_CHAT_WINDOW) {
-            ASK_CHAT = false;
+        } else if (chatDialog != null && newChatWindow) {
+            setAskChat(false);
+
             SwingUtilities.invokeLater(() -> {
                 chatDialog.reloadChat();
                 chatDialog.getContentPane().revalidate();
@@ -622,9 +621,9 @@ public class Gui {
 
             });
             System.out.println("Continue3");
-            NEW_CHAT_WINDOW = false;
+            setNewChatWindow(false);
         } else {
-            ASK_CHAT = false;
+            setAskChat(false);
             // Normal chat update
             SwingUtilities.invokeLater(() -> {
                 chatDialog.reloadChat();
@@ -681,14 +680,6 @@ public class Gui {
         }
     }
 
-
-    public boolean isREFRESH() {
-        return REFRESH;
-    }
-
-    public void setREFRESH(boolean REFRESH) {
-        this.REFRESH = REFRESH;
-    }
 
 
     public void convertPrivateChatsForGUI() {
@@ -769,5 +760,17 @@ public class Gui {
             System.out.println("No Public chat");
         }
         Gui.publicChatHistory = historyTMP;
+    }
+
+    public void setAskChat(boolean value){
+        synchronized (askChat) {
+            askChat = value;
+        }
+    }
+
+    public void setNewChatWindow(boolean value){
+        synchronized (newChatWindow){
+            newChatWindow =value;
+        }
     }
 }

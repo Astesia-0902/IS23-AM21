@@ -11,7 +11,7 @@ public class ChatRunnable implements Runnable{
 
     @Override
     public void run() {
-        if(Gui.NEW_CHAT_WINDOW){
+        if(Gui.newChatWindow){
             if(gui.chatDialog!=null && !gui.chatDialog.isVisible()){
                 //chatDialog exists already
                 gui.chatDialog.setVisible(true);
@@ -20,7 +20,7 @@ public class ChatRunnable implements Runnable{
                     gui.chatDialog = new ChatDialog(gui.frame);
                 }
                 System.out.println("Chat Dialog created (visible)");
-                Gui.NEW_CHAT_WINDOW = false;
+                gui.setNewChatWindow(true);
                 gui.chatDialog.setVisible(true);
             }
         }else{

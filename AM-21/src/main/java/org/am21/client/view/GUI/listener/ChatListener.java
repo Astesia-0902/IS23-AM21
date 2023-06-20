@@ -51,13 +51,13 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
             if (Gui.chatReceiver.equals("#All") && gui.commCtrl.sendPublicMessage(message, true)) {
                 gui.chatDialog.currentChatHistory = Gui.publicChatHistory;
                 gui.chatDialog.chatMessageInput.setText("");     //Clear input box
-                gui.ASK_CHAT = true;
+                gui.setAskChat(true);
             } else if (gui.commCtrl.sendPrivateMessage(message, Gui.chatReceiver, true)) {
 
                 gui.chatDialog.currentChatHistory = Gui.privateChatHistoryMap.get(Gui.chatReceiver);
                 gui.chatDialog.chatMessageInput.setText("");     //Clear input box
 
-                gui.ASK_CHAT = true;
+                gui.setAskChat(true);
             } else {
                 gui.timeLimitedNotification("Message not sent", 5000);
                 gui.chatDialog.chatMessageInput.setText("");     //Clear input box
@@ -71,7 +71,7 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
 //                gui.chatDialog.localChatMap.get(user).setBackground(new Color(83, 46, 91, 230));
 //                gui.chatDialog.localChatMap.get(user).setForeground(Color.WHITE);
 
-                Gui.NEW_CHAT_WINDOW = true;
+                gui.setNewChatWindow(true);
 //                //Gui.myChatMap.put(user, new JButton(user));
 //                if (gui.chatDialog != null) {
 //                    //gui.chatDialog.dispose();
@@ -83,7 +83,7 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
                     FontMetrics fm = gui.chatDialog.chatMessageInput.getFontMetrics(gui.chatDialog.chatMessageInput.getFont());
                     gui.chatDialog.chatMessageInput.setBorder(new EmptyBorder(0, ImageUtil.resizeX(fm.stringWidth(Gui.chatReceiver) + 30), 0, 0));
                 }
-                gui.ASK_CHAT = true;
+                gui.setAskChat(true);
                 //---------------------------
                 /*Gui.chatReceiver = user;
                 if (user.equals("#All")) {
@@ -121,7 +121,7 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == gui.chatDialog.closeLabel) {
             gui.chatDialog.setVisible(false);
-            //gui.ASK_CHAT = false;
+            //gui.askChat = false;
         }
         // when click on gui.chatDialog, sendButton get focus, so you can press 'Enter' to send a message
         if (e.getSource() == gui.chatDialog) {

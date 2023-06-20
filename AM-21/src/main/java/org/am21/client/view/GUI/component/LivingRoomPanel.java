@@ -15,8 +15,6 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
 
@@ -273,8 +271,8 @@ public class LivingRoomPanel extends JPanel {
                 gui.chatDialog.chatMessageInput.setBorder(new EmptyBorder(0, ImageUtil.resizeX(fm.stringWidth(Gui.chatReceiver) + 30), 0, 0));
             }
 
-            Gui.NEW_CHAT_WINDOW = true;
-            gui.ASK_CHAT = true;
+            gui.setNewChatWindow(true);
+            gui.setAskChat(true);
 
             gui.chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
             gui.chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);

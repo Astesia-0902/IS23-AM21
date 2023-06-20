@@ -18,6 +18,11 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     public ClientCallBack() throws RemoteException {
     }
 
+    /**
+     *
+     * @param message
+     * @throws RemoteException
+     */
     @Override
     public void sendMessageToClient(String message) throws RemoteException {
         if (cli != null) {
@@ -25,12 +30,17 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
         } else if (gui != null) {
             new Thread(()->{
                 gui.replyDEBUG(message);
-                gui.timeLimitedNotification(message,500);
+                gui.timeLimitedNotification(message.substring(6),5000);
             }).start();
 
         }
     }
 
+    /**
+     *
+     * @param message
+     * @throws RemoteException
+     */
     @Override
     public void sendChatNotification(String message) throws RemoteException {
         if (cli != null) {
@@ -42,7 +52,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
             }
         } else if (gui != null) {
             gui.timeLimitedNotification(message.substring(0,message.indexOf(" ")) +" sent you a new message",1000 );
-            gui.ASK_CHAT = true;
+            gui.setAskChat(true);
         }
     }
 
@@ -50,8 +60,8 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
      * Update the virtual view
      * call this method when the game state changes
      *
-     * @param virtualView
-     * @throws RemoteException
+     * @param virtualView JSON file of virtual view
+     * @throws RemoteException when
      */
     @Override
     public void sendVirtualView(String virtualView, int pIndex) throws RemoteException {
