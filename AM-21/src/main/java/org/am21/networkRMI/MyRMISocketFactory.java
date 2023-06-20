@@ -1,16 +1,16 @@
 package org.am21.networkRMI;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.rmi.server.RMISocketFactory;
 
-public class MyRMISocketFactory extends RMISocketFactory{
+public class MyRMISocketFactory extends RMISocketFactory {
     private String serverAddress;
     private int port;
 
     public MyRMISocketFactory(String serverAddress, int port) {
-        super();
         this.serverAddress = serverAddress;
         this.port = port;
     }
@@ -28,7 +28,9 @@ public class MyRMISocketFactory extends RMISocketFactory{
     public Socket createSocket(String host, int port) throws IOException {
         InetAddress address = InetAddress.getByName(serverAddress);
         int portToUse = this.port;
-        return new Socket(address, portToUse);
+        Socket ans = new Socket(address, portToUse);
+        System.out.println("Socket > Client connected to " + ans.getRemoteSocketAddress() + ":" + ans.getInetAddress());
+        return ans;
     }
 
     /**
@@ -43,6 +45,6 @@ public class MyRMISocketFactory extends RMISocketFactory{
      */
     @Override
     public ServerSocket createServerSocket(int port) throws IOException {
-        return new ServerSocket(port);
+        return new ServerSocket(port, 0, InetAddress.getByName(serverAddress));
     }
 }

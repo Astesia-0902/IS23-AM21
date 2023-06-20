@@ -64,10 +64,10 @@ public class Server {
 
             Lobby guardian = new Welcome();
             UnicastRemoteObject.unexportObject(guardian, true);
-            Lobby guardianStub = (Lobby) UnicastRemoteObject.exportObject(guardian, 1234);
-            registry1234.bind("Welcome", guardianStub);
-            System.out.println();
-            //Naming.bind("rmi://" + serverAddress + ":1234/Welcome", guardian);
+            Lobby guardianStub = (Lobby) UnicastRemoteObject.exportObject(guardian, 0);
+            registry1234.rebind("Welcome", guardianStub);
+            //System.out.println(Arrays.toString(Arrays.stream(registry1234.list()).toArray()));
+            //Naming.bind("rmi://" + serverAddress + ":1234/Welcome", guardianStub);
 
             Timer timer = new Timer();
             timer.schedule(new HeartbeatTask(), 1000, 10000);
@@ -133,7 +133,7 @@ public class Server {
         UnicastRemoteObject.unexportObject(cIH, true);
         IClientInput stub = (IClientInput) UnicastRemoteObject.exportObject(cIH, 8807);
         Registry registry8807 = LocateRegistry.getRegistry(8807);
-        registry8807.bind(genNewRoot(), stub);
+        registry8807.rebind(genNewRoot(), stub);
         //welcomeNewClient(newBind(genNewRoot()), cIH);
     }
 
