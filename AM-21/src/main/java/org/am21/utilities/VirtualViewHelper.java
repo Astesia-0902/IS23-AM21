@@ -198,7 +198,6 @@ public class VirtualViewHelper {
         match.virtualView.setCommonGoalScores(commonGoalScore);
     }
 
-    //TODO: set the end game token
     public static void virtualizeEndGame(Match match) {
         match.virtualView.setEndGameToken(match.isEndGameToken());
     }
@@ -291,7 +290,7 @@ public class VirtualViewHelper {
     /**
      * Update only the hidden points of the current player at the end of each turn
      *
-     * @param m
+     * @param m match instance
      */
     public static void updateHiddenPoints(Match m) {
         if (m.virtualView.hiddenPoints != null) {
@@ -300,6 +299,11 @@ public class VirtualViewHelper {
         }
     }
 
+    /**
+     * Copy gR in match virtual view
+     * @param m match instance
+     * @param gR game result matrix
+     */
     public static void virtualizeGameResults(Match m, String[][] gR) {
         m.virtualView.gameResults = gR;
     }
@@ -308,6 +312,11 @@ public class VirtualViewHelper {
         return JSON.toJSONString(virtualView.gameResults);
     }
 
+    /**
+     * Convert match info in a JSON string
+     * @param m match instance
+     * @return json string
+     */
     public static String convertMatchInfoToJSON(Match m) {
         List<Object> info = new ArrayList<>();
         info.add(m.virtualView.getMatchID());
@@ -320,14 +329,15 @@ public class VirtualViewHelper {
     /**
      * Use chatManager openChat method
      *
-     * @param m
-     * @param chat
+     * @param m match instance
+     * @param chat chat history to be virtualized
      */
     public static void virtualizePublicChat(Match m, List<String> chat) {
-        List<String> tmpChat = new ArrayList<>();
-        for (int i = 0; i < chat.size(); i++) {
+        /*for (int i = 0; i < chat.size(); i++) {
             tmpChat.add(chat.get(i));
-        }
+        }*/
+
+        List<String> tmpChat = new ArrayList<>(chat);
         m.virtualView.setPublicChat(tmpChat);
     }
 
@@ -346,6 +356,10 @@ public class VirtualViewHelper {
         ServerVirtualView.instance.setVirtualPrivateChats(virtualChats);
     }
 
+    /**
+     * Virtualize the chat map in server virtual view
+     * @param map chat map to be virtualized
+     */
     public static void virtualizeChatMap(HashMap<String, Integer> map) {
         String[][] virtualMap = new String[map.keySet().size()][2];
         List<String> keys = map.keySet().stream().toList();

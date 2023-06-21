@@ -199,9 +199,8 @@ public class Match {
         VirtualViewHelper.updateCommonGoalScore(this);
 
         //Check if last round is completed
-        if (gameState == GameState.LastRound &&
-                playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats) == firstToComplete) {
-            //GAME OVER(almost)
+        if (gameState.equals(GameState.LastRound)  &&
+                playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats).equals(firstToComplete)) {
 
             endMatch();
         } else {
@@ -307,11 +306,9 @@ public class Match {
         String[][] gameResults = checkGamePoints();
         decideWinner();
         if (winner != null) {
-            //gameRes.add("\n The winner is " + winner.getNickname() + "!!\n");
             gameResults[playerList.size()][0] = winner.getNickname();
-        } else {
-            //gameRes.add("\n No winner for this match!\n");
         }
+        //Update virtual view
         VirtualViewHelper.updateVirtualScores(this);
         VirtualViewHelper.virtualizeGameResults(this, gameResults);
         updatePlayersView();
@@ -352,12 +349,10 @@ public class Match {
         } else {
             if (gameState.equals(GameState.WaitingPlayers)) {
                 initializeMatch();
-                //System.out.println("Match > InitMatch Complete");
                 checkRoom();
             }
             if (gameState.equals(GameState.Ready)) {
                 startFirstRound();
-                //System.out.println("Match > Start first round!");
             }
         }
     }
@@ -409,13 +404,16 @@ public class Match {
         gameState = GameState.GameGoing;
         currentPlayer = chairman;
         setGamePhase(GamePhase.Selection);
-        //TODO: test it VV
+        // Virtual view update
         VirtualViewHelper.virtualizeMatchMap();
         VirtualViewHelper.buildVirtualView(this);
         updatePlayersView();
         GameController.updatePlayersGlobalView();
-        for (Player p : playerList) {
-            CommunicationController.instance.notifyStart(matchID, p.getController());
+        //Notify Game members to start match
+        synchronized (playerList) {
+            for (Player p : playerList) {
+                CommunicationController.instance.notifyStart(matchID, p.getController());
+            }
         }
 
     }

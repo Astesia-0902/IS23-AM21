@@ -14,7 +14,7 @@ public class ServerVirtualView implements Serializable {
      * - number of players in the match
      * - maxSeats
      */
-    public String[][] virtualMatchList;
+    private String[][] virtualMatchList;
 
     /**
      * List:
@@ -23,11 +23,11 @@ public class ServerVirtualView implements Serializable {
      * - Nickname
      * - UserStatus
      */
-    public String[][] virtualOnlinePlayers;
+    private String[][] virtualOnlinePlayers;
 
-    public String[][] virtualPrivateChats;
+    private String[][] virtualPrivateChats;
 
-    public String[][] virtualChatMap;
+    private String[][] virtualChatMap;
 
     public String[][] getVirtualPrivateChats() {
         return virtualPrivateChats;

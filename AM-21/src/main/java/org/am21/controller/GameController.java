@@ -75,7 +75,7 @@ public class GameController {
             VirtualViewHelper.virtualizeOnlinePlayers();
         }
         CommunicationController.instance.sendMessageToClient(ServerMessage.Login_Ok.value(), playerController);
-        CommunicationController.instance.sendMessageToClient("Server> Hi "+ username, playerController);
+        CommunicationController.instance.sendMessageToClient("Server > Hi "+ username, playerController);
         //DEBUG
         System.out.println(username + " joined the game");
         updatePlayersGlobalView();
@@ -195,7 +195,6 @@ public class GameController {
                 GameManager.sendReply(playerController, ServerMessage.PExceed.value());
 
             }
-            //TODO:player leave the current match
 
         } else if (!GameManager.playerMatchMap.containsKey(userName)) {
             if (GameManager.createMatch(playerNum, playerController)) {
@@ -217,8 +216,7 @@ public class GameController {
         if (GameManager.playerMatchMap.containsKey(ctrl.getPlayer().getNickname())) {
             synchronized (GameManager.matchMap) {
                 GameManager.matchMap.get(matchID).removePlayer(ctrl.getPlayer());
-                //TODO: add a method that check if the match is close then delete instance
-                if (GameManager.matchMap.get(matchID).gameState == GameState.Closed) {
+                if (GameManager.matchMap.get(matchID).gameState.equals(GameState.Closed)) {
                     GameManager.matchMap.remove(matchID);
                     VirtualViewHelper.virtualizeMatchMap();
                 }

@@ -304,9 +304,12 @@ public class VirtualViewTest {
      */
     @Test
     void testViewStartRound(){
-        assertEquals(GameState.GameGoing.toString(),ServerVirtualView.instance.virtualMatchList[0][1]);
+        assertEquals(GameState.GameGoing.toString(),ServerVirtualView.instance.getVirtualMatchList()[0][1]);
     }
 
+    /**
+     * Test Endgame token (expected false) when is last round
+     */
     @Test
     void testViewLastRound(){
         m.currentPlayer = c1.getPlayer();
@@ -319,9 +322,7 @@ public class VirtualViewTest {
                 {ItemType.__Cats__ + "1.1", ItemType._Plants_ + "1.1", ItemType.__Cats__ + "1.1", ItemType.__Cats__ + "1.1", ItemType.__Cats__ + "1.1"},
                 {ItemType.__Cats__ + "1.1", ItemType._Plants_ + "1.1", ItemType.__Cats__ + "1.1", ItemType.__Cats__ + "1.1", ItemType.__Cats__ + "1.1"}
         };
-
         fillTheShelfAsIWish(wish, currShelf);
-
         c1.getPlayer().getShelf().slotCol.set(0,0);
         c1.getPlayer().getShelf().slotCol.set(1,0);
         c1.getPlayer().getShelf().slotCol.set(2,0);
@@ -330,5 +331,52 @@ public class VirtualViewTest {
         m.callEndTurnRoutine();
         assertEquals(GameState.LastRound,m.gameState);
 
+        assertFalse(m.virtualView.endGameToken);
+        assertEquals("B",m.virtualView.currentPlayer);
     }
+
+    /**
+     * Test End match virtual view update:
+     * Game results
+     * expected: a matrix with the right info
+     */
+    @Test
+    void testViewEndMatch(){
+        m.currentPlayer = c1.getPlayer();
+        Shelf currShelf = m.currentPlayer.getShelf();
+        m.currentPlayer.setMyPersonalGoal(new PersonalGoalCard("PERSONAL_GOAL03"));
+        m.currentPlayer.getMyPersonalGoal().player=m.currentPlayer;
+        m.commonGoals.set(0, new CommonGoalXShape(2));
+        String[][] wish = {
+                {"", "", "", "", ""},
+                {"", "", "", "", ""},
+                {"", ItemType._Plants_ + "1.1", ItemType._Plants_ + "1.1", "", ""},
+                {ItemType.__Cats__ + "1.1", ItemType._Plants_ + "1.1", ItemType.__Cats__ + "1.1", "", ""},
+                {ItemType._Plants_ + "1.1", ItemType.__Cats__ + "1.1", ItemType._Plants_ + "1.1", "", ""},
+                {ItemType.__Cats__ + "1.1", ItemType._Plants_ + "1.1", ItemType.__Cats__ + "1.1", "", ""}
+        };
+
+        fillTheShelfAsIWish(wish, currShelf);
+        m.checkCommonGoals(c1.getPlayer());
+        m.currentPlayer.setHiddenPoints(m.currentPlayer.getMyPersonalGoal().calculatePoints());
+        //Force end match
+        m.endMatch();
+        assertEquals(3,m.virtualView.gameResults.length);
+        assertEquals("A",m.virtualView.gameResults[0][0]);
+        assertEquals("8",m.virtualView.gameResults[0][1]);
+        assertEquals("1",m.virtualView.gameResults[0][2]);
+        assertEquals("2",m.virtualView.gameResults[0][3]);
+        assertNull(m.virtualView.gameResults[0][4]);
+        assertEquals("11",m.virtualView.gameResults[0][5]);
+        assertEquals("B",m.virtualView.gameResults[1][0]);
+        assertEquals("0",m.virtualView.gameResults[1][1]);
+        assertEquals("0",m.virtualView.gameResults[1][2]);
+        assertEquals("0",m.virtualView.gameResults[1][3]);
+        assertNull(m.virtualView.gameResults[1][4]);
+        assertEquals("0",m.virtualView.gameResults[1][5]);
+        assertEquals("A",m.virtualView.gameResults[2][0]);
+
+    }
+
+
 }

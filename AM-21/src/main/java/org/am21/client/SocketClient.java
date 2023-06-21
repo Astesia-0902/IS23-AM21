@@ -24,10 +24,6 @@ public class SocketClient extends Thread {
     @Override
     public void run() {
         try {
-            /*socketClient = new Socket(serverName, serverPort);
-            System.out.println("Connected to " + socketClient.getRemoteSocketAddress());
-            in = new DataInputStream(socketClient.getInputStream());
-            out = new DataOutputStream(socketClient.getOutputStream());*/
             while (true) {
                 String response = in.readUTF();
                 //TODO:Handle message from the server
@@ -87,7 +83,7 @@ public class SocketClient extends Thread {
                 } else if (gui != null) {
                     if (ClientView.GAME_ON && !ClientView.GO_TO_MENU) {
                         //Gameplay
-                        gui.GAME_BOARD_REFRESH = true;
+                        gui.setGameBoardRefresh(true);
 
                     }
                 }
@@ -99,28 +95,17 @@ public class SocketClient extends Thread {
                 if (cli != null) {
 
                     cli.updateCLI(cli, 1000);
-                } else if (gui != null) {
-
                 }
             }
             case "notifyWait" -> {
                 ClientView.convertBackMatchInfo(messageArray[1]);
                 ClientView.setGameOn(false);
                 ClientView.setGoToMenu(false);
-                if (cli != null) {
 
-                } else if (gui != null) {
-
-                }
             }
             case "notifyGoToMenu" -> {
                 ClientView.setGoToMenu(true);
                 ClientView.setGameOn(false);
-                if (cli != null) {
-
-                } else if (gui != null) {
-
-                }
 
             }
             case "notifyEndMatch" -> {
@@ -128,10 +113,7 @@ public class SocketClient extends Thread {
                 ClientView.setGoToMenu(true);
                 ClientView.setGameOn(false);
                 ClientView.setMatchStart(false);
-                if (cli != null) {
-
-                } else if (gui != null) {
-
+                if (gui != null) {
                     gui.replyDEBUG(SC.WHITE_BB + "\nServer > The match ended. Good Bye!" + SC.RST);
                 }
             }
@@ -167,13 +149,13 @@ public class SocketClient extends Thread {
                 } else if (gui != null) {
                     if (ClientView.GO_TO_MENU) {
                         //Menu
-                        gui.MENU_REFRESH = true;
+                        gui.setMenuRefresh(true);
                     } else if (!ClientView.GAME_ON && !ClientView.GO_TO_MENU) {
                         //Waiting room
-                        gui.WAIT_ROOM_REFRESH = true;
+                        gui.setWaitRoomRefresh(true);
                     } else if (ClientView.GAME_ON && !ClientView.GO_TO_MENU) {
                         //Gameplay
-                        gui.GAME_BOARD_REFRESH = true;
+                        gui.setGameBoardRefresh(true);
 
                     }
                 }

@@ -64,10 +64,10 @@ public class Gui {
     public static Boolean newChatWindow = false;
     //-------------------------------------------------------------------
 
-    public boolean MENU_REFRESH = false;
-    public boolean WAIT_ROOM_REFRESH = false;
-    public boolean GAME_BOARD_REFRESH = false;
-    public boolean NEED_NEW_FRAME = false;
+    public Boolean menuRefresh = false;
+    public Boolean waitRoomRefresh = false;
+    public Boolean gameBoardRefresh = false;
+    public Boolean needNewFrame = false;
     public Boolean askChat = false;
     private int matchIndex;
     public Thread guiMinion = new Thread() {
@@ -123,7 +123,7 @@ public class Gui {
                         if (MATCH_START) {
                             showMatchSetup();
                             ClientView.setMatchStart(false);
-                        } else if (GAME_BOARD_REFRESH) {
+                        } else if (gameBoardRefresh) {
                             SwingUtilities.invokeLater(() -> {
                                 try {
                                     announceCurrentPlayer();
@@ -132,7 +132,7 @@ public class Gui {
                                 }
                             });
 
-                            GAME_BOARD_REFRESH = false;
+                            setGameBoardRefresh(false);
                             System.out.println("Reload Game Board");
                         }
                         Thread.sleep(200);
@@ -229,19 +229,19 @@ public class Gui {
             menuActionInterface = new MenuActionInterface(frame, username);
             new MenuActionListener(this);
             System.out.println("MenuActionInterface done");
-        } else if (menuActionInterface != null && NEED_NEW_FRAME) {
+        } else if (menuActionInterface != null && needNewFrame) {
             System.out.println("New MenuAction Interface");
             menuActionInterface = new MenuActionInterface(frame, username);
             new MenuActionListener(this);
-            NEED_NEW_FRAME = false;
-        } else if (MENU_REFRESH && menuActionInterface != null) {
+            setNeedNewFrame(false);
+        } else if (menuRefresh && menuActionInterface != null) {
             SwingUtilities.invokeLater(() -> {
                 menuActionInterface.reloadMenu();
                 menuActionInterface.revalidate();
                 menuActionInterface.repaint();
                 System.out.println("Menu repainted");
             });
-            MENU_REFRESH = false;
+            setMenuRefresh(false);
 
         }
 
@@ -265,7 +265,6 @@ public class Gui {
 
     public void askWaitingAction() throws RemoteException {
 
-
         for (int i = 0; i < ClientView.matchList.length; i++) {
             if (Integer.parseInt(ClientView.matchList[i][0]) == ClientView.matchID) {
                 matchIndex = i;
@@ -277,13 +276,13 @@ public class Gui {
             waitingRoomInterface = new WaitingRoomInterface(frame, numMiss, numMax, matchID);
             new WaitingRoomListener(this);
         }
-        if (WAIT_ROOM_REFRESH) {
+        if (waitRoomRefresh) {
             SwingUtilities.invokeLater(() -> {
                 waitingRoomInterface.reloadPlayerNumber(numMiss, numMax, matchID);
                 waitingRoomInterface.revalidate();
                 waitingRoomInterface.repaint();
             });
-            WAIT_ROOM_REFRESH = false;
+            setWaitRoomRefresh(false);
         }
     }
 
@@ -613,14 +612,12 @@ public class Gui {
 
             guiDialogMinion.start();
             guiChatListenerMinion.start();
-            System.out.println("Continue1");
 
         } else if (chatDialog == null && newChatWindow) {
             setAskChat(false);
 
             guiDialogMinion.start();
             guiChatListenerMinion.start();
-            System.out.println("Continue2");
         } else if (chatDialog != null && newChatWindow) {
             setAskChat(false);
 
@@ -632,7 +629,6 @@ public class Gui {
                 chatDialog.setVisible(true);
 
             });
-            System.out.println("Continue3");
             setNewChatWindow(false);
         } else {
             setAskChat(false);
@@ -641,9 +637,7 @@ public class Gui {
                 chatDialog.reloadChat();
                 chatDialog.getContentPane().revalidate();
                 chatDialog.getContentPane().repaint();
-                //System.out.println("Repaint success");
             });
-            System.out.println("Continue4");
         }
 
     }
@@ -670,7 +664,6 @@ public class Gui {
 
     public void replyDEBUG(String message) {
         System.out.println(message);
-        //timeLimitedNotification(message);
     }
 
 
@@ -748,8 +741,7 @@ public class Gui {
             }
 
         }
-        // Finally
-        //privateChatHistoryMap = chatMap;
+
 
     }
 
@@ -787,4 +779,29 @@ public class Gui {
             newChatWindow = value;
         }
     }
+
+    public void setGameBoardRefresh(boolean value){
+        synchronized (gameBoardRefresh){
+            gameBoardRefresh=value;
+        }
+    }
+
+    public void setMenuRefresh(boolean value){
+        synchronized (menuRefresh){
+            menuRefresh=value;
+        }
+    }
+
+    public void setNeedNewFrame(boolean value){
+        synchronized (needNewFrame){
+            needNewFrame=value;
+        }
+    }
+
+    public void setWaitRoomRefresh(boolean value){
+        synchronized (waitRoomRefresh){
+            waitRoomRefresh=value;
+        }
+    }
+
 }

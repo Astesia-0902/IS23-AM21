@@ -10,9 +10,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4b6f2ca9-18c9-4d69-80a1-4d1fd0e1ac50" name="Changes" comment="update Gui">
+      <change afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/ServerVirtualViewTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/ServerInfoListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/ServerInfoListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/Cli.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/TUI/Cli.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/SocketClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/SocketClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Gui.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/Gui.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/WaitingRoomListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/client/view/GUI/listener/WaitingRoomListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/controller/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/Match.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/virtualview/ServerVirtualView.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/model/virtualview/ServerVirtualView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientCallBack.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/networkRMI/ClientCallBack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/VirtualViewHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/main/java/org/am21/utilities/VirtualViewHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/VirtualViewTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/game/VirtualViewTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/player/ChatTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AM-21/src/test/java/org.am21/player/ChatTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +119,7 @@
       <recent name="org.am21.utilities" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.GUITest1">
+  <component name="RunManager" selected="JUnit.ServerVirtualViewTest">
     <configuration name="CLITest1" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.am21.client.ClientApp" />
       <module name="IS23-AM21" />
@@ -426,6 +435,38 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ServerVirtualViewTest" type="JUnit" factoryName="JUnit">
+      <module name="IS23-AM21" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.am21.model.virtualview.ServerVirtualView" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.am21.game" />
+      <option name="MAIN_CLASS_NAME" value="org.am21.game.ServerVirtualViewTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ServerVirtualViewTest.testViewPlayersList" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="IS23-AM21" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.am21.game.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.am21.game" />
+      <option name="MAIN_CLASS_NAME" value="org.am21.game.ServerVirtualViewTest" />
+      <option name="METHOD_NAME" value="testViewPlayersList" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ShelfTest" type="JUnit" factoryName="JUnit">
       <module name="IS23-AM21" />
       <extension name="coverage">
@@ -452,7 +493,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="VirtualViewTest.testViewChangeOrder" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="VirtualViewTest.testViewEndMatch" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="IS23-AM21" />
       <extension name="coverage">
         <pattern>
@@ -462,39 +503,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="org.am21.game" />
       <option name="MAIN_CLASS_NAME" value="org.am21.game.VirtualViewTest" />
-      <option name="METHOD_NAME" value="testViewChangeOrder" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="VirtualViewTest.testViewDropHand" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="IS23-AM21" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.am21.game.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.am21.game" />
-      <option name="MAIN_CLASS_NAME" value="org.am21.game.VirtualViewTest" />
-      <option name="METHOD_NAME" value="testViewDropHand" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="VirtualViewTest.testViewEndTurn" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="IS23-AM21" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.am21.game.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.am21.game" />
-      <option name="MAIN_CLASS_NAME" value="org.am21.game.VirtualViewTest" />
-      <option name="METHOD_NAME" value="testViewEndTurn" />
+      <option name="METHOD_NAME" value="testViewEndMatch" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -516,7 +525,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="VirtualViewTest.testViewStartRound" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="VirtualViewTest.testViewMatchMap" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="IS23-AM21" />
       <extension name="coverage">
         <pattern>
@@ -526,7 +535,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="org.am21.game" />
       <option name="MAIN_CLASS_NAME" value="org.am21.game.VirtualViewTest" />
-      <option name="METHOD_NAME" value="testViewStartRound" />
+      <option name="METHOD_NAME" value="testViewMatchMap" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -554,19 +563,19 @@
       <item itemvalue="JUnit.BagTest" />
       <item itemvalue="JUnit.GameTest" />
       <item itemvalue="JUnit.VirtualViewTest" />
-      <item itemvalue="JUnit.VirtualViewTest.testViewChangeOrder" />
-      <item itemvalue="JUnit.VirtualViewTest.testViewDropHand" />
-      <item itemvalue="JUnit.VirtualViewTest.testViewEndTurn" />
+      <item itemvalue="JUnit.ServerVirtualViewTest" />
+      <item itemvalue="JUnit.ServerVirtualViewTest.testViewPlayersList" />
+      <item itemvalue="JUnit.VirtualViewTest.testViewEndMatch" />
+      <item itemvalue="JUnit.VirtualViewTest.testViewMatchMap" />
       <item itemvalue="JUnit.VirtualViewTest.testViewLastRound" />
-      <item itemvalue="JUnit.VirtualViewTest.testViewStartRound" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.ServerVirtualViewTest.testViewPlayersList" />
+        <item itemvalue="JUnit.ServerVirtualViewTest" />
+        <item itemvalue="JUnit.VirtualViewTest.testViewMatchMap" />
         <item itemvalue="JUnit.VirtualViewTest.testViewLastRound" />
-        <item itemvalue="JUnit.VirtualViewTest.testViewEndTurn" />
-        <item itemvalue="JUnit.VirtualViewTest.testViewStartRound" />
-        <item itemvalue="JUnit.VirtualViewTest.testViewChangeOrder" />
-        <item itemvalue="JUnit.VirtualViewTest.testViewDropHand" />
+        <item itemvalue="JUnit.VirtualViewTest.testViewEndMatch" />
       </list>
     </recent_temporary>
   </component>
@@ -701,7 +710,8 @@
       <workItem from="1686833653734" duration="11255000" />
       <workItem from="1686990959321" duration="1315000" />
       <workItem from="1687029275783" duration="11749000" />
-      <workItem from="1687246323234" duration="11821000" />
+      <workItem from="1687246323234" duration="12081000" />
+      <workItem from="1687331762429" duration="9856000" />
     </task>
     <task id="LOCAL-00001" summary="update scoringToken test">
       <created>1680516093577</created>
@@ -855,6 +865,9 @@
     <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/IS23_AM21$ServerVirtualViewTest.ic" NAME="ServerVirtualViewTest Coverage Results" MODIFIED="1687350464442" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>org.am21.model.virtualview.ServerVirtualView</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/IS23_AM21$ShelfTest.ic" NAME="ShelfTest Coverage Results" MODIFIED="1681234399840" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>org.am21.model.items.Shelf</FILTER>
     </SUITE>

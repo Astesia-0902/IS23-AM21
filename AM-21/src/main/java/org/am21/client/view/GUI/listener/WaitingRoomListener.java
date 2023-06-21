@@ -50,7 +50,7 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
                     System.out.println("Leave Waiting Room");
                     ClientView.setGoToMenu(true);
                     ClientView.setGameOn(false);
-                    gui.NEED_NEW_FRAME = true;
+                    gui.setNeedNewFrame(true);
                     //Remove Match Group Chat from myChatMap
                     Gui.myChatMap.remove("#All");
                     gui.waitingRoomInterface.dispose();

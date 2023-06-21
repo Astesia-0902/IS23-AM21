@@ -72,7 +72,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
         } else if (gui != null) {
             if(ClientView.GAME_ON && !ClientView.GO_TO_MENU){
                 //Gameplay
-                gui.GAME_BOARD_REFRESH = true;
+                gui.setGameBoardRefresh(true);
 
             }
 
@@ -173,13 +173,14 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
         } else if (gui != null) {
             if(ClientView.GO_TO_MENU){
                 //Menu
-                gui.MENU_REFRESH = true;
+                gui.setMenuRefresh(true);
             }else if(!ClientView.GAME_ON && !ClientView.GO_TO_MENU){
                 //Waiting room
-                gui.WAIT_ROOM_REFRESH = true;
+                gui.setWaitRoomRefresh(true);
             }else if(ClientView.GAME_ON && !ClientView.GO_TO_MENU){
                 //Gameplay
-                gui.GAME_BOARD_REFRESH = true;
+                gui.setGameBoardRefresh(true);
+
 
             }
         }
