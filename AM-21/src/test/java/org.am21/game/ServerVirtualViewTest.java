@@ -52,6 +52,9 @@ public class ServerVirtualViewTest {
 
     }
 
+    /**
+     * Test players list virtual view after login
+     */
     @Test
     void testViewPlayersList(){
         assertTrue(GameController.login("A",c1));

@@ -109,7 +109,7 @@ public class Match {
     public boolean addPlayer(Player player) {
         synchronized (playerList) {
             if (playerList.size() < maxSeats) {
-                sendTextToAll(SC.YELLOW_BB + "\nServer > " + player.getNickname() + " joined the match." + SC.RST, true, true);
+                sendTextToAll(SC.YELLOW_BB + "\nServer > " + player.getNickname() + " joined the match." + SC.RST, true);
                 playerList.add(player);
                 player.setStatus(UserStatus.GameMember);
                 player.setMatch(this);
@@ -154,7 +154,7 @@ public class Match {
                 if (gameState == GameState.WaitingPlayers && player.equals(admin) && playerList.size() > 1) {
                     int nextAdmin = (playerList.indexOf(player) + 1) % maxSeats;
                     admin = playerList.get(nextAdmin);
-                    virtualView.admin = admin.getNickname();
+                    virtualView.setAdmin(admin.getNickname());
                     for (Player p : playerList) {
                         if (p.equals(player)) continue;
                         CommunicationController.instance.notifyToWait(VirtualViewHelper.convertMatchInfoToJSON(this), p.getController());
@@ -171,7 +171,8 @@ public class Match {
                 VirtualViewHelper.virtualizeMatchMap();
                 VirtualViewHelper.virtualizeOnlinePlayers();
                 updatePlayersView();
-                sendTextToAll(SC.YELLOW_BB + "\nServer > " + player.getNickname() + " left the match" + SC.RST, true, true);
+                sendTextToAll(SC.YELLOW_BB + "\nServer > " + player.getNickname() + " left the match" + SC.RST, true);
+                sendNotificationToAll(true);
                 checkRoom();
 
                 return true;
@@ -218,17 +219,17 @@ public class Match {
             // Check if the CurrentPlayer is the first to complete his shelf
             if (currentPlayer.getShelf().getTotSlotAvail() == 0 && gameState != GameState.LastRound) {
                 String message = SC.BLUE_BOLD + "Server > " + currentPlayer.getNickname() + " obtained the endgame token by completing the shelf first." + SC.RST;
-                sendTextToAll(message, true, false);
+                sendTextToAll(message, true);
                 this.setEndGameToken(false);
                 firstToComplete = currentPlayer;
                 firstToComplete.setPlayerScore(firstToComplete.getPlayerScore() + 1);
                 gameState = GameState.LastRound;
                 VirtualViewHelper.virtualizeEndGame(this);
-                sendTextToAll(LastRound.value(), true, true);
+                sendTextToAll(LastRound.value(), true);
             }
             this.nextTurn();
             endTurnUpdate();
-            sendNotificationToAll();
+            sendNotificationToAll(true);
         }
     }
 
@@ -239,7 +240,7 @@ public class Match {
      */
     public void checkCommonGoals(Player player) {
         for (CommonGoal goal : commonGoals) {
-            if (goal.checkGoal(player.getShelf()) && !goal.achievedPlayers.contains(player)) {
+            if (!goal.achievedPlayers.contains(player) && goal.checkGoal(player.getShelf())) {
                 // Give player points/scoreToken
                 //Server Message: announce how many points the player's got
                 String mex = "Server > " + player.getNickname() + " acquired " + goal.tokenStack.get(0) + " points";
@@ -247,7 +248,8 @@ public class Match {
                 CommunicationController.instance.notifyUpdate(player.getController(), 1000);
                 goal.commonGoalAchieved(player);
                 sendTextToAll(SC.YELLOW_BB + "Server > " + player.getNickname() + " achieved a Common Goal!"
-                        + " Press 'Enter'\n" + SC.RST, true, true);
+                        + " Press 'Enter'\n" + SC.RST, true);
+                sendNotificationToAll(true);
             }
         }
     }
@@ -385,14 +387,14 @@ public class Match {
         for (Player player : playerList) {
             GameManager.playerMatchMap.put(player.getNickname(), matchID);
         }
-        sendTextToAll(BB.value(), true, false);
+        sendTextToAll(BB.value(), true);
 
         //Initialization of the board
         board = new Board(this);
         if (board.firstSetup()) {
-            sendTextToAll(BB_Ok.value(), true, false);
+            sendTextToAll(BB_Ok.value(), true);
         } else {
-            sendTextToAll(BB_No.value(), true, false);
+            sendTextToAll(BB_No.value(), true);
         }
         setGameState(GameState.Ready);
     }
@@ -424,15 +426,16 @@ public class Match {
     public void nextTurn() {
         if (gameState.equals(GameState.Closed) || gameState.equals(GameState.Pause)) {
             currentPlayer = null;
-            sendTextToAll(SC.RED_B + "Server[!] > The match is closed or paused" + SC.RST, true, false);
+            sendTextToAll(CloseOrPause.value(), true);
             return;
         }
 
-        sendTextToAll(SC.YELLOW_BB + "\nServer > " + currentPlayer.getNickname() + " ended his turn" + SC.RST, false, false);
+        sendTextToAll(SC.YELLOW_BB + "\nServer > " + currentPlayer.getNickname() + " ended his turn" + SC.RST, false);
         do {
             currentPlayer = playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats);
             if (currentPlayer.getStatus().equals(UserStatus.Suspended)) {
-                sendTextToAll(SC.YELLOW_BB + "\nServer > " + currentPlayer.getNickname() + " his turn is skipped" + SC.RST, false, true);
+                sendTextToAll(SC.YELLOW_BB + "\nServer > " + currentPlayer.getNickname() + " his turn is skipped" + SC.RST, false);
+                sendNotificationToAll(false);
             }
         } while (currentPlayer.getStatus().equals(UserStatus.Suspended));
         setGamePhase(GamePhase.Selection);
@@ -492,17 +495,17 @@ public class Match {
      * @param message              message from the server
      * @param includeCurrentPlayer if false the message is not sent to the currentPlayer
      */
-    public void sendTextToAll(String message, boolean includeCurrentPlayer, boolean update) {
+    public void sendTextToAll(String message, boolean includeCurrentPlayer) {
         synchronized (playerList) {
             for (Player p : playerList) {
                 if (!includeCurrentPlayer && p.equals(currentPlayer)) {
                     continue;
                 }
                 GameManager.sendReply(p.getController(), message);
-                if (update) GameManager.notifyUpdate(p.getController(), 1000);
             }
         }
     }
+
 
     /**
      * Send Chat notification to all player in the match except the sender
@@ -581,12 +584,16 @@ public class Match {
         }
     }
 
-    public void sendNotificationToAll() {
+    public void sendNotificationToAll(boolean includeCurrentPlayer) {
         synchronized (playerList) {
             for (Player p : playerList) {
-                GameManager.notifyUpdate(p.getController(), 0);
+                if (!includeCurrentPlayer && p.equals(currentPlayer)) {
+                    continue;
+                }
+                GameManager.notifyUpdate(p.getController(), 500);
             }
         }
+
     }
 
 }

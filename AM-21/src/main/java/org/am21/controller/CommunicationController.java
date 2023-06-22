@@ -215,7 +215,8 @@ public class CommunicationController implements ICommunication {
         if (ctrl.getPlayer().getMatch() != null && ctrl.getPlayer().getMatch().gameState.equals(GameState.GameGoing) && ctrl.getPlayer().getStatus() != UserStatus.Suspended) {
             ctrl.getPlayer().setStatus(UserStatus.Suspended);
             System.out.println(ctrl.getPlayer().getNickname() + " is suspended");
-            ctrl.getPlayer().getMatch().sendTextToAll("Player " + ctrl.getPlayer().getNickname() + " is suspended", false, true);
+            ctrl.getPlayer().getMatch().sendTextToAll("Player " + ctrl.getPlayer().getNickname() + " is suspended", false);
+            ctrl.getPlayer().getMatch().sendNotificationToAll(false);
         } else if ((ctrl.getPlayer().getMatch() == null || !ctrl.getPlayer().getMatch().gameState.equals(GameState.GameGoing)) && ctrl.getPlayer().getStatus() != UserStatus.Offline) {
             ctrl.getPlayer().setStatus(UserStatus.Offline);
             System.out.println(ctrl.getPlayer().getNickname() + " is offline");

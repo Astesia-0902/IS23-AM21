@@ -38,7 +38,7 @@ public abstract class CommonGoal extends Card {
      * @param player player who has achieved Common Goal
      */
     public void commonGoalAchieved(Player player) {
-        if(!achievedPlayers.contains(player)&&tokenStack.size()>0) {
+        if(!achievedPlayers.contains(player) && tokenStack.size()>0) {
             achievedPlayers.add(player);
 
             player.getController().addScore(tokenStack.get(0));

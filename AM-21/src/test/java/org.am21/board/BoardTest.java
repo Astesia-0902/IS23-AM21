@@ -4,10 +4,10 @@ import org.am21.controller.PlayerController;
 import org.am21.model.Cards.ItemCard;
 import org.am21.model.Cards.ItemType;
 import org.am21.model.Match;
+import org.am21.model.Player;
 import org.am21.model.items.Bag;
 import org.am21.model.items.Board;
 import org.am21.model.items.Hand;
-import org.am21.networkRMI.ClientCallBack;
 import org.am21.utilities.CardPointer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,9 +31,9 @@ public class BoardTest {
     void setUp() {
 
         m = new Match(seats);
+        m.currentPlayer=new Player("A",new PlayerController("A"));
         board = new Board(m);
         bag = board.bag;
-        //clearBoard(board);
 
     }
 
@@ -91,7 +91,7 @@ public class BoardTest {
      */
     @Test
     void testOccupation() {
-        board.setCell(5, 5, new ItemCard("Leo"));
+        board.setCell(5, 5, new ItemCard("L"));
         assertTrue(board.isOccupied(5, 5));
 
         assertFalse(board.isOccupied(0, 0));
@@ -107,8 +107,8 @@ public class BoardTest {
     @Test
     void testCheckBoardFalse() {
 
-        board.setCell(5, 5, new ItemCard("Leo"));
-        board.setCell(5, 4, new ItemCard("MiniLeo"));
+        board.setCell(5, 5, new ItemCard("L"));
+        board.setCell(5, 4, new ItemCard("M"));
         assertFalse(board.checkBoard());
 
     }
@@ -123,8 +123,8 @@ public class BoardTest {
     @Test
     void testCheckBoardTrue() {
 
-        board.setCell(5, 5, new ItemCard("Leo"));
-        board.setCell(4, 4, new ItemCard("MiniLeo"));
+        board.setCell(5, 5, new ItemCard("L"));
+        board.setCell(4, 4, new ItemCard("M"));
         assertTrue(board.checkBoard());
 
     }
@@ -135,10 +135,10 @@ public class BoardTest {
     @Test
     void testIsAlone() {
 
-        board.setCell(5, 5, new ItemCard("Koko"));
+        board.setCell(5, 5, new ItemCard("K"));
         assertTrue(board.isAlone(5, 5));
 
-        board.setCell(4, 5, new ItemCard("kiki"));
+        board.setCell(4, 5, new ItemCard("B"));
         assertFalse(board.isAlone(5, 5));
 
     }
@@ -175,9 +175,9 @@ public class BoardTest {
     @Test
     void testHasFreeSide() {
 
-        board.setCell(5, 5, new ItemCard("Ken"));
-        board.setCell(4, 5, new ItemCard("BigKen"));
-        board.setCell(3, 4, new ItemCard("LilKen"));
+        board.setCell(5, 5, new ItemCard("A"));
+        board.setCell(4, 5, new ItemCard("B"));
+        board.setCell(3, 4, new ItemCard("L"));
 
 
         assertTrue(board.hasFreeSide(4, 5));
@@ -192,11 +192,11 @@ public class BoardTest {
      */
     @Test
     void testHasFreeSideFalse() {
-        board.setCell(2, 4, new ItemCard("Ken"));
-        board.setCell(3, 3, new ItemCard("BigKen"));
-        board.setCell(3, 4, new ItemCard("LilKen"));
-        board.setCell(3, 5, new ItemCard("Ken"));
-        board.setCell(4, 4, new ItemCard("BigKen"));
+        board.setCell(2, 4, new ItemCard("A"));
+        board.setCell(3, 3, new ItemCard("B"));
+        board.setCell(3, 4, new ItemCard("L"));
+        board.setCell(3, 5, new ItemCard("A"));
+        board.setCell(4, 4, new ItemCard("B"));
 
         assertFalse(board.hasFreeSide(3, 4));
     }
@@ -248,12 +248,10 @@ public class BoardTest {
      * Test if I can pick all three of them, also in different order
      */
     @Test
-    void testIsOrthogonal3() throws RemoteException {
+    void testIsOrthogonal3()  {
         Match m1 = new Match(2);
         PlayerController c = new PlayerController("A");
         PlayerController d = new PlayerController("B");
-        c.clientInput.callBack = new ClientCallBack();
-        d.clientInput.callBack = new ClientCallBack();
         m1.addPlayer(c.getPlayer());
         m1.addPlayer(d.getPlayer());
 
@@ -273,5 +271,57 @@ public class BoardTest {
         assertFalse(c.selectCell(4, 5));
         assertTrue(c.selectCell(4, 4));
 
+    }
+
+    /**
+     * Test boundaries for 2 players.
+     * Boundaries must have 9 elements, but the first and the last one must be null.
+     */
+    @Test
+    void test2Seats(){
+        Match m1 = new Match(2);
+        PlayerController c = new PlayerController("A");
+        PlayerController d = new PlayerController("B");
+        m1.addPlayer(c.getPlayer());
+        m1.addPlayer(d.getPlayer());
+
+        assertEquals(9,m1.board.boundaries.size());
+        assertNull(m1.board.boundaries.get(0));
+        assertNull(m1.board.boundaries.get(8));
+
+    }
+    /**
+     * Test boundaries for 3 player.
+     * Boundaries must have 9 elements.
+     */
+    @Test
+    void test3Seats(){
+        Match m1 = new Match(3);
+        PlayerController c = new PlayerController("A");
+        PlayerController d = new PlayerController("B");
+        PlayerController e = new PlayerController("C");
+        m1.addPlayer(c.getPlayer());
+        m1.addPlayer(d.getPlayer());
+        m1.addPlayer(e.getPlayer());
+
+        assertEquals(9,m1.board.boundaries.size());
+    }
+    /**
+     * Test boundaries for 4 player.
+     * Boundaries must have 9 elements.
+     */
+    @Test
+    void test4Seats(){
+        Match m1 = new Match(3);
+        PlayerController c = new PlayerController("A");
+        PlayerController d = new PlayerController("B");
+        PlayerController e = new PlayerController("C");
+        PlayerController f = new PlayerController("F");
+        m1.addPlayer(c.getPlayer());
+        m1.addPlayer(d.getPlayer());
+        m1.addPlayer(e.getPlayer());
+        m1.addPlayer(f.getPlayer());
+
+        assertEquals(9,m1.board.boundaries.size());
     }
 }

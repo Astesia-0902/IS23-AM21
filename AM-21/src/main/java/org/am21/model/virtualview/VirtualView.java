@@ -19,21 +19,20 @@ import java.util.List;
 public class VirtualView implements Serializable {
 
 
-    public int matchID;
-    public String admin;
-    public int maxSeats;
+    private int matchID;
+    private String admin;
+    private int maxSeats;
 
     // These need update at the end of each turn
-    public String[][] board;
-    public List<Integer> commonGoalScores;
-    public List<String> currentPlayerHand;
-
-    public List<String[][]> shelves;
-    public String currentPlayer;
-    public boolean endGameToken;
-    public List<Integer> scores;
-    public List<Integer> hiddenPoints;
-    public String[][] gameResults;
+    private String[][] board;
+    private List<Integer> commonGoalScores;
+    private List<String> currentPlayerHand;
+    private List<String[][]> shelves;
+    private String currentPlayer;
+    private boolean endGameToken;
+    private List<Integer> scores;
+    private List<Integer> hiddenPoints;
+    private String[][] gameResults;
     //---------------------------------------
     public List<String> publicChat;
     //--------------------------------

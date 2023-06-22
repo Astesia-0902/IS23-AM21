@@ -1,0 +1,504 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > VirtualViewHelper</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.utilities</a>
+</div>
+
+<h1>Coverage Summary for Class: VirtualViewHelper (org.am21.utilities)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">VirtualViewHelper</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83,3%
+  </span>
+  <span class="absValue">
+    (25/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92,3%
+  </span>
+  <span class="absValue">
+    (131/142)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.utilities;
+&nbsp;
+&nbsp;import com.alibaba.fastjson2.JSON;
+&nbsp;import org.am21.model.GameManager;
+&nbsp;import org.am21.model.Match;
+&nbsp;import org.am21.model.Player;
+&nbsp;import org.am21.model.chat.ServerChatManager;
+&nbsp;import org.am21.model.enumer.UserStatus;
+&nbsp;import org.am21.model.items.Shelf;
+&nbsp;import org.am21.model.virtualview.ServerVirtualView;
+&nbsp;import org.am21.model.virtualview.VirtualView;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * We use this class to build the virtual view
+&nbsp; */
+<b class="nc">&nbsp;public class VirtualViewHelper {</b>
+&nbsp;    /**
+&nbsp;     * This method will build the virtual view
+&nbsp;     * Call this method before the match starts, after the match data is initialized
+&nbsp;     *
+&nbsp;     * @param match the match
+&nbsp;     */
+&nbsp;    public static void buildVirtualView(Match match) {
+&nbsp;        //match.virtualView = new VirtualView();
+<b class="fc">&nbsp;        virtualizeMatchID(match);</b>
+<b class="fc">&nbsp;        virtualizeBoard(match);</b>
+<b class="fc">&nbsp;        virtualizePlayersData(match);</b>
+<b class="fc">&nbsp;        virtualizeCurrentPlayer(match);</b>
+<b class="fc">&nbsp;        virtualizeCommonGoal(match);</b>
+<b class="fc">&nbsp;        updateCommonGoalScore(match);</b>
+<b class="fc">&nbsp;        virtualizeCurrentPlayerHand(match);</b>
+<b class="fc">&nbsp;        virtualizeEndGame(match);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method will set ALL player related data to the virtual view
+&nbsp;     * recommend to use this method when the match starts
+&nbsp;     *
+&nbsp;     * @param match the match
+&nbsp;     */
+&nbsp;    private static void virtualizePlayersData(Match match) {
+<b class="fc">&nbsp;        List&lt;String&gt; players = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        List&lt;Integer&gt; personalGoals = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        List&lt;Integer&gt; scores = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        List&lt;Integer&gt; hiddenPoints = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        List&lt;String[][]&gt; shelves = new ArrayList&lt;&gt;();</b>
+&nbsp;        //List&lt;String&gt; tmp = new ArrayList&lt;&gt;();
+<b class="fc">&nbsp;        for (Player player : match.playerList) {</b>
+<b class="fc">&nbsp;            players.add(player.getNickname());</b>
+<b class="fc">&nbsp;            int stringLength = player.getMyPersonalGoal().getNameCard().length();</b>
+<b class="fc">&nbsp;            String temp = player.getMyPersonalGoal().getNameCard().substring(stringLength - 2, stringLength);</b>
+<b class="fc">&nbsp;            int goalID = Integer.parseInt(temp);</b>
+<b class="fc">&nbsp;            personalGoals.add(goalID);  //PersonalGoal</b>
+<b class="fc">&nbsp;            scores.add(player.getPlayerScore());</b>
+<b class="fc">&nbsp;            shelves.add(virtualizeShelves(player.getShelf()));</b>
+<b class="fc">&nbsp;            hiddenPoints.add(player.getHiddenPoints());</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        match.virtualView.setPlayers(players);</b>
+<b class="fc">&nbsp;        match.virtualView.setPersonalGoals(personalGoals);</b>
+<b class="fc">&nbsp;        match.virtualView.setShelves(shelves);</b>
+<b class="fc">&nbsp;        match.virtualView.setScores(scores);</b>
+<b class="fc">&nbsp;        match.virtualView.setHiddenPoints(hiddenPoints);</b>
+<b class="fc">&nbsp;        match.virtualView.gameResults = new String[match.playerList.size() + 1][6];</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method will set the scores of each player to the virtual view
+&nbsp;     *
+&nbsp;     * @param match the match
+&nbsp;     */
+&nbsp;    public static void updateVirtualScores(Match match) {
+<b class="fc">&nbsp;        List&lt;Integer&gt; scores = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        for (Player player : match.playerList) {</b>
+<b class="fc">&nbsp;            scores.add(player.getPlayerScore());</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        match.virtualView.setScores(scores);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method will set the shelves of each player to the virtual view
+&nbsp;     * recommend to use this method when each round ends
+&nbsp;     *
+&nbsp;     * @param match the match
+&nbsp;     */
+&nbsp;    public static void updateVirtualShelves(Match match) {
+<b class="fc">&nbsp;        List&lt;String[][]&gt; shelves = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        for (Player player : match.playerList) {</b>
+<b class="fc">&nbsp;            shelves.add(virtualizeShelves(player.getShelf()));</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        match.virtualView.setShelves(shelves);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method will virtualize the shelves and put them in the Virtual View
+&nbsp;     *
+&nbsp;     * @param shelf the shelves
+&nbsp;     * @return the virtual view
+&nbsp;     */
+&nbsp;    private static String[][] virtualizeShelves(Shelf shelf) {
+<b class="fc">&nbsp;        String[][] tempShelf = new String[Shelf.SHELF_ROW][Shelf.SHELF_COLUMN];</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; Shelf.SHELF_ROW; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; Shelf.SHELF_COLUMN; j++) {</b>
+<b class="fc">&nbsp;                if (shelf.getCell(i, j) != null) {</b>
+<b class="fc">&nbsp;                    tempShelf[i][j] = shelf.getCell(i, j).getNameCard();</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return tempShelf;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method will virtualize the Board.
+&nbsp;     * Code:
+&nbsp;     * - null -&gt; empty cell
+&nbsp;     * - &quot;value&quot; -&gt; ItemName
+&nbsp;     * - &quot;&gt;value&quot; -&gt; Selected Cell
+&nbsp;     * Call this method for setup or for update.
+&nbsp;     *
+&nbsp;     * @param match the match
+&nbsp;     */
+&nbsp;    public static void virtualizeBoard(Match match) {
+<b class="fc">&nbsp;        int row = match.board.gRow;</b>
+<b class="fc">&nbsp;        int column = match.board.gColumn;</b>
+<b class="fc">&nbsp;        List&lt;CardPointer&gt; hl = match.currentPlayer.getHand().getSelectedItems();</b>
+<b class="fc">&nbsp;        String[][] board = new String[row][column];</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; row; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; column; j++) {</b>
+<b class="fc">&nbsp;                if (match.board.getCell(i, j) != null) {</b>
+<b class="fc">&nbsp;                    if (checkMark(hl, i, j)) {</b>
+<b class="fc">&nbsp;                        board[i][j] = &quot;&gt;&quot; + match.board.getCell(i, j).getNameCard();</b>
+&nbsp;                    } else {
+<b class="fc">&nbsp;                        board[i][j] = match.board.getCell(i, j).getNameCard();</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        match.virtualView.setBoard(board);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private static boolean checkMark(List&lt;CardPointer&gt; selected_items, int i, int j) {
+<b class="fc">&nbsp;        if (!selected_items.isEmpty()) {</b>
+<b class="fc">&nbsp;            for (CardPointer item : selected_items) {</b>
+<b class="fc">&nbsp;                if (item.x == i &amp;&amp; item.y == j) {</b>
+<b class="fc">&nbsp;                    return true;</b>
+&nbsp;                }
+<b class="fc">&nbsp;            }</b>
+&nbsp;
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method will set the common goal to the virtual view
+&nbsp;     * call this method every time the round starts
+&nbsp;     *
+&nbsp;     * @param match the match
+&nbsp;     */
+&nbsp;    public static void virtualizeCurrentPlayer(Match match) {
+<b class="fc">&nbsp;        if (match.currentPlayer != null)</b>
+<b class="fc">&nbsp;            match.virtualView.setCurrentPlayer(match.currentPlayer.getNickname());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method will set the common goal to the virtual view
+&nbsp;     * call this method only when the match starts
+&nbsp;     *
+&nbsp;     * @param match the match
+&nbsp;     */
+&nbsp;    private static void virtualizeCommonGoal(Match match) {
+<b class="fc">&nbsp;        List&lt;String&gt; commonGoal = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; match.commonGoals.size(); i++) {</b>
+<b class="fc">&nbsp;            commonGoal.add(match.commonGoals.get(i).getNameCard());</b>
+&nbsp;        }
+<b class="fc">&nbsp;        match.virtualView.setCommonGoals(commonGoal);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method will set the common goal score to the virtual view
+&nbsp;     * call this method once someone completes a common goal
+&nbsp;     *
+&nbsp;     * @param match the match
+&nbsp;     */
+&nbsp;    public static void updateCommonGoalScore(Match match) {
+<b class="fc">&nbsp;        List&lt;Integer&gt; commonGoalScore = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; match.commonGoals.size(); i++) {</b>
+<b class="fc">&nbsp;            if (match.commonGoals.get(i).tokenStack.size() == 0) {</b>
+<b class="nc">&nbsp;                commonGoalScore.add(0);</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                commonGoalScore.add(match.commonGoals.get(i).tokenStack.get(0));</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        match.virtualView.setCommonGoalScores(commonGoalScore);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void virtualizeEndGame(Match match) {
+<b class="fc">&nbsp;        match.virtualView.setEndGameToken(match.isEndGameToken());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void virtualizeMatchID(Match match) {
+<b class="fc">&nbsp;        match.virtualView.setMatchID(match.matchID);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get the virtual view in JSON format
+&nbsp;     *
+&nbsp;     * @param virtualView the virtual view
+&nbsp;     * @return the virtual view in JSON format
+&nbsp;     */
+&nbsp;    public static String convertVirtualViewToJSON(VirtualView virtualView) {
+<b class="fc">&nbsp;        return JSON.toJSONString(virtualView);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method will print the virtual view in JSON format
+&nbsp;     *
+&nbsp;     * @param match the match
+&nbsp;     */
+&nbsp;    public static void printJSON(Match match) {
+<b class="nc">&nbsp;        String json = convertVirtualViewToJSON(match.virtualView);</b>
+<b class="nc">&nbsp;        System.out.println(json);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public static String convertVirtualHandToJSON(VirtualView virtualView) {
+<b class="fc">&nbsp;        return JSON.toJSONString(virtualView.getCurrentPlayerHand());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Virtualize current player&#39;s hand in String
+&nbsp;     * Can be used for setup or for update
+&nbsp;     *
+&nbsp;     * @param match the match
+&nbsp;     */
+&nbsp;    public static void virtualizeCurrentPlayerHand(Match match) {
+<b class="fc">&nbsp;        List&lt;String&gt; hand = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; match.currentPlayer.getHand().getSelectedItems().size(); i++) {</b>
+<b class="fc">&nbsp;            hand.add(match.currentPlayer.getHand().getSelectedItems().get(i).item.getNameCard());</b>
+&nbsp;        }
+<b class="fc">&nbsp;        match.virtualView.setCurrentPlayerHand(hand);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Update only the hidden points of the current player at the end of each turn
+&nbsp;     *
+&nbsp;     * @param m match instance
+&nbsp;     */
+&nbsp;    public static void updateHiddenPoints(Match m) {
+<b class="fc">&nbsp;        if (m.virtualView.hiddenPoints != null) {</b>
+<b class="fc">&nbsp;            int index = m.playerList.indexOf(m.currentPlayer);</b>
+<b class="fc">&nbsp;            m.virtualView.getHiddenPoints().set(index, m.currentPlayer.getHiddenPoints());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Copy gR in match virtual view
+&nbsp;     * @param m match instance
+&nbsp;     * @param gR game result matrix
+&nbsp;     */
+&nbsp;    public static void virtualizeGameResults(Match m, String[][] gR) {
+<b class="fc">&nbsp;        m.virtualView.gameResults = gR;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static String convertGameResultsToJSON(VirtualView virtualView) {
+<b class="nc">&nbsp;        return JSON.toJSONString(virtualView.gameResults);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Convert match info in a JSON string
+&nbsp;     * @param m match instance
+&nbsp;     * @return json string
+&nbsp;     */
+&nbsp;    public static String convertMatchInfoToJSON(Match m) {
+<b class="fc">&nbsp;        List&lt;Object&gt; info = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        info.add(m.virtualView.getMatchID());</b>
+<b class="fc">&nbsp;        info.add(m.virtualView.getMaxSeats());</b>
+<b class="fc">&nbsp;        info.add(m.virtualView.getAdmin());</b>
+&nbsp;
+<b class="fc">&nbsp;        return JSON.toJSONString(info);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Use chatManager openChat method
+&nbsp;     *
+&nbsp;     * @param m match instance
+&nbsp;     * @param chat chat history to be virtualized
+&nbsp;     */
+&nbsp;    public static void virtualizePublicChat(Match m, List&lt;String&gt; chat) {
+&nbsp;        /*for (int i = 0; i &lt; chat.size(); i++) {
+&nbsp;            tmpChat.add(chat.get(i));
+&nbsp;        }*/
+&nbsp;
+<b class="fc">&nbsp;        List&lt;String&gt; tmpChat = new ArrayList&lt;&gt;(chat);</b>
+<b class="fc">&nbsp;        m.virtualView.setPublicChat(tmpChat);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static String convertPublicChatToJSON(VirtualView v) {
+<b class="fc">&nbsp;        return JSON.toJSONString(v.getPublicChat());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void virtualizePrivateChats(List&lt;List&lt;String&gt;&gt; chats) {
+<b class="fc">&nbsp;        String[][] virtualChats = new String[chats.size()][];</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; virtualChats.length; i++) {</b>
+<b class="fc">&nbsp;            virtualChats[i] = new String[chats.get(i).size()];</b>
+<b class="fc">&nbsp;            for (int l = 0; l &lt; chats.get(i).size(); l++) {</b>
+<b class="fc">&nbsp;                virtualChats[i][l] = chats.get(i).get(l);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        ServerVirtualView.instance.setVirtualPrivateChats(virtualChats);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Virtualize the chat map in server virtual view
+&nbsp;     * @param map chat map to be virtualized
+&nbsp;     */
+&nbsp;    public static void virtualizeChatMap(HashMap&lt;String, Integer&gt; map) {
+<b class="fc">&nbsp;        String[][] virtualMap = new String[map.keySet().size()][2];</b>
+<b class="fc">&nbsp;        List&lt;String&gt; keys = map.keySet().stream().toList();</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; virtualMap.length; i++) {</b>
+<b class="fc">&nbsp;            virtualMap[i][0] = String.valueOf(keys.get(i));</b>
+<b class="fc">&nbsp;            virtualMap[i][1] = String.valueOf(map.get(keys.get(i)));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        ServerVirtualView.instance.setVirtualChatMap(virtualMap);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Virtualization of List of Match
+&nbsp;     * List&#39;s elements:
+&nbsp;     * - matchID
+&nbsp;     * - match&#39;s gameState
+&nbsp;     */
+&nbsp;    public static void virtualizeMatchMap() {
+&nbsp;        Match m;
+<b class="fc">&nbsp;        synchronized (GameManager.matchMap) {</b>
+<b class="fc">&nbsp;            List&lt;Match&gt; equalList = new ArrayList&lt;&gt;(GameManager.matchMap.values());</b>
+<b class="fc">&nbsp;            String[][] vMatchList = new String[GameManager.matchMap.size()][4];</b>
+&nbsp;
+<b class="fc">&nbsp;            for (int i = 0; i &lt; equalList.size(); i++) {</b>
+&nbsp;
+<b class="fc">&nbsp;                m = equalList.get(i);</b>
+<b class="fc">&nbsp;                String[] tmpMatch = {</b>
+<b class="fc">&nbsp;                        String.valueOf(m.matchID),</b>
+<b class="fc">&nbsp;                        String.valueOf(m.gameState),</b>
+<b class="fc">&nbsp;                        String.valueOf(m.playerList.size()),</b>
+<b class="fc">&nbsp;                        String.valueOf(m.maxSeats)</b>
+&nbsp;                };
+&nbsp;
+<b class="fc">&nbsp;                vMatchList[i] = (tmpMatch);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            ServerVirtualView.instance.setVirtualMatchList(vMatchList);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void virtualizeOnlinePlayers() {
+&nbsp;
+<b class="fc">&nbsp;        synchronized (GameManager.players) {</b>
+<b class="fc">&nbsp;            String[][] vOnlinePlayers = new String[GameManager.players.size()][2];</b>
+<b class="fc">&nbsp;            for (int i = 0, t = 0; i &lt; GameManager.players.size(); i++) {</b>
+<b class="fc">&nbsp;                Player p = GameManager.players.get(i);</b>
+<b class="fc">&nbsp;                if (!p.getStatus().equals(UserStatus.Offline)) {</b>
+<b class="fc">&nbsp;                    String[] tmpPlayerData = {</b>
+<b class="fc">&nbsp;                            p.getNickname(),</b>
+<b class="fc">&nbsp;                            String.valueOf(p.getStatus())</b>
+&nbsp;                    };
+<b class="fc">&nbsp;                    vOnlinePlayers[t] = (tmpPlayerData);</b>
+<b class="fc">&nbsp;                    t++;</b>
+&nbsp;                }
+&nbsp;
+&nbsp;            }
+<b class="fc">&nbsp;            ServerVirtualView.instance.setVirtualOnlinePlayers(vOnlinePlayers);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public static String convertServerVirtualViewToJSON() {
+<b class="fc">&nbsp;        return JSON.toJSONString(ServerVirtualView.instance);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void printJSON() {
+<b class="nc">&nbsp;        String json = convertServerVirtualViewToJSON();</b>
+<b class="nc">&nbsp;        System.out.println(json);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void virtualizeServerVirtualView() {
+<b class="nc">&nbsp;        virtualizeOnlinePlayers();</b>
+<b class="nc">&nbsp;        virtualizeMatchMap();</b>
+<b class="nc">&nbsp;        virtualizeChatMap(ServerChatManager.getChatMap());</b>
+<b class="nc">&nbsp;        virtualizePrivateChats(ServerChatManager.getPrivateChats());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-22 14:59</div>
+</div>
+</body>
+</html>

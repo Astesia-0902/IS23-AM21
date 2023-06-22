@@ -15,8 +15,10 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
+import java.net.ServerSocket;
 import java.net.UnknownHostException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
@@ -88,16 +90,25 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
                         throw new RuntimeException(e2);
                     }
                     //TODO: add an input for Client Address
-                    clientAddress = "192.168.20.23";
+                    clientAddress = "localhost";
                     System.setProperty("java.rmi.server.hostname", clientAddress);
-
                     System.out.println("Your ip address is : " + clientAddress);
+                    int freePort;
+                    while (true) {
+                        freePort = findFreePort();
+                        if(freePort!=-1){
+                            System.out.println("Free port found: "+ freePort);
+                            break;
+                        }else {
+                            System.out.println("Free port not found");
+                        }
+                    }
                     try {
-                        Registry registry = LocateRegistry.createRegistry(7777);
+                        Registry registry = LocateRegistry.createRegistry(freePort);
                         UnicastRemoteObject.unexportObject(gui.clientCallBack, true);
-                        IClientCallBack callbackStub = (IClientCallBack) UnicastRemoteObject.exportObject(gui.clientCallBack, 7777);
+                        IClientCallBack callbackStub = (IClientCallBack) UnicastRemoteObject.exportObject(gui.clientCallBack, freePort);
                         registry.bind("Callback", callbackStub);
-                        clientBind = "rmi://" + clientAddress + ":7777/Callback";
+                        clientBind = "rmi://" + clientAddress + ":"+freePort+"/Callback";
 
                     } catch (AlreadyBoundException | RemoteException e3) {
                         throw new RuntimeException(e3);
@@ -262,5 +273,24 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
         gui.serverInfoInterface.confirmButton.setEnabled(
                 !gui.serverInfoInterface.addressField.getText().trim().isEmpty() &&
                         !gui.serverInfoInterface.portField.getText().trim().isEmpty());
+    }
+
+    public static int findFreePort() {
+        ServerSocket socket = null;
+        try {
+            socket = new ServerSocket(0);
+            return socket.getLocalPort();
+        } catch (IOException e) {
+            return -1;
+        } finally {
+
+            if (socket != null) {
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    System.out.println(org.am21.client.view.TUI.Color.RED+"Socket not closed"+ org.am21.client.view.TUI.Color.RESET);
+                }
+            }
+        }
     }
 }

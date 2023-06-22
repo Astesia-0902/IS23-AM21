@@ -78,6 +78,8 @@ public enum ServerMessage {
     LastRound(SC.RED_B+"Server > It's the Last Round"+SC.RST),
     GameOver("Server > GAME OVER"),
     YouWon("Server > Congratulation! The winner is "),
+    CloseOrPause(SC.RED_B + "Server[!] > The match is closed or paused" + SC.RST),
+    MatchPaused(SC.YELLOW_BB + "\nServer > Match paused, waiting for other players to reconnect. If non one reconnect within 60s, the last active player will be the winner." + SC.RST),
 
     //Leave match phase
     UserLeave("Server > User left the game"),

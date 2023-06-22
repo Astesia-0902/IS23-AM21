@@ -3,17 +3,13 @@ package org.am21.networkSocket;
 import org.am21.controller.CommunicationController;
 import org.am21.controller.GameController;
 import org.am21.controller.PlayerController;
-import org.am21.model.GameManager;
 import org.am21.model.enumer.ConnectionType;
-import org.am21.model.enumer.UserStatus;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.net.SocketException;
 import java.rmi.server.ServerNotActiveException;
-import java.util.TimerTask;
 
 public class ClientHandlerSocket extends Thread {
     public Socket clientSocket;
@@ -160,13 +156,12 @@ public class ClientHandlerSocket extends Thread {
             case "sendPublicMessage":
                 String publicMessage = messageParts[1];
                 Boolean live_public = Boolean.valueOf(messageParts[2]);
-                CommunicationController.instance.returnBool("sendPublicMessage", GameController.forwardPublicMessage(publicMessage, myPlayer, live_public), myPlayer);
+                CommunicationController.instance.returnBool("sendPublicMessage", GameController.forwardPublicMessage(publicMessage, myPlayer), myPlayer);
                 break;
             case "sendPrivateMessage":
                 String privateMessage = messageParts[1];
                 String receiver_private = messageParts[2];
-                Boolean live_private = Boolean.valueOf(messageParts[3]);
-                CommunicationController.instance.returnBool("sendPrivateMessage", GameController.forwardPrivateMessage(privateMessage, receiver_private, myPlayer, live_private), myPlayer);
+                CommunicationController.instance.returnBool("sendPrivateMessage", GameController.forwardPrivateMessage(privateMessage, receiver_private, myPlayer), myPlayer);
                 break;
             default:
                 System.out.println("[" + messageParts[0] + "] Unknown command from" + clientSocket.getRemoteSocketAddress());

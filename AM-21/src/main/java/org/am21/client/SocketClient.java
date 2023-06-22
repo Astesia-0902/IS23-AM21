@@ -79,7 +79,7 @@ public class SocketClient extends Thread {
                 ClientView.setFullViewVariables(messageArray[1], Integer.parseInt(messageArray[2]));
                 if (cli != null) {
                     cli.checkTurn();
-                    cli.updateCLI(cli, 500);
+                    cli.updateCLI(500);
                 } else if (gui != null) {
                     if (ClientView.GAME_ON && !ClientView.GO_TO_MENU) {
                         //Gameplay
@@ -94,7 +94,7 @@ public class SocketClient extends Thread {
                 ClientView.setMatchStart(true);
                 if (cli != null) {
 
-                    cli.updateCLI(cli, 1000);
+                    cli.updateCLI( 1000);
                 }
             }
             case "notifyWait" -> {
@@ -122,11 +122,11 @@ public class SocketClient extends Thread {
             }
             case "chatNotification" -> {
                 if (cli != null) {
-                    if (cli.CHAT_MODE) {
+                    if (cli.chatMode) {
                         cli.refreshChat();
                     } else {
                         cli.addMessageInLine(messageArray[1]);
-                        cli.updateCLI(cli, 0);
+                        cli.updateCLI(0);
                     }
                 } else if (gui != null) {
 
@@ -145,7 +145,7 @@ public class SocketClient extends Thread {
                 int milliseconds = Integer.parseInt(messageArray[1]);
                 if (cli != null) {
                     //System.out.println("Update...");
-                    cli.updateCLI(cli, milliseconds);
+                    cli.updateCLI(milliseconds);
                 } else if (gui != null) {
                     if (ClientView.GO_TO_MENU) {
                         //Menu

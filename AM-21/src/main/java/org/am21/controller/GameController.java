@@ -77,7 +77,7 @@ public class GameController {
         CommunicationController.instance.sendMessageToClient(ServerMessage.Login_Ok.value(), playerController);
         CommunicationController.instance.sendMessageToClient("Server > Hi "+ username, playerController);
         //DEBUG
-        System.out.println(username + " joined the game");
+        GameManager.serverLog(username + " joined the game");
         updatePlayersGlobalView();
         notifyAllPlayers();
         return true;
@@ -353,8 +353,13 @@ public class GameController {
         return false;
     }
 
-
-    public static boolean forwardPublicMessage(String message, PlayerController ctrl, boolean live) {
+    /**
+     * This method forward the group chat message to match chat manager
+     * @param message message
+     * @param ctrl player controller of the sender
+     * @return true if the message is sent, false if the player is not in the match
+     */
+    public static boolean forwardPublicMessage(String message, PlayerController ctrl) {
         synchronized (GameManager.playerMatchMap) {
             if (ctrl.getPlayer().getMatch() == null || !GameManager.playerMatchMap.containsKey(ctrl.getPlayer().getNickname())) {
                 return false;
@@ -370,24 +375,31 @@ public class GameController {
         return true;
     }
 
-    public static boolean forwardPrivateMessage(String message, String receiver, PlayerController ctrl, boolean live) {
+    /**
+     * This method forward a private message to a specific online player
+     * @param message message
+     * @param receiver receiver name
+     * @param ctrl player controller of the sender
+     * @return true if the message is sent, false if the receiver is not found or is not valid
+     */
+    public static boolean forwardPrivateMessage(String message, String receiver, PlayerController ctrl) {
         synchronized (GameManager.players) {
             if (!GameManager.players.contains(ctrl.getPlayer())) {
                 return false;
             }
         }
+        Player p_receiver = ServerChatManager.isOnline(receiver);
         Player sender = ctrl.getPlayer();
-        if (sender.getNickname().equals(receiver) || ServerChatManager.isOnline(receiver) == null) {
+        if (sender.getNickname().equals(receiver) || p_receiver == null) {
             return false;
         }
-        ServerChatManager.handlePrivateChatMessage(ctrl.getPlayer(), receiver, message);
+        if(!ServerChatManager.handlePrivateChatMessage(ctrl.getPlayer(), receiver, message)){
+            return false;
+        }
         String formalMessage = "\n" + sender.getNickname() + " whispers > " + message;
         VirtualViewHelper.virtualizePrivateChats(ServerChatManager.getPrivateChats());
         VirtualViewHelper.virtualizeChatMap(ServerChatManager.getChatMap());
-        //DEBUG
-        VirtualViewHelper.printJSON();
         updatePlayersGlobalView();
-        Player p_receiver = ServerChatManager.isOnline(receiver);
         GameManager.sendChatNotification(p_receiver.getController(), formalMessage);
 
         return true;

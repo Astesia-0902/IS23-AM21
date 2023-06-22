@@ -5,13 +5,14 @@ import org.am21.controller.GameController;
 import org.am21.controller.PlayerController;
 import org.am21.model.enumer.GameState;
 import org.am21.model.enumer.SC;
+import org.am21.model.enumer.ServerMessage;
 import org.am21.model.enumer.UserStatus;
 import org.am21.utilities.VirtualViewHelper;
 
 import java.util.*;
 
 public class GameManager {
-    public static boolean SERVER_COMM = true;
+    public static boolean serverComm = true;
 
     public static GameManager game;
     /**
@@ -209,7 +210,7 @@ public class GameManager {
                         p.getController().dropHand();
                         p.getMatch().callEndTurnRoutine();
                     }
-                    p.getMatch().sendTextToAll(SC.YELLOW_BB + "\nServer > " + p.getNickname() + " suspended." + SC.RST, false, false);
+                    p.getMatch().sendTextToAll(SC.YELLOW_BB + "\nServer > " + p.getNickname() + " suspended." + SC.RST, false);
                     checkMatchPause(p.getMatch().matchID);
                 }
             }
@@ -219,7 +220,7 @@ public class GameManager {
             // Game Cleaner
             for (PlayerController pc : toRemove) {
                 if (pc.getPlayer().getMatch() != null) {
-                    pc.getPlayer().getMatch().sendTextToAll("Player " + pc.getPlayer().getNickname() + " is offline, he has been removed from the match", false, false);
+                    pc.getPlayer().getMatch().sendTextToAll("Player " + pc.getPlayer().getNickname() + " is offline, he has been removed from the match", false);
                     GameController.removePlayerFromMatch(pc, pc.getPlayer().getMatch().matchID);
                 }
                 removeOfflinePlayer(pc.getPlayer());
@@ -253,7 +254,8 @@ public class GameManager {
         Match m = matchMap.get(matchID);
         m.pauseMatch();
         startPauseTimer(matchID, m);
-        m.sendTextToAll(SC.YELLOW_BB + "\nServer > Match paused, waiting for other players to reconnect. If non one reconnect within 60s, the last active player will be the winner." + SC.RST, true, false);
+        m.sendTextToAll(ServerMessage.MatchPaused.value(), true);
+        m.sendNotificationToAll(true);
     }
 
     private static void startPauseTimer(int matchID, Match m) {
@@ -321,7 +323,7 @@ public class GameManager {
         if (pc.getPlayer().getStatus().equals(UserStatus.Suspended) || pc.getPlayer().getStatus().equals(UserStatus.Offline)) {
             return;
         }
-        if (SERVER_COMM) {
+        if (serverComm) {
             CommunicationController.instance.sendMessageToClient(m, pc);
         }
     }
@@ -331,7 +333,7 @@ public class GameManager {
         if (pc.getPlayer().getStatus().equals(UserStatus.Suspended) || pc.getPlayer().getStatus().equals(UserStatus.Offline)) {
             return;
         }
-        if (SERVER_COMM) {
+        if (serverComm) {
             CommunicationController.instance.sendChatNotification(m, pc);
         }
     }
@@ -341,6 +343,16 @@ public class GameManager {
             return;
         }
         CommunicationController.instance.notifyUpdate(ctrl, milliseconds);
+    }
+
+    /**
+     * This method print the message in server console if ServerComm are active
+     * @param message message
+     */
+    public static void serverLog(String message){
+        if(serverComm){
+            System.out.println(message);
+        }
     }
 
 }

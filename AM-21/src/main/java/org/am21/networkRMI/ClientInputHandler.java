@@ -206,7 +206,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      */
     @Override
     public boolean sendPublicMessage(String message, boolean live) throws RemoteException {
-        return GameController.forwardPublicMessage(message, playerController, live);
+        return GameController.forwardPublicMessage(message, playerController);
     }
 
     /**
@@ -220,6 +220,6 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      */
     @Override
     public boolean sendPrivateMessage(String message, String receiver, boolean live) throws RemoteException {
-        return GameController.forwardPrivateMessage(message, receiver, playerController, live);
+        return GameController.forwardPrivateMessage(message, receiver, playerController);
     }
 }

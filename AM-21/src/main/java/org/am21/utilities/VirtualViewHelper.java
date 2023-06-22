@@ -4,7 +4,6 @@ import com.alibaba.fastjson2.JSON;
 import org.am21.model.GameManager;
 import org.am21.model.Match;
 import org.am21.model.Player;
-import org.am21.model.chat.ServerChatManager;
 import org.am21.model.enumer.UserStatus;
 import org.am21.model.items.Shelf;
 import org.am21.model.virtualview.ServerVirtualView;
@@ -64,7 +63,7 @@ public class VirtualViewHelper {
         match.virtualView.setShelves(shelves);
         match.virtualView.setScores(scores);
         match.virtualView.setHiddenPoints(hiddenPoints);
-        match.virtualView.gameResults = new String[match.playerList.size() + 1][6];
+        match.virtualView.setGameResults(new String[match.playerList.size() + 1][6]);
     }
 
     /**
@@ -217,57 +216,7 @@ public class VirtualViewHelper {
         return JSON.toJSONString(virtualView);
     }
 
-    public static String convertVirtualPlayerNicknameListToJSON(VirtualView virtualView) {
-        return JSON.toJSONString(virtualView.getPlayers());
-    }
 
-    public static String convertVirtualScoreListToJSON(VirtualView virtualView) {
-        return JSON.toJSONString(virtualView.getScores());
-    }
-
-    public static String convertVirtualShelfListToJSON(VirtualView virtualView) {
-        return JSON.toJSONString(virtualView.getShelves());
-    }
-
-    public static String convertVirtualBoardToJSON(VirtualView virtualView) {
-        return JSON.toJSONString(virtualView.getBoard());
-    }
-
-    public static String convertVirtualCurrentPlayerToJSON(VirtualView virtualView) {
-        return JSON.toJSONString(virtualView.getCurrentPlayer());
-    }
-
-    public static String convertVirtualCommonGoalToJSON(VirtualView virtualView) {
-        return JSON.toJSONString(virtualView.getCommonGoals());
-    }
-
-    public static String convertVirtualPersonalGoalToJSON(VirtualView virtualView) {
-        return JSON.toJSONString(virtualView.getPersonalGoals());
-    }
-
-    /**
-     * This method will print the virtual view in JSON format
-     *
-     * @param match the match
-     */
-    public static void printJSON(Match match) {
-        String json = convertVirtualViewToJSON(match.virtualView);
-        System.out.println(json);
-    }
-
-    public static void printJSONHand(Match match) {
-        String json = convertVirtualHandToJSON(match.virtualView);
-        System.out.println(json);
-    }
-
-    public static void printJSONBSH(Match m) {
-        String json = "";
-        json += convertVirtualBoardToJSON(m.virtualView);
-        json += convertVirtualShelfListToJSON(m.virtualView);
-        json += convertVirtualHandToJSON(m.virtualView);
-        System.out.println(json);
-
-    }
 
     public static String convertVirtualHandToJSON(VirtualView virtualView) {
         return JSON.toJSONString(virtualView.getCurrentPlayerHand());
@@ -293,7 +242,7 @@ public class VirtualViewHelper {
      * @param m match instance
      */
     public static void updateHiddenPoints(Match m) {
-        if (m.virtualView.hiddenPoints != null) {
+        if (m.virtualView.getHiddenPoints() != null) {
             int index = m.playerList.indexOf(m.currentPlayer);
             m.virtualView.getHiddenPoints().set(index, m.currentPlayer.getHiddenPoints());
         }
@@ -305,12 +254,9 @@ public class VirtualViewHelper {
      * @param gR game result matrix
      */
     public static void virtualizeGameResults(Match m, String[][] gR) {
-        m.virtualView.gameResults = gR;
+        m.virtualView.setGameResults(gR);
     }
 
-    public static String convertGameResultsToJSON(VirtualView virtualView) {
-        return JSON.toJSONString(virtualView.gameResults);
-    }
 
     /**
      * Convert match info in a JSON string
@@ -333,10 +279,6 @@ public class VirtualViewHelper {
      * @param chat chat history to be virtualized
      */
     public static void virtualizePublicChat(Match m, List<String> chat) {
-        /*for (int i = 0; i < chat.size(); i++) {
-            tmpChat.add(chat.get(i));
-        }*/
-
         List<String> tmpChat = new ArrayList<>(chat);
         m.virtualView.setPublicChat(tmpChat);
     }
@@ -424,16 +366,5 @@ public class VirtualViewHelper {
         return JSON.toJSONString(ServerVirtualView.instance);
     }
 
-    public static void printJSON() {
-        String json = convertServerVirtualViewToJSON();
-        System.out.println(json);
-    }
-
-    public static void virtualizeServerVirtualView() {
-        virtualizeOnlinePlayers();
-        virtualizeMatchMap();
-        virtualizeChatMap(ServerChatManager.getChatMap());
-        virtualizePrivateChats(ServerChatManager.getPrivateChats());
-    }
 
 }

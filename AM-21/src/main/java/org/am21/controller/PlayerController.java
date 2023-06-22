@@ -123,8 +123,9 @@ public class PlayerController {
 
             GameManager.sendReply(this, ServerMessage.Selection_Ok.value());
             player.getMatch().sendTextToAll("\n" +
-                    SC.YELLOW + player.getNickname() + " selected the cell [" + r + "," + c + "]." + SC.RST, false, false);
+                    SC.YELLOW + player.getNickname() + " selected the cell [" + r + "," + c + "]." + SC.RST, false);
             player.getMatch().selectionUpdate();
+            player.getMatch().sendNotificationToAll(false);
             return true;
         }
         GameManager.sendReply(this, ServerMessage.Selection_No.value());
@@ -388,7 +389,8 @@ public class PlayerController {
         player.setStatus(UserStatus.GameMember);
         GameManager.checkMatchPause(player.getMatch().matchID);
         System.out.println("Player " + player.getNickname() + " reconnected");
-        player.getMatch().sendTextToAll(SC.YELLOW + "\nServer > " + player.getNickname() + " reconnected to the match.", true, true);
+        player.getMatch().sendTextToAll(SC.YELLOW + "\nServer > " + player.getNickname() + " reconnected to the match.", true);
+        player.getMatch().sendNotificationToAll(true);
     }
 }
 

@@ -1,17 +1,19 @@
 package org.am21.game;
 
+import org.am21.controller.GameController;
 import org.am21.controller.PlayerController;
+import org.am21.model.Cards.CommonGoals.CommonGoalDiagonal;
 import org.am21.model.Cards.CommonGoals.CommonGoalXShape;
 import org.am21.model.Cards.ItemCard;
 import org.am21.model.Cards.ItemType;
 import org.am21.model.Cards.PersonalGoalCard;
 import org.am21.model.GameManager;
 import org.am21.model.Match;
+import org.am21.model.chat.ServerChatManager;
 import org.am21.model.enumer.GameState;
 import org.am21.model.enumer.UserStatus;
 import org.am21.model.items.Shelf;
 import org.am21.model.virtualview.ServerVirtualView;
-import org.am21.utilities.VirtualViewHelper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,11 +32,14 @@ public class VirtualViewTest {
      */
     @BeforeEach
     void setUp() {
+        GameManager.serverComm=false;
         c1 = new PlayerController("A");
         c2 = new PlayerController("B");
-        GameManager.createMatch(2, c1);
+        GameController.login("A",c1);
+        GameController.login("B",c2);
+        GameController.createMatch("A",0,2,c1);
+        GameController.joinGame(0,"B",c2);
         m = c1.getPlayer().getMatch();
-        m.addPlayer(c2.getPlayer());
     }
 
     @AfterEach
@@ -42,6 +47,10 @@ public class VirtualViewTest {
         m = null;
         c1 = null;
         c2 = null;
+        GameManager.matchMap.clear();
+        GameManager.playerMatchMap.clear();
+        GameManager.players.clear();
+        GameManager.matchIndex=0;
 
     }
 
@@ -56,9 +65,9 @@ public class VirtualViewTest {
     void testAfterStart() {
 
         //Match Started
-        assertEquals(c1.getPlayer().getNickname(), m.virtualView.admin);
-        assertEquals(2, m.virtualView.maxSeats);
-        assertNotNull(m.virtualView.board);
+        assertEquals(c1.getPlayer().getNickname(), m.virtualView.getAdmin());
+        assertEquals(2, m.virtualView.getMaxSeats());
+        assertNotNull(m.virtualView.getBoard());
         String[][] wish = {
                 {"o", "o", "o", "o", "o", "o", "o", "o", "o"},
                 {"o", "o", "o", "x", "x", "o", "o", "o", "o"},
@@ -70,35 +79,34 @@ public class VirtualViewTest {
                 {"o", "o", "o", "o", "x", "x", "o", "o", "o"},
                 {"o", "o", "o", "o", "o", "o", "o", "o", "o"}
         };
-        checkTheBoardAsIWish(wish, m.virtualView.board);
+        checkTheBoardAsIWish(wish, m.virtualView.getBoard());
         assertNotNull(m.virtualView.commonGoals);
         assertNotNull(m.virtualView.commonGoals.get(0));
         assertNotNull(m.virtualView.commonGoals.get(1));
-        assertNotNull(m.virtualView.commonGoalScores);
-        assertEquals(8, m.virtualView.commonGoalScores.get(0));
-        assertEquals(8, m.virtualView.commonGoalScores.get(1));
+        assertNotNull(m.virtualView.getCommonGoalScores());
+        assertEquals(8, m.virtualView.getCommonGoalScores().get(0));
+        assertEquals(8, m.virtualView.getCommonGoalScores().get(1));
         assertNotNull(m.virtualView.players);
         assertEquals(c1.getPlayer().getNickname(), m.virtualView.players.get(0));
         assertEquals(c2.getPlayer().getNickname(), m.virtualView.players.get(1));
-        assertNotNull(m.virtualView.currentPlayer);
-        assertNotNull(m.virtualView.currentPlayerHand);
-        assertEquals(0, m.virtualView.currentPlayerHand.size());
-        assertNotNull(m.virtualView.shelves);
-        assertNotNull(m.virtualView.shelves.get(0));
-        for (int i = 0; i < m.virtualView.shelves.get(0).length; i++) {
-            for (int j = 0; j < m.virtualView.shelves.get(0)[i].length; j++) {
-                assertNull(m.virtualView.shelves.get(0)[i][j]);
+        assertNotNull(m.virtualView.getCurrentPlayer());
+        assertNotNull(m.virtualView.getCurrentPlayerHand());
+        assertEquals(0, m.virtualView.getCurrentPlayerHand().size());
+        assertNotNull(m.virtualView.getShelves());
+        assertNotNull(m.virtualView.getShelves().get(0));
+        for (int i = 0; i < m.virtualView.getShelves().get(0).length; i++) {
+            for (int j = 0; j < m.virtualView.getShelves().get(0)[i].length; j++) {
+                assertNull(m.virtualView.getShelves().get(0)[i][j]);
 
             }
 
         }
-        assertNotNull(m.virtualView.shelves.get(1));
+        assertNotNull(m.virtualView.getShelves().get(1));
         assertNotNull(m.virtualView.personalGoals);
         assertNotNull(m.virtualView.personalGoals.get(0));
         assertNotNull(m.virtualView.personalGoals.get(1));
-        assertEquals(m.chairman.getNickname(), m.virtualView.currentPlayer);
+        assertEquals(m.chairman.getNickname(), m.virtualView.getCurrentPlayer());
 
-        VirtualViewHelper.printJSON(m);
 
 
     }
@@ -109,7 +117,7 @@ public class VirtualViewTest {
             for (int i = 0; i < wish.length; i++) {
                 for (int j = 0; j < wish[i].length; j++) {
                     if (wish[i][j] != null && wish[i][j].equals("x")) {
-                        assertNotNull(m.virtualView.board[i][j]);
+                        assertNotNull(m.virtualView.getBoard()[i][j]);
                     }
                 }
             }
@@ -128,10 +136,10 @@ public class VirtualViewTest {
 
         assertTrue(c1.selectCell(1, 3));
         assertTrue(c1.selectCell(1, 4));
-        assertEquals(c1.getHand().getSelectedItems().get(0).item.getNameCard(), m.virtualView.currentPlayerHand.get(0));
-        assertEquals(c1.getHand().getSelectedItems().get(1).item.getNameCard(), m.virtualView.currentPlayerHand.get(1));
-        assertEquals(">" + m.board.getCell(1, 3).getNameCard(), m.virtualView.board[1][3]);
-        assertEquals(">" + m.board.getCell(1, 4).getNameCard(), m.virtualView.board[1][4]);
+        assertEquals(c1.getHand().getSelectedItems().get(0).item.getNameCard(), m.virtualView.getCurrentPlayerHand().get(0));
+        assertEquals(c1.getHand().getSelectedItems().get(1).item.getNameCard(), m.virtualView.getCurrentPlayerHand().get(1));
+        assertEquals(">" + m.board.getCell(1, 3).getNameCard(), m.virtualView.getBoard()[1][3]);
+        assertEquals(">" + m.board.getCell(1, 4).getNameCard(), m.virtualView.getBoard()[1][4]);
 
     }
 
@@ -149,9 +157,9 @@ public class VirtualViewTest {
         assertTrue(c1.selectCell(1, 4));
 
         c1.clearSelectedCards();
-        assertEquals(0, m.virtualView.currentPlayerHand.size());
-        assertEquals(m.board.getCell(1, 3).getNameCard(), m.virtualView.board[1][3]);
-        assertEquals(m.board.getCell(1, 4).getNameCard(), m.virtualView.board[1][4]);
+        assertEquals(0, m.virtualView.getCurrentPlayerHand().size());
+        assertEquals(m.board.getCell(1, 3).getNameCard(), m.virtualView.getBoard()[1][3]);
+        assertEquals(m.board.getCell(1, 4).getNameCard(), m.virtualView.getBoard()[1][4]);
 
     }
 
@@ -167,12 +175,12 @@ public class VirtualViewTest {
 
         assertTrue(c1.selectCell(1, 3));
         assertTrue(c1.selectCell(1, 4));
-        assertEquals(">" + m.board.getCell(1, 3).getNameCard(), m.virtualView.board[1][3]);
+        assertEquals(">" + m.board.getCell(1, 3).getNameCard(), m.virtualView.getBoard()[1][3]);
 
         c1.selectCell(1, 3);
-        assertEquals(c1.getHand().getSelectedItems().get(0).item.getNameCard(), m.virtualView.currentPlayerHand.get(0));
-        assertEquals(m.board.getCell(1, 3).getNameCard(), m.virtualView.board[1][3]);
-        assertEquals(">" + m.board.getCell(1, 4).getNameCard(), m.virtualView.board[1][4]);
+        assertEquals(c1.getHand().getSelectedItems().get(0).item.getNameCard(), m.virtualView.getCurrentPlayerHand().get(0));
+        assertEquals(m.board.getCell(1, 3).getNameCard(), m.virtualView.getBoard()[1][3]);
+        assertEquals(">" + m.board.getCell(1, 4).getNameCard(), m.virtualView.getBoard()[1][4]);
 
     }
 
@@ -190,10 +198,10 @@ public class VirtualViewTest {
         assertTrue(c1.selectCell(1, 4));
 
         assertTrue(c1.callEndSelection());
-        assertNull(m.virtualView.board[1][3]);
-        assertNull(m.virtualView.board[1][4]);
-        assertEquals(c1.getHand().getSelectedItems().get(0).item.getNameCard(), m.virtualView.currentPlayerHand.get(0));
-        assertEquals(c1.getHand().getSelectedItems().get(1).item.getNameCard(), m.virtualView.currentPlayerHand.get(1));
+        assertNull(m.virtualView.getBoard()[1][3]);
+        assertNull(m.virtualView.getBoard()[1][4]);
+        assertEquals(c1.getHand().getSelectedItems().get(0).item.getNameCard(), m.virtualView.getCurrentPlayerHand().get(0));
+        assertEquals(c1.getHand().getSelectedItems().get(1).item.getNameCard(), m.virtualView.getCurrentPlayerHand().get(1));
 
     }
 
@@ -210,9 +218,9 @@ public class VirtualViewTest {
         assertTrue(c1.selectCell(1, 4));
         c1.callEndSelection();
         assertTrue(c1.tryToInsert(1));
-        assertEquals(0, m.virtualView.currentPlayerHand.size());
-        assertEquals(c1.getPlayer().getShelf().getCell(5, 1).getNameCard(), m.virtualView.shelves.get(0)[5][1]);
-        assertEquals(c1.getPlayer().getShelf().getCell(4, 1).getNameCard(), m.virtualView.shelves.get(0)[4][1]);
+        assertEquals(0, m.virtualView.getCurrentPlayerHand().size());
+        assertEquals(c1.getPlayer().getShelf().getCell(5, 1).getNameCard(), m.virtualView.getShelves().get(0)[5][1]);
+        assertEquals(c1.getPlayer().getShelf().getCell(4, 1).getNameCard(), m.virtualView.getShelves().get(0)[4][1]);
 
     }
 
@@ -230,9 +238,9 @@ public class VirtualViewTest {
         c1.getPlayer().setStatus(UserStatus.Suspended);
         c1.dropHand();
 
-        assertEquals(0,m.virtualView.currentPlayerHand.size());
-        assertEquals(m.board.getCell(1,3).getNameCard(),m.virtualView.board[1][3]);
-        assertEquals(m.board.getCell(1,3).getNameCard(),m.virtualView.board[1][4]);
+        assertEquals(0,m.virtualView.getCurrentPlayerHand().size());
+        assertEquals(m.board.getCell(1,3).getNameCard(),m.virtualView.getBoard()[1][3]);
+        assertEquals(m.board.getCell(1,4).getNameCard(),m.virtualView.getBoard()[1][4]);
 
     }
 
@@ -246,8 +254,8 @@ public class VirtualViewTest {
         c1.selectCell(1,4);
         c1.callEndSelection();
         assertTrue(c1.changeHandOrder(0,1));
-        assertEquals(c1.getHand().getSelectedItems().get(0).item.getNameCard(), m.virtualView.currentPlayerHand.get(0));
-        assertEquals(c1.getHand().getSelectedItems().get(1).item.getNameCard(), m.virtualView.currentPlayerHand.get(1));
+        assertEquals(c1.getHand().getSelectedItems().get(0).item.getNameCard(), m.virtualView.getCurrentPlayerHand().get(0));
+        assertEquals(c1.getHand().getSelectedItems().get(1).item.getNameCard(), m.virtualView.getCurrentPlayerHand().get(1));
     }
 
     /**
@@ -260,6 +268,7 @@ public class VirtualViewTest {
         m.currentPlayer.setMyPersonalGoal(new PersonalGoalCard("PERSONAL_GOAL03"));
         m.currentPlayer.getMyPersonalGoal().player=m.currentPlayer;
         m.commonGoals.set(0, new CommonGoalXShape(2));
+        m.commonGoals.set(1, new CommonGoalDiagonal(2));
         String[][] wish = {
                 {"", "", "", "", ""},
                 {"", "", "", "", ""},
@@ -274,11 +283,11 @@ public class VirtualViewTest {
         m.currentPlayer.setHiddenPoints(m.currentPlayer.getMyPersonalGoal().calculatePoints());
         m.callEndTurnRoutine();
 
-        assertEquals(4,m.virtualView.commonGoalScores.get(0));
-        assertEquals(8,m.virtualView.scores.get(0));
-        assertEquals(1,m.virtualView.hiddenPoints.get(0));
+        assertEquals(4,m.virtualView.getCommonGoalScores().get(0));
+        assertEquals(8,m.virtualView.getScores().get(0));
+        assertEquals(1,m.virtualView.getHiddenPoints().get(0));
 
-        assertEquals(c2.getPlayer().getNickname(),m.virtualView.currentPlayer);
+        assertEquals(c2.getPlayer().getNickname(),m.virtualView.getCurrentPlayer());
     }
 
     /**
@@ -331,8 +340,8 @@ public class VirtualViewTest {
         m.callEndTurnRoutine();
         assertEquals(GameState.LastRound,m.gameState);
 
-        assertFalse(m.virtualView.endGameToken);
-        assertEquals("B",m.virtualView.currentPlayer);
+        assertFalse(m.virtualView.isEndGameToken());
+        assertEquals("B",m.virtualView.getCurrentPlayer());
     }
 
     /**
@@ -347,6 +356,7 @@ public class VirtualViewTest {
         m.currentPlayer.setMyPersonalGoal(new PersonalGoalCard("PERSONAL_GOAL03"));
         m.currentPlayer.getMyPersonalGoal().player=m.currentPlayer;
         m.commonGoals.set(0, new CommonGoalXShape(2));
+        m.commonGoals.set(1, new CommonGoalDiagonal(2));
         String[][] wish = {
                 {"", "", "", "", ""},
                 {"", "", "", "", ""},
@@ -358,24 +368,49 @@ public class VirtualViewTest {
 
         fillTheShelfAsIWish(wish, currShelf);
         m.checkCommonGoals(c1.getPlayer());
+        assertEquals(8,c1.getPlayer().getPlayerScore());
         m.currentPlayer.setHiddenPoints(m.currentPlayer.getMyPersonalGoal().calculatePoints());
         //Force end match
         m.endMatch();
-        assertEquals(3,m.virtualView.gameResults.length);
-        assertEquals("A",m.virtualView.gameResults[0][0]);
-        assertEquals("8",m.virtualView.gameResults[0][1]);
-        assertEquals("1",m.virtualView.gameResults[0][2]);
-        assertEquals("2",m.virtualView.gameResults[0][3]);
-        assertNull(m.virtualView.gameResults[0][4]);
-        assertEquals("11",m.virtualView.gameResults[0][5]);
-        assertEquals("B",m.virtualView.gameResults[1][0]);
-        assertEquals("0",m.virtualView.gameResults[1][1]);
-        assertEquals("0",m.virtualView.gameResults[1][2]);
-        assertEquals("0",m.virtualView.gameResults[1][3]);
-        assertNull(m.virtualView.gameResults[1][4]);
-        assertEquals("0",m.virtualView.gameResults[1][5]);
-        assertEquals("A",m.virtualView.gameResults[2][0]);
+        assertEquals(3,m.virtualView.getGameResults().length);
+        assertEquals("A",m.virtualView.getGameResults()[0][0]);
 
+        assertEquals("8",m.virtualView.getGameResults()[0][1]);
+        assertEquals("1",m.virtualView.getGameResults()[0][2]);
+        assertEquals("2",m.virtualView.getGameResults()[0][3]);
+        assertNull(m.virtualView.getGameResults()[0][4]);
+        assertEquals("11",m.virtualView.getGameResults()[0][5]);
+        assertEquals("B",m.virtualView.getGameResults()[1][0]);
+        assertEquals("0",m.virtualView.getGameResults()[1][1]);
+        assertEquals("0",m.virtualView.getGameResults()[1][2]);
+        assertEquals("0",m.virtualView.getGameResults()[1][3]);
+        assertNull(m.virtualView.getGameResults()[1][4]);
+        assertEquals("0",m.virtualView.getGameResults()[1][5]);
+        assertEquals("A",m.virtualView.getGameResults()[2][0]);
+
+    }
+
+    /**
+     * Test public chat virtual view (Virtual view update expected)
+     */
+    @Test
+    void testViewPublicChat(){
+        GameController.forwardPublicMessage("Test",c1);
+        assertEquals("A: Test",m.virtualView.publicChat.get(0));
+
+    }
+
+    /**
+     * Test Private chat Virtual view
+     */
+    @Test
+    void testViewPrivateChat(){
+        assertNull(ServerVirtualView.instance.getVirtualPrivateChats());
+        GameController.forwardPrivateMessage("Test","B",c1);
+        assertEquals(1,ServerVirtualView.instance.getVirtualPrivateChats().length);
+        String key = ServerChatManager.getChatKey("A","B");
+        int pos = ServerChatManager.getChatMap().get(key);
+        assertEquals("A > Test",ServerVirtualView.instance.getVirtualPrivateChats()[pos][0]);
     }
 
 

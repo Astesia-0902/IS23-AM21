@@ -12,6 +12,7 @@ import org.am21.networkRMI.Lobby;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.ServerSocket;
 import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -37,15 +38,13 @@ public class Cli implements View {
     private boolean BABY_PROTOCOL = true;
     private boolean SEL_MODE = true;
     private boolean NOT_SEL_YET = true;
-    private boolean COMMAND_ACTIVE = false;
+    private Boolean busy = false;
     private boolean SHOW = false;
-    public int waitingThreads;
-    public boolean CHAT_MODE = false;
-
+    public Integer waitingThreads;
+    public Boolean chatMode = false;
     public Cli() throws RemoteException {
         this.clientCallBack = new ClientCallBack();
         this.clientCallBack.cli = this;
-
         waitingThreads = 0;
         commCtrl = new ClientCommunicationController();
         commCtrl.cli = this;
@@ -98,7 +97,7 @@ public class Cli implements View {
     /**
      * RMI : TUI allows the user to insert the Server Address and Port to Connect with The Server
      */
-    public void askServerInfoRMI(){
+    public void askServerInfoRMI() {
         // Determine my address
         String clientBind = "";
 
@@ -109,16 +108,24 @@ public class Cli implements View {
         // Create and set the custom socket factory
         //RMISocketFactory.setSocketFactory(new CustomSocketFactory(bindAddress));
         System.setProperty("java.rmi.server.hostname", clientAddress);
-
-
         System.out.println("Your ip address is : " + clientAddress);
+        int freePort;
+        while (true) {
+            freePort = findFreePort();
+            if (freePort != -1) {
+                System.out.println("Free port found: " + freePort);
+                break;
+            } else {
+                System.out.println("Free port not found");
+            }
+        }
         try {
             //RMISocketFactory.setSocketFactory(new MyRMISocketFactory(clientAddress, 7777));
-            Registry registry = LocateRegistry.createRegistry(7777);
+            Registry registry = LocateRegistry.createRegistry(freePort);
             UnicastRemoteObject.unexportObject(clientCallBack, true);
-            IClientCallBack callbackStub = (IClientCallBack) UnicastRemoteObject.exportObject(clientCallBack, 7777);
+            IClientCallBack callbackStub = (IClientCallBack) UnicastRemoteObject.exportObject(clientCallBack, freePort);
             registry.bind("Callback", callbackStub);
-            clientBind = "rmi://" + clientAddress + ":7777/Callback";
+            clientBind = "rmi://" + clientAddress + ":" + freePort + "/Callback";
             //Naming.bind(clientBind, this.clientCallBack);
             //Naming.rebind(clientBind, clientCallBack);
         } catch (IOException | AlreadyBoundException e) {
@@ -141,6 +148,25 @@ public class Cli implements View {
         commCtrl.registerCallBack(clientBind);
         System.out.println("Controller registered from " + serverInfo.get("address")
                 + ":" + serverInfo.get("port"));
+    }
+
+    public int findFreePort() {
+        ServerSocket socket = null;
+        try {
+            socket = new ServerSocket(0);
+            return socket.getLocalPort();
+        } catch (IOException e) {
+            return -1;
+        } finally {
+
+            if (socket != null) {
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    System.out.println(Color.RED + "Socket not closed" + Color.RESET);
+                }
+            }
+        }
     }
 
     public HashMap<String, String> connectToServerLobby(String address, String port) {
@@ -246,10 +272,9 @@ public class Cli implements View {
             handleChatMessage(option, false);
         } else if (option.startsWith("/open")) {
             askChat(option);
-        } else if (option.equals("")) {
-
-        } else {
+        }else {
             switch (option) {
+                case "" ->{}
                 case "create", "c", "cr" -> askCreateMatch();
                 case "join", "j", "jo" -> askJoinMatch();
                 case "online", "on", "open", "op" -> showOnlinePlayer();
@@ -263,7 +288,7 @@ public class Cli implements View {
                                 + Color.RESET);
             }
         }
-        NEED_TO_REFRESH = false;
+        setNeedToRefresh(false);
     }
 
     /**
@@ -279,14 +304,14 @@ public class Cli implements View {
         System.out.print("-----------------------------------------------------------\n"
                 + "Enter the Command you wish to use: ");
         String option = readLine();
+        setBusy(true);
         if (option.startsWith("/chat")) {
             handleChatMessage(option, false);
         } else if (option.startsWith("/open")) {
             askChat(option);
-        } else if (option.equals("")) {
-
         } else {
             switch (option) {
+                case "" ->{}
                 case "rules", "ru" -> showGameRules();
                 case "online", "on", "open", "op" -> showOnlinePlayer();
                 case "settings", "se" -> askSettings();
@@ -296,8 +321,8 @@ public class Cli implements View {
             }
 
         }
-
-        NEED_TO_REFRESH = false;
+        setNeedToRefresh(false);
+        setBusy(false);
     }
 
     /**
@@ -332,16 +357,16 @@ public class Cli implements View {
                 -----------------------------------------------------------
                 Enter the command you wish to use:\040""");
         String option = readLine();
-        System.out.print("\033[1A");
-        System.out.print("\033[2K");
+        //System.out.print("\033[1A");
+        //System.out.print("\033[2K");
+        setBusy(true);
         if (option.startsWith("/chat")) {
             handleChatMessage(option, false);
         } else if (option.startsWith("/open")) {
             askChat(option);
-        } else if (option.equals("")) {
-            //
-        } else {
+        }  else {
             switch (option) {
+                case ""->{}
                 case "select", "se" -> askSelection();
                 case "clear", "cl" -> askDeselection();
                 case "insert", "in" -> askInsertion();
@@ -379,7 +404,8 @@ public class Cli implements View {
                         + Color.RESET);
             }
         }
-        NEED_TO_REFRESH = false;
+        setNeedToRefresh(false);
+        setBusy(false);
     }
 
     public void goToEndRoom() {
@@ -391,7 +417,7 @@ public class Cli implements View {
 
     //----------------------------------------------------------------------------------------------
     public void askHelp() {
-        COMMAND_ACTIVE = true;
+        busy = true;
         System.out.println();
         System.out.print("""
                 [Commands] Choose an option:
@@ -441,7 +467,6 @@ public class Cli implements View {
     }
 
     public void askSettings() {
-        setCATrue();
         System.out.print("""
                 [Commands] Commands available to change settings:
                   size     --> Change the number of players who can play in this match
@@ -469,7 +494,6 @@ public class Cli implements View {
             }
 
         }
-        setCAFalse();
 
     }
 
@@ -552,8 +576,6 @@ public class Cli implements View {
     }
 
     public void askMoreOptions() {
-        setCATrue();
-        synchronized (this) {
             String command;
             System.out.print(Storage.MoreOptions);
             command = readLine();
@@ -566,8 +588,6 @@ public class Cli implements View {
                 default -> System.out.println(Color.RED + "The [" + command + "] cannot be found! Please try again."
                         + Color.RESET);
             }
-        }
-        setCAFalse();
     }
 
     //------------SHOW---------------------------------------------------------------------------------
@@ -808,7 +828,7 @@ public class Cli implements View {
                 }
             }
             System.out.println();
-            //setCAFalse();
+            //setBusyFalse();
         } while (askPrivateChat());
 
     }
@@ -825,7 +845,6 @@ public class Cli implements View {
      */
     @Override
     public void showGameRules() {
-        setCATrue();
         System.out.println(Storage.goalOfTheGame);
         askToContinue();
         System.out.println(Storage.gamePlay);
@@ -841,7 +860,6 @@ public class Cli implements View {
             showGoalDescription(s);
         }
         System.out.println();
-        setCATrue();
     }
     //-----------------------------------------------------------------------------------------------------------------
 
@@ -850,8 +868,6 @@ public class Cli implements View {
      */
     @Override
     public void askSelection() {
-        setCATrue();
-        synchronized (this) {
             System.out.println("Select a cell on the board");
             boolean selectionConfirm;
             do {
@@ -871,8 +887,6 @@ public class Cli implements View {
                 System.out.print(Storage.anotherCard);
                 selectionConfirm = "".equals(readLine());
             } while (selectionConfirm);
-        }
-        setCAFalse();
     }
 
     /**
@@ -892,8 +906,6 @@ public class Cli implements View {
 
     @Override
     public void askDeselection() {
-        setCATrue();
-        synchronized (this) {
             if (BABY_PROTOCOL && !showHand()) {
                 System.out.println(Color.RED + "You have not selected any card yet." + Color.RESET);
             } else {
@@ -906,8 +918,7 @@ public class Cli implements View {
                     }
                 }
             }
-        }
-        setCAFalse();
+
     }
 
     /**
@@ -915,8 +926,6 @@ public class Cli implements View {
      */
     @Override
     public void askInsertion() {
-        setCATrue();
-        synchronized (this) {
             if (showHand()) {
                 System.out.print(Storage.insertionConfirm);
                 boolean confirm = "y".equals(readLine());
@@ -942,7 +951,6 @@ public class Cli implements View {
                                             System.out.println(Color.YELLOW + "Inserted in the column: " + column + Color.RESET);
                                             NOT_SEL_YET = true;
                                             SEL_MODE = false;
-                                            setCAFalse();
                                             if (commCtrl.endTurn()) {
                                                 System.out.println(Color.YELLOW + "- End Turn -" + Color.RESET);
                                             }
@@ -967,10 +975,7 @@ public class Cli implements View {
             } else {
                 System.out.println(Color.RED + "You can’t insert cards if you did not select any cards!" + Color.RESET);
             }
-            //askToContinue();
             delayer(1000);
-        }
-        setCAFalse();
     }
 
     public void askSort() {
@@ -1144,12 +1149,11 @@ public class Cli implements View {
      */
     @Override
     public void askShowObject() {
-        setCATrue();
-        synchronized (this) {
             String object = "new_command";
             while (!object.equals("")) {
                 System.out.print(Storage.listObjects);
                 object = readLine();
+                setBusy(true);
                 switch (object) {
                     case "open", "op" -> askPrivateChat();
                     case "hand", "ha" -> showHand();
@@ -1171,7 +1175,7 @@ public class Cli implements View {
                     case "online", "on" -> showOnlinePlayer();
                     case "timer", "ti" -> showTimer();
                     case "" -> {
-                        setCAFalse();
+                        setBusy(false);
                         return;
                     }
                     default -> System.out.println(Color.RED + "The [" + object + "] cannot be found! Please try again."
@@ -1180,13 +1184,13 @@ public class Cli implements View {
                 //askToContinue();
                 delayer(750);
             }
-        }
-        setCAFalse();
+        setBusy(false);
     }
 
 
     /**
-     * This Method is used for DECORATION of TUI
+     * This Method is used for DECORATION of TUI.
+     * Shows a Random Tip for the user
      */
     public void showRandomTip() {
         int max, min = 0;
@@ -1365,7 +1369,7 @@ public class Cli implements View {
             try {
                 System.out.print("> ");
                 String tmp = readLine();
-                if (tmp == "") {
+                if (tmp.equals("")) {
                     return true;
                 }
                 value = Integer.parseInt(tmp);
@@ -1403,7 +1407,6 @@ public class Cli implements View {
      */
     @Override
     public void handleChatMessage(String command, boolean live) {
-        synchronized (this) {
             String message = command.substring(command.indexOf(" ") + 1);
             String usernameString = command.substring(5);
             String regex = "\\[|\\]";
@@ -1425,8 +1428,6 @@ public class Cli implements View {
                 }
             }
             delayer(500);
-        }
-
     }
 
     /**
@@ -1475,14 +1476,14 @@ public class Cli implements View {
             String playerName = matches[1];
             System.out.println("Opening Chat with " + playerName);
             delayer(500);
-            CHAT_MODE = true;
-            while (CHAT_MODE) {
+            setChatMode(true);
+            while (chatMode) {
                 printPrivateChat(chatMap.getOrDefault(getChatKey(username, playerName), -1));
                 System.out.println("Type /exit to close this chat");
                 System.out.print("> ");
                 String live_message = readLine();
                 if (live_message.equals("/exit")) {
-                    CHAT_MODE = false;
+                   setChatMode(false);
 
                 } else if (!live_message.equals("")) {
                     commCtrl.sendPrivateMessage(live_message, playerName, true);
@@ -1490,16 +1491,23 @@ public class Cli implements View {
             }
 
         } else {
+            if (GO_TO_MENU && !MATCH_END) {
+                //If the user is not in a match
+                System.out.println(Color.RED+"The group chat is not available. Try to create or join a match."+Color.RESET);
+                delayer(1000);
+                return;
+            }
+
             //Enter chat mode
-            CHAT_MODE = true;
-            while (CHAT_MODE) {
+            setChatMode(true);
+            while (chatMode) {
                 printPublicChat();
                 System.out.println("--Type /exit to close this chat");
                 System.out.print("> ");
                 String live_message = readLine();
                 if (live_message.equals("/exit")) {
                     //EXIT chat mode
-                    CHAT_MODE = false;
+                    setChatMode(false);
 
                 } else if (!live_message.equals("")) {
                     commCtrl.sendPublicMessage(live_message, true);
@@ -1545,13 +1553,12 @@ public class Cli implements View {
     }
     //------------------------------CLI tools-------------------------------------------
 
-    public void setCATrue() {
-        COMMAND_ACTIVE = true;
+    public void setBusy(Boolean value) {
+        synchronized (busy) {
+            busy = value;
+        }
     }
 
-    public void setCAFalse() {
-        COMMAND_ACTIVE = false;
-    }
 
     public void askToContinue() {
         System.out.print("Press 'Enter' to continue");
@@ -1620,45 +1627,43 @@ public class Cli implements View {
     }
 
     /**
-     * This method refresh the TUI only when CHAT_MODE is true
+     * This method refresh the TUI only when chatMode is true
      */
     public void refreshChat() {
-        if (CHAT_MODE) {
-            Thread chatMinion = new Thread() {
-                @Override
-                public void run() {
-                    super.run();
-                    NEED_TO_REFRESH = true;
-                    this.interrupt();
-                }
-            };
-            chatMinion.start();
+        synchronized (chatMode) {
+            if (chatMode) {
+                new Thread(() -> {
+                    setNeedToRefresh(true);
+                }).start();
+            }
         }
     }
 
-    public void updateCLI(Cli cli, int milliseconds) {
-        Thread refresher = new Thread() {
-            @Override
-            public void run() {
-                super.run();
+    public void updateCLI(int milliseconds) {
+        Thread refreshMinion = new Thread(()->{
+            synchronized (waitingThreads) {
                 waitingThreads++;
-
-                try {
-                    if (!COMMAND_ACTIVE) {
-                        synchronized (cli) {
-                            delayer(milliseconds);
-                            NEED_TO_REFRESH = true;
-                        }
+            }
+            synchronized (busy) {
+                if (!busy || chatMode) {
+                    // Client is not using any important command
+                    delayer(milliseconds);
+                    synchronized (needToRefresh) {
+                        setNeedToRefresh(true);
                     }
-                } finally {
-                    waitingThreads = 0;
                 }
             }
-        };
-        if (waitingThreads > 0) {
-            return;
+            synchronized (waitingThreads) {
+                waitingThreads=0;
+            }
+        });
+        synchronized (waitingThreads) {
+            //If there are some thread waiting then there is no need to add another one
+            if (waitingThreads > 0) {
+                return;
+            }
         }
-        refresher.start();
+        refreshMinion.start();
     }
 
     /**
@@ -1677,11 +1682,17 @@ public class Cli implements View {
         } catch (InterruptedException e) {
             futureTask.cancel(true);
             Thread.currentThread().interrupt();
-            //inputThread.interrupt();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
         return input;
     }
+
+    public void setChatMode(Boolean value){
+        synchronized (chatMode){
+            chatMode =value;
+        }
+    }
+
 
 }

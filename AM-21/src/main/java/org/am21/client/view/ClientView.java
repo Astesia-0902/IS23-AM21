@@ -155,7 +155,7 @@ public class ClientView {
     public static boolean MATCH_START = false;
     public static boolean MATCH_END = false;
 
-    public static boolean NEED_TO_REFRESH = false;
+    public static Boolean needToRefresh = false;
 
     public static boolean WAIT_SOCKET = false;
 
@@ -178,13 +178,17 @@ public class ClientView {
         MATCH_END = end;
     }
 
-    public static void setNeedToRefresh(boolean needToRefresh) {
-        NEED_TO_REFRESH = needToRefresh;
+    public static void setNeedToRefresh(boolean value) {
+        synchronized (needToRefresh) {
+            needToRefresh = value;
+        }
     }
 
     public static void setWaitSocket(boolean waitSocket) {
         WAIT_SOCKET = waitSocket;
     }
+
+
 
 
 }

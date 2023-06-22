@@ -1,6 +1,7 @@
 package org.am21.game;
 
 import org.am21.controller.PlayerController;
+import org.am21.model.Cards.CommonGoals.CommonGoalDiagonal;
 import org.am21.model.Cards.CommonGoals.CommonGoalXShape;
 import org.am21.model.Cards.ItemCard;
 import org.am21.model.Cards.ItemType;
@@ -470,6 +471,7 @@ class MatchTest {
         // Forced setting: Common Goal
         Shelf currShelf = m.currentPlayer.getShelf();
         m.commonGoals.set(0, new CommonGoalXShape(2));
+        m.commonGoals.set(1, new CommonGoalDiagonal(2));
         String[][] wish = {
                 {"", "", "", "", ""},
                 {"", "", "", "", ""},

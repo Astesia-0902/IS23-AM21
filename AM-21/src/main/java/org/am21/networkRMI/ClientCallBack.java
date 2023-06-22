@@ -44,11 +44,11 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     @Override
     public void sendChatNotification(String message) throws RemoteException {
         if (cli != null) {
-            if (cli.CHAT_MODE) {
+            if (cli.chatMode) {
                 cli.refreshChat();
             } else {
                 cli.addMessageInLine(message);
-                cli.updateCLI(cli, 0);
+                cli.updateCLI(0);
             }
         } else if (gui != null) {
             gui.timeLimitedNotification(message.substring(0,message.indexOf(" ")) +" sent you a new message",1000 );
@@ -68,7 +68,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
         ClientView.setFullViewVariables(virtualView, pIndex);
         if (cli != null) {
             cli.checkTurn();
-            cli.updateCLI(cli, 500);
+            cli.updateCLI(500);
         } else if (gui != null) {
             if(ClientView.GAME_ON && !ClientView.GO_TO_MENU){
                 //Gameplay
@@ -90,7 +90,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
         ClientView.setGameOn(true);
         ClientView.setMatchStart(true);
         if (cli != null) {
-            cli.updateCLI(cli, 1000);
+            cli.updateCLI(1000);
         } else if (gui != null) {
 
 
@@ -169,7 +169,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     public void notifyUpdate(int milliseconds) throws RemoteException {
         if (cli != null) {
             //System.out.println("Update...");
-            cli.updateCLI(cli, milliseconds);
+            cli.updateCLI(milliseconds);
         } else if (gui != null) {
             if(ClientView.GO_TO_MENU){
                 //Menu

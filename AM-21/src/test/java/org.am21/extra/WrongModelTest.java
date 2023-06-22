@@ -14,7 +14,7 @@ import static org.am21.extra.Gear.buildGame;
 public class WrongModelTest {
     @BeforeEach
     void reset(){
-        GameManager.SERVER_COMM=false;
+        GameManager.serverComm =false;
         //GameGear.numberOfRefill=0;
     }
     @Test
