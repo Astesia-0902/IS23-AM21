@@ -278,7 +278,7 @@ public class GameManager {
 
     private static void handleMatchPauseTimeout(int matchID) {
         //TODO:the last player should be the winner
-        if (matchMap.get(matchID).gameState.equals(GameState.Closed)) {
+        if (matchMap.get(matchID)==null || matchMap.get(matchID).gameState.equals(GameState.Closed)) {
             return;
         }
         cancelMatchPauseTimer(matchID);

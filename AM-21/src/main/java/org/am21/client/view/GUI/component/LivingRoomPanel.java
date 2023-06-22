@@ -274,21 +274,23 @@ public class LivingRoomPanel extends JPanel {
             gui.setNewChatWindow(true);
             gui.setAskChat(true);
 
-            gui.chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
-            gui.chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);
-
+            //gui.chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
+            //gui.chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);
 
             try {
+                if(gui.onlineListDialog!=null && gui.onlineListDialog.isVisible()) {
+                    gui.onlineListDialog.setVisible(false);
+                }
                 gui.showOnlinePlayer();
             } catch (RemoteException ex) {
                 throw new RuntimeException(ex);
             }
-            gui.chatDialog.setVisible(true);
+            //gui.chatDialog.setVisible(true);
 
-            SwingUtilities.invokeLater(() -> {
+            /*SwingUtilities.invokeLater(() -> {
                 gui.chatDialog.revalidate();
                 gui.chatDialog.repaint();
-            });
+            });*/
         });
         panelBoard.add(openChat, JLayeredPane.MODAL_LAYER);
     }

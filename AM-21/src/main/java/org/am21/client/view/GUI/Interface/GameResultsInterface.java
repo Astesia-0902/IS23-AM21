@@ -1,5 +1,6 @@
 package org.am21.client.view.GUI.Interface;
 
+import org.am21.client.view.ClientView;
 import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.GUI.component.ButtonColorUI;
 import org.am21.client.view.GUI.utils.ImageUtil;
@@ -11,7 +12,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
-import java.rmi.RemoteException;
 
 
 public class GameResultsInterface extends JFrame {
@@ -25,7 +25,7 @@ public class GameResultsInterface extends JFrame {
     public static int columnResults = 7;
 
     public GameResultsInterface(Gui gui, String[][] gameResults) {
-//public GameResultsInterface() {
+        //public GameResultsInterface() {
         setBackGround();
 
         String winner = gameResults[gameResults.length - 1][0];
@@ -99,7 +99,7 @@ public class GameResultsInterface extends JFrame {
         //-------------------------------------------------------------------------------------------------------
 
         setLocationRelativeTo(null);
-        setVisible(true);
+        //setVisible(true);
     }
 
     public void setBackGround() {
@@ -138,11 +138,23 @@ public class GameResultsInterface extends JFrame {
         quitGame.setBackground(Color.WHITE);
         quitGame.setForeground(new Color(172, 19, 5, 230));
         quitGame.addActionListener(e -> {
-            try {
-                gui.askExitGame();
-            } catch (RemoteException ex) {
-                throw new RuntimeException(ex);
+            //gui.askLeaveMatch();
+            System.out.println("Leave Result");
+
+            if(gui.waitingRoomInterface!=null){
+                gui.waitingRoomInterface.setVisible(false);
+                //Remove Match Group Chat from myChatMap
+                Gui.myChatMap.remove("#All");
+                gui.waitingRoomInterface.dispose();
             }
+
+            gui.gameResultsInterface.dispose();
+            gui.setMenuRefresh(true);
+            ClientView.setGoToMenu(true);
+            ClientView.setGameOn(false);
+            gui.setNeedNewFrame(true);
+            ClientView.setMatchEnd(false);
+
 
         });
         gameResultsPane.add(quitGame, JLayeredPane.PALETTE_LAYER);

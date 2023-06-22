@@ -1585,7 +1585,7 @@ public class Cli implements View {
     public String askInfo(String type, String defaultValue) {
 
         do {
-            System.out.print("Enter the " + type + ": [" + defaultValue + "]");
+            System.out.print("Enter the " + type + " [Press 'Enter' for " + defaultValue + "]: ");
             String value = readLine();
             String[] fragments = value.split("\\.");
 

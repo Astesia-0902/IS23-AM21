@@ -66,7 +66,9 @@ public class LivingRoomMenuInterface extends JFrame {
         backGame.setUI(new ButtonColorUI(new Color(136, 218, 123, 139)));
         backGame.setBackground(Color.WHITE);
         backGame.setForeground(new Color(4, 134, 10, 230));
-        backGame.addActionListener(e -> dispose());
+        backGame.addActionListener(e -> {
+            this.setVisible(false);
+            this.dispose();});
         menuLRPane.add(backGame, JLayeredPane.PALETTE_LAYER);
     }
 
@@ -85,6 +87,7 @@ public class LivingRoomMenuInterface extends JFrame {
         leaveMatch.addActionListener(e -> {
             try {
                 if (gui.askLeaveMatch()) {
+                    gui.setNeedNewFrame(true);
                     dispose();
                 }
             } catch (RemoteException ex) {

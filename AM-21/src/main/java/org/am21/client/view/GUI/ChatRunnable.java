@@ -1,6 +1,7 @@
 package org.am21.client.view.GUI;
 
 import org.am21.client.view.GUI.Interface.ChatDialog;
+import org.am21.client.view.GUI.utils.PixelUtil;
 
 public class ChatRunnable implements Runnable{
     public Gui gui;
@@ -14,10 +15,18 @@ public class ChatRunnable implements Runnable{
         if(Gui.newChatWindow){
             if(gui.chatDialog!=null && !gui.chatDialog.isVisible()){
                 //chatDialog exists already
+                if(gui.livingRoomInterface!=null) {
+                    gui.chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
+                    gui.chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);
+                }
                 gui.chatDialog.setVisible(true);
             }else {
                 synchronized (gui.chatLock) {
                     gui.chatDialog = new ChatDialog(gui.frame);
+                }
+                if(gui.livingRoomInterface!=null) {
+                    gui.chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
+                    gui.chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);
                 }
                 System.out.println("Chat Dialog created (visible)");
                 gui.setNewChatWindow(true);
@@ -26,6 +35,10 @@ public class ChatRunnable implements Runnable{
         }else{
             synchronized (gui.chatLock) {
                 gui.chatDialog = new ChatDialog(gui.frame);
+                if(gui.livingRoomInterface!=null) {
+                    gui.chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
+                    gui.chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);
+                }
             }
             gui.chatDialog.setVisible(false);
             System.out.println("Chat Dialog created (not visible)");

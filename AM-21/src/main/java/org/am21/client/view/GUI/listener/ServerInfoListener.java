@@ -121,7 +121,7 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
                         throw new RuntimeException(e3);
                     }
                     try {
-                        Lobby lobby = (Lobby) Naming.lookup("rmi://" + address + ":" + port + "/Welcome");
+                        Lobby lobby = (Lobby) Naming.lookup("rmi://" +address + ":" + port + "/Welcome");
                         HashMap<String, String> serverInfo;
                         try {
                             serverInfo = lobby.connect();

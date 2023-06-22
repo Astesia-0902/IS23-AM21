@@ -75,11 +75,9 @@ public class Gui {
         public void run() {
             super.run();
             while (true) {
-                while (MATCH_END && GO_TO_MENU && !GAME_ON) {
-                    ClientView.setMatchEnd(false);
-                    askEndRoom();
+                if (livingRoomInterface != null) {
+                    livingRoomInterface.dispose();
                 }
-
                 while (!MATCH_END && !GAME_ON && GO_TO_MENU) {
                     try {
                         askMenuAction();
@@ -140,9 +138,16 @@ public class Gui {
                         throw new RuntimeException(e);
                     }
                 }
-                if (livingRoomInterface != null) {
-                    livingRoomInterface.dispose();
+
+
+                while (MATCH_END && GO_TO_MENU && !GAME_ON) {
+                    askEndRoom();
                 }
+
+                if(gameResultsInterface!=null){
+                    gameResultsInterface=null;
+                }
+
             }
 
         }
@@ -155,11 +160,7 @@ public class Gui {
             super.run();
             while (true) {
                 while (askChat) {
-
-                    System.out.println("Asking chat...");
                     askChat();
-                    System.out.println("Close AskChat");
-
                 }
                 try {
                     Thread.sleep(200);
@@ -233,6 +234,7 @@ public class Gui {
             System.out.println("New MenuAction Interface");
             menuActionInterface = new MenuActionInterface(frame, username);
             new MenuActionListener(this);
+            menuActionInterface.setVisible(true);
             setNeedNewFrame(false);
         } else if (menuRefresh && menuActionInterface != null) {
             SwingUtilities.invokeLater(() -> {
@@ -381,8 +383,20 @@ public class Gui {
     }
 
     public void askEndRoom() {
-        gameResultsInterface = new GameResultsInterface(this, gameResults);
-        gameResultsInterface.setVisible(true);
+
+        if(gameResultsInterface==null) {
+            gameResultsInterface = new GameResultsInterface(this, gameResults);
+            new Thread(()->{
+                gameResultsInterface.setVisible(true);
+            }).start();
+        }
+        if (waitingRoomInterface != null && waitingRoomInterface.isActive()) {
+            System.out.println("WaitingRoomInterface Disposed");
+            waitingRoomInterface.dispose();
+        }
+        if(menuActionInterface!=null && menuActionInterface.isActive()){
+            menuActionInterface.dispose();
+        }
     }
 
 
@@ -609,20 +623,20 @@ public class Gui {
         convertPublicChatForGUI();
         if (chatDialog == null && !newChatWindow) {
             setAskChat(false);
-
             guiDialogMinion.start();
             guiChatListenerMinion.start();
-
         } else if (chatDialog == null && newChatWindow) {
             setAskChat(false);
-
             guiDialogMinion.start();
             guiChatListenerMinion.start();
         } else if (chatDialog != null && newChatWindow) {
             setAskChat(false);
-
             SwingUtilities.invokeLater(() -> {
                 chatDialog.reloadChat();
+                if(livingRoomInterface!=null) {
+                    chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
+                    chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);
+                }
                 chatDialog.getContentPane().revalidate();
                 chatDialog.getContentPane().repaint();
                 System.out.println("Repaint success(Visible)");
@@ -635,6 +649,10 @@ public class Gui {
             // Normal chat update
             SwingUtilities.invokeLater(() -> {
                 chatDialog.reloadChat();
+                if(livingRoomInterface!=null) {
+                    chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
+                    chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);
+                }
                 chatDialog.getContentPane().revalidate();
                 chatDialog.getContentPane().repaint();
             });
@@ -659,6 +677,12 @@ public class Gui {
         if (onlineListDialog == null || !onlineListDialog.isVisible()) {
             onlineListDialog = new OnlineListDialog(frame, userModel);
             new OnlineListListener(this);
+        }else if(onlineListDialog!=null && !onlineListDialog.isVisible()){
+            SwingUtilities.invokeLater(()->{
+                onlineListDialog.setVisible(true);
+                onlineListDialog.revalidate();
+                onlineListDialog.repaint();
+            });
         }
     }
 
