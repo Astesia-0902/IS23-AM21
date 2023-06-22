@@ -18,10 +18,11 @@ import java.util.HashMap;
 
 public class ServerInfoInterface extends JDialog {
     public static final int WIDTH = 300;
-    public static final int HEIGHT = 250;
+    public static int HEIGHT = 250;
 
     public JTextField addressField;
     public JTextField portField;
+    public JTextField ipField;
     public JButton confirmButton;
     public JLabel minusLabel;
     public JLabel closeLabel;
@@ -30,16 +31,51 @@ public class ServerInfoInterface extends JDialog {
     public ImageIcon returnIcon;
     public ImageIcon returnIconColor;
 
+    private int addressY;
+    private int portY;
+    private int confirmY;
+
     public ServerInfoInterface(JFrame frame) {
         super(frame);
         String defaultAddress;
         String defaultPort;
-        if(ClientController.isRMI){
-            defaultAddress="localhost";
-            defaultPort="1234";
-        }else{
+        if (ClientController.isRMI) {
+            defaultAddress = "localhost";
+            defaultPort = "1234";
+
+            HEIGHT = 320;
+            addressY = 40;
+            portY = 170;
+            confirmY = 235;
+
+            // IP Field
+            ImageIcon ipIcon = IconUtil.getIcon("ip");
+            ipField = new JTextField(15) {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    ipIcon.paintIcon(ipField, g, ImageUtil.resizeX(5), ImageUtil.resizeY(5));
+                }
+            };
+            ipField.setText(defaultAddress);
+            ipField.setForeground(new Color(255, 255, 240));
+            ipField.setFont(new Font("Serif", Font.BOLD, ImageUtil.resizeY(23)));
+            ipField.setBackground(new Color(222, 184, 135));
+            ipField.setBorder(new CompoundBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 250, 205),
+                    new Color(255, 250, 205), new Color(139, 69, 19), new Color(139, 69, 19)),
+                    new EmptyBorder(0, ImageUtil.resizeX(50), 0, 0)));
+            ipField.setBounds(ImageUtil.resizeX(25), ImageUtil.resizeY(105),
+                    ImageUtil.resizeX(250), ImageUtil.resizeY(46));
+            getContentPane().add(ipField);
+
+        } else {
             defaultAddress = SocketClient.defaultServerName;
             defaultPort = String.valueOf(SocketClient.defaultServerPort);
+
+            HEIGHT = 250;
+            addressY = 40;
+            portY = 105;
+            confirmY = 170;
         }
 
         frame.setTitle("MyShelfie - Server Info");
@@ -70,7 +106,8 @@ public class ServerInfoInterface extends JDialog {
 
         // Login Button
         confirmButton = ButtonUtil.getButton("Confirm");
-        confirmButton.setBounds(ImageUtil.resizeX(25), ImageUtil.resizeY(183), ImageUtil.resizeX(250), ImageUtil.resizeY(46));
+        confirmButton.setBounds(ImageUtil.resizeX(25), ImageUtil.resizeY(confirmY),
+                ImageUtil.resizeX(250), ImageUtil.resizeY(46));
         getContentPane().add(confirmButton);
 
         // Address Field
@@ -89,7 +126,7 @@ public class ServerInfoInterface extends JDialog {
         addressField.setBorder(new CompoundBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 250, 205),
                 new Color(255, 250, 205), new Color(139, 69, 19), new Color(139, 69, 19)),
                 new EmptyBorder(0, ImageUtil.resizeX(50), 0, 0)));
-        addressField.setBounds(ImageUtil.resizeX(25), ImageUtil.resizeY(40),
+        addressField.setBounds(ImageUtil.resizeX(25), ImageUtil.resizeY(addressY),
                 ImageUtil.resizeX(250), ImageUtil.resizeY(46));
         getContentPane().add(addressField);
 
@@ -111,7 +148,7 @@ public class ServerInfoInterface extends JDialog {
                 new Color(255, 250, 205), new Color(139, 69, 19), new Color(139, 69, 19)),
                 new EmptyBorder(0, ImageUtil.resizeX(50), 0, 0)));
         portField.setBackground(new Color(222, 184, 135));
-        portField.setBounds(ImageUtil.resizeX(25), ImageUtil.resizeY(105),
+        portField.setBounds(ImageUtil.resizeX(25), ImageUtil.resizeY(portY),
                 ImageUtil.resizeX(250), ImageUtil.resizeY(46));
         getContentPane().add(portField);
 

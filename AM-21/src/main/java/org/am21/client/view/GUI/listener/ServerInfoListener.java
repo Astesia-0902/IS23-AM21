@@ -46,6 +46,11 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
         gui.serverInfoInterface.addressField.addActionListener(this);
         gui.serverInfoInterface.addressField.addKeyListener(this);
         gui.serverInfoInterface.addressField.getDocument().addDocumentListener(this);
+        if (ClientController.isRMI) {
+            gui.serverInfoInterface.ipField.addActionListener(this);
+            gui.serverInfoInterface.ipField.addKeyListener(this);
+            gui.serverInfoInterface.ipField.getDocument().addDocumentListener(this);
+        }
         gui.serverInfoInterface.confirmButton.addActionListener(this);
         gui.serverInfoInterface.confirmButton.addKeyListener(this);
     }
@@ -54,20 +59,10 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
     public void actionPerformed(ActionEvent e) {
         // ASK SERVER INFO
         if (e.getSource() == gui.serverInfoInterface.confirmButton) {
-            String defaultAddress;
-            String defaultPort;
-            if (ClientController.isRMI) {
-                defaultAddress = "localhost";
-                defaultPort = "1234";
-
-            } else {
-                defaultAddress = SocketClient.defaultServerName;
-                defaultPort = String.valueOf(SocketClient.defaultServerPort);
-            }
             String address = gui.serverInfoInterface.addressField.getText().trim();
             String port = gui.serverInfoInterface.portField.getText().trim();
+            String ip;
 
-            //if (address.isEmpty() || port.isEmpty() || !address.equals(defaultAddress) || !port.equals(defaultPort)) {
             if (address.isEmpty() || port.isEmpty()) {
                 gui.serverInfoInterface.addressField.setBorder(new CompoundBorder(new MatteBorder
                         (ImageUtil.resizeY(3), ImageUtil.resizeX(3), ImageUtil.resizeY(3),
@@ -77,12 +72,22 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
                         (ImageUtil.resizeY(3), ImageUtil.resizeX(3), ImageUtil.resizeY(3),
                                 ImageUtil.resizeX(3), new Color(178, 34, 34)),
                         new EmptyBorder(0, ImageUtil.resizeX(50), 0, 0)));
+
+                if (ClientController.isRMI) {
+                    ip = gui.serverInfoInterface.ipField.getText().trim();
+                    if (ip.isEmpty()) {
+                        gui.serverInfoInterface.ipField.setBorder(new CompoundBorder(new MatteBorder
+                                (ImageUtil.resizeY(3), ImageUtil.resizeX(3), ImageUtil.resizeY(3),
+                                        ImageUtil.resizeX(3), new Color(178, 34, 34)),
+                                new EmptyBorder(0, ImageUtil.resizeX(50), 0, 0)));
+                    }
+                }
             } else {
                 gui.serverInfoInterface.dispose();
                 if (ClientController.isRMI) {
                     // Determine my address
                     String clientBind = "";
-                    String clientAddress = "localhost";
+                    ip = gui.serverInfoInterface.ipField.getText().trim();
                     InetAddress localHost = null;
                     try {
                         localHost = InetAddress.getLocalHost();
@@ -90,25 +95,27 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
                         throw new RuntimeException(e2);
                     }
                     //TODO: add an input for Client Address
-                    clientAddress = "localhost";
-                    System.setProperty("java.rmi.server.hostname", clientAddress);
-                    System.out.println("Your ip address is : " + clientAddress);
+
                     int freePort;
                     while (true) {
                         freePort = findFreePort();
-                        if(freePort!=-1){
-                            System.out.println("Free port found: "+ freePort);
+                        if (freePort != -1) {
+                            System.out.println("Free port found: " + freePort);
                             break;
-                        }else {
+                        } else {
                             System.out.println("Free port not found");
                         }
                     }
+                    //ip = "192.168.20.23";
+                    ip = "localhost";
+                    System.setProperty("java.rmi.server.hostname", ip);
+                    System.out.println("Your ip address is : " + ip);
                     try {
                         Registry registry = LocateRegistry.createRegistry(freePort);
                         UnicastRemoteObject.unexportObject(gui.clientCallBack, true);
                         IClientCallBack callbackStub = (IClientCallBack) UnicastRemoteObject.exportObject(gui.clientCallBack, freePort);
                         registry.bind("Callback", callbackStub);
-                        clientBind = "rmi://" + clientAddress + ":"+freePort+"/Callback";
+                        clientBind = "rmi://" + ip + ":" + freePort + "/Callback";
 
                     } catch (AlreadyBoundException | RemoteException e3) {
                         throw new RuntimeException(e3);
@@ -122,14 +129,15 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
                         } catch (AlreadyBoundException ex) {
                             throw new RuntimeException(ex);
                         }
-                        gui.iClientInputHandler = (IClientInput) Naming.lookup("rmi://" + serverInfo.get("address") + ":" + serverInfo.get("port") + "/"
-                                + gui.root);
+                        gui.iClientInputHandler = (IClientInput) Naming.lookup("rmi://" + serverInfo.get("address")
+                                                                               + ":" + serverInfo.get("port") + "/"
+                                                                               + Gui.root);
 
                         ClientController.iClientInputHandler = gui.iClientInputHandler;
                         gui.commCtrl.registerCallBack(clientBind);
                         gui.askLogin();
                     } catch (NotBoundException | MalformedURLException | RemoteException ex) {
-                        gui.timeLimitedNotification("No server found",1000);
+                        gui.timeLimitedNotification("No server found", 1000);
                         gui.askServerInfoRMI();
                     }
                 } else {
@@ -140,7 +148,7 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
 
                     if (!SocketClient.connectToServer()) {
                         //Server not found
-                        gui.timeLimitedNotification("No server found",1000);
+                        gui.timeLimitedNotification("No server found", 1000);
                         gui.askServerInfoSocket();
                     } else {
                         socket.start();
@@ -272,7 +280,10 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
     private void updateButtonState() {
         gui.serverInfoInterface.confirmButton.setEnabled(
                 !gui.serverInfoInterface.addressField.getText().trim().isEmpty() &&
-                        !gui.serverInfoInterface.portField.getText().trim().isEmpty());
+                !gui.serverInfoInterface.portField.getText().trim().isEmpty());
+        if (ClientController.isRMI) {
+            gui.serverInfoInterface.confirmButton.setEnabled(!gui.serverInfoInterface.ipField.getText().trim().isEmpty());
+        }
     }
 
     public static int findFreePort() {
@@ -288,7 +299,7 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
                 try {
                     socket.close();
                 } catch (IOException e) {
-                    System.out.println(org.am21.client.view.TUI.Color.RED+"Socket not closed"+ org.am21.client.view.TUI.Color.RESET);
+                    System.out.println(org.am21.client.view.TUI.Color.RED + "Socket not closed" + org.am21.client.view.TUI.Color.RESET);
                 }
             }
         }

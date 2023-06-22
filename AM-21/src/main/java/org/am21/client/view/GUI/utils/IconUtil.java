@@ -18,7 +18,9 @@ public class IconUtil {
         try {
             imageMap.put("user", ImageIO.read(new FileInputStream(PathUtil.getPath("icon tool/user.png")))
                     .getScaledInstance(ImageUtil.resizeX(35), ImageUtil.resizeY(35), Image.SCALE_SMOOTH));
-            imageMap.put("address", ImageIO.read(new FileInputStream(PathUtil.getPath("icon tool/IP.png")))
+            imageMap.put("address", ImageIO.read(new FileInputStream(PathUtil.getPath("icon tool/address.png")))
+                    .getScaledInstance(ImageUtil.resizeX(35), ImageUtil.resizeY(35), Image.SCALE_SMOOTH));
+            imageMap.put("ip", ImageIO.read(new FileInputStream(PathUtil.getPath("icon tool/IP.png")))
                     .getScaledInstance(ImageUtil.resizeX(35), ImageUtil.resizeY(35), Image.SCALE_SMOOTH));
             imageMap.put("port", ImageIO.read(new FileInputStream(PathUtil.getPath("icon tool/server.png")))
                     .getScaledInstance(ImageUtil.resizeX(35), ImageUtil.resizeY(35), Image.SCALE_SMOOTH));
@@ -99,25 +101,6 @@ public class IconUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-//        iconMap.put("online",new ImageIcon(PathUtil.getPath("icon tool/online.png")));
-//        iconMap.put("onlineSelected",new ImageIcon(PathUtil.getPath("icon tool/onlineColor.png")));
-//        iconMap.put("chat",new ImageIcon(PathUtil.getPath("icon tool/chat (2).png")));
-//        iconMap.put("chatSelected",new ImageIcon(PathUtil.getPath("icon tool/chatColor.png")));
-//        iconMap.put("help",new ImageIcon(PathUtil.getPath("icon tool/help.png")));
-//        iconMap.put("helpSelected",new ImageIcon(PathUtil.getPath("icon tool/helpColor.png")));
-//
-//        iconMap.put("left",new ImageIcon(PathUtil.getPath("icon tool/left2 (2).png")));
-//        iconMap.put("right",new ImageIcon(PathUtil.getPath("icon tool/right2 (2).png")));
-//
-//        iconMap.put("close_White",new ImageIcon(PathUtil.getPath("icon tool/close_white.png")));
-//        iconMap.put("rule1",new ImageIcon(PathUtil.getPath("background/Rule1 1250x1250.png")));
-//        iconMap.put("rule2",new ImageIcon(PathUtil.getPath("background/Rule2 1250x1250.png")));
-//        iconMap.put("rule3",new ImageIcon(PathUtil.getPath("background/Rule3 1250x1250.png")));
-//        iconMap.put("rule4",new ImageIcon(PathUtil.getPath("background/Rule4 1250x1250.png")));
-//        iconMap.put("rule5",new ImageIcon(PathUtil.getPath("background/Rule5 1250x1250.png")));
-//        iconMap.put("rule6",new ImageIcon(PathUtil.getPath("background/Rule6 1250x1250.png")));
-
     }
 
     public static ImageIcon getIcon(String iconName) {
