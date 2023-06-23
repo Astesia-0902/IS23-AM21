@@ -21,11 +21,12 @@ public class GameResultsInterface extends JFrame {
     public JTableHeader header;
     public JLabel title;
     public JLabel gameResultsBack;
-    public JButton quitGame;
+    public JButton leaveGame;
     public String[][] data;
     public static int columnResults = 7;
 
     public GameResultsInterface(Gui gui, String[][] gameResults) {
+
         setBackGround();
 
         String winner = gameResults[gameResults.length - 1][0];
@@ -36,12 +37,9 @@ public class GameResultsInterface extends JFrame {
             for (int j = 0; j < columnResults - 1; j++) {
                 data[i][j] = gameResults[i][j];
             }
-            if (winner!=null&&winner.equals(data[i][0]))
+            if (winner != null && winner.equals(data[i][0]))
                 data[i][columnResults - 1] = "Winner";
         }
-
-
-        // String[] columnResultsName = {"Name","C-Goal", "P-Goal","S-Group","Endgame","Total","Position"};
 
         String[] columnResultsName = {"Name", "C-Goal", "P-Goal", "S-Group", "Endgame", "Total", "Results"};
 
@@ -51,11 +49,9 @@ public class GameResultsInterface extends JFrame {
                 .deriveFont(Font.PLAIN, ImageUtil.resizeY(42)));
         tableResults.setRowHeight(PixelUtil.labelRITableRowH);
         tableResults.setOpaque(false);
-        // tableResults.setBorder(BorderFactory.createEmptyBorder());
         tableResults.setShowGrid(false);
         tableResults.setIntercellSpacing(new Dimension(0, 0));
         tableResults.setEnabled(false);
-        // tableResults.setDefaultRenderer(Object.class, new TransparentRenderer());
 
         header = tableResults.getTableHeader();
         header.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
@@ -88,23 +84,25 @@ public class GameResultsInterface extends JFrame {
             }
         };
 
-        // Apply the custom cell renderer to all columns
         for (int i = 0; i < tableResults.getColumnCount(); i++) {
             tableResults.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
         }
 
-
         //-button quit ------------------------------------------------------------------------------------------------
 
-        callQuitGame(gui);
+        callLeaveGame(gui);
 
         //-------------------------------------------------------------------------------------------------------
 
         setLocationRelativeTo(null);
-        //setVisible(true);
+
     }
 
+    /**
+     * base set
+     */
     public void setBackGround() {
+
         setUndecorated(true);
         setSize(PixelUtil.pcWidth, PixelUtil.pcHeight);
         setLayout(null);
@@ -129,24 +127,26 @@ public class GameResultsInterface extends JFrame {
 
     }
 
-    public void callQuitGame(Gui gui) {
-        quitGame = new JButton("LEAVE");
-        quitGame.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
-                .deriveFont(Font.PLAIN, ImageUtil.resizeY(24)));
-        quitGame.setBounds(PixelUtil.labelRIButtonX, PixelUtil.labelRIButtonY, PixelUtil.buttonLRW, PixelUtil.buttonLRH);
-        quitGame.setUI(new ButtonColorUI(new Color(255, 181, 172, 139)));
-        quitGame.setBorder(new MatteBorder(ImageUtil.resizeY(2), ImageUtil.resizeX(2), ImageUtil.resizeY(2),
-                ImageUtil.resizeX(2), new Color(178, 34, 34)));
-        //quitGame.setOpaque(true);
-        quitGame.setBackground(Color.WHITE);
-        quitGame.setForeground(new Color(172, 19, 5, 230));
-        quitGame.addActionListener(e -> {
-            //gui.askLeaveMatch();
-            System.out.println("Leave Result");
+    /**
+     * set leave game button
+     *
+     * @param gui
+     */
+    public void callLeaveGame(Gui gui) {
 
-            if(gui.waitingRoomInterface!=null){
+        leaveGame = new JButton("LEAVE");
+        leaveGame.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
+                .deriveFont(Font.PLAIN, ImageUtil.resizeY(24)));
+        leaveGame.setBounds(PixelUtil.labelRIButtonX, PixelUtil.labelRIButtonY, PixelUtil.buttonLRW, PixelUtil.buttonLRH);
+        leaveGame.setUI(new ButtonColorUI(new Color(255, 181, 172, 139)));
+        leaveGame.setBorder(new MatteBorder(ImageUtil.resizeY(2), ImageUtil.resizeX(2), ImageUtil.resizeY(2),
+                ImageUtil.resizeX(2), new Color(178, 34, 34)));
+        leaveGame.setBackground(Color.WHITE);
+        leaveGame.setForeground(new Color(172, 19, 5, 230));
+        leaveGame.addActionListener(e -> {
+
+            if (gui.waitingRoomInterface != null) {
                 gui.waitingRoomInterface.setVisible(false);
-                //Remove Match Group Chat from myChatMap
                 Gui.myChatMap.remove("#All");
                 gui.waitingRoomInterface.dispose();
             }
@@ -158,16 +158,8 @@ public class GameResultsInterface extends JFrame {
             gui.setNeedNewFrame(true);
             ClientView.setMatchEnd(false);
 
-
         });
-        gameResultsPane.add(quitGame, JLayeredPane.PALETTE_LAYER);
+        gameResultsPane.add(leaveGame, JLayeredPane.PALETTE_LAYER);
     }
 
-    public static void main(String[] args) {
-        try {
-            // new GameResultsInterface();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

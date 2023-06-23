@@ -22,6 +22,7 @@ public class MyHandBoardPanel extends JPanel {
      * base set
      */
     public void setMyHandBoardPanel() {
+
         setBounds(PixelUtil.commonX_4, PixelUtil.commonY_4, PixelUtil.handBoardW, PixelUtil.handBoardH);
         setLayout(null);
         setOpaque(false);

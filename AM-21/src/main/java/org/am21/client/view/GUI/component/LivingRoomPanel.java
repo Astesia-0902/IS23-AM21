@@ -23,51 +23,27 @@ import java.rmi.server.ServerNotActiveException;
 public class LivingRoomPanel extends JPanel {
 
     public JButton livingRoomMenuButton;
-
-    //user me
     public JLabel myLabel;
     public JLabel myShelfBoardLabel;
-
-    //insert and clear button
     public JButton insertButton;
     public JButton clearButton;
-
-
-    //background label
     public JLayeredPane panelBoard;
     public JLabel backGroundLabel;
-
-    //game board
     public JLabel gameBoardLabel;
-
-    //personal goal
     public JLabel personalGoalLabel;
-
-    //common goal A
     public JLabel commonGoalALabel;
-
-    //common goal B
     public JLabel commonGoalBLabel;
-
-    //bag
     public JLabel bagLabel;
-
-    //chat button
     public JButton openChat;
-
-    //hand board
     public JLabel handBoardLabel;
-
     public JLabel myScoreBand;
-
     public JLabel myScoreDynamic;
-    public Timer waitTimer;
+    public Timer flashingTimer;
 
 
     public LivingRoomPanel(Gui gui) {
 
         setLivingRoomPanel();
-
 //------------------------------------------------------------------ function of game --------------------------------------------------------------------------------------------------------
         setMenuButton(gui);
 
@@ -180,9 +156,8 @@ public class LivingRoomPanel extends JPanel {
         livingRoomMenuButton.setForeground(new Color(164, 91, 9, 255));
         livingRoomMenuButton.setOpaque(false);
         livingRoomMenuButton.setIcon(ImageUtil.getBoardImage("iconMenu"));
-        /*
-          open menu interface
-         */
+
+        // open menu interface
         livingRoomMenuButton.addActionListener(e -> {
             LivingRoomMenuInterface livingRoomMenuInterface = new LivingRoomMenuInterface(gui);
             livingRoomMenuInterface.setVisible(true);
@@ -207,9 +182,8 @@ public class LivingRoomPanel extends JPanel {
         insertButton.setUI(new ButtonColorUI(new Color(136, 218, 123, 139)));
         insertButton.setBackground(Color.WHITE);
         insertButton.setForeground(new Color(4, 134, 10, 230));
-        /*
-         open my hand interface
-         */
+
+        //open my hand interface
         insertButton.addActionListener(e -> {
             if (gui.commCtrl.confirmSelection()) {
                 try {
@@ -266,7 +240,7 @@ public class LivingRoomPanel extends JPanel {
         openChat.setBackground(Color.WHITE);
         openChat.setForeground(new Color(85, 35, 222, 230));
         openChat.addActionListener(e -> {
-            if(!Gui.myChatMap.containsKey("#All")) {
+            if (!Gui.myChatMap.containsKey("#All")) {
                 Gui.myChatMap.put("#All", new JButton("#All"));
             }
 
@@ -280,23 +254,15 @@ public class LivingRoomPanel extends JPanel {
             gui.setNewChatWindow(true);
             gui.setAskChat(true);
 
-            //gui.chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
-            //gui.chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);
-
             try {
-                if(gui.onlineListDialog!=null && gui.onlineListDialog.isVisible()) {
+                if (gui.onlineListDialog != null && gui.onlineListDialog.isVisible()) {
                     gui.onlineListDialog.setVisible(false);
                 }
                 gui.showOnlinePlayer();
             } catch (RemoteException ex) {
                 throw new RuntimeException(ex);
             }
-            //gui.chatDialog.setVisible(true);
 
-            /*SwingUtilities.invokeLater(() -> {
-                gui.chatDialog.revalidate();
-                gui.chatDialog.repaint();
-            });*/
         });
         panelBoard.add(openChat, JLayeredPane.MODAL_LAYER);
     }
@@ -308,7 +274,7 @@ public class LivingRoomPanel extends JPanel {
         Border originalBorder = gameBoardLabel.getBorder();
         Border flashingBorder = new LineBorder(Color.GREEN);
 
-        waitTimer = new Timer(350, new ActionListener() {
+        flashingTimer = new Timer(350, new ActionListener() {
             private boolean isFlashing = false;
 
             public void actionPerformed(ActionEvent e) {
@@ -320,7 +286,7 @@ public class LivingRoomPanel extends JPanel {
                 isFlashing = !isFlashing;
             }
         });
-        waitTimer.setRepeats(true);
+        flashingTimer.setRepeats(true);
     }
 
     /**
@@ -329,6 +295,7 @@ public class LivingRoomPanel extends JPanel {
      * @param score common goal score
      */
     public void refreshMyScore(int score) {
+
         myScoreDynamic.setText(String.valueOf(score));
     }
 
@@ -336,6 +303,7 @@ public class LivingRoomPanel extends JPanel {
      * restore the border color from flashing action
      */
     public void setBorderColor() {
+
         gameBoardLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
     }
 

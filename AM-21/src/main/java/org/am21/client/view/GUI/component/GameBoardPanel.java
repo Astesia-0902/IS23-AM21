@@ -127,13 +127,12 @@ public class GameBoardPanel extends JPanel {
                     cells[i][j].setBounds(0, 0, PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH);
                     cells[i][j].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
                     if (gameBoard[i][j].startsWith(">")) {
+
                         cells[i][j].setIcon(ImageUtil.getItemImage(gameBoard[i][j].substring(1), PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH));
 
-
                     } else {
-                        //cells[i][j].setText(gameBoard[i][j]);
-                        cells[i][j].setIcon(ImageUtil.getItemImage(gameBoard[i][j], PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH));
 
+                        cells[i][j].setIcon(ImageUtil.getItemImage(gameBoard[i][j], PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH));
                     }
                     actionItem(i, j, gui);
                     grids[i][j].add(cells[i][j], JLayeredPane.MODAL_LAYER);
@@ -173,17 +172,12 @@ public class GameBoardPanel extends JPanel {
                     //do select
                     if (edgeColor.equals(new Color(0, 0, 0, 255)) && gui.commCtrl.selectCell(row, column)) {
                         cells[row][column].setBorder(BorderFactory.createLineBorder(new Color(4, 134, 10, 230), 4));
-                        // myHandBoard.putItem(cells[row][column]);
-
 
                     } else if (edgeColor.equals(new Color(4, 134, 10, 230)) && !gui.commCtrl.selectCell(row, column)) {
-
                         //do deselect
                         cells[row][column].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
-                        // myHandBoard.removeItem();
                     }
                     gui.myHandBoardPanel.refreshItem(ClientView.currentPlayerHand);
-
 
                 }
                 revalidate();
@@ -269,6 +263,9 @@ public class GameBoardPanel extends JPanel {
         });
     }
 
+    /**
+     * refresh board end score token
+     */
     public void pickScoreTokenEndGame() {
         gameBoardPane.remove(scoreTokenEndGame);
 

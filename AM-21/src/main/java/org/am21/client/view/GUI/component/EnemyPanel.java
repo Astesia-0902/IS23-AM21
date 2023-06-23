@@ -19,7 +19,7 @@ public class EnemyPanel extends JPanel {
     public JLabel enemyScoreDynamic;
     public JLabel enemyName;
     public ChairManLabel chairManLabel;
-    public Timer waitTimer;
+    public Timer flashingTimer;
 
     public EnemyPanel(int posY, ImageIcon imgPic, String nickname, String chairMan, String[][] virtualShelf) {
 
@@ -42,6 +42,7 @@ public class EnemyPanel extends JPanel {
      */
 
     public void setEnemyPane(int posY) {
+
         setBounds(0, posY, PixelUtil.commonX_2 + PixelUtil.enemyShelfW+ PixelUtil.enemyNameW, PixelUtil.enemyShelfH);
         setLayout(null);
         setOpaque(false);
@@ -59,6 +60,7 @@ public class EnemyPanel extends JPanel {
      * @param nickname name of enemy
      */
     public void setEnemyBackGround(ImageIcon imgPic, String nickname) {
+
         enemyPic = new JLabel(nickname);
         enemyPic.setBounds(PixelUtil.commonX_1, 0, PixelUtil.enemyW, PixelUtil.enemyH);
         enemyPic.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
@@ -92,6 +94,7 @@ public class EnemyPanel extends JPanel {
      */
 
     public void setEnemyShelf(String[][] virtualShelf) {
+
         enemyShelf = new ShelfPanel(PixelUtil.enemyGridX, PixelUtil.enemyGridY, PixelUtil.enemyCellW, PixelUtil.enemyCellH, PixelUtil.enemyItemW, PixelUtil.enemyItemH);
         enemyShelf.refreshShelf(virtualShelf);
         enemyPane.add(enemyShelf, JLayeredPane.PALETTE_LAYER);
@@ -105,10 +108,12 @@ public class EnemyPanel extends JPanel {
      * @param nickname name of enemy
      */
     public void setEnemyChair(String chairMan, String nickname) {
+
         if (chairMan.equals(nickname)) {
             chairManLabel = new ChairManLabel(false);
             enemyPane.add(chairManLabel, JLayeredPane.MODAL_LAYER);
         }
+
     }
 
     /**
@@ -119,7 +124,7 @@ public class EnemyPanel extends JPanel {
         Border originalBorder = enemyPic.getBorder();
         Border flashingBorder = new LineBorder(Color.GREEN);
 
-        waitTimer = new Timer(350, new ActionListener() {
+        flashingTimer = new Timer(350, new ActionListener() {
             private boolean isFlashing = false;
 
             public void actionPerformed(ActionEvent e) {
@@ -131,7 +136,7 @@ public class EnemyPanel extends JPanel {
                 isFlashing = !isFlashing;
             }
         });
-        waitTimer.setRepeats(true);
+        flashingTimer.setRepeats(true);
     }
 
     /**
@@ -140,6 +145,7 @@ public class EnemyPanel extends JPanel {
      * @param shelfStatus virtual shelf
      */
     public void refreshEnemyShelf(String[][] shelfStatus) {
+
         enemyShelf.refreshShelf(shelfStatus);
     }
 
@@ -149,6 +155,7 @@ public class EnemyPanel extends JPanel {
      * @param score virtual commonGoal score
      */
     public void refreshEnemyScores(int score) {
+
         enemyScoreDynamic.setText(String.valueOf(score));
     }
 
@@ -156,6 +163,7 @@ public class EnemyPanel extends JPanel {
      * restore border color from flashing action
      */
     public void setStatusBorder() {
+
         enemyPic.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
     }
 }

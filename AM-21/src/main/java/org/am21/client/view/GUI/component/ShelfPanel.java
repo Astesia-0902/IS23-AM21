@@ -44,11 +44,10 @@ public class ShelfPanel extends JPanel {
             for (int j = 0; j < GridColumnsMax; j++) {
                 grids[i][j] = new JLayeredPane();
                 grids[i][j].setBounds(j * this.cellWidth, i * this.cellHeight, this.cellWidth, this.cellHeight);
-                grids[i][j].setBorder(BorderFactory.createLineBorder(new Color(52, 7, 0, 255),4));
+                grids[i][j].setBorder(BorderFactory.createLineBorder(new Color(52, 7, 0, 255), 4));
                 grids[i][j].setLayout(null);
                 add(grids[i][j]);
             }
-
         }
     }
 
@@ -76,9 +75,9 @@ public class ShelfPanel extends JPanel {
                     cells[i][j].setIcon(ImageUtil.getItemImage(myShelf[i][j], itemWidth, itemHeight));
                     grids[i][j].add(cells[i][j], JLayeredPane.MODAL_LAYER);
                 }
-
             }
         }
+
         SwingUtilities.invokeLater(() -> {
             revalidate();
             repaint();
@@ -95,6 +94,7 @@ public class ShelfPanel extends JPanel {
      * @param futureShelf the virtual Shelf
      */
     public void previewInsertShelf(int column, int[] row, String[][] futureShelf) {
+
         for (JLayeredPane[] pane : grids) {
             for (int i = 0; i < pane.length; i++) {
                 pane[i].removeAll();
@@ -112,9 +112,9 @@ public class ShelfPanel extends JPanel {
                     cells[i][j].setIcon(ImageUtil.getItemImage(futureShelf[i][j], itemWidth, itemHeight));
                     grids[i][j].add(cells[i][j], JLayeredPane.MODAL_LAYER);
                 }
-
             }
         }
+
         for (int i = 0; i < row.length; i++) {
             if (row[i] == 1)
                 cells[i][column].setBorder(BorderFactory.createLineBorder(new Color(4, 245, 237, 230), 3));

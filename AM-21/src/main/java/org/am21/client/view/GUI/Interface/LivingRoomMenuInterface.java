@@ -56,9 +56,10 @@ public class LivingRoomMenuInterface extends JFrame {
     }
 
     /**
-     * back game button function
+     * set back game button
      */
     public void setBackGameButton() {
+
         backGame = new JButton("BACK TO PLAY");
         backGame.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
                 .deriveFont(Font.PLAIN, ImageUtil.resizeY(24)));
@@ -70,14 +71,19 @@ public class LivingRoomMenuInterface extends JFrame {
         backGame.setForeground(new Color(4, 134, 10, 230));
         backGame.addActionListener(e -> {
             this.setVisible(false);
-            this.dispose();});
+            this.dispose();
+        });
         menuLRPane.add(backGame, JLayeredPane.PALETTE_LAYER);
+
     }
 
     /**
-     * leave button function
+     * set leave button
+     *
+     * @param gui GUI
      */
     public void setLeaveButton(Gui gui) {
+
         leaveMatch = new JButton("LEAVE MATCH");
         leaveMatch.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
                 .deriveFont(Font.PLAIN, ImageUtil.resizeY(24)));
@@ -102,9 +108,12 @@ public class LivingRoomMenuInterface extends JFrame {
     }
 
     /**
-     * quit button function
+     * set exit button
+     *
+     * @param gui GUI
      */
     public void setQuitButton(Gui gui) {
+
         quitGame = new JButton("EXIT GAME");
         quitGame.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
                 .deriveFont(Font.PLAIN, ImageUtil.resizeY(24)));

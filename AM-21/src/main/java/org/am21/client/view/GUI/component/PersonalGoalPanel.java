@@ -18,6 +18,7 @@ public class PersonalGoalPanel extends JPanel {
      * base set
      */
     public void setPersonalGoalPanel(int cardNum) {
+
         setBounds(PixelUtil.personalGoalX, PixelUtil.personalGoalY, PixelUtil.personalGoalCardW, PixelUtil.personalGoalCardH);
         setLayout(null);
         setOpaque(false);
@@ -33,6 +34,7 @@ public class PersonalGoalPanel extends JPanel {
         personalGoalLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
         personalGoalLabel.setIcon(ImageUtil.getPersonalGoalCardImage(cardNum));
         personalGoalPane.add(personalGoalLabel, JLayeredPane.DEFAULT_LAYER);
+
     }
 
 

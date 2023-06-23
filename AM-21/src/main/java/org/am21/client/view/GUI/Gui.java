@@ -39,16 +39,12 @@ public class Gui {
     public MenuActionInterface menuActionInterface;
     public WaitingRoomInterface waitingRoomInterface;
     public LivingRoomInterface livingRoomInterface;
-    public LivingRoomMenuInterface livingRoomMenuInterface;
     public MyHandInterface myHandInterface;
     public PersonalGoalPanel personalGoalPanel;
     public CommonGoalPanel commonGoalPanel;
     public GameBoardPanel gameBoardPanel;
     public MyHandBoardPanel myHandBoardPanel;
     public ShelfPanel myShelfPanel;
-
-    public HashMap<String, EnemyPanel> enemiesStatus;
-
     public GameResultsInterface gameResultsInterface;
     public ChairManLabel chairManLabel;
     public ChatDialog chatDialog;
@@ -144,8 +140,8 @@ public class Gui {
                     askEndRoom();
                 }
 
-                if(gameResultsInterface!=null){
-                    gameResultsInterface=null;
+                if (gameResultsInterface != null) {
+                    gameResultsInterface = null;
                 }
 
             }
@@ -384,9 +380,9 @@ public class Gui {
 
     public void askEndRoom() {
 
-        if(gameResultsInterface==null) {
+        if (gameResultsInterface == null) {
             gameResultsInterface = new GameResultsInterface(this, gameResults);
-            new Thread(()->{
+            new Thread(() -> {
                 gameResultsInterface.setVisible(true);
             }).start();
         }
@@ -394,7 +390,7 @@ public class Gui {
             System.out.println("WaitingRoomInterface Disposed");
             waitingRoomInterface.dispose();
         }
-        if(menuActionInterface!=null && menuActionInterface.isActive()){
+        if (menuActionInterface != null && menuActionInterface.isActive()) {
             menuActionInterface.dispose();
         }
     }
@@ -403,28 +399,28 @@ public class Gui {
     public void showWhoIsPlaying() {
         if (currentPlayer.equals(username)) {
             // it's my turn
-            if (livingRoomInterface.livingRoomPanel.waitTimer != null)
-                livingRoomInterface.livingRoomPanel.waitTimer.start();
+            if (livingRoomInterface.livingRoomPanel.flashingTimer != null)
+                livingRoomInterface.livingRoomPanel.flashingTimer.start();
 
             for (EnemyPanel enemyPanel : livingRoomInterface.enemiesPanel.values()) {
-                if (enemyPanel.waitTimer != null) {
-                    enemyPanel.waitTimer.stop();
+                if (enemyPanel.flashingTimer != null) {
+                    enemyPanel.flashingTimer.stop();
                     enemyPanel.setStatusBorder();
                 }
             }
         } else {
             // enemies turn
-            if (livingRoomInterface.livingRoomPanel.waitTimer != null)
-                livingRoomInterface.livingRoomPanel.waitTimer.stop();
+            if (livingRoomInterface.livingRoomPanel.flashingTimer != null)
+                livingRoomInterface.livingRoomPanel.flashingTimer.stop();
             livingRoomInterface.livingRoomPanel.setBorderColor();
-            
+
 
             for (EnemyPanel enemyPanel : livingRoomInterface.enemiesPanel.values()) {
-                if (enemyPanel.waitTimer != null) {
+                if (enemyPanel.flashingTimer != null) {
                     if (enemyPanel.enemyName.getText().equals(currentPlayer))
-                        enemyPanel.waitTimer.start();
+                        enemyPanel.flashingTimer.start();
                     else {
-                        enemyPanel.waitTimer.stop();
+                        enemyPanel.flashingTimer.stop();
                         enemyPanel.setStatusBorder();
                     }
 
@@ -565,9 +561,9 @@ public class Gui {
 
         //set Timer
         if (currentPlayer.equals(username))
-            livingRoomInterface.livingRoomPanel.waitTimer.start();
+            livingRoomInterface.livingRoomPanel.flashingTimer.start();
         else
-            livingRoomInterface.enemiesPanel.get(currentPlayer).waitTimer.start();
+            livingRoomInterface.enemiesPanel.get(currentPlayer).flashingTimer.start();
 
     }
 
@@ -633,10 +629,10 @@ public class Gui {
             setAskChat(false);
             SwingUtilities.invokeLater(() -> {
                 chatDialog.reloadChat();
-                if(livingRoomInterface!=null) {
+                if (livingRoomInterface != null) {
                     chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
                     chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);
-                    onlineListDialog.setLocation(PixelUtil.commonX_1,PixelUtil.cPlayerWindowY);
+                    onlineListDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cPlayerWindowY);
                 }
                 chatDialog.getContentPane().revalidate();
                 chatDialog.getContentPane().repaint();
@@ -650,10 +646,10 @@ public class Gui {
             // Normal chat update
             SwingUtilities.invokeLater(() -> {
                 chatDialog.reloadChat();
-                if(livingRoomInterface!=null) {
+                if (livingRoomInterface != null) {
                     chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
                     chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);
-                    onlineListDialog.setLocation(PixelUtil.commonX_1,PixelUtil.cPlayerWindowY);
+                    onlineListDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cPlayerWindowY);
                 }
                 chatDialog.getContentPane().revalidate();
                 chatDialog.getContentPane().repaint();
@@ -679,8 +675,8 @@ public class Gui {
         if (onlineListDialog == null || !onlineListDialog.isVisible()) {
             onlineListDialog = new OnlineListDialog(frame, userModel);
             new OnlineListListener(this);
-        }else if(onlineListDialog!=null && !onlineListDialog.isVisible()){
-            SwingUtilities.invokeLater(()->{
+        } else if (onlineListDialog != null && !onlineListDialog.isVisible()) {
+            SwingUtilities.invokeLater(() -> {
                 onlineListDialog.setVisible(true);
                 onlineListDialog.revalidate();
                 onlineListDialog.repaint();
@@ -806,27 +802,27 @@ public class Gui {
         }
     }
 
-    public void setGameBoardRefresh(boolean value){
-        synchronized (gameBoardRefresh){
-            gameBoardRefresh=value;
+    public void setGameBoardRefresh(boolean value) {
+        synchronized (gameBoardRefresh) {
+            gameBoardRefresh = value;
         }
     }
 
-    public void setMenuRefresh(boolean value){
-        synchronized (menuRefresh){
-            menuRefresh=value;
+    public void setMenuRefresh(boolean value) {
+        synchronized (menuRefresh) {
+            menuRefresh = value;
         }
     }
 
-    public void setNeedNewFrame(boolean value){
-        synchronized (needNewFrame){
-            needNewFrame=value;
+    public void setNeedNewFrame(boolean value) {
+        synchronized (needNewFrame) {
+            needNewFrame = value;
         }
     }
 
-    public void setWaitRoomRefresh(boolean value){
-        synchronized (waitRoomRefresh){
-            waitRoomRefresh=value;
+    public void setWaitRoomRefresh(boolean value) {
+        synchronized (waitRoomRefresh) {
+            waitRoomRefresh = value;
         }
     }
 

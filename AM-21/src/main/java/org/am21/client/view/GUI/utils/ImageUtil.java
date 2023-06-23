@@ -4,11 +4,25 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ImageUtil {
+
+    /**
+     * shelf image util
+     *
+     * @param widthShelfImage  width of shelf
+     * @param heightShelfImage height of shelf
+     * @return ImageIcon for insert in shelf
+     */
     public static ImageIcon getShelfImage(int widthShelfImage, int heightShelfImage) {
 
         return new ImageIcon(new ImageIcon(PathUtil.getPath("boards/bookshelf_orth.png")).getImage().getScaledInstance(widthShelfImage, heightShelfImage, Image.SCALE_SMOOTH));
     }
 
+    /**
+     * board image util
+     *
+     * @param name name of image
+     * @return ImageIcon of image
+     */
     public static ImageIcon getBoardImage(String name) {
         return switch (name) {
             case "backGround" ->
@@ -52,6 +66,12 @@ public class ImageUtil {
         };
     }
 
+    /**
+     * common goal image util
+     *
+     * @param nameCard name of commonGoal
+     * @return ImageIcon of card
+     */
     public static ImageIcon getCommonGoalCardImage(String nameCard) {
         return switch (nameCard) {
             case "CommonGoal2Columns" ->
@@ -82,6 +102,12 @@ public class ImageUtil {
         };
     }
 
+    /**
+     * personal goal image util
+     *
+     * @param numCard id of personalGoal
+     * @return ImageIcon of card
+     */
     public static ImageIcon getPersonalGoalCardImage(int numCard) {
         return switch (numCard) {
             case 1 ->
@@ -112,6 +138,14 @@ public class ImageUtil {
         };
     }
 
+    /**
+     * item image resize util
+     *
+     * @param image      name of item
+     * @param widthItem  width of item
+     * @param heightItem height of item
+     * @return ImageIcon of item
+     */
     public static ImageIcon getItemImage(String image, int widthItem, int heightItem) {
         return switch (image) {
             case "_Books__1.1" ->
@@ -155,6 +189,12 @@ public class ImageUtil {
 
     }
 
+    /**
+     * score image util
+     *
+     * @param value value of score
+     * @return ImageIcon of score
+     */
     public static ImageIcon getScoreTokenImage(int value) {
         return switch (value) {
             case 1 ->
@@ -171,10 +211,21 @@ public class ImageUtil {
         };
     }
 
+    /**
+     * chairMan image position util
+     *
+     * @return ImageIcon of chairMan
+     */
     public static ImageIcon getChairManImage() {
         return new ImageIcon(new ImageIcon(PathUtil.getPath("misc/firstplayertoken.png")).getImage().getScaledInstance(PixelUtil.chairW, PixelUtil.chairH, Image.SCALE_SMOOTH));
     }
 
+    /**
+     * number on handInterface util
+     *
+     * @param numColor name and color of number
+     * @return ImageIcon of number
+     */
     public static ImageIcon getNumberImage(String numColor) {
         return switch (numColor) {
             case "1black" ->
@@ -195,14 +246,12 @@ public class ImageUtil {
                     new ImageIcon(new ImageIcon(PathUtil.getPath("number/shuzi3-2.png")).getImage().getScaledInstance(PixelUtil.handNumW, PixelUtil.handNumH, Image.SCALE_SMOOTH));
             case "3green" ->
                     new ImageIcon(new ImageIcon(PathUtil.getPath("number/shuzi3.png")).getImage().getScaledInstance(PixelUtil.handNumW, PixelUtil.handNumH, Image.SCALE_SMOOTH));
-
             case "4black" ->
                     new ImageIcon(new ImageIcon(PathUtil.getPath("number/shuzi4-2.png")).getImage().getScaledInstance(PixelUtil.handNumW, PixelUtil.handNumH, Image.SCALE_SMOOTH));
             case "4gray" ->
                     new ImageIcon(new ImageIcon(PathUtil.getPath("number/shuzi4.png")).getImage().getScaledInstance(PixelUtil.handNumW, PixelUtil.handNumH, Image.SCALE_SMOOTH));
             case "4green" ->
                     new ImageIcon(new ImageIcon(PathUtil.getPath("number/shuzi4-3.png")).getImage().getScaledInstance(PixelUtil.handNumW, PixelUtil.handNumH, Image.SCALE_SMOOTH));
-
             case "5black" ->
                     new ImageIcon(new ImageIcon(PathUtil.getPath("number/shuzi5-3.png")).getImage().getScaledInstance(PixelUtil.handNumW, PixelUtil.handNumH, Image.SCALE_SMOOTH));
             case "5gray" ->
@@ -215,12 +264,24 @@ public class ImageUtil {
     }
 
 
+    /**
+     * util of resizing Width or X coordinate
+     *
+     * @param element Width or X position
+     * @return int of X
+     */
     public static int resizeX(int element) {
         double size = (double) element / 1800;
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         return (int) (screenSize.width * size);
     }
 
+    /**
+     * util of resizing Height or Y coordinate
+     *
+     * @param element Height or Y position
+     * @return int of Y
+     */
     public static int resizeY(int element) {
         double size = (double) element / 1065;
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
