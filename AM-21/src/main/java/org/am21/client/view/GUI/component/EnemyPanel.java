@@ -1,5 +1,6 @@
 package org.am21.client.view.GUI.component;
 
+import org.am21.client.view.GUI.utils.FontUtil;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
 
@@ -70,14 +71,16 @@ public class EnemyPanel extends JPanel {
         enemyPane.add(enemyBoard, JLayeredPane.DEFAULT_LAYER);
 
         enemyScoreDynamic = new JLabel();
-        enemyScoreDynamic.setBounds(PixelUtil.enemyScoreX, PixelUtil.enemyScoreY, PixelUtil.enemyScoreW, PixelUtil.enemyScoreH);
-        enemyScoreDynamic.setFont(new Font("DejaVu Sans", Font.PLAIN, 20));
+        enemyScoreDynamic.setBounds(PixelUtil.commonX_2+PixelUtil.enemyShelfW, 0, PixelUtil.enemyNameW, PixelUtil.enemyShelfH);
+        enemyScoreDynamic.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
+                .deriveFont(Font.PLAIN, ImageUtil.resizeY(40)));
         enemyScoreDynamic.setForeground(new Color(0, 0, 0, 255));
         enemyPane.add(enemyScoreDynamic, JLayeredPane.MODAL_LAYER);
 
         enemyName = new JLabel(nickname);
-        enemyName.setBounds(PixelUtil.commonX_2+PixelUtil.enemyShelfW, 0, PixelUtil.enemyNameW, PixelUtil.enemyShelfH);
-        enemyName.setFont(new Font("DejaVu Sans", Font.PLAIN, 14));
+        enemyName.setBounds(PixelUtil.commonX_1, PixelUtil.enemyScoreY, PixelUtil.enemyScoreW, PixelUtil.enemyScoreH);
+        enemyName.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
+                .deriveFont(Font.PLAIN, ImageUtil.resizeY(20)));
         enemyName.setForeground(new Color(4, 30, 134, 230));
         enemyPane.add(enemyName, JLayeredPane.POPUP_LAYER);
     }

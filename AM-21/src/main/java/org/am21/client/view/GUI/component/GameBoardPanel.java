@@ -189,9 +189,6 @@ public class GameBoardPanel extends JPanel {
                 revalidate();
                 repaint();
 
-                //TODO: add server message ?
-                //JOptionPane.showMessageDialog(null,"error");
-
             }
 
 
@@ -204,7 +201,6 @@ public class GameBoardPanel extends JPanel {
     public void setScoreTokenEndGame() {
         scoreTokenEndGame = new ScoringTokenLabel(ImageUtil.getScoreTokenImage(1), PixelUtil.endGameTokenW, PixelUtil.endGameTokenH, PixelUtil.endGameTokenOriented, PixelUtil.endGameTokenRotateX, PixelUtil.endGameTokenRotateY);
         scoreTokenEndGame.setBounds(PixelUtil.endGameTokenX, PixelUtil.endGameTokenY, PixelUtil.endGameTokenBoundsW, PixelUtil.endGameTokenBoundsH);
-        //scoreTokenEndGame.setBackground(new Color(0, 0, 0, 0));
         scoreTokenEndGame.setOpaque(false);
         gameBoardPane.add(scoreTokenEndGame, JLayeredPane.PALETTE_LAYER);
     }

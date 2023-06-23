@@ -18,6 +18,7 @@ public class ChatRunnable implements Runnable{
                 if(gui.livingRoomInterface!=null) {
                     gui.chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
                     gui.chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);
+                    gui.onlineListDialog.setLocation(PixelUtil.commonX_1,PixelUtil.cPlayerWindowY);
                 }
                 gui.chatDialog.setVisible(true);
             }else {
@@ -27,6 +28,7 @@ public class ChatRunnable implements Runnable{
                 if(gui.livingRoomInterface!=null) {
                     gui.chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
                     gui.chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);
+                    gui.onlineListDialog.setLocation(PixelUtil.commonX_1,PixelUtil.cPlayerWindowY);
                 }
                 System.out.println("Chat Dialog created (visible)");
                 gui.setNewChatWindow(true);
@@ -38,6 +40,7 @@ public class ChatRunnable implements Runnable{
                 if(gui.livingRoomInterface!=null) {
                     gui.chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
                     gui.chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);
+                    gui.onlineListDialog.setLocation(PixelUtil.commonX_1,PixelUtil.cPlayerWindowY);
                 }
             }
             gui.chatDialog.setVisible(false);

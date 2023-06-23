@@ -4,6 +4,7 @@ import org.am21.client.view.ClientView;
 import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.GUI.component.ButtonColorUI;
 import org.am21.client.view.GUI.component.ShelfPanel;
+import org.am21.client.view.GUI.utils.FontUtil;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
 
@@ -268,7 +269,8 @@ public class MyHandInterface extends JDialog {
      */
     public void setConfirmButton(Gui gui) {
         confirm = new JButton("CONFIRM");
-        confirm.setFont(new Font("DejaVu Sans", Font.PLAIN, 16));
+        confirm.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
+                .deriveFont(Font.PLAIN, ImageUtil.resizeY(16)));
         confirm.setBounds(PixelUtil.myHandConfirmX, PixelUtil.myHandConfirmY, PixelUtil.myHandConfirmW, PixelUtil.myHandConfirmH);
         confirm.setBorder(new MatteBorder(ImageUtil.resizeY(2), ImageUtil.resizeX(2), ImageUtil.resizeY(2),
                 ImageUtil.resizeX(2), new Color(4, 134, 10, 230)));

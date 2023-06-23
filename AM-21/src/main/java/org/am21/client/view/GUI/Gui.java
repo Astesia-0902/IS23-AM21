@@ -636,6 +636,7 @@ public class Gui {
                 if(livingRoomInterface!=null) {
                     chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
                     chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);
+                    onlineListDialog.setLocation(PixelUtil.commonX_1,PixelUtil.cPlayerWindowY);
                 }
                 chatDialog.getContentPane().revalidate();
                 chatDialog.getContentPane().repaint();
@@ -652,6 +653,7 @@ public class Gui {
                 if(livingRoomInterface!=null) {
                     chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
                     chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);
+                    onlineListDialog.setLocation(PixelUtil.commonX_1,PixelUtil.cPlayerWindowY);
                 }
                 chatDialog.getContentPane().revalidate();
                 chatDialog.getContentPane().repaint();

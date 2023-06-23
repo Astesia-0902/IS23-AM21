@@ -3,6 +3,7 @@ package org.am21.client.view.GUI.Interface;
 import org.am21.client.view.ClientView;
 import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.GUI.component.ButtonColorUI;
+import org.am21.client.view.GUI.utils.FontUtil;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
 
@@ -25,7 +26,6 @@ public class GameResultsInterface extends JFrame {
     public static int columnResults = 7;
 
     public GameResultsInterface(Gui gui, String[][] gameResults) {
-        //public GameResultsInterface() {
         setBackGround();
 
         String winner = gameResults[gameResults.length - 1][0];
@@ -47,7 +47,8 @@ public class GameResultsInterface extends JFrame {
 
         DefaultTableModel tableModel = new DefaultTableModel(data, columnResultsName);
         tableResults = new JTable(tableModel);
-        tableResults.setFont(new Font("DejaVu Sans", Font.PLAIN, 42));
+        tableResults.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
+                .deriveFont(Font.PLAIN, ImageUtil.resizeY(42)));
         tableResults.setRowHeight(PixelUtil.labelRITableRowH);
         tableResults.setOpaque(false);
         // tableResults.setBorder(BorderFactory.createEmptyBorder());
@@ -57,7 +58,8 @@ public class GameResultsInterface extends JFrame {
         // tableResults.setDefaultRenderer(Object.class, new TransparentRenderer());
 
         header = tableResults.getTableHeader();
-        header.setFont(new Font("DejaVu Sans", Font.BOLD, 36));
+        header.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
+                .deriveFont(Font.PLAIN, ImageUtil.resizeY(36)));
         header.setBackground(new Color(155, 238, 177, 255));
         header.setForeground(new Color(2, 76, 91, 230));
         header.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -129,7 +131,8 @@ public class GameResultsInterface extends JFrame {
 
     public void callQuitGame(Gui gui) {
         quitGame = new JButton("LEAVE");
-        quitGame.setFont(new Font("DejaVu Sans", Font.PLAIN, 24));
+        quitGame.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
+                .deriveFont(Font.PLAIN, ImageUtil.resizeY(24)));
         quitGame.setBounds(PixelUtil.labelRIButtonX, PixelUtil.labelRIButtonY, PixelUtil.buttonLRW, PixelUtil.buttonLRH);
         quitGame.setUI(new ButtonColorUI(new Color(255, 181, 172, 139)));
         quitGame.setBorder(new MatteBorder(ImageUtil.resizeY(2), ImageUtil.resizeX(2), ImageUtil.resizeY(2),

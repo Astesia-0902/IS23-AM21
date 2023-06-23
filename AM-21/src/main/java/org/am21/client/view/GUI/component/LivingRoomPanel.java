@@ -4,6 +4,7 @@ package org.am21.client.view.GUI.component;
 import org.am21.client.view.ClientView;
 import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.GUI.Interface.LivingRoomMenuInterface;
+import org.am21.client.view.GUI.utils.FontUtil;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
 
@@ -155,13 +156,15 @@ public class LivingRoomPanel extends JPanel {
         //my score
         myScoreBand = new JLabel("Score:");
         myScoreBand.setBounds(PixelUtil.commonX_5, PixelUtil.livingRoomMenuY, PixelUtil.myScoreW, PixelUtil.myScoreH);
-        myScoreBand.setFont(new Font("DejaVu Sans", Font.PLAIN, 30));
+        myScoreBand.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
+                .deriveFont(Font.PLAIN, ImageUtil.resizeY(30)));
         myScoreBand.setForeground(new Color(85, 35, 222, 230));
         panelBoard.add(myScoreBand, JLayeredPane.PALETTE_LAYER);
 
         myScoreDynamic = new JLabel();
         myScoreDynamic.setBounds(PixelUtil.myScoreDynamicX, PixelUtil.commonY_1, PixelUtil.myScoreDynamicW, PixelUtil.myScoreDynamicH);
-        myScoreDynamic.setFont(new Font("DejaVu Sans", Font.PLAIN, 30));
+        myScoreDynamic.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
+                .deriveFont(Font.PLAIN, ImageUtil.resizeY(30)));
         myScoreDynamic.setForeground(new Color(0, 0, 0, 255));
         panelBoard.add(myScoreDynamic, JLayeredPane.PALETTE_LAYER);
 
@@ -196,7 +199,8 @@ public class LivingRoomPanel extends JPanel {
     public void setInsertButton(Gui gui) {
 
         insertButton = new JButton("INSERT");
-        insertButton.setFont(new Font("DejaVu Sans", Font.PLAIN, 16));
+        insertButton.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
+                .deriveFont(Font.PLAIN, ImageUtil.resizeY(16)));
         insertButton.setBounds(PixelUtil.insertButtonX, PixelUtil.commonY_4, PixelUtil.insertClearButtonW, PixelUtil.insertClearButtonH);
         insertButton.setBorder(new MatteBorder(ImageUtil.resizeY(2), ImageUtil.resizeX(2), ImageUtil.resizeY(2),
                 ImageUtil.resizeX(2), new Color(4, 134, 10, 230)));
@@ -226,7 +230,8 @@ public class LivingRoomPanel extends JPanel {
     public void setClearButton(Gui gui) {
 
         clearButton = new JButton("CLEAR");
-        clearButton.setFont(new Font("DejaVu Sans", Font.PLAIN, 16));
+        clearButton.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
+                .deriveFont(Font.PLAIN, ImageUtil.resizeY(16)));
         clearButton.setBounds(PixelUtil.clearButtonX, PixelUtil.commonY_4, PixelUtil.insertClearButtonW, PixelUtil.insertClearButtonH);
         clearButton.setBorder(new MatteBorder(ImageUtil.resizeY(2), ImageUtil.resizeX(2), ImageUtil.resizeY(2),
                 ImageUtil.resizeX(2), new Color(178, 34, 34)));
@@ -253,7 +258,8 @@ public class LivingRoomPanel extends JPanel {
 
         openChat = new JButton("CHAT");
         openChat.setBounds(PixelUtil.commonX_1, PixelUtil.cButtonY, PixelUtil.cButtonW, PixelUtil.cButtonH);
-        openChat.setFont(new Font("DejaVu Sans", Font.PLAIN, 16));
+        openChat.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
+                .deriveFont(Font.PLAIN, ImageUtil.resizeY(16)));
         openChat.setBorder(new MatteBorder(ImageUtil.resizeY(2), ImageUtil.resizeX(2), ImageUtil.resizeY(2),
                 ImageUtil.resizeX(2), new Color(85, 35, 222, 230)));
         openChat.setUI(new ButtonColorUI(new Color(178, 157, 225, 230)));

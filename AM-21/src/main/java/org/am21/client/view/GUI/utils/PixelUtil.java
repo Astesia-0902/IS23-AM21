@@ -66,12 +66,9 @@ public class PixelUtil {
     public static int myScoreDynamicW = ImageUtil.resizeX(54);
     public static int myScoreDynamicH = ImageUtil.resizeY(51);
 
-    public static int enemyScoreX = ImageUtil.resizeX(48);
     public static int enemyScoreY = ImageUtil.resizeY(36);
     public static int enemyScoreW = ImageUtil.resizeX(107);
     public static int enemyScoreH = ImageUtil.resizeY(101);
-
-    public static int enemyNameX = ImageUtil.resizeX(292);
 
     public static int enemyNameW = ImageUtil.resizeX(45);
 
@@ -99,7 +96,7 @@ public class PixelUtil {
     public static int myHandPanelX = ImageUtil.resizeX(43);
 
 
-    public static int chairManMeX = ImageUtil.resizeX(1232);
+    public static int chairManMeX = ImageUtil.resizeX(1222);
 
     // Y position
     public static int commonY_1 = ImageUtil.resizeY(32);
@@ -131,9 +128,12 @@ public class PixelUtil {
     public static int cButtonW = ImageUtil.resizeX(68);
     public static int cButtonH = ImageUtil.resizeY(34);
 
-    public static int cWindowW = ImageUtil.resizeX(292);
+    public static int cWindowW = ImageUtil.resizeX(352);
     public static int cWindowH = ImageUtil.resizeY(300);
     public static int cWindowY = ImageUtil.resizeY(660);
+
+    public static int cPlayerWindowY = ImageUtil.resizeY(450);
+
     /**
      * Shelf grid Util
      */

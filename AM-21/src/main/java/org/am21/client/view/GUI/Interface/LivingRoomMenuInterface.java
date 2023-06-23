@@ -2,6 +2,7 @@ package org.am21.client.view.GUI.Interface;
 
 import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.GUI.component.ButtonColorUI;
+import org.am21.client.view.GUI.utils.FontUtil;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
 
@@ -59,7 +60,8 @@ public class LivingRoomMenuInterface extends JFrame {
      */
     public void setBackGameButton() {
         backGame = new JButton("BACK TO PLAY");
-        backGame.setFont(new Font("DejaVu Sans", Font.PLAIN, 24));
+        backGame.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
+                .deriveFont(Font.PLAIN, ImageUtil.resizeY(24)));
         backGame.setBounds(PixelUtil.buttonLRX, PixelUtil.buttonBackLRY, PixelUtil.buttonLRW, PixelUtil.buttonLRH);
         backGame.setBorder(new MatteBorder(ImageUtil.resizeY(2), ImageUtil.resizeX(2), ImageUtil.resizeY(2),
                 ImageUtil.resizeX(2), new Color(4, 134, 10, 230)));
@@ -77,7 +79,8 @@ public class LivingRoomMenuInterface extends JFrame {
      */
     public void setLeaveButton(Gui gui) {
         leaveMatch = new JButton("LEAVE MATCH");
-        leaveMatch.setFont(new Font("DejaVu Sans", Font.PLAIN, 24));
+        leaveMatch.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
+                .deriveFont(Font.PLAIN, ImageUtil.resizeY(24)));
         leaveMatch.setBounds(PixelUtil.buttonLRX, PixelUtil.buttonWaitLRY, PixelUtil.buttonLRW, PixelUtil.buttonLRH);
         leaveMatch.setBorder(new MatteBorder(ImageUtil.resizeY(2), ImageUtil.resizeX(2), ImageUtil.resizeY(2),
                 ImageUtil.resizeX(2), new Color(203, 63, 4, 230)));
@@ -103,7 +106,8 @@ public class LivingRoomMenuInterface extends JFrame {
      */
     public void setQuitButton(Gui gui) {
         quitGame = new JButton("EXIT GAME");
-        quitGame.setFont(new Font("DejaVu Sans", Font.PLAIN, 24));
+        quitGame.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
+                .deriveFont(Font.PLAIN, ImageUtil.resizeY(24)));
         quitGame.setBounds(PixelUtil.buttonLRX, PixelUtil.buttonLeaveLRY, PixelUtil.buttonLRW, PixelUtil.buttonLRH);
         quitGame.setBorder(new MatteBorder(ImageUtil.resizeY(2), ImageUtil.resizeX(2), ImageUtil.resizeY(2),
                 ImageUtil.resizeX(2), new Color(172, 19, 5, 230)));
