@@ -248,6 +248,7 @@ public class PlayerController {
             for (int i = hand.getSelectedItems().size(), s = 0; i > 0; i--, s++) {
                 //Inserting one item at the time
                 if (!player.getShelf().insertInColumn(hand.getSelectedItems().get(s).item, col)) {
+                    GameManager.sendReply(this, ServerMessage.InsFail.value());
                     return false;
                 }
             }

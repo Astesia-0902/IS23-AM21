@@ -173,10 +173,7 @@ public class GameController {
      */
     private static boolean createMatchHelper(String userName, Integer createMatchRequestCount, int playerNum, PlayerController playerController) {
         if (GameManager.playerMatchMap.containsKey(userName) && createMatchRequestCount == 0) {
-            /*System.out.println("Message from the server: the player already exists in a match. " +
-                    "Create a new match will cause the player leave the current match." +
-                    "Do you want to continue?");*/
-            GameManager.sendReply(playerController, ServerMessage.PExists.value());
+            //TODO: Enter menu when already in match. Not happening anymore with reconnection
             createMatchRequestCount = 1;
         } else if (GameManager.playerMatchMap.containsKey(userName) && createMatchRequestCount == 1) {
             createMatchRequestCount = 0;

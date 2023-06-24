@@ -19,14 +19,15 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     }
 
     /**
-     *
-     * @param message
-     * @throws RemoteException
+     * This method send a message to client from server
+     * @param message server message
+     * @throws RemoteException when Remote is not connected
      */
     @Override
     public void sendMessageToClient(String message) throws RemoteException {
         if (cli != null) {
-            cli.printer(message);
+            String updateMessage = "\nServer > "+ message;
+            cli.printer(updateMessage);
         } else if (gui != null) {
             new Thread(()->{
                 gui.replyDEBUG(message);
@@ -37,9 +38,9 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     }
 
     /**
-     *
-     * @param message
-     * @throws RemoteException
+     *  This method call client method to send a chat message
+     * @param message chat message
+     * @throws RemoteException when remote not connected
      */
     @Override
     public void sendChatNotification(String message) throws RemoteException {
@@ -61,7 +62,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
      * call this method when the game state changes
      *
      * @param virtualView JSON file of virtual view
-     * @throws RemoteException when
+     * @throws RemoteException when Remote not connected
      */
     @Override
     public void sendVirtualView(String virtualView, int pIndex) throws RemoteException {
@@ -82,7 +83,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     /**
      * Each CLI will receive the notification when the match has officially begun
      *
-     * @throws RemoteException
+     * @throws RemoteException when remote not connected
      */
     @Override
     public void notifyStart(int id) throws RemoteException {
