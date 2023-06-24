@@ -65,7 +65,8 @@ public class SocketClient extends Thread {
             }
             case "message" -> {
                 if (cli != null) {
-                    cli.printer(messageArray[1]);
+                    String updateMessage = "\nServer > "+ messageArray[1];
+                    cli.printer(updateMessage);
                 } else if (gui != null) {
                     new Thread(()->{
                         gui.replyDEBUG(messageArray[1]);

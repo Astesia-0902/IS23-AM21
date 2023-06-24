@@ -1352,6 +1352,7 @@ public class Cli implements View {
 //--------------------------CHAT--------------------------------------------------
 
     /**
+     * Show the list of chat with players who is available
      * @return true to refresh, false to exit
      */
     public boolean askPrivateChat() {
@@ -1388,6 +1389,11 @@ public class Cli implements View {
 
     }
 
+    /**
+     * convert players list from virtual view format to Java List format
+     * @param playersMap client virtual view
+     * @return list of players name
+     */
     private List<String> convertPlayersNames(String[][] playersMap) {
         List<String> list = new ArrayList<>();
         for (int i = 0; i < playersMap.length; i++) {

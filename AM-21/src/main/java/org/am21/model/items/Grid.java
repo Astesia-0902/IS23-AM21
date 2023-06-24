@@ -1,6 +1,8 @@
 package org.am21.model.items;
 
 import org.am21.model.Cards.ItemCard;
+import org.am21.model.GameManager;
+import org.am21.model.enumer.ServerMessage;
 
 public abstract class Grid {
     public int gRow;
