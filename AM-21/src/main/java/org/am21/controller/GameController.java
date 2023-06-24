@@ -4,9 +4,11 @@ import org.am21.model.GameManager;
 import org.am21.model.Match;
 import org.am21.model.Player;
 import org.am21.model.chat.ServerChatManager;
-import org.am21.model.enumer.*;
+import org.am21.model.enumer.GameState;
+import org.am21.model.enumer.SC;
+import org.am21.model.enumer.ServerMessage;
+import org.am21.model.enumer.UserStatus;
 import org.am21.model.items.Shelf;
-import org.am21.networkRMI.IClientCallBack;
 import org.am21.utilities.VirtualViewHelper;
 
 import java.rmi.RemoteException;
@@ -49,6 +51,7 @@ public class GameController {
                     playerController.setPlayer(player);
                     player.setController(playerController);
                     playerController.reconnectPlayer();
+                    updatePlayersGlobalView();
                     CommunicationController.instance.notifyStart(match.matchID, playerController);
                     return true;
                 }
@@ -69,7 +72,6 @@ public class GameController {
         }
         CommunicationController.instance.sendMessageToClient(ServerMessage.Login_Ok.value(), playerController);
         CommunicationController.instance.sendMessageToClient("Server > Hi "+ username, playerController);
-        //DEBUG
         GameManager.serverLog(username + " joined the game");
         updatePlayersGlobalView();
         notifyAllPlayers();
@@ -285,19 +287,6 @@ public class GameController {
     public static String getVirtualView(PlayerController playerController) {
         return playerController.getPlayer().getMatch().getJSONVirtualView();
     }
-
-    /**
-     * RMI only
-     *
-     * @param callBack         the client callback
-     * @param playerController the player controller
-     */
-    public static void registerCallBack(IClientCallBack callBack, PlayerController playerController) {
-
-        playerController.clientInput.callBack = callBack;
-        GameManager.client_connected++;
-    }
-
 
     public static boolean endTurn(PlayerController playerController) {
         if (checkPlayerActionPhase(playerController)) {

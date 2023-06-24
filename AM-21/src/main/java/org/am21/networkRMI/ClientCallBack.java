@@ -89,12 +89,9 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
         ClientView.setGoToMenu(false);
         ClientView.setGameOn(true);
         ClientView.setMatchStart(true);
+        cli.checkTurn();
         if (cli != null) {
             cli.updateCLI(1000);
-        } else if (gui != null) {
-
-
-
         }
     }
 
