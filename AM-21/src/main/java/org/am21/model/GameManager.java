@@ -30,18 +30,11 @@ public class GameManager {
     public GameManager(GameController controller) {
     }
 
-    public int getNumPlayers() {
-        return players.size();
-    }
-
-    public void addPlayer(Player player) {
-        players.add(player);
-    }
-
-    public void removePlayer(Player player) {
-        players.remove(player);
-    }
-
+    /**
+     * Add a new match to the matchMap
+     * @param match match instance
+     * @return the match index in the match map
+     */
     public static Integer pushNewMatch(Match match) {
         synchronized (matchMap) {
             matchMap.put(matchIndex, match);
@@ -50,7 +43,12 @@ public class GameManager {
         }
     }
 
-
+    /**
+     * Create match
+     * @param playerNum number of this match
+     * @param playerController player controller of the creator
+     * @return true if succeed false otherwise
+     */
     public static boolean createMatch(int playerNum, PlayerController playerController) {
         synchronized (matchMap) {
             if (playerNum < 2 || playerNum > 4) {
@@ -117,12 +115,14 @@ public class GameManager {
         }
     }
 
+    /**
+     * remove offline player
+     * @param p player instance
+     */
     public static void removeOfflinePlayer(Player p) {
         synchronized (players) {
             if (p.getStatus().equals(UserStatus.Offline)) {
                 players.remove(p);
-//                VirtualViewHelper.virtualizeOnlinePlayers();
-//                GameController.updatePlayersGlobalView();
             }
         }
 
@@ -231,6 +231,10 @@ public class GameManager {
 
     }
 
+    /**
+     * everytime a player leave the match, check if the game need to pause
+     * @param matchID match index
+     */
     public static void checkMatchPause(int matchID) {
         Match m = matchMap.get(matchID);
         int activePlayers = 0;
@@ -249,6 +253,10 @@ public class GameManager {
         }
     }
 
+    /**
+     * if there were only one player, the match will pause
+     * @param matchID match index
+     */
     private static void pauseMatch(int matchID) {
         Match m = matchMap.get(matchID);
         m.pauseMatch();
@@ -257,11 +265,19 @@ public class GameManager {
         m.sendNotificationToAll(true);
     }
 
+    /**
+     * When the game paused, start timer
+     * @param matchID match index
+     * @param m match instance
+     */
     private static void startPauseTimer(int matchID, Match m) {
         m.pauseTimer = new Timer();
         m.pauseTimer.schedule(new MatchPauseTask(matchID), 1000 * 60);
     }
 
+    /**
+     * Timer class
+     */
     private static class MatchPauseTask extends TimerTask {
         private int matchID;
 
@@ -275,6 +291,10 @@ public class GameManager {
         }
     }
 
+    /**
+     * If game pause timer expired, end the match
+     * @param matchID match index
+     */
     private static void handleMatchPauseTimeout(int matchID) {
         //TODO:the last player should be the winner
         if (matchMap.get(matchID)==null || matchMap.get(matchID).gameState.equals(GameState.Closed)) {
@@ -286,14 +306,10 @@ public class GameManager {
         System.out.println("Match " + matchID + " ended because of timeout, the last active player won.");
     }
 
-    private static void resetMatchPauseTimer(int matchID) {
-        Match m = matchMap.get(matchID);
-        if (m.pauseTimer != null) {
-            m.pauseTimer.cancel();
-            startPauseTimer(matchID, m);
-        }
-    }
-
+    /**
+     * cancel the match pause timer
+     * @param matchID match index
+     */
     private static void cancelMatchPauseTimer(int matchID) {
         Match m = matchMap.get(matchID);
         if (m.pauseTimer != null) {
@@ -302,6 +318,11 @@ public class GameManager {
         }
     }
 
+    /**
+     * Resume a match that was paused
+     *
+     * @param matchIndex match index
+     */
     public static void matchResume(int matchIndex) {
         Match m = matchMap.get(matchIndex);
         if (!m.gameState.equals(GameState.Pause))

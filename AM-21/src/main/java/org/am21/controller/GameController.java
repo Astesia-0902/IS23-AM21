@@ -248,18 +248,42 @@ public class GameController {
         return checkPlayerActionPhase(playerController) && playerController.callEndSelection();
     }
 
+    /**
+     * insert cards in the shelf
+     * @param colNum col number
+     * @param playerController pc instance
+     * @return true if succeed false otherwise
+     * @throws ServerNotActiveException if the server is not running
+     */
     public static boolean insertInColumn(int colNum, PlayerController playerController) throws ServerNotActiveException {
         return checkPlayerActionPhase(playerController) && playerController.tryToInsert(colNum);
     }
 
+    /**
+     * deselect card in the player hand
+     * @param playerController pc instance
+     * @return true if succeed false otherwise
+     */
     public static boolean deselectCards(PlayerController playerController) {
         return checkPlayerActionPhase(playerController) && playerController.clearSelectedCards();
     }
 
+    /**
+     * change the position of cards in player hand
+     * @param pos1 pos1
+     * @param pos2 pos2
+     * @param playerController pc instance
+     * @return true if succeed false otherwise
+     */
     public static boolean sortHand(int pos1, int pos2, PlayerController playerController) {
         return checkPlayerActionPhase(playerController) && playerController.changeHandOrder(pos1, pos2);
     }
 
+    /**
+     * leave the current match
+     * @param playerController pc instance
+     * @return true if succeed false otherwise
+     */
     public static boolean leaveMatch(PlayerController playerController) {
         if (GameController.removePlayerFromMatch(playerController, playerController.getPlayer().getMatch().matchID)) {
             CommunicationController.instance.sendMessageToClient("Server > Leaving Room...", playerController);
@@ -271,6 +295,11 @@ public class GameController {
         return false;
     }
 
+    /**
+     * Exit game
+     * @param playerController pc instance
+     * @return true if succeed false otherwise
+     */
     public static boolean exitGame(PlayerController playerController) {
         if (playerController.getPlayer().getMatch() != null) {
 
@@ -284,10 +313,20 @@ public class GameController {
         return false;
     }
 
+    /**
+     * Get virtual view from the server
+     * @param playerController pc instance
+     * @return virtual view json
+     */
     public static String getVirtualView(PlayerController playerController) {
         return playerController.getPlayer().getMatch().getJSONVirtualView();
     }
 
+    /**
+     * End player's turn
+     * @param playerController player controller instance
+     * @return true if succeed false otherwise
+     */
     public static boolean endTurn(PlayerController playerController) {
         if (checkPlayerActionPhase(playerController)) {
             playerController.callEndInsertion();
