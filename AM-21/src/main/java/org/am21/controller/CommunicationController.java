@@ -10,6 +10,11 @@ import java.rmi.server.ServerNotActiveException;
 public class CommunicationController implements ICommunication {
     public static final CommunicationController instance = new CommunicationController();
 
+    /**
+     * This method choose which method with the same to call according to player connection type
+     * @param message message to send to client
+     * @param myPlayer player controller of the receiver
+     */
     @Override
     public void sendMessageToClient(String message, PlayerController myPlayer) {
         if (myPlayer.connectionType == ConnectionType.RMI) {

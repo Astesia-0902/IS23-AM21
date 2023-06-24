@@ -531,6 +531,17 @@ public class Cli implements View {
             System.out.println(Color.RED + "No Match available. Create a new one." + Color.RESET);
             delayer(1000);
             return false;
+        }else{
+            boolean noGame=false;
+            for(int i=0; i<matchList.length;i++){
+                if(!matchList[i][1].equals("Closed")){
+                    noGame = true;
+                }
+
+            }
+            if(!noGame){
+                return false;
+            }
         }
 
         int matchID;

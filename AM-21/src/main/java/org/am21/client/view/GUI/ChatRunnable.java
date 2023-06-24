@@ -15,7 +15,7 @@ public class ChatRunnable implements Runnable{
         if(Gui.newChatWindow){
             if(gui.chatDialog!=null && !gui.chatDialog.isVisible()){
                 //chatDialog exists already
-                if(gui.livingRoomInterface!=null) {
+                if(gui.livingRoomInterface!=null && gui.chatDialog!=null && gui.onlineListDialog!=null) {
                     gui.chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
                     gui.chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);
                     gui.onlineListDialog.setLocation(PixelUtil.commonX_1,PixelUtil.cPlayerWindowY);
@@ -25,7 +25,7 @@ public class ChatRunnable implements Runnable{
                 synchronized (gui.chatLock) {
                     gui.chatDialog = new ChatDialog(gui.frame);
                 }
-                if(gui.livingRoomInterface!=null) {
+                if(gui.livingRoomInterface!=null && gui.chatDialog!=null && gui.onlineListDialog!=null) {
                     gui.chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
                     gui.chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);
                     gui.onlineListDialog.setLocation(PixelUtil.commonX_1,PixelUtil.cPlayerWindowY);
@@ -37,7 +37,7 @@ public class ChatRunnable implements Runnable{
         }else{
             synchronized (gui.chatLock) {
                 gui.chatDialog = new ChatDialog(gui.frame);
-                if(gui.livingRoomInterface!=null) {
+                if(gui.livingRoomInterface!=null && gui.chatDialog!=null && gui.onlineListDialog!=null) {
                     gui.chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
                     gui.chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);
                     gui.onlineListDialog.setLocation(PixelUtil.commonX_1,PixelUtil.cPlayerWindowY);

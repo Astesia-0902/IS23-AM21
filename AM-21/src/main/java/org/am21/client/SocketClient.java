@@ -70,7 +70,7 @@ public class SocketClient extends Thread {
                 } else if (gui != null) {
                     new Thread(()->{
                         gui.replyDEBUG(messageArray[1]);
-                        gui.timeLimitedNotification(messageArray[1].substring(6),5000);
+                        gui.timeLimitedNotification(messageArray[1],5000);
                     }).start();
 
                 }

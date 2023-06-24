@@ -1,6 +1,5 @@
 package org.am21.client.view.GUI.Interface;
 
-import org.am21.client.view.ClientView;
 import org.am21.client.view.GUI.component.BackGroundPanel;
 import org.am21.client.view.GUI.utils.ButtonUtil;
 import org.am21.client.view.GUI.utils.FontUtil;
@@ -12,6 +11,8 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
+
+import static org.am21.client.view.ClientView.matchList;
 
 public class MenuActionInterface extends JDialog {
     public static final int WIDTH = 600;
@@ -59,7 +60,16 @@ public class MenuActionInterface extends JDialog {
         getContentPane().add(createButton);
 
         joinButton = ButtonUtil.getButton("Join Match");
-        joinButton.setEnabled(ClientView.matchList != null);
+        boolean noGame=false;
+        if(matchList!=null && matchList.length>0){
+            for(int i=0; i<matchList.length;i++){
+                if(!matchList[i][1].equals("Closed")){
+                    noGame = true;
+                }
+
+            }
+        }
+        joinButton.setEnabled(noGame);
         joinButton.setBounds(ImageUtil.resizeX(150), ImageUtil.resizeY(180),
                 ImageUtil.resizeX(300), ImageUtil.resizeY(50));
         getContentPane().add(joinButton);
@@ -102,7 +112,16 @@ public class MenuActionInterface extends JDialog {
 
 
     public void reloadMenu() {
-        joinButton.setEnabled(!(ClientView.matchList == null || ClientView.matchList.length == 0));
+        boolean noGame=false;
+        if(matchList!=null && matchList.length>0){
+            for(int i=0; i<matchList.length;i++){
+                if(!matchList[i][1].equals("Closed")){
+                    noGame = true;
+                }
+
+            }
+        }
+        joinButton.setEnabled(noGame);
 
 
     }

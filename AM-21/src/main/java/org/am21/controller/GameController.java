@@ -71,7 +71,7 @@ public class GameController {
             VirtualViewHelper.virtualizeOnlinePlayers();
         }
         CommunicationController.instance.sendMessageToClient(ServerMessage.Login_Ok.value(), playerController);
-        CommunicationController.instance.sendMessageToClient("Server > Hi "+ username, playerController);
+        CommunicationController.instance.sendMessageToClient("Hi "+ username, playerController);
         GameManager.serverLog(username + " joined the game");
         updatePlayersGlobalView();
         notifyAllPlayers();

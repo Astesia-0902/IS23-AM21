@@ -629,7 +629,7 @@ public class Gui {
             setAskChat(false);
             SwingUtilities.invokeLater(() -> {
                 chatDialog.reloadChat();
-                if (livingRoomInterface != null) {
+                if (livingRoomInterface != null && chatDialog!=null && onlineListDialog!=null) {
                     chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
                     chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);
                     onlineListDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cPlayerWindowY);
@@ -646,7 +646,7 @@ public class Gui {
             // Normal chat update
             SwingUtilities.invokeLater(() -> {
                 chatDialog.reloadChat();
-                if (livingRoomInterface != null) {
+                if (livingRoomInterface != null && chatDialog!=null && onlineListDialog!=null) {
                     chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
                     chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);
                     onlineListDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cPlayerWindowY);

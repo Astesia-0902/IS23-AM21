@@ -31,7 +31,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
         } else if (gui != null) {
             new Thread(()->{
                 gui.replyDEBUG(message);
-                gui.timeLimitedNotification(message.substring(6),5000);
+                gui.timeLimitedNotification(message,5000);
             }).start();
 
         }

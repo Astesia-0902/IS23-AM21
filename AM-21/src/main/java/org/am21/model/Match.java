@@ -287,6 +287,7 @@ public class Match {
 
                 if (p.equals(firstToComplete) && p.getStatus().equals(UserStatus.GameMember)) {
                     resultsMatrix[i][4] = "1";
+                    resultsMatrix[i][1] = ""+(Integer.parseInt(resultsMatrix[i][1])-1);
                 }
                 // Adding score
                 p.getController().addScore(personal + group);
@@ -328,7 +329,8 @@ public class Match {
         }
         playerList.clear();
         gameState = GameState.Closed;
-
+        VirtualViewHelper.virtualizeMatchMap();
+        GameController.updatePlayersGlobalView();
         return true;
     }
 
