@@ -94,8 +94,6 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
                     } catch (UnknownHostException e2) {
                         throw new RuntimeException(e2);
                     }
-                    //TODO: add an input for Client Address
-
                     int freePort;
                     while (true) {
                         freePort = findFreePort();
@@ -107,7 +105,6 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
                         }
                     }
                     //ip = "192.168.20.23";
-                    ip = "localhost";
                     System.setProperty("java.rmi.server.hostname", ip);
                     System.out.println("Your ip address is : " + ip);
                     try {

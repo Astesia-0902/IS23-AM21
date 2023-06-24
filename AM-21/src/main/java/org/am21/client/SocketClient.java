@@ -93,9 +93,8 @@ public class SocketClient extends Thread {
                 ClientView.setGoToMenu(false);
                 ClientView.setGameOn(true);
                 ClientView.setMatchStart(true);
-                cli.checkTurn();
                 if (cli != null) {
-
+                    cli.checkTurn();
                     cli.updateCLI( 1000);
                 }
             }
