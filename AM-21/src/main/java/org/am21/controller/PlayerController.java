@@ -387,8 +387,11 @@ public class PlayerController {
      */
     public void reconnectPlayer() {
         player.setStatus(UserStatus.GameMember);
+        hand.player=this.player;
+        player.setHand(this.hand);
+        VirtualViewHelper.virtualizeCurrentPlayerHand(player.getMatch());
         GameManager.checkMatchPause(player.getMatch().matchID);
-        System.out.println("Player " + player.getNickname() + " reconnected");
+        GameManager.serverLog("Player " + player.getNickname() + " reconnected");
         player.getMatch().sendTextToAll(SC.YELLOW + "\nServer > " + player.getNickname() + " reconnected to the match.", true);
         player.getMatch().sendNotificationToAll(true);
     }

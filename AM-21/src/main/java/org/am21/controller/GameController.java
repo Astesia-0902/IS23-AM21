@@ -45,13 +45,6 @@ public class GameController {
             Match match = GameManager.matchMap.get(GameManager.playerMatchMap.get(username));
             for (Player player : match.playerList) {
                 if (player.getNickname().equals(username)) {
-//                    if (playerController.connectionType == ConnectionType.SOCKET) {
-//                        player.getController().clientHandlerSocket = playerController.clientHandlerSocket;
-//                        playerController.clientHandlerSocket.myPlayer = playerInGame;
-//                    } else if (playerController.connectionType == ConnectionType.RMI) {
-//                        player.getController().clientInput = playerController.clientInput;
-//                        playerController.clientInput.playerController = playerInGame;
-//                    }
                     player.setController(null);
                     playerController.setPlayer(player);
                     player.setController(playerController);

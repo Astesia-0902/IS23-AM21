@@ -243,7 +243,6 @@ public class GameManager {
         if (activePlayers == 1) {
             pauseMatch(matchID);
         } else if (activePlayers < 1) {
-            //TODO: Eliminate the match
             m.setGameState(GameState.Closed);
         } else {
             matchResume(matchID);
