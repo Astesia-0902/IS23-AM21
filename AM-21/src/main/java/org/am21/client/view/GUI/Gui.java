@@ -185,6 +185,11 @@ public class Gui {
     };
 
 
+    /**
+     * Constructor
+     *
+     * @throws Exception
+     */
     public Gui() throws Exception {
         this.clientCallBack = new ClientCallBack();
         this.clientCallBack.gui = this;
@@ -196,6 +201,9 @@ public class Gui {
         new RuleListener(this);
     }
 
+    /**
+     * Init the gui
+     */
     public void init() throws Exception {
         commCtrl = new ClientCommunicationController();
         commCtrl.gui = this;
@@ -204,23 +212,34 @@ public class Gui {
 
     }
 
+    /**
+     * Ask for a server info RMI
+     */
     public void askServerInfoRMI() {
         serverInfoInterface = new ServerInfoInterface(frame);
         new ServerInfoListener(this);
     }
 
+    /**
+     * Ask for a server info socket
+     */
     public void askServerInfoSocket() {
         serverInfoInterface = new ServerInfoInterface(frame);
         new ServerInfoListener(this);
     }
 
 
+    /**
+     * Ask for a login
+     */
     public void askLogin() throws RemoteException {
         loginInterface = new LoginInterface(frame);
         new LoginListener(this);
     }
 
-
+    /**
+     * Ask for menu action
+     */
     public void askMenuAction() throws RemoteException {
         if (menuActionInterface == null) {
             menuActionInterface = new MenuActionInterface(frame, username);
@@ -246,21 +265,25 @@ public class Gui {
 
     }
 
-    public boolean askCreateMatch() throws Exception {
-
-        return false;
-    }
-
+    /**
+     * Ask for a match setup
+     */
     public int askMaxSeats() {
         menuActionInterface.maxSeatsDialog.setVisible(true);
         return 0;
     }
 
+    /**
+     * Ask for change seats
+     */
     public int askChangeSeats() {
         waitingRoomInterface.maxSeatsDialog.setVisible(true);
         return 0;
     }
 
+    /**
+     * Ask for waiting action
+     */
     public void askWaitingAction() throws RemoteException {
 
         for (int i = 0; i < ClientView.matchList.length; i++) {
@@ -285,13 +308,16 @@ public class Gui {
     }
 
 
+    /**
+     * Ask for join a match
+     */
     public boolean askJoinMatch() {
         DefaultListModel<String> matchModel = new DefaultListModel<>();
         if (ClientView.matchList != null) {
             String[] match = new String[ClientView.matchList.length];
             for (int i = 0; i < ClientView.matchList.length; i++) {
                 match[i] = "ID: " + ClientView.matchList[i][0] + "  |  " + ClientView.matchList[i][1]
-                        + " | Players: (" + ClientView.matchList[i][2] + "/" + ClientView.matchList[i][3] + ")";
+                           + " | Players: (" + ClientView.matchList[i][2] + "/" + ClientView.matchList[i][3] + ")";
             }
             for (String m : match) {
                 matchModel.addElement(m);
@@ -304,13 +330,18 @@ public class Gui {
         return false;
     }
 
-
+    /**
+     * Ask for leave a match
+     */
     public boolean askLeaveMatch() throws RemoteException {
 
         return commCtrl.leaveMatch();
     }
 
 
+    /**
+     * Ask for exit the game
+     */
     public boolean askExitGame() throws RemoteException {
 
         if (commCtrl.exitGame()) {
@@ -320,20 +351,27 @@ public class Gui {
         return false;
     }
 
-
+    /**
+     * Ask for show the common goals
+     */
     public void showCommonGoals() {
         //refreshing CommonGoal Token
         commonGoalPanel.refreshScoringTokens(commonGoalScore.get(0), commonGoalScore.get(1));
 
     }
 
-
+    /**
+     * Ask for show the personal goals
+     */
     public void showPersonalGoal() throws RemoteException {
         personalGoalPanel = new PersonalGoalPanel(personalGoal);
         livingRoomInterface.livingRoomPane.add(personalGoalPanel, JLayeredPane.PALETTE_LAYER);
     }
 
 
+    /**
+     * Ask for announce the current player
+     */
     public void announceCurrentPlayer() throws RemoteException {
         SwingUtilities.invokeLater(() -> {
             myShelfPanel.refreshShelf(shelves.get(getPlayerIndex(username))); //refresh my shelf
@@ -378,6 +416,9 @@ public class Gui {
 
     }
 
+    /**
+     * Ask for game results
+     */
     public void askEndRoom() {
 
         if (gameResultsInterface == null) {
@@ -395,7 +436,9 @@ public class Gui {
         }
     }
 
-
+    /**
+     * view the current player
+     */
     public void showWhoIsPlaying() {
         if (currentPlayer.equals(username)) {
             // it's my turn
@@ -439,26 +482,26 @@ public class Gui {
         });
     }
 
-
-    public void showPlayerShelf() throws RemoteException {
-
-
-    }
-
-
+    /**
+     * view every shelf
+     */
     public void showEveryShelf() {
         //refresh enemies shelf
         livingRoomInterface.refreshEnemiesShelves(shelves);
     }
 
-
+    /**
+     * ask for show the game board
+     */
     public void showBoard() {
         //refresh game Board
         gameBoardPanel.refreshBoard(virtualBoard, this);
 
     }
 
-
+    /**
+     * ask for show the players stats
+     */
     public void showPlayersStats() {
         //refresh my score
         livingRoomInterface.livingRoomPanel.refreshMyScore(scores.get(getPlayerIndex(username)));
@@ -468,50 +511,30 @@ public class Gui {
 
     }
 
-
-    public void askPlayerMove() throws RemoteException, ServerNotActiveException {
-
-    }
-
-
     public void askSelection() throws ServerNotActiveException, RemoteException {
 
     }
 
-
-    public void askDeselection() {
-
-    }
-
-
+    /**
+     * ask for insertion
+     */
     public void askInsertion() throws ServerNotActiveException, RemoteException {
         myHandInterface = new MyHandInterface(this);
         myHandInterface.refreshHand(currentPlayerHand);
 
     }
 
-
-    public void handleChatMessage(String message, boolean live) {
-        System.out.println(message);
-    }
-
-
+    /**
+     * Ask for show the end game token
+     */
     public void showEndGameToken() {
         if (!endGameToken)
             gameBoardPanel.pickScoreTokenEndGame();
     }
 
-
-    public void showTimer() {
-
-    }
-
-
-    public void showMatchList() throws RemoteException {
-
-    }
-
-
+    /**
+     * Ask for show the match setup
+     */
     public void showMatchSetup() throws RemoteException {
 
         livingRoomInterface = new LivingRoomInterface(frame, this);
@@ -567,6 +590,9 @@ public class Gui {
 
     }
 
+    /**
+     * Ask for send the message
+     */
     public void print(String message) {
         JOptionPane.showMessageDialog(frame, message);
     }
@@ -614,6 +640,10 @@ public class Gui {
         });
     }
 
+
+    /**
+     * Ask for chat
+     */
     public void askChat() {
         convertPrivateChatsForGUI();
         convertPublicChatForGUI();
@@ -629,7 +659,7 @@ public class Gui {
             setAskChat(false);
             SwingUtilities.invokeLater(() -> {
                 chatDialog.reloadChat();
-                if (livingRoomInterface != null && chatDialog!=null && onlineListDialog!=null) {
+                if (livingRoomInterface != null && chatDialog != null && onlineListDialog != null) {
                     chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
                     chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);
                     onlineListDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cPlayerWindowY);
@@ -646,7 +676,7 @@ public class Gui {
             // Normal chat update
             SwingUtilities.invokeLater(() -> {
                 chatDialog.reloadChat();
-                if (livingRoomInterface != null && chatDialog!=null && onlineListDialog!=null) {
+                if (livingRoomInterface != null && chatDialog != null && onlineListDialog != null) {
                     chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);
                     chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);
                     onlineListDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cPlayerWindowY);
@@ -658,7 +688,9 @@ public class Gui {
 
     }
 
-
+    /**
+     * Ask for show online player
+     */
     public void showOnlinePlayer() throws RemoteException {
         DefaultListModel<String> userModel = new DefaultListModel<>();
         for (int i = 0; i < ClientView.onlinePlayers.length; i++) {
@@ -688,7 +720,9 @@ public class Gui {
         System.out.println(message);
     }
 
-
+    /**
+     * Ask for show common goal's description
+     */
     public void showGoalDescription(JLabel commonGoalLabel, String description) {
         if (commonGoalPanel != null) {
             commonGoalPanel.showDescription(commonGoalLabel, description);
@@ -696,21 +730,16 @@ public class Gui {
 
     }
 
-
+    /**
+     * Ask for show game rules
+     */
     public void showGameRules() {
         ruleDialog.setVisible(true);
     }
 
-    //for living room test (it will be deleted, don't worry )
-    public static void main(String[] args) {
-        try {
-            new Gui().showMatchSetup();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
+    /**
+     * convert private chat for GUI
+     */
     public void convertPrivateChatsForGUI() {
         //HashMap<String, JTextArea> chatMap = new HashMap<>();
         java.util.List<JTextArea> visualChats = new ArrayList<>();
@@ -767,6 +796,9 @@ public class Gui {
 
     }
 
+    /**
+     * convert public chat for GUI
+     */
     public void convertPublicChatForGUI() {
         JTextArea historyTMP = new JTextArea(ImageUtil.resizeX(10), ImageUtil.resizeY(20));
         historyTMP.setEditable(false);

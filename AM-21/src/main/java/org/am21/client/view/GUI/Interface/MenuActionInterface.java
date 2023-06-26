@@ -34,7 +34,12 @@ public class MenuActionInterface extends JDialog {
 
     public Timer timer;
 
-
+    /**
+     * Constructor
+     *
+     * @param frame
+     * @param user
+     */
     public MenuActionInterface(JFrame frame, String user) {
         super(frame);
         frame.setTitle("MyShelfie - Menu Action");
@@ -60,10 +65,10 @@ public class MenuActionInterface extends JDialog {
         getContentPane().add(createButton);
 
         joinButton = ButtonUtil.getButton("Join Match");
-        boolean noGame=false;
-        if(matchList!=null && matchList.length>0){
-            for(int i=0; i<matchList.length;i++){
-                if(!matchList[i][1].equals("Closed")){
+        boolean noGame = false;
+        if (matchList != null && matchList.length > 0) {
+            for (int i = 0; i < matchList.length; i++) {
+                if (!matchList[i][1].equals("Closed")) {
                     noGame = true;
                 }
 
@@ -110,12 +115,14 @@ public class MenuActionInterface extends JDialog {
         setVisible(true);
     }
 
-
+    /**
+     * Reloads the menu
+     */
     public void reloadMenu() {
-        boolean noGame=false;
-        if(matchList!=null && matchList.length>0){
-            for(int i=0; i<matchList.length;i++){
-                if(!matchList[i][1].equals("Closed")){
+        boolean noGame = false;
+        if (matchList != null && matchList.length > 0) {
+            for (int i = 0; i < matchList.length; i++) {
+                if (!matchList[i][1].equals("Closed")) {
                     noGame = true;
                 }
 

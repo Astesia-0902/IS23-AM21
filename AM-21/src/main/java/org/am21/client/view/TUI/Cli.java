@@ -42,6 +42,10 @@ public class Cli implements View {
     private boolean SHOW = false;
     public Integer waitingThreads;
     public Boolean chatMode = false;
+
+    /**
+     * @throws RemoteException
+     */
     public Cli() throws RemoteException {
         this.clientCallBack = new ClientCallBack();
         this.clientCallBack.cli = this;
@@ -50,6 +54,14 @@ public class Cli implements View {
         commCtrl.cli = this;
     }
 
+    /**
+     * This method is used to ask the user to insert the server's IP address
+     *
+     * @throws RemoteException
+     * @throws NotBoundException
+     * @throws MalformedURLException
+     * @throws ServerNotActiveException
+     */
     public void init() throws MalformedURLException, NotBoundException, RemoteException, ServerNotActiveException {
         System.out.println(Storage.MYSHELFIE4);
         askToContinue();
@@ -147,8 +159,9 @@ public class Cli implements View {
         ClientController.iClientInputHandler = getControllerStub(serverInfo);
         commCtrl.registerCallBack(clientBind);
         System.out.println("Controller registered from " + serverInfo.get("address")
-                + ":" + serverInfo.get("port"));
+                           + ":" + serverInfo.get("port"));
     }
+
 
     public int findFreePort() {
         ServerSocket socket = null;
@@ -185,9 +198,9 @@ public class Cli implements View {
     public IClientInput getControllerStub(HashMap<String, String> serverInfo) {
         try {
             System.out.println("Server path to stub: " + "rmi://" + serverInfo.get("address") + ":"
-                    + serverInfo.get("port") + "/" + serverInfo.get("root"));
+                               + serverInfo.get("port") + "/" + serverInfo.get("root"));
             return (IClientInput) Naming.lookup("rmi://" + serverInfo.get("address") + ":"
-                    + serverInfo.get("port") + "/" + serverInfo.get("root"));
+                                                + serverInfo.get("port") + "/" + serverInfo.get("root"));
 
         } catch (NotBoundException | MalformedURLException | RemoteException e) {
             throw new RuntimeException(e);
@@ -259,6 +272,9 @@ public class Cli implements View {
 
     }
 
+    /**
+     * Method used to show the Menu of the Game
+     */
     @Override
     public void askMenuAction() throws ServerNotActiveException, RemoteException {
         waitingThreads = 0;
@@ -266,15 +282,16 @@ public class Cli implements View {
         System.out.println(Storage.menuOption);
         showRandomTip();
         System.out.print("-----------------------------------------------------------\n" +
-                "Enter the Command you wish to use: ");
+                         "Enter the Command you wish to use: ");
         String option = readLine();
         if (option.startsWith("/chat")) {
             handleChatMessage(option, false);
         } else if (option.startsWith("/open")) {
             askChat(option);
-        }else {
+        } else {
             switch (option) {
-                case "" ->{}
+                case "" -> {
+                }
                 case "create", "c", "cr" -> askCreateMatch();
                 case "join", "j", "jo" -> askJoinMatch();
                 case "online", "on", "open", "op" -> showOnlinePlayer();
@@ -285,7 +302,7 @@ public class Cli implements View {
 
                 default ->
                         System.out.println(Color.RED + "The [" + option + "] command cannot be found! Please try again."
-                                + Color.RESET);
+                                           + Color.RESET);
             }
         }
         setNeedToRefresh(false);
@@ -297,12 +314,12 @@ public class Cli implements View {
     public void askWaitingAction() {
         showLostMessages();
         System.out.print("-----------------------------------------------------------\n" +
-                Color.WHITE_BRIGHT + " {| Room " + matchID + " |}" + Color.RESET);
+                         Color.WHITE_BRIGHT + " {| Room " + matchID + " |}" + Color.RESET);
         System.out.println(Color.WHITE_BOLD + "   [ Admin: " + admin + " ]" + Color.RESET);
         System.out.println(Storage.waitingAction);
         showRandomTip();
         System.out.print("-----------------------------------------------------------\n"
-                + "Enter the Command you wish to use: ");
+                         + "Enter the Command you wish to use: ");
         String option = readLine();
         setBusy(true);
         if (option.startsWith("/chat")) {
@@ -311,13 +328,14 @@ public class Cli implements View {
             askChat(option);
         } else {
             switch (option) {
-                case "" ->{}
+                case "" -> {
+                }
                 case "rules", "ru" -> showGameRules();
                 case "online", "on", "open", "op" -> showOnlinePlayer();
                 case "settings", "se" -> askSettings();
                 case "more", "mo" -> askMoreOptions();
                 default -> System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
-                        + Color.RESET);
+                                              + Color.RESET);
             }
 
         }
@@ -364,9 +382,10 @@ public class Cli implements View {
             handleChatMessage(option, false);
         } else if (option.startsWith("/open")) {
             askChat(option);
-        }  else {
+        } else {
             switch (option) {
-                case ""->{}
+                case "" -> {
+                }
                 case "select", "se" -> askSelection();
                 case "clear", "cl" -> askDeselection();
                 case "insert", "in" -> askInsertion();
@@ -401,12 +420,13 @@ public class Cli implements View {
                 case "online", "on" -> showOnlinePlayer();
                 case "timer", "ti" -> showTimer();
                 default -> System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
-                        + Color.RESET);
+                                              + Color.RESET);
             }
         }
         setNeedToRefresh(false);
         setBusy(false);
     }
+
 
     public void goToEndRoom() {
         System.out.println(Color.WHITE_BOLD_BRIGHT + "The match ended. Press 'Enter' to see the results" + Color.RESET);
@@ -443,6 +463,9 @@ public class Cli implements View {
         }
     }
 
+    /**
+     * Ask the user if he wants to activate or deactivate the Assist Mode
+     */
     public void askAssistMode() {
         System.out.print("""
                 -----------------------------------------------------------
@@ -498,6 +521,7 @@ public class Cli implements View {
     }
 
     //---------------------------------------------------------------------------------------------------
+
     @Override
     public boolean askCreateMatch() {
         int playerNumber = askMaxSeats();
@@ -507,6 +531,9 @@ public class Cli implements View {
         return false;
     }
 
+    /**
+     * Ask the user to select the number of players for the match
+     */
     @Override
     public int askMaxSeats() {
         int playerNumber = 0;
@@ -531,15 +558,15 @@ public class Cli implements View {
             System.out.println(Color.RED + "No Match available. Create a new one." + Color.RESET);
             delayer(1000);
             return false;
-        }else{
-            boolean noGame=false;
-            for(int i=0; i<matchList.length;i++){
-                if(!matchList[i][1].equals("Closed")){
+        } else {
+            boolean noGame = false;
+            for (int i = 0; i < matchList.length; i++) {
+                if (!matchList[i][1].equals("Closed")) {
                     noGame = true;
                 }
 
             }
-            if(!noGame){
+            if (!noGame) {
                 return false;
             }
         }
@@ -571,7 +598,6 @@ public class Cli implements View {
         return false;
     }
 
-
     @Override
     public boolean askLeaveMatch() {
         return commCtrl.leaveMatch();
@@ -587,18 +613,18 @@ public class Cli implements View {
     }
 
     public void askMoreOptions() {
-            String command;
-            System.out.print(Storage.MoreOptions);
-            command = readLine();
-            switch (command) {
-                case "leave", "le" -> askLeaveMatch();
-                case "exit", "ex" -> askExitGame();
-                case "help", "h", "he" -> askHelp();
-                case "" -> {
-                }
-                default -> System.out.println(Color.RED + "The [" + command + "] cannot be found! Please try again."
-                        + Color.RESET);
+        String command;
+        System.out.print(Storage.MoreOptions);
+        command = readLine();
+        switch (command) {
+            case "leave", "le" -> askLeaveMatch();
+            case "exit", "ex" -> askExitGame();
+            case "help", "h", "he" -> askHelp();
+            case "" -> {
             }
+            default -> System.out.println(Color.RED + "The [" + command + "] cannot be found! Please try again."
+                                          + Color.RESET);
+        }
     }
 
     //------------SHOW---------------------------------------------------------------------------------
@@ -643,7 +669,7 @@ public class Cli implements View {
         for (int i = 0; i < ClientView.commonGoal.size(); i++) {
             showGoalDescription(ClientView.commonGoal.get(i));
             System.out.println(Color.YELLOW + "> Top score of this Common Goal: " + Color.RESET +
-                    ClientView.commonGoalScore.get(i) + " points.");
+                               ClientView.commonGoalScore.get(i) + " points.");
             System.out.println();
             //askToContinue();
             delayer(1000);
@@ -773,22 +799,22 @@ public class Cli implements View {
             case "__Cats__" -> {
                 index1 = item.indexOf("Cats");
                 itemType = item.substring(0, index1) + Color.CATS + item.substring(index1 + "Cats".length(), index2) +
-                        Color.GREEN_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
+                           Color.GREEN_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
             }
             case "_Books__" -> {
                 index1 = item.indexOf("Books");
                 itemType = item.substring(0, index1) + Color.BOOKS + item.substring(index1 + "Books".length(), index2) +
-                        Color.WHITE_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
+                           Color.WHITE_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
             }
             case "_Games__" -> {
                 index1 = item.indexOf("Games");
                 itemType = item.substring(0, index1) + Color.GAMES + item.substring(index1 + "Games".length(), index2) +
-                        Color.YELLOW_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
+                           Color.YELLOW_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
             }
             case "_Frames_" -> {
                 index1 = item.indexOf("Frames");
                 itemType = item.substring(0, index1) + Color.FRAMES + item.substring(index1 + "Frames".length(), index2) +
-                        Color.BLUE_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
+                           Color.BLUE_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
             }
             case "Trophies" -> {
                 itemType = Color.CYAN_BOLD_BRIGHT + item + Color.RESET;
@@ -796,7 +822,7 @@ public class Cli implements View {
             case "_Plants_" -> {
                 index1 = item.indexOf("Plants");
                 itemType = item.substring(0, index1) + Color.PLANTS + item.substring(index1 + "Plants".length(), index2) +
-                        Color.MAGENTA_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
+                           Color.MAGENTA_BOLD_BRIGHT + item.substring(index2) + Color.RESET;
             }
         }
         return itemType;
@@ -879,25 +905,25 @@ public class Cli implements View {
      */
     @Override
     public void askSelection() {
-            System.out.println("Select a cell on the board");
-            boolean selectionConfirm;
-            do {
-                List<Integer> coordinates = askCoordinates();
-                int row = coordinates.get(0) - 1;
-                int column = coordinates.get(1) - 1;
-                if (commCtrl.selectCell(row, column)) {
-                    NOT_SEL_YET = false;
-                    System.out.println(Color.YELLOW + "Item selected: " +
-                            showItemInCell(row, column).replace(">", "").
-                                    replace("_", "") + Color.RESET);
-                    showHand();
-                }
-                //askToContinue();
-                delayer(750);
-                showDisplay();
-                System.out.print(Storage.anotherCard);
-                selectionConfirm = "".equals(readLine());
-            } while (selectionConfirm);
+        System.out.println("Select a cell on the board");
+        boolean selectionConfirm;
+        do {
+            List<Integer> coordinates = askCoordinates();
+            int row = coordinates.get(0) - 1;
+            int column = coordinates.get(1) - 1;
+            if (commCtrl.selectCell(row, column)) {
+                NOT_SEL_YET = false;
+                System.out.println(Color.YELLOW + "Item selected: " +
+                                   showItemInCell(row, column).replace(">", "").
+                                           replace("_", "") + Color.RESET);
+                showHand();
+            }
+            //askToContinue();
+            delayer(750);
+            showDisplay();
+            System.out.print(Storage.anotherCard);
+            selectionConfirm = "".equals(readLine());
+        } while (selectionConfirm);
     }
 
     /**
@@ -917,18 +943,18 @@ public class Cli implements View {
 
     @Override
     public void askDeselection() {
-            if (BABY_PROTOCOL && !showHand()) {
-                System.out.println(Color.RED + "You have not selected any card yet." + Color.RESET);
-            } else {
-                System.out.print(Storage.deselectConfirm);
+        if (BABY_PROTOCOL && !showHand()) {
+            System.out.println(Color.RED + "You have not selected any card yet." + Color.RESET);
+        } else {
+            System.out.print(Storage.deselectConfirm);
 
-                boolean deselectConfirm = "y".equals(readLine());
-                if (deselectConfirm) {
-                    if (commCtrl.deselectCards()) {
-                        NOT_SEL_YET = true;
-                    }
+            boolean deselectConfirm = "y".equals(readLine());
+            if (deselectConfirm) {
+                if (commCtrl.deselectCards()) {
+                    NOT_SEL_YET = true;
                 }
             }
+        }
 
     }
 
@@ -937,56 +963,56 @@ public class Cli implements View {
      */
     @Override
     public void askInsertion() {
-            if (showHand()) {
-                System.out.print(Storage.insertionConfirm);
-                boolean confirm = "y".equals(readLine());
-                if (confirm) {
-                    if (commCtrl.confirmSelection()) {
-                        String option = "";
-                        while (!option.equals("more") && !option.equals("mo")) {
-                            showHand();
-                            System.out.print(Storage.commandInsert);
-                            option = readLine();
-                            switch (option) {
-                                case "sort", "so" -> askSort();
-                                case "show", "sh" -> askShowObject();
-                                case "" -> {
-                                    showPlayerShelf();
-                                    int column;
-                                    do {
-                                        column = askColumn();
-                                    } while (column == -2);
-                                    if (column != -1) {
-                                        if (commCtrl.insertInColumn(column - 1)) {
-                                            showPlayerShelf();
-                                            System.out.println(Color.YELLOW + "Inserted in the column: " + column + Color.RESET);
-                                            NOT_SEL_YET = true;
-                                            SEL_MODE = false;
-                                            if (commCtrl.endTurn()) {
-                                                System.out.println(Color.YELLOW + "- End Turn -" + Color.RESET);
-                                            }
-                                            delayer(1000);
-                                            return;
+        if (showHand()) {
+            System.out.print(Storage.insertionConfirm);
+            boolean confirm = "y".equals(readLine());
+            if (confirm) {
+                if (commCtrl.confirmSelection()) {
+                    String option = "";
+                    while (!option.equals("more") && !option.equals("mo")) {
+                        showHand();
+                        System.out.print(Storage.commandInsert);
+                        option = readLine();
+                        switch (option) {
+                            case "sort", "so" -> askSort();
+                            case "show", "sh" -> askShowObject();
+                            case "" -> {
+                                showPlayerShelf();
+                                int column;
+                                do {
+                                    column = askColumn();
+                                } while (column == -2);
+                                if (column != -1) {
+                                    if (commCtrl.insertInColumn(column - 1)) {
+                                        showPlayerShelf();
+                                        System.out.println(Color.YELLOW + "Inserted in the column: " + column + Color.RESET);
+                                        NOT_SEL_YET = true;
+                                        SEL_MODE = false;
+                                        if (commCtrl.endTurn()) {
+                                            System.out.println(Color.YELLOW + "- End Turn -" + Color.RESET);
                                         }
+                                        delayer(1000);
+                                        return;
                                     }
                                 }
-                                case "more", "mo" -> askMoreOptions();
-                                default ->
-                                        System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
-                                                + Color.RESET);
                             }
-                            //askToContinue();
+                            case "more", "mo" -> askMoreOptions();
+                            default ->
+                                    System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
+                                                       + Color.RESET);
                         }
-                    } else {
-                        System.out.println(Color.RED + "Selection Confirm failed" + Color.RESET);
+                        //askToContinue();
                     }
                 } else {
-                    System.out.println(Color.RED + "Insertion canceled." + Color.RESET);
+                    System.out.println(Color.RED + "Selection Confirm failed" + Color.RESET);
                 }
             } else {
-                System.out.println(Color.RED + "You can’t insert cards if you did not select any cards!" + Color.RESET);
+                System.out.println(Color.RED + "Insertion canceled." + Color.RESET);
             }
-            delayer(1000);
+        } else {
+            System.out.println(Color.RED + "You can’t insert cards if you did not select any cards!" + Color.RESET);
+        }
+        delayer(1000);
     }
 
     public void askSort() {
@@ -1014,9 +1040,9 @@ public class Cli implements View {
         position1 = askTheIndex("Position1", 1, ClientView.currentPlayerHand.size());
         position2 = askTheIndex("Position2", 1, ClientView.currentPlayerHand.size());
         System.out.println("You have chosen to swap " +
-                ClientView.currentPlayerHand.get(position1 - 1).replace("_", "") +
-                " and " +
-                ClientView.currentPlayerHand.get(position2 - 1).replace("_", ""));
+                           ClientView.currentPlayerHand.get(position1 - 1).replace("_", "") +
+                           " and " +
+                           ClientView.currentPlayerHand.get(position2 - 1).replace("_", ""));
         System.out.print(Storage.indexConfirm);
         sortConfirm = readLine();
         switch (sortConfirm) {
@@ -1052,8 +1078,8 @@ public class Cli implements View {
         do {
 
             System.out.print("""
-                    -----------------------------------------------------------
-                    You have chosen Column:\040""" + column + "\n" + Storage.columnConfirm);
+                                     -----------------------------------------------------------
+                                     You have chosen Column:\040""" + column + "\n" + Storage.columnConfirm);
 
             columnConfirm = readLine();
             switch (columnConfirm) {
@@ -1084,7 +1110,7 @@ public class Cli implements View {
         }
         for (int i = 0; i < ClientView.currentPlayerHand.size(); i++) {
             System.out.print((i + 1) + ".[" +
-                    checkColorItem(ClientView.currentPlayerHand.get(i)).replace("_", "") + "]  ");
+                             checkColorItem(ClientView.currentPlayerHand.get(i)).replace("_", "") + "]  ");
         }
         System.out.println();
         return true;
@@ -1124,9 +1150,9 @@ public class Cli implements View {
             for (int i = 0; i < ClientView.gameResults.length - 1; i++) {
                 String line =
                         "* " + ClientView.gameResults[i][0] + " Score:\n" +
-                                "+ " + ClientView.gameResults[i][1] + " Common points\n" +
-                                "+ " + ClientView.gameResults[i][2] + " Personal points\n" +
-                                "+ " + ClientView.gameResults[i][3] + " Group points\n";
+                        "+ " + ClientView.gameResults[i][1] + " Common points\n" +
+                        "+ " + ClientView.gameResults[i][2] + " Personal points\n" +
+                        "+ " + ClientView.gameResults[i][3] + " Group points\n";
                 if (ClientView.gameResults[i][4] != null) {
                     line += "+ 1 Endgame Token\n";
                 }
@@ -1160,41 +1186,41 @@ public class Cli implements View {
      */
     @Override
     public void askShowObject() {
-            String object = "new_command";
-            while (!object.equals("")) {
-                System.out.print(Storage.listObjects);
-                object = readLine();
-                setBusy(true);
-                switch (object) {
-                    case "open", "op" -> askPrivateChat();
-                    case "hand", "ha" -> showHand();
-                    case "pgoal", "pg" -> {
-                        showPersonalGoal();
-                        askToContinue();
-                    }
-                    case "cgoal", "cg" -> showCommonGoals();
-                    case "shelf", "sh" -> {
-                        showPlayerShelf();
-                        askToContinue();
-                        showGroupPointsTable();
-                        askToContinue();
-                    }
-                    case "board", "bo" -> showBoard();
-                    case "stats", "st" -> showPlayersStats();
-                    case "rules", "ru" -> showGameRules();
-                    case "end", "en" -> showEndGameToken();
-                    case "online", "on" -> showOnlinePlayer();
-                    case "timer", "ti" -> showTimer();
-                    case "" -> {
-                        setBusy(false);
-                        return;
-                    }
-                    default -> System.out.println(Color.RED + "The [" + object + "] cannot be found! Please try again."
-                            + Color.RESET);
+        String object = "new_command";
+        while (!object.equals("")) {
+            System.out.print(Storage.listObjects);
+            object = readLine();
+            setBusy(true);
+            switch (object) {
+                case "open", "op" -> askPrivateChat();
+                case "hand", "ha" -> showHand();
+                case "pgoal", "pg" -> {
+                    showPersonalGoal();
+                    askToContinue();
                 }
-                //askToContinue();
-                delayer(750);
+                case "cgoal", "cg" -> showCommonGoals();
+                case "shelf", "sh" -> {
+                    showPlayerShelf();
+                    askToContinue();
+                    showGroupPointsTable();
+                    askToContinue();
+                }
+                case "board", "bo" -> showBoard();
+                case "stats", "st" -> showPlayersStats();
+                case "rules", "ru" -> showGameRules();
+                case "end", "en" -> showEndGameToken();
+                case "online", "on" -> showOnlinePlayer();
+                case "timer", "ti" -> showTimer();
+                case "" -> {
+                    setBusy(false);
+                    return;
+                }
+                default -> System.out.println(Color.RED + "The [" + object + "] cannot be found! Please try again."
+                                              + Color.RESET);
             }
+            //askToContinue();
+            delayer(750);
+        }
         setBusy(false);
     }
 
@@ -1364,6 +1390,7 @@ public class Cli implements View {
 
     /**
      * Show the list of chat with players who is available
+     *
      * @return true to refresh, false to exit
      */
     public boolean askPrivateChat() {
@@ -1402,6 +1429,7 @@ public class Cli implements View {
 
     /**
      * convert players list from virtual view format to Java List format
+     *
      * @param playersMap client virtual view
      * @return list of players name
      */
@@ -1424,27 +1452,27 @@ public class Cli implements View {
      */
     @Override
     public void handleChatMessage(String command, boolean live) {
-            String message = command.substring(command.indexOf(" ") + 1);
-            String usernameString = command.substring(5);
-            String regex = "\\[|\\]";
-            String[] matches = usernameString.split(regex);
-            if (matches.length > 1) {
-                String playerName = matches[1];
+        String message = command.substring(command.indexOf(" ") + 1);
+        String usernameString = command.substring(5);
+        String regex = "\\[|\\]";
+        String[] matches = usernameString.split(regex);
+        if (matches.length > 1) {
+            String playerName = matches[1];
 
-                if (commCtrl.sendPrivateMessage(message, playerName, live)) {
-                    System.out.println("Message sent to: " + playerName);
-                } else {
-                    System.out.println("Message not sent");
-                }
+            if (commCtrl.sendPrivateMessage(message, playerName, live)) {
+                System.out.println("Message sent to: " + playerName);
             } else {
-
-                if (!commCtrl.sendPublicMessage(message, live)) {
-                    System.out.println(Color.RED + "The message was not sent" + Color.RESET);
-                } else {
-                    System.out.println("Message sent");
-                }
+                System.out.println("Message not sent");
             }
-            delayer(500);
+        } else {
+
+            if (!commCtrl.sendPublicMessage(message, live)) {
+                System.out.println(Color.RED + "The message was not sent" + Color.RESET);
+            } else {
+                System.out.println("Message sent");
+            }
+        }
+        delayer(500);
     }
 
     /**
@@ -1500,7 +1528,7 @@ public class Cli implements View {
                 System.out.print("> ");
                 String live_message = readLine();
                 if (live_message.equals("/exit")) {
-                   setChatMode(false);
+                    setChatMode(false);
 
                 } else if (!live_message.equals("")) {
                     commCtrl.sendPrivateMessage(live_message, playerName, true);
@@ -1510,7 +1538,7 @@ public class Cli implements View {
         } else {
             if (GO_TO_MENU && !MATCH_END) {
                 //If the user is not in a match
-                System.out.println(Color.RED+"The group chat is not available. Try to create or join a match."+Color.RESET);
+                System.out.println(Color.RED + "The group chat is not available. Try to create or join a match." + Color.RESET);
                 delayer(1000);
                 return;
             }
@@ -1657,7 +1685,7 @@ public class Cli implements View {
     }
 
     public void updateCLI(int milliseconds) {
-        Thread refreshMinion = new Thread(()->{
+        Thread refreshMinion = new Thread(() -> {
             synchronized (waitingThreads) {
                 waitingThreads++;
             }
@@ -1671,7 +1699,7 @@ public class Cli implements View {
                 }
             }
             synchronized (waitingThreads) {
-                waitingThreads=0;
+                waitingThreads = 0;
             }
         });
         synchronized (waitingThreads) {
@@ -1705,9 +1733,9 @@ public class Cli implements View {
         return input;
     }
 
-    public void setChatMode(Boolean value){
-        synchronized (chatMode){
-            chatMode =value;
+    public void setChatMode(Boolean value) {
+        synchronized (chatMode) {
+            chatMode = value;
         }
     }
 

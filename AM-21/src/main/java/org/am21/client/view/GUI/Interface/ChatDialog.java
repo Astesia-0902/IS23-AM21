@@ -48,6 +48,12 @@ public class ChatDialog extends JDialog {
         System.setOut(printStream);
     });
 
+    /**
+     * constructor
+     *
+     * @param frame
+     * @return
+     */
     public ChatDialog(JFrame frame) {
         super(frame);
         setSize(ImageUtil.resizeX(500), ImageUtil.resizeY(500));
@@ -189,7 +195,9 @@ public class ChatDialog extends JDialog {
         System.out.println("End ChatDialog constructor");
     }
 
-
+    /**
+     * Reload the chat dialog
+     */
     public void reloadChat() {
         gbc = new GridBagConstraints();
         gbc.gridx = 0;

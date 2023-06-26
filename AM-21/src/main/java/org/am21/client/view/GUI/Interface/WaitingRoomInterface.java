@@ -34,6 +34,14 @@ public class WaitingRoomInterface extends JDialog {
 
     public JLabel numPlayer;
 
+    /**
+     * Constructor
+     *
+     * @param frame
+     * @param numMiss
+     * @param numMax
+     * @param matchID
+     */
     public WaitingRoomInterface(JFrame frame, String numMiss, String numMax, int matchID) {
         super(frame);
         frame.setTitle("MyShelfie - Waiting Room");

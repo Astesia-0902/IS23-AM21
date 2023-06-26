@@ -9,6 +9,11 @@ public class CardPointer extends Coordinates{
 
     public ItemCard item;
 
+    /**
+     * Constructor
+     * @param r
+     * @param c
+     */
     public CardPointer(int r, int c){
         super(r,c);
         this.item= new ItemCard("none");

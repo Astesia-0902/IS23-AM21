@@ -13,6 +13,11 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
     Gui gui;
     Point p = new Point();
 
+    /**
+     * Constructor
+     *
+     * @param gui
+     */
     public MenuActionListener(Gui gui) {
         this.gui = gui;
         gui.menuActionInterface.addMouseMotionListener(this);
@@ -50,7 +55,6 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
         }
         if (e.getSource() == gui.menuActionInterface.joinButton) {
             try {
-                //gui.menuActionInterface.dispose();
                 gui.askJoinMatch();
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
@@ -89,7 +93,6 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
             e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_4) {
             int playerNum = 0;
 
-            //TODO: MAX SEATS = 2/3/4...Create a new match with 2/3/4 players...Go to waiting room
             if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_2) {
                 playerNum = 2;
             } else if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_3) {
@@ -106,7 +109,6 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
                     System.out.println("MenuActionInterface Disposed");
                     gui.menuActionInterface.maxSeatsDialog.setVisible(false);
                     gui.menuActionInterface.timer.stop();
-                    //gui.askWaitingAction();
                 });
                 gui.menuActionInterface.timer.start();
 

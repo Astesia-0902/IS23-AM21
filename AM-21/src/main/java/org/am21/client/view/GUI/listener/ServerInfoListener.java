@@ -33,6 +33,11 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
     Gui gui;
     Point p = new Point();
 
+    /**
+     * Constructor
+     *
+     * @param gui
+     */
     public ServerInfoListener(Gui gui) {
         this.gui = gui;
         gui.serverInfoInterface.addMouseMotionListener(this);
@@ -118,7 +123,7 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
                         throw new RuntimeException(e3);
                     }
                     try {
-                        Lobby lobby = (Lobby) Naming.lookup("rmi://" +address + ":" + port + "/Welcome");
+                        Lobby lobby = (Lobby) Naming.lookup("rmi://" + address + ":" + port + "/Welcome");
                         HashMap<String, String> serverInfo;
                         try {
                             serverInfo = lobby.connect();

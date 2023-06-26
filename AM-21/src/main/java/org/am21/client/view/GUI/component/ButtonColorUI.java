@@ -4,6 +4,10 @@ import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
 
+/**
+ * ButtonColorUI is a class that extends BasicButtonUI
+ * and is used to change the color of the button when it is pressed
+ * */
 public class ButtonColorUI extends BasicButtonUI {
     private Color color;
 

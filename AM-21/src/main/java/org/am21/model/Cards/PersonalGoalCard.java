@@ -44,6 +44,10 @@ public class PersonalGoalCard extends Card {
         currentScore.put(6,12);
     }
 
+    /**
+     * Constructor
+     * @param nameCard the name of the card
+     */
     public PersonalGoalCard(String nameCard) {
 
         super(nameCard);

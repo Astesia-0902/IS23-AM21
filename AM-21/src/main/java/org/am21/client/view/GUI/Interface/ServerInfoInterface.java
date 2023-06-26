@@ -35,6 +35,11 @@ public class ServerInfoInterface extends JDialog {
     private int portY;
     private int confirmY;
 
+    /**
+     * Constructor
+     *
+     * @param frame
+     */
     public ServerInfoInterface(JFrame frame) {
         super(frame);
         String defaultAddress;

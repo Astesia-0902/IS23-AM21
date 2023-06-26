@@ -8,6 +8,10 @@ import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * IconUtil is a class that is used to load the icons
+ * and resize them
+ */
 public class IconUtil {
     private static Map<String, Image> imageMap = new HashMap<>();
     private static Map<String, BufferedImage> bufferedImageMap = new HashMap<>();
@@ -57,11 +61,6 @@ public class IconUtil {
             imageMap.put("helpSelected", ImageIO.read(new FileInputStream(PathUtil.getPath("icon tool/helpColor.png")))
                     .getScaledInstance(ImageUtil.resizeX(25), ImageUtil.resizeY(25), Image.SCALE_SMOOTH));
 
-//            imageMap.put("OnlineMember", ImageIO.read(new FileInputStream(PathUtil.getPath("icon tool/OnlineMember.png")))
-//                    .getScaledInstance(ImageUtil.resizeX(25), ImageUtil.resizeY(25), Image.SCALE_SMOOTH));
-//            imageMap.put("GameMember", ImageIO.read(new FileInputStream(PathUtil.getPath("icon tool/GameMember.png")))
-//                    .getScaledInstance(ImageUtil.resizeX(25), ImageUtil.resizeY(25), Image.SCALE_SMOOTH));
-
             imageMap.put("scroll-down", ImageIO.read(new FileInputStream(PathUtil.getPath("icon tool/scroll-down2.png")))
                     .getScaledInstance(ImageUtil.resizeX(20), ImageUtil.resizeY(20), Image.SCALE_SMOOTH));
             imageMap.put("scroll-top", ImageIO.read(new FileInputStream(PathUtil.getPath("icon tool/scroll-top2.png")))
@@ -103,14 +102,22 @@ public class IconUtil {
         }
     }
 
+    /**
+     * This class is used to load all the images and icons used in the application.
+     * The images are stored in a HashMap with the name of the image as key and the image as value.
+     *
+     * @param iconName
+     */
     public static ImageIcon getIcon(String iconName) {
         return iconMap.get(iconName);
     }
 
-    public static Image getImage(String imageName) {
-        return imageMap.get(imageName);
-    }
-
+    /**
+     * This class is used to load all the images and icons used in the application.
+     * The images are stored in a HashMap with the name of the image as key and the image as value.
+     *
+     * @param imageName
+     */
     public static BufferedImage getBufferedImage(String imageName) {
         return bufferedImageMap.get(imageName);
     }

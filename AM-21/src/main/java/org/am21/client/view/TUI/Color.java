@@ -1,5 +1,8 @@
 package org.am21.client.view.TUI;
 
+/**
+ * Color class for TUI
+ */
 public enum Color {
     //Color end string, color reset
     RESET("\033[0m"),
@@ -52,6 +55,9 @@ public enum Color {
     PLANTS("\033[1;95mPlants\033[0m");
     private final String code;
 
+    /**
+     * Constructor
+     * */
     Color(String code) {
         this.code = code;
     }

@@ -5,6 +5,10 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
+/**
+ * BackGroundPanel is a class that extends JPanel
+ * and is used to set the background of the game
+ */
 public class BackGroundPanel extends JPanel {
     public final HashMap<BufferedImage, int[]> backIcons;
 

@@ -14,6 +14,11 @@ public class OnlineListListener implements MouseListener, MouseMotionListener, A
     Gui gui;
     Point p = new Point();
 
+    /**
+     * Constructor
+     *
+     * @param gui
+     */
     public OnlineListListener(Gui gui) {
         this.gui = gui;
         gui.onlineListDialog.onlineList.addListSelectionListener(this);
@@ -78,7 +83,6 @@ public class OnlineListListener implements MouseListener, MouseMotionListener, A
     public void valueChanged(ListSelectionEvent e) {
         //Online Players List Click Event-> Open Chat Dialog if not user itself
         String user = gui.onlineListDialog.onlineList.getSelectedValue().split("\\s*\\|\\s*")[0];
-        //if (!Gui.myChatMap.containsKey(user) && !gui.username.equals(user)) {
         if (!Gui.username.equals(user)) {
             gui.setNewChatWindow(true);
             Gui.myChatMap.put(user, new JButton(user));
@@ -86,7 +90,7 @@ public class OnlineListListener implements MouseListener, MouseMotionListener, A
                 gui.chatDialog.dispose();
             }
         }
-        if(!user.equals(Gui.username)) {
+        if (!user.equals(Gui.username)) {
             Gui.chatReceiver = user;
             if (gui.chatDialog != null) {
                 gui.chatDialog.localChatMap.keySet().forEach(player -> {
@@ -102,11 +106,10 @@ public class OnlineListListener implements MouseListener, MouseMotionListener, A
                 gui.chatDialog.chatMessageInput.setBorder(new EmptyBorder(0, ImageUtil.resizeX(fm.stringWidth(Gui.chatReceiver) + 30), 0, 0));
             }
             //Closing online list dialog
-            if(gui.onlineListDialog!=null) {
+            if (gui.onlineListDialog != null) {
                 gui.onlineListDialog.dispose();
             }
             gui.setAskChat(true);
         }
-        //gui.askChat();
     }
 }

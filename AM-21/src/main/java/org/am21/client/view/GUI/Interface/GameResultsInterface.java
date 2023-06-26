@@ -25,6 +25,12 @@ public class GameResultsInterface extends JFrame {
     public String[][] data;
     public static int columnResults = 7;
 
+    /**
+     * Constructor
+     *
+     * @param gui
+     * @param gameResults
+     */
     public GameResultsInterface(Gui gui, String[][] gameResults) {
 
         setBackGround();

@@ -15,7 +15,11 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
     Point p = new Point();
     int playerNum = 0;
 
-
+    /**
+     * Constructor
+     *
+     * @param gui
+     */
     public WaitingRoomListener(Gui gui) {
         this.gui = gui;
         gui.waitingRoomInterface.addMouseListener(this);
@@ -75,7 +79,7 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
         }
         if (e.getSource() == gui.waitingRoomInterface.chatButton) {
 
-            if(!Gui.myChatMap.containsKey("#All")) {
+            if (!Gui.myChatMap.containsKey("#All")) {
                 Gui.myChatMap.put("#All", new JButton("#All"));
             }
             gui.setNewChatWindow(true);
@@ -112,8 +116,6 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
 
                 gui.replyDEBUG("Number of Seats available changed");
                 gui.waitingRoomInterface.timer = new Timer(500, e1 -> {
-                    //gui.waitingRoomInterface.dispose();
-                    //System.out.println("WaitingRoomInterface Disposed");
                     gui.waitingRoomInterface.maxSeatsDialog.setVisible(false);
                     gui.waitingRoomInterface.timer.stop();
                 });

@@ -2,6 +2,10 @@ package org.am21.client.view.GUI.utils;
 
 import java.awt.*;
 
+/**
+ * PixelUtil is a class that is used to get the pixel of the image
+ * and resize the image
+ */
 public class PixelUtil {
 
     // screen size util

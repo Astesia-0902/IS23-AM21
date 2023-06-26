@@ -10,6 +10,11 @@ public class CommunicationListener implements MouseListener, MouseMotionListener
     Gui gui;
     Point p = new Point();
 
+    /**
+     * Constructor
+     *
+     * @param gui
+     */
     public CommunicationListener(Gui gui) {
         this.gui = gui;
         gui.frame.addMouseListener(this);
@@ -27,9 +32,8 @@ public class CommunicationListener implements MouseListener, MouseMotionListener
     public void actionPerformed(ActionEvent e) {
         // Press the Login Button
         if (e.getSource() == gui.communicationInterface.socketButton) {
-            //TODO: socket communication
+            // socket communication
             try {
-                //gui.communicationInterface.dispose();
                 ClientController.isRMI = false;
                 gui.communicationInterface.setVisible(false);
                 gui.askServerInfoSocket();

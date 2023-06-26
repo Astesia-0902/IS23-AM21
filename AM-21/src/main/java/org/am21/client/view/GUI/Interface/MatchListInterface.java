@@ -19,6 +19,12 @@ public class MatchListInterface extends JDialog {
     public JPanel topPanel;
     public JScrollPane scrollPane;
 
+    /**
+     * Constructor
+     *
+     * @param frame
+     * @param matchModel
+     */
     public MatchListInterface(JFrame frame, DefaultListModel<String> matchModel) {
         super(frame);
         setSize(ImageUtil.resizeX(300), ImageUtil.resizeY(400));

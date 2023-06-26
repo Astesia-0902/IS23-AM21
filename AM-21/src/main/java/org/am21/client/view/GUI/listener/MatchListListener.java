@@ -11,6 +11,11 @@ public class MatchListListener implements MouseListener, MouseMotionListener, Ac
     Gui gui;
     Point p = new Point();
 
+    /**
+     * Constructor
+     *
+     * @param gui
+     */
     public MatchListListener(Gui gui) {
         this.gui = gui;
         gui.matchListInterface.matchList.addListSelectionListener(this);
@@ -80,8 +85,6 @@ public class MatchListListener implements MouseListener, MouseMotionListener, Ac
         if (gui.commCtrl.joinGame(id)) {
             gui.menuActionInterface.dispose();
             gui.matchListInterface.dispose();
-            //gui.guiMinion.start();
-            //gui.askWaitingAction();
         }
 
     }

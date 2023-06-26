@@ -6,9 +6,15 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.concurrent.Callable;
 
+/**
+ * This class is used to read input from the user
+ */
 public class InputReadTask implements Callable<String> {
     private final BufferedReader bufferedReader;
 
+    /**
+     * Constructor
+     */
     public InputReadTask() {
         bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     }

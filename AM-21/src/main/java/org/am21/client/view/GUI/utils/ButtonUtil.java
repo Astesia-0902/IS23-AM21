@@ -7,10 +7,18 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+/**
+ * ButtonUtil is a class that is used to create buttons
+ */
 public class ButtonUtil {
     private final String s = "";
     public static JButton button;
 
+    /**
+     * getButton is a method that is used to create a button
+     * @param s is the text of the button
+     * @return a button
+     */
     public static JButton getButton(String s) {
         button = new JButton();
         button.setBackground(new Color(222, 184, 135));
@@ -23,6 +31,11 @@ public class ButtonUtil {
         return button;
     }
 
+    /**
+     * getCommandButton is a method that is used to create a button
+     * @param s is the text of the button
+     * @return a button
+     */
     public static JButton getCommandButton(String s) {
         button = new JButton(s);
         button.setContentAreaFilled(false);
@@ -34,6 +47,10 @@ public class ButtonUtil {
         return button;
     }
 
+    /**
+     * getCommandButton is a method that is used to create a button
+     * @return a button
+     */
     public static JButton getCommandButton(){
         button = new JButton();
         button.setContentAreaFilled(false);

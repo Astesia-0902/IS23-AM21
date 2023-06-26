@@ -7,13 +7,19 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
 
+
 public class ChatListener implements MouseListener, MouseMotionListener, ActionListener, KeyListener {
     public Gui gui;
     public Point p = new Point();
     public static ChatListener instance;
 
+    /**
+     * Constructor
+     *
+     * @param gui
+     */
     public ChatListener(Gui gui) {
-        instance= this;
+        instance = this;
         this.gui = gui;
         gui.chatDialog.sendButton.addMouseListener(this);
         gui.chatDialog.sendButton.addMouseMotionListener(this);
@@ -22,24 +28,11 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
         gui.chatDialog.addMouseMotionListener(this);
         gui.chatDialog.closeLabel.addMouseListener(this);
         gui.chatDialog.playerPanel.addMouseListener(this);
-//        for (String user : Gui.myChatMap.keySet()) {
-//            Gui.myChatMap.get(user).addActionListener(this);
-//            Gui.myChatMap.get(user).addMouseListener(this);
-//        }
 
         gui.chatDialog.localChatMap.keySet().forEach(user -> {
             gui.chatDialog.localChatMap.get(user).addActionListener(this);
             gui.chatDialog.localChatMap.get(user).addMouseListener(this);
         });
-//        gui.chatDialog.localChatMap.forEach((user, button) -> {
-//            button.addActionListener(e -> {
-//                Gui.chatReceiver = user;
-//                gui.chatDialog.currentChatHistory = Gui.currentChatHistory.get(user);
-//                gui.chatDialog.scrollPane.setViewportView(gui.chatDialog.currentChatHistory);
-//                gui.askChat();
-//            });
-//            button.addMouseListener(this);
-//        });
 
     }
 
@@ -67,33 +60,14 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
 
         gui.chatDialog.localChatMap.keySet().forEach(user -> {
             if (e.getSource() == gui.chatDialog.localChatMap.get(user)) {
-//
-//                gui.chatDialog.localChatMap.get(user).setBackground(new Color(83, 46, 91, 230));
-//                gui.chatDialog.localChatMap.get(user).setForeground(Color.WHITE);
-
                 gui.setNewChatWindow(true);
-//                //Gui.myChatMap.put(user, new JButton(user));
-//                if (gui.chatDialog != null) {
-//                    //gui.chatDialog.dispose();
-//                }
-
-
                 Gui.chatReceiver = user;
                 if (gui.chatDialog != null) {
                     FontMetrics fm = gui.chatDialog.chatMessageInput.getFontMetrics(gui.chatDialog.chatMessageInput.getFont());
                     gui.chatDialog.chatMessageInput.setBorder(new EmptyBorder(0, ImageUtil.resizeX(fm.stringWidth(Gui.chatReceiver) + 30), 0, 0));
                 }
                 gui.setAskChat(true);
-                //---------------------------
-                /*Gui.chatReceiver = user;
-                if (user.equals("#All")) {
-                    Gui.chatReceiver = "#All";
-                    gui.chatDialog.currentChatHistory = Gui.publicChatHistory;
-                } else {
-                    Gui.chatReceiver = user;
-                    gui.chatDialog.currentChatHistory = Gui.privateChatHistoryMap.get(user);
-                }*/
-                gui.timeLimitedNotification("Clicked on " + Gui.chatReceiver,1000 );
+                gui.timeLimitedNotification("Clicked on " + Gui.chatReceiver, 1000);
 
             }
         });
@@ -121,7 +95,6 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == gui.chatDialog.closeLabel) {
             gui.chatDialog.setVisible(false);
-            //gui.askChat = false;
         }
         // when click on gui.chatDialog, sendButton get focus, so you can press 'Enter' to send a message
         if (e.getSource() == gui.chatDialog) {
@@ -137,13 +110,6 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
                 gui.chatDialog.localChatMap.get(user).setForeground(new Color(106, 2, 1));
 
             }
-            /*if (gui.chatDialog != null) {
-                FontMetrics fm = gui.chatDialog.chatMessageInput.getFontMetrics(gui.chatDialog.chatMessageInput.getFont());
-                gui.chatDialog.chatMessageInput.setBorder(new EmptyBorder
-                        (0, ImageUtil.resizeX(fm.stringWidth(Gui.chatReceiver) + 30), 0, 0));
-
-
-            }*/
         });
     }
 
@@ -168,11 +134,6 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
         if (e.getSource() == gui.chatDialog.sendButton) {
             gui.chatDialog.sendButton.setBackground(new Color(243, 214, 253));
         }
-//        gui.chatDialog.localChatMap.keySet().forEach(user -> {
-//            if (e.getSource() == gui.chatDialog.localChatMap.get(user)) {
-//                gui.chatDialog.localChatMap.get(user).setBackground(new Color(243, 214, 253));
-//            }
-//        });
     }
 
     @Override
@@ -183,11 +144,6 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
         if (e.getSource() == gui.chatDialog.sendButton) {
             gui.chatDialog.sendButton.setBackground(new Color(178, 173, 204, 230));
         }
-//        gui.chatDialog.localChatMap.keySet().forEach(user -> {
-//            if (e.getSource() == gui.chatDialog.localChatMap.get(user)) {
-//                gui.chatDialog.localChatMap.get(user).setBackground(new Color(178, 173, 204, 230));
-//            }
-//        });
     }
 
     @Override

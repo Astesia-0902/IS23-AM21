@@ -13,6 +13,9 @@ public abstract class CommonGoal extends Card {
     public List<Player> achievedPlayers;
     public int index;
 
+    /**
+     * @param nameCard
+     * */
     public CommonGoal(String nameCard,int numPlayer){
         super(nameCard);
         this.tokenStack = CardUtil.buildScoringTokenCards(numPlayer);

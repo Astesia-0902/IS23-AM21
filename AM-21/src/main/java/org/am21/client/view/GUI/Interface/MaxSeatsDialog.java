@@ -21,6 +21,9 @@ public class MaxSeatsDialog extends JDialog {
     public ImageIcon buttonIcon;
     public ImageIcon buttonSelectedIcon;
 
+    /**
+     * Constructor
+     */
     public MaxSeatsDialog() {
         //----------------------Max Seats-------------------------------
         setModal(true);

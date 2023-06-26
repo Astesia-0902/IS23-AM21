@@ -22,7 +22,11 @@ public class LoginInterface extends JDialog {
     public JLabel minusLabel;
     public JLabel closeLabel;
 
-
+    /**
+     * Constructor
+     *
+     * @param frame
+     */
     public LoginInterface(JFrame frame) {
         super(frame);
         frame.setTitle("MyShelfie - Login");

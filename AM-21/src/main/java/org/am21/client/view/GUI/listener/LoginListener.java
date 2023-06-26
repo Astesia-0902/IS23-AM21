@@ -32,24 +32,12 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
             // Get username
             String username = gui.loginInterface.nicknameField.getText().trim();
 
-//            if (username.isEmpty()) {
-//                gui.loginInterface.nicknameField.setBorder(new CompoundBorder(new MatteBorder
-//                        (ImageUtil.resizeY(3), ImageUtil.resizeX(3), ImageUtil.resizeY(5),
-//                                ImageUtil.resizeX(5), new Color(178, 34, 34)),
-//                        new EmptyBorder(0, ImageUtil.resizeX(50), 0, 0)));
-//
-//            } else {
                 // Login successful and close the login frame
                 if(!username.isEmpty()) {
                 try {
-//                    gui.loginInterface.dispose();
-//                    gui.askMenuAction();
                     if (gui.commCtrl.logIn(username, gui.clientCallBack)) {
                         gui.username = username;
                         gui.loginInterface.dispose();
-
-                        //TODO: Thread
-
                         gui.guiMinion.start();
                         gui.guiMinionChat.start();
 

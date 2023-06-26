@@ -21,6 +21,10 @@ public class RuleDialog extends JDialog {
     public JButton rightButton;
     public int countPage = 0;
 
+    /**
+     * Constructor
+     * @param frame
+     */
     public RuleDialog(JFrame frame) {
         super(frame, true);
         setSize(ImageUtil.resizeX(1200), ImageUtil.resizeY(1000));

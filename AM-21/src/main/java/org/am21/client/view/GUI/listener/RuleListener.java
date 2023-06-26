@@ -9,6 +9,11 @@ public class RuleListener implements MouseListener, MouseMotionListener, ActionL
     Gui gui;
     Point p = new Point();
 
+    /**
+     * Constructor
+     *
+     * @param gui
+     */
     public RuleListener(Gui gui) {
         this.gui = gui;
         gui.ruleDialog.addMouseListener(this);

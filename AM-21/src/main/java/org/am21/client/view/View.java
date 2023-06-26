@@ -4,18 +4,31 @@ package org.am21.client.view;
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
 
+/**
+ * View is an interface that is used to show the game to the player
+ * and to ask him what he wants to do
+ */
 public interface View {
     //String chooseView();
 
     void askLogin() throws Exception;
+
     void askMenuAction() throws Exception;
+
     boolean askCreateMatch() throws Exception;
+
     int askMaxSeats() throws Exception;
+
     boolean askJoinMatch() throws Exception;
+
     boolean askLeaveMatch() throws RemoteException;
+
     boolean askExitGame() throws RemoteException;
+
     void showCommonGoals();
+
     void showPersonalGoal() throws RemoteException;
+
     void announceCurrentPlayer() throws RemoteException;
 
     void showWhoIsPlaying();
@@ -25,16 +38,27 @@ public interface View {
     void showEveryShelf() throws RemoteException;
 
     void showBoard() throws RemoteException;
+
     void showPlayersStats() throws RemoteException;
+
     void askPlayerMove() throws RemoteException, ServerNotActiveException;
+
     void askSelection() throws ServerNotActiveException, RemoteException;
+
     void askDeselection() throws ServerNotActiveException, RemoteException;
+
     void askInsertion() throws ServerNotActiveException, RemoteException;
+
     void showEndGameToken();
+
     void showTimer();
+
     void showMatchList() throws RemoteException;
+
     void showMatchSetup() throws RemoteException;
+
     void askShowObject() throws RemoteException;
+
     void showOnlinePlayer() throws RemoteException;
 
 

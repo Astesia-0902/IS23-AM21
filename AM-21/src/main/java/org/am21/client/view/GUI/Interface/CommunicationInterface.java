@@ -21,6 +21,11 @@ public class CommunicationInterface extends JDialog {
     public JButton socketButton;
     public JButton rmiButton;
 
+    /**
+     * Constructor
+     *
+     * @param frame
+     */
     public CommunicationInterface(JFrame frame) {
         super(frame);
         frame.setTitle("MyShelfie - Communication");

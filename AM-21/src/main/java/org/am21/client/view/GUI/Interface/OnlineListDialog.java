@@ -19,6 +19,12 @@ public class OnlineListDialog extends JDialog {
     public JPanel topPanel;
     public JScrollPane scrollPane;
 
+    /**
+     * Constructor
+     *
+     * @param frame
+     * @param userModel
+     */
     public OnlineListDialog(JFrame frame, DefaultListModel<String> userModel) {
         super(frame);
         onlineList = new JList<>(userModel);
