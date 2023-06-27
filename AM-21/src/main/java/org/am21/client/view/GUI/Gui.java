@@ -381,7 +381,6 @@ public class Gui {
             myHandBoardPanel.refreshItem(currentPlayerHand); //refresh hand panel
         });
 
-
         //refresh board
         SwingUtilities.invokeLater(this::showBoard);
         //refresh enemy's shelf
@@ -395,20 +394,6 @@ public class Gui {
         //Update endgame token
         SwingUtilities.invokeLater(this::showEndGameToken);
 
-       /* while (MATCH_END && GO_TO_MENU && !GAME_ON) {
-            ClientView.setMatchEnd(false);
-            askEndRoom();
-        }
-        if(gameResultsInterface!=null)
-        {
-
-            System.exit(0);
-        }*/
-
-        /*if (MATCH_END) {
-            gameResultsInterface = new GameResultsInterface(this, gameResults);
-            ClientView.setMatchEnd(false);
-        }*/
         SwingUtilities.invokeLater(() -> {
             livingRoomInterface.revalidate();
             livingRoomInterface.repaint();
@@ -609,7 +594,6 @@ public class Gui {
             dialog.setLocationRelativeTo(null);
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-            //int x = (screenSize.width - dialog.getWidth());
             int x = (screenSize.width / 2 - dialog.getWidth() / 2);
             int y = 0;
 
@@ -741,7 +725,7 @@ public class Gui {
      * convert private chat for GUI
      */
     public void convertPrivateChatsForGUI() {
-        //HashMap<String, JTextArea> chatMap = new HashMap<>();
+
         java.util.List<JTextArea> visualChats = new ArrayList<>();
         System.out.println("Convert Private Chats");
         if (ClientView.privateChats != null && !ClientView.privateChats.isEmpty()) {
@@ -758,8 +742,7 @@ public class Gui {
                     historyTMP.append(line + "\n");
                 }
                 historyTMP.setCaretPosition(historyTMP.getDocument().getLength());
-                //DEBUG print chat
-                System.out.println(historyTMP.getText());
+
                 visualChats.add(historyTMP);
 
             }
