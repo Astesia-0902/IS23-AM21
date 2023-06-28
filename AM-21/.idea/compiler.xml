@@ -10,8 +10,5 @@
         <module name="AM-21" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="IS23-AM21" target="18" />
-    </bytecodeTargetLevel>
   </component>
 </project>
