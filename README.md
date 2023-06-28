@@ -21,7 +21,7 @@ Il rete è stata implementata sia tramite Socket che tramite RMI.
 |             TUI              | :green_circle: |
 |        Multiple games        | :green_circle: |
 |         Persistence          |  :red_circle:  |
-| Resilience to disconnections | :green_circle: |
+| Resilience to disconnections |  :red_circle:  |
 |             Chat             | :green_circle: |
 
 ## Test Coverage
