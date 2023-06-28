@@ -1,0 +1,94 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ICommunication</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: ICommunication (org.am21.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">ICommunication</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.controller;
+&nbsp;
+&nbsp;public interface ICommunication {
+&nbsp;
+&nbsp;    void sendMessageToClient(String message, PlayerController myPlayer);
+&nbsp;
+&nbsp;    void sendVirtualView(String virtualView, int pIndex, PlayerController myPlayer);
+&nbsp;
+&nbsp;    void notifyStart(int id, PlayerController myPlayer);
+&nbsp;
+&nbsp;    void notifyToWait(String info, PlayerController myPlayer);
+&nbsp;
+&nbsp;    void notifyGoToMenu(PlayerController myPlayer);
+&nbsp;
+&nbsp;    void notifyEndMatch(PlayerController myPlayer) ;
+&nbsp;
+&nbsp;    void sendVirtualHand(String JSONHand, PlayerController myPlayer);
+&nbsp;    void returnBool(String method, boolean value, PlayerController pCtrl);
+&nbsp;
+&nbsp;    void sendChatNotification(String message, PlayerController pc);
+&nbsp;
+&nbsp;    void sendServerVirtualView(String serverVirtualView, PlayerController pc);
+&nbsp;
+&nbsp;    void notifyUpdate(PlayerController ctrl, int milliseconds);
+&nbsp;
+&nbsp;    void ping(PlayerController ctrl);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-28 22:41</div>
+</div>
+</body>
+</html>

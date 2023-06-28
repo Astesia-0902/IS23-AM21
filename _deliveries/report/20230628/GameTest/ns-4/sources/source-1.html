@@ -1,0 +1,404 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ChatDialog</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client.view.GUI.Interface</a>
+</div>
+
+<h1>Coverage Summary for Class: ChatDialog (org.am21.client.view.GUI.Interface)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ChatDialog</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/139)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ChatDialog$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">ChatDialog$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/146)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client.view.GUI.Interface;
+&nbsp;
+&nbsp;import org.am21.client.view.GUI.Gui;
+&nbsp;import org.am21.client.view.GUI.component.ButtonColorUI;
+&nbsp;import org.am21.client.view.GUI.component.ScrollBarUI;
+&nbsp;import org.am21.client.view.GUI.listener.ChatListener;
+&nbsp;import org.am21.client.view.GUI.utils.FontUtil;
+&nbsp;import org.am21.client.view.GUI.utils.IconUtil;
+&nbsp;import org.am21.client.view.GUI.utils.ImageUtil;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import javax.swing.border.BevelBorder;
+&nbsp;import javax.swing.border.CompoundBorder;
+&nbsp;import javax.swing.border.EmptyBorder;
+&nbsp;import javax.swing.border.MatteBorder;
+&nbsp;import java.awt.*;
+&nbsp;import java.io.OutputStream;
+&nbsp;import java.io.PrintStream;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.util.HashMap;
+&nbsp;
+&nbsp;public class ChatDialog extends JDialog {
+&nbsp;    public JTextArea currentChatHistory;
+&nbsp;    public JTextField chatMessageInput;
+&nbsp;    public JButton sendButton;
+&nbsp;    public JPanel chatPanel;
+&nbsp;    public JPanel topPanel;
+&nbsp;    public JPanel playerPanel;
+&nbsp;    public JLabel closeLabel;
+&nbsp;    public JScrollPane scrollPane;
+&nbsp;    public ImageIcon closeIconSelect;
+&nbsp;    public ImageIcon closeIcon;
+&nbsp;    public JLabel chatRoom;
+&nbsp;    public GridBagConstraints gbc;
+&nbsp;    public HashMap&lt;String, JButton&gt; localChatMap;
+&nbsp;    public OutputStream outputStream;
+&nbsp;    public PrintStream printStream;
+&nbsp;
+<b class="nc">&nbsp;    public Thread inputMinion = new Thread(() -&gt; {</b>
+<b class="nc">&nbsp;        outputStream = new OutputStream() {</b>
+&nbsp;            @Override
+&nbsp;            public void write(int b) {
+&nbsp;                //currentChatHistory.append(String.valueOf((char) b));
+&nbsp;                //currentChatHistory.setCaretPosition(currentChatHistory.getDocument().getLength());
+<b class="nc">&nbsp;            }</b>
+&nbsp;        };
+<b class="nc">&nbsp;        printStream = new PrintStream(outputStream, true, StandardCharsets.UTF_8);</b>
+<b class="nc">&nbsp;        System.setOut(printStream);</b>
+&nbsp;    });
+&nbsp;
+&nbsp;    /**
+&nbsp;     * constructor
+&nbsp;     *
+&nbsp;     * @param frame
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    public ChatDialog(JFrame frame) {
+<b class="nc">&nbsp;        super(frame);</b>
+<b class="nc">&nbsp;        setSize(ImageUtil.resizeX(500), ImageUtil.resizeY(500));</b>
+&nbsp;
+&nbsp;        // topPanel:
+&nbsp;        // [ Chat Room                                                                    | x ]
+<b class="nc">&nbsp;        closeIcon = IconUtil.getIcon(&quot;close_Purple&quot;);</b>
+<b class="nc">&nbsp;        closeIconSelect = IconUtil.getIcon(&quot;close_Fuchsia&quot;);</b>
+<b class="nc">&nbsp;        closeLabel = new JLabel(closeIcon);</b>
+<b class="nc">&nbsp;        closeLabel.setBounds(ImageUtil.resizeX(320), ImageUtil.resizeY(6), ImageUtil.resizeX(25), ImageUtil.resizeY(25));</b>
+&nbsp;
+<b class="nc">&nbsp;        chatRoom = new JLabel(&quot;Chat Room&quot;);</b>
+<b class="nc">&nbsp;        chatRoom.setBorder(null);</b>
+<b class="nc">&nbsp;        chatRoom.setBounds(ImageUtil.resizeX(181), ImageUtil.resizeY(195),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(356), ImageUtil.resizeY(108));</b>
+<b class="nc">&nbsp;        chatRoom.setForeground(new Color(245, 238, 252));</b>
+<b class="nc">&nbsp;        chatRoom.setFont(FontUtil.getFontByName(&quot;Twenty-Regular-2&quot;).deriveFont(Font.PLAIN,</b>
+<b class="nc">&nbsp;                ImageUtil.resizeY(16)));</b>
+<b class="nc">&nbsp;        chatRoom.setOpaque(false);</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        topPanel = new JPanel();</b>
+&nbsp;
+<b class="nc">&nbsp;        topPanel.setLayout(new BorderLayout());</b>
+<b class="nc">&nbsp;        topPanel.setBackground(new Color(126, 89, 203, 230));</b>
+<b class="nc">&nbsp;        topPanel.setBorder(new MatteBorder(ImageUtil.resizeX(5),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeY(5), ImageUtil.resizeX(5), ImageUtil.resizeY(5),</b>
+&nbsp;                new Color(85, 35, 222, 230)));
+<b class="nc">&nbsp;        topPanel.add(chatRoom, BorderLayout.CENTER);</b>
+<b class="nc">&nbsp;        topPanel.add(closeLabel, BorderLayout.EAST);</b>
+&nbsp;        // ----------------------------------------------------------------------------------
+&nbsp;
+&nbsp;        // [playerPanel : localChatMap |              currentChatHistory                  | scrollPane]
+<b class="nc">&nbsp;        playerPanel = new JPanel();</b>
+<b class="nc">&nbsp;        playerPanel.setLayout(new GridBagLayout());</b>
+<b class="nc">&nbsp;        playerPanel.setBackground(new Color(126, 89, 203, 230));</b>
+<b class="nc">&nbsp;        playerPanel.setBorder(new MatteBorder(0, ImageUtil.resizeY(5), 0,</b>
+<b class="nc">&nbsp;                ImageUtil.resizeY(5), new Color(85, 35, 222, 230)));</b>
+<b class="nc">&nbsp;        gbc = new GridBagConstraints();</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 0;</b>
+<b class="nc">&nbsp;        gbc.anchor = GridBagConstraints.NORTH;</b>
+<b class="nc">&nbsp;        gbc.weightx = 1.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 1.0;</b>
+&nbsp;
+<b class="nc">&nbsp;        localChatMap = Gui.myChatMap;</b>
+<b class="nc">&nbsp;        for (String user : localChatMap.keySet()) {</b>
+<b class="nc">&nbsp;            localChatMap.get(user).setForeground(new Color(106, 2, 1));</b>
+<b class="nc">&nbsp;            localChatMap.get(user).setBackground(new Color(178, 173, 204, 230));</b>
+<b class="nc">&nbsp;            localChatMap.get(user).setUI(new ButtonColorUI(new Color(83, 46, 91, 230)));</b>
+<b class="nc">&nbsp;            localChatMap.get(user).setBorder(new CompoundBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 250, 205),</b>
+&nbsp;                    new Color(255, 250, 205), new Color(139, 69, 19), new Color(139, 69, 19)),
+<b class="nc">&nbsp;                    new EmptyBorder(0, ImageUtil.resizeX(10), 0, ImageUtil.resizeX(10))));</b>
+<b class="nc">&nbsp;            localChatMap.get(user).setFont(FontUtil.getFontByName(&quot;HongLeiXingShuJianTi-2&quot;)</b>
+<b class="nc">&nbsp;                    .deriveFont(Font.PLAIN, ImageUtil.resizeY(18)));</b>
+<b class="nc">&nbsp;            gbc.fill = GridBagConstraints.BOTH;</b>
+<b class="nc">&nbsp;            playerPanel.add(localChatMap.get(user), gbc);</b>
+<b class="nc">&nbsp;            gbc.gridy++;</b>
+&nbsp;
+<b class="nc">&nbsp;            if (!Gui.privateChatHistoryMap.containsKey(user)) {</b>
+<b class="nc">&nbsp;                JTextArea tmpText = new JTextArea(ImageUtil.resizeX(10), ImageUtil.resizeY(20));</b>
+<b class="nc">&nbsp;                tmpText.setEditable(false);</b>
+<b class="nc">&nbsp;                tmpText.setForeground(new Color(106, 2, 1));</b>
+<b class="nc">&nbsp;                tmpText.setFont(new Font(&quot;Serif&quot;, Font.BOLD, ImageUtil.resizeY(14)));</b>
+<b class="nc">&nbsp;                tmpText.setLineWrap(true);</b>
+<b class="nc">&nbsp;                tmpText.setWrapStyleWord(true);</b>
+<b class="nc">&nbsp;                tmpText.setCaretPosition(tmpText.getDocument().getLength());</b>
+&nbsp;            }
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        }</b>
+&nbsp;        // Choose chatHistory to show on interface
+<b class="nc">&nbsp;        if (Gui.chatReceiver.equals(&quot;#All&quot;)) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Setup Public Chat&quot;);</b>
+<b class="nc">&nbsp;            currentChatHistory = Gui.publicChatHistory;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            System.out.println(&quot;Setup Private Chat: &gt; &quot; + Gui.chatReceiver);</b>
+<b class="nc">&nbsp;            currentChatHistory = Gui.privateChatHistoryMap.get(Gui.chatReceiver);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        scrollPane = new JScrollPane(currentChatHistory);</b>
+<b class="nc">&nbsp;        scrollPane.setBorder(new CompoundBorder(new MatteBorder(0, 0, 0, ImageUtil.resizeY(5),</b>
+<b class="nc">&nbsp;                new Color(85, 35, 222, 230)), new EmptyBorder(ImageUtil.resizeX(5),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeY(5), ImageUtil.resizeX(5), ImageUtil.resizeY(5))));</b>
+<b class="nc">&nbsp;        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);</b>
+<b class="nc">&nbsp;        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);</b>
+<b class="nc">&nbsp;        scrollPane.getVerticalScrollBar().setUI(new ScrollBarUI());</b>
+&nbsp;
+&nbsp;        // ----------------------------------------------------------------------------------
+&nbsp;
+&nbsp;        // ChatPanel:
+&nbsp;        // [[Receiver]: chatMessageInput                                           | sendButton]
+<b class="nc">&nbsp;        chatMessageInput = new JTextField(30) {</b>
+&nbsp;            @Override
+&nbsp;            protected void paintComponent(Graphics g) {
+<b class="nc">&nbsp;                super.paintComponent(g);</b>
+<b class="nc">&nbsp;                g.setColor(new Color(106, 2, 1, 255));</b>
+<b class="nc">&nbsp;                g.setFont(new Font(&quot;Serif&quot;, Font.BOLD, ImageUtil.resizeY(14)));</b>
+<b class="nc">&nbsp;                g.drawString(&quot;[&quot; + Gui.chatReceiver + &quot;]:&quot;, ImageUtil.resizeX(5), ImageUtil.resizeY(20));</b>
+&nbsp;            }
+&nbsp;        };
+<b class="nc">&nbsp;        FontMetrics fm = chatMessageInput.getFontMetrics(chatMessageInput.getFont());</b>
+<b class="nc">&nbsp;        int nicknameWidth = fm.stringWidth(Gui.chatReceiver);</b>
+<b class="nc">&nbsp;        chatMessageInput.setBorder(new EmptyBorder(0, ImageUtil.resizeX(nicknameWidth + 30), 0, 0));</b>
+<b class="nc">&nbsp;        chatMessageInput.setForeground(new Color(106, 2, 1));</b>
+<b class="nc">&nbsp;        chatMessageInput.setFont(new Font(&quot;Serif&quot;, Font.BOLD, ImageUtil.resizeY(14)));</b>
+&nbsp;
+<b class="nc">&nbsp;        sendButton = new JButton(&quot;Send&quot;);</b>
+<b class="nc">&nbsp;        sendButton.setForeground(new Color(106, 2, 1));</b>
+<b class="nc">&nbsp;        sendButton.setBackground(new Color(178, 173, 204, 230));</b>
+<b class="nc">&nbsp;        sendButton.setUI(new ButtonColorUI(new Color(83, 46, 91, 230)));</b>
+<b class="nc">&nbsp;        sendButton.setBorder(new CompoundBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 250, 205),</b>
+&nbsp;                new Color(255, 250, 205), new Color(139, 69, 19), new Color(139, 69, 19)),
+<b class="nc">&nbsp;                new EmptyBorder(0, ImageUtil.resizeX(10), 0, ImageUtil.resizeX(10))));</b>
+<b class="nc">&nbsp;        sendButton.setFont(FontUtil.getFontByName(&quot;Leira-Lite-2&quot;).deriveFont(Font.PLAIN, ImageUtil.resizeY(18)));</b>
+&nbsp;
+<b class="nc">&nbsp;        chatPanel = new JPanel();</b>
+<b class="nc">&nbsp;        chatPanel.setLayout(new BorderLayout());</b>
+<b class="nc">&nbsp;        chatPanel.add(chatMessageInput, BorderLayout.CENTER);</b>
+&nbsp;        //getRootPane().setDefaultButton(sendButton);
+<b class="nc">&nbsp;        chatPanel.add(sendButton, BorderLayout.EAST);</b>
+<b class="nc">&nbsp;        chatPanel.setBorder(new MatteBorder(ImageUtil.resizeX(3), ImageUtil.resizeY(5),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(5), ImageUtil.resizeY(5), new Color(85, 35, 222, 255)));</b>
+&nbsp;
+&nbsp;        // ------------------------------------------------------------------------------------
+&nbsp;
+<b class="nc">&nbsp;        add(playerPanel, BorderLayout.WEST);</b>
+<b class="nc">&nbsp;        add(topPanel, BorderLayout.NORTH);</b>
+<b class="nc">&nbsp;        add(scrollPane, BorderLayout.CENTER);</b>
+<b class="nc">&nbsp;        add(chatPanel, BorderLayout.SOUTH);</b>
+&nbsp;
+<b class="nc">&nbsp;        inputMinion.start();</b>
+&nbsp;
+<b class="nc">&nbsp;        setLocationRelativeTo(frame);</b>
+<b class="nc">&nbsp;        setResizable(false);</b>
+<b class="nc">&nbsp;        setUndecorated(true);</b>
+<b class="nc">&nbsp;        setBackground(new Color(247, 253, 252, 128));</b>
+<b class="nc">&nbsp;        setOpacity(0.75f);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;End ChatDialog constructor&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Reload the chat dialog
+&nbsp;     */
+&nbsp;    public void reloadChat() {
+<b class="nc">&nbsp;        gbc = new GridBagConstraints();</b>
+<b class="nc">&nbsp;        gbc.gridx = 0;</b>
+<b class="nc">&nbsp;        gbc.gridy = 0;</b>
+<b class="nc">&nbsp;        gbc.anchor = GridBagConstraints.NORTH;</b>
+<b class="nc">&nbsp;        gbc.weightx = 1.0;</b>
+<b class="nc">&nbsp;        gbc.weighty = 1.0;</b>
+<b class="nc">&nbsp;        localChatMap = Gui.myChatMap;</b>
+<b class="nc">&nbsp;        for (String user : localChatMap.keySet()) {</b>
+<b class="nc">&nbsp;            localChatMap.get(user).setForeground(new Color(106, 2, 1));</b>
+<b class="nc">&nbsp;            localChatMap.get(user).setBackground(new Color(178, 173, 204, 230));</b>
+<b class="nc">&nbsp;            localChatMap.get(user).setUI(new ButtonColorUI(new Color(83, 46, 91, 230)));</b>
+<b class="nc">&nbsp;            localChatMap.get(user).setBorder(new CompoundBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 250, 205),</b>
+&nbsp;                    new Color(255, 250, 205), new Color(139, 69, 19), new Color(139, 69, 19)),
+<b class="nc">&nbsp;                    new EmptyBorder(0, ImageUtil.resizeX(10), 0, ImageUtil.resizeX(10))));</b>
+<b class="nc">&nbsp;            localChatMap.get(user).setFont(FontUtil.getFontByName(&quot;HongLeiXingShuJianTi-2&quot;)</b>
+<b class="nc">&nbsp;                    .deriveFont(Font.PLAIN, ImageUtil.resizeY(18)));</b>
+<b class="nc">&nbsp;            gbc.fill = GridBagConstraints.BOTH;</b>
+<b class="nc">&nbsp;            playerPanel.add(localChatMap.get(user), gbc);</b>
+<b class="nc">&nbsp;            gbc.gridy++;</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;            if (!Gui.privateChatHistoryMap.containsKey(user)) {</b>
+<b class="nc">&nbsp;                JTextArea tmpChatHistory = new JTextArea(ImageUtil.resizeX(10), ImageUtil.resizeY(20));</b>
+<b class="nc">&nbsp;                tmpChatHistory.setEditable(false);</b>
+<b class="nc">&nbsp;                tmpChatHistory.setForeground(new Color(106, 2, 1));</b>
+<b class="nc">&nbsp;                tmpChatHistory.setFont(new Font(&quot;Serif&quot;, Font.BOLD, ImageUtil.resizeY(14)));</b>
+<b class="nc">&nbsp;                tmpChatHistory.setLineWrap(true);</b>
+<b class="nc">&nbsp;                tmpChatHistory.setWrapStyleWord(true);</b>
+<b class="nc">&nbsp;                tmpChatHistory.setCaretPosition(tmpChatHistory.getDocument().getLength());</b>
+&nbsp;
+<b class="nc">&nbsp;                Gui.privateChatHistoryMap.put(user, tmpChatHistory);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (user.equals(Gui.chatReceiver)) {</b>
+<b class="nc">&nbsp;                localChatMap.get(user).setBackground(new Color(83, 46, 91, 230));</b>
+<b class="nc">&nbsp;                localChatMap.get(user).setForeground(Color.WHITE);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;        //Update Listeners for user button
+<b class="nc">&nbsp;        if (ChatListener.instance != null) {</b>
+<b class="nc">&nbsp;            localChatMap.keySet().forEach(button -&gt; {</b>
+<b class="nc">&nbsp;                localChatMap.get(button).addActionListener(ChatListener.instance);</b>
+<b class="nc">&nbsp;                localChatMap.get(button).addMouseListener(ChatListener.instance);</b>
+&nbsp;            });
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (Gui.chatReceiver.equals(&quot;#All&quot;)) {</b>
+<b class="nc">&nbsp;            currentChatHistory = Gui.publicChatHistory;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            currentChatHistory = Gui.privateChatHistoryMap.get(Gui.chatReceiver);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        scrollPane.setViewportView(currentChatHistory);</b>
+<b class="nc">&nbsp;        getRootPane().setDefaultButton(sendButton);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-28 22:41</div>
+</div>
+</body>
+</html>

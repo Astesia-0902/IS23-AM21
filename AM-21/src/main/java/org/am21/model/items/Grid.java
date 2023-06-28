@@ -38,8 +38,8 @@ public abstract class Grid {
 
     /**
      * Obtain Item's Reference
-     * @param rowNum
-     * @param colNum
+     * @param rowNum row
+     * @param colNum column
      * @return ItemName
      */
     public String getItemName(int rowNum,int colNum){
@@ -52,9 +52,9 @@ public abstract class Grid {
 
     /**
      * Setting a new name to the item in the cell
-     * @param r
-     * @param c
-     * @param name
+     * @param r row
+     * @param c column
+     * @param name new name
      * @return true if name changed
      *          false if name changing failed cause there are no item in the cell
      */
@@ -67,6 +67,12 @@ public abstract class Grid {
 
     }
 
+    /**
+     * Check if the cell is occupied by an item
+     * @param r row
+     * @param c column
+     * @return true if the cell is occupied, otherwise false
+     */
     public boolean isOccupied(int r, int c) {
 
         if (getCell(r, c) != null) {
@@ -78,8 +84,8 @@ public abstract class Grid {
     }
 
     /**
-     * Estract Item Type from the name of the item in the cell
-     * @return
+     * Extract Item Type from the name of the item in the cell
+     * @return item type name
      */
     public String getItemType(int r,int c){
         if (matrix[r][c]!= null) {

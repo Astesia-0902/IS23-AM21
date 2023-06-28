@@ -1,0 +1,153 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > MyRMISocketFactory</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.networkRMI</a>
+</div>
+
+<h1>Coverage Summary for Class: MyRMISocketFactory (org.am21.networkRMI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MyRMISocketFactory</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.networkRMI;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.InetAddress;
+&nbsp;import java.net.ServerSocket;
+&nbsp;import java.net.Socket;
+&nbsp;import java.rmi.server.RMISocketFactory;
+&nbsp;
+&nbsp;public class MyRMISocketFactory extends RMISocketFactory {
+&nbsp;    private String serverAddress;
+&nbsp;    private int port;
+&nbsp;
+<b class="nc">&nbsp;    public MyRMISocketFactory(String serverAddress, int port) {</b>
+<b class="nc">&nbsp;        this.serverAddress = serverAddress;</b>
+<b class="nc">&nbsp;        this.port = port;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Creates a client socket connected to the specified host and port.
+&nbsp;     *
+&nbsp;     * @param host the host name
+&nbsp;     * @param port the port number
+&nbsp;     * @return a socket connected to the specified host and port.
+&nbsp;     * @throws IOException if an I/O error occurs during socket creation
+&nbsp;     * @since JDK1.1
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Socket createSocket(String host, int port) throws IOException {
+<b class="nc">&nbsp;        InetAddress address = InetAddress.getByName(serverAddress);</b>
+<b class="nc">&nbsp;        int portToUse = this.port;</b>
+<b class="nc">&nbsp;        Socket ans = new Socket(address, portToUse);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;RMI Socket Factory &gt; Client connected to &quot; + ans.getRemoteSocketAddress() + &quot;:&quot; + ans.getInetAddress());</b>
+<b class="nc">&nbsp;        return ans;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create a server socket on the specified port (port 0 indicates
+&nbsp;     * an anonymous port).
+&nbsp;     *
+&nbsp;     * @param port the port number
+&nbsp;     * @return the server socket on the specified port
+&nbsp;     * @throws IOException if an I/O error occurs during server socket
+&nbsp;     *                     creation
+&nbsp;     * @since JDK1.1
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public ServerSocket createServerSocket(int port) throws IOException {
+<b class="nc">&nbsp;        return new ServerSocket(port, 0, InetAddress.getByName(serverAddress));</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-28 22:41</div>
+</div>
+</body>
+</html>

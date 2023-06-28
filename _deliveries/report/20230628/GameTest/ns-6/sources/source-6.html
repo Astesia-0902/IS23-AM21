@@ -1,0 +1,316 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > MenuActionListener</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client.view.GUI.listener</a>
+</div>
+
+<h1>Coverage Summary for Class: MenuActionListener (org.am21.client.view.GUI.listener)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MenuActionListener</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/109)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client.view.GUI.listener;
+&nbsp;
+&nbsp;
+&nbsp;import org.am21.client.view.GUI.Gui;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.event.*;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;
+&nbsp;
+&nbsp;public class MenuActionListener implements MouseListener, MouseMotionListener, ActionListener {
+&nbsp;    Gui gui;
+<b class="nc">&nbsp;    Point p = new Point();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     *
+&nbsp;     * @param gui
+&nbsp;     */
+<b class="nc">&nbsp;    public MenuActionListener(Gui gui) {</b>
+<b class="nc">&nbsp;        this.gui = gui;</b>
+<b class="nc">&nbsp;        gui.menuActionInterface.addMouseMotionListener(this);</b>
+<b class="nc">&nbsp;        gui.menuActionInterface.addMouseListener(this);</b>
+<b class="nc">&nbsp;        gui.menuActionInterface.createButton.addMouseListener(this);</b>
+<b class="nc">&nbsp;        gui.menuActionInterface.createButton.addActionListener(this);</b>
+<b class="nc">&nbsp;        gui.menuActionInterface.joinButton.addMouseListener(this);</b>
+<b class="nc">&nbsp;        gui.menuActionInterface.joinButton.addActionListener(this);</b>
+<b class="nc">&nbsp;        gui.menuActionInterface.exitButton.addMouseListener(this);</b>
+<b class="nc">&nbsp;        gui.menuActionInterface.exitButton.addActionListener(this);</b>
+<b class="nc">&nbsp;        gui.menuActionInterface.chatButton.addActionListener(this);</b>
+<b class="nc">&nbsp;        gui.menuActionInterface.chatButton.addMouseListener(this);</b>
+<b class="nc">&nbsp;        gui.menuActionInterface.onlineButton.addActionListener(this);</b>
+<b class="nc">&nbsp;        gui.menuActionInterface.onlineButton.addMouseListener(this);</b>
+&nbsp;
+<b class="nc">&nbsp;        gui.menuActionInterface.maxSeatsDialog.playerButton_2.addMouseListener(this);</b>
+<b class="nc">&nbsp;        gui.menuActionInterface.maxSeatsDialog.playerButton_2.addActionListener(this);</b>
+<b class="nc">&nbsp;        gui.menuActionInterface.maxSeatsDialog.playerButton_3.addMouseListener(this);</b>
+<b class="nc">&nbsp;        gui.menuActionInterface.maxSeatsDialog.playerButton_3.addActionListener(this);</b>
+<b class="nc">&nbsp;        gui.menuActionInterface.maxSeatsDialog.playerButton_4.addMouseListener(this);</b>
+<b class="nc">&nbsp;        gui.menuActionInterface.maxSeatsDialog.playerButton_4.addActionListener(this);</b>
+<b class="nc">&nbsp;        gui.menuActionInterface.maxSeatsDialog.closeLabel.addMouseListener(this);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void actionPerformed(ActionEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.menuActionInterface.createButton) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                gui.askMaxSeats();</b>
+&nbsp;
+<b class="nc">&nbsp;            } catch (Exception ex) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(ex);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.menuActionInterface.joinButton) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                gui.askJoinMatch();</b>
+<b class="nc">&nbsp;            } catch (Exception ex) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(ex);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.menuActionInterface.exitButton) {</b>
+&nbsp;
+&nbsp;            try {
+<b class="nc">&nbsp;                gui.menuActionInterface.setVisible(false);</b>
+<b class="nc">&nbsp;                gui.askExitGame();</b>
+<b class="nc">&nbsp;            } catch (RemoteException ex) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(ex);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.menuActionInterface.onlineButton) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                gui.showOnlinePlayer();</b>
+<b class="nc">&nbsp;            } catch (RemoteException ex) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(ex);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.menuActionInterface.chatButton) {</b>
+<b class="nc">&nbsp;            if (!Gui.myChatMap.isEmpty()) {</b>
+<b class="nc">&nbsp;                gui.setNewChatWindow(true);</b>
+<b class="nc">&nbsp;                gui.setAskChat(true);</b>
+&nbsp;
+&nbsp;            } else {
+<b class="nc">&nbsp;                gui.timeLimitedNotification(&quot;myChatMap empty&quot;, 1000);</b>
+&nbsp;            }
+&nbsp;
+&nbsp;
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_2 ||</b>
+<b class="nc">&nbsp;            e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_3 ||</b>
+<b class="nc">&nbsp;            e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_4) {</b>
+<b class="nc">&nbsp;            int playerNum = 0;</b>
+&nbsp;
+<b class="nc">&nbsp;            if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_2) {</b>
+<b class="nc">&nbsp;                playerNum = 2;</b>
+<b class="nc">&nbsp;            } else if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_3) {</b>
+<b class="nc">&nbsp;                playerNum = 3;</b>
+<b class="nc">&nbsp;            } else if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_4) {</b>
+<b class="nc">&nbsp;                playerNum = 4;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            gui.menuActionInterface.maxSeatsDialog.dispose();</b>
+<b class="nc">&nbsp;            if (gui.commCtrl.createMatch(playerNum)) {</b>
+<b class="nc">&nbsp;                gui.replyDEBUG(&quot;Created match&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;                gui.menuActionInterface.timer = new Timer(500, e1 -&gt; {</b>
+<b class="nc">&nbsp;                    gui.menuActionInterface.dispose();</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;MenuActionInterface Disposed&quot;);</b>
+<b class="nc">&nbsp;                    gui.menuActionInterface.maxSeatsDialog.setVisible(false);</b>
+<b class="nc">&nbsp;                    gui.menuActionInterface.timer.stop();</b>
+&nbsp;                });
+<b class="nc">&nbsp;                gui.menuActionInterface.timer.start();</b>
+&nbsp;
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseClicked(MouseEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_2) {</b>
+<b class="nc">&nbsp;            gui.menuActionInterface.maxSeatsDialog.playerButton_2.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonSelectedIcon);</b>
+<b class="nc">&nbsp;            gui.menuActionInterface.maxSeatsDialog.playerButton_3.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonIcon);</b>
+<b class="nc">&nbsp;            gui.menuActionInterface.maxSeatsDialog.playerButton_4.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonIcon);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_3) {</b>
+<b class="nc">&nbsp;            gui.menuActionInterface.maxSeatsDialog.playerButton_2.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonIcon);</b>
+<b class="nc">&nbsp;            gui.menuActionInterface.maxSeatsDialog.playerButton_3.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonSelectedIcon);</b>
+<b class="nc">&nbsp;            gui.menuActionInterface.maxSeatsDialog.playerButton_4.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonIcon);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_4) {</b>
+<b class="nc">&nbsp;            gui.menuActionInterface.maxSeatsDialog.playerButton_2.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonIcon);</b>
+<b class="nc">&nbsp;            gui.menuActionInterface.maxSeatsDialog.playerButton_3.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonIcon);</b>
+<b class="nc">&nbsp;            gui.menuActionInterface.maxSeatsDialog.playerButton_4.setIcon(gui.menuActionInterface.maxSeatsDialog.buttonSelectedIcon);</b>
+&nbsp;        }
+&nbsp;        // when click on closeLabel will close the interface
+<b class="nc">&nbsp;        if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.closeLabel) {</b>
+<b class="nc">&nbsp;            gui.menuActionInterface.maxSeatsDialog.setVisible(false);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mousePressed(MouseEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.menuActionInterface) {</b>
+<b class="nc">&nbsp;            p.x = e.getX();</b>
+<b class="nc">&nbsp;            p.y = e.getY();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseReleased(MouseEvent e) {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseEntered(MouseEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.menuActionInterface.createButton) {</b>
+<b class="nc">&nbsp;            gui.menuActionInterface.createButton.setBackground(new Color(245, 225, 199));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.menuActionInterface.joinButton) {</b>
+<b class="nc">&nbsp;            gui.menuActionInterface.joinButton.setBackground(new Color(245, 225, 199));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.menuActionInterface.exitButton) {</b>
+<b class="nc">&nbsp;            gui.menuActionInterface.exitButton.setBackground(new Color(245, 225, 199));</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (e.getSource() == gui.menuActionInterface.chatButton) {</b>
+<b class="nc">&nbsp;            gui.menuActionInterface.chatButton.setIcon(gui.menuActionInterface.chatIconColor);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (e.getSource() == gui.menuActionInterface.onlineButton) {</b>
+<b class="nc">&nbsp;            gui.menuActionInterface.onlineButton.setIcon(gui.menuActionInterface.onlineIconColor);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseExited(MouseEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.menuActionInterface.createButton) {</b>
+<b class="nc">&nbsp;            gui.menuActionInterface.createButton.setBackground(new Color(222, 184, 135));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.menuActionInterface.joinButton) {</b>
+<b class="nc">&nbsp;            gui.menuActionInterface.joinButton.setBackground(new Color(222, 184, 135));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.menuActionInterface.exitButton) {</b>
+<b class="nc">&nbsp;            gui.menuActionInterface.exitButton.setBackground(new Color(222, 184, 135));</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (e.getSource() == gui.menuActionInterface.chatButton) {</b>
+<b class="nc">&nbsp;            gui.menuActionInterface.chatButton.setIcon(gui.menuActionInterface.chatIcon);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.menuActionInterface.onlineButton) {</b>
+<b class="nc">&nbsp;            gui.menuActionInterface.onlineButton.setIcon(gui.menuActionInterface.onlineIcon);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseDragged(MouseEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.menuActionInterface) {</b>
+<b class="nc">&nbsp;            Point panelPoint = gui.menuActionInterface.getLocation();</b>
+<b class="nc">&nbsp;            gui.menuActionInterface.setLocation(panelPoint.x + e.getX() - p.x, panelPoint.y + e.getY() - p.y);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseMoved(MouseEvent e) {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-28 22:41</div>
+</div>
+</body>
+</html>

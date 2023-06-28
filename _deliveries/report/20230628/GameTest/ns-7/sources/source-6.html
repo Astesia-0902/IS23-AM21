@@ -1,0 +1,281 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PixelUtil</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client.view.GUI.utils</a>
+</div>
+
+<h1>Coverage Summary for Class: PixelUtil (org.am21.client.view.GUI.utils)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PixelUtil</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/150)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client.view.GUI.utils;
+&nbsp;
+&nbsp;import java.awt.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * PixelUtil is a class that is used to get the pixel of the image
+&nbsp; * and resize the image
+&nbsp; */
+<b class="nc">&nbsp;public class PixelUtil {</b>
+&nbsp;
+&nbsp;    // screen size util
+<b class="nc">&nbsp;    public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();</b>
+<b class="nc">&nbsp;    public static int pcWidth = (int) screenSize.getWidth();</b>
+<b class="nc">&nbsp;    public static int pcHeight = (int) screenSize.getHeight();</b>
+&nbsp;
+&nbsp;    //other size
+<b class="nc">&nbsp;    public static int gameBoardW = ImageUtil.resizeX(833);</b>
+<b class="nc">&nbsp;    public static int gameBoardH = ImageUtil.resizeY(788);</b>
+<b class="nc">&nbsp;    public static int myShelfBoardW = ImageUtil.resizeX(495);</b>
+<b class="nc">&nbsp;    public static int myShelfBoardH = ImageUtil.resizeY(468);</b>
+<b class="nc">&nbsp;    public static int handBoardW = ImageUtil.resizeX(495);</b>
+<b class="nc">&nbsp;    public static int handBoardH = ImageUtil.resizeY(80);</b>
+<b class="nc">&nbsp;    public static int commonGoalCardW = ImageUtil.resizeX(262);</b>
+<b class="nc">&nbsp;    public static int commonGoalCardH = ImageUtil.resizeY(167);</b>
+<b class="nc">&nbsp;    public static int personalGoalCardW = ImageUtil.resizeX(177);</b>
+<b class="nc">&nbsp;    public static int personalGoalCardH = ImageUtil.resizeY(248);</b>
+<b class="nc">&nbsp;    public static int bagW = ImageUtil.resizeX(90);</b>
+<b class="nc">&nbsp;    public static int bagH = ImageUtil.resizeY(85);</b>
+<b class="nc">&nbsp;    public static int livingRoomMenuW = ImageUtil.resizeX(54);</b>
+<b class="nc">&nbsp;    public static int livingRoomMenuH = ImageUtil.resizeY(51);</b>
+<b class="nc">&nbsp;    public static int insertClearButtonW = ImageUtil.resizeX(414);</b>
+<b class="nc">&nbsp;    public static int insertClearButtonH = ImageUtil.resizeY(80);</b>
+<b class="nc">&nbsp;    public static int userMeW = ImageUtil.resizeX(145);</b>
+<b class="nc">&nbsp;    public static int userMeH = ImageUtil.resizeY(137);</b>
+<b class="nc">&nbsp;    public static int enemyW = ImageUtil.resizeX(68);</b>
+<b class="nc">&nbsp;    public static int enemyH = ImageUtil.resizeY(64);</b>
+<b class="nc">&nbsp;    public static int enemyShelfW = ImageUtil.resizeX(202);</b>
+<b class="nc">&nbsp;    public static int enemyShelfH = ImageUtil.resizeY(191);</b>
+<b class="nc">&nbsp;    public static int gameBoardCellW = ImageUtil.resizeX(85);</b>
+<b class="nc">&nbsp;    public static int gameBoardCellH = ImageUtil.resizeY(80);</b>
+<b class="nc">&nbsp;    public static int gameBoardItemW = ImageUtil.resizeX(77);</b>
+<b class="nc">&nbsp;    public static int gameBoardItemH = ImageUtil.resizeY(73);</b>
+<b class="nc">&nbsp;    public static int chairW = ImageUtil.resizeX(68);</b>
+<b class="nc">&nbsp;    public static int chairH = ImageUtil.resizeY(64);</b>
+<b class="nc">&nbsp;    public static int myScoreW = ImageUtil.resizeX(162);</b>
+<b class="nc">&nbsp;    public static int myScoreH = ImageUtil.resizeY(101);</b>
+<b class="nc">&nbsp;    public static int myScoreDynamicW = ImageUtil.resizeX(54);</b>
+<b class="nc">&nbsp;    public static int myScoreDynamicH = ImageUtil.resizeY(51);</b>
+<b class="nc">&nbsp;    public static int enemyScoreY = ImageUtil.resizeY(36);</b>
+<b class="nc">&nbsp;    public static int enemyScoreW = ImageUtil.resizeX(107);</b>
+<b class="nc">&nbsp;    public static int enemyScoreH = ImageUtil.resizeY(101);</b>
+<b class="nc">&nbsp;    public static int enemyNameW = ImageUtil.resizeX(45);</b>
+<b class="nc">&nbsp;    public static int commonX_1 = ImageUtil.resizeX(22);</b>
+<b class="nc">&nbsp;    public static int commonX_2 = ImageUtil.resizeX(90);</b>
+<b class="nc">&nbsp;    public static int commonX_3 = ImageUtil.resizeX(405);</b>
+<b class="nc">&nbsp;    public static int commonX_4 = ImageUtil.resizeX(1260);</b>
+<b class="nc">&nbsp;    public static int commonX_5 = ImageUtil.resizeX(1462);</b>
+<b class="nc">&nbsp;    public static int personalGoalX = ImageUtil.resizeX(1276);</b>
+<b class="nc">&nbsp;    public static int livingRoomMenuX = ImageUtil.resizeX(1735);</b>
+<b class="nc">&nbsp;    public static int insertButtonX = ImageUtil.resizeX(403);</b>
+<b class="nc">&nbsp;    public static int clearButtonX = ImageUtil.resizeX(826);</b>
+<b class="nc">&nbsp;    public static int userMeX = ImageUtil.resizeX(1296);</b>
+<b class="nc">&nbsp;    public static int gameBoardGridX = ImageUtil.resizeX(446);</b>
+<b class="nc">&nbsp;    public static int myHandPanelX = ImageUtil.resizeX(43);</b>
+<b class="nc">&nbsp;    public static int chairManMeX = ImageUtil.resizeX(1222);</b>
+<b class="nc">&nbsp;    public static int commonY_1 = ImageUtil.resizeY(32);</b>
+<b class="nc">&nbsp;    public static int commonY_2 = ImageUtil.resizeY(245);</b>
+<b class="nc">&nbsp;    public static int commonY_3 = ImageUtil.resizeY(469);</b>
+<b class="nc">&nbsp;    public static int commonY_4 = ImageUtil.resizeY(898);</b>
+<b class="nc">&nbsp;    public static int gameBoardY = ImageUtil.resizeY(106);</b>
+<b class="nc">&nbsp;    public static int myShelfBoardY = ImageUtil.resizeY(426);</b>
+<b class="nc">&nbsp;    public static int personalGoalY = ImageUtil.resizeY(170);</b>
+<b class="nc">&nbsp;    public static int commonGoalY_A = ImageUtil.resizeY(81);</b>
+<b class="nc">&nbsp;    public static int commonGoalY_B = ImageUtil.resizeY(253);</b>
+<b class="nc">&nbsp;    public static int bagY = ImageUtil.resizeY(11);</b>
+<b class="nc">&nbsp;    public static int livingRoomMenuY = ImageUtil.resizeY(10);</b>
+<b class="nc">&nbsp;    public static int gameBoardGridY = ImageUtil.resizeY(147);</b>
+<b class="nc">&nbsp;    public static int chairManMeY = ImageUtil.resizeY(11);</b>
+<b class="nc">&nbsp;    public static int chairManEnemyY = ImageUtil.resizeY(122);</b>
+<b class="nc">&nbsp;    public static int myScoreDynamicX = ImageUtil.resizeX(1607);</b>
+<b class="nc">&nbsp;    public static int myHandPanelY = ImageUtil.resizeY(3);</b>
+&nbsp;
+&nbsp;    //chat util
+<b class="nc">&nbsp;    public static int cButtonY = ImageUtil.resizeY(978);</b>
+<b class="nc">&nbsp;    public static int cButtonW = ImageUtil.resizeX(68);</b>
+<b class="nc">&nbsp;    public static int cButtonH = ImageUtil.resizeY(34);</b>
+<b class="nc">&nbsp;    public static int cWindowW = ImageUtil.resizeX(352);</b>
+<b class="nc">&nbsp;    public static int cWindowH = ImageUtil.resizeY(300);</b>
+<b class="nc">&nbsp;    public static int cWindowY = ImageUtil.resizeY(660);</b>
+<b class="nc">&nbsp;    public static int cPlayerWindowY = ImageUtil.resizeY(450);</b>
+&nbsp;
+&nbsp;    // Shelf grid util
+<b class="nc">&nbsp;    public static int myGridX = ImageUtil.resizeX(1310);</b>
+<b class="nc">&nbsp;    public static int myGridY = ImageUtil.resizeY(455);</b>
+<b class="nc">&nbsp;    public static int enemyGridX = ImageUtil.resizeX(111);</b>
+<b class="nc">&nbsp;    public static int enemyGridY = ImageUtil.resizeY(12);</b>
+<b class="nc">&nbsp;    public static int myCellH = ImageUtil.resizeY(65);</b>
+<b class="nc">&nbsp;    public static int myCellW = ImageUtil.resizeX(80);</b>
+<b class="nc">&nbsp;    public static int enemyCellH = ImageUtil.resizeY(27);</b>
+<b class="nc">&nbsp;    public static int enemyCellW = ImageUtil.resizeX(33);</b>
+&nbsp;
+&nbsp;    //item size util
+<b class="nc">&nbsp;    public static int myItemW = ImageUtil.resizeX(59);</b>
+<b class="nc">&nbsp;    public static int myItemH = ImageUtil.resizeY(57);</b>
+<b class="nc">&nbsp;    public static int enemyItemH = ImageUtil.resizeY(23);</b>
+<b class="nc">&nbsp;    public static int enemyItemW = ImageUtil.resizeX(25);</b>
+&nbsp;
+&nbsp;    //score token util
+<b class="nc">&nbsp;    public static int endGameTokenH = ImageUtil.resizeY(83);</b>
+<b class="nc">&nbsp;    public static int endGameTokenW = ImageUtil.resizeX(88);</b>
+<b class="nc">&nbsp;    public static int endGameTokenBoundsW = ImageUtil.resizeX(129);</b>
+<b class="nc">&nbsp;    public static int endGameTokenBoundsH = ImageUtil.resizeY(122);</b>
+<b class="nc">&nbsp;    public static int endGameTokenX = ImageUtil.resizeX(613);</b>
+<b class="nc">&nbsp;    public static int endGameTokenY = ImageUtil.resizeY(503);</b>
+<b class="nc">&nbsp;    public static int endGameTokenOriented = 9;</b>
+<b class="nc">&nbsp;    public static int endGameTokenRotateX = ImageUtil.resizeX(17);</b>
+<b class="nc">&nbsp;    public static int endGameTokenRotateY = ImageUtil.resizeY(152);</b>
+<b class="nc">&nbsp;    public static int commonGoalTokenH = ImageUtil.resizeY(75);</b>
+<b class="nc">&nbsp;    public static int commonGoalTokenW = ImageUtil.resizeX(79);</b>
+<b class="nc">&nbsp;    public static int commonGoalTokenBoundsH = ImageUtil.resizeY(91);</b>
+<b class="nc">&nbsp;    public static int commonGoalTokenBoundsW = ImageUtil.resizeX(96);</b>
+<b class="nc">&nbsp;    public static int commonGoalTokenX = ImageUtil.resizeX(148);</b>
+<b class="nc">&nbsp;    public static int commonGoalTopTokenY = ImageUtil.resizeY(31);</b>
+<b class="nc">&nbsp;    public static int commonGoalBottomTokenY = ImageUtil.resizeY(202);</b>
+<b class="nc">&nbsp;    public static int commonGoalTokenOriented = -8;</b>
+<b class="nc">&nbsp;    public static int commonGoalTokenRotateX = ImageUtil.resizeX(96);</b>
+<b class="nc">&nbsp;    public static int commonGoalTokenRotateY = ImageUtil.resizeY(5);</b>
+&nbsp;
+&nbsp;    //myHandBoard Interface
+<b class="nc">&nbsp;    public static int myHandBackGroundX = ImageUtil.resizeX(407);</b>
+<b class="nc">&nbsp;    public static int myHandBackGroundY = ImageUtil.resizeY(304);</b>
+<b class="nc">&nbsp;    public static int myHandBackGroundW = ImageUtil.resizeX(836);</b>
+<b class="nc">&nbsp;    public static int myHandBackGroundH = ImageUtil.resizeY(690);</b>
+<b class="nc">&nbsp;    public static int myHandHandH = ImageUtil.resizeY(469);</b>
+<b class="nc">&nbsp;    public static int myHandHandW = ImageUtil.resizeX(85);</b>
+<b class="nc">&nbsp;    public static int myHandHandX = ImageUtil.resizeX(54);</b>
+<b class="nc">&nbsp;    public static int myHandHandY = ImageUtil.resizeY(51);</b>
+<b class="nc">&nbsp;    public static int myHandShelfX = ImageUtil.resizeX(193);</b>
+<b class="nc">&nbsp;    public static int myHandSortX = ImageUtil.resizeX(54);</b>
+<b class="nc">&nbsp;    public static int myHandSortY = ImageUtil.resizeY(568);</b>
+<b class="nc">&nbsp;    public static int myHandSortW = ImageUtil.resizeX(84);</b>
+<b class="nc">&nbsp;    public static int myHandSortH = ImageUtil.resizeY(80);</b>
+<b class="nc">&nbsp;    public static int myHandOptionX = ImageUtil.resizeX(155);</b>
+<b class="nc">&nbsp;    public static int myHandOptionXDiff = ImageUtil.resizeX(84);</b>
+<b class="nc">&nbsp;    public static int myHandOptionY = ImageUtil.resizeY(568);</b>
+<b class="nc">&nbsp;    public static int handNumW = ImageUtil.resizeX(54);</b>
+<b class="nc">&nbsp;    public static int handNumH = ImageUtil.resizeY(51);</b>
+<b class="nc">&nbsp;    public static int myHandConfirmX = ImageUtil.resizeX(659);</b>
+<b class="nc">&nbsp;    public static int myHandConfirmY = ImageUtil.resizeY(604);</b>
+<b class="nc">&nbsp;    public static int myHandConfirmW = ImageUtil.resizeX(161);</b>
+<b class="nc">&nbsp;    public static int myHandConfirmH = ImageUtil.resizeY(51);</b>
+<b class="nc">&nbsp;    public static int myHandItemX = ImageUtil.resizeX(4);</b>
+<b class="nc">&nbsp;    public static int myHandItemY = ImageUtil.resizeY(43);</b>
+<b class="nc">&nbsp;    public static int myHandShelfGridX = ImageUtil.resizeX(242);</b>
+<b class="nc">&nbsp;    public static int myHandShelfGridY = ImageUtil.resizeY(78);</b>
+&nbsp;
+&nbsp;    //menu living room interface
+<b class="nc">&nbsp;    public static int menuLRW = ImageUtil.resizeX(600);</b>
+<b class="nc">&nbsp;    public static int menuLRH = ImageUtil.resizeY(500);</b>
+<b class="nc">&nbsp;    public static int buttonLRX = ImageUtil.resizeX(100);</b>
+<b class="nc">&nbsp;    public static int buttonBackLRY = ImageUtil.resizeY(50);</b>
+<b class="nc">&nbsp;    public static int buttonWaitLRY = ImageUtil.resizeY(200);</b>
+<b class="nc">&nbsp;    public static int buttonLeaveLRY = ImageUtil.resizeY(350);</b>
+<b class="nc">&nbsp;    public static int buttonLRW = ImageUtil.resizeX(400);</b>
+<b class="nc">&nbsp;    public static int buttonLRH = ImageUtil.resizeY(100);</b>
+&nbsp;
+&nbsp;    //game results interface
+<b class="nc">&nbsp;    public static int labelRITitleW = ImageUtil.resizeX(1071);</b>
+<b class="nc">&nbsp;    public static int labelRITitleH = ImageUtil.resizeY(1026);</b>
+<b class="nc">&nbsp;    public static int labelRITableH = ImageUtil.resizeY(507);</b>
+<b class="nc">&nbsp;    public static int labelRITitleX = ImageUtil.resizeX(365);</b>
+<b class="nc">&nbsp;    public static int labelRIY = ImageUtil.resizeY(365);</b>
+<b class="nc">&nbsp;    public static int labelRITitleY = ImageUtil.resizeY(-304);</b>
+<b class="nc">&nbsp;    public static int labelRITableRowH = ImageUtil.resizeY(112);</b>
+<b class="nc">&nbsp;    public static int labelRIButtonX = ImageUtil.resizeX(686);</b>
+<b class="nc">&nbsp;    public static int labelRIButtonY = ImageUtil.resizeY(916);</b>
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-28 22:41</div>
+</div>
+</body>
+</html>

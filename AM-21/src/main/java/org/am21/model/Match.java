@@ -45,7 +45,7 @@ public class Match {
         playerList = new ArrayList<>(maxSeats);
         gameState = GameState.WaitingPlayers;
         commonGoals = new ArrayList<>(2);
-        chatManager = new ChatManager(this);
+        chatManager = new ChatManager();
         virtualView = new VirtualView();
 
     }
@@ -402,7 +402,7 @@ public class Match {
     }
 
     /**
-     * Command to start the first round.
+     * Command which starts the first round.
      */
     private void startFirstRound() {
         gameState = GameState.GameGoing;
@@ -558,7 +558,7 @@ public class Match {
     }
 
     /**
-     * Maybe not necessary, can be merged with end turn update
+     * Method to update virtual view after an insertion
      */
     public void insertionUpdate() {
         VirtualViewHelper.virtualizeBoard(this);
@@ -567,17 +567,18 @@ public class Match {
         updatePlayersView();
     }
 
-    public void sortUpdate() {
-        VirtualViewHelper.virtualizeCurrentPlayerHand(this);
-        updateVirtualHand();
-    }
-
+    /**
+     * Method to update virtual view after turn end
+     */
     public void endTurnUpdate() {
         VirtualViewHelper.updateVirtualScores(this);
         VirtualViewHelper.virtualizeCurrentPlayer(this);
         updatePlayersView();
     }
 
+    /**
+     * Send to all game members group chat virtual view
+     */
     public void updatePlayersPublicChats() {
         synchronized (playerList) {
             for (Player p : playerList) {
@@ -586,6 +587,10 @@ public class Match {
         }
     }
 
+    /**
+     * Send an interface update notification to all game members
+     * @param includeCurrentPlayer true if the current player should receive the notification
+     */
     public void sendNotificationToAll(boolean includeCurrentPlayer) {
         synchronized (playerList) {
             for (Player p : playerList) {

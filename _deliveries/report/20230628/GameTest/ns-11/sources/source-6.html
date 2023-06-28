@@ -1,0 +1,88 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > IClientCallBack</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.networkRMI</a>
+</div>
+
+<h1>Coverage Summary for Class: IClientCallBack (org.am21.networkRMI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">IClientCallBack</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.networkRMI;
+&nbsp;
+&nbsp;import java.rmi.Remote;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.rmi.server.ServerNotActiveException;
+&nbsp;
+&nbsp;public interface IClientCallBack extends Remote {
+&nbsp;    void sendMessageToClient(String message) throws RemoteException;
+&nbsp;    void sendChatNotification(String message) throws RemoteException;
+&nbsp;    void sendVirtualView(String virtualView, int pIndex) throws RemoteException;
+&nbsp;    void notifyStart(int id) throws RemoteException, ServerNotActiveException;
+&nbsp;    void notifyToWait(String info) throws RemoteException;
+&nbsp;    void notifyGoToMenu() throws RemoteException;
+&nbsp;    void notifyEndMatch() throws RemoteException;
+&nbsp;    void sendVirtualHand(String JSONHand) throws RemoteException;
+&nbsp;    void sendVirtualPublicChat(String virtualPublicChat) throws RemoteException;
+&nbsp;    void sendServerVirtualView(String serverVV) throws RemoteException;
+&nbsp;    void notifyUpdate(int milliseconds) throws RemoteException;
+&nbsp;
+&nbsp;    void ping() throws RemoteException;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-28 22:41</div>
+</div>
+</body>
+</html>

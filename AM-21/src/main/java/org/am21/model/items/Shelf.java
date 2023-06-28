@@ -19,7 +19,6 @@ public class Shelf extends Grid {
      * Numbers of items insertable in the shelves each turn. Starting limit: 3. It's diminishable.
      */
     public int insertLimit = STD_LIMIT;
-    //TODO: at the end STD_LIMIT should be final
     public static int STD_LIMIT = 3;
     public final static int SHELF_ROW = 6;
     public final static int SHELF_COLUMN = 5;
@@ -41,7 +40,7 @@ public class Shelf extends Grid {
      * Create array, each elem count slot available for each column
      * Row-Index-0 is on the top of the shelves
      *
-     * @param player
+     * @param player player instance
      */
     public Shelf(Player player) {
         super(SHELF_ROW, SHELF_COLUMN);
@@ -71,7 +70,6 @@ public class Shelf extends Grid {
         } else {
             this.insertLimit = max;
         }
-
     }
 
     /**
@@ -128,6 +126,15 @@ public class Shelf extends Grid {
         return points;
     }
 
+    /**
+     * Calculate the total points from shelf group points
+     * @param r root row of the backtracking
+     * @param c root column of the backtracking
+     * @param visited matrix of visited cells
+     * @param depth depth of the backtracking
+     * @param type type of item
+     * @return number of item of the same type adjacent to each other
+     */
     public int colorCounter(int r, int c, boolean[][] visited, int depth, String type) {
         int newDepth = depth;
         visited[r][c] = true;
@@ -147,6 +154,11 @@ public class Shelf extends Grid {
         return newDepth;
     }
 
+    /**
+     * This method return the number of points gained due to a number of item adjacent to each other
+     * @param nItem number of item
+     * @return points
+     */
     public int pointsTable(int nItem) {
         if (nItem < 3) {
             nItem = 0;

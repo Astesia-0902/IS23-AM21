@@ -1,0 +1,555 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > MyHandInterface</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client.view.GUI.Interface</a>
+</div>
+
+<h1>Coverage Summary for Class: MyHandInterface (org.am21.client.view.GUI.Interface)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MyHandInterface</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/21)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/182)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">MyHandInterface$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/192)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client.view.GUI.Interface;
+&nbsp;
+&nbsp;import org.am21.client.view.ClientView;
+&nbsp;import org.am21.client.view.GUI.Gui;
+&nbsp;import org.am21.client.view.GUI.component.ButtonColorUI;
+&nbsp;import org.am21.client.view.GUI.component.ShelfPanel;
+&nbsp;import org.am21.client.view.GUI.utils.FontUtil;
+&nbsp;import org.am21.client.view.GUI.utils.ImageUtil;
+&nbsp;import org.am21.client.view.GUI.utils.PixelUtil;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import javax.swing.border.Border;
+&nbsp;import javax.swing.border.LineBorder;
+&nbsp;import javax.swing.border.MatteBorder;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.event.MouseAdapter;
+&nbsp;import java.awt.event.MouseEvent;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public class MyHandInterface extends JDialog {
+&nbsp;
+<b class="nc">&nbsp;    public int handMax = 3;</b>
+<b class="nc">&nbsp;    public int rowMax = 6;</b>
+<b class="nc">&nbsp;    public int columnMax = 5;</b>
+&nbsp;    public JLayeredPane myHandInterfacePane;
+&nbsp;    public JLabel myHandInterfaceBack;
+&nbsp;    public JLabel myHandLabel;
+<b class="nc">&nbsp;    public JLayeredPane[] handGrid = new JLayeredPane[handMax];</b>
+&nbsp;    public JLabel[] myHandItem;
+&nbsp;
+&nbsp;
+&nbsp;    public JLabel myShelfBoardLabel;
+&nbsp;    public JButton sort;
+&nbsp;    public ButtonGroup optionGroup;
+&nbsp;    public JButton confirm;
+&nbsp;    public ShelfPanel originalShelf;
+&nbsp;    public ShelfPanel previewPanel;
+<b class="nc">&nbsp;    public List&lt;Integer&gt; posSort = new ArrayList&lt;&gt;();</b>
+&nbsp;    public int[] vectorFreeColumn;
+&nbsp;    public String[][] previewShelf;
+<b class="nc">&nbsp;    public int finalColumn = -1;</b>
+&nbsp;
+&nbsp;    public MyHandInterface(Gui gui) {
+<b class="nc">&nbsp;        super(gui.livingRoomInterface, true);</b>
+<b class="nc">&nbsp;        setMyHandInterfacePane();</b>
+&nbsp;
+<b class="nc">&nbsp;        setMyHandGrids();</b>
+&nbsp;
+<b class="nc">&nbsp;        storeOriginalShelf();</b>
+&nbsp;
+<b class="nc">&nbsp;        setPreviewPanel();</b>
+&nbsp;
+<b class="nc">&nbsp;        setSortButton(gui);</b>
+&nbsp;
+<b class="nc">&nbsp;        setColumnOptionGroupButton();</b>
+&nbsp;
+<b class="nc">&nbsp;        setConfirmButton(gui);</b>
+&nbsp;
+<b class="nc">&nbsp;        setVisible(true);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * base set
+&nbsp;     */
+&nbsp;    public void setMyHandInterfacePane() {
+<b class="nc">&nbsp;        setBounds(PixelUtil.myHandBackGroundX, PixelUtil.myHandBackGroundY, PixelUtil.myHandBackGroundW, PixelUtil.myHandBackGroundH);</b>
+<b class="nc">&nbsp;        setUndecorated(true);</b>
+<b class="nc">&nbsp;        setResizable(false);</b>
+<b class="nc">&nbsp;        setTitle(&quot;My hand&quot;);</b>
+<b class="nc">&nbsp;        setLayout(null);</b>
+&nbsp;
+<b class="nc">&nbsp;        myHandInterfacePane = new JLayeredPane();</b>
+<b class="nc">&nbsp;        myHandInterfacePane.setBounds(0, 0, PixelUtil.myHandBackGroundW, PixelUtil.myHandBackGroundH);</b>
+<b class="nc">&nbsp;        myHandInterfacePane.setLayout(null);</b>
+<b class="nc">&nbsp;        myHandInterfacePane.setOpaque(false);</b>
+<b class="nc">&nbsp;        add(myHandInterfacePane);</b>
+&nbsp;
+&nbsp;        //background
+<b class="nc">&nbsp;        myHandInterfaceBack = new JLabel();</b>
+<b class="nc">&nbsp;        myHandInterfaceBack.setBounds(0, 0, PixelUtil.myHandBackGroundW, PixelUtil.myHandBackGroundH);</b>
+<b class="nc">&nbsp;        myHandInterfaceBack.setIcon(ImageUtil.getBoardImage(&quot;myHandBack&quot;));</b>
+<b class="nc">&nbsp;        myHandInterfacePane.add(myHandInterfaceBack, JLayeredPane.DEFAULT_LAYER);</b>
+&nbsp;
+&nbsp;        //hand label
+<b class="nc">&nbsp;        myHandLabel = new JLabel();</b>
+<b class="nc">&nbsp;        myHandLabel.setBounds(PixelUtil.myHandHandX, PixelUtil.myHandHandY, PixelUtil.myHandHandW, PixelUtil.myHandHandH);</b>
+<b class="nc">&nbsp;        myHandLabel.setIcon(ImageUtil.getBoardImage(&quot;myHandHand&quot;));</b>
+<b class="nc">&nbsp;        myHandInterfacePane.add(myHandLabel, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;
+&nbsp;        //shelf label
+<b class="nc">&nbsp;        myShelfBoardLabel = new JLabel();</b>
+<b class="nc">&nbsp;        myShelfBoardLabel.setBounds(PixelUtil.myHandShelfX, PixelUtil.myHandHandY, PixelUtil.myShelfBoardW, PixelUtil.myShelfBoardH);</b>
+<b class="nc">&nbsp;        myShelfBoardLabel.setIcon(ImageUtil.getShelfImage(PixelUtil.myShelfBoardW, PixelUtil.myShelfBoardH));</b>
+<b class="nc">&nbsp;        myHandInterfacePane.add(myShelfBoardLabel, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * grids base set
+&nbsp;     */
+&nbsp;    public void setMyHandGrids() {
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; handMax; i++) {</b>
+<b class="nc">&nbsp;            handGrid[i] = new JLayeredPane();</b>
+<b class="nc">&nbsp;            handGrid[i].setBounds(PixelUtil.myHandHandX, PixelUtil.myHandHandY + (i * ((PixelUtil.myHandHandH) / 3)), PixelUtil.myHandHandW, (PixelUtil.myHandHandH) / 3);</b>
+<b class="nc">&nbsp;            handGrid[i].setLayout(null);</b>
+<b class="nc">&nbsp;            handGrid[i].setBackground(Color.WHITE);</b>
+<b class="nc">&nbsp;            myHandInterfacePane.add(handGrid[i], JLayeredPane.MODAL_LAYER);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * store the original shelf
+&nbsp;     */
+&nbsp;    public void storeOriginalShelf() {
+&nbsp;
+<b class="nc">&nbsp;        originalShelf = new ShelfPanel(PixelUtil.myHandShelfGridX, PixelUtil.myHandShelfGridY, PixelUtil.myCellW, PixelUtil.myCellH, PixelUtil.myItemW, PixelUtil.myItemH);</b>
+<b class="nc">&nbsp;        originalShelf.refreshShelf(ClientView.shelves.get(ClientView.getPlayerIndex(Gui.username)));</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * view the preview panel
+&nbsp;     */
+&nbsp;    public void setPreviewPanel() {
+&nbsp;        //available column for preview
+<b class="nc">&nbsp;        vectorFreeColumn = availableColumn();</b>
+&nbsp;
+&nbsp;        //initialize preview shelf matrix
+<b class="nc">&nbsp;        previewShelf = restoreShelf(ClientView.shelves.get(ClientView.getPlayerIndex(Gui.username)));</b>
+&nbsp;
+&nbsp;        //set preview panel
+<b class="nc">&nbsp;        previewPanel = new ShelfPanel(PixelUtil.myHandShelfGridX, PixelUtil.myHandShelfGridY, PixelUtil.myCellW, PixelUtil.myCellH, PixelUtil.myItemW, PixelUtil.myItemH);</b>
+<b class="nc">&nbsp;        previewPanel.refreshShelf(previewShelf);</b>
+<b class="nc">&nbsp;        myHandInterfacePane.add(previewPanel, JLayeredPane.MODAL_LAYER);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * sort button function
+&nbsp;     *
+&nbsp;     * @param gui GUI
+&nbsp;     */
+&nbsp;    public void setSortButton(Gui gui) {
+<b class="nc">&nbsp;        sort = new JButton();</b>
+<b class="nc">&nbsp;        sort.setBounds(PixelUtil.myHandSortX, PixelUtil.myHandSortY, PixelUtil.myHandSortW, PixelUtil.myHandSortH);</b>
+<b class="nc">&nbsp;        sort.setForeground(new Color(164, 91, 9, 255));</b>
+<b class="nc">&nbsp;        sort.setOpaque(false);</b>
+<b class="nc">&nbsp;        sort.setIcon(ImageUtil.getBoardImage(&quot;iconSort&quot;));</b>
+<b class="nc">&nbsp;        refreshHand(ClientView.currentPlayerHand); //refresh board</b>
+<b class="nc">&nbsp;        sort.addActionListener(e -&gt; {</b>
+&nbsp;
+<b class="nc">&nbsp;            if (posSort.size() == 2) {</b>
+<b class="nc">&nbsp;                if (gui.commCtrl.sortHand(posSort.get(0), posSort.get(1)))</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;sort successful&quot;);</b>
+&nbsp;                else
+<b class="nc">&nbsp;                    System.out.println(&quot;failed&quot;);</b>
+<b class="nc">&nbsp;                refreshHand(ClientView.currentPlayerHand); //refresh new board</b>
+<b class="nc">&nbsp;                posSort.clear(); //clear list</b>
+&nbsp;            }
+&nbsp;
+&nbsp;        });
+<b class="nc">&nbsp;        myHandInterfacePane.add(sort, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * column function
+&nbsp;     */
+&nbsp;    public void setColumnOptionGroupButton() {
+&nbsp;        //button group
+<b class="nc">&nbsp;        optionGroup = new ButtonGroup();</b>
+&nbsp;
+<b class="nc">&nbsp;        JRadioButton selCol1 = new JRadioButton();</b>
+<b class="nc">&nbsp;        selCol1.setIcon(ImageUtil.getNumberImage(1 + &quot;gray&quot;));</b>
+<b class="nc">&nbsp;        selCol1.setBounds(PixelUtil.myHandOptionX + PixelUtil.myHandOptionXDiff, PixelUtil.myHandOptionY, PixelUtil.handNumW, PixelUtil.handNumH);</b>
+<b class="nc">&nbsp;        selCol1.setOpaque(false);</b>
+&nbsp;
+<b class="nc">&nbsp;        JRadioButton selCol2 = new JRadioButton();</b>
+<b class="nc">&nbsp;        selCol2.setIcon(ImageUtil.getNumberImage(2 + &quot;gray&quot;));</b>
+<b class="nc">&nbsp;        selCol2.setBounds(PixelUtil.myHandOptionX + 2 * PixelUtil.myHandOptionXDiff, PixelUtil.myHandOptionY, PixelUtil.handNumW, PixelUtil.handNumH);</b>
+<b class="nc">&nbsp;        selCol2.setOpaque(false);</b>
+&nbsp;
+<b class="nc">&nbsp;        JRadioButton selCol3 = new JRadioButton();</b>
+<b class="nc">&nbsp;        selCol3.setIcon(ImageUtil.getNumberImage(3 + &quot;gray&quot;));</b>
+<b class="nc">&nbsp;        selCol3.setBounds(PixelUtil.myHandOptionX + 3 * PixelUtil.myHandOptionXDiff, PixelUtil.myHandOptionY, PixelUtil.handNumW, PixelUtil.handNumH);</b>
+<b class="nc">&nbsp;        selCol3.setOpaque(false);</b>
+&nbsp;
+<b class="nc">&nbsp;        JRadioButton selCol4 = new JRadioButton();</b>
+<b class="nc">&nbsp;        selCol4.setIcon(ImageUtil.getNumberImage(4 + &quot;gray&quot;));</b>
+<b class="nc">&nbsp;        selCol4.setBounds(PixelUtil.myHandOptionX + 4 * PixelUtil.myHandOptionXDiff, PixelUtil.myHandOptionY, PixelUtil.handNumW, PixelUtil.handNumH);</b>
+<b class="nc">&nbsp;        selCol4.setOpaque(false);</b>
+&nbsp;
+<b class="nc">&nbsp;        JRadioButton selCol5 = new JRadioButton();</b>
+<b class="nc">&nbsp;        selCol5.setIcon(ImageUtil.getNumberImage(5 + &quot;gray&quot;));</b>
+<b class="nc">&nbsp;        selCol5.setBounds(PixelUtil.myHandOptionX + 5 * PixelUtil.myHandOptionXDiff, PixelUtil.myHandOptionY, PixelUtil.handNumW, PixelUtil.handNumH);</b>
+<b class="nc">&nbsp;        selCol5.setOpaque(false);</b>
+&nbsp;
+<b class="nc">&nbsp;        optionGroup.add(selCol1);</b>
+<b class="nc">&nbsp;        optionGroup.add(selCol2);</b>
+<b class="nc">&nbsp;        optionGroup.add(selCol3);</b>
+<b class="nc">&nbsp;        optionGroup.add(selCol4);</b>
+<b class="nc">&nbsp;        optionGroup.add(selCol5);</b>
+&nbsp;
+<b class="nc">&nbsp;        selCol1.addActionListener(e -&gt; {</b>
+<b class="nc">&nbsp;            if (vectorFreeColumn[0] &gt;= ClientView.currentPlayerHand.size()) {</b>
+&nbsp;                //show preview
+<b class="nc">&nbsp;                previewPanel.previewInsertShelf(0, futureShelf(0), previewShelf);</b>
+&nbsp;                //testPanel.previewInsertShelf(1,row,matrix);
+<b class="nc">&nbsp;                previewShelf = restoreShelf(ClientView.shelves.get(ClientView.getPlayerIndex(Gui.username)));</b>
+<b class="nc">&nbsp;                finalColumn = 0;</b>
+&nbsp;            } else
+<b class="nc">&nbsp;                JOptionPane.showMessageDialog(null, &quot;column 1 is not available, try again!&quot;);</b>
+&nbsp;
+&nbsp;        });
+&nbsp;
+<b class="nc">&nbsp;        selCol2.addActionListener(e -&gt; {</b>
+<b class="nc">&nbsp;            if (vectorFreeColumn[1] &gt;= ClientView.currentPlayerHand.size()) {</b>
+&nbsp;                //show preview
+<b class="nc">&nbsp;                previewPanel.previewInsertShelf(1, futureShelf(1), previewShelf);</b>
+<b class="nc">&nbsp;                previewShelf = restoreShelf(ClientView.shelves.get(ClientView.getPlayerIndex(Gui.username)));</b>
+<b class="nc">&nbsp;                finalColumn = 1;</b>
+&nbsp;            } else
+<b class="nc">&nbsp;                JOptionPane.showMessageDialog(null, &quot;column 2 is not available, try again!&quot;);</b>
+&nbsp;
+&nbsp;        });
+<b class="nc">&nbsp;        selCol3.addActionListener(e -&gt; {</b>
+<b class="nc">&nbsp;            if (vectorFreeColumn[2] &gt;= ClientView.currentPlayerHand.size()) {</b>
+&nbsp;                //show preview
+<b class="nc">&nbsp;                previewPanel.previewInsertShelf(2, futureShelf(2), previewShelf);</b>
+<b class="nc">&nbsp;                previewShelf = restoreShelf(ClientView.shelves.get(ClientView.getPlayerIndex(Gui.username)));</b>
+<b class="nc">&nbsp;                finalColumn = 2;</b>
+&nbsp;            } else
+<b class="nc">&nbsp;                JOptionPane.showMessageDialog(null, &quot;column 3 is not available, try again!&quot;);</b>
+&nbsp;
+&nbsp;        });
+<b class="nc">&nbsp;        selCol4.addActionListener(e -&gt; {</b>
+<b class="nc">&nbsp;            if (vectorFreeColumn[3] &gt;= ClientView.currentPlayerHand.size()) {</b>
+&nbsp;                //show preview
+<b class="nc">&nbsp;                previewPanel.previewInsertShelf(3, futureShelf(3), previewShelf);</b>
+<b class="nc">&nbsp;                previewShelf = restoreShelf(ClientView.shelves.get(ClientView.getPlayerIndex(Gui.username)));</b>
+<b class="nc">&nbsp;                finalColumn = 3;</b>
+&nbsp;            } else
+<b class="nc">&nbsp;                JOptionPane.showMessageDialog(null, &quot;column 4 is not available, try again!&quot;);</b>
+&nbsp;
+&nbsp;        });
+<b class="nc">&nbsp;        selCol5.addActionListener(e -&gt; {</b>
+<b class="nc">&nbsp;            if (vectorFreeColumn[4] &gt;= ClientView.currentPlayerHand.size()) {</b>
+&nbsp;                //show preview
+<b class="nc">&nbsp;                previewPanel.previewInsertShelf(4, futureShelf(4), previewShelf);</b>
+<b class="nc">&nbsp;                previewShelf = restoreShelf(ClientView.shelves.get(ClientView.getPlayerIndex(Gui.username)));</b>
+<b class="nc">&nbsp;                finalColumn = 4;</b>
+&nbsp;            } else
+<b class="nc">&nbsp;                JOptionPane.showMessageDialog(null, &quot;column 5 is not available, try again!&quot;);</b>
+&nbsp;
+&nbsp;        });
+&nbsp;
+<b class="nc">&nbsp;        myHandInterfacePane.add(selCol1, JLayeredPane.PALETTE_LAYER);</b>
+<b class="nc">&nbsp;        myHandInterfacePane.add(selCol2, JLayeredPane.PALETTE_LAYER);</b>
+<b class="nc">&nbsp;        myHandInterfacePane.add(selCol3, JLayeredPane.PALETTE_LAYER);</b>
+<b class="nc">&nbsp;        myHandInterfacePane.add(selCol4, JLayeredPane.PALETTE_LAYER);</b>
+<b class="nc">&nbsp;        myHandInterfacePane.add(selCol5, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * confirm button function
+&nbsp;     *
+&nbsp;     * @param gui GUI
+&nbsp;     */
+&nbsp;    public void setConfirmButton(Gui gui) {
+<b class="nc">&nbsp;        confirm = new JButton(&quot;CONFIRM&quot;);</b>
+<b class="nc">&nbsp;        confirm.setFont(FontUtil.getFontByName(&quot;HongLeiXingShuJianTi-2&quot;)</b>
+<b class="nc">&nbsp;                .deriveFont(Font.PLAIN, ImageUtil.resizeY(16)));</b>
+<b class="nc">&nbsp;        confirm.setBounds(PixelUtil.myHandConfirmX, PixelUtil.myHandConfirmY, PixelUtil.myHandConfirmW, PixelUtil.myHandConfirmH);</b>
+<b class="nc">&nbsp;        confirm.setBorder(new MatteBorder(ImageUtil.resizeY(2), ImageUtil.resizeX(2), ImageUtil.resizeY(2),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(2), new Color(4, 134, 10, 230)));</b>
+<b class="nc">&nbsp;        confirm.setUI(new ButtonColorUI(new Color(136, 218, 123, 139)));</b>
+<b class="nc">&nbsp;        confirm.setBackground(Color.WHITE);</b>
+<b class="nc">&nbsp;        confirm.setForeground(new Color(4, 134, 10, 230));</b>
+<b class="nc">&nbsp;        confirm.addActionListener(e -&gt; {</b>
+<b class="nc">&nbsp;            Window window = SwingUtilities.windowForComponent(confirm);</b>
+<b class="nc">&nbsp;            if (finalColumn != -1) {</b>
+&nbsp;
+<b class="nc">&nbsp;                if (gui.commCtrl.insertInColumn(finalColumn)) {</b>
+<b class="nc">&nbsp;                    gui.timeLimitedNotification(&quot;Insertion successful&quot;,500);</b>
+<b class="nc">&nbsp;                    if (gui.commCtrl.endTurn()) {</b>
+&nbsp;                        try {
+<b class="nc">&nbsp;                            gui.announceCurrentPlayer();</b>
+<b class="nc">&nbsp;                        } catch (RemoteException ex) {</b>
+<b class="nc">&nbsp;                            throw new RuntimeException(ex);</b>
+<b class="nc">&nbsp;                        }</b>
+&nbsp;                    }
+&nbsp;
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;                window.dispose();</b>
+&nbsp;
+&nbsp;            } else
+<b class="nc">&nbsp;                JOptionPane.showMessageDialog(null, &quot;please select the column&quot;);</b>
+&nbsp;
+&nbsp;
+&nbsp;        });
+<b class="nc">&nbsp;        myHandInterfacePane.add(confirm, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * refresh my current hand
+&nbsp;     *
+&nbsp;     * @param myItem list of item on hands
+&nbsp;     */
+&nbsp;    public void refreshHand(List&lt;String&gt; myItem) {
+&nbsp;
+<b class="nc">&nbsp;        for (JLayeredPane pane : handGrid) {</b>
+<b class="nc">&nbsp;            pane.removeAll();</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        myHandItem = new JLabel[myItem.size()];</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; myItem.size(); i++) {</b>
+&nbsp;
+<b class="nc">&nbsp;            myHandItem[i] = new JLabel();</b>
+<b class="nc">&nbsp;            myHandItem[i].setIcon(ImageUtil.getItemImage(myItem.get(i), PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH));</b>
+<b class="nc">&nbsp;            myHandItem[i].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));</b>
+<b class="nc">&nbsp;            myHandItem[i].setLocation(PixelUtil.myHandItemX, PixelUtil.myHandItemY);</b>
+<b class="nc">&nbsp;            myHandItem[i].setSize(PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH);</b>
+<b class="nc">&nbsp;            actionItem(i);</b>
+<b class="nc">&nbsp;            handGrid[handMax - 1 - i].add(myHandItem[i], JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;
+&nbsp;        }
+<b class="nc">&nbsp;        SwingUtilities.invokeLater(() -&gt; {</b>
+<b class="nc">&nbsp;            revalidate();</b>
+<b class="nc">&nbsp;            repaint();</b>
+&nbsp;        });
+&nbsp;
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * color changed on hand board
+&nbsp;     *
+&nbsp;     * @param pos position
+&nbsp;     */
+&nbsp;    public void actionItem(int pos) {
+<b class="nc">&nbsp;        myHandItem[pos].addMouseListener(new MouseAdapter() {</b>
+&nbsp;            @Override
+&nbsp;            public void mouseClicked(MouseEvent e) {
+&nbsp;                //super.mouseClicked(e);
+<b class="nc">&nbsp;                Border border = myHandItem[pos].getBorder();</b>
+<b class="nc">&nbsp;                if (border instanceof LineBorder) {</b>
+<b class="nc">&nbsp;                    Color edgeColor = ((LineBorder) border).getLineColor(); //get item border color</b>
+&nbsp;                    //do select
+<b class="nc">&nbsp;                    if (edgeColor.equals(new Color(0, 0, 0, 255)) &amp;&amp; posSort.size() &lt; 2) {</b>
+<b class="nc">&nbsp;                        myHandItem[pos].setBorder(BorderFactory.createLineBorder(new Color(203, 63, 4, 230), 4));</b>
+<b class="nc">&nbsp;                        posSort.add(pos);</b>
+&nbsp;
+<b class="nc">&nbsp;                    } else if (edgeColor.equals(new Color(203, 63, 4, 230))) {</b>
+&nbsp;                        //do deselect
+<b class="nc">&nbsp;                        myHandItem[pos].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));</b>
+<b class="nc">&nbsp;                        posSort.remove(pos);</b>
+&nbsp;                    }
+&nbsp;
+&nbsp;
+&nbsp;                }
+&nbsp;            }
+&nbsp;        });
+&nbsp;
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * modified Shelf preview Matrix
+&nbsp;     *
+&nbsp;     * @param column index of column
+&nbsp;     * @return vector of index for highlights
+&nbsp;     */
+&nbsp;    public int[] futureShelf(int column) {
+&nbsp;
+<b class="nc">&nbsp;        int[] rowRefresh = new int[rowMax];</b>
+<b class="nc">&nbsp;        for (int i = rowMax - 1; i &gt;= 0; i--) {</b>
+<b class="nc">&nbsp;            if (ClientView.shelves.get(ClientView.getPlayerIndex(Gui.username))[i][column] == null) {</b>
+<b class="nc">&nbsp;                for (int j = 0; j &lt; ClientView.currentPlayerHand.size(); j++) {</b>
+<b class="nc">&nbsp;                    previewShelf[i][column] = ClientView.currentPlayerHand.get(j);</b>
+<b class="nc">&nbsp;                    rowRefresh[i]++;</b>
+<b class="nc">&nbsp;                    i--;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                return rowRefresh;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * check the available columns number
+&nbsp;     *
+&nbsp;     * @return vector of number
+&nbsp;     */
+&nbsp;    public int[] availableColumn() {
+<b class="nc">&nbsp;        int[] matrix = new int[columnMax];</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; rowMax; i++) {</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; columnMax; j++) {</b>
+<b class="nc">&nbsp;                if (ClientView.shelves.get(ClientView.getPlayerIndex(Gui.username))[i][j] == null) {</b>
+<b class="nc">&nbsp;                    matrix[j]++;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return matrix;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * restore the preview matrix
+&nbsp;     *
+&nbsp;     * @param originalShelf original shelf
+&nbsp;     * @return originalShelf
+&nbsp;     */
+&nbsp;    public String[][] restoreShelf(String[][] originalShelf) {
+<b class="nc">&nbsp;        String[][] newShelf = new String[rowMax][columnMax];</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; rowMax; i++) {</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; columnMax; j++) {</b>
+<b class="nc">&nbsp;                newShelf[i][j] = originalShelf[i][j];</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return newShelf;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-28 22:41</div>
+</div>
+</body>
+</html>

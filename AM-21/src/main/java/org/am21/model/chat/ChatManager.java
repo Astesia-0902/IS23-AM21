@@ -12,13 +12,11 @@ import java.util.List;
  */
 public class ChatManager{
     public List<String> publicChatMessages = new ArrayList<>();
-    private Match match;
-
-    public ChatManager(Match match) {
-        this.match = match;
-    }
-
-
+    /**
+     * This method is used to add a line of message into the match group chat
+     * @param sender player who sent the message
+     * @param message message
+     */
     public void handlePublicChatMessage(Player sender, String message){
         publicChatMessages.add(sender.getNickname() + ": " + message);
         if(publicChatMessages.size()>50){

@@ -5,7 +5,10 @@ import org.am21.model.GameManager;
 import org.am21.model.Match;
 import org.am21.model.Player;
 import org.am21.model.enumer.ServerMessage;
-import org.am21.networkRMI.*;
+import org.am21.networkRMI.ClientInputHandler;
+import org.am21.networkRMI.IClientInput;
+import org.am21.networkRMI.Lobby;
+import org.am21.networkRMI.Welcome;
 import org.am21.networkSocket.SocketServer;
 
 import java.net.MalformedURLException;
@@ -15,9 +18,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.RMISocketFactory;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -59,15 +60,17 @@ public class Server {
 
             Welcome.serverAddress = serverAddress;
 
+            System.setProperty("java.rmi.server.hostname",serverAddress);
+
             Registry registry1234 = LocateRegistry.createRegistry(1234);
             Registry registry8807 =LocateRegistry.createRegistry(8807);
 
             Lobby guardian = new Welcome();
             UnicastRemoteObject.unexportObject(guardian, true);
             Lobby guardianStub = (Lobby) UnicastRemoteObject.exportObject(guardian, 0);
-            registry1234.bind("Welcome", guardianStub);
+            //registry1234.bind("Welcome", guardianStub);
             //System.out.println(Arrays.toString(Arrays.stream(registry1234.list()).toArray()));
-            //Naming.bind("rmi://" + serverAddress + ":1234/Welcome", guardianStub);
+            Naming.bind("rmi://localhost:1234/Welcome", guardianStub);
 
             Timer timer = new Timer();
             timer.schedule(new HeartbeatTask(), 1000, 10000);
@@ -119,7 +122,9 @@ public class Server {
 
     public static String newBind(String root) {
         String path = "";
-        path += "rmi://" + Welcome.serverAddress + ":8807/";
+        //path += "rmi://" + Welcome.serverAddress + ":8807/";
+        path += "rmi://localhost:8807/";
+
         path += root;
         return path;
     }
@@ -133,8 +138,8 @@ public class Server {
         UnicastRemoteObject.unexportObject(cIH, true);
         IClientInput stub = (IClientInput) UnicastRemoteObject.exportObject(cIH, 8807);
         Registry registry8807 = LocateRegistry.getRegistry(8807);
-        registry8807.rebind(genNewRoot(), stub);
-        //welcomeNewClient(newBind(genNewRoot()), cIH);
+        //registry8807.rebind(genNewRoot(), stub);
+        welcomeNewClient(newBind(genNewRoot()), cIH);
     }
 
     private static String readLine() {

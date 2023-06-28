@@ -1,0 +1,338 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Server</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: Server (org.am21.controller)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Server</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/95)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Server$HeartbeatTask</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/97)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.controller;
+&nbsp;
+&nbsp;import org.am21.client.view.TUI.InputReadTask;
+&nbsp;import org.am21.model.GameManager;
+&nbsp;import org.am21.model.Match;
+&nbsp;import org.am21.model.Player;
+&nbsp;import org.am21.model.enumer.ServerMessage;
+&nbsp;import org.am21.networkRMI.ClientInputHandler;
+&nbsp;import org.am21.networkRMI.IClientInput;
+&nbsp;import org.am21.networkRMI.Lobby;
+&nbsp;import org.am21.networkRMI.Welcome;
+&nbsp;import org.am21.networkSocket.SocketServer;
+&nbsp;
+&nbsp;import java.net.MalformedURLException;
+&nbsp;import java.rmi.AlreadyBoundException;
+&nbsp;import java.rmi.Naming;
+&nbsp;import java.rmi.NotBoundException;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.rmi.registry.LocateRegistry;
+&nbsp;import java.rmi.registry.Registry;
+&nbsp;import java.rmi.server.UnicastRemoteObject;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Timer;
+&nbsp;import java.util.TimerTask;
+&nbsp;import java.util.concurrent.ExecutionException;
+&nbsp;import java.util.concurrent.FutureTask;
+&nbsp;
+&nbsp;/**
+&nbsp; * Server class
+&nbsp; * &lt;p&gt;
+&nbsp; * Requirements:
+&nbsp; * - Uniqueness of the nickname is granted by the server in phase of acceptance of the player
+&nbsp; */
+<b class="nc">&nbsp;public class Server {</b>
+<b class="nc">&nbsp;    public static int number = 0;</b>
+&nbsp;    private static Thread inputThread;
+&nbsp;
+<b class="nc">&nbsp;    private static class HeartbeatTask extends TimerTask {</b>
+&nbsp;        @Override
+&nbsp;        public void run() {
+<b class="nc">&nbsp;            GameManager.checkUsersConnection();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void main(String[] args) throws RemoteException {
+&nbsp;        String serverAddress;
+<b class="nc">&nbsp;        System.out.print(&quot;Enter Server address (Press &#39;Enter&#39; for &#39;localhost&#39;): &quot;);</b>
+<b class="nc">&nbsp;        String inputAddress = readLine();</b>
+<b class="nc">&nbsp;        if (inputAddress.equals(&quot;&quot;)) {</b>
+<b class="nc">&nbsp;            serverAddress = &quot;localhost&quot;;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            serverAddress = inputAddress;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        try {
+<b class="nc">&nbsp;            SocketServer server = new SocketServer();</b>
+<b class="nc">&nbsp;            server.start();</b>
+&nbsp;
+&nbsp;            //RMISocketFactory.setSocketFactory(new MyRMISocketFactory(serverAddress, 1234));
+&nbsp;
+<b class="nc">&nbsp;            Welcome.serverAddress = serverAddress;</b>
+&nbsp;
+<b class="nc">&nbsp;            System.setProperty(&quot;java.rmi.server.hostname&quot;,serverAddress);</b>
+&nbsp;
+<b class="nc">&nbsp;            Registry registry1234 = LocateRegistry.createRegistry(1234);</b>
+<b class="nc">&nbsp;            Registry registry8807 =LocateRegistry.createRegistry(8807);</b>
+&nbsp;
+<b class="nc">&nbsp;            Lobby guardian = new Welcome();</b>
+<b class="nc">&nbsp;            UnicastRemoteObject.unexportObject(guardian, true);</b>
+<b class="nc">&nbsp;            Lobby guardianStub = (Lobby) UnicastRemoteObject.exportObject(guardian, 0);</b>
+&nbsp;            //registry1234.bind(&quot;Welcome&quot;, guardianStub);
+&nbsp;            //System.out.println(Arrays.toString(Arrays.stream(registry1234.list()).toArray()));
+<b class="nc">&nbsp;            Naming.bind(&quot;rmi://localhost:1234/Welcome&quot;, guardianStub);</b>
+&nbsp;
+<b class="nc">&nbsp;            Timer timer = new Timer();</b>
+<b class="nc">&nbsp;            timer.schedule(new HeartbeatTask(), 1000, 10000);</b>
+&nbsp;
+<b class="nc">&nbsp;            System.out.println(&quot;Server is ready &quot; + &quot;[&quot; + serverAddress + &quot;]&quot;);</b>
+&nbsp;            while (true) {
+<b class="nc">&nbsp;                String input = readLine();</b>
+<b class="nc">&nbsp;                if (input.equals(&quot;reset&quot;)) {</b>
+<b class="nc">&nbsp;                    resetServer();</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;Server &gt; Reset Done&quot;);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                if (input.equals(&quot;pl&quot;)) {</b>
+<b class="nc">&nbsp;                    printPlayers();</b>
+&nbsp;                }
+<b class="nc">&nbsp;                if (input.equals(&quot;ml&quot;)) {</b>
+<b class="nc">&nbsp;                    printMatchMap();</b>
+&nbsp;                }
+<b class="nc">&nbsp;                if (input.equals(&quot;bl&quot;)) {</b>
+<b class="nc">&nbsp;                    printBindList();</b>
+&nbsp;                }
+<b class="nc">&nbsp;                if (input.equals(&quot;end&quot;)) {</b>
+<b class="nc">&nbsp;                    System.exit(0);</b>
+&nbsp;                }
+&nbsp;                //Thread.sleep(1000);
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+<b class="nc">&nbsp;        } catch (Exception ignored) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Server exception: &quot; + ignored.toString());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private static void printBindList() {
+<b class="nc">&nbsp;        if (number == 0) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;No bind yet&quot;);</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="nc">&nbsp;        for (int i = number; i &gt; 0; i--) {</b>
+<b class="nc">&nbsp;            String path = &quot;&quot;;</b>
+<b class="nc">&nbsp;            path += &quot;rmi://&quot; + Welcome.serverAddress + &quot;:8807/&quot;;</b>
+<b class="nc">&nbsp;            System.out.println((path + i));</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    public static String genNewRoot() {
+<b class="nc">&nbsp;        number++;</b>
+<b class="nc">&nbsp;        return String.valueOf(number);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static String newBind(String root) {
+<b class="nc">&nbsp;        String path = &quot;&quot;;</b>
+&nbsp;        //path += &quot;rmi://&quot; + Welcome.serverAddress + &quot;:8807/&quot;;
+<b class="nc">&nbsp;        path += &quot;rmi://localhost:8807/&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        path += root;</b>
+<b class="nc">&nbsp;        return path;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void welcomeNewClient(String path, IClientInput cIH) throws MalformedURLException, AlreadyBoundException, RemoteException {
+<b class="nc">&nbsp;        Naming.bind(path, cIH);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void done() throws RemoteException, MalformedURLException, AlreadyBoundException {
+<b class="nc">&nbsp;        IClientInput cIH = new ClientInputHandler();</b>
+<b class="nc">&nbsp;        UnicastRemoteObject.unexportObject(cIH, true);</b>
+<b class="nc">&nbsp;        IClientInput stub = (IClientInput) UnicastRemoteObject.exportObject(cIH, 8807);</b>
+<b class="nc">&nbsp;        Registry registry8807 = LocateRegistry.getRegistry(8807);</b>
+&nbsp;        //registry8807.rebind(genNewRoot(), stub);
+<b class="nc">&nbsp;        welcomeNewClient(newBind(genNewRoot()), cIH);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private static String readLine() {
+<b class="nc">&nbsp;        FutureTask&lt;String&gt; futureTask = new FutureTask&lt;&gt;(new InputReadTask());</b>
+<b class="nc">&nbsp;        inputThread = new Thread(futureTask);</b>
+<b class="nc">&nbsp;        inputThread.start();</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        String input = null;</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            input = futureTask.get();</b>
+<b class="nc">&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;            futureTask.cancel(true);</b>
+<b class="nc">&nbsp;            Thread.currentThread().interrupt();</b>
+<b class="nc">&nbsp;        } catch (ExecutionException e) {</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return input;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private static void resetServer() {
+<b class="nc">&nbsp;        GameManager.matchMap.clear();</b>
+<b class="nc">&nbsp;        GameManager.playerMatchMap.clear();</b>
+<b class="nc">&nbsp;        GameManager.client_connected = 0;</b>
+<b class="nc">&nbsp;        GameManager.players.clear();</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = number; i &gt; 0; i--) {</b>
+<b class="nc">&nbsp;            String path = &quot;&quot;;</b>
+<b class="nc">&nbsp;            path += &quot;rmi://&quot; + Welcome.serverAddress + &quot;:8807/&quot;;</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                Naming.unbind(path + i);</b>
+<b class="nc">&nbsp;            } catch (RemoteException | MalformedURLException | NotBoundException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+<b class="nc">&nbsp;        Server.number = 0;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    private static void printPlayers() {
+<b class="nc">&nbsp;        String message = &quot;&quot;;</b>
+<b class="nc">&nbsp;        System.out.println(ServerMessage.ListP.value());</b>
+<b class="nc">&nbsp;        synchronized (GameManager.players) {</b>
+<b class="nc">&nbsp;            for (Player p : GameManager.players) {</b>
+&nbsp;
+<b class="nc">&nbsp;                message += (&quot;[&quot; + p.getNickname() + &quot; | &quot; + p.getStatus() + &quot; ]\n&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        System.out.println(message);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    private static void printMatchMap() {
+<b class="nc">&nbsp;        String message = &quot;&quot;;</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Match List: &quot;);</b>
+<b class="nc">&nbsp;        synchronized (GameManager.matchMap) {</b>
+<b class="nc">&nbsp;            if (GameManager.matchMap.size() &gt; 0) {</b>
+<b class="nc">&nbsp;                for (Map.Entry&lt;Integer, Match&gt; entry : GameManager.matchMap.entrySet()) {</b>
+<b class="nc">&nbsp;                    Match m = entry.getValue();</b>
+<b class="nc">&nbsp;                    message += (&quot;[ID: &quot; + m.matchID + &quot; | &quot; + m.gameState + &quot; | Players: (&quot; + m.playerList.size() + &quot;/&quot; + m.maxSeats + &quot;)]\n&quot;);</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        System.out.println(message);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-28 22:41</div>
+</div>
+</body>
+</html>

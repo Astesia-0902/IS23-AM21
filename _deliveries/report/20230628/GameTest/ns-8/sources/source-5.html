@@ -1,0 +1,835 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Storage</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client.view.TUI</a>
+</div>
+
+<h1>Coverage Summary for Class: Storage (org.am21.client.view.TUI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Storage</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/91)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client.view.TUI;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * You can find the virtual view data in this class
+&nbsp; */
+<b class="nc">&nbsp;public class Storage {</b>
+&nbsp;    public static final int SHELF_ROW = 6;
+&nbsp;    public static final int SHELF_COLUMN = 5;
+&nbsp;    public static final int BOARD_ROW = 9;
+&nbsp;    public static final int BOARD_COLUMN = 9;
+&nbsp;
+&nbsp;    //----------------------------------------
+&nbsp;
+&nbsp;    //-----------------------------------------------------------------------------------------------------------------
+&nbsp;
+<b class="nc">&nbsp;    public static final String MYSHELFIE4 = Color.YELLOW_BRIGHT + &quot;&quot;&quot;</b>
+&nbsp;                  ___                                ___           ___           ___                         ___                       ___    \s
+&nbsp;                 ?\\  \\                              /\\__\\         ?\\  \\         /\\__\\                       /\\__\\                     /\\__\\   \s
+&nbsp;                |::\\  \\         ___                /:/ _/_        \\:\\  \\       /:/ _/_                     /:/ _/_       ___         /:/ _/_  \s
+&nbsp;                |:|:\\  \\       /|  |              /:/ ?\\  \\        \\:\\  \\     /:/ /\\__\\                   /:/ /\\__\\     /\\__\\       /:/ /\\__\\ \s
+&nbsp;              __|:|\\:\\  \\     |:|  |             /:/ /::\\  \\   ___ /::\\  \\   /:/ /:/ _/_   ___     ___   /:/ /:/  /    /:/__/      /:/ /:/ _/_\s
+&nbsp;             /::::|_\\:\\__\\    |:|  |            /:/_/:/\\:\\__\\ ?\\  /:?\\:\\__\\ /:/_/:/ /\\__\\ ?\\  \\   /\\__\\ /:/_/:/  /    /::\\  \\     /:/_/:/ /\\__\\
+&nbsp;             \\:\\¯¯\\  \\/__/  __|:|__|            \\:\\/:/ /:/  / \\:\\/:/  \\/__/ \\:\\/:/ /:/  / \\:\\  \\ /:/  / \\:\\/:/  /     \\?\\:\\  \\__  \\:\\/:/ /:/  /
+&nbsp;              \\:\\  \\       /::::\\  \\             \\::/ /:/  /   \\::/__/       \\::/_/:/  /   \\:\\  /:/  /   \\::/__/       ¯¯\\:\\/\\__\\  \\::/_/:/  /\s
+&nbsp;               \\:\\  \\      ¯¯¯¯\\:\\  \\             \\/_/:/  /     \\:\\  \\        \\:\\/:/  /     \\:\\/:/  /     \\:\\  \\          \\::/  /   \\:\\/:/  / \s
+&nbsp;                \\:\\__\\          \\:\\__\\              /:/  /       \\:\\__\\        \\::/  /       \\::/  /       \\:\\__\\         /:/  /     \\::/  /  \s
+&nbsp;                 \\/__/           \\/__/              \\/__/         \\/__/         \\/__/         \\/__/         \\/__/         \\/__/       \\/__/   \s
+<b class="nc">&nbsp;            &quot;&quot;&quot;.replace(&quot;:&quot;, Color.CYAN_BRIGHT + &quot;:&quot; + Color.YELLOW_BRIGHT) + Color.RESET;</b>
+&nbsp;
+&nbsp;
+&nbsp;    public static final String MYSHELFIE6 = &quot;\n&quot; +
+&nbsp;                                            &quot; __       __                   ______   __                  __   ______   __           \n&quot; +
+&nbsp;                                            &quot;|  \\     /  \\                 /      \\ |  \\                |  \\ /      \\ |  \\          \n&quot; +
+&nbsp;                                            &quot;| $$\\   /  $$ __    __       |  $$$$$$\\| $$____    ______  | $$|  $$$$$$\\ \\$$  ______  \n&quot; +
+&nbsp;                                            &quot;| $$$\\ /  $$$|  \\  |  \\      | $$___\\$$| $$    \\  /      \\ | $$| $$_  \\$$|  \\ /      \\ \n&quot; +
+&nbsp;                                            &quot;| $$$$\\  $$$$| $$  | $$       \\$$    \\ | $$$$$$$\\|  $$$$$$\\| $$| $$ \\    | $$|  $$$$$$\\\n&quot; +
+&nbsp;                                            &quot;| $$\\$$ $$ $$| $$  | $$       _\\$$$$$$\\| $$  | $$| $$    $$| $$| $$$$    | $$| $$    $$\n&quot; +
+&nbsp;                                            &quot;| $$ \\$$$| $$| $$__/ $$      |  \\__| $$| $$  | $$| $$$$$$$$| $$| $$      | $$| $$$$$$$$\n&quot; +
+&nbsp;                                            &quot;| $$  \\$ | $$ \\$$    $$       \\$$    $$| $$  | $$ \\$$     \\| $$| $$      | $$ \\$$     \\\n&quot; +
+&nbsp;                                            &quot; \\$$      \\$$ _\\$$$$$$$        \\$$$$$$  \\$$   \\$$  \\$$$$$$$ \\$$ \\$$       \\$$  \\$$$$$$$\n&quot; +
+&nbsp;                                            &quot;             |  \\__| $$                                                                \n&quot; +
+&nbsp;                                            &quot;              \\$$    $$                                                                \n&quot; +
+&nbsp;                                            &quot;               \\$$$$$$                                                                 \n&quot;;
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;    public static final String PG1 = &quot;    1         2         3         4         5\n&quot; +</b>
+&nbsp;                                     &quot;[_&quot; + Color.PLANTS + &quot;_][______._][_&quot; + Color.FRAMES + &quot;_][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][______._][______._][______._][__&quot; + Color.CATS + &quot;__]\n&quot; +
+&nbsp;                                     &quot;[______._][______._][______._][_&quot; + Color.BOOKS + &quot;__][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][_&quot; + Color.GAMES + &quot;__][______._][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][______._][______._][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][______._][&quot; + Color.TROPHIES + &quot;][______._][______._]&quot;;
+<b class="nc">&nbsp;    public static final String PG2 = &quot;    1         2         3         4         5\n&quot; +</b>
+&nbsp;                                     &quot;[______._][______._][______._][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][_&quot; + Color.PLANTS + &quot;_][______._][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[__&quot; + Color.CATS + &quot;__][______._][_&quot; + Color.GAMES + &quot;__][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][______._][______._][______._][_&quot; + Color.BOOKS + &quot;__]\n&quot; +
+&nbsp;                                     &quot;[______._][______._][______._][&quot; + Color.TROPHIES + &quot;][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][______._][______._][______._][_&quot; + Color.FRAMES + &quot;_]&quot;;
+<b class="nc">&nbsp;    public static final String PG3 = &quot;    1         2         3         4         5\n&quot; +</b>
+&nbsp;                                     &quot;[______._][______._][______._][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[_&quot; + Color.FRAMES + &quot;_][______._][______._][_&quot; + Color.GAMES + &quot;__][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][______._][_&quot; + Color.PLANTS + &quot;_][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][__&quot; + Color.CATS + &quot;__][______._][______._][&quot; + Color.TROPHIES + &quot;]\n&quot; +
+&nbsp;                                     &quot;[______._][______._][______._][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[_&quot; + Color.BOOKS + &quot;__][______._][______._][______._][______._]&quot;;
+<b class="nc">&nbsp;    public static final String PG4 = &quot;    1         2         3         4         5\n&quot; +</b>
+&nbsp;                                     &quot;[______._][______._][______._][______._][_&quot; + Color.GAMES + &quot;__]\n&quot; +
+&nbsp;                                     &quot;[______._][______._][______._][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[&quot; + Color.TROPHIES + &quot;][______._][_&quot; + Color.FRAMES + &quot;_][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][______._][______._][_&quot; + Color.PLANTS + &quot;_][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][_&quot; + Color.BOOKS + &quot;__][__&quot; + Color.CATS + &quot;__][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][______._][______._][______._][______._]&quot;;
+<b class="nc">&nbsp;    public static final String PG5 = &quot;    1         2         3         4         5\n&quot; +</b>
+&nbsp;                                     &quot;[______._][______._][______._][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][&quot; + Color.TROPHIES + &quot;][______._][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][______._][______._][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][_&quot; + Color.FRAMES + &quot;_][_&quot; + Color.BOOKS + &quot;__][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][______._][______._][______._][_&quot; + Color.PLANTS + &quot;_]\n&quot; +
+&nbsp;                                     &quot;[_&quot; + Color.GAMES + &quot;__][______._][______._][__&quot; + Color.CATS + &quot;__][______._]&quot;;
+<b class="nc">&nbsp;    public static final String PG6 = &quot;    1         2         3         4         5\n&quot; +</b>
+&nbsp;                                     &quot;[______._][______._][&quot; + Color.TROPHIES + &quot;][______._][__&quot; + Color.CATS + &quot;__]\n&quot; +
+&nbsp;                                     &quot;[______._][______._][______._][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][______._][______._][_&quot; + Color.BOOKS + &quot;__][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][______._][______._][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][_&quot; + Color.GAMES + &quot;__][______._][_&quot; + Color.FRAMES + &quot;_][______._]\n&quot; +
+&nbsp;                                     &quot;[_&quot; + Color.PLANTS + &quot;_][______._][______._][______._][______._]&quot;;
+<b class="nc">&nbsp;    public static final String PG7 = &quot;    1         2         3         4         5\n&quot; +</b>
+&nbsp;                                     &quot;[__&quot; + Color.CATS + &quot;__][______._][______._][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][______._][______._][_&quot; + Color.FRAMES + &quot;_][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][_&quot; + Color.PLANTS + &quot;_][______._][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[&quot; + Color.TROPHIES + &quot;][______._][______._][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][______._][______._][______._][_&quot; + Color.GAMES + &quot;__]\n&quot; +
+&nbsp;                                     &quot;[______._][______._][_&quot; + Color.BOOKS + &quot;__][______._][______._]&quot;;
+<b class="nc">&nbsp;    public static final String PG8 = &quot;    1         2         3         4         5\n&quot; +</b>
+&nbsp;                                     &quot;[______._][______._][______._][______._][_&quot; + Color.FRAMES + &quot;_]\n&quot; +
+&nbsp;                                     &quot;[______._][__&quot; + Color.CATS + &quot;__][______._][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][______._][&quot; + Color.TROPHIES + &quot;][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[_&quot; + Color.PLANTS + &quot;_][______._][______._][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][______._][______._][_&quot; + Color.BOOKS + &quot;__][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][______._][______._][_&quot; + Color.GAMES + &quot;__][______._]&quot;;
+<b class="nc">&nbsp;    public static final String PG9 = &quot;    1         2         3         4         5\n&quot; +</b>
+&nbsp;                                     &quot;[______._][______._][_&quot; + Color.GAMES + &quot;__][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][______._][______._][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][______._][__&quot; + Color.CATS + &quot;__][______._][______._]\n&quot; +
+&nbsp;                                     &quot;[______._][______._][______._][______._][_&quot; + Color.BOOKS + &quot;__]\n&quot; +
+&nbsp;                                     &quot;[______._][&quot; + Color.TROPHIES + &quot;][______._][______._][_&quot; + Color.PLANTS + &quot;_]\n&quot; +
+&nbsp;                                     &quot;[_&quot; + Color.FRAMES + &quot;_][______._][______._][______._][______._]&quot;;
+<b class="nc">&nbsp;    public static final String PG10 = &quot;    1         2         3         4         5\n&quot; +</b>
+&nbsp;                                      &quot;[______._][______._][______._][______._][&quot; + Color.TROPHIES + &quot;]\n&quot; +
+&nbsp;                                      &quot;[______._][_&quot; + Color.GAMES + &quot;__][______._][______._][______._]\n&quot; +
+&nbsp;                                      &quot;[_&quot; + Color.BOOKS + &quot;__][______._][______._][______._][______._]\n&quot; +
+&nbsp;                                      &quot;[______._][______._][______._][__&quot; + Color.CATS + &quot;__][______._]\n&quot; +
+&nbsp;                                      &quot;[______._][_&quot; + Color.FRAMES + &quot;_][______._][______._][______._]\n&quot; +
+&nbsp;                                      &quot;[______._][______._][______._][_&quot; + Color.PLANTS + &quot;_][______._]&quot;;
+<b class="nc">&nbsp;    public static final String PG11 = &quot;    1         2         3         4         5\n&quot; +</b>
+&nbsp;                                      &quot;[______._][______._][_&quot; + Color.PLANTS + &quot;_][______._][______._]\n&quot; +
+&nbsp;                                      &quot;[______._][_&quot; + Color.BOOKS + &quot;__][______._][______._][______._]\n&quot; +
+&nbsp;                                      &quot;[_&quot; + Color.GAMES + &quot;__][______._][______._][______._][______._]\n&quot; +
+&nbsp;                                      &quot;[______._][______._][_&quot; + Color.FRAMES + &quot;_][______._][______._]\n&quot; +
+&nbsp;                                      &quot;[______._][______._][______._][______._][__&quot; + Color.CATS + &quot;__]\n&quot; +
+&nbsp;                                      &quot;[______._][______._][______._][&quot; + Color.TROPHIES + &quot;][______._]&quot;;
+<b class="nc">&nbsp;    public static final String PG12 = &quot;    1         2         3         4         5\n&quot; +</b>
+&nbsp;                                      &quot;[______._][______._][_&quot; + Color.BOOKS + &quot;__][______._][______._]\n&quot; +
+&nbsp;                                      &quot;[______._][_&quot; + Color.PLANTS + &quot;_][______._][______._][______._]\n&quot; +
+&nbsp;                                      &quot;[______._][______._][_&quot; + Color.FRAMES + &quot;_][______._][______._]\n&quot; +
+&nbsp;                                      &quot;[______._][______._][______._][&quot; + Color.TROPHIES + &quot;][______._]\n&quot; +
+&nbsp;                                      &quot;[______._][______._][______._][______._][_&quot; + Color.GAMES + &quot;__]\n&quot; +
+&nbsp;                                      &quot;[__&quot; + Color.CATS + &quot;__][______._][______._][______._][______._]&quot;;
+&nbsp;
+&nbsp;    public static final String PGTable= &quot;&quot;&quot;
+&nbsp;            \t\t__________________________
+&nbsp;            \t\t[V] 1 | 2 | 3 | 4 | 5 | 6 
+&nbsp;            \t\t v ---+---+---+---+---+---
+&nbsp;            \t\t[P] 1 | 2 | 4 | 6 | 9 | 12
+&nbsp;            \t\t¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+&nbsp;            &quot;&quot;&quot;;
+<b class="nc">&nbsp;    public static final String CG2Columns = Color.YELLOW_BOLD + &quot;&quot;&quot;</b>
+&nbsp;            * CommonGoal2Columns:
+&nbsp;            _____
+&nbsp;            ¦ ? ¦
+&nbsp;            ¦ ? ¦
+&nbsp;            ¦ ? ¦
+&nbsp;            ¦ ? ¦ x2    Two columns each formed by 6 different types of tiles.
+&nbsp;            ¦ ? ¦
+&nbsp;            ¦ ? ¦
+&nbsp;            ¦ ? ¦
+&nbsp;            ¯¯¯¯¯&quot;&quot;&quot; + Color.RESET;
+<b class="nc">&nbsp;    public static final String CG2Lines = Color.YELLOW_BOLD + &quot;&quot;&quot;</b>
+&nbsp;            * CommonGoal2Lines:
+&nbsp;            _________________
+&nbsp;            ¦ ?  ?  ?  ?  ? ¦       Two lines each formed by 6 different types of tiles.
+&nbsp;            ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯       One line can show the same or a different combination of the other line.
+&nbsp;                   x2&quot;&quot;&quot; + Color.RESET;
+<b class="nc">&nbsp;    public static final String CG3Column = Color.YELLOW_BOLD + &quot;&quot;&quot;</b>
+&nbsp;            * CommonGoal3Column:
+&nbsp;            ¦¯¯¯¦
+&nbsp;            ¦¯¯¯¦
+&nbsp;            ¦¯¯¯¦ MAX 3 ?   Three columns each formed by 6 tiles of maximum three different types.
+&nbsp;            ¦¯¯¯¦ x3        One column can show the same or a different combination of another column.
+&nbsp;            ¦¯¯¯¦
+&nbsp;            ¦¯¯¯¦
+&nbsp;            ¦¯¯¯¦
+&nbsp;            ¯¯¯¯¯&quot;&quot;&quot; + Color.RESET;
+<b class="nc">&nbsp;    public static final String CG4Lines = Color.YELLOW_BOLD + &quot;&quot;&quot;</b>
+&nbsp;            * CommonGoal4Lines:
+&nbsp;            ________________
+&nbsp;            ¦  ¦  ¦  ¦  ¦  ¦        Four lines each formed by 5 tiles of maximum three different types.
+&nbsp;            ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯        One line can show the same or a different combination of another line.
+&nbsp;                  MAX 3 ?
+&nbsp;                   x2&quot;&quot;&quot; + Color.RESET;
+<b class="nc">&nbsp;    public static final String CG8Tiles = Color.YELLOW_BOLD + &quot;&quot;&quot;</b>
+&nbsp;            * CommonGoal8Tiles:
+&nbsp;                _____   _____
+&nbsp;                ¦ = ¦   ¦ = ¦
+&nbsp;                ¯¯¯¯¯   ¯¯¯¯¯
+&nbsp;            _____   _____   _____
+&nbsp;            ¦ = ¦   ¦ = ¦   ¦ = ¦       Eight tiles of the same type.
+&nbsp;            ¯¯¯¯¯   ¯¯¯¯¯   ¯¯¯¯¯       There’s no restriction about the position of these tiles.
+&nbsp;            _____   _____   _____
+&nbsp;            ¦ = ¦   ¦ = ¦   ¦ = ¦
+&nbsp;            ¯¯¯¯¯   ¯¯¯¯¯   ¯¯¯¯¯&quot;&quot;&quot; + Color.RESET;
+<b class="nc">&nbsp;    public static final String CGCorner = Color.YELLOW_BOLD + &quot;&quot;&quot;</b>
+&nbsp;            * CommonGoalCorner:
+&nbsp;            _____ __________ _____
+&nbsp;            ¦ = ¦            ¦ = ¦
+&nbsp;            ¯¯¯¯¯            ¯¯¯¯¯
+&nbsp;            ¦                    ¦
+&nbsp;            ¦                    ¦
+&nbsp;            ¦                    ¦      Four tiles of the same type in the four corners of the bookshelf.
+&nbsp;            ¦                    ¦
+&nbsp;            ¦                    ¦
+&nbsp;            _____            _____
+&nbsp;            ¦ = ¦            ¦ = ¦
+&nbsp;            ¯¯¯¯¯ ¯¯¯¯¯¯¯¯¯¯ ¯¯¯¯¯&quot;&quot;&quot; + Color.RESET;
+<b class="nc">&nbsp;    public static final String CGDiagonal = Color.YELLOW_BOLD + &quot;&quot;&quot;</b>
+&nbsp;            * CommonGoalDiagonal:
+&nbsp;            _____
+&nbsp;            ¦ = ¦
+&nbsp;            ¯¯¯¯¯_____
+&nbsp;                 ¦ = ¦
+&nbsp;                 ¯¯¯¯¯_____
+&nbsp;                      ¦ = ¦                 Five tiles of the same type forming a diagonal.
+&nbsp;                      ¯¯¯¯¯_____
+&nbsp;                           ¦ = ¦
+&nbsp;                           ¯¯¯¯¯_____
+&nbsp;                                ¦ = ¦
+&nbsp;                                ¯¯¯¯¯&quot;&quot;&quot; + Color.RESET;
+<b class="nc">&nbsp;    public static final String CGSquare = Color.YELLOW_BOLD + &quot;&quot;&quot;</b>
+&nbsp;            * CommonGoalSquare:
+&nbsp;            ________
+&nbsp;            ¦ =  = ¦        Two groups each containing 4 tiles of the same type in a 2x2 square.
+&nbsp;            ¦ =  = ¦        The tiles of one square can be different from those of the other square.
+&nbsp;            ¯¯¯¯¯¯¯¯
+&nbsp;               x2&quot;&quot;&quot; + Color.RESET;
+<b class="nc">&nbsp;    public static final String CGStairs = Color.YELLOW_BOLD + &quot;&quot;&quot;</b>
+&nbsp;            * CommonGoalStairs:
+&nbsp;            ¦¯¯¯¦
+&nbsp;            ¦¯¯¯¦¯¯¯¦                   Five columns of increasing or decreasing height.
+&nbsp;            ¦¯¯¯¦¯¯¯¦¯¯¯¦               Starting from the first column on the left or on the right,
+&nbsp;            ¦¯¯¯¦¯¯¯¦¯¯¯¦¯¯¯¦           each next column must be made of exactly one more tile.
+&nbsp;            ¦¯¯¯¦¯¯¯¦¯¯¯¦¯¯¯¦¯¯¯¦       Tiles can be of any type.
+&nbsp;            ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯&quot;&quot;&quot; + Color.RESET;
+<b class="nc">&nbsp;    public static final String CG4Group = Color.YELLOW_BOLD + &quot;&quot;&quot;</b>
+&nbsp;            * CommonGoal4Group:
+&nbsp;            ?____?
+&nbsp;             ¦ = ¦
+&nbsp;             ¦ = ¦   x4     Four groups each containing at least 4 tiles of the same type
+&nbsp;             ¦ = ¦          (not necessarily in the depicted shape).
+&nbsp;             ¦ = ¦          The tiles of one group can be different from those of another group.
+&nbsp;            ?¯¯¯¯?&quot;&quot;&quot; + Color.RESET;
+<b class="nc">&nbsp;    public static final String CG6Group = Color.YELLOW_BOLD + &quot;&quot;&quot;</b>
+&nbsp;            * CommonGoal6Group:
+&nbsp;            ?____?
+&nbsp;             ¦ = ¦   x6     Six groups each containing at least 2 tiles of the same type (not necessarily in the
+&nbsp;             ¦ = ¦          depicted shape). The tiles of one group can be different from those of another group.
+&nbsp;            ?¯¯¯¯?&quot;&quot;&quot; + Color.RESET;
+<b class="nc">&nbsp;    public static final String CGXShape = Color.YELLOW_BOLD + &quot;&quot;&quot;</b>
+&nbsp;            * CommonGoalXShape:
+&nbsp;            _____     _____
+&nbsp;            ¦ = ¦     ¦ = ¦
+&nbsp;            ¯¯¯¯¯_____¯¯¯¯¯
+&nbsp;                 ¦ = ¦          Five tiles of the same type forming an X.
+&nbsp;            _____¯¯¯¯¯_____
+&nbsp;            ¦ = ¦     ¦ = ¦
+&nbsp;            ¯¯¯¯¯     ¯¯¯¯¯&quot;&quot;&quot; + Color.RESET;
+&nbsp;
+<b class="nc">&nbsp;    public static final List&lt;String&gt; commonGoalList = new ArrayList&lt;&gt;();</b>
+&nbsp;    static {
+<b class="nc">&nbsp;        Collections.addAll(commonGoalList, &quot;CommonGoal2Lines&quot;, &quot;CommonGoal2Columns&quot;, &quot;CommonGoal3Column&quot;,</b>
+&nbsp;                &quot;CommonGoal4Lines&quot;, &quot;CommonGoal8Tiles&quot;, &quot;CommonGoalCorner&quot;, &quot;CommonGoalDiagonal&quot;, &quot;CommonGoalSquare&quot;,
+&nbsp;                &quot;CommonGoalStairs&quot;, &quot;CommonGoal4Group&quot;, &quot;CommonGoal6Group&quot;, &quot;CommonGoalXShape&quot;);
+&nbsp;    }
+<b class="nc">&nbsp;    public static HashMap&lt;String,String&gt; goalCommonMap = new HashMap&lt;&gt;();</b>
+&nbsp;    static {
+<b class="nc">&nbsp;        goalCommonMap.put(&quot;CommonGoal2Columns&quot;,CG2Columns);</b>
+<b class="nc">&nbsp;        goalCommonMap.put(&quot;CommonGoal2Lines&quot;,CG2Lines);</b>
+<b class="nc">&nbsp;        goalCommonMap.put(&quot;CommonGoal3Column&quot;,CG3Column);</b>
+<b class="nc">&nbsp;        goalCommonMap.put(&quot;CommonGoal4Lines&quot;,CG4Lines);</b>
+<b class="nc">&nbsp;        goalCommonMap.put(&quot;CommonGoal8Tiles&quot;,CG8Tiles);</b>
+<b class="nc">&nbsp;        goalCommonMap.put(&quot;CommonGoalCorner&quot;,CGCorner);</b>
+<b class="nc">&nbsp;        goalCommonMap.put(&quot;CommonGoalDiagonal&quot;,CGDiagonal);</b>
+<b class="nc">&nbsp;        goalCommonMap.put(&quot;CommonGoalSquare&quot;,CGSquare);</b>
+<b class="nc">&nbsp;        goalCommonMap.put(&quot;CommonGoalStairs&quot;,CGStairs);</b>
+<b class="nc">&nbsp;        goalCommonMap.put(&quot;CommonGoal4Group&quot;,CG4Group);</b>
+<b class="nc">&nbsp;        goalCommonMap.put(&quot;CommonGoal6Group&quot;,CG6Group);</b>
+<b class="nc">&nbsp;        goalCommonMap.put(&quot;CommonGoalXShape&quot;,CGXShape);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    public static HashMap&lt;Integer,String&gt; goalPersonalMap = new HashMap&lt;&gt;();</b>
+&nbsp;    static {
+<b class="nc">&nbsp;        goalPersonalMap.put(1,PG1);</b>
+<b class="nc">&nbsp;        goalPersonalMap.put(2,PG2);</b>
+<b class="nc">&nbsp;        goalPersonalMap.put(3,PG3);</b>
+<b class="nc">&nbsp;        goalPersonalMap.put(4,PG4);</b>
+<b class="nc">&nbsp;        goalPersonalMap.put(5,PG5);</b>
+<b class="nc">&nbsp;        goalPersonalMap.put(6,PG6);</b>
+<b class="nc">&nbsp;        goalPersonalMap.put(7,PG7);</b>
+<b class="nc">&nbsp;        goalPersonalMap.put(8,PG8);</b>
+<b class="nc">&nbsp;        goalPersonalMap.put(9,PG9);</b>
+<b class="nc">&nbsp;        goalPersonalMap.put(10,PG10);</b>
+<b class="nc">&nbsp;        goalPersonalMap.put(11,PG11);</b>
+<b class="nc">&nbsp;        goalPersonalMap.put(12,PG12);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;    public static final String goalOfTheGame = Color.YELLOW_BOLD + &quot;&quot;&quot;</b>
+&nbsp;            Goal of the game:
+&nbsp;            Players take item tiles from the living room and place them in their bookshelves to score points; the
+&nbsp;            game ends when a player completely fills their bookshelf. The player with more points at the end will
+&nbsp;            win the game. There are 4 ways to score points:
+&nbsp;            1. Personal Goal card
+&nbsp;                The personal goal card grants points if you match the highlighted spaces with the corresponding item
+&nbsp;                tiles.
+&nbsp;                Example: In the illustrated situation, at the end of the game the tile disposal shows 3 matches,
+&nbsp;                that is worth 4 points.
+&nbsp;            2. Common Goal cards
+&nbsp;                The common goal cards grant points to the players who achieve the illustrated pattern. See the last
+&nbsp;                page for a detailed descriptions of the common goal cards.
+&nbsp;                Example: In a 3-player game on both Common Goal cards will be stacked the 4-, 6-, 8- scoring tokens
+&nbsp;                (from bottom to top).
+&nbsp;            3. Adjacent Item tiles
+&nbsp;                Groups of adjacent item tiles of the same type on your bookshelf grant points depending on how many
+&nbsp;                tiles are connected (with one side touching).
+&nbsp;                Note: Item tiles with the same background color are considered to be of the same type.
+&nbsp;                Example: In the situation above, at the end of the game there are 5 groups of adjacent item tiles of
+&nbsp;                the same type:
+&nbsp;                8 Plant tiles: 8 pt
+&nbsp;                4 Trophy tiles: 3 pt
+&nbsp;                5 Cat tiles: 5 pt
+&nbsp;                4 Frame tiles: 3 pt
+&nbsp;                3 Boardgame tiles: 2 pt
+&nbsp;                Total:
+&nbsp;                21 points
+&nbsp;            4. Game-end trigger
+&nbsp;                The first player who completely fills their bookshelf scores 1 additional point.
+&nbsp;            &quot;&quot;&quot; + Color.RESET;
+<b class="nc">&nbsp;    public static final String gamePlay = Color.YELLOW_BOLD + &quot;&quot;&quot;</b>
+&nbsp;            Gameplay:
+&nbsp;            The game is divided in turns that take place in a clockwise order starting from the first player.
+&nbsp;            During your turn, you must take 1, 2 or 3 item tiles from the living room board, following these rules:
+&nbsp;            The tiles you take must be adjacent to each other and form a straight line.
+&nbsp;            All the tiles you take must have at least one side free (not touching directly other tiles) at the
+&nbsp;            beginning of your turn (i.e. you cannot take a tile that becomes free after your first pick).
+&nbsp;            Then, you must place all the tiles you’ve picked into 1 column of your bookshelf. You can decide
+&nbsp;            the order, but you cannot place tiles in more than 1 column in a single turn.
+&nbsp;            Note: You cannot take tiles if you don’t have enough available spaces in your bookshelf.
+&nbsp;            &quot;&quot;&quot; + Color.RESET;
+<b class="nc">&nbsp;    public static final String refillingLivingRoom = Color.YELLOW_BOLD + &quot;&quot;&quot;</b>
+&nbsp;            Refilling the living room:
+&nbsp;            The living room will be refiled when, at the end of your turn, on the board there are only item tiles
+&nbsp;            without any other adjacent tile, i.e. the next player can only take single tiles.
+&nbsp;            Put the item tiles left on the board back into the bag. Then, draw new item tiles from the bag and
+&nbsp;            place them randomly in all the spaces of the board (remember that spaces with dots are only available\s
+&nbsp;            in 3- or 4-player games).
+&nbsp;            &quot;&quot;&quot; + Color.RESET;
+<b class="nc">&nbsp;    public static final String fulfillingCommonGoal = Color.YELLOW_BOLD + &quot;&quot;&quot;</b>
+&nbsp;            Fulfilling a common goal:
+&nbsp;            If at the end of your turn you have achieved the requirements of a common goal card, take the topmost
+&nbsp;            available scoring token from that card. You can achieve and take scoring tokens from both common goal
+&nbsp;            cards in the same turn. You can only score points from common goal cards once per game, so you can’t
+&nbsp;            take more scoring tokens with the same back number. Players who achieve the common goals requirements
+&nbsp;            first will score more points than the other players, so try to be faster than your opponents!
+&nbsp;            &quot;&quot;&quot; + Color.RESET;
+<b class="nc">&nbsp;    public static final String gameEnd = Color.YELLOW_BOLD + &quot;&quot;&quot;</b>
+&nbsp;            Game end:
+&nbsp;            The first player who fills all the spaces of their bookshelf takes the end game token. The game
+&nbsp;            continues until the player sitting to the right to the player holding the first player seat (if the end
+&nbsp;            of the game is triggered by the player sitting to the right to the first player, the game ends
+&nbsp;            immediately). Now you can proceed to the final scoring.
+&nbsp;            Each player will score:
+&nbsp;                - The points indicated by the tokens they hold (scoring tokens and end game token);
+&nbsp;                - 1/2/4/6/9/12 points for 1/2/3/4/5/6 item tiles in the exact position illustrated by their
+&nbsp;                  personal goal card;
+&nbsp;                - 2/3/5/8 points for groups of 3/4/5/6+ item tiles of the same type adjacent on their bookshelf.
+&nbsp;            The player who scored most points wins the game. In case of a tie, the tied player sitting further
+&nbsp;            (clockwise) from the first player wins the game.
+&nbsp;            Scoring Example:
+&nbsp;            Example: Helena scores 12 points from scoring tokens, 6 points from her personal goal card, and
+&nbsp;            18 points from the groups of adjacent tiles in her bookshelf:
+&nbsp;            6 adjacent Trophy tiles: 8 points
+&nbsp;            5 adjacent Cat tiles: 5 points
+&nbsp;            5 adjacent Plants tiles: 5 points
+&nbsp;            4 matches on the personal goal: 6 points
+&nbsp;            Scoring tokens: 12 points
+&nbsp;            Total: 36 points
+&nbsp;            &quot;&quot;&quot; + Color.RESET;
+&nbsp;
+&nbsp;    public static final String listObjects = &quot;&quot;&quot;
+&nbsp;            -----------------------------------------------------------
+&nbsp;            [Commands] Try to use of these commands to have a see any of these elements:
+&nbsp;              open    --&gt; Show List of Players to Chat with
+&nbsp;              hand    --&gt; Show selected items.
+&nbsp;              pgoal   --&gt; See your Personal Goal and try to match the items type.
+&nbsp;              cgoal   --&gt; See Common Goals and try to achieve more points.
+&nbsp;              shelf   --&gt; See your shelves and the insertion limit (Default Limit: 3).
+&nbsp;              board   --&gt; See Board in more detail.
+&nbsp;              stats   --&gt; See All PLAYERS STATS(Shelf and Scores).
+&nbsp;              rules   --&gt; See Game Rules (to clarify any doubt).
+&nbsp;              end     --&gt; Show if the Endgame Token is taken (if it is, then it&#39;s the last round).
+&nbsp;              online  --&gt; Show a list of Online Players, so you can chat with them.
+&nbsp;              timer   --&gt; Show timer. (Not installed)
+&nbsp;             &#39;Enter&#39;  --&gt; Go Back to Play.
+&nbsp;            -----------------------------------------------------------
+&nbsp;            Type the commands you wish to use:\040&quot;&quot;&quot;;
+&nbsp;    public static final String menuOption = &quot;&quot;&quot;
+&nbsp;            -----------------------------------------------------------
+&nbsp;            [Commands] Menu Option:
+&nbsp;              create   --&gt; Create a new match.
+&nbsp;               join    --&gt; Join a match.
+&nbsp;              online   --&gt; Show Online Players and Chat.
+&nbsp;               exit    --&gt; Exit game.
+&nbsp;               help    --&gt; Command List (Chat, etc) and Assist Mode 
+&nbsp;            Enter &#39;help&#39; command and learn how to use the CHAT&quot;&quot;&quot;;
+&nbsp;
+&nbsp;    public static final String waitingAction = &quot;&quot;&quot;
+&nbsp;            The match has not started yet. Please wait more players to join...
+&nbsp;            -----------------------------------------------------------
+&nbsp;            [Commands] These are the commands available:
+&nbsp;              rules    --&gt; Read Game Rules.
+&nbsp;              online   --&gt; Show Online Players.
+&nbsp;             settings  --&gt; Settings: Change Max Number of Players for this Room, Change Insertion Limit
+&nbsp;              more     --&gt; More Options: Leave Match, Exit Game, Help (Command List,Assist Mode).
+&nbsp;            Enter &#39;more&#39; then &#39;help&#39; commands and learn how to use the Chat&quot;&quot;&quot;;
+&nbsp;
+&nbsp;    public static final String commandMenu0 = &quot;&quot;&quot;
+&nbsp;            -----------------------------------------------------------
+&nbsp;            [Commands] Wait for your turn. Meanwhile, you can spectate typing &#39;show&#39;:
+&nbsp;              show     --&gt; Show Game Object in more detail(Goals, Board, Shelf, ...).
+&nbsp;              more     --&gt; More Options: Leave Match, Exit Game, Help (Command List,Assist Mode).
+&nbsp;            Enter &#39;more&#39; then &#39;help&#39; commands and learn how to use the Chat&quot;&quot;&quot;;
+&nbsp;
+&nbsp;    public static final String commandMenu1 = &quot;&quot;&quot;
+&nbsp;            -----------------------------------------------------------
+&nbsp;            [Commands] Use the &#39;select&#39; command to SELECT item you would like to pick:
+&nbsp;              select   --&gt; Select an item on the board.
+&nbsp;              show     --&gt; Show Game Object in more detail(Selected items, Goals, Board, Shelf, ...).
+&nbsp;              more     --&gt; More Options: Leave Match, Exit Game, Help (Command List,Assist Mode).
+&nbsp;            Enter &#39;more&#39; then &#39;help&#39; commands and learn how to use the Chat&quot;&quot;&quot;;
+&nbsp;    public static final String commandMenu2 = &quot;&quot;&quot;
+&nbsp;            -----------------------------------------------------------
+&nbsp;            [Commands] Now you can SELECT another item OR INSERT the items in the Shelf:
+&nbsp;              select   --&gt; Select another item on the board.
+&nbsp;              clear    --&gt; Deselect all your selections.
+&nbsp;              insert   --&gt; Save your selections and Insert in the shelf.
+&nbsp;              show     --&gt; Show Game Object in more detail(Selected items, Goals, Board, Shelf, ...).
+&nbsp;              more     --&gt; More Options: Leave Match, Exit Game, Help (Command List,Assist Mode).
+&nbsp;            Enter &#39;more&#39; then &#39;help&#39; commands and learn how to use the Chat&quot;&quot;&quot;;
+&nbsp;    public static final String commandInsert = &quot;&quot;&quot;
+&nbsp;            -----------------------------------------------------------
+&nbsp;            [Commands] You can SORT the items before INSERTING them in the Shelf:
+&nbsp;               sort    --&gt; Change the ORDER of Insertion of your items.
+&nbsp;               show    --&gt; Show Game OBJECT in more detail(GOALS,SHELF,...).
+&nbsp;              &#39;Enter&#39;  --&gt; INSERT directly into the SHELF
+&nbsp;               more    --&gt; More Options: Leave Match, Exit Game, Help (Command List,Assist Mode).
+&nbsp;            -----------------------------------------------------------
+&nbsp;            Enter the option you wish to select:\040&quot;&quot;&quot;;
+&nbsp;    public static final String selectConfirm = &quot;&quot;&quot;
+&nbsp;            -----------------------------------------------------------
+&nbsp;            [Commands] You can CONFIRM, REMAKE or DELETE your Selection. If needed, you could also view some OBJECT... 
+&nbsp;                y      --&gt; CONFIRM your Selection.
+&nbsp;                r      --&gt; RETRY by selecting again.
+&nbsp;               show    --&gt; See a Game OBJECT in more detail(Board, Shelf, Goals, ...).
+&nbsp;                n      --&gt; DELETE your choice and EXIT Selection.
+&nbsp;            -----------------------------------------------------------
+&nbsp;            Enter the option you wish to select:\040&quot;&quot;&quot;;
+&nbsp;    public static final String anotherCard = &quot;&quot;&quot;
+&nbsp;            -----------------------------------------------------------
+&nbsp;            [Commands] Do you wish to select another card?
+&nbsp;              &#39;Enter&#39;  --&gt; Yes. I want to SELECT AGAIN.
+&nbsp;            &#39;Anything&#39; --&gt; No.
+&nbsp;            -----------------------------------------------------------
+&nbsp;            Enter the option you wish to select:\040&quot;&quot;&quot;;
+&nbsp;    public static final String deselectConfirm = &quot;&quot;&quot;
+&nbsp;            -----------------------------------------------------------
+&nbsp;            [Commands] Are you sure to delete all of your selections?
+&nbsp;                y      --&gt; Yes. I am sure.
+&nbsp;            &#39;Anything&#39; --&gt; No.
+&nbsp;            -----------------------------------------------------------
+&nbsp;            Enter the option you wish to select:\040&quot;&quot;&quot;;
+&nbsp;    public static final String indexConfirm = &quot;&quot;&quot;
+&nbsp;            -----------------------------------------------------------
+&nbsp;            [Commands] Confirm your choice?
+&nbsp;                y      --&gt; Yes.
+&nbsp;                r      --&gt; Retry.
+&nbsp;                n      --&gt; DELETE your choice and EXIT Index Selection.
+&nbsp;            -----------------------------------------------------------
+&nbsp;            Enter the option you wish to select:\040&quot;&quot;&quot;;
+&nbsp;    public static final String columnConfirm = &quot;&quot;&quot;
+&nbsp;            [Commands] Do you confirm this is the column you wish to insert into?
+&nbsp;                y      --&gt; Yes.
+&nbsp;                r      --&gt; Retry to choose the column again.
+&nbsp;                n      --&gt; DELETE your choice and EXIT (Go back to SORT or SHOW).
+&nbsp;            -----------------------------------------------------------
+&nbsp;            Enter the option you wish to select:\040&quot;&quot;&quot;;
+&nbsp;    public static final String insertionConfirm = &quot;&quot;&quot;
+&nbsp;            [Commands] Are you sure? If you go on you can&#39;t go back to selection!
+&nbsp;                y      --&gt; Yes. I am sure.
+&nbsp;            &#39;Anything&#39; --&gt; No.
+&nbsp;            -----------------------------------------------------------
+&nbsp;            Enter the option you wish to select:\040&quot;&quot;&quot;;
+&nbsp;    public static final String MoreOptions = &quot;&quot;&quot;
+&nbsp;            [Commands] These are the option available.
+&nbsp;              leave    --&gt; LEAVE the Match (if you leave, the match will end for everyone).
+&nbsp;              exit     --&gt; EXIT from the Game MyShelfie.
+&nbsp;              help     --&gt; Command List (Chat, etc) and Assist Mode
+&nbsp;             &#39;Enter&#39;   --&gt; Go Back.
+&nbsp;            -----------------------------------------------------------
+&nbsp;            Enter the command you wish to use:\040&quot;&quot;&quot;;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * For DEBUG or Test
+&nbsp;     */
+&nbsp;    public static final String commandMenuExtra = &quot;&quot;&quot;
+&nbsp;            -----------------------------------------------------------
+&nbsp;            [Commands] What do you wish to do? These are the commands available:
+&nbsp;              select   --&gt; SELECT an item on the board.
+&nbsp;              clear    --&gt; Deselect the cards.
+&nbsp;              insert   --&gt; INSERT in the shelves.
+&nbsp;               show    --&gt; Show Game OBJECT in more detail(Selected Items, Goals, Board, Shelf, ...).
+&nbsp;               more    --&gt; More Options: Leave Match, Exit Game, Help (Command List,Assist Mode).
+&nbsp;            Enter &#39;more&#39; then &#39;help&#39; commands and learn how to use the Chat&quot;&quot;&quot;;
+&nbsp;
+&nbsp;    public static final String chatHelp = &quot;&quot;&quot;
+&nbsp;            [Commands to use in the Command Line]     
+&nbsp;                  /chat[nickname] &#39;message&#39;       --&gt; Use this command format to send a message to an online player,
+&nbsp;                                                      replace nickname with a Online player&#39;s nickname,
+&nbsp;                                                      replace &#39;message&#39; with text.
+&nbsp;                                                      (REMEMBER the &#39;space&#39; between /chat[..] and &#39;message&#39;)
+&nbsp;                      /open[nickname]             --&gt; Use this command format to open the Chat with an online player,
+&nbsp;                                                      when the chat is opened you can type directly the text you wish to sent.
+&nbsp;            &quot;&quot;&quot;;
+&nbsp;
+&nbsp;    public static final String commandHelp= &quot;&quot;&quot;
+&nbsp;            [Commands] --&gt; [Abbreviation]
+&nbsp;              create            c
+&nbsp;               join             j
+&nbsp;              online            on
+&nbsp;               help             he
+&nbsp;              select            se
+&nbsp;              clear             cl
+&nbsp;              insert            in
+&nbsp;               sort             so
+&nbsp;               show             sh
+&nbsp;               more             mo
+&nbsp;              leave             le
+&nbsp;               exit             ex
+&nbsp;              ...               ...
+&nbsp;            &quot;&quot;&quot;;
+&nbsp;
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;    public static List&lt;String&gt; tips = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;    static {
+<b class="nc">&nbsp;        Collections.addAll(tips,</b>
+&nbsp;                //----------------MENU-------------------------------------------------------------------
+&nbsp;                Color.YELLOW + &quot;--Tip: You can text any ONLINE player.&quot; + Color.RESET,
+&nbsp;                Color.YELLOW + &quot;--Rule: A match can be played by at least 2 players and at most 4&quot; + Color.RESET,
+&nbsp;                Color.YELLOW + &quot;--Rule: The creator of a match can decide the number of players&quot; + Color.RESET,
+&nbsp;                //-----------------WAITING------------------------------------------------------
+&nbsp;                Color.YELLOW + &quot;--Tip: Read the Game Rules to solve any doubts.&quot; + Color.RESET,
+&nbsp;                Color.YELLOW + &quot;--Tip: You can text any ONLINE player, even the ones who are not in this match&quot; + Color.RESET,
+&nbsp;                Color.YELLOW + &quot;--Tip: Each match has his own chat group&quot; + Color.RESET,
+&nbsp;                //------------------SELECTED-0-ITEM -----------------------------------------------------------------
+&nbsp;                Color.YELLOW + &quot;--Rule: You can only select items with at least one free side&quot; + Color.RESET,
+&nbsp;                Color.YELLOW + &quot;--Rule: If there is enough space in your shelf, you can select at most 3 items&quot; + Color.RESET,
+&nbsp;                Color.YELLOW + &quot;--Rule: Each turn, you have to insert all of your selections in just ONE column of the shelf&quot; + Color.RESET,
+&nbsp;                Color.YELLOW + &quot;--Rule: If there is enough space in your shelf, you can select at most 3 items each turn&quot; + Color.RESET,
+&nbsp;                Color.YELLOW + &quot;--Rule: MULTIPLE items with the SAME COLOR NEAR each other in the shelf, will guarantee you MORE POINTS at the end of the match&quot; + Color.RESET,
+&nbsp;                Color.YELLOW + &quot;--Tip: See the Common Goals and try to achieve more points (Use &#39;show&#39; then &#39;cgoal&#39; commands)&quot; + Color.RESET,
+&nbsp;                Color.YELLOW + &quot;--Tip: See your Personal Goal and try to achieve more points (Use &#39;show&#39; the &#39;pgoal&#39; commands)&quot; + Color.RESET,
+&nbsp;                Color.YELLOW + &quot;--Rule: Personal Goal Points are Private, only you can see them&quot; + Color.RESET,
+&nbsp;                Color.YELLOW + &quot;--Rule: Personal Goal Points are not cumulative, they will be added, only at the end, to the final Score&quot; + Color.RESET,
+&nbsp;                Color.YELLOW + &quot;--Rule: A Player cannot achieve the same Common Goal a second time&quot; + Color.RESET,
+&nbsp;                Color.YELLOW + &quot;--Tip: You will get HIGHER Points if you achieve a Common Goal before everybody else&quot; + Color.RESET,
+&nbsp;                Color.YELLOW + &quot;--Tip: You can&#39;t select more item in Diagonal, just on the same straight line&quot; + Color.RESET,
+&nbsp;                Color.YELLOW + &quot;--Tip: Use &#39;show&#39; command to see Game parts like SHELF, BOARD, GOALS, etc. in more detail&quot; + Color.RESET,
+&nbsp;                Color.YELLOW + &quot;--Tip: You can see other players score and Shelf situation by using &#39;show&#39; the &#39;stats&quot; + Color.RESET,
+&nbsp;                Color.YELLOW + &quot;--Rule: Complete the SHELF FIRST and obtain Endgame Token (+1 point)&quot; + Color.RESET,
+&nbsp;                Color.YELLOW + &quot;--Rule: The first to complete his/her shelf will initiate the Last Round&quot; + Color.RESET,
+&nbsp;                Color.YELLOW + &quot;--Rule: When the Last Round ends the Match will also and the winner will be announced if there is one&quot; + Color.RESET,
+&nbsp;                Color.YELLOW + &quot;--Rule: The top score player is THE winner, no Draws&quot; + Color.RESET,
+&nbsp;                Color.YELLOW + &quot;--Tip: See the Group Points System using &#39;show&#39; then &#39;shelf&#39; command&quot; + Color.RESET,
+&nbsp;                //------------------SELECTED--------------------------------------------------------------------------------//
+&nbsp;                Color.YELLOW + &quot;--Rule: You can decide the insertion order of the items using the command &#39;sort&#39;&quot; + Color.RESET,
+&nbsp;                Color.YELLOW + &quot;--Tip: You can delete all your selections by using &#39;clear&#39; command&quot; + Color.RESET,
+&nbsp;                Color.YELLOW + &quot;--Tip: When you select an already selected item, you&#39;ll deselect it&quot; + Color.RESET,
+&nbsp;                Color.YELLOW + &quot;--Rule: The items selected can be inserted in ONLY one column&quot; + Color.RESET,
+&nbsp;                Color.YELLOW + &quot;--Rule: After &#39;insert&#39; command, if you Confirm your Selections, you can&#39;t change your cards anymore &quot; + Color.RESET
+&nbsp;
+&nbsp;        );
+&nbsp;    }
+&nbsp;    public static final int MENU_TIPS=3;
+&nbsp;    public static final int WAIT_TIPS=6;
+<b class="nc">&nbsp;    public static final int SEL_TIPS=tips.size()-5;</b>
+&nbsp;
+&nbsp;    public static List&lt;String&gt; current_display;
+&nbsp;
+&nbsp;    public static void reset_display() {
+<b class="nc">&nbsp;        List&lt;String&gt; empty_display = new ArrayList&lt;&gt;(12);</b>
+<b class="nc">&nbsp;        Collections.addAll(empty_display,</b>
+&nbsp;                &quot;&quot;,
+&nbsp;                &quot;&quot;,
+&nbsp;                &quot;&quot;,
+&nbsp;                &quot;&quot;,
+&nbsp;                &quot;&quot;,
+&nbsp;                &quot;&quot;,
+&nbsp;                &quot;&quot;,
+&nbsp;                &quot;&quot;,
+&nbsp;                &quot;&quot;,
+&nbsp;                &quot;&quot;,
+&nbsp;                &quot;&quot;
+&nbsp;        );
+<b class="nc">&nbsp;        current_display = empty_display;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static final String C = &quot;\033[1;92m*\033[0m&quot;;
+&nbsp;    public static final String B = &quot;\033[1;97m*\033[0m&quot;;
+&nbsp;    public static final String G = &quot;\033[1;93m*\033[0m&quot;;
+&nbsp;    public static final String F = &quot;\033[1;94m*\033[0m&quot;;
+&nbsp;    public static final String T = &quot;\033[1;96m*\033[0m&quot;;
+&nbsp;    public static final String P = &quot;\033[1;95m*\033[0m&quot;;
+&nbsp;
+<b class="nc">&nbsp;    public static final String[] miniPG1 = {</b>
+&nbsp;            &quot;[&quot; + P + &quot;][ ][&quot; + F + &quot;][ ][ ]&quot;,
+&nbsp;            &quot;[ ][ ][ ][ ][&quot; + C + &quot;]&quot;,
+&nbsp;            &quot;[ ][ ][ ][&quot; + B + &quot;][ ]&quot;,
+&nbsp;            &quot;[ ][&quot; + G + &quot;][ ][ ][ ]&quot;,
+&nbsp;            &quot;[ ][ ][ ][ ][ ]&quot;,
+&nbsp;            &quot;[ ][ ][&quot; + T + &quot;][ ][ ]&quot;};
+&nbsp;
+<b class="nc">&nbsp;    public static final String[] miniPG2 = {</b>
+&nbsp;            &quot;[ ][ ][ ][ ][ ]&quot;,
+&nbsp;            &quot;[ ][&quot; + P + &quot;][ ][ ][ ]&quot;,
+&nbsp;            &quot;[&quot; + C + &quot;][ ][&quot; + G + &quot;][ ][ ]&quot;,
+&nbsp;            &quot;[ ][ ][ ][ ][&quot; + B + &quot;]&quot;,
+&nbsp;            &quot;[ ][ ][ ][&quot; + T + &quot;][ ]&quot;,
+&nbsp;            &quot;[ ][ ][ ][ ][&quot; + F + &quot;]&quot;};
+&nbsp;
+<b class="nc">&nbsp;    public static final String[] miniPG3 = {</b>
+&nbsp;            &quot;[ ][ ][ ][ ][ ]&quot;,
+&nbsp;            &quot;[&quot; + F + &quot;][ ][ ][&quot; + G + &quot;][ ]&quot;,
+&nbsp;            &quot;[ ][ ][&quot; + P + &quot;][ ][ ]&quot;,
+&nbsp;            &quot;[ ][&quot; + C + &quot;][ ][ ][&quot; + T + &quot;]&quot;,
+&nbsp;            &quot;[ ][ ][ ][ ][ ]&quot;,
+&nbsp;            &quot;[&quot; + B + &quot;][ ][ ][ ][ ]&quot;};
+&nbsp;
+<b class="nc">&nbsp;    public static final String[] miniPG4 = {</b>
+&nbsp;            &quot;[ ][ ][ ][ ][&quot; + G + &quot;]&quot;,
+&nbsp;            &quot;[ ][ ][ ][ ][ ]&quot;,
+&nbsp;            &quot;[&quot; + T + &quot;][ ][&quot; + F + &quot;][ ][ ]&quot;,
+&nbsp;            &quot;[ ][ ][ ][&quot; + P + &quot;][ ]&quot;,
+&nbsp;            &quot;[ ][&quot; + B + &quot;][&quot; + C + &quot;][ ][ ]&quot;,
+&nbsp;            &quot;[ ][ ][ ][ ][ ]&quot;};
+<b class="nc">&nbsp;    public static final String[] miniPG5 = {</b>
+&nbsp;            &quot;[ ][ ][ ][ ][ ]&quot;,
+&nbsp;            &quot;[ ][&quot; + T + &quot;][ ][ ][ ]&quot;,
+&nbsp;            &quot;[ ][ ][ ][ ][ ]&quot;,
+&nbsp;            &quot;[ ][&quot; + F + &quot;][&quot; + B + &quot;][ ][ ]&quot;,
+&nbsp;            &quot;[ ][ ][ ][ ][&quot; + P + &quot;]&quot;,
+&nbsp;            &quot;[&quot; + G + &quot;][ ][ ][&quot; + C + &quot;][ ]&quot;};
+<b class="nc">&nbsp;    public static final String[] miniPG6 = {</b>
+&nbsp;            &quot;[ ][ ][&quot; + T + &quot;][ ][&quot; + C + &quot;]&quot;,
+&nbsp;            &quot;[ ][ ][ ][ ][ ]&quot;,
+&nbsp;            &quot;[ ][ ][ ][&quot; + B + &quot;][ ]&quot;,
+&nbsp;            &quot;[ ][ ][ ][ ][ ]&quot;,
+&nbsp;            &quot;[ ][&quot; + G + &quot;][ ][&quot; + F + &quot;][ ]&quot;,
+&nbsp;            &quot;[&quot; + P + &quot;][ ][ ][ ][ ]&quot;};
+<b class="nc">&nbsp;    public static final String[] miniPG7 = {</b>
+&nbsp;            &quot;[&quot; + C + &quot;][ ][ ][ ][ ]&quot;,
+&nbsp;            &quot;[ ][ ][ ][&quot; + F + &quot;][ ]&quot;,
+&nbsp;            &quot;[ ][&quot; + P + &quot;][ ][ ][ ]&quot;,
+&nbsp;            &quot;[&quot; + T + &quot;][ ][ ][ ][ ]&quot;,
+&nbsp;            &quot;[ ][ ][ ][ ][&quot; + G + &quot;]&quot;,
+&nbsp;            &quot;[ ][ ][&quot; + B + &quot;][ ][ ]&quot;};
+<b class="nc">&nbsp;    public static final String[] miniPG8 = {</b>
+&nbsp;            &quot;[ ][ ][ ][ ][&quot; + F + &quot;]&quot;,
+&nbsp;            &quot;[ ][&quot; + C + &quot;][ ][&quot; + F + &quot;][ ]&quot;,
+&nbsp;            &quot;[ ][ ][&quot; + T + &quot;][ ][ ]&quot;,
+&nbsp;            &quot;[&quot; + P + &quot;][ ][ ][ ][ ]&quot;,
+&nbsp;            &quot;[ ][ ][ ][&quot; + B + &quot;][ ]&quot;,
+&nbsp;            &quot;[ ][ ][ ][&quot; + G + &quot;][ ]&quot;};
+<b class="nc">&nbsp;    public static final String[] miniPG9 = {</b>
+&nbsp;            &quot;[ ][ ][&quot; + G + &quot;][ ][ ]&quot;,
+&nbsp;            &quot;[ ][ ][ ][ ][ ]&quot;,
+&nbsp;            &quot;[ ][ ][&quot; + C + &quot;][ ][ ]&quot;,
+&nbsp;            &quot;[ ][ ][ ][ ][&quot; + B + &quot;]&quot;,
+&nbsp;            &quot;[ ][&quot; + T + &quot;][ ][ ][&quot; + P + &quot;]&quot;,
+&nbsp;            &quot;[&quot; + F + &quot;][ ][ ][ ][ ]&quot;};
+<b class="nc">&nbsp;    public static final String[] miniPG10 = {</b>
+&nbsp;            &quot;[ ][ ][ ][ ][&quot; + T + &quot;]&quot;,
+&nbsp;            &quot;[ ][&quot; + G + &quot;][ ][ ][ ]&quot;,
+&nbsp;            &quot;[&quot; + B + &quot;][ ][ ][ ][ ]&quot;,
+&nbsp;            &quot;[ ][ ][ ][&quot; + C + &quot;][ ]&quot;,
+&nbsp;            &quot;[ ][&quot; + F + &quot;][ ][ ][ ]&quot;,
+&nbsp;            &quot;[ ][ ][ ][&quot; + P + &quot;][ ]&quot;};
+<b class="nc">&nbsp;    public static final String[] miniPG11 = {</b>
+&nbsp;            &quot;[ ][ ][&quot; + P + &quot;][ ][ ]&quot;,
+&nbsp;            &quot;[ ][&quot; + B + &quot;][ ][ ][ ]&quot;,
+&nbsp;            &quot;[&quot; + G + &quot;][ ][ ][ ][ ]&quot;,
+&nbsp;            &quot;[ ][ ][&quot; + F + &quot;][ ][ ]&quot;,
+&nbsp;            &quot;[ ][ ][ ][ ][&quot; + C + &quot;]&quot;,
+&nbsp;            &quot;[ ][ ][ ][&quot; + T + &quot;][ ]&quot;};
+<b class="nc">&nbsp;    public static final String[] miniPG12 = {</b>
+&nbsp;            &quot;[ ][ ][&quot; + B + &quot;][ ][ ]&quot;,
+&nbsp;            &quot;[ ][&quot; + P + &quot;][ ][ ][ ]&quot;,
+&nbsp;            &quot;[ ][ ][&quot; + F + &quot;][ ][ ]&quot;,
+&nbsp;            &quot;[ ][ ][ ][&quot; + T + &quot;][ ]&quot;,
+&nbsp;            &quot;[ ][ ][ ][ ][&quot; + G + &quot;]&quot;,
+&nbsp;            &quot;[&quot; + C + &quot;][ ][ ][ ][ ]&quot;};
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;    public static final HashMap&lt;Integer, String[]&gt; PGoals = new HashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;    static {
+<b class="nc">&nbsp;        PGoals.put(1, miniPG1);</b>
+<b class="nc">&nbsp;        PGoals.put(2, miniPG2);</b>
+<b class="nc">&nbsp;        PGoals.put(3, miniPG3);</b>
+<b class="nc">&nbsp;        PGoals.put(4, miniPG4);</b>
+<b class="nc">&nbsp;        PGoals.put(5, miniPG5);</b>
+<b class="nc">&nbsp;        PGoals.put(6, miniPG6);</b>
+<b class="nc">&nbsp;        PGoals.put(7, miniPG7);</b>
+<b class="nc">&nbsp;        PGoals.put(8, miniPG8);</b>
+<b class="nc">&nbsp;        PGoals.put(9, miniPG9);</b>
+<b class="nc">&nbsp;        PGoals.put(10, miniPG10);</b>
+<b class="nc">&nbsp;        PGoals.put(11, miniPG11);</b>
+<b class="nc">&nbsp;        PGoals.put(12, miniPG12);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public static final String GROUP_POINTS= &quot;&quot;&quot;
+&nbsp;            Points given based on the numbers of item of the same type near each other 
+&nbsp;            \t\t-----------------------------
+&nbsp;            \t\t¦ 3 [=] &gt; (2) ¦ 5 [=] &gt; (5) ¦  
+&nbsp;            \t\t-----------------------------
+&nbsp;            \t\t¦ 4 [=] &gt; (3) ¦ 6+[=] &gt; (8) ¦
+&nbsp;            \t\t-----------------------------
+&nbsp;            &quot;&quot;&quot;;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-28 22:41</div>
+</div>
+</body>
+</html>

@@ -149,10 +149,6 @@ public class ClientHandlerSocket extends Thread {
                 CommunicationController.instance.returnBool("changeMatchSeats", GameController.changeMatchSeats(newMaxSeats, myPlayer), myPlayer);
                 break;
 
-            case "changeInsertLimit":
-                int newInsertLimit = Integer.parseInt(messageParts[1]);
-                CommunicationController.instance.returnBool("changeInsertLimit", GameController.changeInsertLimit(newInsertLimit, myPlayer), myPlayer);
-                break;
             case "sendPublicMessage":
                 String publicMessage = messageParts[1];
                 Boolean live_public = Boolean.valueOf(messageParts[2]);

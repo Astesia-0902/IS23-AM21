@@ -38,7 +38,6 @@ public enum ServerMessage {
 
 
     //Game phase (Deselection phase)
-
     DeSel_Ok("Deselection successful"),
     Clear_Ok("All selected items cleared"),
     DeSel_Null(SC.RED+"You did not select any card yet. Deselection is not necessary"+SC.RST),
@@ -53,15 +52,6 @@ public enum ServerMessage {
     Sort_Index_NO("Index out of border"),
     Sort_Ok("Order changed"),
 
-
-    //Game phase (Show object phase)
-
-    //Game phase (Goal achievement phase)
-
-    //Chat phase
-
-
-    //Help Command phase
 
     //Game phase (Game over phase)
     LastRound(SC.RED_B+"It's the Last Round"+SC.RST),
@@ -82,8 +72,9 @@ public enum ServerMessage {
     Error("Error"),
     WrongPhase("Wrong phase. Cannot use this command."),
     HandEmpty("No item selected"),
+    BagEmpty("Bag is empty"),
 
-    //NOt your turn
+    //Not your turn
     NotYourTurn(SC.RED_B+"Wait. It's not your turn"+SC.RST);
 
     private final String replyMessage;

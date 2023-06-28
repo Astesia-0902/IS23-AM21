@@ -1,0 +1,239 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > LivingRoomInterface</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client.view.GUI.Interface</a>
+</div>
+
+<h1>Coverage Summary for Class: LivingRoomInterface (org.am21.client.view.GUI.Interface)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LivingRoomInterface</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/45)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client.view.GUI.Interface;
+&nbsp;
+&nbsp;import org.am21.client.view.ClientView;
+&nbsp;import org.am21.client.view.GUI.Gui;
+&nbsp;import org.am21.client.view.GUI.component.EnemyPanel;
+&nbsp;import org.am21.client.view.GUI.component.LivingRoomPanel;
+&nbsp;import org.am21.client.view.GUI.utils.ImageUtil;
+&nbsp;import org.am21.client.view.GUI.utils.PixelUtil;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public class LivingRoomInterface extends JDialog {
+&nbsp;    public JLayeredPane livingRoomPane;
+&nbsp;    public LivingRoomPanel livingRoomPanel;
+&nbsp;    public List&lt;String&gt; enemyList;
+&nbsp;    public HashMap&lt;String, EnemyPanel&gt; enemiesPanel;
+&nbsp;
+&nbsp;
+&nbsp;    public LivingRoomInterface(JFrame frame, Gui gui) {
+&nbsp;
+<b class="nc">&nbsp;        super(frame);</b>
+&nbsp;
+<b class="nc">&nbsp;        setLivingRoomPanel(gui);</b>
+&nbsp;
+<b class="nc">&nbsp;        setEnemiesInfo();</b>
+&nbsp;
+<b class="nc">&nbsp;        setEnemiesPanel();</b>
+&nbsp;
+<b class="nc">&nbsp;        getContentPane().add(livingRoomPane);</b>
+&nbsp;
+<b class="nc">&nbsp;        moreInfoLivingRoom();</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * base set
+&nbsp;     *
+&nbsp;     * @param gui GUI
+&nbsp;     */
+&nbsp;    public void setLivingRoomPanel(Gui gui) {
+<b class="nc">&nbsp;        livingRoomPane = new JLayeredPane();</b>
+<b class="nc">&nbsp;        livingRoomPane.setBounds(0, 0, PixelUtil.pcWidth, PixelUtil.pcHeight);</b>
+&nbsp;
+<b class="nc">&nbsp;        livingRoomPanel = new LivingRoomPanel(gui);</b>
+<b class="nc">&nbsp;        livingRoomPane.add(livingRoomPanel, JLayeredPane.DEFAULT_LAYER);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * filter enemy info
+&nbsp;     */
+&nbsp;    public void setEnemiesInfo() {
+<b class="nc">&nbsp;        enemiesPanel = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        enemyList = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        for (String name : ClientView.playersList) {</b>
+<b class="nc">&nbsp;            if (!name.equals(Gui.username)) {</b>
+<b class="nc">&nbsp;                enemyList.add(name);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * set enemy panel
+&nbsp;     */
+&nbsp;    public void setEnemiesPanel() {
+&nbsp;
+<b class="nc">&nbsp;        if (enemyList.size() &gt;= 1) {</b>
+&nbsp;            //setFirst enemy&#39;s Label
+<b class="nc">&nbsp;            EnemyPanel enemyPanelA = new EnemyPanel(PixelUtil.commonY_1, ImageUtil.getBoardImage(&quot;enemyA&quot;), enemyList.get(0), ClientView.currentPlayer, ClientView.shelves.get(ClientView.getPlayerIndex(enemyList.get(0))));</b>
+<b class="nc">&nbsp;            livingRoomPane.add(enemyPanelA, JLayeredPane.PALETTE_LAYER);</b>
+<b class="nc">&nbsp;            enemiesPanel.put(enemyList.get(0), enemyPanelA);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (enemyList.size() &gt;= 2) {</b>
+&nbsp;            //setSecond enemy&#39;s Label
+<b class="nc">&nbsp;            EnemyPanel enemyPanelB = new EnemyPanel(PixelUtil.commonY_2, ImageUtil.getBoardImage(&quot;enemyB&quot;), enemyList.get(1), ClientView.currentPlayer, ClientView.shelves.get(ClientView.getPlayerIndex(enemyList.get(1))));</b>
+<b class="nc">&nbsp;            livingRoomPane.add(enemyPanelB, JLayeredPane.PALETTE_LAYER);</b>
+<b class="nc">&nbsp;            enemiesPanel.put(enemyList.get(1), enemyPanelB);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (enemyList.size() &gt;= 3) {</b>
+&nbsp;            //setThird enemy&#39;s Label
+<b class="nc">&nbsp;            EnemyPanel enemyPanelC = new EnemyPanel(PixelUtil.commonY_3, ImageUtil.getBoardImage(&quot;enemyC&quot;), enemyList.get(2), ClientView.currentPlayer, ClientView.shelves.get(ClientView.getPlayerIndex(enemyList.get(2))));</b>
+<b class="nc">&nbsp;            livingRoomPane.add(enemyPanelC, JLayeredPane.PALETTE_LAYER);</b>
+<b class="nc">&nbsp;            enemiesPanel.put(enemyList.get(2), enemyPanelC);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * scores refreshing
+&nbsp;     *
+&nbsp;     * @param scores list of scores
+&nbsp;     */
+&nbsp;    public void refreshEnemiesScores(List&lt;Integer&gt; scores) {
+&nbsp;
+<b class="nc">&nbsp;        for (String name : enemyList) {</b>
+<b class="nc">&nbsp;            enemiesPanel.get(name).refreshEnemyScores(scores.get(ClientView.getPlayerIndex(name)));</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        SwingUtilities.invokeLater(() -&gt; {</b>
+<b class="nc">&nbsp;            revalidate();</b>
+<b class="nc">&nbsp;            repaint();</b>
+&nbsp;        });
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * shelves refreshing
+&nbsp;     *
+&nbsp;     * @param shelves list of shelves
+&nbsp;     */
+&nbsp;    public void refreshEnemiesShelves(List&lt;String[][]&gt; shelves) {
+&nbsp;
+<b class="nc">&nbsp;        for (String name : enemyList) {</b>
+<b class="nc">&nbsp;            enemiesPanel.get(name).refreshEnemyShelf(shelves.get(ClientView.getPlayerIndex(name)));</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        SwingUtilities.invokeLater(() -&gt; {</b>
+<b class="nc">&nbsp;            revalidate();</b>
+<b class="nc">&nbsp;            repaint();</b>
+&nbsp;        });
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * base set of living room
+&nbsp;     */
+&nbsp;    public void moreInfoLivingRoom() {
+<b class="nc">&nbsp;        setSize(PixelUtil.pcWidth, PixelUtil.pcHeight);</b>
+<b class="nc">&nbsp;        setLayout(null);</b>
+<b class="nc">&nbsp;        setUndecorated(true);</b>
+<b class="nc">&nbsp;        setLocationRelativeTo(null);</b>
+<b class="nc">&nbsp;        setVisible(true);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-28 22:41</div>
+</div>
+</body>
+</html>

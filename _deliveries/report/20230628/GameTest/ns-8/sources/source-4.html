@@ -1,0 +1,141 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > InputReadTask</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client.view.TUI</a>
+</div>
+
+<h1>Coverage Summary for Class: InputReadTask (org.am21.client.view.TUI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">InputReadTask</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client.view.TUI;
+&nbsp;
+&nbsp;import org.am21.client.view.ClientView;
+&nbsp;
+&nbsp;import java.io.BufferedReader;
+&nbsp;import java.io.InputStreamReader;
+&nbsp;import java.util.concurrent.Callable;
+&nbsp;
+&nbsp;/**
+&nbsp; * This class is used to read input from the user
+&nbsp; */
+&nbsp;public class InputReadTask implements Callable&lt;String&gt; {
+&nbsp;    private final BufferedReader bufferedReader;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     */
+<b class="nc">&nbsp;    public InputReadTask() {</b>
+<b class="nc">&nbsp;        bufferedReader = new BufferedReader(new InputStreamReader(System.in));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String call() throws Exception {
+&nbsp;        String input;
+&nbsp;        // wait until there is data to complete a readLine()
+<b class="nc">&nbsp;        while (!bufferedReader.ready()){</b>
+&nbsp;            //Thread.sleep(200);
+<b class="nc">&nbsp;            synchronized (ClientView.needToRefresh) {</b>
+<b class="nc">&nbsp;                if (ClientView.needToRefresh) {</b>
+<b class="nc">&nbsp;                    ClientView.setNeedToRefresh(false);</b>
+<b class="nc">&nbsp;                    return &quot;&quot;;</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+<b class="nc">&nbsp;        input = bufferedReader.readLine();</b>
+<b class="nc">&nbsp;        return input;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-28 22:41</div>
+</div>
+</body>
+</html>

@@ -19,6 +19,11 @@ public class GameController {
     public GameController() throws RemoteException {
     }
 
+    /**
+     * Check if the player is the current player in the correspondent match
+     * @param playerController player's player controller
+     * @return true if the player is the current player
+     */
     public static boolean checkPlayerActionPhase(PlayerController playerController) {
         String username = playerController.getPlayer().getNickname();
         synchronized (GameManager.playerMatchMap) {
@@ -82,9 +87,9 @@ public class GameController {
      * Initialize the game.
      * Pay attention to the order of the initialization of instances to avoid potential null pointer exception.
      *
-     * @param matchID
-     * @param userName
-     * @param playerController
+     * @param matchID match id
+     * @param userName player nickname
+     * @param playerController player controller
      */
     public static boolean joinGame(int matchID, String userName, PlayerController playerController) {
         if (GameManager.gameCleaner()) {
@@ -102,9 +107,10 @@ public class GameController {
     }
 
     /**
-     * @param matchID
-     * @param userName
-     * @param playerController
+     * TODO
+     * @param matchID match id
+     * @param userName player nickname
+     * @param playerController player's controller
      */
     private static boolean joinGameHelper(int matchID, String userName, PlayerController playerController) {
         if (!GameManager.matchMap.containsKey(matchID)) {
@@ -142,10 +148,11 @@ public class GameController {
     }
 
     /**
-     * @param userName
-     * @param createMatchRequestCount
-     * @param playerNum
-     * @param playerController
+     * TODO
+     * @param userName player's nickname
+     * @param createMatchRequestCount number of match creation request
+     * @param playerNum max number of players for the match
+     * @param playerController player's controller
      */
     public static boolean createMatch(String userName, Integer createMatchRequestCount, int playerNum, PlayerController playerController) {
         if (GameManager.gameCleaner()) {
@@ -166,10 +173,11 @@ public class GameController {
 
 
     /**
-     * @param userName
-     * @param createMatchRequestCount
-     * @param playerNum
-     * @param playerController
+     * TODO
+     * @param userName player's nickname
+     * @param createMatchRequestCount number of match creation request
+     * @param playerNum max number of players for the match
+     * @param playerController player's controller
      */
     private static boolean createMatchHelper(String userName, Integer createMatchRequestCount, int playerNum, PlayerController playerController) {
         if (GameManager.playerMatchMap.containsKey(userName) && createMatchRequestCount == 0) {
@@ -204,6 +212,12 @@ public class GameController {
         return false;
     }
 
+    /**
+     * Remove player from a match
+     * @param ctrl player controller
+     * @param matchID match id
+     * @return true if the operation is successful, otherwise false
+     */
     public static boolean removePlayerFromMatch(PlayerController ctrl, int matchID) {
         if (GameManager.playerMatchMap.containsKey(ctrl.getPlayer().getNickname())) {
             synchronized (GameManager.matchMap) {
@@ -237,10 +251,22 @@ public class GameController {
         return false;
     }
 
-    public static boolean selectCell(int row, int col, PlayerController playerController) throws ServerNotActiveException {
+    /**
+     * Method to call selectCell from Player controller
+     * @param row row
+     * @param col column
+     * @param playerController player controller
+     * @return true if the player is current player and selection is successful,otherwise false
+     */
+    public static boolean selectCell(int row, int col, PlayerController playerController) {
         return checkPlayerActionPhase(playerController) && playerController.selectCell(row, col);
     }
 
+    /**
+     * Method to call player Controller method which it will confirm the selected items
+     * @param playerController player controller
+     * @return true if the player is current player and selection is successful,otherwise false
+     */
     public static boolean confirmSelection(PlayerController playerController) {
         return checkPlayerActionPhase(playerController) && playerController.callEndSelection();
     }
@@ -250,9 +276,8 @@ public class GameController {
      * @param colNum col number
      * @param playerController pc instance
      * @return true if succeed false otherwise
-     * @throws ServerNotActiveException if the server is not running
      */
-    public static boolean insertInColumn(int colNum, PlayerController playerController) throws ServerNotActiveException {
+    public static boolean insertInColumn(int colNum, PlayerController playerController)  {
         return checkPlayerActionPhase(playerController) && playerController.tryToInsert(colNum);
     }
 
@@ -332,6 +357,12 @@ public class GameController {
         return false;
     }
 
+    /**
+     * This method allows the player who has the role of admin to change the maxim number of seats for the match, if th match has not started yet
+     * @param newMaxSeats new number of max seats
+     * @param playerController admin player controller
+     * @return true if the operation is successful, otherwise false
+     */
     public static boolean changeMatchSeats(int newMaxSeats, PlayerController playerController) {
         Player p = playerController.getPlayer();
         synchronized (GameManager.playerMatchMap) {
@@ -348,28 +379,6 @@ public class GameController {
 
     }
 
-    public static boolean changeInsertLimit(int newLimit, PlayerController playerController) {
-        Player p = playerController.getPlayer();
-        synchronized (GameManager.playerMatchMap) {
-            if (GameManager.playerMatchMap.containsKey(p.getNickname())
-                    && p.getMatch().matchID == (GameManager.playerMatchMap.get(p.getNickname()))) {
-                if (p.getMatch().admin.equals(p)) {
-                    //Limit changed for the whole server
-                    Shelf.STD_LIMIT = newLimit;
-                    synchronized (GameManager.players) {
-                        for (Player player : GameManager.players) {
-                            if (player.getController() != null && !player.getStatus().equals(UserStatus.Offline)) {
-                                CommunicationController.instance.sendMessageToClient(SC.YELLOW + "\nServer > Insertion Limit changed to: " + newLimit + SC.RST, player.getController());
-                                CommunicationController.instance.notifyUpdate(player.getController(), 1000);
-                            }
-                        }
-                    }
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 
     /**
      * This method forward the group chat message to match chat manager
@@ -423,6 +432,9 @@ public class GameController {
         return true;
     }
 
+    /**
+     * Update all players Server Virtual View
+     */
     public static void updatePlayersGlobalView() {
         synchronized (GameManager.players) {
             for (Player p : GameManager.players) {
@@ -432,6 +444,9 @@ public class GameController {
         }
     }
 
+    /**
+     * Send a notification to all players fot update their interfaces
+     */
     public static void notifyAllPlayers() {
         synchronized (GameManager.players) {
             for (Player p : GameManager.players) {
