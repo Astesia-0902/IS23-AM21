@@ -22,19 +22,11 @@ public class Hand {
     public Player player;
     private ArrayList<CardPointer> selectedItems;
 
-    /**
-     *
-     * @param player
-     */
     public Hand(Player player){
         this.player = player;
         this.selectedItems = new ArrayList<>();
     }
 
-    /**
-     *
-     * @return
-     */
     public ArrayList<CardPointer> getSelectedItems() {
         return selectedItems;
     }
@@ -42,9 +34,9 @@ public class Hand {
     /**
      * Create a temporary Coordinates object for data setting.
      * Then add it to the selectedItems list.
-     * @param item
-     * @param r
-     * @param c
+     * @param item ItemCard
+     * @param r row
+     * @param c column
      */
     public void memCard(ItemCard item, int r, int c){
 
@@ -68,7 +60,6 @@ public class Hand {
      * @param j is position 2
      */
     public boolean changeOrder(int i, int j){
-        //TODO : reorganize and move to Player Controller
         int limit = getSelectedItems().size();
         if(limit<=1){
 
@@ -77,7 +68,6 @@ public class Hand {
         }
         if(i>=0 && i<limit && j>=0 && j<limit && limit>1){
             Collections.swap(selectedItems, i, j);
-            //System.out.println("Hand > Order Changed");
             return true;
         }
         GameManager.sendReply(player.getController(),ServerMessage.Sort_Index_NO.value());

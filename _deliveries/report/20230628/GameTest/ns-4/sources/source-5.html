@@ -1,0 +1,239 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > LivingRoomMenuInterface</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client.view.GUI.Interface</a>
+</div>
+
+<h1>Coverage Summary for Class: LivingRoomMenuInterface (org.am21.client.view.GUI.Interface)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LivingRoomMenuInterface</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/65)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client.view.GUI.Interface;
+&nbsp;
+&nbsp;import org.am21.client.view.GUI.Gui;
+&nbsp;import org.am21.client.view.GUI.component.ButtonColorUI;
+&nbsp;import org.am21.client.view.GUI.utils.FontUtil;
+&nbsp;import org.am21.client.view.GUI.utils.ImageUtil;
+&nbsp;import org.am21.client.view.GUI.utils.PixelUtil;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import javax.swing.border.MatteBorder;
+&nbsp;import java.awt.*;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;
+&nbsp;
+&nbsp;public class LivingRoomMenuInterface extends JFrame {
+&nbsp;
+&nbsp;    public JLayeredPane menuLRPane;
+&nbsp;    public JLabel menuLRBack;
+&nbsp;    public JButton backGame;
+&nbsp;    public JButton leaveMatch;
+&nbsp;    public JButton quitGame;
+&nbsp;
+<b class="nc">&nbsp;    public LivingRoomMenuInterface(Gui gui) {</b>
+&nbsp;
+<b class="nc">&nbsp;        setLivingRoomMenuInterfacePane();</b>
+&nbsp;
+<b class="nc">&nbsp;        setBackGameButton();</b>
+&nbsp;
+<b class="nc">&nbsp;        setLeaveButton(gui);</b>
+&nbsp;
+<b class="nc">&nbsp;        setQuitButton(gui);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * base set
+&nbsp;     */
+&nbsp;    public void setLivingRoomMenuInterfacePane() {
+<b class="nc">&nbsp;        int menuLRX = (PixelUtil.pcWidth - PixelUtil.menuLRW) / 2;</b>
+<b class="nc">&nbsp;        int menuLRY = (PixelUtil.pcHeight - PixelUtil.menuLRH) / 2;</b>
+<b class="nc">&nbsp;        setBounds(menuLRX, menuLRY, PixelUtil.menuLRW, PixelUtil.menuLRH);</b>
+<b class="nc">&nbsp;        setUndecorated(true);</b>
+<b class="nc">&nbsp;        setResizable(false);</b>
+<b class="nc">&nbsp;        setTitle(&quot;Menu&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        menuLRPane = new JLayeredPane();</b>
+<b class="nc">&nbsp;        menuLRPane.setBounds(0, 0, PixelUtil.menuLRW, PixelUtil.menuLRH);</b>
+<b class="nc">&nbsp;        menuLRPane.setLayout(null);</b>
+<b class="nc">&nbsp;        menuLRPane.setOpaque(false);</b>
+<b class="nc">&nbsp;        add(menuLRPane);</b>
+&nbsp;
+<b class="nc">&nbsp;        menuLRBack = new JLabel();</b>
+<b class="nc">&nbsp;        menuLRBack.setBounds(0, 0, PixelUtil.menuLRW, PixelUtil.menuLRH);</b>
+<b class="nc">&nbsp;        menuLRBack.setIcon(ImageUtil.getBoardImage(&quot;menuLRBack&quot;));</b>
+<b class="nc">&nbsp;        menuLRPane.add(menuLRBack, JLayeredPane.DEFAULT_LAYER);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * set back game button
+&nbsp;     */
+&nbsp;    public void setBackGameButton() {
+&nbsp;
+<b class="nc">&nbsp;        backGame = new JButton(&quot;BACK TO PLAY&quot;);</b>
+<b class="nc">&nbsp;        backGame.setFont(FontUtil.getFontByName(&quot;HongLeiXingShuJianTi-2&quot;)</b>
+<b class="nc">&nbsp;                .deriveFont(Font.PLAIN, ImageUtil.resizeY(24)));</b>
+<b class="nc">&nbsp;        backGame.setBounds(PixelUtil.buttonLRX, PixelUtil.buttonBackLRY, PixelUtil.buttonLRW, PixelUtil.buttonLRH);</b>
+<b class="nc">&nbsp;        backGame.setBorder(new MatteBorder(ImageUtil.resizeY(2), ImageUtil.resizeX(2), ImageUtil.resizeY(2),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(2), new Color(4, 134, 10, 230)));</b>
+<b class="nc">&nbsp;        backGame.setUI(new ButtonColorUI(new Color(136, 218, 123, 139)));</b>
+<b class="nc">&nbsp;        backGame.setBackground(Color.WHITE);</b>
+<b class="nc">&nbsp;        backGame.setForeground(new Color(4, 134, 10, 230));</b>
+<b class="nc">&nbsp;        backGame.addActionListener(e -&gt; {</b>
+<b class="nc">&nbsp;            this.setVisible(false);</b>
+<b class="nc">&nbsp;            this.dispose();</b>
+&nbsp;        });
+<b class="nc">&nbsp;        menuLRPane.add(backGame, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * set leave button
+&nbsp;     *
+&nbsp;     * @param gui GUI
+&nbsp;     */
+&nbsp;    public void setLeaveButton(Gui gui) {
+&nbsp;
+<b class="nc">&nbsp;        leaveMatch = new JButton(&quot;LEAVE MATCH&quot;);</b>
+<b class="nc">&nbsp;        leaveMatch.setFont(FontUtil.getFontByName(&quot;HongLeiXingShuJianTi-2&quot;)</b>
+<b class="nc">&nbsp;                .deriveFont(Font.PLAIN, ImageUtil.resizeY(24)));</b>
+<b class="nc">&nbsp;        leaveMatch.setBounds(PixelUtil.buttonLRX, PixelUtil.buttonWaitLRY, PixelUtil.buttonLRW, PixelUtil.buttonLRH);</b>
+<b class="nc">&nbsp;        leaveMatch.setBorder(new MatteBorder(ImageUtil.resizeY(2), ImageUtil.resizeX(2), ImageUtil.resizeY(2),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(2), new Color(203, 63, 4, 230)));</b>
+<b class="nc">&nbsp;        leaveMatch.setUI(new ButtonColorUI(new Color(231, 163, 135, 230)));</b>
+<b class="nc">&nbsp;        leaveMatch.setBackground(Color.WHITE);</b>
+<b class="nc">&nbsp;        leaveMatch.setForeground(new Color(203, 63, 4, 230));</b>
+<b class="nc">&nbsp;        leaveMatch.addActionListener(e -&gt; {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                if (gui.askLeaveMatch()) {</b>
+<b class="nc">&nbsp;                    gui.setNeedNewFrame(true);</b>
+<b class="nc">&nbsp;                    dispose();</b>
+&nbsp;                }
+<b class="nc">&nbsp;            } catch (RemoteException ex) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(ex);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+&nbsp;        });
+<b class="nc">&nbsp;        menuLRPane.add(leaveMatch, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * set exit button
+&nbsp;     *
+&nbsp;     * @param gui GUI
+&nbsp;     */
+&nbsp;    public void setQuitButton(Gui gui) {
+&nbsp;
+<b class="nc">&nbsp;        quitGame = new JButton(&quot;EXIT GAME&quot;);</b>
+<b class="nc">&nbsp;        quitGame.setFont(FontUtil.getFontByName(&quot;HongLeiXingShuJianTi-2&quot;)</b>
+<b class="nc">&nbsp;                .deriveFont(Font.PLAIN, ImageUtil.resizeY(24)));</b>
+<b class="nc">&nbsp;        quitGame.setBounds(PixelUtil.buttonLRX, PixelUtil.buttonLeaveLRY, PixelUtil.buttonLRW, PixelUtil.buttonLRH);</b>
+<b class="nc">&nbsp;        quitGame.setBorder(new MatteBorder(ImageUtil.resizeY(2), ImageUtil.resizeX(2), ImageUtil.resizeY(2),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(2), new Color(172, 19, 5, 230)));</b>
+<b class="nc">&nbsp;        quitGame.setBackground(Color.WHITE);</b>
+<b class="nc">&nbsp;        quitGame.setUI(new ButtonColorUI(new Color(255, 181, 172, 139)));</b>
+<b class="nc">&nbsp;        quitGame.setForeground(new Color(172, 19, 5, 230));</b>
+<b class="nc">&nbsp;        quitGame.addActionListener(e -&gt; {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                gui.askExitGame();</b>
+<b class="nc">&nbsp;            } catch (RemoteException ex) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(ex);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+&nbsp;        });
+<b class="nc">&nbsp;        menuLRPane.add(quitGame, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-28 22:41</div>
+</div>
+</body>
+</html>

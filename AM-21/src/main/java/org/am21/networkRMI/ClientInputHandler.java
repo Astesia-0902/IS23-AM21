@@ -140,13 +140,18 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     /**
      * Player can leave the match when Match is WaitingPlayers or is GameGoing
      *
-     * @return
+     * @return true if the method is successful, otherwise false
      */
     @Override
     public boolean leaveMatch() throws RemoteException {
         return GameController.leaveMatch(playerController);
     }
 
+    /**
+     * THis method allows the player to exit from the game
+     * @return true if the method is successful, otherwise false
+     * @throws RemoteException when remote is not connected
+     */
     @Override
     public boolean exitGame() throws RemoteException {
         return GameController.exitGame(playerController);
@@ -156,7 +161,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      * Use this method to get the virtual view of the match
      *
      * @return JSON string of the virtual view
-     * @throws RemoteException
+     * @throws RemoteException when remote is not connected
      */
     @Override
     public String getVirtualView() throws RemoteException {
@@ -168,7 +173,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      * It allows the server to register Client's CallBack Interface
      *
      * @param path the path to find client callback
-     * @throws RemoteException
+     * @throws RemoteException when Remote is not connected
      */
     @Override
     public void registerCallBack(String path) throws RemoteException {
@@ -189,12 +194,6 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         return GameController.changeMatchSeats(newMaxSeats, playerController);
     }
 
-
-    //TODO: to be deleted when the game is complete, this method is useful to accelerate testing
-    @Override
-    public boolean changeInsertLimit(int newLimit) throws RemoteException {
-        return GameController.changeInsertLimit(newLimit, playerController);
-    }
 
     /**
      * This method allows the Client to send a Message in the Match's Chat

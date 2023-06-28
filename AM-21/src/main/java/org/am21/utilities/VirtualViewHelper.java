@@ -24,7 +24,6 @@ public class VirtualViewHelper {
      * @param match the match
      */
     public static void buildVirtualView(Match match) {
-        //match.virtualView = new VirtualView();
         virtualizeMatchID(match);
         virtualizeBoard(match);
         virtualizePlayersData(match);

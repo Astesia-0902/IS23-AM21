@@ -1,0 +1,180 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > MatchListInterface</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client.view.GUI.Interface</a>
+</div>
+
+<h1>Coverage Summary for Class: MatchListInterface (org.am21.client.view.GUI.Interface)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MatchListInterface</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/39)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client.view.GUI.Interface;
+&nbsp;
+&nbsp;import org.am21.client.view.GUI.component.ScrollBarUI;
+&nbsp;import org.am21.client.view.GUI.utils.FontUtil;
+&nbsp;import org.am21.client.view.GUI.utils.IconUtil;
+&nbsp;import org.am21.client.view.GUI.utils.ImageUtil;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import javax.swing.border.CompoundBorder;
+&nbsp;import javax.swing.border.EmptyBorder;
+&nbsp;import javax.swing.border.MatteBorder;
+&nbsp;import java.awt.*;
+&nbsp;
+&nbsp;public class MatchListInterface extends JDialog {
+&nbsp;    public final ImageIcon closeIcon;
+&nbsp;    public final ImageIcon closeIconSelect;
+&nbsp;    public final JLabel closeLabel;
+&nbsp;    public JList&lt;String&gt; matchList;
+&nbsp;    public JPanel topPanel;
+&nbsp;    public JScrollPane scrollPane;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     *
+&nbsp;     * @param frame
+&nbsp;     * @param matchModel
+&nbsp;     */
+&nbsp;    public MatchListInterface(JFrame frame, DefaultListModel&lt;String&gt; matchModel) {
+<b class="nc">&nbsp;        super(frame);</b>
+<b class="nc">&nbsp;        setSize(ImageUtil.resizeX(300), ImageUtil.resizeY(400));</b>
+<b class="nc">&nbsp;        matchList = new JList&lt;&gt;(matchModel);</b>
+<b class="nc">&nbsp;        matchList.setForeground(new Color(106, 2, 1, 255));</b>
+<b class="nc">&nbsp;        matchList.setFont(new Font(&quot;Serif&quot;, Font.BOLD, ImageUtil.resizeY(15)));</b>
+&nbsp;
+<b class="nc">&nbsp;        scrollPane = new JScrollPane(matchList);</b>
+<b class="nc">&nbsp;        scrollPane.setBorder(new CompoundBorder(new MatteBorder(0, ImageUtil.resizeY(5), ImageUtil.resizeX(5), ImageUtil.resizeY(5),</b>
+<b class="nc">&nbsp;                new Color(85, 35, 222, 230)), new EmptyBorder(ImageUtil.resizeX(5),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeY(5), ImageUtil.resizeX(5), ImageUtil.resizeY(5))));</b>
+<b class="nc">&nbsp;        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);</b>
+<b class="nc">&nbsp;        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);</b>
+<b class="nc">&nbsp;        scrollPane.getVerticalScrollBar().setUI(new ScrollBarUI());</b>
+&nbsp;
+<b class="nc">&nbsp;        closeIcon = IconUtil.getIcon(&quot;close_Purple&quot;);</b>
+<b class="nc">&nbsp;        closeIconSelect = IconUtil.getIcon(&quot;close_Fuchsia&quot;);</b>
+<b class="nc">&nbsp;        closeLabel = new JLabel(closeIcon);</b>
+<b class="nc">&nbsp;        closeLabel.setBounds(ImageUtil.resizeX(320), ImageUtil.resizeY(6), ImageUtil.resizeX(25), ImageUtil.resizeY(25));</b>
+&nbsp;
+<b class="nc">&nbsp;        JLabel match_list = new JLabel(&quot;Match List&quot;);</b>
+<b class="nc">&nbsp;        match_list.setBorder(null);</b>
+<b class="nc">&nbsp;        match_list.setBounds(ImageUtil.resizeX(181), ImageUtil.resizeY(195),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(356), ImageUtil.resizeY(108));</b>
+<b class="nc">&nbsp;        match_list.setForeground(new Color(245, 238, 252));</b>
+<b class="nc">&nbsp;        match_list.setFont(FontUtil.getFontByName(&quot;Twenty-Regular-2&quot;).deriveFont(Font.PLAIN,</b>
+<b class="nc">&nbsp;                ImageUtil.resizeY(16)));</b>
+<b class="nc">&nbsp;        match_list.setOpaque(false);</b>
+&nbsp;
+<b class="nc">&nbsp;        topPanel = new JPanel();</b>
+<b class="nc">&nbsp;        topPanel.setLayout(new BorderLayout());</b>
+<b class="nc">&nbsp;        topPanel.setBackground(new Color(126, 89, 203, 230));</b>
+<b class="nc">&nbsp;        topPanel.setBorder(new MatteBorder(ImageUtil.resizeX(5),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeY(5), ImageUtil.resizeX(5), ImageUtil.resizeY(5),</b>
+&nbsp;                new Color(85, 35, 222, 230)));
+<b class="nc">&nbsp;        topPanel.add(closeLabel, BorderLayout.EAST);</b>
+<b class="nc">&nbsp;        topPanel.add(match_list, BorderLayout.CENTER);</b>
+&nbsp;
+<b class="nc">&nbsp;        add(topPanel, BorderLayout.NORTH);</b>
+<b class="nc">&nbsp;        add(scrollPane, BorderLayout.CENTER);</b>
+&nbsp;
+<b class="nc">&nbsp;        setLocationRelativeTo(null);</b>
+<b class="nc">&nbsp;        setResizable(false);</b>
+<b class="nc">&nbsp;        setUndecorated(true);</b>
+<b class="nc">&nbsp;        setVisible(true);</b>
+<b class="nc">&nbsp;        setBackground(new Color(178, 173, 204, 230));</b>
+<b class="nc">&nbsp;        setOpacity(0.9f);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-28 22:41</div>
+</div>
+</body>
+</html>

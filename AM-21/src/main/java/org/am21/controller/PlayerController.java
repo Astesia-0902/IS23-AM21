@@ -30,8 +30,7 @@ public class PlayerController {
     public ConnectionType connectionType;
 
     /**
-     * PlayerController constructor is initialized by ClientGameController, when ClientInputHandler login.
-     * It will create the player and add his reference
+     * PlayerController constructor
      */
     public PlayerController(String nickname) {
         this.player = new Player(nickname, this);
@@ -39,6 +38,11 @@ public class PlayerController {
         this.player.setHand(this.hand);
     }
 
+    /**
+     * PlayerController constructor (with clientInputHandler for RMI)
+     * @param nickname player nickname
+     * @param clientInput player rmi remote
+     */
     public PlayerController(String nickname, ClientInputHandler clientInput) {
         this.player = new Player(nickname, this);
         this.hand = new Hand(this.player);
@@ -47,6 +51,11 @@ public class PlayerController {
         this.connectionType = ConnectionType.RMI;
     }
 
+    /**
+     * PlayerController constructor (with clientHandlerSocket for Socket)
+     * @param nickname player nickname
+     * @param clientSocket player socket handler
+     */
     public PlayerController(String nickname, ClientHandlerSocket clientSocket) {
         this.player = new Player(nickname, this);
         this.hand = new Hand(this.player);
@@ -273,7 +282,8 @@ public class PlayerController {
     public boolean changeHandOrder(int i, int j) {
         if (isMyTurn(player) && isGamePhase(GamePhase.Insertion) && hand.changeOrder(i, j)) {
             // Virtual View Update --> Hand
-            player.getMatch().sortUpdate();
+            VirtualViewHelper.virtualizeCurrentPlayerHand(player.getMatch());
+            player.getMatch().updateVirtualHand();
             GameManager.sendReply(this, ServerMessage.Sort_Ok.value());
             return true;
         }

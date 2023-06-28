@@ -39,8 +39,8 @@ public class ClientApp {
 
     }
 
-
-    public static void runCliTest(Cli cli) throws ServerNotActiveException, RemoteException, ExecutionException, MalformedURLException, NotBoundException {
+    //TODO:
+    /*public static void runCliTest(Cli cli) throws ServerNotActiveException, RemoteException, ExecutionException, MalformedURLException, NotBoundException {
         Scanner in = new Scanner(System.in);
         fine:
         {
@@ -83,6 +83,6 @@ public class ClientApp {
             }
 
         }
-    }
+    }*/
 
 }

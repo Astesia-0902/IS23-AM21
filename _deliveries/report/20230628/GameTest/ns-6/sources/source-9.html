@@ -1,0 +1,412 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ServerInfoListener</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client.view.GUI.listener</a>
+</div>
+
+<h1>Coverage Summary for Class: ServerInfoListener (org.am21.client.view.GUI.listener)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ServerInfoListener</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/150)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client.view.GUI.listener;
+&nbsp;
+&nbsp;import org.am21.client.ClientController;
+&nbsp;import org.am21.client.SocketClient;
+&nbsp;import org.am21.client.view.GUI.Gui;
+&nbsp;import org.am21.client.view.GUI.utils.ImageUtil;
+&nbsp;import org.am21.networkRMI.IClientCallBack;
+&nbsp;import org.am21.networkRMI.IClientInput;
+&nbsp;import org.am21.networkRMI.Lobby;
+&nbsp;
+&nbsp;import javax.swing.border.CompoundBorder;
+&nbsp;import javax.swing.border.EmptyBorder;
+&nbsp;import javax.swing.border.MatteBorder;
+&nbsp;import javax.swing.event.DocumentEvent;
+&nbsp;import javax.swing.event.DocumentListener;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.event.*;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.InetAddress;
+&nbsp;import java.net.MalformedURLException;
+&nbsp;import java.net.ServerSocket;
+&nbsp;import java.net.UnknownHostException;
+&nbsp;import java.rmi.AlreadyBoundException;
+&nbsp;import java.rmi.Naming;
+&nbsp;import java.rmi.NotBoundException;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.rmi.registry.LocateRegistry;
+&nbsp;import java.rmi.registry.Registry;
+&nbsp;import java.rmi.server.UnicastRemoteObject;
+&nbsp;import java.util.HashMap;
+&nbsp;
+&nbsp;public class ServerInfoListener implements MouseListener, MouseMotionListener, ActionListener, KeyListener, DocumentListener {
+&nbsp;    Gui gui;
+<b class="nc">&nbsp;    Point p = new Point();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     *
+&nbsp;     * @param gui
+&nbsp;     */
+<b class="nc">&nbsp;    public ServerInfoListener(Gui gui) {</b>
+<b class="nc">&nbsp;        this.gui = gui;</b>
+<b class="nc">&nbsp;        gui.serverInfoInterface.addMouseMotionListener(this);</b>
+<b class="nc">&nbsp;        gui.serverInfoInterface.addMouseListener(this);</b>
+<b class="nc">&nbsp;        gui.serverInfoInterface.closeLabel.addMouseListener(this);</b>
+<b class="nc">&nbsp;        gui.serverInfoInterface.minusLabel.addMouseListener(this);</b>
+<b class="nc">&nbsp;        gui.serverInfoInterface.returnLabel.addMouseListener(this);</b>
+<b class="nc">&nbsp;        gui.serverInfoInterface.portField.addActionListener(this);</b>
+<b class="nc">&nbsp;        gui.serverInfoInterface.portField.addKeyListener(this);</b>
+<b class="nc">&nbsp;        gui.serverInfoInterface.portField.getDocument().addDocumentListener(this);</b>
+<b class="nc">&nbsp;        gui.serverInfoInterface.addressField.addActionListener(this);</b>
+<b class="nc">&nbsp;        gui.serverInfoInterface.addressField.addKeyListener(this);</b>
+<b class="nc">&nbsp;        gui.serverInfoInterface.addressField.getDocument().addDocumentListener(this);</b>
+<b class="nc">&nbsp;        if (ClientController.isRMI) {</b>
+<b class="nc">&nbsp;            gui.serverInfoInterface.ipField.addActionListener(this);</b>
+<b class="nc">&nbsp;            gui.serverInfoInterface.ipField.addKeyListener(this);</b>
+<b class="nc">&nbsp;            gui.serverInfoInterface.ipField.getDocument().addDocumentListener(this);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        gui.serverInfoInterface.confirmButton.addActionListener(this);</b>
+<b class="nc">&nbsp;        gui.serverInfoInterface.confirmButton.addKeyListener(this);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void actionPerformed(ActionEvent e) {
+&nbsp;        // ASK SERVER INFO
+<b class="nc">&nbsp;        if (e.getSource() == gui.serverInfoInterface.confirmButton) {</b>
+<b class="nc">&nbsp;            String address = gui.serverInfoInterface.addressField.getText().trim();</b>
+<b class="nc">&nbsp;            String port = gui.serverInfoInterface.portField.getText().trim();</b>
+&nbsp;            String ip;
+&nbsp;
+<b class="nc">&nbsp;            if (address.isEmpty() || port.isEmpty()) {</b>
+<b class="nc">&nbsp;                gui.serverInfoInterface.addressField.setBorder(new CompoundBorder(new MatteBorder</b>
+<b class="nc">&nbsp;                        (ImageUtil.resizeY(3), ImageUtil.resizeX(3), ImageUtil.resizeY(3),</b>
+<b class="nc">&nbsp;                                ImageUtil.resizeX(3), new Color(178, 34, 34)),</b>
+<b class="nc">&nbsp;                        new EmptyBorder(0, ImageUtil.resizeX(50), 0, 0)));</b>
+<b class="nc">&nbsp;                gui.serverInfoInterface.portField.setBorder(new CompoundBorder(new MatteBorder</b>
+<b class="nc">&nbsp;                        (ImageUtil.resizeY(3), ImageUtil.resizeX(3), ImageUtil.resizeY(3),</b>
+<b class="nc">&nbsp;                                ImageUtil.resizeX(3), new Color(178, 34, 34)),</b>
+<b class="nc">&nbsp;                        new EmptyBorder(0, ImageUtil.resizeX(50), 0, 0)));</b>
+&nbsp;
+<b class="nc">&nbsp;                if (ClientController.isRMI) {</b>
+<b class="nc">&nbsp;                    ip = gui.serverInfoInterface.ipField.getText().trim();</b>
+<b class="nc">&nbsp;                    if (ip.isEmpty()) {</b>
+<b class="nc">&nbsp;                        gui.serverInfoInterface.ipField.setBorder(new CompoundBorder(new MatteBorder</b>
+<b class="nc">&nbsp;                                (ImageUtil.resizeY(3), ImageUtil.resizeX(3), ImageUtil.resizeY(3),</b>
+<b class="nc">&nbsp;                                        ImageUtil.resizeX(3), new Color(178, 34, 34)),</b>
+<b class="nc">&nbsp;                                new EmptyBorder(0, ImageUtil.resizeX(50), 0, 0)));</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            } else {
+<b class="nc">&nbsp;                gui.serverInfoInterface.dispose();</b>
+<b class="nc">&nbsp;                if (ClientController.isRMI) {</b>
+&nbsp;                    // Determine my address
+<b class="nc">&nbsp;                    String clientBind = &quot;&quot;;</b>
+<b class="nc">&nbsp;                    ip = gui.serverInfoInterface.ipField.getText().trim();</b>
+<b class="nc">&nbsp;                    InetAddress localHost = null;</b>
+&nbsp;                    try {
+<b class="nc">&nbsp;                        localHost = InetAddress.getLocalHost();</b>
+<b class="nc">&nbsp;                    } catch (UnknownHostException e2) {</b>
+<b class="nc">&nbsp;                        throw new RuntimeException(e2);</b>
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                    int freePort;
+&nbsp;                    while (true) {
+<b class="nc">&nbsp;                        freePort = findFreePort();</b>
+<b class="nc">&nbsp;                        if (freePort != -1) {</b>
+<b class="nc">&nbsp;                            System.out.println(&quot;Free port found: &quot; + freePort);</b>
+<b class="nc">&nbsp;                            break;</b>
+&nbsp;                        } else {
+<b class="nc">&nbsp;                            System.out.println(&quot;Free port not found&quot;);</b>
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;                    //ip = &quot;192.168.20.23&quot;;
+<b class="nc">&nbsp;                    System.setProperty(&quot;java.rmi.server.hostname&quot;, ip);</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;Your ip address is : &quot; + ip);</b>
+&nbsp;                    try {
+<b class="nc">&nbsp;                        Registry registry = LocateRegistry.createRegistry(freePort);</b>
+<b class="nc">&nbsp;                        UnicastRemoteObject.unexportObject(gui.clientCallBack, true);</b>
+<b class="nc">&nbsp;                        IClientCallBack callbackStub = (IClientCallBack) UnicastRemoteObject.exportObject(gui.clientCallBack, freePort);</b>
+<b class="nc">&nbsp;                        registry.bind(&quot;Callback&quot;, callbackStub);</b>
+<b class="nc">&nbsp;                        clientBind = &quot;rmi://&quot; + ip + &quot;:&quot; + freePort + &quot;/Callback&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;                    } catch (AlreadyBoundException | RemoteException e3) {</b>
+<b class="nc">&nbsp;                        throw new RuntimeException(e3);</b>
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                    try {
+<b class="nc">&nbsp;                        Lobby lobby = (Lobby) Naming.lookup(&quot;rmi://&quot; + address + &quot;:&quot; + port + &quot;/Welcome&quot;);</b>
+&nbsp;                        HashMap&lt;String, String&gt; serverInfo;
+&nbsp;                        try {
+<b class="nc">&nbsp;                            serverInfo = lobby.connect();</b>
+<b class="nc">&nbsp;                            Gui.root = serverInfo.get(&quot;root&quot;);</b>
+<b class="nc">&nbsp;                        } catch (AlreadyBoundException ex) {</b>
+<b class="nc">&nbsp;                            throw new RuntimeException(ex);</b>
+<b class="nc">&nbsp;                        }</b>
+<b class="nc">&nbsp;                        gui.iClientInputHandler = (IClientInput) Naming.lookup(&quot;rmi://&quot; + serverInfo.get(&quot;address&quot;)</b>
+<b class="nc">&nbsp;                                                                               + &quot;:&quot; + serverInfo.get(&quot;port&quot;) + &quot;/&quot;</b>
+&nbsp;                                                                               + Gui.root);
+&nbsp;
+<b class="nc">&nbsp;                        ClientController.iClientInputHandler = gui.iClientInputHandler;</b>
+<b class="nc">&nbsp;                        gui.commCtrl.registerCallBack(clientBind);</b>
+<b class="nc">&nbsp;                        gui.askLogin();</b>
+<b class="nc">&nbsp;                    } catch (NotBoundException | MalformedURLException | RemoteException ex) {</b>
+<b class="nc">&nbsp;                        gui.timeLimitedNotification(&quot;No server found&quot;, 1000);</b>
+<b class="nc">&nbsp;                        gui.askServerInfoRMI();</b>
+<b class="nc">&nbsp;                    }</b>
+<b class="nc">&nbsp;                } else {</b>
+<b class="nc">&nbsp;                    SocketClient socket = new SocketClient();</b>
+<b class="nc">&nbsp;                    SocketClient.serverName = address;</b>
+<b class="nc">&nbsp;                    SocketClient.serverPort = Integer.parseInt(port);</b>
+<b class="nc">&nbsp;                    SocketClient.gui = gui;</b>
+&nbsp;
+<b class="nc">&nbsp;                    if (!SocketClient.connectToServer()) {</b>
+&nbsp;                        //Server not found
+<b class="nc">&nbsp;                        gui.timeLimitedNotification(&quot;No server found&quot;, 1000);</b>
+<b class="nc">&nbsp;                        gui.askServerInfoSocket();</b>
+&nbsp;                    } else {
+<b class="nc">&nbsp;                        socket.start();</b>
+&nbsp;                        try {
+<b class="nc">&nbsp;                            gui.askLogin();</b>
+<b class="nc">&nbsp;                        } catch (RemoteException ex) {</b>
+<b class="nc">&nbsp;                            throw new RuntimeException(ex);</b>
+<b class="nc">&nbsp;                        }</b>
+&nbsp;                    }
+&nbsp;
+&nbsp;                }
+&nbsp;
+&nbsp;            }
+&nbsp;
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseClicked(MouseEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.serverInfoInterface.closeLabel) {</b>
+<b class="nc">&nbsp;            gui.frame.dispose();                         //close window</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.serverInfoInterface.minusLabel) {</b>
+<b class="nc">&nbsp;            gui.frame.setExtendedState(Frame.ICONIFIED); // minimize window</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.serverInfoInterface.returnLabel) {      // return to select communication</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                gui.serverInfoInterface.setVisible(false);</b>
+<b class="nc">&nbsp;                gui.init();</b>
+<b class="nc">&nbsp;            } catch (Exception ex) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(ex);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.serverInfoInterface) {</b>
+<b class="nc">&nbsp;            gui.serverInfoInterface.confirmButton.requestFocus();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mousePressed(MouseEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.serverInfoInterface) {</b>
+<b class="nc">&nbsp;            p.x = e.getX();</b>
+<b class="nc">&nbsp;            p.y = e.getY();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseReleased(MouseEvent e) {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseEntered(MouseEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.serverInfoInterface.closeLabel) {</b>
+<b class="nc">&nbsp;            gui.serverInfoInterface.closeLabel.setBackground(new Color(222, 184, 135));</b>
+<b class="nc">&nbsp;            gui.serverInfoInterface.closeLabel.setOpaque(true);</b>
+&nbsp;
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.serverInfoInterface.minusLabel) {</b>
+<b class="nc">&nbsp;            gui.serverInfoInterface.minusLabel.setBackground(new Color(222, 184, 135));</b>
+<b class="nc">&nbsp;            gui.serverInfoInterface.minusLabel.setOpaque(true);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.serverInfoInterface.returnLabel) {</b>
+<b class="nc">&nbsp;            gui.serverInfoInterface.returnLabel.setIcon(gui.serverInfoInterface.returnIcon);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseExited(MouseEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.serverInfoInterface.closeLabel) {</b>
+<b class="nc">&nbsp;            gui.serverInfoInterface.closeLabel.setBackground(null);</b>
+<b class="nc">&nbsp;            gui.serverInfoInterface.closeLabel.setOpaque(false);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.serverInfoInterface.minusLabel) {</b>
+<b class="nc">&nbsp;            gui.serverInfoInterface.minusLabel.setBackground(null);</b>
+<b class="nc">&nbsp;            gui.serverInfoInterface.minusLabel.setOpaque(false);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.serverInfoInterface.returnLabel) {</b>
+<b class="nc">&nbsp;            gui.serverInfoInterface.returnLabel.setIcon(gui.serverInfoInterface.returnIconColor);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseDragged(MouseEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.serverInfoInterface) {</b>
+<b class="nc">&nbsp;            Point panelPoint = gui.serverInfoInterface.getLocation();</b>
+<b class="nc">&nbsp;            gui.serverInfoInterface.setLocation(panelPoint.x + e.getX() - p.x, panelPoint.y + e.getY() - p.y);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseMoved(MouseEvent e) {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void keyTyped(KeyEvent e) {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void keyPressed(KeyEvent e) {
+<b class="nc">&nbsp;        if (e.getKeyCode() == KeyEvent.VK_ENTER) {</b>
+<b class="nc">&nbsp;            gui.serverInfoInterface.confirmButton.doClick();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void keyReleased(KeyEvent e) {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void insertUpdate(DocumentEvent e) {
+<b class="nc">&nbsp;        updateButtonState();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void removeUpdate(DocumentEvent e) {
+<b class="nc">&nbsp;        updateButtonState();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void changedUpdate(DocumentEvent e) {
+<b class="nc">&nbsp;        updateButtonState();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void updateButtonState() {
+<b class="nc">&nbsp;        gui.serverInfoInterface.confirmButton.setEnabled(</b>
+<b class="nc">&nbsp;                !gui.serverInfoInterface.addressField.getText().trim().isEmpty() &amp;&amp;</b>
+<b class="nc">&nbsp;                !gui.serverInfoInterface.portField.getText().trim().isEmpty());</b>
+<b class="nc">&nbsp;        if (ClientController.isRMI) {</b>
+<b class="nc">&nbsp;            gui.serverInfoInterface.confirmButton.setEnabled(!gui.serverInfoInterface.ipField.getText().trim().isEmpty());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static int findFreePort() {
+<b class="nc">&nbsp;        ServerSocket socket = null;</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            socket = new ServerSocket(0);</b>
+<b class="nc">&nbsp;            return socket.getLocalPort();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            return -1;</b>
+&nbsp;        } finally {
+&nbsp;
+<b class="nc">&nbsp;            if (socket != null) {</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                    socket.close();</b>
+<b class="nc">&nbsp;                } catch (IOException e) {</b>
+<b class="nc">&nbsp;                    System.out.println(org.am21.client.view.TUI.Color.RED + &quot;Socket not closed&quot; + org.am21.client.view.TUI.Color.RESET);</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-28 22:41</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,273 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ClientHandlerSocket</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.networkSocket</a>
+</div>
+
+<h1>Coverage Summary for Class: ClientHandlerSocket (org.am21.networkSocket)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientHandlerSocket</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/77)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.networkSocket;
+&nbsp;
+&nbsp;import org.am21.controller.CommunicationController;
+&nbsp;import org.am21.controller.GameController;
+&nbsp;import org.am21.controller.PlayerController;
+&nbsp;import org.am21.model.enumer.ConnectionType;
+&nbsp;
+&nbsp;import java.io.DataInputStream;
+&nbsp;import java.io.DataOutputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.Socket;
+&nbsp;import java.rmi.server.ServerNotActiveException;
+&nbsp;
+&nbsp;public class ClientHandlerSocket extends Thread {
+&nbsp;    public Socket clientSocket;
+&nbsp;    public PlayerController myPlayer;
+&nbsp;    public DataInputStream in;
+&nbsp;    public DataOutputStream out;
+<b class="nc">&nbsp;    public Integer createMatchRequestCount = 0;</b>
+&nbsp;
+<b class="nc">&nbsp;    public ClientHandlerSocket(Socket clientSocket) {</b>
+<b class="nc">&nbsp;        this.clientSocket = clientSocket;</b>
+<b class="nc">&nbsp;        myPlayer = new PlayerController(&quot;&quot;, this);</b>
+<b class="nc">&nbsp;        myPlayer.connectionType = ConnectionType.SOCKET;</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            in = new DataInputStream(clientSocket.getInputStream());</b>
+<b class="nc">&nbsp;            out = new DataOutputStream(clientSocket.getOutputStream());</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Thread run
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void run() {
+&nbsp;        try {
+&nbsp;            //Receive message from client
+&nbsp;            while (true) {
+<b class="nc">&nbsp;                String req = in.readUTF();</b>
+<b class="nc">&nbsp;                handleClientMessage(req);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        } catch (IOException | ServerNotActiveException e) {</b>
+&nbsp;            //CommunicationController.instance.handlePlayerOffline(myPlayer);
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Check if client is close
+&nbsp;     *
+&nbsp;     * @return true if client is close, else false
+&nbsp;     */
+&nbsp;    public Boolean isServerClose() {
+&nbsp;        try {
+&nbsp;            //send to client, if success, return false, else return true
+<b class="nc">&nbsp;            out.writeUTF(&quot;ping&quot;);</b>
+<b class="nc">&nbsp;            out.flush();</b>
+<b class="nc">&nbsp;            return false;</b>
+<b class="nc">&nbsp;        } catch (Exception se) {</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Send any message/command to client
+&nbsp;     *
+&nbsp;     * @param message message or command
+&nbsp;     */
+&nbsp;    public void callback(String message) {
+&nbsp;        try {
+<b class="nc">&nbsp;            out.writeUTF(message);</b>
+<b class="nc">&nbsp;            out.flush();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Error send message to client&quot;);</b>
+&nbsp;            //CommunicationController.instance.handlePlayerOffline(myPlayer);
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void handleClientMessage(String message) throws ServerNotActiveException {
+<b class="nc">&nbsp;        if (message.equals(&quot;&quot;)) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Empty message from:&quot; + clientSocket.getRemoteSocketAddress());</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="nc">&nbsp;        String[] messageParts = message.split(&quot;\\|&quot;);</b>
+<b class="nc">&nbsp;        switch (messageParts[0]) {</b>
+&nbsp;            case &quot;login&quot;:
+<b class="nc">&nbsp;                String username = messageParts[1];</b>
+<b class="nc">&nbsp;                CommunicationController.instance.returnBool(&quot;login&quot;, GameController.login(username, myPlayer), myPlayer);</b>
+&nbsp;                //System.out.println(&quot;&gt; &quot; + username +&quot; logged in from:&quot; + clientSocket.getRemoteSocketAddress());
+<b class="nc">&nbsp;                break;</b>
+&nbsp;
+&nbsp;            case &quot;join&quot;:
+<b class="nc">&nbsp;                int gameId = Integer.parseInt(messageParts[1]);</b>
+<b class="nc">&nbsp;                CommunicationController.instance.returnBool(&quot;join&quot;, GameController.joinGame(gameId, myPlayer.getPlayer().getNickname(), myPlayer), myPlayer);</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;
+&nbsp;            case &quot;createMatch&quot;:
+<b class="nc">&nbsp;                int playerCount = Integer.parseInt(messageParts[1]);</b>
+<b class="nc">&nbsp;                CommunicationController.instance.returnBool(&quot;createMatch&quot;,</b>
+<b class="nc">&nbsp;                        GameController.createMatch(myPlayer.getPlayer().getNickname(), 0, playerCount, myPlayer), myPlayer);</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;
+&nbsp;            case &quot;selectCell&quot;:
+<b class="nc">&nbsp;                int row = Integer.parseInt(messageParts[1]);</b>
+<b class="nc">&nbsp;                int col = Integer.parseInt(messageParts[2]);</b>
+<b class="nc">&nbsp;                CommunicationController.instance.returnBool(&quot;selectCell&quot;, GameController.selectCell(row, col, myPlayer), myPlayer);</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;
+&nbsp;            case &quot;confirmSelection&quot;:
+<b class="nc">&nbsp;                CommunicationController.instance.returnBool(&quot;confirmSelection&quot;, GameController.confirmSelection(myPlayer), myPlayer);</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;
+&nbsp;            case &quot;deselectCards&quot;:
+<b class="nc">&nbsp;                CommunicationController.instance.returnBool(&quot;deselectCards&quot;, GameController.deselectCards(myPlayer), myPlayer);</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;
+&nbsp;            case &quot;sortHand&quot;:
+<b class="nc">&nbsp;                int pos1 = Integer.parseInt(messageParts[1]);</b>
+<b class="nc">&nbsp;                int pos2 = Integer.parseInt(messageParts[2]);</b>
+<b class="nc">&nbsp;                CommunicationController.instance.returnBool(&quot;sortHand&quot;, GameController.sortHand(pos1, pos2, myPlayer), myPlayer);</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;
+&nbsp;            case &quot;insertInColumn&quot;:
+<b class="nc">&nbsp;                int column = Integer.parseInt(messageParts[1]);</b>
+<b class="nc">&nbsp;                CommunicationController.instance.returnBool(&quot;insertInColumn&quot;, GameController.insertInColumn(column, myPlayer), myPlayer);</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;
+&nbsp;            case &quot;leaveMatch&quot;:
+<b class="nc">&nbsp;                CommunicationController.instance.returnBool(&quot;leaveMatch&quot;, GameController.leaveMatch(myPlayer), myPlayer);</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;
+&nbsp;            case &quot;exitGame&quot;:
+<b class="nc">&nbsp;                CommunicationController.instance.returnBool(&quot;exitGame&quot;, GameController.exitGame(myPlayer), myPlayer);</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;
+&nbsp;            case &quot;endTurn&quot;:
+<b class="nc">&nbsp;                CommunicationController.instance.returnBool(&quot;endTurn&quot;, GameController.endTurn(myPlayer), myPlayer);</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;
+&nbsp;            case &quot;getVirtualView&quot;:
+<b class="nc">&nbsp;                GameController.getVirtualView(myPlayer);</b>
+<b class="nc">&nbsp;                CommunicationController.instance.returnBool(&quot;getVirtualView&quot;, true, myPlayer);</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;
+&nbsp;            case &quot;changeMatchSeats&quot;:
+<b class="nc">&nbsp;                int newMaxSeats = Integer.parseInt(messageParts[1]);</b>
+<b class="nc">&nbsp;                CommunicationController.instance.returnBool(&quot;changeMatchSeats&quot;, GameController.changeMatchSeats(newMaxSeats, myPlayer), myPlayer);</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;
+&nbsp;            case &quot;changeInsertLimit&quot;:
+<b class="nc">&nbsp;                int newInsertLimit = Integer.parseInt(messageParts[1]);</b>
+<b class="nc">&nbsp;                CommunicationController.instance.returnBool(&quot;changeInsertLimit&quot;, GameController.changeInsertLimit(newInsertLimit, myPlayer), myPlayer);</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            case &quot;sendPublicMessage&quot;:
+<b class="nc">&nbsp;                String publicMessage = messageParts[1];</b>
+<b class="nc">&nbsp;                Boolean live_public = Boolean.valueOf(messageParts[2]);</b>
+<b class="nc">&nbsp;                CommunicationController.instance.returnBool(&quot;sendPublicMessage&quot;, GameController.forwardPublicMessage(publicMessage, myPlayer), myPlayer);</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            case &quot;sendPrivateMessage&quot;:
+<b class="nc">&nbsp;                String privateMessage = messageParts[1];</b>
+<b class="nc">&nbsp;                String receiver_private = messageParts[2];</b>
+<b class="nc">&nbsp;                CommunicationController.instance.returnBool(&quot;sendPrivateMessage&quot;, GameController.forwardPrivateMessage(privateMessage, receiver_private, myPlayer), myPlayer);</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            default:
+<b class="nc">&nbsp;                System.out.println(&quot;[&quot; + messageParts[0] + &quot;] Unknown command from&quot; + clientSocket.getRemoteSocketAddress());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-28 22:41</div>
+</div>
+</body>
+</html>

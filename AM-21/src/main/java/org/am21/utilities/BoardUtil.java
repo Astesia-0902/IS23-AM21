@@ -42,7 +42,11 @@ public class BoardUtil {
      */
 
 
-
+    /**
+     * Create a list of playable Boundaries for each row of the board
+     * @param maxSeats number of max players
+     * @return list of boundaries for each row
+     */
     public static List<Coordinates> boardBounder(int maxSeats){
         List<Coordinates> boundaries = new ArrayList<>();
 

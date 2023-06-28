@@ -1,0 +1,546 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GameController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: GameController (org.am21.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    58,3%
+  </span>
+  <span class="absValue">
+    (14/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    34,5%
+  </span>
+  <span class="absValue">
+    (68/197)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.controller;
+&nbsp;
+&nbsp;import org.am21.model.GameManager;
+&nbsp;import org.am21.model.Match;
+&nbsp;import org.am21.model.Player;
+&nbsp;import org.am21.model.chat.ServerChatManager;
+&nbsp;import org.am21.model.enumer.GameState;
+&nbsp;import org.am21.model.enumer.SC;
+&nbsp;import org.am21.model.enumer.ServerMessage;
+&nbsp;import org.am21.model.enumer.UserStatus;
+&nbsp;import org.am21.model.items.Shelf;
+&nbsp;import org.am21.utilities.VirtualViewHelper;
+&nbsp;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.rmi.server.ServerNotActiveException;
+&nbsp;
+&nbsp;public class GameController {
+&nbsp;
+<b class="nc">&nbsp;    public GameController() throws RemoteException {</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static boolean checkPlayerActionPhase(PlayerController playerController) {
+<b class="fc">&nbsp;        String username = playerController.getPlayer().getNickname();</b>
+<b class="fc">&nbsp;        synchronized (GameManager.playerMatchMap) {</b>
+<b class="fc">&nbsp;            synchronized (GameManager.matchMap) {</b>
+<b class="fc">&nbsp;                Match match = GameManager.matchMap.get(GameManager.playerMatchMap.get(username));</b>
+<b class="fc">&nbsp;                if (GameManager.playerMatchMap.containsKey(username) &amp;&amp; (match.gameState.equals(GameState.GameGoing)||match.gameState.equals(GameState.LastRound) )&amp;&amp;</b>
+<b class="fc">&nbsp;                        match.currentPlayer.getNickname().equals(username)) {</b>
+<b class="fc">&nbsp;                    return true;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                GameManager.sendReply(playerController, ServerMessage.NotYourTurn.value());</b>
+<b class="nc">&nbsp;                return false;</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Login to the game.
+&nbsp;     *
+&nbsp;     * @param username username
+&nbsp;     * @return true if login successfully, false if the username already exists.
+&nbsp;     */
+&nbsp;    public static boolean login(String username, PlayerController playerController) {
+&nbsp;        //GameManager.checkUsersConnection();
+&nbsp;        //GameManager.playerCleaner();
+<b class="fc">&nbsp;        if (GameManager.checkNameReconnection(username)) {</b>
+<b class="nc">&nbsp;            Match match = GameManager.matchMap.get(GameManager.playerMatchMap.get(username));</b>
+<b class="nc">&nbsp;            for (Player player : match.playerList) {</b>
+<b class="nc">&nbsp;                if (player.getNickname().equals(username)) {</b>
+<b class="nc">&nbsp;                    player.setController(null);</b>
+<b class="nc">&nbsp;                    playerController.setPlayer(player);</b>
+<b class="nc">&nbsp;                    player.setController(playerController);</b>
+<b class="nc">&nbsp;                    playerController.reconnectPlayer();</b>
+<b class="nc">&nbsp;                    updatePlayersGlobalView();</b>
+<b class="nc">&nbsp;                    CommunicationController.instance.notifyStart(match.matchID, playerController);</b>
+<b class="nc">&nbsp;                    return true;</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (GameManager.checkNameSake(username)) {</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        playerController.getPlayer().setNickname(username);</b>
+&nbsp;
+<b class="fc">&nbsp;        synchronized (GameManager.players) {</b>
+<b class="fc">&nbsp;            if (!GameManager.players.contains(playerController.getPlayer())) {</b>
+<b class="fc">&nbsp;                GameManager.players.add(playerController.getPlayer());</b>
+&nbsp;            }
+<b class="fc">&nbsp;            VirtualViewHelper.virtualizeOnlinePlayers();</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        CommunicationController.instance.sendMessageToClient(ServerMessage.Login_Ok.value(), playerController);</b>
+<b class="fc">&nbsp;        CommunicationController.instance.sendMessageToClient(&quot;Hi &quot;+ username, playerController);</b>
+<b class="fc">&nbsp;        GameManager.serverLog(username + &quot; joined the game&quot;);</b>
+<b class="fc">&nbsp;        updatePlayersGlobalView();</b>
+<b class="fc">&nbsp;        notifyAllPlayers();</b>
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Initialize the game.
+&nbsp;     * Pay attention to the order of the initialization of instances to avoid potential null pointer exception.
+&nbsp;     *
+&nbsp;     * @param matchID
+&nbsp;     * @param userName
+&nbsp;     * @param playerController
+&nbsp;     */
+&nbsp;    public static boolean joinGame(int matchID, String userName, PlayerController playerController) {
+<b class="fc">&nbsp;        if (GameManager.gameCleaner()) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Server cleaned&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        synchronized (GameManager.playerMatchMap) {</b>
+<b class="fc">&nbsp;            synchronized (GameManager.matchMap) {</b>
+<b class="fc">&nbsp;                if (joinGameHelper(matchID, userName, playerController)) {</b>
+<b class="fc">&nbsp;                    return true;</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param matchID
+&nbsp;     * @param userName
+&nbsp;     * @param playerController
+&nbsp;     */
+&nbsp;    private static boolean joinGameHelper(int matchID, String userName, PlayerController playerController) {
+<b class="fc">&nbsp;        if (!GameManager.matchMap.containsKey(matchID)) {</b>
+&nbsp;            //System.out.println(&quot;Server &gt;  The specified match does not exist.&quot;);
+<b class="nc">&nbsp;            GameManager.sendReply(playerController, ServerMessage.FindM_No.value());</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (GameManager.matchMap.get(matchID).gameState == GameState.GameGoing) {</b>
+<b class="nc">&nbsp;            if (!GameManager.playerMatchMap.containsKey(userName)) {</b>
+&nbsp;                //System.out.println(&quot;Message from the server: the player not exists in any match.&quot;);
+<b class="nc">&nbsp;                GameManager.sendReply(playerController, ServerMessage.PExists_No.value());</b>
+<b class="nc">&nbsp;                return false;</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                if (!GameManager.matchMap.get(matchID).addPlayer(playerController.getPlayer())) {</b>
+&nbsp;                    //System.out.println(&quot;Message from the server: the match is full.&quot;);
+<b class="nc">&nbsp;                    GameManager.sendReply(playerController, ServerMessage.FullM.value());</b>
+<b class="nc">&nbsp;                    return false;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;            //if the match is not started, the player join the match
+<b class="fc">&nbsp;        } else if (GameManager.matchMap.get(matchID).gameState == GameState.WaitingPlayers) {</b>
+<b class="fc">&nbsp;            GameManager.sendReply(playerController, ServerMessage.FindM_Ok.value());</b>
+<b class="fc">&nbsp;            if (!GameManager.matchMap.get(matchID).addPlayer(playerController.getPlayer())) {</b>
+&nbsp;                //System.out.println(&quot;Message from the server: the match is full.&quot;);
+<b class="nc">&nbsp;                GameManager.sendReply(playerController, ServerMessage.FullM.value());</b>
+<b class="nc">&nbsp;                return false;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            updatePlayersGlobalView();</b>
+<b class="fc">&nbsp;            notifyAllPlayers();</b>
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param userName
+&nbsp;     * @param createMatchRequestCount
+&nbsp;     * @param playerNum
+&nbsp;     * @param playerController
+&nbsp;     */
+&nbsp;    public static boolean createMatch(String userName, Integer createMatchRequestCount, int playerNum, PlayerController playerController) {
+<b class="fc">&nbsp;        if (GameManager.gameCleaner()) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Server cleaned&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        synchronized (GameManager.playerMatchMap) {</b>
+<b class="fc">&nbsp;            synchronized (GameManager.matchMap) {</b>
+<b class="fc">&nbsp;                if (createMatchHelper(userName, createMatchRequestCount, playerNum, playerController)) {</b>
+&nbsp;                    //System.out.println(&quot;Message from the server: the match is created.&quot;);
+<b class="fc">&nbsp;                    GameManager.sendReply(playerController, ServerMessage.CreateM_Ok.value());</b>
+<b class="fc">&nbsp;                    return true;</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param userName
+&nbsp;     * @param createMatchRequestCount
+&nbsp;     * @param playerNum
+&nbsp;     * @param playerController
+&nbsp;     */
+&nbsp;    private static boolean createMatchHelper(String userName, Integer createMatchRequestCount, int playerNum, PlayerController playerController) {
+<b class="fc">&nbsp;        if (GameManager.playerMatchMap.containsKey(userName) &amp;&amp; createMatchRequestCount == 0) {</b>
+&nbsp;            //TODO: Enter menu when already in match. Not happening anymore with reconnection
+<b class="nc">&nbsp;            createMatchRequestCount = 1;</b>
+<b class="fc">&nbsp;        } else if (GameManager.playerMatchMap.containsKey(userName) &amp;&amp; createMatchRequestCount == 1) {</b>
+<b class="nc">&nbsp;            createMatchRequestCount = 0;</b>
+<b class="nc">&nbsp;            if (GameManager.createMatch(playerNum, playerController)) {</b>
+<b class="nc">&nbsp;                VirtualViewHelper.virtualizeMatchMap();</b>
+<b class="nc">&nbsp;                updatePlayersGlobalView();</b>
+<b class="nc">&nbsp;                notifyAllPlayers();</b>
+<b class="nc">&nbsp;                return true;</b>
+&nbsp;            } else {
+&nbsp;                //System.out.println(&quot;Exceeded players number limit. Try again.&quot;);
+<b class="nc">&nbsp;                GameManager.sendReply(playerController, ServerMessage.PExceed.value());</b>
+&nbsp;
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;        } else if (!GameManager.playerMatchMap.containsKey(userName)) {</b>
+<b class="fc">&nbsp;            if (GameManager.createMatch(playerNum, playerController)) {</b>
+<b class="fc">&nbsp;                VirtualViewHelper.virtualizeMatchMap();</b>
+<b class="fc">&nbsp;                updatePlayersGlobalView();</b>
+<b class="fc">&nbsp;                notifyAllPlayers();</b>
+<b class="fc">&nbsp;                return true;</b>
+&nbsp;            } else {
+&nbsp;                //System.out.println(&quot;Exceeded players number limit. Try again.&quot;);
+<b class="nc">&nbsp;                GameManager.sendReply(playerController, ServerMessage.PExceed.value());</b>
+&nbsp;            }
+&nbsp;
+&nbsp;
+&nbsp;        }
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static boolean removePlayerFromMatch(PlayerController ctrl, int matchID) {
+<b class="nc">&nbsp;        if (GameManager.playerMatchMap.containsKey(ctrl.getPlayer().getNickname())) {</b>
+<b class="nc">&nbsp;            synchronized (GameManager.matchMap) {</b>
+<b class="nc">&nbsp;                GameManager.matchMap.get(matchID).removePlayer(ctrl.getPlayer());</b>
+<b class="nc">&nbsp;                if (GameManager.matchMap.get(matchID).gameState.equals(GameState.Closed)) {</b>
+<b class="nc">&nbsp;                    GameManager.matchMap.remove(matchID);</b>
+<b class="nc">&nbsp;                    VirtualViewHelper.virtualizeMatchMap();</b>
+&nbsp;                }
+<b class="nc">&nbsp;                updatePlayersGlobalView();</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is called when the CLIENT want to EXIT The GAME.
+&nbsp;     * The existence of the player is cancelled from the GAME.
+&nbsp;     * --Note: Before calling this method, removePlayerFromMatch() was already called.
+&nbsp;     *
+&nbsp;     * @param ctrl playerController
+&nbsp;     * @return true if the operation was successful, otherwise false
+&nbsp;     */
+&nbsp;    public static boolean cancelPlayer(PlayerController ctrl) {
+<b class="nc">&nbsp;        if (GameManager.players.contains(ctrl.getPlayer())) {</b>
+<b class="nc">&nbsp;            GameManager.sendReply(ctrl, SC.WHITE_BB + &quot;\nServer &gt; Game Closed&quot; + SC.RST);</b>
+<b class="nc">&nbsp;            GameManager.players.remove(GameManager.players.indexOf(ctrl.getPlayer()));</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static boolean selectCell(int row, int col, PlayerController playerController) {
+<b class="fc">&nbsp;        return checkPlayerActionPhase(playerController) &amp;&amp; playerController.selectCell(row, col);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static boolean confirmSelection(PlayerController playerController) {
+<b class="fc">&nbsp;        return checkPlayerActionPhase(playerController) &amp;&amp; playerController.callEndSelection();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * insert cards in the shelf
+&nbsp;     * @param colNum col number
+&nbsp;     * @param playerController pc instance
+&nbsp;     * @return true if succeed false otherwise
+&nbsp;     * @throws ServerNotActiveException if the server is not running
+&nbsp;     */
+&nbsp;    public static boolean insertInColumn(int colNum, PlayerController playerController)  {
+<b class="fc">&nbsp;        return checkPlayerActionPhase(playerController) &amp;&amp; playerController.tryToInsert(colNum);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * deselect card in the player hand
+&nbsp;     * @param playerController pc instance
+&nbsp;     * @return true if succeed false otherwise
+&nbsp;     */
+&nbsp;    public static boolean deselectCards(PlayerController playerController) {
+<b class="fc">&nbsp;        return checkPlayerActionPhase(playerController) &amp;&amp; playerController.clearSelectedCards();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * change the position of cards in player hand
+&nbsp;     * @param pos1 pos1
+&nbsp;     * @param pos2 pos2
+&nbsp;     * @param playerController pc instance
+&nbsp;     * @return true if succeed false otherwise
+&nbsp;     */
+&nbsp;    public static boolean sortHand(int pos1, int pos2, PlayerController playerController) {
+<b class="fc">&nbsp;        return checkPlayerActionPhase(playerController) &amp;&amp; playerController.changeHandOrder(pos1, pos2);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * leave the current match
+&nbsp;     * @param playerController pc instance
+&nbsp;     * @return true if succeed false otherwise
+&nbsp;     */
+&nbsp;    public static boolean leaveMatch(PlayerController playerController) {
+<b class="nc">&nbsp;        if (GameController.removePlayerFromMatch(playerController, playerController.getPlayer().getMatch().matchID)) {</b>
+<b class="nc">&nbsp;            CommunicationController.instance.sendMessageToClient(&quot;Server &gt; Leaving Room...&quot;, playerController);</b>
+<b class="nc">&nbsp;            CommunicationController.instance.notifyGoToMenu(playerController);</b>
+<b class="nc">&nbsp;            updatePlayersGlobalView();</b>
+<b class="nc">&nbsp;            notifyAllPlayers();</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Exit game
+&nbsp;     * @param playerController pc instance
+&nbsp;     * @return true if succeed false otherwise
+&nbsp;     */
+&nbsp;    public static boolean exitGame(PlayerController playerController) {
+<b class="nc">&nbsp;        if (playerController.getPlayer().getMatch() != null) {</b>
+&nbsp;
+<b class="nc">&nbsp;            GameController.removePlayerFromMatch(playerController, playerController.getPlayer().getMatch().matchID);</b>
+&nbsp;        }
+&nbsp;        //When Player Exit The Game, every info abound the Player is cancelled
+<b class="nc">&nbsp;        if (GameController.cancelPlayer(playerController)) {</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Get virtual view from the server
+&nbsp;     * @param playerController pc instance
+&nbsp;     * @return virtual view json
+&nbsp;     */
+&nbsp;    public static String getVirtualView(PlayerController playerController) {
+<b class="nc">&nbsp;        return playerController.getPlayer().getMatch().getJSONVirtualView();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * End player&#39;s turn
+&nbsp;     * @param playerController player controller instance
+&nbsp;     * @return true if succeed false otherwise
+&nbsp;     */
+&nbsp;    public static boolean endTurn(PlayerController playerController) {
+<b class="fc">&nbsp;        if (checkPlayerActionPhase(playerController)) {</b>
+<b class="fc">&nbsp;            playerController.callEndInsertion();</b>
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static boolean changeMatchSeats(int newMaxSeats, PlayerController playerController) {
+<b class="nc">&nbsp;        Player p = playerController.getPlayer();</b>
+<b class="nc">&nbsp;        synchronized (GameManager.playerMatchMap) {</b>
+<b class="nc">&nbsp;            if (GameManager.playerMatchMap.containsKey(p.getNickname())</b>
+<b class="nc">&nbsp;                    &amp;&amp; p.getMatch().matchID == (GameManager.playerMatchMap.get(p.getNickname()))</b>
+<b class="nc">&nbsp;                    &amp;&amp; p.getMatch().changeSeats(p, newMaxSeats)) {</b>
+<b class="nc">&nbsp;                VirtualViewHelper.virtualizeMatchMap();</b>
+<b class="nc">&nbsp;                updatePlayersGlobalView();</b>
+<b class="nc">&nbsp;                notifyAllPlayers();</b>
+<b class="nc">&nbsp;                return true;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    public static boolean changeInsertLimit(int newLimit, PlayerController playerController) {
+<b class="nc">&nbsp;        Player p = playerController.getPlayer();</b>
+<b class="nc">&nbsp;        synchronized (GameManager.playerMatchMap) {</b>
+<b class="nc">&nbsp;            if (GameManager.playerMatchMap.containsKey(p.getNickname())</b>
+<b class="nc">&nbsp;                    &amp;&amp; p.getMatch().matchID == (GameManager.playerMatchMap.get(p.getNickname()))) {</b>
+<b class="nc">&nbsp;                if (p.getMatch().admin.equals(p)) {</b>
+&nbsp;                    //Limit changed for the whole server
+<b class="nc">&nbsp;                    Shelf.STD_LIMIT = newLimit;</b>
+<b class="nc">&nbsp;                    synchronized (GameManager.players) {</b>
+<b class="nc">&nbsp;                        for (Player player : GameManager.players) {</b>
+<b class="nc">&nbsp;                            if (player.getController() != null &amp;&amp; !player.getStatus().equals(UserStatus.Offline)) {</b>
+<b class="nc">&nbsp;                                CommunicationController.instance.sendMessageToClient(SC.YELLOW + &quot;\nServer &gt; Insertion Limit changed to: &quot; + newLimit + SC.RST, player.getController());</b>
+<b class="nc">&nbsp;                                CommunicationController.instance.notifyUpdate(player.getController(), 1000);</b>
+&nbsp;                            }
+<b class="nc">&nbsp;                        }</b>
+<b class="nc">&nbsp;                    }</b>
+<b class="nc">&nbsp;                    return true;</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method forward the group chat message to match chat manager
+&nbsp;     * @param message message
+&nbsp;     * @param ctrl player controller of the sender
+&nbsp;     * @return true if the message is sent, false if the player is not in the match
+&nbsp;     */
+&nbsp;    public static boolean forwardPublicMessage(String message, PlayerController ctrl) {
+<b class="nc">&nbsp;        synchronized (GameManager.playerMatchMap) {</b>
+<b class="nc">&nbsp;            if (ctrl.getPlayer().getMatch() == null || !GameManager.playerMatchMap.containsKey(ctrl.getPlayer().getNickname())) {</b>
+<b class="nc">&nbsp;                return false;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;        //Ensures that the player is in a match
+<b class="nc">&nbsp;        Player sender = ctrl.getPlayer();</b>
+<b class="nc">&nbsp;        sender.getMatch().chatManager.handlePublicChatMessage(sender, message);</b>
+<b class="nc">&nbsp;        String formalMessage = &quot;\n&quot; + sender.getNickname() + &quot; says &gt; &quot; + message;</b>
+<b class="nc">&nbsp;        VirtualViewHelper.virtualizePublicChat(sender.getMatch(), sender.getMatch().chatManager.publicChatMessages);</b>
+<b class="nc">&nbsp;        sender.getMatch().updatePlayersPublicChats();</b>
+<b class="nc">&nbsp;        sender.getMatch().sendPublicChatNotification(formalMessage, sender.getNickname());</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method forward a private message to a specific online player
+&nbsp;     * @param message message
+&nbsp;     * @param receiver receiver name
+&nbsp;     * @param ctrl player controller of the sender
+&nbsp;     * @return true if the message is sent, false if the receiver is not found or is not valid
+&nbsp;     */
+&nbsp;    public static boolean forwardPrivateMessage(String message, String receiver, PlayerController ctrl) {
+<b class="nc">&nbsp;        synchronized (GameManager.players) {</b>
+<b class="nc">&nbsp;            if (!GameManager.players.contains(ctrl.getPlayer())) {</b>
+<b class="nc">&nbsp;                return false;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        Player p_receiver = ServerChatManager.isOnline(receiver);</b>
+<b class="nc">&nbsp;        Player sender = ctrl.getPlayer();</b>
+<b class="nc">&nbsp;        if (sender.getNickname().equals(receiver) || p_receiver == null) {</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if(!ServerChatManager.handlePrivateChatMessage(ctrl.getPlayer(), receiver, message)){</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String formalMessage = &quot;\n&quot; + sender.getNickname() + &quot; whispers &gt; &quot; + message;</b>
+<b class="nc">&nbsp;        VirtualViewHelper.virtualizePrivateChats(ServerChatManager.getPrivateChats());</b>
+<b class="nc">&nbsp;        VirtualViewHelper.virtualizeChatMap(ServerChatManager.getChatMap());</b>
+<b class="nc">&nbsp;        updatePlayersGlobalView();</b>
+<b class="nc">&nbsp;        GameManager.sendChatNotification(p_receiver.getController(), formalMessage);</b>
+&nbsp;
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void updatePlayersGlobalView() {
+<b class="fc">&nbsp;        synchronized (GameManager.players) {</b>
+<b class="fc">&nbsp;            for (Player p : GameManager.players) {</b>
+<b class="fc">&nbsp;                if (!p.getStatus().equals(UserStatus.Offline))</b>
+<b class="fc">&nbsp;                    CommunicationController.instance.sendServerVirtualView(VirtualViewHelper.convertServerVirtualViewToJSON(), p.getController());</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void notifyAllPlayers() {
+<b class="fc">&nbsp;        synchronized (GameManager.players) {</b>
+<b class="fc">&nbsp;            for (Player p : GameManager.players) {</b>
+<b class="fc">&nbsp;                if (!p.getStatus().equals(UserStatus.Offline))</b>
+<b class="fc">&nbsp;                    CommunicationController.instance.notifyUpdate(p.getController(), 0);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-28 22:48</div>
+</div>
+</body>
+</html>

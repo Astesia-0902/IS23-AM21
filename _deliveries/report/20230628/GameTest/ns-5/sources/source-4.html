@@ -1,0 +1,299 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CommonGoalPanel</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client.view.GUI.component</a>
+</div>
+
+<h1>Coverage Summary for Class: CommonGoalPanel (org.am21.client.view.GUI.component)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CommonGoalPanel</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/45)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">CommonGoalPanel$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/50)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client.view.GUI.component;
+&nbsp;
+&nbsp;import org.am21.client.view.GUI.utils.ImageUtil;
+&nbsp;import org.am21.client.view.GUI.utils.PixelUtil;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.event.MouseAdapter;
+&nbsp;import java.awt.event.MouseEvent;
+&nbsp;
+&nbsp;
+&nbsp;public class CommonGoalPanel extends JPanel {
+&nbsp;    public JLayeredPane commonGoalPane;
+&nbsp;    public JLabel commonGoalTopLabel;
+&nbsp;    public JLabel commonGoalBottomLabel;
+&nbsp;    public ScoringTokenLabel scoreTokenEmpty;
+&nbsp;    public ScoringTokenLabel scoreTokenTop;
+&nbsp;    public ScoringTokenLabel scoreTokenBottom;
+&nbsp;
+<b class="nc">&nbsp;    public CommonGoalPanel(String topCardName, String bottomCardName) {</b>
+&nbsp;
+<b class="nc">&nbsp;        setCommonGoalPane();</b>
+&nbsp;
+<b class="nc">&nbsp;        setTopCard(topCardName);</b>
+<b class="nc">&nbsp;        setBottomCard(bottomCardName);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * base set
+&nbsp;     */
+&nbsp;    public void setCommonGoalPane() {
+<b class="nc">&nbsp;        setBounds(PixelUtil.commonX_5, PixelUtil.commonGoalY_A, PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH + (PixelUtil.commonGoalY_B - PixelUtil.commonGoalY_A));</b>
+<b class="nc">&nbsp;        setLayout(null);</b>
+&nbsp;
+<b class="nc">&nbsp;        commonGoalPane = new JLayeredPane();</b>
+<b class="nc">&nbsp;        commonGoalPane.setBounds(0, 0, PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH + (PixelUtil.commonGoalY_B - PixelUtil.commonGoalY_A));</b>
+<b class="nc">&nbsp;        commonGoalPane.setLayout(null);</b>
+<b class="nc">&nbsp;        add(commonGoalPane);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * label of first common goal
+&nbsp;     *
+&nbsp;     * @param topCardName name of common goal
+&nbsp;     */
+&nbsp;    public void setTopCard(String topCardName) {
+&nbsp;
+<b class="nc">&nbsp;        commonGoalTopLabel = new JLabel();</b>
+<b class="nc">&nbsp;        commonGoalTopLabel.setBounds(0, 0, PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH);</b>
+<b class="nc">&nbsp;        commonGoalTopLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));</b>
+<b class="nc">&nbsp;        commonGoalTopLabel.setIcon(ImageUtil.getCommonGoalCardImage(topCardName));</b>
+<b class="nc">&nbsp;        commonGoalPane.add(commonGoalTopLabel, JLayeredPane.DEFAULT_LAYER);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * label of second common goal
+&nbsp;     *
+&nbsp;     * @param bottomCardName name of common goal
+&nbsp;     */
+&nbsp;    public void setBottomCard(String bottomCardName) {
+&nbsp;
+<b class="nc">&nbsp;        commonGoalBottomLabel = new JLabel();</b>
+<b class="nc">&nbsp;        commonGoalBottomLabel.setBounds(0, PixelUtil.commonGoalY_B - PixelUtil.commonGoalY_A, PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH);</b>
+<b class="nc">&nbsp;        commonGoalBottomLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));</b>
+<b class="nc">&nbsp;        commonGoalBottomLabel.setIcon(ImageUtil.getCommonGoalCardImage(bottomCardName));</b>
+<b class="nc">&nbsp;        commonGoalPane.add(commonGoalBottomLabel, JLayeredPane.DEFAULT_LAYER);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * label of empty score
+&nbsp;     *
+&nbsp;     * @param posX index x of first or second card tokens
+&nbsp;     * @param posY index y of first or second card tokens
+&nbsp;     */
+&nbsp;    public void setScoreTokenEmpty(int posX, int posY) {
+&nbsp;
+<b class="nc">&nbsp;        scoreTokenEmpty = new ScoringTokenLabel(ImageUtil.getBoardImage(&quot;commonGoalTokenEmpty&quot;), PixelUtil.commonGoalTokenW, PixelUtil.commonGoalTokenH, PixelUtil.commonGoalTokenOriented, PixelUtil.commonGoalTokenRotateX, PixelUtil.commonGoalTokenRotateY);</b>
+<b class="nc">&nbsp;        scoreTokenEmpty.setBounds(posX, posY, PixelUtil.commonGoalTokenBoundsW, PixelUtil.commonGoalTokenBoundsH);</b>
+<b class="nc">&nbsp;        scoreTokenEmpty.setOpaque(false);</b>
+<b class="nc">&nbsp;        commonGoalPane.add(scoreTokenEmpty, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * score token of first common goal
+&nbsp;     *
+&nbsp;     * @param value value of token
+&nbsp;     */
+&nbsp;    public void setScoreTokenTop(int value) {
+<b class="nc">&nbsp;        if (value == 0)</b>
+<b class="nc">&nbsp;            setScoreTokenEmpty(PixelUtil.commonGoalTokenX, PixelUtil.commonGoalTopTokenY);</b>
+&nbsp;        else {
+<b class="nc">&nbsp;            scoreTokenTop = new ScoringTokenLabel(ImageUtil.getScoreTokenImage(value), PixelUtil.commonGoalTokenW, PixelUtil.commonGoalTokenH, PixelUtil.commonGoalTokenOriented, PixelUtil.commonGoalTokenRotateX, PixelUtil.commonGoalTokenRotateY);</b>
+<b class="nc">&nbsp;            scoreTokenTop.setBounds(PixelUtil.commonGoalTokenX, PixelUtil.commonGoalTopTokenY, PixelUtil.commonGoalTokenBoundsW, PixelUtil.commonGoalTokenBoundsH);</b>
+<b class="nc">&nbsp;            scoreTokenTop.setOpaque(false);</b>
+<b class="nc">&nbsp;            commonGoalPane.add(scoreTokenTop, JLayeredPane.MODAL_LAYER);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * score token of second common goal
+&nbsp;     *
+&nbsp;     * @param value value of token
+&nbsp;     */
+&nbsp;    public void setScoreTokenBottom(int value) {
+<b class="nc">&nbsp;        if (value == 0)</b>
+<b class="nc">&nbsp;            setScoreTokenEmpty(PixelUtil.commonGoalTokenX, PixelUtil.commonGoalBottomTokenY);</b>
+&nbsp;        else {
+<b class="nc">&nbsp;            scoreTokenBottom = new ScoringTokenLabel(ImageUtil.getScoreTokenImage(value), PixelUtil.commonGoalTokenW, PixelUtil.commonGoalTokenH, PixelUtil.commonGoalTokenOriented, PixelUtil.commonGoalTokenRotateX, PixelUtil.commonGoalTokenRotateY);</b>
+<b class="nc">&nbsp;            scoreTokenBottom.setBounds(PixelUtil.commonGoalTokenX, PixelUtil.commonGoalBottomTokenY, PixelUtil.commonGoalTokenBoundsW, PixelUtil.commonGoalTokenBoundsH);</b>
+<b class="nc">&nbsp;            scoreTokenBottom.setOpaque(false);</b>
+<b class="nc">&nbsp;            commonGoalPane.add(scoreTokenBottom, JLayeredPane.MODAL_LAYER);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * refreshing tokens of both common goal
+&nbsp;     *
+&nbsp;     * @param topValue    first common goal token
+&nbsp;     * @param bottomValue second common goal token
+&nbsp;     */
+&nbsp;    public void refreshScoringTokens(int topValue, int bottomValue) {
+<b class="nc">&nbsp;        commonGoalPane.remove(scoreTokenTop);</b>
+<b class="nc">&nbsp;        commonGoalPane.remove(scoreTokenBottom);</b>
+&nbsp;
+<b class="nc">&nbsp;        setScoreToken(topValue, bottomValue);</b>
+&nbsp;
+<b class="nc">&nbsp;        SwingUtilities.invokeLater(() -&gt; {</b>
+<b class="nc">&nbsp;            revalidate();</b>
+<b class="nc">&nbsp;            repaint();</b>
+&nbsp;        });
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * put a new score token of both common goal
+&nbsp;     *
+&nbsp;     * @param topValue    first common goal token
+&nbsp;     * @param bottomValue second common goal token
+&nbsp;     */
+&nbsp;    public void setScoreToken(int topValue, int bottomValue) {
+<b class="nc">&nbsp;        setScoreTokenTop(topValue);</b>
+<b class="nc">&nbsp;        setScoreTokenBottom(bottomValue);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * description of commonGoal if you put mouse on the label
+&nbsp;     *
+&nbsp;     * @param goalCard    commonGoal card
+&nbsp;     * @param description description of card
+&nbsp;     */
+&nbsp;    public void showDescription(JLabel goalCard, String description) {
+<b class="nc">&nbsp;        goalCard.addMouseListener(new MouseAdapter() {</b>
+&nbsp;            @Override
+&nbsp;            public void mouseEntered(MouseEvent e) {
+<b class="nc">&nbsp;                super.mouseEntered(e);</b>
+<b class="nc">&nbsp;                goalCard.setToolTipText(description);</b>
+&nbsp;            }
+&nbsp;
+&nbsp;            @Override
+&nbsp;            public void mouseExited(MouseEvent e) {
+<b class="nc">&nbsp;                super.mouseExited(e);</b>
+<b class="nc">&nbsp;                goalCard.setToolTipText(null);</b>
+&nbsp;            }
+&nbsp;        });
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-28 22:41</div>
+</div>
+</body>
+</html>

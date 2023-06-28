@@ -1,0 +1,295 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ClientCallBack</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.networkRMI</a>
+</div>
+
+<h1>Coverage Summary for Class: ClientCallBack (org.am21.networkRMI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientCallBack</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/59)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.networkRMI;
+&nbsp;
+&nbsp;import org.am21.client.view.ClientView;
+&nbsp;import org.am21.client.view.GUI.Gui;
+&nbsp;import org.am21.client.view.TUI.Cli;
+&nbsp;import org.am21.model.enumer.SC;
+&nbsp;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.rmi.server.UnicastRemoteObject;
+&nbsp;
+&nbsp;/**
+&nbsp; * To call the method in the client from the server, go to the PlayController.clientInput.callback
+&nbsp; */
+&nbsp;public class ClientCallBack extends UnicastRemoteObject implements IClientCallBack {
+&nbsp;    public Cli cli;
+&nbsp;    public Gui gui;
+&nbsp;
+<b class="nc">&nbsp;    public ClientCallBack() throws RemoteException {</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method send a message to client from server
+&nbsp;     * @param message server message
+&nbsp;     * @throws RemoteException when Remote is not connected
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void sendMessageToClient(String message) throws RemoteException {
+<b class="nc">&nbsp;        if (cli != null) {</b>
+<b class="nc">&nbsp;            String updateMessage = &quot;\nServer &gt; &quot;+ message;</b>
+<b class="nc">&nbsp;            cli.printer(updateMessage);</b>
+<b class="nc">&nbsp;        } else if (gui != null) {</b>
+<b class="nc">&nbsp;            new Thread(()-&gt;{</b>
+<b class="nc">&nbsp;                gui.replyDEBUG(message);</b>
+<b class="nc">&nbsp;                gui.timeLimitedNotification(message,5000);</b>
+<b class="nc">&nbsp;            }).start();</b>
+&nbsp;
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *  This method call client method to send a chat message
+&nbsp;     * @param message chat message
+&nbsp;     * @throws RemoteException when remote not connected
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void sendChatNotification(String message) throws RemoteException {
+<b class="nc">&nbsp;        if (cli != null) {</b>
+<b class="nc">&nbsp;            if (cli.chatMode) {</b>
+<b class="nc">&nbsp;                cli.refreshChat();</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                cli.addMessageInLine(message);</b>
+<b class="nc">&nbsp;                cli.updateCLI(0);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        } else if (gui != null) {</b>
+<b class="nc">&nbsp;            gui.timeLimitedNotification(message.substring(0,message.indexOf(&quot; &quot;)) +&quot; sent you a new message&quot;,1000 );</b>
+<b class="nc">&nbsp;            gui.setAskChat(true);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Update the virtual view
+&nbsp;     * call this method when the game state changes
+&nbsp;     *
+&nbsp;     * @param virtualView JSON file of virtual view
+&nbsp;     * @throws RemoteException when Remote not connected
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void sendVirtualView(String virtualView, int pIndex) throws RemoteException {
+<b class="nc">&nbsp;        ClientView.setFullViewVariables(virtualView, pIndex);</b>
+<b class="nc">&nbsp;        if (cli != null) {</b>
+<b class="nc">&nbsp;            cli.checkTurn();</b>
+<b class="nc">&nbsp;            cli.updateCLI(500);</b>
+<b class="nc">&nbsp;        } else if (gui != null) {</b>
+<b class="nc">&nbsp;            if(ClientView.GAME_ON &amp;&amp; !ClientView.GO_TO_MENU){</b>
+&nbsp;                //Gameplay
+<b class="nc">&nbsp;                gui.setGameBoardRefresh(true);</b>
+&nbsp;
+&nbsp;            }
+&nbsp;
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Each CLI will receive the notification when the match has officially begun
+&nbsp;     *
+&nbsp;     * @throws RemoteException when remote not connected
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void notifyStart(int id) throws RemoteException {
+<b class="nc">&nbsp;        ClientView.setGoToMenu(false);</b>
+<b class="nc">&nbsp;        ClientView.setGameOn(true);</b>
+<b class="nc">&nbsp;        ClientView.setMatchStart(true);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (cli != null) {</b>
+<b class="nc">&nbsp;            cli.checkTurn();</b>
+<b class="nc">&nbsp;            cli.updateCLI(1000);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method change the state in Client to Waiting Room
+&nbsp;     *
+&nbsp;     * @param jsonInfo
+&nbsp;     * @throws RemoteException
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void notifyToWait(String jsonInfo) throws RemoteException {
+<b class="nc">&nbsp;        ClientView.convertBackMatchInfo(jsonInfo);</b>
+<b class="nc">&nbsp;        ClientView.setGameOn(false);</b>
+<b class="nc">&nbsp;        ClientView.setGoToMenu(false);</b>
+<b class="nc">&nbsp;        if (cli != null) {</b>
+&nbsp;
+<b class="nc">&nbsp;        } else if (gui != null) {</b>
+&nbsp;
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method set the state of the Client to Main Menu
+&nbsp;     *
+&nbsp;     * @throws RemoteException
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void notifyGoToMenu() throws RemoteException {
+<b class="nc">&nbsp;        ClientView.setGoToMenu(true);</b>
+<b class="nc">&nbsp;        ClientView.setGameOn(false);</b>
+<b class="nc">&nbsp;        if (cli != null) {</b>
+&nbsp;
+<b class="nc">&nbsp;        } else if (gui != null) {</b>
+&nbsp;
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method set the state of the Client to Endgame Room
+&nbsp;     *
+&nbsp;     * @throws RemoteException
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void notifyEndMatch() throws RemoteException {
+<b class="nc">&nbsp;        ClientView.setMatchEnd(true);</b>
+<b class="nc">&nbsp;        ClientView.setGoToMenu(true);</b>
+<b class="nc">&nbsp;        ClientView.setGameOn(false);</b>
+<b class="nc">&nbsp;        ClientView.setMatchStart(false);</b>
+<b class="nc">&nbsp;        if (cli != null) {</b>
+&nbsp;
+<b class="nc">&nbsp;        } else if (gui != null) {</b>
+<b class="nc">&nbsp;            gui.replyDEBUG(SC.WHITE_BB + &quot;\nServer &gt; The match ended. Good Bye!&quot; + SC.RST);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void sendVirtualHand(String JSONHand) throws RemoteException {
+<b class="nc">&nbsp;        ClientView.convertBackHand(JSONHand);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void sendVirtualPublicChat(String virtualPublicChat) throws RemoteException {
+<b class="nc">&nbsp;        ClientView.convertBackPublicChat(virtualPublicChat);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void sendServerVirtualView(String serverVV) throws RemoteException {
+<b class="nc">&nbsp;        ClientView.updateServerView(serverVV);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void notifyUpdate(int milliseconds) throws RemoteException {
+<b class="nc">&nbsp;        if (cli != null) {</b>
+&nbsp;            //System.out.println(&quot;Update...&quot;);
+<b class="nc">&nbsp;            cli.updateCLI(milliseconds);</b>
+<b class="nc">&nbsp;        } else if (gui != null) {</b>
+<b class="nc">&nbsp;            if(ClientView.GO_TO_MENU){</b>
+&nbsp;                //Menu
+<b class="nc">&nbsp;                gui.setMenuRefresh(true);</b>
+<b class="nc">&nbsp;            }else if(!ClientView.GAME_ON &amp;&amp; !ClientView.GO_TO_MENU){</b>
+&nbsp;                //Waiting room
+<b class="nc">&nbsp;                gui.setWaitRoomRefresh(true);</b>
+<b class="nc">&nbsp;            }else if(ClientView.GAME_ON &amp;&amp; !ClientView.GO_TO_MENU){</b>
+&nbsp;                //Gameplay
+<b class="nc">&nbsp;                gui.setGameBoardRefresh(true);</b>
+&nbsp;
+&nbsp;
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void ping() throws RemoteException{
+&nbsp;        //Nothing to do
+<b class="nc">&nbsp;    }</b>
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-28 22:41</div>
+</div>
+</body>
+</html>

@@ -51,7 +51,6 @@ public class Board extends Grid {
     public boolean firstSetup() {
 
         if (bag.refillBoard()) {
-//            System.out.println("Match > Living Room Successfully filled");
             return true;
         }
         return false;
@@ -59,7 +58,7 @@ public class Board extends Grid {
 
     /**
      * Setting the size of the grid according to the number of player
-     * @return
+     * @return number of cell available to play
      **/
     public int getSize() {
         switch (maxSeats){
@@ -85,9 +84,9 @@ public class Board extends Grid {
      * <p>
      * It is different from isSingle
      *
-     * @param r
-     * @param c
-     * @return
+     * @param r row
+     * @param c column
+     * @return true if the item has free side, otherwise false
      */
     public boolean hasFreeSide(int r, int c) {
 
@@ -121,9 +120,9 @@ public class Board extends Grid {
      * And the new card needs to be adjacent to one of the old cards
      * <p>
      *
-     * @param r
-     * @param c
-     * @param selItems
+     * @param r row
+     * @param c column
+     * @param selItems selected items list
      * @return true if the conditions are respected, otherwise false
      */
     public boolean isOrthogonal(int r, int c, List<CardPointer> selItems) {
@@ -156,9 +155,9 @@ public class Board extends Grid {
     /**
      * Check if the item is isolated in the board
      * It means that there isn't any item adjacent.
-     * @param r
-     * @param c
-     * @return
+     * @param r row
+     * @param c column
+     * @return true if the item is isolated, otherwise false
      */
     public boolean isAlone(int r, int c) {
 
@@ -192,8 +191,8 @@ public class Board extends Grid {
 
     /**
      * This method verifies if the cell is within the boundaries of this match
-     * @param r
-     * @param c
+     * @param r row
+     * @param c column
      * @return true if the cell is playable
      */
     public boolean isPlayable(int r,int c){

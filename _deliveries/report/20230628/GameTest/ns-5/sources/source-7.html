@@ -1,0 +1,439 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > LivingRoomPanel</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client.view.GUI.component</a>
+</div>
+
+<h1>Coverage Summary for Class: LivingRoomPanel (org.am21.client.view.GUI.component)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LivingRoomPanel</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/140)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">LivingRoomPanel$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/146)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client.view.GUI.component;
+&nbsp;
+&nbsp;
+&nbsp;import org.am21.client.view.ClientView;
+&nbsp;import org.am21.client.view.GUI.Gui;
+&nbsp;import org.am21.client.view.GUI.Interface.LivingRoomMenuInterface;
+&nbsp;import org.am21.client.view.GUI.utils.FontUtil;
+&nbsp;import org.am21.client.view.GUI.utils.ImageUtil;
+&nbsp;import org.am21.client.view.GUI.utils.PixelUtil;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import javax.swing.border.Border;
+&nbsp;import javax.swing.border.EmptyBorder;
+&nbsp;import javax.swing.border.LineBorder;
+&nbsp;import javax.swing.border.MatteBorder;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.event.ActionEvent;
+&nbsp;import java.awt.event.ActionListener;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.rmi.server.ServerNotActiveException;
+&nbsp;
+&nbsp;
+&nbsp;public class LivingRoomPanel extends JPanel {
+&nbsp;
+&nbsp;    public JButton livingRoomMenuButton;
+&nbsp;    public JLabel myLabel;
+&nbsp;    public JLabel myShelfBoardLabel;
+&nbsp;    public JButton insertButton;
+&nbsp;    public JButton clearButton;
+&nbsp;    public JLayeredPane panelBoard;
+&nbsp;    public JLabel backGroundLabel;
+&nbsp;    public JLabel gameBoardLabel;
+&nbsp;    public JLabel personalGoalLabel;
+&nbsp;    public JLabel commonGoalALabel;
+&nbsp;    public JLabel commonGoalBLabel;
+&nbsp;    public JLabel bagLabel;
+&nbsp;    public JButton openChat;
+&nbsp;    public JLabel handBoardLabel;
+&nbsp;    public JLabel myScoreBand;
+&nbsp;    public JLabel myScoreDynamic;
+&nbsp;    public Timer flashingTimer;
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;    public LivingRoomPanel(Gui gui) {</b>
+&nbsp;
+<b class="nc">&nbsp;        setLivingRoomPanel();</b>
+&nbsp;//------------------------------------------------------------------ function of game --------------------------------------------------------------------------------------------------------
+<b class="nc">&nbsp;        setMenuButton(gui);</b>
+&nbsp;
+<b class="nc">&nbsp;        setInsertButton(gui);</b>
+&nbsp;
+<b class="nc">&nbsp;        setClearButton(gui);</b>
+&nbsp;
+<b class="nc">&nbsp;        setChatButton(gui);</b>
+&nbsp;
+<b class="nc">&nbsp;        setFlashingTimer();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * base set
+&nbsp;     */
+&nbsp;    public void setLivingRoomPanel() {
+<b class="nc">&nbsp;        setSize(PixelUtil.pcWidth, PixelUtil.pcHeight);</b>
+<b class="nc">&nbsp;        setLayout(null);</b>
+<b class="nc">&nbsp;        setOpaque(false);</b>
+&nbsp;
+<b class="nc">&nbsp;        panelBoard = new JLayeredPane();</b>
+<b class="nc">&nbsp;        panelBoard.setBounds(0, 0, PixelUtil.pcWidth, PixelUtil.pcHeight);</b>
+<b class="nc">&nbsp;        panelBoard.setLayout(null);</b>
+<b class="nc">&nbsp;        panelBoard.setOpaque(false);</b>
+<b class="nc">&nbsp;        add(panelBoard);</b>
+&nbsp;
+&nbsp;        //back board label
+<b class="nc">&nbsp;        backGroundLabel = new JLabel();</b>
+<b class="nc">&nbsp;        backGroundLabel.setBounds(0, 0, PixelUtil.pcWidth, PixelUtil.pcHeight);</b>
+<b class="nc">&nbsp;        backGroundLabel.setIcon(ImageUtil.getBoardImage(&quot;backGround&quot;));</b>
+<b class="nc">&nbsp;        panelBoard.add(backGroundLabel, JLayeredPane.DEFAULT_LAYER);</b>
+&nbsp;
+&nbsp;        //game board label
+<b class="nc">&nbsp;        gameBoardLabel = new JLabel();</b>
+<b class="nc">&nbsp;        gameBoardLabel.setBounds(PixelUtil.commonX_3, PixelUtil.gameBoardY, PixelUtil.gameBoardW, PixelUtil.gameBoardH);</b>
+<b class="nc">&nbsp;        gameBoardLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));</b>
+<b class="nc">&nbsp;        gameBoardLabel.setIcon(ImageUtil.getBoardImage(&quot;gameBoard&quot;));</b>
+<b class="nc">&nbsp;        panelBoard.add(gameBoardLabel, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;
+&nbsp;        //my shelf board label
+<b class="nc">&nbsp;        myShelfBoardLabel = new JLabel();</b>
+<b class="nc">&nbsp;        myShelfBoardLabel.setBounds(PixelUtil.commonX_4, PixelUtil.myShelfBoardY, PixelUtil.myShelfBoardW, PixelUtil.myShelfBoardH);</b>
+<b class="nc">&nbsp;        myShelfBoardLabel.setIcon(ImageUtil.getShelfImage(PixelUtil.myShelfBoardW, PixelUtil.myShelfBoardH));</b>
+<b class="nc">&nbsp;        panelBoard.add(myShelfBoardLabel, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;
+&nbsp;        //personal goal card label
+<b class="nc">&nbsp;        personalGoalLabel = new JLabel();</b>
+<b class="nc">&nbsp;        personalGoalLabel.setBounds(PixelUtil.personalGoalX, PixelUtil.personalGoalY, PixelUtil.personalGoalCardW, PixelUtil.personalGoalCardH);</b>
+<b class="nc">&nbsp;        personalGoalLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));</b>
+<b class="nc">&nbsp;        personalGoalLabel.setIcon(ImageUtil.getBoardImage(&quot;personalGoalEmpty&quot;));</b>
+<b class="nc">&nbsp;        panelBoard.add(personalGoalLabel, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;
+&nbsp;        //common goal A card label
+<b class="nc">&nbsp;        commonGoalALabel = new JLabel();</b>
+<b class="nc">&nbsp;        commonGoalALabel.setBounds(PixelUtil.commonX_5, PixelUtil.commonGoalY_A, PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH);</b>
+<b class="nc">&nbsp;        commonGoalALabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));</b>
+<b class="nc">&nbsp;        commonGoalALabel.setIcon(ImageUtil.getBoardImage(&quot;commonGoalEmpty&quot;));</b>
+<b class="nc">&nbsp;        panelBoard.add(commonGoalALabel, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;
+&nbsp;        //common goal B card label
+<b class="nc">&nbsp;        commonGoalBLabel = new JLabel();</b>
+<b class="nc">&nbsp;        commonGoalBLabel.setBounds(PixelUtil.commonX_5, PixelUtil.commonGoalY_B, PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH);</b>
+<b class="nc">&nbsp;        commonGoalBLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));</b>
+<b class="nc">&nbsp;        commonGoalBLabel.setIcon(ImageUtil.getBoardImage(&quot;commonGoalEmpty&quot;));</b>
+<b class="nc">&nbsp;        panelBoard.add(commonGoalBLabel, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;
+&nbsp;        //Bag
+<b class="nc">&nbsp;        bagLabel = new JLabel();</b>
+<b class="nc">&nbsp;        bagLabel.setBounds(PixelUtil.commonX_3, PixelUtil.bagY, PixelUtil.bagW, PixelUtil.bagH);</b>
+<b class="nc">&nbsp;        bagLabel.setIcon(ImageUtil.getBoardImage(&quot;bagClose&quot;));</b>
+<b class="nc">&nbsp;        panelBoard.add(bagLabel, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;
+&nbsp;        //my hand label
+<b class="nc">&nbsp;        handBoardLabel = new JLabel();</b>
+<b class="nc">&nbsp;        handBoardLabel.setBounds(PixelUtil.commonX_4, PixelUtil.commonY_4, PixelUtil.handBoardW, PixelUtil.handBoardH);</b>
+<b class="nc">&nbsp;        handBoardLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));</b>
+<b class="nc">&nbsp;        handBoardLabel.setIcon(ImageUtil.getBoardImage(&quot;handBoard&quot;));</b>
+<b class="nc">&nbsp;        panelBoard.add(handBoardLabel, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;
+&nbsp;        //user Me
+<b class="nc">&nbsp;        myLabel = new JLabel();</b>
+<b class="nc">&nbsp;        myLabel.setBounds(PixelUtil.userMeX, PixelUtil.commonY_1, PixelUtil.userMeW, PixelUtil.userMeH);</b>
+<b class="nc">&nbsp;        myLabel.setIcon(ImageUtil.getBoardImage(&quot;iconMe&quot;));</b>
+<b class="nc">&nbsp;        panelBoard.add(myLabel, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;
+&nbsp;        //my score
+<b class="nc">&nbsp;        myScoreBand = new JLabel(&quot;Score:&quot;);</b>
+<b class="nc">&nbsp;        myScoreBand.setBounds(PixelUtil.commonX_5, PixelUtil.livingRoomMenuY, PixelUtil.myScoreW, PixelUtil.myScoreH);</b>
+<b class="nc">&nbsp;        myScoreBand.setFont(FontUtil.getFontByName(&quot;HongLeiXingShuJianTi-2&quot;)</b>
+<b class="nc">&nbsp;                .deriveFont(Font.PLAIN, ImageUtil.resizeY(30)));</b>
+<b class="nc">&nbsp;        myScoreBand.setForeground(new Color(85, 35, 222, 230));</b>
+<b class="nc">&nbsp;        panelBoard.add(myScoreBand, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;
+<b class="nc">&nbsp;        myScoreDynamic = new JLabel();</b>
+<b class="nc">&nbsp;        myScoreDynamic.setBounds(PixelUtil.myScoreDynamicX, PixelUtil.commonY_1, PixelUtil.myScoreDynamicW, PixelUtil.myScoreDynamicH);</b>
+<b class="nc">&nbsp;        myScoreDynamic.setFont(FontUtil.getFontByName(&quot;HongLeiXingShuJianTi-2&quot;)</b>
+<b class="nc">&nbsp;                .deriveFont(Font.PLAIN, ImageUtil.resizeY(30)));</b>
+<b class="nc">&nbsp;        myScoreDynamic.setForeground(new Color(0, 0, 0, 255));</b>
+<b class="nc">&nbsp;        panelBoard.add(myScoreDynamic, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * menu button function
+&nbsp;     */
+&nbsp;    public void setMenuButton(Gui gui) {
+&nbsp;
+<b class="nc">&nbsp;        livingRoomMenuButton = new JButton();</b>
+<b class="nc">&nbsp;        livingRoomMenuButton.setBounds(PixelUtil.livingRoomMenuX, PixelUtil.livingRoomMenuY, PixelUtil.livingRoomMenuW, PixelUtil.livingRoomMenuH);</b>
+<b class="nc">&nbsp;        livingRoomMenuButton.setForeground(new Color(164, 91, 9, 255));</b>
+<b class="nc">&nbsp;        livingRoomMenuButton.setOpaque(false);</b>
+<b class="nc">&nbsp;        livingRoomMenuButton.setIcon(ImageUtil.getBoardImage(&quot;iconMenu&quot;));</b>
+&nbsp;
+&nbsp;        // open menu interface
+<b class="nc">&nbsp;        livingRoomMenuButton.addActionListener(e -&gt; {</b>
+<b class="nc">&nbsp;            LivingRoomMenuInterface livingRoomMenuInterface = new LivingRoomMenuInterface(gui);</b>
+<b class="nc">&nbsp;            livingRoomMenuInterface.setVisible(true);</b>
+&nbsp;        });
+&nbsp;
+<b class="nc">&nbsp;        panelBoard.add(livingRoomMenuButton, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * insert action button
+&nbsp;     *
+&nbsp;     * @param gui GUI
+&nbsp;     */
+&nbsp;    public void setInsertButton(Gui gui) {
+&nbsp;
+<b class="nc">&nbsp;        insertButton = new JButton(&quot;INSERT&quot;);</b>
+<b class="nc">&nbsp;        insertButton.setFont(FontUtil.getFontByName(&quot;HongLeiXingShuJianTi-2&quot;)</b>
+<b class="nc">&nbsp;                .deriveFont(Font.PLAIN, ImageUtil.resizeY(16)));</b>
+<b class="nc">&nbsp;        insertButton.setBounds(PixelUtil.insertButtonX, PixelUtil.commonY_4, PixelUtil.insertClearButtonW, PixelUtil.insertClearButtonH);</b>
+<b class="nc">&nbsp;        insertButton.setBorder(new MatteBorder(ImageUtil.resizeY(2), ImageUtil.resizeX(2), ImageUtil.resizeY(2),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(2), new Color(4, 134, 10, 230)));</b>
+<b class="nc">&nbsp;        insertButton.setUI(new ButtonColorUI(new Color(136, 218, 123, 139)));</b>
+<b class="nc">&nbsp;        insertButton.setBackground(Color.WHITE);</b>
+<b class="nc">&nbsp;        insertButton.setForeground(new Color(4, 134, 10, 230));</b>
+&nbsp;
+&nbsp;        //open my hand interface
+<b class="nc">&nbsp;        insertButton.addActionListener(e -&gt; {</b>
+<b class="nc">&nbsp;            if (gui.commCtrl.confirmSelection()) {</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                    gui.askInsertion();</b>
+<b class="nc">&nbsp;                } catch (ServerNotActiveException | RemoteException ex) {</b>
+<b class="nc">&nbsp;                    throw new RuntimeException(ex);</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;            }
+&nbsp;        });
+<b class="nc">&nbsp;        panelBoard.add(insertButton, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * clear action button
+&nbsp;     *
+&nbsp;     * @param gui GUI
+&nbsp;     */
+&nbsp;    public void setClearButton(Gui gui) {
+&nbsp;
+<b class="nc">&nbsp;        clearButton = new JButton(&quot;CLEAR&quot;);</b>
+<b class="nc">&nbsp;        clearButton.setFont(FontUtil.getFontByName(&quot;HongLeiXingShuJianTi-2&quot;)</b>
+<b class="nc">&nbsp;                .deriveFont(Font.PLAIN, ImageUtil.resizeY(16)));</b>
+<b class="nc">&nbsp;        clearButton.setBounds(PixelUtil.clearButtonX, PixelUtil.commonY_4, PixelUtil.insertClearButtonW, PixelUtil.insertClearButtonH);</b>
+<b class="nc">&nbsp;        clearButton.setBorder(new MatteBorder(ImageUtil.resizeY(2), ImageUtil.resizeX(2), ImageUtil.resizeY(2),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(2), new Color(178, 34, 34)));</b>
+<b class="nc">&nbsp;        clearButton.setUI(new ButtonColorUI(new Color(255, 181, 172, 139)));</b>
+<b class="nc">&nbsp;        clearButton.setBackground(Color.WHITE);</b>
+<b class="nc">&nbsp;        clearButton.setForeground(new Color(172, 19, 5, 230));</b>
+<b class="nc">&nbsp;        clearButton.addActionListener(e -&gt;</b>
+&nbsp;        {
+<b class="nc">&nbsp;            if (gui.commCtrl.deselectCards()) {</b>
+<b class="nc">&nbsp;                gui.myHandBoardPanel.refreshItem(ClientView.currentPlayerHand);</b>
+<b class="nc">&nbsp;                gui.gameBoardPanel.clearSelectColor();</b>
+<b class="nc">&nbsp;                JOptionPane.showMessageDialog(null, &quot;clear successful&quot;);</b>
+&nbsp;            }
+&nbsp;        });
+<b class="nc">&nbsp;        panelBoard.add(clearButton, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * chat action button
+&nbsp;     *
+&nbsp;     * @param gui GUI
+&nbsp;     */
+&nbsp;    public void setChatButton(Gui gui) {
+&nbsp;
+<b class="nc">&nbsp;        openChat = new JButton(&quot;CHAT&quot;);</b>
+<b class="nc">&nbsp;        openChat.setBounds(PixelUtil.commonX_1, PixelUtil.cButtonY, PixelUtil.cButtonW, PixelUtil.cButtonH);</b>
+<b class="nc">&nbsp;        openChat.setFont(FontUtil.getFontByName(&quot;HongLeiXingShuJianTi-2&quot;)</b>
+<b class="nc">&nbsp;                .deriveFont(Font.PLAIN, ImageUtil.resizeY(16)));</b>
+<b class="nc">&nbsp;        openChat.setBorder(new MatteBorder(ImageUtil.resizeY(2), ImageUtil.resizeX(2), ImageUtil.resizeY(2),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(2), new Color(85, 35, 222, 230)));</b>
+<b class="nc">&nbsp;        openChat.setUI(new ButtonColorUI(new Color(178, 157, 225, 230)));</b>
+<b class="nc">&nbsp;        openChat.setBackground(Color.WHITE);</b>
+<b class="nc">&nbsp;        openChat.setForeground(new Color(85, 35, 222, 230));</b>
+<b class="nc">&nbsp;        openChat.addActionListener(e -&gt; {</b>
+<b class="nc">&nbsp;            if (!Gui.myChatMap.containsKey(&quot;#All&quot;)) {</b>
+<b class="nc">&nbsp;                Gui.myChatMap.put(&quot;#All&quot;, new JButton(&quot;#All&quot;));</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            Gui.chatReceiver = &quot;#All&quot;;</b>
+<b class="nc">&nbsp;            if (gui.chatDialog != null) {</b>
+<b class="nc">&nbsp;                gui.chatDialog.localChatMap.get(Gui.chatReceiver).setBackground(new Color(83, 46, 91, 230));</b>
+<b class="nc">&nbsp;                FontMetrics fm = gui.chatDialog.chatMessageInput.getFontMetrics(gui.chatDialog.chatMessageInput.getFont());</b>
+<b class="nc">&nbsp;                gui.chatDialog.chatMessageInput.setBorder(new EmptyBorder(0, ImageUtil.resizeX(fm.stringWidth(Gui.chatReceiver) + 30), 0, 0));</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            gui.setNewChatWindow(true);</b>
+<b class="nc">&nbsp;            gui.setAskChat(true);</b>
+&nbsp;
+&nbsp;            try {
+<b class="nc">&nbsp;                if (gui.onlineListDialog != null &amp;&amp; gui.onlineListDialog.isVisible()) {</b>
+<b class="nc">&nbsp;                    gui.onlineListDialog.setVisible(false);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                gui.showOnlinePlayer();</b>
+<b class="nc">&nbsp;            } catch (RemoteException ex) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(ex);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+&nbsp;        });
+<b class="nc">&nbsp;        panelBoard.add(openChat, JLayeredPane.MODAL_LAYER);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * set border flashing
+&nbsp;     */
+&nbsp;    public void setFlashingTimer() {
+<b class="nc">&nbsp;        Border originalBorder = gameBoardLabel.getBorder();</b>
+<b class="nc">&nbsp;        Border flashingBorder = new LineBorder(Color.GREEN);</b>
+&nbsp;
+<b class="nc">&nbsp;        flashingTimer = new Timer(350, new ActionListener() {</b>
+<b class="nc">&nbsp;            private boolean isFlashing = false;</b>
+&nbsp;
+&nbsp;            public void actionPerformed(ActionEvent e) {
+<b class="nc">&nbsp;                if (isFlashing) {</b>
+<b class="nc">&nbsp;                    gameBoardLabel.setBorder(originalBorder);</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                    gameBoardLabel.setBorder(flashingBorder);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                isFlashing = !isFlashing;</b>
+&nbsp;            }
+&nbsp;        });
+<b class="nc">&nbsp;        flashingTimer.setRepeats(true);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * refreshing score on the board
+&nbsp;     *
+&nbsp;     * @param score common goal score
+&nbsp;     */
+&nbsp;    public void refreshMyScore(int score) {
+&nbsp;
+<b class="nc">&nbsp;        myScoreDynamic.setText(String.valueOf(score));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * restore the border color from flashing action
+&nbsp;     */
+&nbsp;    public void setBorderColor() {
+&nbsp;
+<b class="nc">&nbsp;        gameBoardLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-28 22:41</div>
+</div>
+</body>
+</html>

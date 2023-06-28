@@ -1638,7 +1638,7 @@ public class Cli implements View {
                 return defaultValue;
             } else if (type.endsWith("address") && fragments.length == 4) {
                 return value;
-            } else if (type.equals("port") && fragments.length == 0) {
+            } else if (type.equals("port")) {
                 return value;
             } else {
                 System.out.println(Color.RED + "Invalid " + type + "!" + Color.RESET);

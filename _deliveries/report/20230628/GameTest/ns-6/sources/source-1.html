@@ -1,0 +1,264 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ChatListener</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client.view.GUI.listener</a>
+</div>
+
+<h1>Coverage Summary for Class: ChatListener (org.am21.client.view.GUI.listener)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ChatListener</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/66)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client.view.GUI.listener;
+&nbsp;
+&nbsp;import org.am21.client.view.GUI.Gui;
+&nbsp;import org.am21.client.view.GUI.utils.ImageUtil;
+&nbsp;
+&nbsp;import javax.swing.border.EmptyBorder;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.event.*;
+&nbsp;
+&nbsp;
+&nbsp;public class ChatListener implements MouseListener, MouseMotionListener, ActionListener, KeyListener {
+&nbsp;    public Gui gui;
+<b class="nc">&nbsp;    public Point p = new Point();</b>
+&nbsp;    public static ChatListener instance;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     *
+&nbsp;     * @param gui
+&nbsp;     */
+<b class="nc">&nbsp;    public ChatListener(Gui gui) {</b>
+<b class="nc">&nbsp;        instance = this;</b>
+<b class="nc">&nbsp;        this.gui = gui;</b>
+<b class="nc">&nbsp;        gui.chatDialog.sendButton.addMouseListener(this);</b>
+<b class="nc">&nbsp;        gui.chatDialog.sendButton.addMouseMotionListener(this);</b>
+<b class="nc">&nbsp;        gui.chatDialog.sendButton.addActionListener(this);</b>
+<b class="nc">&nbsp;        gui.chatDialog.addMouseListener(this);</b>
+<b class="nc">&nbsp;        gui.chatDialog.addMouseMotionListener(this);</b>
+<b class="nc">&nbsp;        gui.chatDialog.closeLabel.addMouseListener(this);</b>
+<b class="nc">&nbsp;        gui.chatDialog.playerPanel.addMouseListener(this);</b>
+&nbsp;
+<b class="nc">&nbsp;        gui.chatDialog.localChatMap.keySet().forEach(user -&gt; {</b>
+<b class="nc">&nbsp;            gui.chatDialog.localChatMap.get(user).addActionListener(this);</b>
+<b class="nc">&nbsp;            gui.chatDialog.localChatMap.get(user).addMouseListener(this);</b>
+&nbsp;        });
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void actionPerformed(ActionEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.chatDialog.sendButton) {</b>
+<b class="nc">&nbsp;            String message = gui.chatDialog.chatMessageInput.getText();</b>
+&nbsp;
+<b class="nc">&nbsp;            if (Gui.chatReceiver.equals(&quot;#All&quot;) &amp;&amp; gui.commCtrl.sendPublicMessage(message, true)) {</b>
+<b class="nc">&nbsp;                gui.chatDialog.currentChatHistory = Gui.publicChatHistory;</b>
+<b class="nc">&nbsp;                gui.chatDialog.chatMessageInput.setText(&quot;&quot;);     //Clear input box</b>
+<b class="nc">&nbsp;                gui.setAskChat(true);</b>
+<b class="nc">&nbsp;            } else if (gui.commCtrl.sendPrivateMessage(message, Gui.chatReceiver, true)) {</b>
+&nbsp;
+<b class="nc">&nbsp;                gui.chatDialog.currentChatHistory = Gui.privateChatHistoryMap.get(Gui.chatReceiver);</b>
+<b class="nc">&nbsp;                gui.chatDialog.chatMessageInput.setText(&quot;&quot;);     //Clear input box</b>
+&nbsp;
+<b class="nc">&nbsp;                gui.setAskChat(true);</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                gui.timeLimitedNotification(&quot;Message not sent&quot;, 5000);</b>
+<b class="nc">&nbsp;                gui.chatDialog.chatMessageInput.setText(&quot;&quot;);     //Clear input box</b>
+&nbsp;            }
+<b class="nc">&nbsp;            gui.chatDialog.chatMessageInput.setText(&quot;&quot;);     //Clear input box</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        gui.chatDialog.localChatMap.keySet().forEach(user -&gt; {</b>
+<b class="nc">&nbsp;            if (e.getSource() == gui.chatDialog.localChatMap.get(user)) {</b>
+<b class="nc">&nbsp;                gui.setNewChatWindow(true);</b>
+<b class="nc">&nbsp;                Gui.chatReceiver = user;</b>
+<b class="nc">&nbsp;                if (gui.chatDialog != null) {</b>
+<b class="nc">&nbsp;                    FontMetrics fm = gui.chatDialog.chatMessageInput.getFontMetrics(gui.chatDialog.chatMessageInput.getFont());</b>
+<b class="nc">&nbsp;                    gui.chatDialog.chatMessageInput.setBorder(new EmptyBorder(0, ImageUtil.resizeX(fm.stringWidth(Gui.chatReceiver) + 30), 0, 0));</b>
+&nbsp;                }
+<b class="nc">&nbsp;                gui.setAskChat(true);</b>
+<b class="nc">&nbsp;                gui.timeLimitedNotification(&quot;Clicked on &quot; + Gui.chatReceiver, 1000);</b>
+&nbsp;
+&nbsp;            }
+&nbsp;        });
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void keyTyped(KeyEvent e) {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void keyPressed(KeyEvent e) {
+<b class="nc">&nbsp;        if (e.getKeyCode() == KeyEvent.VK_ENTER) {</b>
+<b class="nc">&nbsp;            gui.chatDialog.sendButton.doClick();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void keyReleased(KeyEvent e) {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseClicked(MouseEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.chatDialog.closeLabel) {</b>
+<b class="nc">&nbsp;            gui.chatDialog.setVisible(false);</b>
+&nbsp;        }
+&nbsp;        // when click on gui.chatDialog, sendButton get focus, so you can press &#39;Enter&#39; to send a message
+<b class="nc">&nbsp;        if (e.getSource() == gui.chatDialog) {</b>
+<b class="nc">&nbsp;            gui.chatDialog.sendButton.requestFocus();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        gui.chatDialog.localChatMap.keySet().forEach(user -&gt; {</b>
+<b class="nc">&nbsp;            if (e.getSource() == gui.chatDialog.localChatMap.get(user)) {</b>
+<b class="nc">&nbsp;                gui.chatDialog.localChatMap.get(user).setBackground(new Color(83, 46, 91, 230));</b>
+<b class="nc">&nbsp;                gui.chatDialog.localChatMap.get(user).setForeground(Color.WHITE);</b>
+&nbsp;
+&nbsp;            } else {
+<b class="nc">&nbsp;                gui.chatDialog.localChatMap.get(user).setBackground(new Color(178, 173, 204, 230));</b>
+<b class="nc">&nbsp;                gui.chatDialog.localChatMap.get(user).setForeground(new Color(106, 2, 1));</b>
+&nbsp;
+&nbsp;            }
+&nbsp;        });
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mousePressed(MouseEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.chatDialog) {</b>
+<b class="nc">&nbsp;            p.x = e.getX();</b>
+<b class="nc">&nbsp;            p.y = e.getY();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseReleased(MouseEvent e) {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseEntered(MouseEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.chatDialog.closeLabel) {</b>
+<b class="nc">&nbsp;            gui.chatDialog.closeLabel.setIcon(gui.chatDialog.closeIconSelect);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.chatDialog.sendButton) {</b>
+<b class="nc">&nbsp;            gui.chatDialog.sendButton.setBackground(new Color(243, 214, 253));</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseExited(MouseEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.chatDialog.closeLabel) {</b>
+<b class="nc">&nbsp;            gui.chatDialog.closeLabel.setIcon(gui.chatDialog.closeIcon);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.chatDialog.sendButton) {</b>
+<b class="nc">&nbsp;            gui.chatDialog.sendButton.setBackground(new Color(178, 173, 204, 230));</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseDragged(MouseEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.chatDialog) {</b>
+<b class="nc">&nbsp;            Point panelPoint = gui.chatDialog.getLocation();</b>
+<b class="nc">&nbsp;            gui.chatDialog.setLocation(panelPoint.x + e.getX() - p.x, panelPoint.y + e.getY() - p.y);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseMoved(MouseEvent e) {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-28 22:41</div>
+</div>
+</body>
+</html>
