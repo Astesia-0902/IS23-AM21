@@ -42,10 +42,12 @@ public class PixelUtil {
     public static int gameBoardItemH = ImageUtil.resizeY(73);
     public static int chairW = ImageUtil.resizeX(68);
     public static int chairH = ImageUtil.resizeY(64);
-    public static int myScoreW = ImageUtil.resizeX(162);
-    public static int myScoreH = ImageUtil.resizeY(101);
-    public static int myScoreDynamicW = ImageUtil.resizeX(54);
-    public static int myScoreDynamicH = ImageUtil.resizeY(51);
+    public static int myPublicScoreBandW = ImageUtil.resizeX(162);
+    public static int myPublicScoreBandH = ImageUtil.resizeY(50);
+    public static int myPublicScoreW = ImageUtil.resizeX(54);
+    public static int myPublicScoreH = ImageUtil.resizeY(25);
+    public static int myPublicScoreY = ImageUtil.resizeY(21);
+    public static int myHiddenScoreY = ImageUtil.resizeY(57);
     public static int enemyScoreY = ImageUtil.resizeY(36);
     public static int enemyScoreW = ImageUtil.resizeX(107);
     public static int enemyScoreH = ImageUtil.resizeY(101);
@@ -77,7 +79,7 @@ public class PixelUtil {
     public static int gameBoardGridY = ImageUtil.resizeY(147);
     public static int chairManMeY = ImageUtil.resizeY(11);
     public static int chairManEnemyY = ImageUtil.resizeY(122);
-    public static int myScoreDynamicX = ImageUtil.resizeX(1607);
+    public static int myPublicScoreX = ImageUtil.resizeX(1607);
     public static int myHandPanelY = ImageUtil.resizeY(3);
 
     //chat util
@@ -135,7 +137,7 @@ public class PixelUtil {
     public static int myHandHandW = ImageUtil.resizeX(85);
     public static int myHandHandX = ImageUtil.resizeX(54);
     public static int myHandHandY = ImageUtil.resizeY(51);
-    public static int myHandShelfX = ImageUtil.resizeX(193);
+    public static int myHandShelfX = ImageUtil.resizeX(192);
     public static int myHandSortX = ImageUtil.resizeX(54);
     public static int myHandSortY = ImageUtil.resizeY(568);
     public static int myHandSortW = ImageUtil.resizeX(84);

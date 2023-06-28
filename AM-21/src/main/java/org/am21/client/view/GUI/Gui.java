@@ -489,7 +489,7 @@ public class Gui {
      */
     public void showPlayersStats() {
         //refresh my score
-        livingRoomInterface.livingRoomPanel.refreshMyScore(scores.get(getPlayerIndex(username)));
+        livingRoomInterface.livingRoomPanel.refreshMyScore(scores.get(getPlayerIndex(username)),hiddenPoints.get(getPlayerIndex(username)));
         //refresh enemies score
         livingRoomInterface.refreshEnemiesScores(scores);
 

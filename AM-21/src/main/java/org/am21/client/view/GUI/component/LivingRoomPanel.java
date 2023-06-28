@@ -36,8 +36,10 @@ public class LivingRoomPanel extends JPanel {
     public JLabel bagLabel;
     public JButton openChat;
     public JLabel handBoardLabel;
-    public JLabel myScoreBand;
-    public JLabel myScoreDynamic;
+    public JLabel myPublicScoreBand;
+    public JLabel myHiddenScoreBand;
+    public JLabel myPublicScore;
+    public JLabel myHiddenScore;
     public Timer flashingTimer;
 
 
@@ -126,23 +128,39 @@ public class LivingRoomPanel extends JPanel {
         //user Me
         myLabel = new JLabel();
         myLabel.setBounds(PixelUtil.userMeX, PixelUtil.commonY_1, PixelUtil.userMeW, PixelUtil.userMeH);
+        myLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
         myLabel.setIcon(ImageUtil.getBoardImage("iconMe"));
         panelBoard.add(myLabel, JLayeredPane.PALETTE_LAYER);
 
-        //my score
-        myScoreBand = new JLabel("Score:");
-        myScoreBand.setBounds(PixelUtil.commonX_5, PixelUtil.livingRoomMenuY, PixelUtil.myScoreW, PixelUtil.myScoreH);
-        myScoreBand.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
-                .deriveFont(Font.PLAIN, ImageUtil.resizeY(30)));
-        myScoreBand.setForeground(new Color(85, 35, 222, 230));
-        panelBoard.add(myScoreBand, JLayeredPane.PALETTE_LAYER);
+        //my public score
+        myPublicScoreBand = new JLabel("Public Score:");
+        myPublicScoreBand.setBounds(PixelUtil.commonX_5, PixelUtil.livingRoomMenuY, PixelUtil.myPublicScoreBandW, PixelUtil.myPublicScoreBandH);
+        myPublicScoreBand.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
+                .deriveFont(Font.PLAIN, ImageUtil.resizeY(18)));
+        myPublicScoreBand.setForeground(new Color(20, 79, 34, 230));
+        panelBoard.add(myPublicScoreBand, JLayeredPane.PALETTE_LAYER);
 
-        myScoreDynamic = new JLabel();
-        myScoreDynamic.setBounds(PixelUtil.myScoreDynamicX, PixelUtil.commonY_1, PixelUtil.myScoreDynamicW, PixelUtil.myScoreDynamicH);
-        myScoreDynamic.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
-                .deriveFont(Font.PLAIN, ImageUtil.resizeY(30)));
-        myScoreDynamic.setForeground(new Color(0, 0, 0, 255));
-        panelBoard.add(myScoreDynamic, JLayeredPane.PALETTE_LAYER);
+        myPublicScore = new JLabel();
+        myPublicScore.setBounds(PixelUtil.myPublicScoreX, PixelUtil.myPublicScoreY, PixelUtil.myPublicScoreW, PixelUtil.myPublicScoreH);
+        myPublicScore.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
+                .deriveFont(Font.PLAIN, ImageUtil.resizeY(18)));
+        myPublicScore.setForeground(new Color(0, 0, 0, 255));
+        panelBoard.add(myPublicScore, JLayeredPane.PALETTE_LAYER);
+
+        //my hidden score
+        myHiddenScoreBand = new JLabel("Hidden Score:");
+        myHiddenScoreBand.setBounds(PixelUtil.commonX_5, PixelUtil.myPublicScoreY+PixelUtil.myPublicScoreH, PixelUtil.myPublicScoreBandW, PixelUtil.myPublicScoreBandH);
+        myHiddenScoreBand.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
+                .deriveFont(Font.PLAIN, ImageUtil.resizeY(18)));
+        myHiddenScoreBand.setForeground(new Color(155, 21, 4, 230));
+        panelBoard.add(myHiddenScoreBand, JLayeredPane.PALETTE_LAYER);
+
+        myHiddenScore = new JLabel();
+        myHiddenScore.setBounds(PixelUtil.myPublicScoreX, PixelUtil.myHiddenScoreY, PixelUtil.myPublicScoreW, PixelUtil.myPublicScoreH);
+        myHiddenScore.setFont(FontUtil.getFontByName("HongLeiXingShuJianTi-2")
+                .deriveFont(Font.PLAIN, ImageUtil.resizeY(18)));
+        myHiddenScore.setForeground(new Color(0, 0, 0, 255));
+        panelBoard.add(myHiddenScore, JLayeredPane.PALETTE_LAYER);
 
     }
 
@@ -291,12 +309,14 @@ public class LivingRoomPanel extends JPanel {
 
     /**
      * refreshing score on the board
-     *
-     * @param score common goal score
+     * 
+     * @param publicScore public score
+     * @param hiddenScore private score
      */
-    public void refreshMyScore(int score) {
+    public void refreshMyScore(int publicScore , int hiddenScore) {
 
-        myScoreDynamic.setText(String.valueOf(score));
+        myPublicScore.setText(String.valueOf(publicScore));
+        myHiddenScore.setText(String.valueOf(hiddenScore));
     }
 
     /**
