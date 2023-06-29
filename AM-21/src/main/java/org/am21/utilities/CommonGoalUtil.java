@@ -11,8 +11,9 @@ public class CommonGoalUtil {
     public static HashMap<Integer, CommonGoal> commonGoalHashMap = new HashMap<>();
 
     /**
-     * @param numPlayer
-     * @return
+     * get common goals
+     * @param numPlayer player number of the game
+     * @return list of common goals
      */
     public static List<CommonGoal> getCommonGoals(int numPlayer) {
         initializeMap(commonGoalHashMap, numPlayer);
@@ -30,8 +31,9 @@ public class CommonGoalUtil {
     }
 
     /**
-     * @param map
-     * @param playerNum
+     * initialize the map of common goals
+     * @param map map of common goals
+     * @param playerNum player number of the game
      */
     private static void initializeMap(HashMap<Integer, CommonGoal> map, int playerNum) {
         map.clear();
