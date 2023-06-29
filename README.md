@@ -4,7 +4,7 @@
 
 Implementazione del gioco da tavolo [My Shelfie](https://www.craniocreations.it/prodotto/my-shelfie).
 Il progetto è stato sviluppato per il corso di Ingegneria del Software 2022/2023 presso il Politecnico di Milano.
-Il progetto consiste in un'applicazione Java che permette di giocare a My Shelfie in modalità Single Player, Multiplayer e Online.
+Il progetto consiste in un'applicazione Java che permette di giocare a My Shelfie in modalità Multiplayer (2-4) e Online.
 Il rete è stata implementata sia tramite Socket che tramite RMI.
 
 ## Componenti del gruppo
@@ -21,7 +21,7 @@ Il rete è stata implementata sia tramite Socket che tramite RMI.
 |             TUI              | :green_circle: |
 |        Multiple games        | :green_circle: |
 |         Persistence          |  :red_circle:  |
-| Resilience to disconnections | :green_circle: |
+| Resilience to disconnections |  :red_circle:  |
 |             Chat             | :green_circle: |
 
 ## Test Coverage
@@ -49,7 +49,17 @@ I Jar del progetto possono essere scaricati al seguente link:
 - GUI
 - RMI
 - Socket
-- 3 FA (Funzionalità Avanzate):
+- 2 FA (Funzionalità Avanzate):
     - __Partite Multiple:__ il server deve poter gestire più partite contemporaneamente.
     - __Chat:__ i giocatori possono comunicare tra loro tramite una chat testuale.
-    - __Disconnessione:__ se un giocatore si disconnette durante una partita, il server deve gestire la sua riconnessione e il suo eventuale abbandono.
+
+## Utilized Software
+
+| Libreria/Plugin  | Descrizione |
+| -------------    | ------------- |
+| [Maven](https://maven.apache.org/)   | Dependency management. |
+| [IntelliJ](https://www.jetbrains.com/idea/)   | Main IDE for project development.                           |
+| [JSON](https://www.json.org/json-en.html)    | JSON parsing library (used for loading game resources such as cards,leaders.. and for network protocol).                        |
+| [Swing](https://docs.oracle.com/javase/7/docs/api/javax/swing/package-summary.html)  | Graphic interface library.
+| [Draw.io - Diagrams.net](https://app.diagrams.net/)  | UML and sequence diagrams.
+| [JUnit](https://junit.org/junit5/)  | Unit testing framework.
