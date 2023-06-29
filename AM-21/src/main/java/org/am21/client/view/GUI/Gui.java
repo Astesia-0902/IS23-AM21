@@ -57,16 +57,16 @@ public class Gui {
     //Key: "Receiver", Value: Private chat History
     public static HashMap<String, JTextArea> privateChatHistoryMap = new HashMap<>();
     public static JTextArea publicChatHistory = new JTextArea();
-    public Object windowObject=new Object();
-    public Object chatWindowObject=new Object();
+    public Object windowObject = new Object();
+    public Object chatWindowObject = new Object();
     public static Boolean newChatWindow = false;
     //-------------------------------------------------------------------
-    public Object refreshLock=new Object();
+    public Object refreshLock = new Object();
     public Boolean menuRefresh = false;
     public Boolean waitRoomRefresh = false;
     public Boolean gameBoardRefresh = false;
     public Boolean needNewFrame = false;
-    public Object askChatLock=new Object();
+    public Object askChatLock = new Object();
     public Boolean askChat = false;
     private int matchIndex;
     public Thread guiMinion = new Thread() {
@@ -288,15 +288,16 @@ public class Gui {
      * Ask for waiting action
      */
     public void askWaitingAction() throws RemoteException {
-
-        if(matchList==null || matchList.length==0){
-            return;
-        }
         for (int i = 0; i < ClientView.matchList.length; i++) {
             if (Integer.parseInt(ClientView.matchList[i][0]) == ClientView.matchID) {
                 matchIndex = i;
             }
         }
+
+        if (matchIndex >= ClientView.matchList.length) {
+            matchIndex = matchList.length - 1;
+        }
+
         String numMiss = ClientView.matchList[matchIndex][2], numMax = ClientView.matchList[matchIndex][3];
         int matchID = ClientView.matchID;
         if (waitingRoomInterface == null || !waitingRoomInterface.isVisible()) {
@@ -323,7 +324,7 @@ public class Gui {
             String[] match = new String[ClientView.matchList.length];
             for (int i = 0; i < ClientView.matchList.length; i++) {
                 match[i] = "ID: " + ClientView.matchList[i][0] + "  |  " + ClientView.matchList[i][1]
-                           + " | Players: (" + ClientView.matchList[i][2] + "/" + ClientView.matchList[i][3] + ")";
+                        + " | Players: (" + ClientView.matchList[i][2] + "/" + ClientView.matchList[i][3] + ")";
             }
             for (String m : match) {
                 matchModel.addElement(m);
@@ -495,7 +496,7 @@ public class Gui {
      */
     public void showPlayersStats() {
         //refresh my score
-        livingRoomInterface.livingRoomPanel.refreshMyScore(scores.get(getPlayerIndex(username)),hiddenPoints.get(getPlayerIndex(username)));
+        livingRoomInterface.livingRoomPanel.refreshMyScore(scores.get(getPlayerIndex(username)), hiddenPoints.get(getPlayerIndex(username)));
         //refresh enemies score
         livingRoomInterface.refreshEnemiesScores(scores);
 
