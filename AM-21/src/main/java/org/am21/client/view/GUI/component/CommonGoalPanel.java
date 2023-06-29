@@ -145,26 +145,4 @@ public class CommonGoalPanel extends JPanel {
         setScoreTokenBottom(bottomValue);
     }
 
-    /**
-     * description of commonGoal if you put mouse on the label
-     *
-     * @param goalCard    commonGoal card
-     * @param description description of card
-     */
-    public void showDescription(JLabel goalCard, String description) {
-        goalCard.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
-                goalCard.setToolTipText(description);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
-                goalCard.setToolTipText(null);
-            }
-        });
-    }
-
 }
