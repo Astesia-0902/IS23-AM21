@@ -102,7 +102,7 @@ public class Gui {
 
                 if (waitingRoomInterface != null) {
                     System.out.println("WaitingRoomInterface Disposed");
-                    waitingRoomInterface.dispose();
+                    waitingRoomInterface.setVisible(false);
                     //waitingRoomInterface = null;
                 }
 
