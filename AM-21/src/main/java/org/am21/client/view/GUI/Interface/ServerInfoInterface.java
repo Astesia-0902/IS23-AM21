@@ -1,5 +1,6 @@
 package org.am21.client.view.GUI.Interface;
 
+import org.am21.client.ClientCommunicationController;
 import org.am21.client.ClientController;
 import org.am21.client.SocketClient;
 import org.am21.client.view.GUI.component.BackGroundPanel;
@@ -44,7 +45,7 @@ public class ServerInfoInterface extends JDialog {
         super(frame);
         String defaultAddress;
         String defaultPort;
-        if (ClientController.isRMI) {
+        if (ClientCommunicationController.isRMI) {
             defaultAddress = "localhost";
             defaultPort = "1234";
 

@@ -31,7 +31,6 @@ import static org.am21.client.view.ClientView.*;
 import static org.am21.client.view.TUI.Storage.*;
 
 public class Cli implements View {
-    private ConnectionType type;
     private String username;
     private final ClientCommunicationController commCtrl;
     private final ClientCallBack clientCallBack;
@@ -46,7 +45,8 @@ public class Cli implements View {
 
     public Object waiterLock=new Object();
     /**
-     * @throws RemoteException
+     * Cli constructor
+     * @throws RemoteException when construction of ClientCallBack is failed
      */
     public Cli() throws RemoteException {
         this.clientCallBack = new ClientCallBack();
@@ -68,9 +68,9 @@ public class Cli implements View {
         System.out.println(Storage.MYSHELFIE4);
         askToContinue();
         askConnectionType();
-        if (type == ConnectionType.RMI) {
+        if (ClientCommunicationController.isRMI) {
             askServerInfoRMI();
-        } else if (type == ConnectionType.SOCKET) {
+        } else {
             askServerInfoSocket();
         }
         askLogin();
@@ -96,12 +96,10 @@ public class Cli implements View {
             }
 
             if (option == 1) {
-                type = ConnectionType.RMI;
-                ClientController.isRMI = true;
+                ClientCommunicationController.isRMI = true;
 
             } else if (option == 2) {
-                type = ConnectionType.SOCKET;
-                ClientController.isRMI = false;
+                ClientCommunicationController.isRMI = false;
             }
         } while (option != 1 && option != 2);
 
@@ -158,7 +156,7 @@ public class Cli implements View {
             }
             System.out.println("Server not found");
         } while (true);
-        ClientController.iClientInputHandler = getControllerStub(serverInfo);
+        ClientCommunicationController.iClientInputHandler = getControllerStub(serverInfo);
         commCtrl.registerCallBack(clientBind);
         System.out.println("Controller registered from " + serverInfo.get("address")
                            + ":" + serverInfo.get("port"));
@@ -891,6 +889,7 @@ public class Cli implements View {
             showGoalDescription(s);
         }
         System.out.println();
+        askToContinue();
     }
     //-----------------------------------------------------------------------------------------------------------------
 

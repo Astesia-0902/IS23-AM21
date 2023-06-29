@@ -296,7 +296,7 @@ public class Gui {
         }
 
         String numMiss = ClientView.matchList[matchIndex][2], numMax = ClientView.matchList[matchIndex][3];
-        
+
         int matchID = ClientView.matchID;
         if (waitingRoomInterface == null || !waitingRoomInterface.isVisible()) {
             waitingRoomInterface = new WaitingRoomInterface(frame, numMiss, numMax, matchID);

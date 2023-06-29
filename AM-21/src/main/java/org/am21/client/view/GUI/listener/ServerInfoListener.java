@@ -1,6 +1,6 @@
 package org.am21.client.view.GUI.listener;
 
-import org.am21.client.ClientController;
+import org.am21.client.ClientCommunicationController;
 import org.am21.client.SocketClient;
 import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.GUI.utils.ImageUtil;
@@ -16,10 +16,8 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.ServerSocket;
-import java.net.UnknownHostException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -36,7 +34,7 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
     /**
      * Constructor
      *
-     * @param gui
+     * @param gui gui
      */
     public ServerInfoListener(Gui gui) {
         this.gui = gui;
@@ -51,7 +49,7 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
         gui.serverInfoInterface.addressField.addActionListener(this);
         gui.serverInfoInterface.addressField.addKeyListener(this);
         gui.serverInfoInterface.addressField.getDocument().addDocumentListener(this);
-        if (ClientController.isRMI) {
+        if (ClientCommunicationController.isRMI) {
             gui.serverInfoInterface.ipField.addActionListener(this);
             gui.serverInfoInterface.ipField.addKeyListener(this);
             gui.serverInfoInterface.ipField.getDocument().addDocumentListener(this);
@@ -78,7 +76,7 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
                                 ImageUtil.resizeX(3), new Color(178, 34, 34)),
                         new EmptyBorder(0, ImageUtil.resizeX(50), 0, 0)));
 
-                if (ClientController.isRMI) {
+                if (ClientCommunicationController.isRMI) {
                     ip = gui.serverInfoInterface.ipField.getText().trim();
                     if (ip.isEmpty()) {
                         gui.serverInfoInterface.ipField.setBorder(new CompoundBorder(new MatteBorder
@@ -89,16 +87,11 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
                 }
             } else {
                 gui.serverInfoInterface.dispose();
-                if (ClientController.isRMI) {
+                if (ClientCommunicationController.isRMI) {
                     // Determine my address
-                    String clientBind = "";
+                    String clientBind ;
                     ip = gui.serverInfoInterface.ipField.getText().trim();
-                    InetAddress localHost = null;
-                    try {
-                        localHost = InetAddress.getLocalHost();
-                    } catch (UnknownHostException e2) {
-                        throw new RuntimeException(e2);
-                    }
+
                     int freePort;
                     while (true) {
                         freePort = findFreePort();
@@ -135,7 +128,7 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
                                                                                + ":" + serverInfo.get("port") + "/"
                                                                                + Gui.root);
 
-                        ClientController.iClientInputHandler = gui.iClientInputHandler;
+                        ClientCommunicationController.iClientInputHandler = gui.iClientInputHandler;
                         gui.commCtrl.registerCallBack(clientBind);
                         gui.askLogin();
                     } catch (NotBoundException | MalformedURLException | RemoteException ex) {
@@ -283,7 +276,7 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
         gui.serverInfoInterface.confirmButton.setEnabled(
                 !gui.serverInfoInterface.addressField.getText().trim().isEmpty() &&
                 !gui.serverInfoInterface.portField.getText().trim().isEmpty());
-        if (ClientController.isRMI) {
+        if (ClientCommunicationController.isRMI) {
             gui.serverInfoInterface.confirmButton.setEnabled(!gui.serverInfoInterface.ipField.getText().trim().isEmpty());
         }
     }

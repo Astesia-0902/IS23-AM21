@@ -4,6 +4,7 @@ import org.am21.client.view.ClientView;
 import org.am21.client.view.GUI.Gui;
 import org.am21.client.view.TUI.Cli;
 import org.am21.networkRMI.IClientCallBack;
+import org.am21.networkRMI.IClientInput;
 
 import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
@@ -11,6 +12,8 @@ import java.rmi.server.ServerNotActiveException;
 public class ClientCommunicationController {
     public Cli cli;
     public Gui gui;
+    public static boolean isRMI = false;
+    public static IClientInput iClientInputHandler;
     private static String methodKey = "method";
 
     private static boolean METHOD_RETURN = true;
@@ -61,9 +64,9 @@ public class ClientCommunicationController {
     }
 
     public boolean joinGame(int matchID) {
-        if (ClientController.isRMI) {
+        if (ClientCommunicationController.isRMI) {
             try {
-                return ClientController.iClientInputHandler.joinGame(matchID);
+                return ClientCommunicationController.iClientInputHandler.joinGame(matchID);
             } catch (RemoteException | ServerNotActiveException e) {
                 throw new RuntimeException(e);
             }
@@ -77,9 +80,9 @@ public class ClientCommunicationController {
     }
 
     public boolean logIn(String username, IClientCallBack clientCallBack) {
-        if (ClientController.isRMI) {
+        if (ClientCommunicationController.isRMI) {
             try {
-                return ClientController.iClientInputHandler.logIn(username, clientCallBack);
+                return ClientCommunicationController.iClientInputHandler.logIn(username, clientCallBack);
             } catch (RemoteException | ServerNotActiveException e) {
                 throw new RuntimeException(e);
             }
@@ -93,9 +96,9 @@ public class ClientCommunicationController {
     }
 
     public boolean createMatch(int playerNum) {
-        if (ClientController.isRMI) {
+        if (ClientCommunicationController.isRMI) {
             try {
-                return ClientController.iClientInputHandler.createMatch(playerNum);
+                return ClientCommunicationController.iClientInputHandler.createMatch(playerNum);
             } catch (RemoteException | ServerNotActiveException e) {
                 throw new RuntimeException(e);
             }
@@ -110,9 +113,9 @@ public class ClientCommunicationController {
 
 
     public boolean selectCell(int row, int col) {
-        if (ClientController.isRMI) {
+        if (ClientCommunicationController.isRMI) {
             try {
-                return ClientController.iClientInputHandler.selectCell(row, col);
+                return ClientCommunicationController.iClientInputHandler.selectCell(row, col);
             } catch (RemoteException | ServerNotActiveException e) {
                 throw new RuntimeException(e);
             }
@@ -127,9 +130,9 @@ public class ClientCommunicationController {
 
 
     public boolean confirmSelection() {
-        if (ClientController.isRMI) {
+        if (ClientCommunicationController.isRMI) {
             try {
-                return ClientController.iClientInputHandler.confirmSelection();
+                return ClientCommunicationController.iClientInputHandler.confirmSelection();
             } catch (RemoteException | ServerNotActiveException e) {
                 throw new RuntimeException(e);
             }
@@ -143,9 +146,9 @@ public class ClientCommunicationController {
     }
 
     public boolean insertInColumn(int colNum) {
-        if (ClientController.isRMI) {
+        if (ClientCommunicationController.isRMI) {
             try {
-                return ClientController.iClientInputHandler.insertInColumn(colNum);
+                return ClientCommunicationController.iClientInputHandler.insertInColumn(colNum);
             } catch (RemoteException | ServerNotActiveException e) {
                 throw new RuntimeException(e);
             }
@@ -159,9 +162,9 @@ public class ClientCommunicationController {
     }
 
     public boolean deselectCards() {
-        if (ClientController.isRMI) {
+        if (ClientCommunicationController.isRMI) {
             try {
-                return ClientController.iClientInputHandler.deselectCards();
+                return ClientCommunicationController.iClientInputHandler.deselectCards();
             } catch (RemoteException | ServerNotActiveException e) {
                 throw new RuntimeException(e);
             }
@@ -175,9 +178,9 @@ public class ClientCommunicationController {
     }
 
     public boolean sortHand(int pos1, int pos2) {
-        if (ClientController.isRMI) {
+        if (ClientCommunicationController.isRMI) {
             try {
-                return ClientController.iClientInputHandler.sortHand(pos1, pos2);
+                return ClientCommunicationController.iClientInputHandler.sortHand(pos1, pos2);
             } catch (RemoteException | ServerNotActiveException e) {
                 throw new RuntimeException(e);
             }
@@ -191,9 +194,9 @@ public class ClientCommunicationController {
     }
 
     public boolean leaveMatch() {
-        if (ClientController.isRMI) {
+        if (ClientCommunicationController.isRMI) {
             try {
-                return ClientController.iClientInputHandler.leaveMatch();
+                return ClientCommunicationController.iClientInputHandler.leaveMatch();
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
@@ -207,9 +210,9 @@ public class ClientCommunicationController {
     }
 
     public boolean exitGame() {
-        if (ClientController.isRMI) {
+        if (ClientCommunicationController.isRMI) {
             try {
-                return ClientController.iClientInputHandler.exitGame();
+                return ClientCommunicationController.iClientInputHandler.exitGame();
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
@@ -229,16 +232,16 @@ public class ClientCommunicationController {
      */
     public void registerCallBack(String callBackPath) {
         try {
-            ClientController.iClientInputHandler.registerCallBack(callBackPath);
+            ClientCommunicationController.iClientInputHandler.registerCallBack(callBackPath);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
     }
 
     public boolean endTurn() {
-        if (ClientController.isRMI) {
+        if (ClientCommunicationController.isRMI) {
             try {
-                return ClientController.iClientInputHandler.endTurn();
+                return ClientCommunicationController.iClientInputHandler.endTurn();
             } catch (RemoteException | ServerNotActiveException e) {
                 throw new RuntimeException(e);
             }
@@ -253,9 +256,9 @@ public class ClientCommunicationController {
     }
 
     public boolean changeMatchSeats(int newMaxSeats) {
-        if (ClientController.isRMI) {
+        if (ClientCommunicationController.isRMI) {
             try {
-                return ClientController.iClientInputHandler.changeMatchSeats(newMaxSeats);
+                return ClientCommunicationController.iClientInputHandler.changeMatchSeats(newMaxSeats);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
@@ -269,9 +272,9 @@ public class ClientCommunicationController {
     }
 
     public boolean sendPublicMessage(String message, boolean live) {
-        if (ClientController.isRMI) {
+        if (ClientCommunicationController.isRMI) {
             try {
-                return ClientController.iClientInputHandler.sendPublicMessage(message, live);
+                return ClientCommunicationController.iClientInputHandler.sendPublicMessage(message, live);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
@@ -285,9 +288,9 @@ public class ClientCommunicationController {
     }
 
     public boolean sendPrivateMessage(String message, String receiver, boolean live) {
-        if (ClientController.isRMI) {
+        if (ClientCommunicationController.isRMI) {
             try {
-                return ClientController.iClientInputHandler.sendPrivateMessage(message, receiver, live);
+                return ClientCommunicationController.iClientInputHandler.sendPrivateMessage(message, receiver, live);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             }
