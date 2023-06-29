@@ -1,7 +1,6 @@
 package org.am21.client.view.GUI.Interface;
 
 import org.am21.client.ClientCommunicationController;
-import org.am21.client.ClientController;
 import org.am21.client.SocketClient;
 import org.am21.client.view.GUI.component.BackGroundPanel;
 import org.am21.client.view.GUI.utils.ButtonUtil;

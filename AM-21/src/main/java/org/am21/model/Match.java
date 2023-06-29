@@ -75,10 +75,20 @@ public class Match {
         gamePhase = phase;
     }
 
+    /**
+     * set the game state of the match
+     * @param gameState new game state
+     */
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
     }
 
+    /**
+     * change the max player of the match
+     * @param p player that want to change the max player
+     * @param maxSeats new max player
+     * @return true if the change is successful, otherwise false
+     */
     public boolean changeSeats(Player p, int maxSeats) {
         if (gameState.equals(GameState.WaitingPlayers) && p.equals(admin) && maxSeats > 1 && maxSeats < 5) {
             this.maxSeats = maxSeats;
@@ -182,6 +192,9 @@ public class Match {
         }
     }
 
+    /**
+     * set game state to pause
+     */
     public void pauseMatch() {
         setGameState(GameState.Pause);
     }

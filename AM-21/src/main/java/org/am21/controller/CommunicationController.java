@@ -32,6 +32,12 @@ public class CommunicationController implements ICommunication {
         }
     }
 
+    /**
+     * send virtual view to client
+     * @param virtualView virtual view to send
+     * @param pIndex player index
+     * @param myPlayer player controller of the receiver
+     */
     @Override
     public void sendVirtualView(String virtualView, int pIndex, PlayerController myPlayer) {
         if (myPlayer.getPlayer().getStatus() != UserStatus.GameMember)
@@ -49,6 +55,11 @@ public class CommunicationController implements ICommunication {
         }
     }
 
+    /**
+     * send public chat virtual view to client
+     * @param virtualPublicChat virtual public chat to send
+     * @param pCtrl player controller of the receiver
+     */
     public void sendVirtualPublicChat(String virtualPublicChat, PlayerController pCtrl) {
         if (pCtrl.connectionType == ConnectionType.RMI) {
             try {
@@ -64,6 +75,11 @@ public class CommunicationController implements ICommunication {
     }
 
 
+    /**
+     * send private chat virtual view to client
+     * @param id id of the receiver
+     * @param myPlayer player controller of the receiver
+     */
     @Override
     public void notifyStart(int id, PlayerController myPlayer) {
         if (myPlayer.connectionType == ConnectionType.RMI) {
@@ -79,6 +95,11 @@ public class CommunicationController implements ICommunication {
 
     }
 
+    /**
+     * notify the client to wait
+     * @param info info to send to client
+     * @param myPlayer player controller of the receiver
+     */
     @Override
     public void notifyToWait(String info, PlayerController myPlayer) {
         if (myPlayer.connectionType == ConnectionType.RMI) {
@@ -95,6 +116,10 @@ public class CommunicationController implements ICommunication {
     }
 
 
+    /**
+     * notify the client to go to menu
+     * @param myPlayer player controller of the receiver
+     */
     @Override
     public void notifyGoToMenu(PlayerController myPlayer) {
         if (myPlayer.connectionType == ConnectionType.RMI) {
@@ -109,6 +134,10 @@ public class CommunicationController implements ICommunication {
         }
     }
 
+    /**
+     * notify the client the game is ended
+     * @param myPlayer player controller of the receiver
+     */
     @Override
     public void notifyEndMatch(PlayerController myPlayer) {
         if (myPlayer.getPlayer().getStatus() != UserStatus.GameMember)
@@ -125,6 +154,11 @@ public class CommunicationController implements ICommunication {
         }
     }
 
+    /**
+     * send the virtual hand to client
+     * @param JSONHand virtual hand to send
+     * @param myPlayer player controller of the receiver
+     */
     @Override
     public void sendVirtualHand(String JSONHand, PlayerController myPlayer) {
         if (myPlayer.connectionType == ConnectionType.RMI) {
@@ -155,6 +189,11 @@ public class CommunicationController implements ICommunication {
         }
     }
 
+    /**
+     * send chat notification to client
+     * @param message message to send
+     * @param pc player controller of the receiver
+     */
     @Override
     public void sendChatNotification(String message, PlayerController pc) {
         if (pc.connectionType == ConnectionType.RMI) {
@@ -170,6 +209,11 @@ public class CommunicationController implements ICommunication {
         }
     }
 
+    /**
+     * send server virtual view to client
+     * @param serverVirtualView server virtual view to send
+     * @param pc player controller of the receiver
+     */
     @Override
     public void sendServerVirtualView(String serverVirtualView, PlayerController pc) {
         if (pc.connectionType == ConnectionType.RMI) {
@@ -186,6 +230,11 @@ public class CommunicationController implements ICommunication {
         }
     }
 
+    /**
+     * notify the client to update
+     * @param ctrl player controller of the receiver
+     * @param milliseconds milliseconds to wait before update
+     */
     @Override
     public void notifyUpdate(PlayerController ctrl, int milliseconds) {
         if (ctrl.connectionType == ConnectionType.RMI) {
@@ -200,6 +249,10 @@ public class CommunicationController implements ICommunication {
         }
     }
 
+    /**
+     * test if the client is online
+     * @param ctrl player controller of the receiver
+     */
     @Override
     public void ping(PlayerController ctrl) {
         //System.out.println("Checking if " + ctrl.getPlayer().getNickname() + " is online");
@@ -216,6 +269,10 @@ public class CommunicationController implements ICommunication {
         }
     }
 
+    /**
+     * handle the player offline
+     * @param ctrl player controller of the receiver
+     */
     public void handlePlayerOffline(PlayerController ctrl) {
         if (ctrl.getPlayer().getMatch() != null && ctrl.getPlayer().getMatch().gameState.equals(GameState.GameGoing) && ctrl.getPlayer().getStatus() != UserStatus.Suspended) {
             ctrl.getPlayer().setStatus(UserStatus.Suspended);

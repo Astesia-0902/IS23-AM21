@@ -149,21 +149,41 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
         }
     }
 
+    /**
+     * send the virtual hand to the client
+     * @param JSONHand JSON file of the hand
+     * @throws RemoteException when remote not connected
+     */
     @Override
     public void sendVirtualHand(String JSONHand) throws RemoteException {
         ClientView.convertBackHand(JSONHand);
     }
 
+    /**
+     * send chat message virtual view to the client
+     * @param virtualPublicChat JSON file of the chat message
+     * @throws RemoteException when remote not connected
+     */
     @Override
     public void sendVirtualPublicChat(String virtualPublicChat) throws RemoteException {
         ClientView.convertBackPublicChat(virtualPublicChat);
     }
 
+    /**
+     * send chat message virtual view to the client
+     * @param serverVV JSON file of the server virtual view
+     * @throws RemoteException when remote not connected
+     */
     @Override
     public void sendServerVirtualView(String serverVV) throws RemoteException {
         ClientView.updateServerView(serverVV);
     }
 
+    /**
+     * This method update the CLI or GUI
+     * @param milliseconds time to wait before update
+     * @throws RemoteException when remote not connected
+     */
     @Override
     public void notifyUpdate(int milliseconds) throws RemoteException {
         if (cli != null) {
@@ -185,6 +205,10 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
         }
     }
 
+    /**
+     * test if the connection is still alive
+     * @throws RemoteException
+     */
     @Override
     public void ping() throws RemoteException{
         //Nothing to do

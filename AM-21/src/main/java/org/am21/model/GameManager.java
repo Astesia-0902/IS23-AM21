@@ -85,6 +85,11 @@ public class GameManager {
         return false;
     }
 
+    /**
+     * Check the player with the same id is reconnecting
+     * @param name player name
+     * @return true if the player is reconnecting, false otherwise
+     */
     public static boolean checkNameReconnection(String name) {
         synchronized (players) {
             for (Player p : players) {
@@ -131,7 +136,7 @@ public class GameManager {
     /**
      * Control if there is any Match Closed, if so destroy it
      *
-     * @return
+     * @return true if there is a match closed, false otherwise
      */
     public static boolean gameCleaner() {
         //checkUsersConnection();
@@ -349,6 +354,11 @@ public class GameManager {
     }
 
 
+    /**
+     * Whenever the server has to notify a player with a pre-defined message
+     * @param pc PlayerController
+     * @param m ServerMessage
+     */
     public static void sendChatNotification(PlayerController pc, String m) {
         if (pc.getPlayer().getStatus().equals(UserStatus.Suspended) || pc.getPlayer().getStatus().equals(UserStatus.Offline)) {
             return;
@@ -358,6 +368,11 @@ public class GameManager {
         }
     }
 
+    /**
+     * notify client to update the view
+     * @param ctrl PlayerController
+     * @param milliseconds milliseconds to wait before update
+     */
     public static void notifyUpdate(PlayerController ctrl, int milliseconds) {
         if (ctrl.getPlayer().getStatus().equals(UserStatus.Suspended) || ctrl.getPlayer().getStatus().equals(UserStatus.Offline)) {
             return;

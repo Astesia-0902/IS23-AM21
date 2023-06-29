@@ -33,11 +33,6 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         playerController.connectionType = ConnectionType.RMI;
     }
 
-    //TODO: Check if the ip address and port are valid
-
-//        Get the IP address of the client
-//        System.out.println("Hello, I am " + getClientHost() + ":" + getClientPort());
-
     /**
      * @return the result of the operation
      */
@@ -53,6 +48,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     }
 
     /**
+     * log in
      * @param username username
      * @return true if login successfully, false if the username already exists.
      * @throws RemoteException          if failed to export object
@@ -68,10 +64,11 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     }
 
     /**
-     * @param playerNum
-     * @return
-     * @throws RemoteException
-     * @throws ServerNotActiveException
+     * create a match
+     * @param playerNum number of players
+     * @return true if the operation is successful, false if the match is full
+     * @throws RemoteException if failed to export object
+     * @throws ServerNotActiveException if the client is not active
      */
     @Override
     public boolean createMatch(int playerNum) throws RemoteException, ServerNotActiveException {
@@ -94,6 +91,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
 
 
     /**
+     * select a cell
      * @param row row
      * @param col column
      * @return true if the operation is successful, false if the cell is not selectable
@@ -103,12 +101,19 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         return GameController.selectCell(row, col, playerController);
     }
 
+    /**
+     * confirm the selection
+     * @return true if the operation is successful, false if the selection is not valid
+     * @throws RemoteException         if failed to export object
+     * @throws ServerNotActiveException if the client is not active
+     */
     @Override
     public boolean confirmSelection() throws RemoteException, ServerNotActiveException {
         return GameController.confirmSelection(playerController);
     }
 
     /**
+     * insert cards in the column
      * @param colNum column number
      * @return true if the operation is successful, false if the column is full
      * @throws ServerNotActiveException if the client is not active
@@ -117,11 +122,23 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         return GameController.insertInColumn(colNum, playerController);
     }
 
+    /**
+     * end the turn
+     * @return true if the operation is successful, false if the selection is not valid
+     * @throws RemoteException        if failed to export object
+     * @throws ServerNotActiveException if the client is not active
+     */
     @Override
     public boolean endTurn() throws RemoteException, ServerNotActiveException {
         return GameController.endTurn(playerController);
     }
 
+    /**
+     * deselect the selected cards
+     * @return true if the operation is successful, false if the selection is not valid
+     * @throws RemoteException        if failed to export object
+     * @throws ServerNotActiveException if the client is not active
+     */
     @Override
     public boolean deselectCards() throws RemoteException, ServerNotActiveException {
         return GameController.deselectCards(playerController);
@@ -178,6 +195,12 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
         System.out.println("Client Callback registered:" + GameManager.client_connected);
     }
 
+    /**
+     * change the max player number of the match
+     * @param newMaxSeats new max player number
+     * @return true if the operation is successful, false if the new max player number is not valid
+     * @throws RemoteException if failed to export object
+     */
     @Override
     public boolean changeMatchSeats(int newMaxSeats) throws RemoteException {
         return GameController.changeMatchSeats(newMaxSeats, playerController);

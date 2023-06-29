@@ -48,89 +48,162 @@ public class Player {
         this.match = null;
     }
 
+    /**
+     * Get the player's score
+     * @return score
+     */
     public int getPlayerScore() {
 
         return playerScore;
     }
+
+    /**
+     * Set the player's score
+     * @param playerScore score
+     */
     public void setPlayerScore(int playerScore) {
 
         this.playerScore = playerScore;
     }
+
+    /**
+     * Get the player's status
+     * @return UserStatus
+     */
     public UserStatus getStatus() {
 
         return status;
     }
+
+    /**
+     * Set the player's status
+     * @param status UserStatus
+     */
     public void setStatus(UserStatus status) {
 
         this.status = status;
     }
 
+    /**
+     * Get the player's current match
+     * @return Match
+     */
     public Match getMatch() {
 
         return match;
     }
 
+    /**
+     * Set the player's current match
+     * @param match Match
+     */
     public void setMatch(Match match) {
 
         this.match = match;
     }
 
-
+    /**
+     * Get the player's nickname
+     * @return nickname
+     */
     public String getNickname() {
 
         return nickname;
     }
+
+    /**
+     * set the player's nickname
+     * @param name nickname
+     */
     public void setNickname(String name){
 
         this.nickname = name;
     }
-    public String getHost() {
 
-        return host;
-    }
-    public void setHost(String host) {
-
-        this.host = host;
-    }
-
+    /**
+     * Get the player's personal goal
+     * @return PersonalGoalCard
+     */
     public PersonalGoalCard getMyPersonalGoal() {
 
         return myPersonalGoal;
     }
 
+    /**
+     * Set the player's personal goal
+     * @param goal PersonalGoalCard
+     */
     public void setMyPersonalGoal(PersonalGoalCard goal){
 
         this.myPersonalGoal = goal;
     }
+
+    /**
+     * Get the player's shelf
+     * @return Shelf
+     */
     public Shelf getShelf(){
 
         return shelf;
     }
+
+    /**
+     * Set the player's shelf
+     * @param shelf Shelf
+     */
     public void setShelf(Shelf shelf) {
 
         this.shelf = shelf;
     }
+
+    /**
+     * Get the player's hand
+     * @return Hand
+     */
     public Hand getHand() {
 
         return hand;
     }
+
+    /**
+     * Set the player's hand
+     * @param hand Hand
+     */
     public void setHand(Hand hand){
 
         this.hand = hand;
     }
+
+    /**
+     * Get the player's controller
+     * @return PlayerController
+     */
     public PlayerController getController() {
 
         return controller;
     }
+
+    /**
+     * Set the player's controller
+     * @param controller PlayerController
+     */
     public void setController(PlayerController controller) {
 
         this.controller = controller;
     }
 
+    /**
+     * get the player's hidden points
+     * @return hiddenPoints
+     */
     public int getHiddenPoints() {
         return hiddenPoints;
     }
 
+    /**
+     * set the player's hidden points
+     * @param hiddenPoints hiddenPoints
+     */
     public void setHiddenPoints(int hiddenPoints) {
         this.hiddenPoints = hiddenPoints;
     }

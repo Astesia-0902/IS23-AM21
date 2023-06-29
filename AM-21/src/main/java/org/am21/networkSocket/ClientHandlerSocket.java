@@ -78,6 +78,12 @@ public class ClientHandlerSocket extends Thread {
         }
     }
 
+    /**
+     * Handle message from client
+     *
+     * @param message message from client
+     * @throws ServerNotActiveException if server is not active
+     */
     public void handleClientMessage(String message) throws ServerNotActiveException {
         if (message.equals("")) {
             System.out.println("Empty message from:" + clientSocket.getRemoteSocketAddress());

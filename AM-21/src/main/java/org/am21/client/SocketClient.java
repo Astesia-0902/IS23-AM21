@@ -33,6 +33,11 @@ public class SocketClient extends Thread {
         }
     }
 
+    /**
+     * Send message to server
+     *
+     * @param message message to send
+     */
     public static void messageToServer(String message) {
         try {
             out.writeUTF(message);
@@ -42,6 +47,11 @@ public class SocketClient extends Thread {
         }
     }
 
+    /**
+     * Connect to server
+     *
+     * @return true if success, else false
+     */
     public static boolean connectToServer() {
         try {
             socketClient = new Socket(serverName, serverPort);
@@ -55,6 +65,10 @@ public class SocketClient extends Thread {
         return true;
     }
 
+    /**
+     * Handle message from server
+     * @param message message from server
+     */
     public void handleServerMessage(String message) {
         String[] messageArray = message.split("\\|", 3);
         switch (messageArray[0]) {

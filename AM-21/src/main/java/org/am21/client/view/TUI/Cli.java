@@ -1,7 +1,6 @@
 package org.am21.client.view.TUI;
 
 import org.am21.client.ClientCommunicationController;
-import org.am21.client.ClientController;
 import org.am21.client.SocketClient;
 import org.am21.client.view.ClientView;
 import org.am21.client.view.View;

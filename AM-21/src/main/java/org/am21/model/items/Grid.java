@@ -17,18 +17,33 @@ public abstract class Grid {
         this.matrix = new ItemCard[this.gRow][this.gColumn];
     }
 
+    /**
+     * This method return the matrix reference
+     * @return matrix
+     */
     public ItemCard[][] getMatrix() {
 
         return matrix;
     }
 
+    /**
+     * get the item in the cell
+     * @param r row
+     * @param c column
+     * @return ItemCard
+     */
     public ItemCard getCell(int r, int c){
 
         return matrix[r][c];
     }
 
 
-
+    /**
+     * Setting a new item in the cell
+     * @param rowNum row
+     * @param colNum column
+     * @param value ItemCard
+     */
     public void setCell(int rowNum, int colNum, ItemCard value){
 
         this.matrix[rowNum][colNum] = value;

@@ -14,6 +14,14 @@ public class Welcome extends UnicastRemoteObject implements Lobby {
 
     public Welcome() throws RemoteException {
     }
+
+    /**
+     * This method is used to connect the client to the server
+     * @return HashMap with the server info
+     * @throws RemoteException when remote not connected
+     * @throws MalformedURLException when URL is not valid
+     * @throws AlreadyBoundException when the server is already bound
+     */
     @Override
     public HashMap<String, String> connect() throws RemoteException, MalformedURLException, AlreadyBoundException {
             Server.done();

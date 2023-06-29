@@ -18,10 +18,18 @@ public class ClientCommunicationController {
 
     private static boolean METHOD_RETURN = true;
 
+    /**
+     * set the method key the socket is waiting
+     * @param methodKey the specific method name the socket is waiting
+     */
     public synchronized static void setMethodKey(String methodKey) {
         ClientCommunicationController.methodKey = methodKey;
     }
 
+    /**
+     * set the method return
+     * @param methodReturn if the method return is true or false
+     */
     public synchronized static void setMethodReturn(boolean methodReturn) {
         METHOD_RETURN = methodReturn;
     }
@@ -63,6 +71,11 @@ public class ClientCommunicationController {
         }
     }
 
+    /**
+     * Join a game
+     * @param matchID the match id to join
+     * @return true if success, else false
+     */
     public boolean joinGame(int matchID) {
         if (ClientCommunicationController.isRMI) {
             try {
@@ -79,6 +92,12 @@ public class ClientCommunicationController {
         }
     }
 
+    /**
+     * Log in to the server
+     * @param username the username to log in
+     * @param clientCallBack the client callback
+     * @return true if success, else false
+     */
     public boolean logIn(String username, IClientCallBack clientCallBack) {
         if (ClientCommunicationController.isRMI) {
             try {
@@ -95,6 +114,11 @@ public class ClientCommunicationController {
         }
     }
 
+    /**
+     * create a match
+     * @param playerNum the number of players of the match
+     * @return true if success, else false
+     */
     public boolean createMatch(int playerNum) {
         if (ClientCommunicationController.isRMI) {
             try {
@@ -112,6 +136,12 @@ public class ClientCommunicationController {
     }
 
 
+    /**
+     * select a cell
+     * @param row the row
+     * @param col the column
+     * @return true if success, else false
+     */
     public boolean selectCell(int row, int col) {
         if (ClientCommunicationController.isRMI) {
             try {
@@ -128,7 +158,10 @@ public class ClientCommunicationController {
         }
     }
 
-
+    /**
+     * confirm the selection
+     * @return true if success, else false
+     */
     public boolean confirmSelection() {
         if (ClientCommunicationController.isRMI) {
             try {
@@ -145,6 +178,11 @@ public class ClientCommunicationController {
         }
     }
 
+    /**
+     * insert card in column
+     * @param colNum the column number
+     * @return true if success, else false
+     */
     public boolean insertInColumn(int colNum) {
         if (ClientCommunicationController.isRMI) {
             try {
@@ -161,6 +199,10 @@ public class ClientCommunicationController {
         }
     }
 
+    /**
+     * deselect the cell
+     * @return true if success, else false
+     */
     public boolean deselectCards() {
         if (ClientCommunicationController.isRMI) {
             try {
@@ -177,6 +219,12 @@ public class ClientCommunicationController {
         }
     }
 
+    /**
+     * sort cards in hand
+     * @param pos1 the first card position
+     * @param pos2 the second card position
+     * @return true if success, else false
+     */
     public boolean sortHand(int pos1, int pos2) {
         if (ClientCommunicationController.isRMI) {
             try {
@@ -193,6 +241,10 @@ public class ClientCommunicationController {
         }
     }
 
+    /**
+     * leave the match
+     * @return true if success, else false
+     */
     public boolean leaveMatch() {
         if (ClientCommunicationController.isRMI) {
             try {
@@ -209,6 +261,10 @@ public class ClientCommunicationController {
         }
     }
 
+    /**
+     * exit the game
+     * @return true if success, else false
+     */
     public boolean exitGame() {
         if (ClientCommunicationController.isRMI) {
             try {
@@ -238,6 +294,10 @@ public class ClientCommunicationController {
         }
     }
 
+    /**
+     * end the turn of the player
+     * @return true if success, else false
+     */
     public boolean endTurn() {
         if (ClientCommunicationController.isRMI) {
             try {
@@ -255,6 +315,11 @@ public class ClientCommunicationController {
 
     }
 
+    /**
+     * change the match max players
+     * @param newMaxSeats the new max players
+     * @return true if success, else false
+     */
     public boolean changeMatchSeats(int newMaxSeats) {
         if (ClientCommunicationController.isRMI) {
             try {
@@ -271,6 +336,12 @@ public class ClientCommunicationController {
         }
     }
 
+    /**
+     * send a message to all the players
+     * @param message the message to send
+     * @param live if the message is live
+     * @return true if success, else false
+     */
     public boolean sendPublicMessage(String message, boolean live) {
         if (ClientCommunicationController.isRMI) {
             try {
@@ -287,6 +358,13 @@ public class ClientCommunicationController {
         }
     }
 
+    /**
+     * send a message to a player
+     * @param message the message to send
+     * @param receiver the receiver of the message
+     * @param live if the message is live
+     * @return true if success, else false
+     */
     public boolean sendPrivateMessage(String message, String receiver, boolean live) {
         if (ClientCommunicationController.isRMI) {
             try {
