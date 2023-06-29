@@ -57,13 +57,16 @@ public class Gui {
     //Key: "Receiver", Value: Private chat History
     public static HashMap<String, JTextArea> privateChatHistoryMap = new HashMap<>();
     public static JTextArea publicChatHistory = new JTextArea();
+    public Object windowObject=new Object();
+    public Object chatWindowObject=new Object();
     public static Boolean newChatWindow = false;
     //-------------------------------------------------------------------
-
+    public Object refreshLock=new Object();
     public Boolean menuRefresh = false;
     public Boolean waitRoomRefresh = false;
     public Boolean gameBoardRefresh = false;
     public Boolean needNewFrame = false;
+    public Object askChatLock=new Object();
     public Boolean askChat = false;
     private int matchIndex;
     public Thread guiMinion = new Thread() {
@@ -286,6 +289,9 @@ public class Gui {
      */
     public void askWaitingAction() throws RemoteException {
 
+        if(matchList==null || matchList.length==0){
+            return;
+        }
         for (int i = 0; i < ClientView.matchList.length; i++) {
             if (Integer.parseInt(ClientView.matchList[i][0]) == ClientView.matchID) {
                 matchIndex = i;
@@ -798,28 +804,40 @@ public class Gui {
         Gui.publicChatHistory = historyTMP;
     }
 
-    public synchronized void setAskChat(boolean value) {
+    public void setAskChat(boolean value) {
+        synchronized (askChatLock) {
             askChat = value;
+        }
     }
 
-    public synchronized void setNewChatWindow(boolean value) {
-        newChatWindow = value;
+    public void setNewChatWindow(boolean value) {
+        synchronized (chatWindowObject) {
+            newChatWindow = value;
+        }
     }
 
-    public synchronized void setGameBoardRefresh(boolean value) {
-        gameBoardRefresh = value;
+    public void setGameBoardRefresh(boolean value) {
+        synchronized (refreshLock) {
+            gameBoardRefresh = value;
+        }
     }
 
-    public synchronized void setMenuRefresh(boolean value) {
-        menuRefresh = value;
+    public void setMenuRefresh(boolean value) {
+        synchronized (refreshLock) {
+            menuRefresh = value;
+        }
     }
 
-    public synchronized void setNeedNewFrame(boolean value) {
-        needNewFrame = value;
+    public void setNeedNewFrame(boolean value) {
+        synchronized (windowObject) {
+            needNewFrame = value;
+        }
     }
 
-    public synchronized void setWaitRoomRefresh(boolean value) {
-        waitRoomRefresh = value;
+    public void setWaitRoomRefresh(boolean value) {
+        synchronized (refreshLock) {
+            waitRoomRefresh = value;
+        }
     }
 
 }

@@ -441,7 +441,7 @@ public class Match {
         } while (currentPlayer.getStatus().equals(UserStatus.Suspended));
         setGamePhase(GamePhase.Selection);
 
-        String message = SC.RED_B + "Server[!] > " + currentPlayer.getNickname() + "! It's your turn." + SC.RST;
+        String message = SC.RED_B+ currentPlayer.getNickname() + "! It's your turn." + SC.RST;
         CommunicationController.instance.sendMessageToClient(message, currentPlayer.getController());
         GameManager.notifyUpdate(currentPlayer.getController(), 0);
     }

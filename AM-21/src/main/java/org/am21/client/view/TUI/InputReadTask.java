@@ -25,10 +25,12 @@ public class InputReadTask implements Callable<String> {
         // wait until there is data to complete a readLine()
         while (!bufferedReader.ready()){
             //Thread.sleep(200);
+            synchronized (ClientView.refreshLock) {
                 if (ClientView.needToRefresh) {
                     ClientView.setNeedToRefresh(false);
                     return "";
                 }
+            }
         }
         input = bufferedReader.readLine();
         return input;

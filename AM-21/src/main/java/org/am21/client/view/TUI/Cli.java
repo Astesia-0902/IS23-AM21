@@ -41,9 +41,10 @@ public class Cli implements View {
     private Boolean busy = false;
     private boolean SHOW = false;
     public Integer waitingThreads;
+    public Object chatModeLock=new Object();
     public Boolean chatMode = false;
 
-    public Object waiterLock;
+    public Object waiterLock=new Object();
     /**
      * @throws RemoteException
      */
@@ -1590,9 +1591,12 @@ public class Cli implements View {
         }
     }
     //------------------------------CLI tools-------------------------------------------
+    public Object busyLock=new Object();
 
-    public synchronized void setBusy(Boolean value) {
+    public void setBusy(Boolean value) {
+        synchronized (busyLock) {
             busy = value;
+        }
     }
 
 
@@ -1666,11 +1670,13 @@ public class Cli implements View {
      * This method refresh the TUI only when chatMode is true
      */
     public void refreshChat() {
+        synchronized (chatModeLock) {
             if (chatMode) {
                 new Thread(() -> {
                     setNeedToRefresh(true);
                 }).start();
             }
+        }
     }
 
     public void updateCLI(int milliseconds) {
@@ -1678,11 +1684,14 @@ public class Cli implements View {
             synchronized (waiterLock) {
                 waitingThreads++;
             }
+            synchronized (busyLock) {
                 if (!busy || chatMode) {
                     // Client is not using any important command
                     delayer(milliseconds);
+
                     setNeedToRefresh(true);
                 }
+            }
             synchronized (waiterLock) {
                 waitingThreads = 0;
             }
@@ -1718,8 +1727,10 @@ public class Cli implements View {
         return input;
     }
 
-    public synchronized void setChatMode(Boolean value) {
-        chatMode = value;
+    public void setChatMode(Boolean value) {
+        synchronized (chatModeLock) {
+            chatMode = value;
+        }
     }
 
 
