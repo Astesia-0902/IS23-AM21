@@ -585,10 +585,16 @@ public class Gui {
         SwingUtilities.invokeLater(() -> {
             JDialog dialog = new JDialog(frame);
             dialog.setUndecorated(true);
-            dialog.setSize(300, 50);
+
+            FontMetrics fontMetrics = dialog.getFontMetrics(dialog.getFont());
+            int messageWidth = fontMetrics.stringWidth(message);
+            int dialogWidth = Math.max(messageWidth + 50, 300);
+
+            dialog.setSize(dialogWidth, 50);
             dialog.setLocationByPlatform(true);
             dialog.setLocationRelativeTo(null);
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
 
             int x = (screenSize.width / 2 - dialog.getWidth() / 2);
             int y = 0;
@@ -700,15 +706,6 @@ public class Gui {
         System.out.println(message);
     }
 
-    /**
-     * Ask for show common goal's description
-     */
-    public void showGoalDescription(JLabel commonGoalLabel, String description) {
-        if (commonGoalPanel != null) {
-            commonGoalPanel.showDescription(commonGoalLabel, description);
-        }
-
-    }
 
     /**
      * Ask for show game rules
@@ -801,40 +798,28 @@ public class Gui {
         Gui.publicChatHistory = historyTMP;
     }
 
-    public void setAskChat(boolean value) {
-        synchronized (askChat) {
+    public synchronized void setAskChat(boolean value) {
             askChat = value;
-        }
     }
 
-    public void setNewChatWindow(boolean value) {
-        synchronized (newChatWindow) {
-            newChatWindow = value;
-        }
+    public synchronized void setNewChatWindow(boolean value) {
+        newChatWindow = value;
     }
 
-    public void setGameBoardRefresh(boolean value) {
-        synchronized (gameBoardRefresh) {
-            gameBoardRefresh = value;
-        }
+    public synchronized void setGameBoardRefresh(boolean value) {
+        gameBoardRefresh = value;
     }
 
-    public void setMenuRefresh(boolean value) {
-        synchronized (menuRefresh) {
-            menuRefresh = value;
-        }
+    public synchronized void setMenuRefresh(boolean value) {
+        menuRefresh = value;
     }
 
-    public void setNeedNewFrame(boolean value) {
-        synchronized (needNewFrame) {
-            needNewFrame = value;
-        }
+    public synchronized void setNeedNewFrame(boolean value) {
+        needNewFrame = value;
     }
 
-    public void setWaitRoomRefresh(boolean value) {
-        synchronized (waitRoomRefresh) {
-            waitRoomRefresh = value;
-        }
+    public synchronized void setWaitRoomRefresh(boolean value) {
+        waitRoomRefresh = value;
     }
 
 }

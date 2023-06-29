@@ -178,10 +178,8 @@ public class ClientView {
         MATCH_END = end;
     }
 
-    public static void setNeedToRefresh(boolean value) {
-        synchronized (needToRefresh) {
+    public synchronized static void setNeedToRefresh(boolean value) {
             needToRefresh = value;
-        }
     }
 
     public static void setWaitSocket(boolean waitSocket) {

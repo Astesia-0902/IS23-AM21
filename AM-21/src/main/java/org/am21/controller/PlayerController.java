@@ -131,7 +131,7 @@ public class PlayerController {
             //Virtualize HAND and board after each Selection and Sent to the players
 
             GameManager.sendReply(this, ServerMessage.Selection_Ok.value());
-            player.getMatch().sendTextToAll("\n" +
+            player.getMatch().sendTextToAll(
                     SC.YELLOW + player.getNickname() + " selected the cell [" + r + "," + c + "]." + SC.RST, false);
             player.getMatch().selectionUpdate();
             player.getMatch().sendNotificationToAll(false);
@@ -403,7 +403,7 @@ public class PlayerController {
         VirtualViewHelper.virtualizeCurrentPlayerHand(player.getMatch());
         GameManager.checkMatchPause(player.getMatch().matchID);
         GameManager.serverLog("Player " + player.getNickname() + " reconnected");
-        player.getMatch().sendTextToAll(SC.YELLOW + "\nServer > " + player.getNickname() + " reconnected to the match.", true);
+        player.getMatch().sendTextToAll(player.getNickname() + " reconnected to the match.", true);
         player.getMatch().sendNotificationToAll(true);
     }
 }

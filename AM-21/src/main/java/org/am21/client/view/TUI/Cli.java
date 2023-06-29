@@ -43,6 +43,7 @@ public class Cli implements View {
     public Integer waitingThreads;
     public Boolean chatMode = false;
 
+    public Object waiterLock;
     /**
      * @throws RemoteException
      */
@@ -1590,10 +1591,8 @@ public class Cli implements View {
     }
     //------------------------------CLI tools-------------------------------------------
 
-    public void setBusy(Boolean value) {
-        synchronized (busy) {
+    public synchronized void setBusy(Boolean value) {
             busy = value;
-        }
     }
 
 
@@ -1667,34 +1666,28 @@ public class Cli implements View {
      * This method refresh the TUI only when chatMode is true
      */
     public void refreshChat() {
-        synchronized (chatMode) {
             if (chatMode) {
                 new Thread(() -> {
                     setNeedToRefresh(true);
                 }).start();
             }
-        }
     }
 
     public void updateCLI(int milliseconds) {
         Thread refreshMinion = new Thread(() -> {
-            synchronized (waitingThreads) {
+            synchronized (waiterLock) {
                 waitingThreads++;
             }
-            synchronized (busy) {
                 if (!busy || chatMode) {
                     // Client is not using any important command
                     delayer(milliseconds);
-                    synchronized (needToRefresh) {
-                        setNeedToRefresh(true);
-                    }
+                    setNeedToRefresh(true);
                 }
-            }
-            synchronized (waitingThreads) {
+            synchronized (waiterLock) {
                 waitingThreads = 0;
             }
         });
-        synchronized (waitingThreads) {
+        synchronized (waiterLock) {
             //If there are some thread waiting then there is no need to add another one
             if (waitingThreads > 0) {
                 return;
@@ -1725,10 +1718,8 @@ public class Cli implements View {
         return input;
     }
 
-    public void setChatMode(Boolean value) {
-        synchronized (chatMode) {
-            chatMode = value;
-        }
+    public synchronized void setChatMode(Boolean value) {
+        chatMode = value;
     }
 
 

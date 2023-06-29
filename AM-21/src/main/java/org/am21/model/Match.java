@@ -109,7 +109,7 @@ public class Match {
     public boolean addPlayer(Player player) {
         synchronized (playerList) {
             if (playerList.size() < maxSeats) {
-                sendTextToAll(SC.YELLOW_BB + "\nServer > " + player.getNickname() + " joined the match." + SC.RST, true);
+                sendTextToAll(SC.YELLOW_BB + player.getNickname() + " joined the match." + SC.RST, true);
                 playerList.add(player);
                 player.setStatus(UserStatus.GameMember);
                 player.setMatch(this);
@@ -171,7 +171,7 @@ public class Match {
                 VirtualViewHelper.virtualizeMatchMap();
                 VirtualViewHelper.virtualizeOnlinePlayers();
                 updatePlayersView();
-                sendTextToAll(SC.YELLOW_BB + "\nServer > " + player.getNickname() + " left the match" + SC.RST, true);
+                sendTextToAll(SC.YELLOW_BB + player.getNickname() + " left the match" + SC.RST, true);
                 sendNotificationToAll(true);
                 checkRoom();
 
@@ -218,7 +218,7 @@ public class Match {
 
             // Check if the CurrentPlayer is the first to complete his shelf
             if (currentPlayer.getShelf().getTotSlotAvail() == 0 && gameState != GameState.LastRound) {
-                String message = SC.BLUE_BOLD + "Server > " + currentPlayer.getNickname() + " obtained the endgame token by completing the shelf first." + SC.RST;
+                String message = SC.BLUE_BOLD + currentPlayer.getNickname() + " obtained the endgame token by completing the shelf first." + SC.RST;
                 sendTextToAll(message, true);
                 this.setEndGameToken(false);
                 firstToComplete = currentPlayer;
@@ -243,12 +243,11 @@ public class Match {
             if (!goal.achievedPlayers.contains(player) && goal.checkGoal(player.getShelf())) {
                 // Give player points/scoreToken
                 //Server Message: announce how many points the player's got
-                String mex = "Server > " + player.getNickname() + " acquired " + goal.tokenStack.get(0) + " points";
+                String mex = player.getNickname() + " acquired " + goal.tokenStack.get(0) + " points";
                 CommunicationController.instance.sendMessageToClient(mex, player.getController());
                 CommunicationController.instance.notifyUpdate(player.getController(), 1000);
                 goal.commonGoalAchieved(player);
-                sendTextToAll(SC.YELLOW_BB + "Server > " + player.getNickname() + " achieved a Common Goal!"
-                        + " Press 'Enter'\n" + SC.RST, true);
+                sendTextToAll(SC.YELLOW_BB + player.getNickname() + " achieved a Common Goal!"+ SC.RST, true);
                 sendNotificationToAll(true);
             }
         }
@@ -432,11 +431,11 @@ public class Match {
             return;
         }
 
-        sendTextToAll(SC.YELLOW_BB + "\nServer > " + currentPlayer.getNickname() + " ended his turn" + SC.RST, false);
+        sendTextToAll(SC.YELLOW_BB + currentPlayer.getNickname() + " ended his turn" + SC.RST, false);
         do {
             currentPlayer = playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats);
             if (currentPlayer.getStatus().equals(UserStatus.Suspended)) {
-                sendTextToAll(SC.YELLOW_BB + "\nServer > " + currentPlayer.getNickname() + " his turn is skipped" + SC.RST, false);
+                sendTextToAll(SC.YELLOW_BB + currentPlayer.getNickname() + " his turn is skipped" + SC.RST, false);
                 sendNotificationToAll(false);
             }
         } while (currentPlayer.getStatus().equals(UserStatus.Suspended));
