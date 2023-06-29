@@ -114,6 +114,7 @@ public class Match {
                 player.setStatus(UserStatus.GameMember);
                 player.setMatch(this);
                 player.setPlayerScore(0);
+                player.setHiddenPoints(0);
                 player.setShelf(new Shelf(player));
                 synchronized (GameManager.playerMatchMap) {
                     GameManager.playerMatchMap.put(player.getNickname(), matchID);
