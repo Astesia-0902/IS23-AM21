@@ -35,7 +35,7 @@ Il rete è stata implementata sia tramite Socket che tramite RMI.
 
 ## Documentazione
 ### UML
-I diagrammi UML sono disponibili al seguente link:
+I diagrammi UML  sono disponibili al seguente link: [UML](https://github.com/Astesia-0902/IS23-AM21/tree/main/_deliveries/UML)
 
 ### Javadoc
 La documentazione Javadoc è disponibile al seguente link:
