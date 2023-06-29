@@ -493,7 +493,6 @@ public class Cli implements View {
         System.out.print("""
                 [Commands] Commands available to change settings:
                   size     --> Change the number of players who can play in this match
-                  limit    --> (TEMP for Testing) Change the Insertion Limit (Max 6)
                 Enter the command you wish to use: \040""");
         String setting = readLine();
         switch (setting) {
@@ -505,14 +504,7 @@ public class Cli implements View {
                 }
                 delayer(1000);
             }
-            case "limit", "li" -> {
-                if (commCtrl.changeInsertLimit(askTheIndex("Insertion Limit", 3, SHELF_ROW))) {
-                    System.out.println("Limit changed for the whole server");
-                } else {
-                    System.out.println("Operation failed: Only the admin are allowed to change settings");
-                }
-                delayer(1000);
-            }
+
             default -> {
             }
 

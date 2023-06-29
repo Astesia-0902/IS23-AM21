@@ -284,23 +284,6 @@ public class ClientCommunicationController {
         }
     }
 
-    public boolean changeInsertLimit(int newLimit) {
-        if (ClientController.isRMI) {
-            try {
-                return ClientController.iClientInputHandler.changeInsertLimit(newLimit);
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            makeClientWait();
-            String messageToSend = "changeInsertLimit" + "|" + newLimit;
-            SocketClient.messageToServer(messageToSend);
-            waitingMethodReturn("changeInsertLimit");
-            return METHOD_RETURN;
-        }
-
-    }
-
     public boolean sendPublicMessage(String message, boolean live) {
         if (ClientController.isRMI) {
             try {
