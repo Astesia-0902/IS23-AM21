@@ -46,8 +46,7 @@ public class GameController {
      * @return true if login successfully, false if the username already exists.
      */
     public static boolean login(String username, PlayerController playerController) {
-        //GameManager.checkUsersConnection();
-        //GameManager.playerCleaner();
+
         if (GameManager.checkNameReconnection(username)) {
             Match match = GameManager.matchMap.get(GameManager.playerMatchMap.get(username));
             for (Player player : match.playerList) {

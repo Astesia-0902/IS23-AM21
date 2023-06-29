@@ -39,10 +39,10 @@ public class Cli implements View {
     private Boolean busy = false;
     private boolean SHOW = false;
     public Integer waitingThreads;
-    public Object chatModeLock=new Object();
+    public final Object chatModeLock=new Object();
     public Boolean chatMode = false;
 
-    public Object waiterLock=new Object();
+    public final Object waiterLock=new Object();
     /**
      * Cli constructor
      * @throws RemoteException when construction of ClientCallBack is failed
@@ -110,14 +110,11 @@ public class Cli implements View {
      */
     public void askServerInfoRMI() {
         // Determine my address
-        String clientBind = "";
-
-
-        String clientAddress = "localhost";
+        String clientBind;
+        String clientAddress;
         clientAddress = askInfo("client address", "localhost");
 
         // Create and set the custom socket factory
-        //RMISocketFactory.setSocketFactory(new CustomSocketFactory(bindAddress));
         System.setProperty("java.rmi.server.hostname", clientAddress);
         System.out.println("Your ip address is : " + clientAddress);
         int freePort;
@@ -131,18 +128,15 @@ public class Cli implements View {
             }
         }
         try {
-            //RMISocketFactory.setSocketFactory(new MyRMISocketFactory(clientAddress, 7777));
             Registry registry = LocateRegistry.createRegistry(freePort);
             UnicastRemoteObject.unexportObject(clientCallBack, true);
             IClientCallBack callbackStub = (IClientCallBack) UnicastRemoteObject.exportObject(clientCallBack, freePort);
             registry.bind("Callback", callbackStub);
             clientBind = "rmi://" + clientAddress + ":" + freePort + "/Callback";
-            //Naming.bind(clientBind, this.clientCallBack);
-            //Naming.rebind(clientBind, clientCallBack);
+
         } catch (IOException | AlreadyBoundException e) {
             throw new RuntimeException(e);
         }
-
 
         // First connection to the server --> Obtain the path for RMI
         String defaultAddress = "localhost";
@@ -186,7 +180,6 @@ public class Cli implements View {
         try {
             Registry registry = LocateRegistry.getRegistry(address, Integer.parseInt(port));
             Lobby lobby = (Lobby) registry.lookup("Welcome");
-            //Lobby lobby = (Lobby) Naming.lookup("rmi://" + address + ":" + port + "/Welcome");
             infoMap = lobby.connect();
         } catch (AlreadyBoundException | NotBoundException | RemoteException | MalformedURLException e) {
             return null;
@@ -993,7 +986,6 @@ public class Cli implements View {
                                     System.out.println(Color.RED + "The [" + option + "] cannot be found! Please try again."
                                                        + Color.RESET);
                         }
-                        //askToContinue();
                     }
                 } else {
                     System.out.println(Color.RED + "Selection Confirm failed" + Color.RESET);
@@ -1210,7 +1202,6 @@ public class Cli implements View {
                 default -> System.out.println(Color.RED + "The [" + object + "] cannot be found! Please try again."
                                               + Color.RESET);
             }
-            //askToContinue();
             delayer(750);
         }
         setBusy(false);
@@ -1589,7 +1580,7 @@ public class Cli implements View {
         }
     }
     //------------------------------CLI tools-------------------------------------------
-    public Object busyLock=new Object();
+    public final Object busyLock=new Object();
 
     public void setBusy(Boolean value) {
         synchronized (busyLock) {

@@ -147,7 +147,6 @@ public class Server {
         inputThread = new Thread(futureTask);
         inputThread.start();
 
-
         String input = null;
         try {
             input = futureTask.get();
