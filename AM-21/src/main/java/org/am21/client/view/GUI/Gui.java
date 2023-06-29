@@ -290,12 +290,14 @@ public class Gui {
     public void askWaitingAction() throws RemoteException {
         for (int i = 0; i < ClientView.matchList.length; i++) {
             if (Integer.parseInt(ClientView.matchList[i][0]) == ClientView.matchID) {
+                System.out.println("View:"+ matchID+"|i:"+i);
                 matchIndex = i;
+                break;
             }
         }
 
         if (matchIndex >= ClientView.matchList.length) {
-            matchIndex = matchList.length - 1;
+            return;
         }
 
         String numMiss = ClientView.matchList[matchIndex][2], numMax = ClientView.matchList[matchIndex][3];
