@@ -529,10 +529,6 @@ public class Gui {
         commonGoalPanel = new CommonGoalPanel(commonGoal.get(0), commonGoal.get(1));
         livingRoomInterface.livingRoomPane.add(commonGoalPanel, JLayeredPane.PALETTE_LAYER);
 
-        //set common goal description
-        showGoalDescription(commonGoalPanel.commonGoalTopLabel, Storage.goalCommonMap.get(commonGoal.get(0)));
-        showGoalDescription(commonGoalPanel.commonGoalBottomLabel, Storage.goalCommonMap.get(commonGoal.get(1)));
-
         //set CommonGoal Token
         commonGoalPanel.setScoreToken(commonGoalScore.get(0), commonGoalScore.get(1));
 
