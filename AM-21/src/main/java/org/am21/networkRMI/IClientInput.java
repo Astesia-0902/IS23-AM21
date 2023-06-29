@@ -32,8 +32,6 @@ public interface IClientInput extends Remote {
 
     boolean exitGame() throws RemoteException;
 
-    String getVirtualView() throws RemoteException;
-
     void registerCallBack(String path) throws RemoteException;
 
     boolean endTurn() throws RemoteException, ServerNotActiveException;

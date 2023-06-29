@@ -222,22 +222,6 @@ public class ClientCommunicationController {
         }
     }
 
-    //TODO:Never used
-    public void getVirtualView() {
-        if (ClientController.isRMI) {
-            try {
-                ClientController.iClientInputHandler.getVirtualView();
-            } catch (RemoteException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            makeClientWait();
-            String messageToServer = "getVirtualView";
-            SocketClient.messageToServer(messageToServer);
-            waitingMethodReturn("getVirtualView");
-        }
-    }
-
     /**
      * RMI only
      *

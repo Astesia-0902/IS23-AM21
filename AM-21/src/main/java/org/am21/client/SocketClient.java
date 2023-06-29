@@ -26,7 +26,6 @@ public class SocketClient extends Thread {
         try {
             while (true) {
                 String response = in.readUTF();
-                //TODO:Handle message from the server
                 handleServerMessage(response);
             }
         } catch (IOException e) {

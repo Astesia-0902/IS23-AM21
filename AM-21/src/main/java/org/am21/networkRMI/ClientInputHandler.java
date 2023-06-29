@@ -158,17 +158,6 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     }
 
     /**
-     * Use this method to get the virtual view of the match
-     *
-     * @return JSON string of the virtual view
-     * @throws RemoteException when remote is not connected
-     */
-    @Override
-    public String getVirtualView() throws RemoteException {
-        return GameController.getVirtualView(playerController);
-    }
-
-    /**
      * This method is called after the login of the player
      * It allows the server to register Client's CallBack Interface
      *
