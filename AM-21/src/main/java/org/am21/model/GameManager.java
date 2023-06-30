@@ -214,7 +214,6 @@ public class GameManager {
                 if (p.getStatus().equals(UserStatus.Offline)) {
                     toRemove.add(p.getController());
                 } else if (p.getStatus().equals(UserStatus.Suspended)) {
-                    //TODO:Suspend the player
                     //if the player suspended is the current player, then skip his turn
                     if (p.getMatch() != null && p.getMatch().gameState.equals(GameState.GameGoing) && p.getMatch().currentPlayer.equals(p)) {
                         p.getController().dropHand();
@@ -306,7 +305,6 @@ public class GameManager {
      * @param matchID match index
      */
     private static void handleMatchPauseTimeout(int matchID) {
-        //TODO:the last player should be the winner
         if (matchMap.get(matchID)==null || matchMap.get(matchID).gameState.equals(GameState.Closed)) {
             return;
         }
