@@ -28,10 +28,17 @@ Il rete è stata implementata sia tramite Socket che tramite RMI.
 
 | Element        |  Class %  | Method %  | Line %  |
 | :------------: | :-------: | :-------: | :-----: |
-| Client         |     0%    |     0%    |    0%   |
-| Communication  |     0%    |     0%    |    0%   |
-| Model          |     0%    |     0%    |    0%   |
-| Server         |     0%    |     0%    |    0%   |
+| Bag            |     100%  |     100%  |    85%  |
+| Board          |     100%  |     90%   |    88.7%|
+| Shelf          |     100%  |     100%  |    96.2%|
+| Chat           |     100%  |     90%   |    89.1%|
+| CommonGoal     |     100%  |     100%  |    96.8%|
+| PersonalGoal   |     100%  |     72.7% |    80.5%|
+| Match          |     100%  |     87.1% |    88.8%|
+| Game           |     100%  |     81.8% |    50.6%|
+| Player         |     100%  |     80.5% |    77.6%|
+| VirtualView    |     100%  |     94.2% |    97.4%|
+|ServerVirtualView|    100%  |     80%   |    80%  |
 
 ## Documentazione
 ### UML
