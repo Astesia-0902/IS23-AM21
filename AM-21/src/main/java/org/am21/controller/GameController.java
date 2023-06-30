@@ -335,15 +335,6 @@ public class GameController {
     }
 
     /**
-     * Get virtual view from the server
-     * @param playerController pc instance
-     * @return virtual view json
-     */
-    public static String getVirtualView(PlayerController playerController) {
-        return playerController.getPlayer().getMatch().getJSONVirtualView();
-    }
-
-    /**
      * End player's turn
      * @param playerController player controller instance
      * @return true if succeed false otherwise
@@ -395,7 +386,7 @@ public class GameController {
         Player sender = ctrl.getPlayer();
         sender.getMatch().chatManager.handlePublicChatMessage(sender, message);
         String formalMessage = "\n" + sender.getNickname() + " says > " + message;
-        VirtualViewHelper.virtualizePublicChat(sender.getMatch(), sender.getMatch().chatManager.publicChatMessages);
+        VirtualViewHelper.virtualizePublicChat(sender.getMatch(), sender.getMatch().chatManager.getPublicChatMessages());
         sender.getMatch().updatePlayersPublicChats();
         sender.getMatch().sendPublicChatNotification(formalMessage, sender.getNickname());
         return true;

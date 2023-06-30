@@ -1,0 +1,339 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ClientInputHandler</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.networkRMI</a>
+</div>
+
+<h1>Coverage Summary for Class: ClientInputHandler (org.am21.networkRMI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientInputHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/17)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/40)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.networkRMI;
+&nbsp;
+&nbsp;import org.am21.controller.GameController;
+&nbsp;import org.am21.controller.PlayerController;
+&nbsp;import org.am21.model.GameManager;
+&nbsp;import org.am21.model.enumer.ConnectionType;
+&nbsp;
+&nbsp;import java.net.MalformedURLException;
+&nbsp;import java.rmi.Naming;
+&nbsp;import java.rmi.NotBoundException;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.rmi.server.RemoteServer;
+&nbsp;import java.rmi.server.ServerNotActiveException;
+&nbsp;import java.rmi.server.UnicastRemoteObject;
+&nbsp;
+&nbsp;//TODO: we need reference of this class in every player instance, so we can send message to the client
+&nbsp;public class ClientInputHandler extends UnicastRemoteObject implements IClientInput {
+&nbsp;    public String userName;
+&nbsp;    public String userHost;
+<b class="nc">&nbsp;    private Integer createMatchRequestCount = 0;</b>
+&nbsp;    public PlayerController playerController;
+&nbsp;    public IClientCallBack callBack;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Creates and exports a new UnicastRemoteObject object using an
+&nbsp;     * anonymous port.
+&nbsp;     *
+&nbsp;     * @throws RemoteException if failed to export object
+&nbsp;     * @since JDK1.1
+&nbsp;     */
+<b class="nc">&nbsp;    public ClientInputHandler() throws RemoteException {</b>
+<b class="nc">&nbsp;        playerController = new PlayerController(&quot;&quot;, this);</b>
+<b class="nc">&nbsp;        playerController.connectionType = ConnectionType.RMI;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @return the result of the operation
+&nbsp;     */
+&nbsp;    //TODO:When the command is not from the current player, the command should be ignored.
+&nbsp;    public boolean checkPlayerActionPhase() {
+<b class="nc">&nbsp;        synchronized (GameManager.playerMatchMap) {</b>
+<b class="nc">&nbsp;            synchronized (GameManager.matchMap) {</b>
+<b class="nc">&nbsp;                return GameManager.playerMatchMap.containsKey(userName) &amp;&amp;</b>
+<b class="nc">&nbsp;                        userName.equals(GameManager.matchMap.</b>
+<b class="nc">&nbsp;                                get(GameManager.playerMatchMap.get(userName)).currentPlayer.getNickname());</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * log in
+&nbsp;     * @param username username
+&nbsp;     * @return true if login successfully, false if the username already exists.
+&nbsp;     * @throws RemoteException          if failed to export object
+&nbsp;     * @throws ServerNotActiveException if the client is not active
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean logIn(String username, IClientCallBack clientCallBack) throws RemoteException, ServerNotActiveException {
+<b class="nc">&nbsp;        playerController = new PlayerController(username, this);</b>
+<b class="nc">&nbsp;        playerController.connectionType = ConnectionType.RMI;</b>
+<b class="nc">&nbsp;        userHost = getClientHost();</b>
+<b class="nc">&nbsp;        this.userName = username;</b>
+<b class="nc">&nbsp;        return GameController.login(username, playerController);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * create a match
+&nbsp;     * @param playerNum number of players
+&nbsp;     * @return true if the operation is successful, false if the match is full
+&nbsp;     * @throws RemoteException if failed to export object
+&nbsp;     * @throws ServerNotActiveException if the client is not active
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean createMatch(int playerNum) throws RemoteException, ServerNotActiveException {
+<b class="nc">&nbsp;        return GameController.createMatch(userName, createMatchRequestCount, playerNum, playerController);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param matchID matchID
+&nbsp;     * @return true if the operation is successful, false if the match is full
+&nbsp;     * @throws RemoteException          if failed to export object
+&nbsp;     * @throws ServerNotActiveException if the client is not active
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean joinGame(int matchID) throws RemoteException, ServerNotActiveException {
+<b class="nc">&nbsp;        if (GameController.joinGame(matchID, userName, playerController)) {</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * select a cell
+&nbsp;     * @param row row
+&nbsp;     * @param col column
+&nbsp;     * @return true if the operation is successful, false if the cell is not selectable
+&nbsp;     * @throws ServerNotActiveException if the client is not active
+&nbsp;     */
+&nbsp;    public boolean selectCell(int row, int col) throws RemoteException, ServerNotActiveException {
+<b class="nc">&nbsp;        return GameController.selectCell(row, col, playerController);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * confirm the selection
+&nbsp;     * @return true if the operation is successful, false if the selection is not valid
+&nbsp;     * @throws RemoteException         if failed to export object
+&nbsp;     * @throws ServerNotActiveException if the client is not active
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean confirmSelection() throws RemoteException, ServerNotActiveException {
+<b class="nc">&nbsp;        return GameController.confirmSelection(playerController);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * insert cards in the column
+&nbsp;     * @param colNum column number
+&nbsp;     * @return true if the operation is successful, false if the column is full
+&nbsp;     * @throws ServerNotActiveException if the client is not active
+&nbsp;     */
+&nbsp;    public boolean insertInColumn(int colNum) throws RemoteException, ServerNotActiveException {
+<b class="nc">&nbsp;        return GameController.insertInColumn(colNum, playerController);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * end the turn
+&nbsp;     * @return true if the operation is successful, false if the selection is not valid
+&nbsp;     * @throws RemoteException        if failed to export object
+&nbsp;     * @throws ServerNotActiveException if the client is not active
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean endTurn() throws RemoteException, ServerNotActiveException {
+<b class="nc">&nbsp;        return GameController.endTurn(playerController);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * deselect the selected cards
+&nbsp;     * @return true if the operation is successful, false if the selection is not valid
+&nbsp;     * @throws RemoteException        if failed to export object
+&nbsp;     * @throws ServerNotActiveException if the client is not active
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean deselectCards() throws RemoteException, ServerNotActiveException {
+<b class="nc">&nbsp;        return GameController.deselectCards(playerController);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param pos1
+&nbsp;     * @param pos2
+&nbsp;     * @throws ServerNotActiveException
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean sortHand(int pos1, int pos2) throws RemoteException, ServerNotActiveException {
+<b class="nc">&nbsp;        return GameController.sortHand(pos1, pos2, playerController);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Player can leave the match when Match is WaitingPlayers or is GameGoing
+&nbsp;     *
+&nbsp;     * @return true if the method is successful, otherwise false
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean leaveMatch() throws RemoteException {
+<b class="nc">&nbsp;        return GameController.leaveMatch(playerController);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * THis method allows the player to exit from the game
+&nbsp;     * @return true if the method is successful, otherwise false
+&nbsp;     * @throws RemoteException when remote is not connected
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean exitGame() throws RemoteException {
+<b class="nc">&nbsp;        return GameController.exitGame(playerController);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is called after the login of the player
+&nbsp;     * It allows the server to register Client&#39;s CallBack Interface
+&nbsp;     *
+&nbsp;     * @param path the path to find client callback
+&nbsp;     * @throws RemoteException when Remote is not connected
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void registerCallBack(String path) throws RemoteException {
+&nbsp;        try {
+<b class="nc">&nbsp;            callBack = (IClientCallBack) Naming.lookup(path);</b>
+<b class="nc">&nbsp;            String clientIP = RemoteServer.getClientHost();</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Client IP address: &quot; + clientIP);</b>
+<b class="nc">&nbsp;            callBack.ping();</b>
+<b class="nc">&nbsp;        } catch (NotBoundException | MalformedURLException | ServerNotActiveException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        GameManager.client_connected++;</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Client Callback registered:&quot; + GameManager.client_connected);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * change the max player number of the match
+&nbsp;     * @param newMaxSeats new max player number
+&nbsp;     * @return true if the operation is successful, false if the new max player number is not valid
+&nbsp;     * @throws RemoteException if failed to export object
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean changeMatchSeats(int newMaxSeats) throws RemoteException {
+<b class="nc">&nbsp;        return GameController.changeMatchSeats(newMaxSeats, playerController);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method allows the Client to send a Message in the Match&#39;s Chat
+&nbsp;     *
+&nbsp;     * @param message the message
+&nbsp;     * @param live    indicates if the message was sent by live Chat (true) or not (false)
+&nbsp;     * @return true if the message was correctly sent, otherwise false
+&nbsp;     * @throws RemoteException when the Remote Invocation fails
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean sendPublicMessage(String message, boolean live) throws RemoteException {
+<b class="nc">&nbsp;        return GameController.forwardPublicMessage(message, playerController);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method allows the Client to Send a Message to Specific Online Players
+&nbsp;     *
+&nbsp;     * @param message  the message
+&nbsp;     * @param receiver the online player who will receive the message
+&nbsp;     * @param live     indicates if the message was sent by live Chat (true) or not (false)
+&nbsp;     * @return true if the message was sent to the receiver, otherwise false
+&nbsp;     * @throws RemoteException when the Remote Invocation fails
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean sendPrivateMessage(String message, String receiver, boolean live) throws RemoteException {
+<b class="nc">&nbsp;        return GameController.forwardPrivateMessage(message, receiver, playerController);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-30 11:49</div>
+</div>
+</body>
+</html>

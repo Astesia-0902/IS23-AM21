@@ -1,0 +1,194 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ServerMessage</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.model.enumer</a>
+</div>
+
+<h1>Coverage Summary for Class: ServerMessage (org.am21.model.enumer)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ServerMessage</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/47)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.model.enumer;
+&nbsp;
+<b class="nc">&nbsp;public enum ServerMessage {</b>
+&nbsp;    //Connection phase
+<b class="nc">&nbsp;    Connection_Ok(&quot;Connection successful&quot;),</b>
+<b class="nc">&nbsp;    Connection_No(&quot;Connection failed&quot;),</b>
+&nbsp;
+&nbsp;    //Login phase
+<b class="nc">&nbsp;    Login_Ok(SC.CYAN+&quot;Login successful.&quot;+ SC.RST),</b>
+<b class="nc">&nbsp;    Login_No(SC.RED_B+&quot;Access denied.\nThis username is already taken, please enter a new one...&quot;+SC.RST),</b>
+<b class="nc">&nbsp;    ListP(&quot;List of online players: &quot;),</b>
+&nbsp;
+&nbsp;    //Create match phase
+<b class="nc">&nbsp;    PExceed(&quot;Exceeded player number limit. Try again&quot;),</b>
+<b class="nc">&nbsp;    CreateM_Ok(SC.CYAN+&quot;Match successfully created&quot;+ SC.RST),</b>
+<b class="nc">&nbsp;    CreateM_No(&quot;Failed to create a new Match&quot;),</b>
+&nbsp;
+&nbsp;
+&nbsp;    //Join match phase
+<b class="nc">&nbsp;    FindM_Ok(SC.CYAN+&quot;Match found&quot;+ SC.RST),</b>
+<b class="nc">&nbsp;    FindM_No(&quot;The room does not exists. Please try again&quot;),</b>
+<b class="nc">&nbsp;    FullM(&quot;This room is full&quot;),</b>
+<b class="nc">&nbsp;    PExists_No(&quot;The player does not exist in any room. Try to create a new one&quot;),</b>
+&nbsp;
+&nbsp;    //Match initialization phase
+<b class="nc">&nbsp;    BB(SC.RED_B +&quot;The match is about to start. Building game board...&quot;+ SC.RST),</b>
+<b class="nc">&nbsp;    BB_Ok(SC.CYAN+&quot;Board successfully built&quot;+ SC.RST),</b>
+<b class="nc">&nbsp;    BB_No(&quot;Board build failed&quot;),</b>
+&nbsp;
+&nbsp;    //Game phase (Selection phase)
+<b class="nc">&nbsp;    Selection_Ok(SC.CYAN+&quot;Selection successful&quot;+ SC.RST),</b>
+<b class="nc">&nbsp;    Selection_No(&quot;Selection Failed. Maybe the item is not available for selection.&quot;),</b>
+<b class="nc">&nbsp;    Cell_Illegal(&quot;You selected an illegal cell&quot;),</b>
+<b class="nc">&nbsp;    ReSelected(&quot;You have already selected this cell&quot;),</b>
+<b class="nc">&nbsp;    No_Free(&quot;The cell was not selectable. Pick an item which has a free side&quot;),</b>
+<b class="nc">&nbsp;    No_Orthogonal(&quot;The cell was not selectable. Pick an item which is adjacent and in line with the other selected items&quot;),</b>
+<b class="nc">&nbsp;    Hand_Full(&quot;You reached the limit of items you could pick&quot;),</b>
+&nbsp;
+&nbsp;
+&nbsp;    //Game phase (Deselection phase)
+<b class="nc">&nbsp;    DeSel_Ok(&quot;Deselection successful&quot;),</b>
+<b class="nc">&nbsp;    Clear_Ok(&quot;All selected items cleared&quot;),</b>
+<b class="nc">&nbsp;    DeSel_Null(SC.RED+&quot;You did not select any card yet. Deselection is not necessary&quot;+SC.RST),</b>
+&nbsp;
+&nbsp;    //Game phase (Insertion phase),
+<b class="nc">&nbsp;    InsFail(&quot;Insertion failed&quot;),</b>
+<b class="nc">&nbsp;    ColNo(&quot;This column has not enough slot available. Choose another one.&quot;),</b>
+&nbsp;
+&nbsp;
+&nbsp;    //Game phase (Sort phase)
+<b class="nc">&nbsp;    Sort_No(&quot;Not enough cards in your hand&quot;),</b>
+<b class="nc">&nbsp;    Sort_Index_NO(&quot;Index out of border&quot;),</b>
+<b class="nc">&nbsp;    Sort_Ok(&quot;Order changed&quot;),</b>
+&nbsp;
+&nbsp;
+&nbsp;    //Game phase (Game over phase)
+<b class="nc">&nbsp;    LastRound(SC.RED_B+&quot;It&#39;s the Last Round&quot;+SC.RST),</b>
+<b class="nc">&nbsp;    GameOver(&quot;GAME OVER&quot;),</b>
+<b class="nc">&nbsp;    YouWon(&quot;Congratulation! The winner is &quot;),</b>
+<b class="nc">&nbsp;    CloseOrPause(SC.RED_B + &quot;The match is closed or paused&quot; + SC.RST),</b>
+<b class="nc">&nbsp;    MatchPaused(SC.YELLOW_BB + &quot;Match paused, waiting for other players to reconnect. If non one reconnect within 60s, the last active player will be the winner.&quot; + SC.RST),</b>
+&nbsp;
+&nbsp;    //Leave match phase
+<b class="nc">&nbsp;    UserLeave(&quot;User left the game&quot;),</b>
+&nbsp;
+&nbsp;
+&nbsp;    //Exit game phase
+<b class="nc">&nbsp;    SUD(&quot;Saving user data&quot;),</b>
+<b class="nc">&nbsp;    GoodBye(&quot;Bye! See you again&quot;),</b>
+&nbsp;
+&nbsp;    //Any phase
+<b class="nc">&nbsp;    Error(&quot;Error&quot;),</b>
+<b class="nc">&nbsp;    WrongPhase(&quot;Wrong phase. Cannot use this command.&quot;),</b>
+<b class="nc">&nbsp;    HandEmpty(&quot;No item selected&quot;),</b>
+<b class="nc">&nbsp;    BagEmpty(&quot;Bag is empty&quot;),</b>
+&nbsp;
+&nbsp;    //Not your turn
+<b class="nc">&nbsp;    NotYourTurn(SC.RED_B+&quot;Wait. It&#39;s not your turn&quot;+SC.RST);</b>
+&nbsp;
+&nbsp;    private final String replyMessage;
+&nbsp;
+<b class="nc">&nbsp;    ServerMessage(String replyMessage) {</b>
+<b class="nc">&nbsp;        this.replyMessage=replyMessage;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String value() {
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        return this.replyMessage;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-30 11:49</div>
+</div>
+</body>
+</html>

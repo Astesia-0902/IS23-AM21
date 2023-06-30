@@ -9,15 +9,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-/**
- * @version 1.0
- */
 public class BagTest {
     private Match m;
     private Board board;
     private Bag b;
     private static int seats=2;
 
+    /**
+     * Create a match with an empty board
+     */
     @BeforeEach
     void setUp(){
         m = new Match(seats);
@@ -33,6 +33,10 @@ public class BagTest {
 
     }
 
+    /**
+     * Test is refillBoard is successful.
+     *
+     */
     @Test
     void bagRefillTest(){
         assertEquals(0,b.bagIndex);

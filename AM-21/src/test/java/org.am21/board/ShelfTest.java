@@ -11,9 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * @version 1.0
- */
 public class ShelfTest {
 
     private Shelf s;
@@ -53,6 +50,10 @@ public class ShelfTest {
         assertEquals(30, s.getTotSlotAvail());
     }
 
+    /**
+     * Try to insert an item in a column
+     * and see if the cell is not null
+     */
     @Test
     void testInsertInColumn() {
         assertNull(s.getCell(5, 0));
@@ -60,7 +61,10 @@ public class ShelfTest {
         assertNotNull(s.getCell(5, 0));
     }
 
-
+    /**
+     * Test Shelf Group Points:
+     * Many group of items of the same color in the shelf
+     */
     @Test
     void testColorPoints() {
         s.insertInColumn(new ItemCard(ItemType.Trophies + "1.1"), 0);

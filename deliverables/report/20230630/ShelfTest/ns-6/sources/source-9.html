@@ -1,0 +1,324 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > WaitingRoomListener</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client.view.GUI.listener</a>
+</div>
+
+<h1>Coverage Summary for Class: WaitingRoomListener (org.am21.client.view.GUI.listener)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WaitingRoomListener</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/118)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client.view.GUI.listener;
+&nbsp;
+&nbsp;import org.am21.client.view.ClientView;
+&nbsp;import org.am21.client.view.GUI.Gui;
+&nbsp;import org.am21.client.view.GUI.utils.ImageUtil;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import javax.swing.border.EmptyBorder;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.event.*;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;
+&nbsp;public class WaitingRoomListener implements MouseListener, MouseMotionListener, ActionListener {
+&nbsp;    Gui gui;
+<b class="nc">&nbsp;    Point p = new Point();</b>
+<b class="nc">&nbsp;    int playerNum = 0;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     *
+&nbsp;     * @param gui
+&nbsp;     */
+<b class="nc">&nbsp;    public WaitingRoomListener(Gui gui) {</b>
+<b class="nc">&nbsp;        this.gui = gui;</b>
+<b class="nc">&nbsp;        gui.waitingRoomInterface.addMouseListener(this);</b>
+<b class="nc">&nbsp;        gui.waitingRoomInterface.addMouseMotionListener(this);</b>
+<b class="nc">&nbsp;        gui.waitingRoomInterface.leaveButton.addActionListener(this);</b>
+<b class="nc">&nbsp;        gui.waitingRoomInterface.leaveButton.addMouseListener(this);</b>
+<b class="nc">&nbsp;        gui.waitingRoomInterface.ruleButton.addMouseListener(this);</b>
+<b class="nc">&nbsp;        gui.waitingRoomInterface.ruleButton.addActionListener(this);</b>
+<b class="nc">&nbsp;        gui.waitingRoomInterface.settingButton.addMouseListener(this);</b>
+<b class="nc">&nbsp;        gui.waitingRoomInterface.settingButton.addActionListener(this);</b>
+<b class="nc">&nbsp;        gui.waitingRoomInterface.chatButton.addActionListener(this);</b>
+<b class="nc">&nbsp;        gui.waitingRoomInterface.chatButton.addMouseListener(this);</b>
+<b class="nc">&nbsp;        gui.waitingRoomInterface.onlineButton.addActionListener(this);</b>
+<b class="nc">&nbsp;        gui.waitingRoomInterface.onlineButton.addMouseListener(this);</b>
+&nbsp;
+<b class="nc">&nbsp;        gui.waitingRoomInterface.maxSeatsDialog.playerButton_2.addMouseListener(this);</b>
+<b class="nc">&nbsp;        gui.waitingRoomInterface.maxSeatsDialog.playerButton_2.addActionListener(this);</b>
+<b class="nc">&nbsp;        gui.waitingRoomInterface.maxSeatsDialog.playerButton_3.addMouseListener(this);</b>
+<b class="nc">&nbsp;        gui.waitingRoomInterface.maxSeatsDialog.playerButton_3.addActionListener(this);</b>
+<b class="nc">&nbsp;        gui.waitingRoomInterface.maxSeatsDialog.playerButton_4.addMouseListener(this);</b>
+<b class="nc">&nbsp;        gui.waitingRoomInterface.maxSeatsDialog.playerButton_4.addActionListener(this);</b>
+<b class="nc">&nbsp;        gui.waitingRoomInterface.maxSeatsDialog.closeLabel.addMouseListener(this);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void actionPerformed(ActionEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.waitingRoomInterface.leaveButton) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                System.out.println(&quot;Try to leave&quot;);</b>
+<b class="nc">&nbsp;                if (gui.askLeaveMatch()) {</b>
+&nbsp;                    //TEMP
+<b class="nc">&nbsp;                    System.out.println(&quot;Leave Waiting Room&quot;);</b>
+<b class="nc">&nbsp;                    ClientView.setGoToMenu(true);</b>
+<b class="nc">&nbsp;                    ClientView.setGameOn(false);</b>
+<b class="nc">&nbsp;                    gui.setNeedNewFrame(true);</b>
+&nbsp;                    //Remove Match Group Chat from myChatMap
+<b class="nc">&nbsp;                    Gui.myChatMap.remove(&quot;#All&quot;);</b>
+<b class="nc">&nbsp;                    gui.waitingRoomInterface.dispose();</b>
+&nbsp;                }
+<b class="nc">&nbsp;            } catch (RemoteException ex) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(ex);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.waitingRoomInterface.ruleButton) {</b>
+<b class="nc">&nbsp;            gui.showGameRules();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.waitingRoomInterface.settingButton) {</b>
+<b class="nc">&nbsp;            gui.askChangeSeats();</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (e.getSource() == gui.waitingRoomInterface.onlineButton) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                gui.showOnlinePlayer();</b>
+<b class="nc">&nbsp;            } catch (RemoteException ex) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(ex);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.waitingRoomInterface.chatButton) {</b>
+&nbsp;
+<b class="nc">&nbsp;            if (!Gui.myChatMap.containsKey(&quot;#All&quot;)) {</b>
+<b class="nc">&nbsp;                Gui.myChatMap.put(&quot;#All&quot;, new JButton(&quot;#All&quot;));</b>
+&nbsp;            }
+<b class="nc">&nbsp;            gui.setNewChatWindow(true);</b>
+<b class="nc">&nbsp;            Gui.chatReceiver = &quot;#All&quot;;</b>
+<b class="nc">&nbsp;            if (gui.chatDialog != null) {</b>
+<b class="nc">&nbsp;                gui.chatDialog.localChatMap.get(Gui.chatReceiver).setBackground(new Color(83, 46, 91, 230));</b>
+<b class="nc">&nbsp;                FontMetrics fm = gui.chatDialog.chatMessageInput.getFontMetrics(gui.chatDialog.chatMessageInput.getFont());</b>
+<b class="nc">&nbsp;                gui.chatDialog.chatMessageInput.setBorder(new EmptyBorder(0, ImageUtil.resizeX(fm.stringWidth(Gui.chatReceiver) + 30), 0, 0));</b>
+&nbsp;            }
+<b class="nc">&nbsp;            gui.setAskChat(true);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_2 ||</b>
+<b class="nc">&nbsp;            e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_3 ||</b>
+<b class="nc">&nbsp;            e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_4) {</b>
+<b class="nc">&nbsp;            playerNum = 0;</b>
+&nbsp;
+&nbsp;            //TODO: MAX SEATS = 2/3/4...Create a new match with 2/3/4 players...Go to waiting room
+<b class="nc">&nbsp;            if (e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_2) {</b>
+<b class="nc">&nbsp;                playerNum = 2;</b>
+<b class="nc">&nbsp;            } else if (e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_3) {</b>
+<b class="nc">&nbsp;                playerNum = 3;</b>
+<b class="nc">&nbsp;            } else if (e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_4) {</b>
+<b class="nc">&nbsp;                playerNum = 4;</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            if (gui.commCtrl.changeMatchSeats(playerNum)) {</b>
+<b class="nc">&nbsp;                SwingUtilities.invokeLater(() -&gt; {</b>
+<b class="nc">&nbsp;                    gui.waitingRoomInterface.reloadPlayerNumber(gui.waitingRoomInterface.minNum,</b>
+<b class="nc">&nbsp;                            String.valueOf(playerNum), gui.waitingRoomInterface.ID);</b>
+<b class="nc">&nbsp;                    gui.waitingRoomInterface.revalidate();</b>
+<b class="nc">&nbsp;                    gui.waitingRoomInterface.repaint();</b>
+&nbsp;                });
+&nbsp;
+<b class="nc">&nbsp;                gui.replyDEBUG(&quot;Number of Seats available changed&quot;);</b>
+<b class="nc">&nbsp;                gui.waitingRoomInterface.timer = new Timer(500, e1 -&gt; {</b>
+<b class="nc">&nbsp;                    gui.waitingRoomInterface.maxSeatsDialog.setVisible(false);</b>
+<b class="nc">&nbsp;                    gui.waitingRoomInterface.timer.stop();</b>
+&nbsp;                });
+<b class="nc">&nbsp;                gui.waitingRoomInterface.timer.start();</b>
+&nbsp;
+&nbsp;
+&nbsp;            } else {
+<b class="nc">&nbsp;                gui.replyDEBUG(&quot;Operation failed: Only the admin are allowed to change settings&quot;);</b>
+&nbsp;            }
+&nbsp;
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseClicked(MouseEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_2) {</b>
+<b class="nc">&nbsp;            gui.waitingRoomInterface.maxSeatsDialog.playerButton_2.setIcon(gui.waitingRoomInterface.maxSeatsDialog.buttonSelectedIcon);</b>
+<b class="nc">&nbsp;            gui.waitingRoomInterface.maxSeatsDialog.playerButton_3.setIcon(gui.waitingRoomInterface.maxSeatsDialog.buttonIcon);</b>
+<b class="nc">&nbsp;            gui.waitingRoomInterface.maxSeatsDialog.playerButton_4.setIcon(gui.waitingRoomInterface.maxSeatsDialog.buttonIcon);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_3) {</b>
+<b class="nc">&nbsp;            gui.waitingRoomInterface.maxSeatsDialog.playerButton_2.setIcon(gui.waitingRoomInterface.maxSeatsDialog.buttonIcon);</b>
+<b class="nc">&nbsp;            gui.waitingRoomInterface.maxSeatsDialog.playerButton_3.setIcon(gui.waitingRoomInterface.maxSeatsDialog.buttonSelectedIcon);</b>
+<b class="nc">&nbsp;            gui.waitingRoomInterface.maxSeatsDialog.playerButton_4.setIcon(gui.waitingRoomInterface.maxSeatsDialog.buttonIcon);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_4) {</b>
+<b class="nc">&nbsp;            gui.waitingRoomInterface.maxSeatsDialog.playerButton_2.setIcon(gui.waitingRoomInterface.maxSeatsDialog.buttonIcon);</b>
+<b class="nc">&nbsp;            gui.waitingRoomInterface.maxSeatsDialog.playerButton_3.setIcon(gui.waitingRoomInterface.maxSeatsDialog.buttonIcon);</b>
+<b class="nc">&nbsp;            gui.waitingRoomInterface.maxSeatsDialog.playerButton_4.setIcon(gui.waitingRoomInterface.maxSeatsDialog.buttonSelectedIcon);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.closeLabel) {</b>
+<b class="nc">&nbsp;            gui.waitingRoomInterface.maxSeatsDialog.setVisible(false);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mousePressed(MouseEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.waitingRoomInterface) {</b>
+<b class="nc">&nbsp;            p.x = e.getX();</b>
+<b class="nc">&nbsp;            p.y = e.getY();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseReleased(MouseEvent e) {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseEntered(MouseEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.waitingRoomInterface.leaveButton) {</b>
+<b class="nc">&nbsp;            gui.waitingRoomInterface.leaveButton.setBackground(new Color(245, 225, 199));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.waitingRoomInterface.ruleButton) {</b>
+<b class="nc">&nbsp;            gui.waitingRoomInterface.ruleButton.setForeground(new Color(106, 2, 1));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.waitingRoomInterface.settingButton) {</b>
+<b class="nc">&nbsp;            gui.waitingRoomInterface.settingButton.setForeground(new Color(106, 2, 1));</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (e.getSource() == gui.waitingRoomInterface.chatButton) {</b>
+<b class="nc">&nbsp;            gui.waitingRoomInterface.chatButton.setIcon(gui.menuActionInterface.chatIconColor);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (e.getSource() == gui.waitingRoomInterface.onlineButton) {</b>
+<b class="nc">&nbsp;            gui.waitingRoomInterface.onlineButton.setIcon(gui.menuActionInterface.onlineIconColor);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseExited(MouseEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.waitingRoomInterface.leaveButton) {</b>
+<b class="nc">&nbsp;            gui.waitingRoomInterface.leaveButton.setBackground(new Color(222, 184, 135));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.waitingRoomInterface.ruleButton) {</b>
+<b class="nc">&nbsp;            gui.waitingRoomInterface.ruleButton.setForeground(new Color(237, 179, 137));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.waitingRoomInterface.settingButton) {</b>
+<b class="nc">&nbsp;            gui.waitingRoomInterface.settingButton.setForeground(new Color(237, 179, 137));</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (e.getSource() == gui.waitingRoomInterface.chatButton) {</b>
+<b class="nc">&nbsp;            gui.waitingRoomInterface.chatButton.setIcon(gui.menuActionInterface.chatIcon);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.waitingRoomInterface.onlineButton) {</b>
+<b class="nc">&nbsp;            gui.waitingRoomInterface.onlineButton.setIcon(gui.menuActionInterface.onlineIcon);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseDragged(MouseEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.waitingRoomInterface) {</b>
+<b class="nc">&nbsp;            Point panelPoint = gui.waitingRoomInterface.getLocation();</b>
+<b class="nc">&nbsp;            gui.waitingRoomInterface.setLocation(panelPoint.x + e.getX() - p.x, panelPoint.y + e.getY() - p.y);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseMoved(MouseEvent e) {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-30 11:48</div>
+</div>
+</body>
+</html>

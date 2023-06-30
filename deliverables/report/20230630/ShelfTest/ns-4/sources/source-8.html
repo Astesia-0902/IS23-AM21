@@ -1,0 +1,203 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > MaxSeatsDialog</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client.view.GUI.Interface</a>
+</div>
+
+<h1>Coverage Summary for Class: MaxSeatsDialog (org.am21.client.view.GUI.Interface)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MaxSeatsDialog</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/58)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client.view.GUI.Interface;
+&nbsp;
+&nbsp;import org.am21.client.view.GUI.component.BackGroundPanel;
+&nbsp;import org.am21.client.view.GUI.utils.FontUtil;
+&nbsp;import org.am21.client.view.GUI.utils.IconUtil;
+&nbsp;import org.am21.client.view.GUI.utils.ImageUtil;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import javax.swing.border.MatteBorder;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.image.BufferedImage;
+&nbsp;import java.util.HashMap;
+&nbsp;
+&nbsp;public class MaxSeatsDialog extends JDialog {
+&nbsp;    public JLabel maxPlayersLabel;
+&nbsp;    public JLabel closeLabel;
+&nbsp;    public ButtonGroup group;
+&nbsp;    public JRadioButton playerButton_2;
+&nbsp;    public JRadioButton playerButton_3;
+&nbsp;    public JRadioButton playerButton_4;
+&nbsp;    public ImageIcon buttonIcon;
+&nbsp;    public ImageIcon buttonSelectedIcon;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     */
+<b class="nc">&nbsp;    public MaxSeatsDialog() {</b>
+&nbsp;        //----------------------Max Seats-------------------------------
+<b class="nc">&nbsp;        setModal(true);</b>
+<b class="nc">&nbsp;        setSize(ImageUtil.resizeX(210), ImageUtil.resizeY(155));</b>
+<b class="nc">&nbsp;        HashMap&lt;BufferedImage, int[]&gt; maxSeatsBG = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        BackGroundPanel maxSeatsBGPanel = new BackGroundPanel(maxSeatsBG);</b>
+&nbsp;
+<b class="nc">&nbsp;        closeLabel = new JLabel(IconUtil.getIcon(&quot;close_Brown&quot;));</b>
+<b class="nc">&nbsp;        closeLabel.setBounds(ImageUtil.resizeX(180), ImageUtil.resizeY(10),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(25), ImageUtil.resizeY(25));</b>
+<b class="nc">&nbsp;        add(closeLabel);</b>
+&nbsp;
+<b class="nc">&nbsp;        maxPlayersLabel = new JLabel(&quot;Max players&quot;);</b>
+<b class="nc">&nbsp;        maxPlayersLabel.setOpaque(false);</b>
+<b class="nc">&nbsp;        maxPlayersLabel.setForeground(new Color(139, 69, 19));</b>
+<b class="nc">&nbsp;        maxPlayersLabel.setFont(FontUtil.getFontByName(&quot;KaushanScript-Regular-1&quot;).deriveFont(Font.PLAIN,</b>
+<b class="nc">&nbsp;                ImageUtil.resizeY(16)));</b>
+<b class="nc">&nbsp;        maxPlayersLabel.setBounds(ImageUtil.resizeX(10), ImageUtil.resizeY(10),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(90), ImageUtil.resizeY(29));</b>
+<b class="nc">&nbsp;        add(maxPlayersLabel);</b>
+&nbsp;
+<b class="nc">&nbsp;        buttonIcon = IconUtil.getIcon(&quot;button&quot;);</b>
+<b class="nc">&nbsp;        buttonSelectedIcon = IconUtil.getIcon(&quot;buttonSelected&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        playerButton_2 = new JRadioButton(&quot;2&quot;, buttonIcon);</b>
+<b class="nc">&nbsp;        playerButton_2.setForeground(new Color(139, 69, 19));</b>
+<b class="nc">&nbsp;        playerButton_2.setOpaque(false);</b>
+<b class="nc">&nbsp;        playerButton_2.setFocusPainted(false);</b>
+<b class="nc">&nbsp;        playerButton_2.setFont(FontUtil.getFontByName(&quot;KaushanScript-Regular-1&quot;).deriveFont(Font.PLAIN,</b>
+<b class="nc">&nbsp;                ImageUtil.resizeY(14)));</b>
+<b class="nc">&nbsp;        playerButton_2.setBounds(ImageUtil.resizeX(10), ImageUtil.resizeY(45),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(50), ImageUtil.resizeY(33));</b>
+<b class="nc">&nbsp;        add(playerButton_2);</b>
+&nbsp;
+<b class="nc">&nbsp;        playerButton_3 = new JRadioButton(&quot;3&quot;, buttonIcon);</b>
+<b class="nc">&nbsp;        playerButton_3.setForeground(new Color(139, 69, 19));</b>
+<b class="nc">&nbsp;        playerButton_3.setOpaque(false);</b>
+<b class="nc">&nbsp;        playerButton_3.setFocusPainted(false);</b>
+<b class="nc">&nbsp;        playerButton_3.setFont(FontUtil.getFontByName(&quot;KaushanScript-Regular-1&quot;).deriveFont(Font.PLAIN,</b>
+<b class="nc">&nbsp;                ImageUtil.resizeY(14)));</b>
+<b class="nc">&nbsp;        playerButton_3.setBounds(ImageUtil.resizeX(10), ImageUtil.resizeY(78),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(50), ImageUtil.resizeY(33));</b>
+<b class="nc">&nbsp;        add(playerButton_3);</b>
+&nbsp;
+<b class="nc">&nbsp;        playerButton_4 = new JRadioButton(&quot;4&quot;, buttonIcon);</b>
+<b class="nc">&nbsp;        playerButton_4.setForeground(new Color(139, 69, 19));</b>
+<b class="nc">&nbsp;        playerButton_4.setOpaque(false);</b>
+<b class="nc">&nbsp;        playerButton_4.setFocusPainted(false);</b>
+<b class="nc">&nbsp;        playerButton_4.setFont(FontUtil.getFontByName(&quot;KaushanScript-Regular-1&quot;).deriveFont(Font.PLAIN,</b>
+<b class="nc">&nbsp;                ImageUtil.resizeY(14)));</b>
+<b class="nc">&nbsp;        playerButton_4.setBounds(ImageUtil.resizeX(10), ImageUtil.resizeY(111),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(50), ImageUtil.resizeY(33));</b>
+<b class="nc">&nbsp;        add(playerButton_4);</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        group = new ButtonGroup();</b>
+<b class="nc">&nbsp;        group.add(playerButton_2);</b>
+<b class="nc">&nbsp;        group.add(playerButton_3);</b>
+<b class="nc">&nbsp;        group.add(playerButton_4);</b>
+&nbsp;
+&nbsp;
+&nbsp;        //-----------------Background MAX SEATS-------------------------
+<b class="nc">&nbsp;        maxSeatsBGPanel.setBorder(new MatteBorder(ImageUtil.resizeY(5), ImageUtil.resizeX(5),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeY(5), ImageUtil.resizeX(5), new Color(139, 69, 19)));</b>
+&nbsp;
+<b class="nc">&nbsp;        maxSeatsBGPanel.setBackground(new Color(222, 184, 135, 128));</b>
+<b class="nc">&nbsp;        add(maxSeatsBGPanel);</b>
+&nbsp;
+<b class="nc">&nbsp;        setLocationRelativeTo(this);</b>
+<b class="nc">&nbsp;        setResizable(false);</b>
+<b class="nc">&nbsp;        setUndecorated(true);</b>
+<b class="nc">&nbsp;        setOpacity(0.9f);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-30 11:49</div>
+</div>
+</body>
+</html>

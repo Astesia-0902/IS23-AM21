@@ -1,0 +1,300 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > EnemyPanel</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client.view.GUI.component</a>
+</div>
+
+<h1>Coverage Summary for Class: EnemyPanel (org.am21.client.view.GUI.component)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EnemyPanel</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/48)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">EnemyPanel$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/54)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client.view.GUI.component;
+&nbsp;
+&nbsp;import org.am21.client.view.GUI.utils.FontUtil;
+&nbsp;import org.am21.client.view.GUI.utils.ImageUtil;
+&nbsp;import org.am21.client.view.GUI.utils.PixelUtil;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import javax.swing.border.Border;
+&nbsp;import javax.swing.border.LineBorder;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.event.ActionEvent;
+&nbsp;import java.awt.event.ActionListener;
+&nbsp;
+&nbsp;public class EnemyPanel extends JPanel {
+&nbsp;    public JLayeredPane enemyPane;
+&nbsp;    public JLabel enemyPic;
+&nbsp;    public JLabel enemyBoard;
+&nbsp;    public ShelfPanel enemyShelf;
+&nbsp;    public JLabel enemyScoreDynamic;
+&nbsp;    public JLabel enemyName;
+&nbsp;    public ChairManLabel chairManLabel;
+&nbsp;    public Timer flashingTimer;
+&nbsp;
+<b class="nc">&nbsp;    public EnemyPanel(int posY, ImageIcon imgPic, String nickname, String chairMan, String[][] virtualShelf) {</b>
+&nbsp;
+<b class="nc">&nbsp;        setEnemyPane(posY);</b>
+&nbsp;
+<b class="nc">&nbsp;        setEnemyBackGround(imgPic, nickname);</b>
+&nbsp;
+<b class="nc">&nbsp;        setEnemyShelf(virtualShelf);</b>
+&nbsp;
+<b class="nc">&nbsp;        setEnemyChair(chairMan, nickname);</b>
+&nbsp;
+<b class="nc">&nbsp;        setFlashingTimer();</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * base set
+&nbsp;     *
+&nbsp;     * @param posY pane position Y of enemy
+&nbsp;     */
+&nbsp;
+&nbsp;    public void setEnemyPane(int posY) {
+&nbsp;
+<b class="nc">&nbsp;        setBounds(0, posY, PixelUtil.commonX_2 + PixelUtil.enemyShelfW+ PixelUtil.enemyNameW, PixelUtil.enemyShelfH);</b>
+<b class="nc">&nbsp;        setLayout(null);</b>
+<b class="nc">&nbsp;        setOpaque(false);</b>
+<b class="nc">&nbsp;        enemyPane = new JLayeredPane();</b>
+<b class="nc">&nbsp;        enemyPane.setBounds(0, 0, PixelUtil.commonX_2 + PixelUtil.enemyShelfW+ PixelUtil.enemyNameW, PixelUtil.enemyShelfH);</b>
+<b class="nc">&nbsp;        enemyPane.setLayout(null);</b>
+<b class="nc">&nbsp;        enemyPane.setOpaque(false);</b>
+<b class="nc">&nbsp;        add(enemyPane);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * base set
+&nbsp;     *
+&nbsp;     * @param imgPic   pic of profile
+&nbsp;     * @param nickname name of enemy
+&nbsp;     */
+&nbsp;    public void setEnemyBackGround(ImageIcon imgPic, String nickname) {
+&nbsp;
+<b class="nc">&nbsp;        enemyPic = new JLabel(nickname);</b>
+<b class="nc">&nbsp;        enemyPic.setBounds(PixelUtil.commonX_1, 0, PixelUtil.enemyW, PixelUtil.enemyH);</b>
+<b class="nc">&nbsp;        enemyPic.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));</b>
+<b class="nc">&nbsp;        enemyPic.setIcon(imgPic);</b>
+<b class="nc">&nbsp;        enemyPane.add(enemyPic, JLayeredPane.DEFAULT_LAYER);</b>
+&nbsp;
+<b class="nc">&nbsp;        enemyBoard = new JLabel(nickname);</b>
+<b class="nc">&nbsp;        enemyBoard.setBounds(PixelUtil.commonX_2, 0, PixelUtil.enemyShelfW, PixelUtil.enemyShelfH);</b>
+<b class="nc">&nbsp;        enemyBoard.setIcon(ImageUtil.getShelfImage(PixelUtil.enemyShelfW, PixelUtil.enemyShelfH));</b>
+<b class="nc">&nbsp;        enemyPane.add(enemyBoard, JLayeredPane.DEFAULT_LAYER);</b>
+&nbsp;
+<b class="nc">&nbsp;        enemyScoreDynamic = new JLabel();</b>
+<b class="nc">&nbsp;        enemyScoreDynamic.setBounds(PixelUtil.commonX_2+PixelUtil.enemyShelfW, 0, PixelUtil.enemyNameW, PixelUtil.enemyShelfH);</b>
+<b class="nc">&nbsp;        enemyScoreDynamic.setFont(FontUtil.getFontByName(&quot;HongLeiXingShuJianTi-2&quot;)</b>
+<b class="nc">&nbsp;                .deriveFont(Font.PLAIN, ImageUtil.resizeY(40)));</b>
+<b class="nc">&nbsp;        enemyScoreDynamic.setForeground(new Color(0, 0, 0, 255));</b>
+<b class="nc">&nbsp;        enemyPane.add(enemyScoreDynamic, JLayeredPane.MODAL_LAYER);</b>
+&nbsp;
+<b class="nc">&nbsp;        enemyName = new JLabel(nickname);</b>
+<b class="nc">&nbsp;        enemyName.setBounds(PixelUtil.commonX_1, PixelUtil.enemyScoreY, PixelUtil.enemyScoreW, PixelUtil.enemyScoreH);</b>
+<b class="nc">&nbsp;        enemyName.setFont(FontUtil.getFontByName(&quot;HongLeiXingShuJianTi-2&quot;)</b>
+<b class="nc">&nbsp;                .deriveFont(Font.PLAIN, ImageUtil.resizeY(20)));</b>
+<b class="nc">&nbsp;        enemyName.setForeground(new Color(4, 30, 134, 230));</b>
+<b class="nc">&nbsp;        enemyPane.add(enemyName, JLayeredPane.POPUP_LAYER);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * shelf of enemy
+&nbsp;     *
+&nbsp;     * @param virtualShelf virtualShelf of enemy
+&nbsp;     */
+&nbsp;
+&nbsp;    public void setEnemyShelf(String[][] virtualShelf) {
+&nbsp;
+<b class="nc">&nbsp;        enemyShelf = new ShelfPanel(PixelUtil.enemyGridX, PixelUtil.enemyGridY, PixelUtil.enemyCellW, PixelUtil.enemyCellH, PixelUtil.enemyItemW, PixelUtil.enemyItemH);</b>
+<b class="nc">&nbsp;        enemyShelf.refreshShelf(virtualShelf);</b>
+<b class="nc">&nbsp;        enemyPane.add(enemyShelf, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * chairMan set, if he does, set
+&nbsp;     *
+&nbsp;     * @param chairMan name of chairMan
+&nbsp;     * @param nickname name of enemy
+&nbsp;     */
+&nbsp;    public void setEnemyChair(String chairMan, String nickname) {
+&nbsp;
+<b class="nc">&nbsp;        if (chairMan.equals(nickname)) {</b>
+<b class="nc">&nbsp;            chairManLabel = new ChairManLabel(false);</b>
+<b class="nc">&nbsp;            enemyPane.add(chairManLabel, JLayeredPane.MODAL_LAYER);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * action border flashing
+&nbsp;     */
+&nbsp;    public void setFlashingTimer() {
+&nbsp;
+<b class="nc">&nbsp;        Border originalBorder = enemyPic.getBorder();</b>
+<b class="nc">&nbsp;        Border flashingBorder = new LineBorder(Color.GREEN);</b>
+&nbsp;
+<b class="nc">&nbsp;        flashingTimer = new Timer(350, new ActionListener() {</b>
+<b class="nc">&nbsp;            private boolean isFlashing = false;</b>
+&nbsp;
+&nbsp;            public void actionPerformed(ActionEvent e) {
+<b class="nc">&nbsp;                if (isFlashing) {</b>
+<b class="nc">&nbsp;                    enemyPic.setBorder(originalBorder);</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                    enemyPic.setBorder(flashingBorder);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                isFlashing = !isFlashing;</b>
+&nbsp;            }
+&nbsp;        });
+<b class="nc">&nbsp;        flashingTimer.setRepeats(true);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * refresh enemy Shelf
+&nbsp;     *
+&nbsp;     * @param shelfStatus virtual shelf
+&nbsp;     */
+&nbsp;    public void refreshEnemyShelf(String[][] shelfStatus) {
+&nbsp;
+<b class="nc">&nbsp;        enemyShelf.refreshShelf(shelfStatus);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * refresh enemy score
+&nbsp;     *
+&nbsp;     * @param score virtual commonGoal score
+&nbsp;     */
+&nbsp;    public void refreshEnemyScores(int score) {
+&nbsp;
+<b class="nc">&nbsp;        enemyScoreDynamic.setText(String.valueOf(score));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * restore border color from flashing action
+&nbsp;     */
+&nbsp;    public void setStatusBorder() {
+&nbsp;
+<b class="nc">&nbsp;        enemyPic.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));</b>
+&nbsp;    }
+&nbsp;}
+&nbsp;
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-30 11:48</div>
+</div>
+</body>
+</html>

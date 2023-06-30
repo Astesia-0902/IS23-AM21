@@ -15,16 +15,15 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * @version 1.0
- */
 public class CommonGoalTest {
     private Shelf s;
     private static int seats = 2;
     private PlayerController c;
     private CommonGoal card;
 
-
+    /**
+     * Set up a player with a shelf
+     */
     @BeforeEach
     void setUp() {
         c = new PlayerController("A");
@@ -90,9 +89,9 @@ public class CommonGoalTest {
         card = new CommonGoal2Columns(2);
 
         card.commonGoalAchieved(c.getPlayer());
-
-        assertTrue(card.achievedPlayers.get(0).equals(c.getPlayer()));
-
+        // add Player to achievedPlayers
+        assertEquals(card.achievedPlayers.get(0), c.getPlayer());
+        // tokenStack has one token left
         assertEquals(1, card.tokenStack.size());
 
     }
@@ -115,10 +114,11 @@ public class CommonGoalTest {
         s.insertInColumn(new ItemCard(ItemType._Plants_ + "1.1"), 2);
         s.insertInColumn(new ItemCard(ItemType._Frames_ + "1.1"), 3);
         s.insertInColumn(new ItemCard(ItemType._Games__ + "1.1"), 4);
-
+        // Goal achieved
         assertTrue(card.checkGoal(s));
-
+        // Break goal condition
         s.setCell(5, 1, new ItemCard(ItemType.__Cats__ + "1.1"));
+        // Goal not achieved
         assertFalse(card.checkGoal(s));
 
 
@@ -358,7 +358,7 @@ public class CommonGoalTest {
     }
 
     /**
-     *
+     *  Diagonals are filled with items, not of the same type
      */
     @Test
     void testCommGoalDiagonalFalse() {
@@ -379,6 +379,7 @@ public class CommonGoalTest {
      * Setup:
      * 2 Square: Games
      * 1 Square: Frames
+     * The third group is not complete immediately.
      */
     @Test
     void testCommGoalSquare() {
@@ -399,7 +400,7 @@ public class CommonGoalTest {
         s.setCell(3, 3, new ItemCard(ItemType._Games__ + "1.1"));
         s.setCell(4, 3, new ItemCard(ItemType._Games__ + "1.1"));
         s.setCell(3, 4, new ItemCard(ItemType._Games__ + "1.1"));
-
+        // Lack of one item
         assertFalse(card.checkGoal(s));
         s.setCell(4, 4, new ItemCard(ItemType._Games__ + "1.1"));
 
@@ -407,7 +408,7 @@ public class CommonGoalTest {
     }
 
     /**
-     *
+     *  Test with 4 group of the same item on the
      */
     @Test
     void testCommGoal4Group() {
@@ -452,7 +453,7 @@ public class CommonGoalTest {
     }
 
     /**
-     *
+     * Test with 6 group of item with different sizes
      */
     @Test
     void testCommGoal6Group() {
@@ -476,7 +477,6 @@ public class CommonGoalTest {
         s.setCell(1, 3, new ItemCard(ItemType._Games__ + "1.3"));
 
         assertFalse(card.checkGoal(s));
-        //assertTrue(card.checkGoal(s));
 
         s.setCell(0, 4, new ItemCard(ItemType.__Cats__ + "1.1"));
         s.setCell(1, 4, new ItemCard(ItemType.__Cats__ + "1.1"));
@@ -515,13 +515,16 @@ public class CommonGoalTest {
         assertTrue(card.checkGoal(s));
 
         s = new Shelf(c.getPlayer());
-
+        // Double incomplete X
         fillTheShelfAsIWish(wish2,s);
 
         assertFalse(card.checkGoal(s));
 
     }
 
+    /**
+     * Test with a stair correctly disposed
+     */
     @Test
     void testCommGoalStair() {
         int k=Shelf.SHELF_ROW;
@@ -567,6 +570,11 @@ public class CommonGoalTest {
 
     }
 
+    /**
+     * Method to fill a shelf with the wish scheme
+     * @param wish scheme
+     * @param shelf shelf to fill
+     */
     private void fillTheShelfAsIWish(String[][] wish, Shelf shelf) {
         if (wish != null && wish.length > 0 && wish.length == shelf.gRow && wish[0].length == shelf.gColumn) {
 

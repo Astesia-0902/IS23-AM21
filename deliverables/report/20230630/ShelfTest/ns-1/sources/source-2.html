@@ -1,0 +1,487 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ClientCommunicationController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client</a>
+</div>
+
+<h1>Coverage Summary for Class: ClientCommunicationController (org.am21.client)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientCommunicationController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/21)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/151)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client;
+&nbsp;
+&nbsp;import org.am21.client.view.ClientView;
+&nbsp;import org.am21.client.view.GUI.Gui;
+&nbsp;import org.am21.client.view.TUI.Cli;
+&nbsp;import org.am21.networkRMI.IClientCallBack;
+&nbsp;import org.am21.networkRMI.IClientInput;
+&nbsp;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.rmi.server.ServerNotActiveException;
+&nbsp;
+<b class="nc">&nbsp;public class ClientCommunicationController {</b>
+&nbsp;    public Cli cli;
+&nbsp;    public Gui gui;
+<b class="nc">&nbsp;    public static boolean isRMI = false;</b>
+&nbsp;    public static IClientInput iClientInputHandler;
+<b class="nc">&nbsp;    private static String methodKey = &quot;method&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;    private static boolean METHOD_RETURN = true;</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * set the method key the socket is waiting
+&nbsp;     * @param methodKey the specific method name the socket is waiting
+&nbsp;     */
+&nbsp;    public synchronized static void setMethodKey(String methodKey) {
+<b class="nc">&nbsp;        ClientCommunicationController.methodKey = methodKey;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * set the method return
+&nbsp;     * @param methodReturn if the method return is true or false
+&nbsp;     */
+&nbsp;    public synchronized static void setMethodReturn(boolean methodReturn) {
+<b class="nc">&nbsp;        METHOD_RETURN = methodReturn;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method set the Attribute WAIT_SOCKET to true
+&nbsp;     */
+&nbsp;    public void makeClientWait() {
+<b class="nc">&nbsp;        ClientView.setWaitSocket(true);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * While the WAIT_SOCKET is true the Client main thread will wait until the socket Receives a Return of the method
+&nbsp;     * @param method the specific method name the socket is waiting
+&nbsp;     */
+&nbsp;    public void waitingMethodReturn(String method) {
+<b class="nc">&nbsp;        if (cli != null) {</b>
+<b class="nc">&nbsp;            while (ClientView.WAIT_SOCKET &amp;&amp; !methodKey.equals(method)) {</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                    Thread.sleep(200);</b>
+<b class="nc">&nbsp;                } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;                    throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;            }
+&nbsp;
+&nbsp;            //Reset
+<b class="nc">&nbsp;            methodKey = &quot;method&quot;;</b>
+<b class="nc">&nbsp;        }else if (gui != null) {</b>
+<b class="nc">&nbsp;            while (ClientView.WAIT_SOCKET &amp;&amp; !methodKey.equals(method)) {</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                    Thread.sleep(200);</b>
+<b class="nc">&nbsp;                } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;                    throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;            }
+&nbsp;
+&nbsp;            //Reset
+<b class="nc">&nbsp;            methodKey = &quot;method&quot;;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Join a game
+&nbsp;     * @param matchID the match id to join
+&nbsp;     * @return true if success, else false
+&nbsp;     */
+&nbsp;    public boolean joinGame(int matchID) {
+<b class="nc">&nbsp;        if (ClientCommunicationController.isRMI) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                return ClientCommunicationController.iClientInputHandler.joinGame(matchID);</b>
+<b class="nc">&nbsp;            } catch (RemoteException | ServerNotActiveException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+&nbsp;            }
+&nbsp;        } else {
+<b class="nc">&nbsp;            makeClientWait();</b>
+<b class="nc">&nbsp;            String messageToServer = &quot;join&quot; + &quot;|&quot; + matchID;</b>
+<b class="nc">&nbsp;            SocketClient.messageToServer(messageToServer);</b>
+<b class="nc">&nbsp;            waitingMethodReturn(&quot;join&quot;);</b>
+<b class="nc">&nbsp;            return METHOD_RETURN;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Log in to the server
+&nbsp;     * @param username the username to log in
+&nbsp;     * @param clientCallBack the client callback
+&nbsp;     * @return true if success, else false
+&nbsp;     */
+&nbsp;    public boolean logIn(String username, IClientCallBack clientCallBack) {
+<b class="nc">&nbsp;        if (ClientCommunicationController.isRMI) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                return ClientCommunicationController.iClientInputHandler.logIn(username, clientCallBack);</b>
+<b class="nc">&nbsp;            } catch (RemoteException | ServerNotActiveException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+&nbsp;            }
+&nbsp;        } else {
+<b class="nc">&nbsp;            makeClientWait();</b>
+<b class="nc">&nbsp;            String messageToServer = &quot;login&quot; + &quot;|&quot; + username;</b>
+<b class="nc">&nbsp;            SocketClient.messageToServer(messageToServer);</b>
+<b class="nc">&nbsp;            waitingMethodReturn(&quot;login&quot;);</b>
+<b class="nc">&nbsp;            return METHOD_RETURN;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * create a match
+&nbsp;     * @param playerNum the number of players of the match
+&nbsp;     * @return true if success, else false
+&nbsp;     */
+&nbsp;    public boolean createMatch(int playerNum) {
+<b class="nc">&nbsp;        if (ClientCommunicationController.isRMI) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                return ClientCommunicationController.iClientInputHandler.createMatch(playerNum);</b>
+<b class="nc">&nbsp;            } catch (RemoteException | ServerNotActiveException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+&nbsp;            }
+&nbsp;        } else {
+<b class="nc">&nbsp;            makeClientWait();</b>
+<b class="nc">&nbsp;            String messageToServer = &quot;createMatch&quot; + &quot;|&quot; + playerNum;</b>
+<b class="nc">&nbsp;            SocketClient.messageToServer(messageToServer);</b>
+<b class="nc">&nbsp;            waitingMethodReturn(&quot;createMatch&quot;);</b>
+<b class="nc">&nbsp;            return METHOD_RETURN;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * select a cell
+&nbsp;     * @param row the row
+&nbsp;     * @param col the column
+&nbsp;     * @return true if success, else false
+&nbsp;     */
+&nbsp;    public boolean selectCell(int row, int col) {
+<b class="nc">&nbsp;        if (ClientCommunicationController.isRMI) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                return ClientCommunicationController.iClientInputHandler.selectCell(row, col);</b>
+<b class="nc">&nbsp;            } catch (RemoteException | ServerNotActiveException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+&nbsp;            }
+&nbsp;        } else {
+<b class="nc">&nbsp;            makeClientWait();</b>
+<b class="nc">&nbsp;            String messageToServer = &quot;selectCell&quot; + &quot;|&quot; + row + &quot;|&quot; + col;</b>
+<b class="nc">&nbsp;            SocketClient.messageToServer(messageToServer);</b>
+<b class="nc">&nbsp;            waitingMethodReturn(&quot;selectCell&quot;);</b>
+<b class="nc">&nbsp;            return METHOD_RETURN;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * confirm the selection
+&nbsp;     * @return true if success, else false
+&nbsp;     */
+&nbsp;    public boolean confirmSelection() {
+<b class="nc">&nbsp;        if (ClientCommunicationController.isRMI) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                return ClientCommunicationController.iClientInputHandler.confirmSelection();</b>
+<b class="nc">&nbsp;            } catch (RemoteException | ServerNotActiveException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+&nbsp;            }
+&nbsp;        } else {
+<b class="nc">&nbsp;            makeClientWait();</b>
+<b class="nc">&nbsp;            String messageToServer = &quot;confirmSelection&quot;;</b>
+<b class="nc">&nbsp;            SocketClient.messageToServer(messageToServer);</b>
+<b class="nc">&nbsp;            waitingMethodReturn(&quot;confirmSelection&quot;);</b>
+<b class="nc">&nbsp;            return METHOD_RETURN;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * insert card in column
+&nbsp;     * @param colNum the column number
+&nbsp;     * @return true if success, else false
+&nbsp;     */
+&nbsp;    public boolean insertInColumn(int colNum) {
+<b class="nc">&nbsp;        if (ClientCommunicationController.isRMI) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                return ClientCommunicationController.iClientInputHandler.insertInColumn(colNum);</b>
+<b class="nc">&nbsp;            } catch (RemoteException | ServerNotActiveException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+&nbsp;            }
+&nbsp;        } else {
+<b class="nc">&nbsp;            makeClientWait();</b>
+<b class="nc">&nbsp;            String messageToServer = &quot;insertInColumn&quot; + &quot;|&quot; + colNum;</b>
+<b class="nc">&nbsp;            SocketClient.messageToServer(messageToServer);</b>
+<b class="nc">&nbsp;            waitingMethodReturn(&quot;insertInColumn&quot;);</b>
+<b class="nc">&nbsp;            return METHOD_RETURN;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * deselect the cell
+&nbsp;     * @return true if success, else false
+&nbsp;     */
+&nbsp;    public boolean deselectCards() {
+<b class="nc">&nbsp;        if (ClientCommunicationController.isRMI) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                return ClientCommunicationController.iClientInputHandler.deselectCards();</b>
+<b class="nc">&nbsp;            } catch (RemoteException | ServerNotActiveException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+&nbsp;            }
+&nbsp;        } else {
+<b class="nc">&nbsp;            makeClientWait();</b>
+<b class="nc">&nbsp;            String messageToServer = &quot;deselectCards&quot;;</b>
+<b class="nc">&nbsp;            SocketClient.messageToServer(messageToServer);</b>
+<b class="nc">&nbsp;            waitingMethodReturn(&quot;deselectCards&quot;);</b>
+<b class="nc">&nbsp;            return METHOD_RETURN;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * sort cards in hand
+&nbsp;     * @param pos1 the first card position
+&nbsp;     * @param pos2 the second card position
+&nbsp;     * @return true if success, else false
+&nbsp;     */
+&nbsp;    public boolean sortHand(int pos1, int pos2) {
+<b class="nc">&nbsp;        if (ClientCommunicationController.isRMI) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                return ClientCommunicationController.iClientInputHandler.sortHand(pos1, pos2);</b>
+<b class="nc">&nbsp;            } catch (RemoteException | ServerNotActiveException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+&nbsp;            }
+&nbsp;        } else {
+<b class="nc">&nbsp;            makeClientWait();</b>
+<b class="nc">&nbsp;            String messageToServer = &quot;sortHand&quot; + &quot;|&quot; + pos1 + &quot;|&quot; + pos2;</b>
+<b class="nc">&nbsp;            SocketClient.messageToServer(messageToServer);</b>
+<b class="nc">&nbsp;            waitingMethodReturn(&quot;sortHand&quot;);</b>
+<b class="nc">&nbsp;            return METHOD_RETURN;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * leave the match
+&nbsp;     * @return true if success, else false
+&nbsp;     */
+&nbsp;    public boolean leaveMatch() {
+<b class="nc">&nbsp;        if (ClientCommunicationController.isRMI) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                return ClientCommunicationController.iClientInputHandler.leaveMatch();</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+&nbsp;            }
+&nbsp;        } else {
+<b class="nc">&nbsp;            makeClientWait();</b>
+<b class="nc">&nbsp;            String messageToServer = &quot;leaveMatch&quot;;</b>
+<b class="nc">&nbsp;            SocketClient.messageToServer(messageToServer);</b>
+<b class="nc">&nbsp;            waitingMethodReturn(&quot;leaveMatch&quot;);</b>
+<b class="nc">&nbsp;            return METHOD_RETURN;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * exit the game
+&nbsp;     * @return true if success, else false
+&nbsp;     */
+&nbsp;    public boolean exitGame() {
+<b class="nc">&nbsp;        if (ClientCommunicationController.isRMI) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                return ClientCommunicationController.iClientInputHandler.exitGame();</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+&nbsp;            }
+&nbsp;        } else {
+<b class="nc">&nbsp;            makeClientWait();</b>
+<b class="nc">&nbsp;            String messageToServer = &quot;exitGame&quot;;</b>
+<b class="nc">&nbsp;            SocketClient.messageToServer(messageToServer);</b>
+<b class="nc">&nbsp;            waitingMethodReturn(&quot;exitGame&quot;);</b>
+<b class="nc">&nbsp;            return METHOD_RETURN;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * RMI only
+&nbsp;     *
+&nbsp;     * @param callBackPath the callback to register
+&nbsp;     */
+&nbsp;    public void registerCallBack(String callBackPath) {
+&nbsp;        try {
+<b class="nc">&nbsp;            ClientCommunicationController.iClientInputHandler.registerCallBack(callBackPath);</b>
+<b class="nc">&nbsp;        } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * end the turn of the player
+&nbsp;     * @return true if success, else false
+&nbsp;     */
+&nbsp;    public boolean endTurn() {
+<b class="nc">&nbsp;        if (ClientCommunicationController.isRMI) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                return ClientCommunicationController.iClientInputHandler.endTurn();</b>
+<b class="nc">&nbsp;            } catch (RemoteException | ServerNotActiveException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+&nbsp;            }
+&nbsp;        } else {
+<b class="nc">&nbsp;            makeClientWait();</b>
+<b class="nc">&nbsp;            String messageToSend = &quot;endTurn&quot;;</b>
+<b class="nc">&nbsp;            SocketClient.messageToServer(messageToSend);</b>
+<b class="nc">&nbsp;            waitingMethodReturn(&quot;endTurn&quot;);</b>
+<b class="nc">&nbsp;            return METHOD_RETURN;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * change the match max players
+&nbsp;     * @param newMaxSeats the new max players
+&nbsp;     * @return true if success, else false
+&nbsp;     */
+&nbsp;    public boolean changeMatchSeats(int newMaxSeats) {
+<b class="nc">&nbsp;        if (ClientCommunicationController.isRMI) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                return ClientCommunicationController.iClientInputHandler.changeMatchSeats(newMaxSeats);</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+&nbsp;            }
+&nbsp;        } else {
+<b class="nc">&nbsp;            makeClientWait();</b>
+<b class="nc">&nbsp;            String messageToSend = &quot;changeMatchSeats&quot; + &quot;|&quot; + newMaxSeats;</b>
+<b class="nc">&nbsp;            SocketClient.messageToServer(messageToSend);</b>
+<b class="nc">&nbsp;            waitingMethodReturn(&quot;changeMatchSeats&quot;);</b>
+<b class="nc">&nbsp;            return METHOD_RETURN;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * send a message to all the players
+&nbsp;     * @param message the message to send
+&nbsp;     * @param live if the message is live
+&nbsp;     * @return true if success, else false
+&nbsp;     */
+&nbsp;    public boolean sendPublicMessage(String message, boolean live) {
+<b class="nc">&nbsp;        if (ClientCommunicationController.isRMI) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                return ClientCommunicationController.iClientInputHandler.sendPublicMessage(message, live);</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+&nbsp;            }
+&nbsp;        } else {
+<b class="nc">&nbsp;            makeClientWait();</b>
+<b class="nc">&nbsp;            String messageToSend = &quot;sendPublicMessage&quot; + &quot;|&quot; + message + &quot;|&quot; + live;</b>
+<b class="nc">&nbsp;            SocketClient.messageToServer(messageToSend);</b>
+<b class="nc">&nbsp;            waitingMethodReturn(&quot;sendPublicMessage&quot;);</b>
+<b class="nc">&nbsp;            return METHOD_RETURN;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * send a message to a player
+&nbsp;     * @param message the message to send
+&nbsp;     * @param receiver the receiver of the message
+&nbsp;     * @param live if the message is live
+&nbsp;     * @return true if success, else false
+&nbsp;     */
+&nbsp;    public boolean sendPrivateMessage(String message, String receiver, boolean live) {
+<b class="nc">&nbsp;        if (ClientCommunicationController.isRMI) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                return ClientCommunicationController.iClientInputHandler.sendPrivateMessage(message, receiver, live);</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+&nbsp;            }
+&nbsp;        } else {
+<b class="nc">&nbsp;            makeClientWait();</b>
+<b class="nc">&nbsp;            String messageToSend = &quot;sendPrivateMessage&quot; + &quot;|&quot; + message + &quot;|&quot; + receiver + &quot;|&quot; + live;</b>
+<b class="nc">&nbsp;            SocketClient.messageToServer(messageToSend);</b>
+<b class="nc">&nbsp;            waitingMethodReturn(&quot;sendPrivateMessage&quot;);</b>
+<b class="nc">&nbsp;            return METHOD_RETURN;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-30 11:49</div>
+</div>
+</body>
+</html>

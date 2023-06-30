@@ -16,9 +16,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * @version 1.0
- */
+
 public class PersonalGoalTest {
     private Match m;
     private PersonalGoalCard card;
@@ -45,11 +43,17 @@ public class PersonalGoalTest {
         p=null;
     }
 
+    /**
+     * Test if the 2 cards generated are different
+     */
     @Test
     void testRandomGeneration(){
-        assertFalse(listCards.get(0).equals(listCards.get(1)));
+        assertNotEquals(listCards.get(0), listCards.get(1));
     }
 
+    /**
+     * Test if the Goal shelf is generated
+     */
     @Test
     void testGoalShelf(){
         card = new PersonalGoalCard("PERSONAL_GOAL0"+2);
@@ -59,6 +63,10 @@ public class PersonalGoalTest {
         assertEquals("__Cats__",card.getPersonalGoalShelf().getItemName(2,0));
 
     }
+
+    /**
+     * Test if the points is correctly calculated
+     */
     @Test
     void testCheckGoal(){
         card = new PersonalGoalCard("PERSONAL_GOAL0"+2);
@@ -77,7 +85,6 @@ public class PersonalGoalTest {
 
     }
 
-    //TODO: Test Points gaining in each stage of the table
 
 
 

@@ -8,6 +8,7 @@ import org.am21.model.GameManager;
 import org.am21.model.Match;
 import org.am21.model.Player;
 import org.am21.model.enumer.GameState;
+import org.am21.model.enumer.UserStatus;
 import org.am21.model.items.Shelf;
 import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
@@ -189,6 +190,29 @@ public class GameTest {
 
     }
 
+    /**
+     * Test leaveMatch from gameController
+     */
+    @Test
+    void testLeaveMatch(){
+        tearDown();
+        setupNormalGame();
+        assertTrue(GameController.leaveMatch(c1));
+        assertEquals(UserStatus.Online,GameManager.players.get(GameManager.players.indexOf(c1.getPlayer())).getStatus());
+    }
+
+    /**
+     * Test the exit of the game.
+     * The player is not in the players list anymore
+     */
+    @Test
+    void testExitGame(){
+        tearDown();
+        setupNormalGame();
+        assertTrue(GameController.exitGame(c1));
+        assertFalse(GameManager.players.contains(c1.getPlayer()));
+    }
+
 
     /**
      * This method is used to custom fill a shelf
@@ -208,24 +232,6 @@ public class GameTest {
         }
     }
 
-    /**
-     * Print shelf
-     * @param shelf player shelf
-     */
-    private void printShelf(Shelf shelf){
-        for(int i=0; i<Shelf.SHELF_ROW;i++){
-            for(int j=0; j<Shelf.SHELF_COLUMN;j++){
-                if(shelf.getMatrix()[i][j]!=null){
-                    System.out.print(shelf.getMatrix()[i][j].getNameCard());
-                }else{
-                    System.out.print("[         ]");
-                }
-
-
-            }
-            System.out.println();
-        }
-    }
 
     /**
      * Update Shelf column slot parameters

@@ -1,0 +1,196 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > BoardUtil</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.utilities</a>
+</div>
+
+<h1>Coverage Summary for Class: BoardUtil (org.am21.utilities)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BoardUtil</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.utilities;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;
+<b class="nc">&nbsp;public class BoardUtil {</b>
+&nbsp;
+&nbsp;    /*
+&nbsp;     *  2Players:
+&nbsp;     *              *0: [ ][ ][ ][ ][ ][ ][ ][ ][ ]
+&nbsp;     *              *1: [ ][ ][ ][*][*][ ][ ][ ][ ]
+&nbsp;     *              *2: [ ][ ][ ][*][*][*][ ][ ][ ]
+&nbsp;     *              *3: [ ][ ][*][*][*][*][*][*][ ]
+&nbsp;     *              *4: [ ][*][*][*][*][*][*][*][ ]
+&nbsp;     *              *5: [ ][*][*][*][*][*][*][ ][ ]
+&nbsp;     *              *6: [ ][ ][ ][*][*][*][ ][ ][ ]
+&nbsp;     *              *7: [ ][ ][ ][ ][*][*][ ][ ][ ]
+&nbsp;     *              *8: [ ][ ][ ][ ][ ][ ][ ][ ][ ]
+&nbsp;     *              *
+&nbsp;     *  3Players:
+&nbsp;     *              *0: [ ][ ][ ][+][ ][ ][ ][ ][ ]
+&nbsp;     *              *1: [ ][ ][ ][*][*][ ][ ][ ][ ]
+&nbsp;     *              *2: [ ][ ][+][*][*][*][+][ ][ ]
+&nbsp;     *              *3: [ ][ ][*][*][*][*][*][*][+]
+&nbsp;     *              *4: [ ][*][*][*][*][*][*][*][ ]
+&nbsp;     *              *5: [+][*][*][*][*][*][*][ ][ ]
+&nbsp;     *              *6: [ ][ ][+][*][*][*][+][ ][ ]
+&nbsp;     *              *7: [ ][ ][ ][ ][*][*][ ][ ][ ]
+&nbsp;     *              *8: [ ][ ][ ][ ][ ][+][ ][ ][ ]
+&nbsp;     *              *
+&nbsp;     *  4Players:
+&nbsp;     *              *0: [ ][ ][ ][*][+][ ][ ][ ][ ]
+&nbsp;     *              *1: [ ][ ][ ][*][*][+][ ][ ][ ]
+&nbsp;     *              *2: [ ][ ][*][*][*][*][*][ ][ ]
+&nbsp;     *              *3: [ ][+][*][*][*][*][*][*][*]
+&nbsp;     *              *4: [+][*][*][*][*][*][*][*][+]
+&nbsp;     *              *5: [*][*][*][*][*][*][*][+][ ]
+&nbsp;     *              *6: [ ][ ][*][*][*][*][*][ ][ ]
+&nbsp;     *              *7: [ ][ ][ ][+][*][*][ ][ ][ ]
+&nbsp;     *              *8: [ ][ ][ ][ ][+][*][ ][ ][ ]
+&nbsp;     */
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create a list of playable Boundaries for each row of the board
+&nbsp;     * @param maxSeats number of max players
+&nbsp;     * @return list of boundaries for each row
+&nbsp;     */
+&nbsp;    public static List&lt;Coordinates&gt; boardBounder(int maxSeats){
+<b class="nc">&nbsp;        List&lt;Coordinates&gt; boundaries = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        switch (maxSeats){</b>
+<b class="nc">&nbsp;            case 2: Collections.addAll(boundaries,</b>
+&nbsp;                        null,  //!!!!
+&nbsp;                        new Coordinates(3,4),
+&nbsp;                        new Coordinates(3,5),
+&nbsp;                        new Coordinates(2,7),
+&nbsp;                        new Coordinates(1,7),
+&nbsp;                        new Coordinates(1,6),
+&nbsp;                        new Coordinates(3,5),
+&nbsp;                        new Coordinates(4,5),
+&nbsp;                        null);
+<b class="nc">&nbsp;                break;</b>
+<b class="nc">&nbsp;            case 3: Collections.addAll(boundaries,</b>
+&nbsp;                    new Coordinates(3,3),
+&nbsp;                    new Coordinates(3,4),
+&nbsp;                    new Coordinates(2,6),
+&nbsp;                    new Coordinates(2,8),
+&nbsp;                    new Coordinates(1,7),
+&nbsp;                    new Coordinates(0,6),
+&nbsp;                    new Coordinates(2,6),
+&nbsp;                    new Coordinates(4,5),
+&nbsp;                    new Coordinates(5,5));
+<b class="nc">&nbsp;                break;</b>
+<b class="nc">&nbsp;            case 4: Collections.addAll(boundaries,</b>
+&nbsp;                    new Coordinates(3,4),
+&nbsp;                    new Coordinates(3,5),
+&nbsp;                    new Coordinates(2,6),
+&nbsp;                    new Coordinates(1,8),
+&nbsp;                    new Coordinates(0,8),
+&nbsp;                    new Coordinates(0,7),
+&nbsp;                    new Coordinates(2,6),
+&nbsp;                    new Coordinates(3,5),
+&nbsp;                    new Coordinates(4,5));
+&nbsp;                break;
+&nbsp;        }
+<b class="nc">&nbsp;        return boundaries;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-30 11:49</div>
+</div>
+</body>
+</html>

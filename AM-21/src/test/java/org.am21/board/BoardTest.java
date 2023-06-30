@@ -201,10 +201,14 @@ public class BoardTest {
         assertFalse(board.hasFreeSide(3, 4));
     }
 
+    /**
+     * Test if the cell is allowed from the boundaries of the match
+     */
     @Test
     void testIsPlayable() {
-
+        //Playable: we can insert an item in the cell
         assertTrue(board.isPlayable(5, 5));
+        //Not Playable : we cannot insert an item in the cell for
         assertFalse(board.isPlayable(0, 0));
     }
 
@@ -214,7 +218,7 @@ public class BoardTest {
      * Test if I can pick all three of them, also in different order
      */
     @Test
-    void testIsOrthogonal2() throws RemoteException {
+    void testIsOrthogonal2()  {
         Match m1 = new Match(2);
         PlayerController c = new PlayerController("A");
         PlayerController d = new PlayerController("B");

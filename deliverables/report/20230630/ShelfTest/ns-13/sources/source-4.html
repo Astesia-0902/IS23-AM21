@@ -1,0 +1,157 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CommonGoalUtil</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.utilities</a>
+</div>
+
+<h1>Coverage Summary for Class: CommonGoalUtil (org.am21.utilities)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CommonGoalUtil</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/24)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.utilities;
+&nbsp;
+&nbsp;import org.am21.model.Cards.CommonGoals.*;
+&nbsp;import org.am21.model.Cards.CommonGoal;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;
+<b class="nc">&nbsp;public class CommonGoalUtil {</b>
+<b class="nc">&nbsp;    public static HashMap&lt;Integer, CommonGoal&gt; commonGoalHashMap = new HashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * get common goals
+&nbsp;     * @param numPlayer player number of the game
+&nbsp;     * @return list of common goals
+&nbsp;     */
+&nbsp;    public static List&lt;CommonGoal&gt; getCommonGoals(int numPlayer) {
+<b class="nc">&nbsp;        initializeMap(commonGoalHashMap, numPlayer);</b>
+<b class="nc">&nbsp;        List&lt;CommonGoal&gt; res = new ArrayList&lt;CommonGoal&gt;();</b>
+<b class="nc">&nbsp;        int firstGoal = (int) (Math.random() * 12);</b>
+<b class="nc">&nbsp;        res.add(commonGoalHashMap.get(firstGoal));</b>
+<b class="nc">&nbsp;        int secondGoal = (int) (Math.random() * 12);</b>
+<b class="nc">&nbsp;        while (secondGoal == firstGoal) {</b>
+<b class="nc">&nbsp;            secondGoal = (int) (Math.random() * 12);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        res.add(commonGoalHashMap.get(secondGoal));</b>
+&nbsp;//        System.out.println(&quot;Match &gt; &quot;+res.size()+&quot; CommonGoal generated&quot;);
+&nbsp;
+<b class="nc">&nbsp;        return res;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * initialize the map of common goals
+&nbsp;     * @param map map of common goals
+&nbsp;     * @param playerNum player number of the game
+&nbsp;     */
+&nbsp;    private static void initializeMap(HashMap&lt;Integer, CommonGoal&gt; map, int playerNum) {
+<b class="nc">&nbsp;        map.clear();</b>
+<b class="nc">&nbsp;        map.put(0, new CommonGoal2Lines(playerNum));</b>
+<b class="nc">&nbsp;        map.put(1, new CommonGoal2Columns(playerNum));</b>
+<b class="nc">&nbsp;        map.put(2, new CommonGoal3Column(playerNum));</b>
+<b class="nc">&nbsp;        map.put(3, new CommonGoal4Lines(playerNum));</b>
+<b class="nc">&nbsp;        map.put(4, new CommonGoal8Tiles(playerNum));</b>
+<b class="nc">&nbsp;        map.put(5, new CommonGoalCorner(playerNum));</b>
+<b class="nc">&nbsp;        map.put(6, new CommonGoalDiagonal(playerNum));</b>
+<b class="nc">&nbsp;        map.put(7, new CommonGoalSquare(playerNum));</b>
+<b class="nc">&nbsp;        map.put(8, new CommonGoalStairs(playerNum));</b>
+<b class="nc">&nbsp;        map.put(9, new CommonGoalGroup(playerNum, 4, 4));</b>
+<b class="nc">&nbsp;        map.put(10, new CommonGoalGroup(playerNum, 6, 2));</b>
+<b class="nc">&nbsp;        map.put(11, new CommonGoalXShape(playerNum));</b>
+&nbsp;    }
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-30 11:49</div>
+</div>
+</body>
+</html>

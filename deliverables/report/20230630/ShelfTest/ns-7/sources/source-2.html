@@ -1,0 +1,171 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > FontUtil</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client.view.GUI.utils</a>
+</div>
+
+<h1>Coverage Summary for Class: FontUtil (org.am21.client.view.GUI.utils)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">FontUtil</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/36)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client.view.GUI.utils;
+&nbsp;
+&nbsp;import java.awt.*;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileInputStream;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStream;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;/**
+&nbsp; * FontUtil is a class that is used to load fonts
+&nbsp; */
+<b class="nc">&nbsp;public class FontUtil {</b>
+<b class="nc">&nbsp;    private static Map&lt;String, String&gt; fontMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    private static final Map&lt;String, Font&gt; fonterMap = new HashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;    static {
+<b class="nc">&nbsp;        fontMap.put(&quot;Twenty-Regular-2&quot;, &quot;Twenty-Regular-2.otf&quot;);</b>
+<b class="nc">&nbsp;        fontMap.put(&quot;Sunday-Regular-2&quot;, &quot;Sunday-Regular-2.otf&quot;);</b>
+<b class="nc">&nbsp;        fontMap.put(&quot;PippaHandwriting-Regular-3&quot;, &quot;PippaHandwriting-Regular-3.ttf&quot;);</b>
+<b class="nc">&nbsp;        fontMap.put(&quot;Leira-Lite-2&quot;, &quot;Leira-Lite-2.ttf&quot;);</b>
+<b class="nc">&nbsp;        fontMap.put(&quot;Klipan-Black-2&quot;, &quot;Klipan-Black-2.ttf&quot;);</b>
+<b class="nc">&nbsp;        fontMap.put(&quot;Hamurz-Free-Version-2&quot;, &quot;Hamurz-Free-Version-2.ttf&quot;);</b>
+<b class="nc">&nbsp;        fontMap.put(&quot;KaushanScript-Regular-1&quot;, &quot;KaushanScript-Regular-1.otf&quot;);</b>
+<b class="nc">&nbsp;        fontMap.put(&quot;Brizel-2&quot;, &quot;Brizel-2.ttf&quot;);</b>
+<b class="nc">&nbsp;        fontMap.put(&quot;Boisu-Stroke-2&quot;, &quot;Boisu-Stroke-2.otf&quot;);</b>
+<b class="nc">&nbsp;        fontMap.put(&quot;Boisu-Full-3&quot;, &quot;Boisu-Full-3.otf&quot;);</b>
+<b class="nc">&nbsp;        fontMap.put(&quot;Boisu-Fill-4&quot;, &quot;Boisu-Fill-4.otf&quot;);</b>
+<b class="nc">&nbsp;        fontMap.put(&quot;HongLeiXingShuJianTi-2&quot;, &quot;HongLeiXingShuJianTi-2.otf&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        InputStream inputStream = null;</b>
+<b class="nc">&nbsp;        File file = null;</b>
+<b class="nc">&nbsp;        Font font = null;</b>
+<b class="nc">&nbsp;        String path = &quot;AM-21/fonts/&quot;;</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            for (String fontName : fontMap.keySet()) {</b>
+<b class="nc">&nbsp;                file = new File(path + fontMap.get(fontName));</b>
+<b class="nc">&nbsp;                inputStream = new FileInputStream(file);</b>
+<b class="nc">&nbsp;                font = Font.createFont(Font.TRUETYPE_FONT, inputStream);</b>
+<b class="nc">&nbsp;                fonterMap.put(fontName, font);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+&nbsp;        } finally {
+<b class="nc">&nbsp;            try {</b>
+<b class="nc">&nbsp;                if (inputStream != null) {</b>
+<b class="nc">&nbsp;                    inputStream.close();</b>
+&nbsp;                }
+<b class="nc">&nbsp;            } catch (IOException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to get the font by name
+&nbsp;     *
+&nbsp;     * @param fontName
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    public static Font getFontByName(String fontName) {
+<b class="nc">&nbsp;        Font font = fonterMap.get(fontName);</b>
+<b class="nc">&nbsp;        return font;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-30 11:48</div>
+</div>
+</body>
+</html>

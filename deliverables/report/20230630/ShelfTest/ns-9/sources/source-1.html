@@ -1,0 +1,390 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CommunicationController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: CommunicationController (org.am21.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CommunicationController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/110)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.controller;
+&nbsp;
+&nbsp;import org.am21.model.enumer.ConnectionType;
+&nbsp;import org.am21.model.enumer.GameState;
+&nbsp;import org.am21.model.enumer.UserStatus;
+&nbsp;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.rmi.server.ServerNotActiveException;
+&nbsp;
+<b class="nc">&nbsp;public class CommunicationController implements ICommunication {</b>
+<b class="nc">&nbsp;    public static final CommunicationController instance = new CommunicationController();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method choose which method with the same to call according to player connection type
+&nbsp;     * @param message message to send to client
+&nbsp;     * @param myPlayer player controller of the receiver
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void sendMessageToClient(String message, PlayerController myPlayer) {
+<b class="nc">&nbsp;        if (myPlayer.connectionType == ConnectionType.RMI) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                myPlayer.clientInput.callBack.sendMessageToClient(message);</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+&nbsp;                //throw new RuntimeException(e);
+<b class="nc">&nbsp;                myPlayer.getPlayer().setStatus(UserStatus.Offline);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        } else if (myPlayer.connectionType == ConnectionType.SOCKET) {</b>
+&nbsp;
+<b class="nc">&nbsp;            String messageToClient = &quot;message&quot; + &quot;|&quot; + message;</b>
+<b class="nc">&nbsp;            myPlayer.clientHandlerSocket.callback(messageToClient);</b>
+&nbsp;
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * send virtual view to client
+&nbsp;     * @param virtualView virtual view to send
+&nbsp;     * @param pIndex player index
+&nbsp;     * @param myPlayer player controller of the receiver
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void sendVirtualView(String virtualView, int pIndex, PlayerController myPlayer) {
+<b class="nc">&nbsp;        if (myPlayer.getPlayer().getStatus() != UserStatus.GameMember)</b>
+&nbsp;            return;
+&nbsp;
+<b class="nc">&nbsp;        if (myPlayer.connectionType == ConnectionType.RMI) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                myPlayer.clientInput.callBack.sendVirtualView(virtualView, pIndex);</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        } else if (myPlayer.connectionType == ConnectionType.SOCKET) {</b>
+<b class="nc">&nbsp;            String messageToClient = &quot;virtualView&quot; + &quot;|&quot; + virtualView + &quot;|&quot; + pIndex;</b>
+<b class="nc">&nbsp;            myPlayer.clientHandlerSocket.callback(messageToClient);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * send public chat virtual view to client
+&nbsp;     * @param virtualPublicChat virtual public chat to send
+&nbsp;     * @param pCtrl player controller of the receiver
+&nbsp;     */
+&nbsp;    public void sendVirtualPublicChat(String virtualPublicChat, PlayerController pCtrl) {
+<b class="nc">&nbsp;        if (pCtrl.connectionType == ConnectionType.RMI) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                pCtrl.clientInput.callBack.sendVirtualPublicChat(virtualPublicChat);</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        } else if (pCtrl.connectionType == ConnectionType.SOCKET) {</b>
+<b class="nc">&nbsp;            String messageToClient = &quot;publicChat&quot; + &quot;|&quot; + virtualPublicChat;</b>
+<b class="nc">&nbsp;            pCtrl.clientHandlerSocket.callback(messageToClient);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * send private chat virtual view to client
+&nbsp;     * @param id id of the receiver
+&nbsp;     * @param myPlayer player controller of the receiver
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void notifyStart(int id, PlayerController myPlayer) {
+<b class="nc">&nbsp;        if (myPlayer.connectionType == ConnectionType.RMI) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                myPlayer.clientInput.callBack.notifyStart(id);</b>
+<b class="nc">&nbsp;            } catch (RemoteException | ServerNotActiveException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        } else if (myPlayer.connectionType == ConnectionType.SOCKET) {</b>
+<b class="nc">&nbsp;            String messageToClient = &quot;notifyStart&quot; + &quot;|&quot; + id;</b>
+<b class="nc">&nbsp;            myPlayer.clientHandlerSocket.callback(messageToClient);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * notify the client to wait
+&nbsp;     * @param info info to send to client
+&nbsp;     * @param myPlayer player controller of the receiver
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void notifyToWait(String info, PlayerController myPlayer) {
+<b class="nc">&nbsp;        if (myPlayer.connectionType == ConnectionType.RMI) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                myPlayer.clientInput.callBack.notifyToWait(info);</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        } else if (myPlayer.connectionType == ConnectionType.SOCKET) {</b>
+<b class="nc">&nbsp;            String messageToClient = &quot;notifyWait&quot; + &quot;|&quot; + info;</b>
+<b class="nc">&nbsp;            myPlayer.clientHandlerSocket.callback(messageToClient);</b>
+&nbsp;
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * notify the client to go to menu
+&nbsp;     * @param myPlayer player controller of the receiver
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void notifyGoToMenu(PlayerController myPlayer) {
+<b class="nc">&nbsp;        if (myPlayer.connectionType == ConnectionType.RMI) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                myPlayer.clientInput.callBack.notifyGoToMenu();</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        } else if (myPlayer.connectionType == ConnectionType.SOCKET) {</b>
+<b class="nc">&nbsp;            String messageToClient = &quot;notifyGoToMenu&quot;;</b>
+<b class="nc">&nbsp;            myPlayer.clientHandlerSocket.callback(messageToClient);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * notify the client the game is ended
+&nbsp;     * @param myPlayer player controller of the receiver
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void notifyEndMatch(PlayerController myPlayer) {
+<b class="nc">&nbsp;        if (myPlayer.getPlayer().getStatus() != UserStatus.GameMember)</b>
+&nbsp;            return;
+<b class="nc">&nbsp;        if (myPlayer.connectionType == ConnectionType.RMI) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                myPlayer.clientInput.callBack.notifyEndMatch();</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        } else if (myPlayer.connectionType == ConnectionType.SOCKET) {</b>
+<b class="nc">&nbsp;            String messageToClient = &quot;notifyEndMatch&quot;;</b>
+<b class="nc">&nbsp;            myPlayer.clientHandlerSocket.callback(messageToClient);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * send the virtual hand to client
+&nbsp;     * @param JSONHand virtual hand to send
+&nbsp;     * @param myPlayer player controller of the receiver
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void sendVirtualHand(String JSONHand, PlayerController myPlayer) {
+<b class="nc">&nbsp;        if (myPlayer.connectionType == ConnectionType.RMI) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                myPlayer.clientInput.callBack.sendVirtualHand(JSONHand);</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        } else if (myPlayer.connectionType == ConnectionType.SOCKET) {</b>
+<b class="nc">&nbsp;            String messageToClient = &quot;virtualHand&quot; + &quot;|&quot; + JSONHand;</b>
+<b class="nc">&nbsp;            myPlayer.clientHandlerSocket.callback(messageToClient);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Socket Only
+&nbsp;     * Message for return value of the methods
+&nbsp;     *
+&nbsp;     * @param method the name of the method that needs a feedback
+&nbsp;     * @param value  true if the method return true, otherwise false
+&nbsp;     * @param pCtrl player controller
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void returnBool(String method, boolean value, PlayerController pCtrl) {
+<b class="nc">&nbsp;        if (pCtrl.connectionType == ConnectionType.SOCKET) {</b>
+<b class="nc">&nbsp;            String messageToClient = &quot;return&quot; + &quot;|&quot; + method + &quot;|&quot; + value;</b>
+<b class="nc">&nbsp;            pCtrl.clientHandlerSocket.callback(messageToClient);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * send chat notification to client
+&nbsp;     * @param message message to send
+&nbsp;     * @param pc player controller of the receiver
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void sendChatNotification(String message, PlayerController pc) {
+<b class="nc">&nbsp;        if (pc.connectionType == ConnectionType.RMI) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                pc.clientInput.callBack.sendChatNotification(message);</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        } else if (pc.connectionType == ConnectionType.SOCKET) {</b>
+<b class="nc">&nbsp;            String messageToClient = &quot;chatNotification&quot; + &quot;|&quot; + message;</b>
+<b class="nc">&nbsp;            pc.clientHandlerSocket.callback(messageToClient);</b>
+&nbsp;
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * send server virtual view to client
+&nbsp;     * @param serverVirtualView server virtual view to send
+&nbsp;     * @param pc player controller of the receiver
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void sendServerVirtualView(String serverVirtualView, PlayerController pc) {
+<b class="nc">&nbsp;        if (pc.connectionType == ConnectionType.RMI) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                pc.clientInput.callBack.sendServerVirtualView(serverVirtualView);</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                pc.getPlayer().setStatus(UserStatus.Offline);</b>
+&nbsp;
+&nbsp;                //throw new RuntimeException(e);
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        } else if (pc.connectionType == ConnectionType.SOCKET) {</b>
+<b class="nc">&nbsp;            String messageToClient = &quot;serverVirtualView&quot; + &quot;|&quot; + serverVirtualView;</b>
+<b class="nc">&nbsp;            pc.clientHandlerSocket.callback(messageToClient);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * notify the client to update
+&nbsp;     * @param ctrl player controller of the receiver
+&nbsp;     * @param milliseconds milliseconds to wait before update
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void notifyUpdate(PlayerController ctrl, int milliseconds) {
+<b class="nc">&nbsp;        if (ctrl.connectionType == ConnectionType.RMI) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                ctrl.clientInput.callBack.notifyUpdate(milliseconds);</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+&nbsp;                //ctrl.getPlayer().setStatus(UserStatus.Offline);
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        } else if (ctrl.connectionType == ConnectionType.SOCKET) {</b>
+<b class="nc">&nbsp;            String messageToClient = &quot;notifyUpdate&quot; + &quot;|&quot; + milliseconds;</b>
+<b class="nc">&nbsp;            ctrl.clientHandlerSocket.callback(messageToClient);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * test if the client is online
+&nbsp;     * @param ctrl player controller of the receiver
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void ping(PlayerController ctrl) {
+&nbsp;        //System.out.println(&quot;Checking if &quot; + ctrl.getPlayer().getNickname() + &quot; is online&quot;);
+<b class="nc">&nbsp;        if (ctrl.connectionType == ConnectionType.RMI) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                ctrl.clientInput.callBack.ping();</b>
+<b class="nc">&nbsp;            } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                handlePlayerOffline(ctrl);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        } else if (ctrl.connectionType == ConnectionType.SOCKET) {</b>
+<b class="nc">&nbsp;            if (ctrl.clientHandlerSocket.isServerClose()) {</b>
+<b class="nc">&nbsp;                handlePlayerOffline(ctrl);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * handle the player offline
+&nbsp;     * @param ctrl player controller of the receiver
+&nbsp;     */
+&nbsp;    public void handlePlayerOffline(PlayerController ctrl) {
+<b class="nc">&nbsp;        if (ctrl.getPlayer().getMatch() != null &amp;&amp; ctrl.getPlayer().getMatch().gameState.equals(GameState.GameGoing) &amp;&amp; ctrl.getPlayer().getStatus() != UserStatus.Suspended) {</b>
+<b class="nc">&nbsp;            ctrl.getPlayer().setStatus(UserStatus.Suspended);</b>
+<b class="nc">&nbsp;            System.out.println(ctrl.getPlayer().getNickname() + &quot; is suspended&quot;);</b>
+<b class="nc">&nbsp;            ctrl.getPlayer().getMatch().sendTextToAll(&quot;Player &quot; + ctrl.getPlayer().getNickname() + &quot; is suspended&quot;, false);</b>
+<b class="nc">&nbsp;            ctrl.getPlayer().getMatch().sendNotificationToAll(false);</b>
+<b class="nc">&nbsp;        } else if ((ctrl.getPlayer().getMatch() == null || !ctrl.getPlayer().getMatch().gameState.equals(GameState.GameGoing)) &amp;&amp; ctrl.getPlayer().getStatus() != UserStatus.Offline) {</b>
+<b class="nc">&nbsp;            ctrl.getPlayer().setStatus(UserStatus.Offline);</b>
+<b class="nc">&nbsp;            System.out.println(ctrl.getPlayer().getNickname() + &quot; is offline&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-30 11:48</div>
+</div>
+</body>
+</html>

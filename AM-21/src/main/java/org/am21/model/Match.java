@@ -134,7 +134,7 @@ public class Match {
                 if (gameState == GameState.WaitingPlayers) {
                     VirtualViewHelper.virtualizeMatchMap();
                     CommunicationController.instance.notifyToWait(VirtualViewHelper.convertMatchInfoToJSON(this), player.getController());
-                    if (chatManager.publicChatMessages.size() > 0) {
+                    if (chatManager.getPublicChatMessages().size() > 0) {
                         CommunicationController.instance.sendVirtualPublicChat(VirtualViewHelper.convertPublicChatToJSON(this.virtualView), player.getController());
                     }
                 }

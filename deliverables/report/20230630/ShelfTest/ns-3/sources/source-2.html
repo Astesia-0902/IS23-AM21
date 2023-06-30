@@ -1,0 +1,1028 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Gui</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client.view.GUI</a>
+</div>
+
+<h1>Coverage Summary for Class: Gui (org.am21.client.view.GUI)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Gui</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/50)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/312)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Gui$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/47)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">Gui$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">Gui$3</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">Gui$4</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/59)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/375)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client.view.GUI;
+&nbsp;
+&nbsp;import org.am21.client.ClientCommunicationController;
+&nbsp;import org.am21.client.view.ClientView;
+&nbsp;import org.am21.client.view.GUI.Interface.*;
+&nbsp;import org.am21.client.view.GUI.component.*;
+&nbsp;import org.am21.client.view.GUI.listener.*;
+&nbsp;import org.am21.client.view.GUI.utils.ImageUtil;
+&nbsp;import org.am21.client.view.GUI.utils.PathUtil;
+&nbsp;import org.am21.client.view.GUI.utils.PixelUtil;
+&nbsp;import org.am21.client.view.TUI.Storage;
+&nbsp;import org.am21.networkRMI.ClientCallBack;
+&nbsp;import org.am21.networkRMI.IClientInput;
+&nbsp;
+&nbsp;import javax.imageio.ImageIO;
+&nbsp;import javax.swing.*;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.event.ActionEvent;
+&nbsp;import java.awt.event.ActionListener;
+&nbsp;import java.io.File;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.rmi.server.ServerNotActiveException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;import static org.am21.client.view.ClientView.*;
+&nbsp;
+&nbsp;public class Gui {
+<b class="nc">&nbsp;    public JFrame frame = new JFrame(&quot;MyShelfie&quot;);</b>
+&nbsp;    public ClientCommunicationController commCtrl;
+&nbsp;    public IClientInput iClientInputHandler;
+&nbsp;    public ClientCallBack clientCallBack;
+&nbsp;    public static String root;
+&nbsp;    public static String username; //Client username
+&nbsp;    public CommunicationInterface communicationInterface;
+&nbsp;    public LoginInterface loginInterface;
+&nbsp;    public ServerInfoInterface serverInfoInterface;
+&nbsp;    public MenuActionInterface menuActionInterface;
+&nbsp;    public WaitingRoomInterface waitingRoomInterface;
+&nbsp;    public LivingRoomInterface livingRoomInterface;
+&nbsp;    public MyHandInterface myHandInterface;
+&nbsp;    public PersonalGoalPanel personalGoalPanel;
+&nbsp;    public CommonGoalPanel commonGoalPanel;
+&nbsp;    public GameBoardPanel gameBoardPanel;
+&nbsp;    public MyHandBoardPanel myHandBoardPanel;
+&nbsp;    public ShelfPanel myShelfPanel;
+&nbsp;    public GameResultsInterface gameResultsInterface;
+&nbsp;    public ChairManLabel chairManLabel;
+&nbsp;    public ChatDialog chatDialog;
+<b class="nc">&nbsp;    public RuleDialog ruleDialog = new RuleDialog(frame);</b>
+&nbsp;    public OnlineListDialog onlineListDialog;
+&nbsp;    public MatchListInterface matchListInterface;
+&nbsp;    //-------------------------------------------------------------
+<b class="nc">&nbsp;    public static HashMap&lt;String, JButton&gt; myChatMap = new HashMap&lt;&gt;(); //chatPlayer</b>
+<b class="nc">&nbsp;    public static String chatReceiver = &quot;#Unknown&quot;; //chatUser</b>
+&nbsp;    //Key: &quot;Receiver&quot;, Value: Private chat History
+<b class="nc">&nbsp;    public static HashMap&lt;String, JTextArea&gt; privateChatHistoryMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;    public static JTextArea publicChatHistory = new JTextArea();</b>
+<b class="nc">&nbsp;    public Object windowObject = new Object();</b>
+<b class="nc">&nbsp;    public Object chatWindowObject = new Object();</b>
+<b class="nc">&nbsp;    public static Boolean newChatWindow = false;</b>
+&nbsp;    //-------------------------------------------------------------------
+<b class="nc">&nbsp;    public Object refreshLock = new Object();</b>
+<b class="nc">&nbsp;    public Boolean menuRefresh = false;</b>
+<b class="nc">&nbsp;    public Boolean waitRoomRefresh = false;</b>
+<b class="nc">&nbsp;    public Boolean gameBoardRefresh = false;</b>
+<b class="nc">&nbsp;    public Boolean needNewFrame = false;</b>
+<b class="nc">&nbsp;    public Object askChatLock = new Object();</b>
+<b class="nc">&nbsp;    public Boolean askChat = false;</b>
+&nbsp;    private int matchIndex;
+<b class="nc">&nbsp;    public Thread guiMinion = new Thread() {</b>
+&nbsp;        @Override
+&nbsp;        public void run() {
+<b class="nc">&nbsp;            super.run();</b>
+&nbsp;            while (true) {
+<b class="nc">&nbsp;                if (livingRoomInterface != null) {</b>
+<b class="nc">&nbsp;                    livingRoomInterface.dispose();</b>
+&nbsp;                }
+<b class="nc">&nbsp;                while (!MATCH_END &amp;&amp; !GAME_ON &amp;&amp; GO_TO_MENU) {</b>
+&nbsp;                    try {
+<b class="nc">&nbsp;                        askMenuAction();</b>
+<b class="nc">&nbsp;                        Thread.sleep(200);</b>
+<b class="nc">&nbsp;                    } catch (RemoteException | InterruptedException e) {</b>
+<b class="nc">&nbsp;                        throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                }
+<b class="nc">&nbsp;                if (chatDialog != null) {</b>
+<b class="nc">&nbsp;                    chatDialog.setVisible(false);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                if (onlineListDialog != null) {</b>
+<b class="nc">&nbsp;                    onlineListDialog.setVisible(false);</b>
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;                while (!GAME_ON &amp;&amp; !GO_TO_MENU) {</b>
+&nbsp;                    try {
+<b class="nc">&nbsp;                        askWaitingAction();</b>
+<b class="nc">&nbsp;                        Thread.sleep(200);</b>
+<b class="nc">&nbsp;                    } catch (RemoteException | InterruptedException e) {</b>
+<b class="nc">&nbsp;                        throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;                    }</b>
+&nbsp;
+&nbsp;                }
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;                if (waitingRoomInterface != null) {</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;WaitingRoomInterface Disposed&quot;);</b>
+<b class="nc">&nbsp;                    waitingRoomInterface.setVisible(false);</b>
+&nbsp;                    //waitingRoomInterface = null;
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;                if (chatDialog != null) {</b>
+<b class="nc">&nbsp;                    chatDialog.setVisible(false);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                if (onlineListDialog != null) {</b>
+<b class="nc">&nbsp;                    onlineListDialog.setVisible(false);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                while (GAME_ON &amp;&amp; !GO_TO_MENU) {</b>
+&nbsp;                    try {
+<b class="nc">&nbsp;                        if (MATCH_START) {</b>
+<b class="nc">&nbsp;                            showMatchSetup();</b>
+<b class="nc">&nbsp;                            ClientView.setMatchStart(false);</b>
+<b class="nc">&nbsp;                        } else if (gameBoardRefresh) {</b>
+<b class="nc">&nbsp;                            SwingUtilities.invokeLater(() -&gt; {</b>
+&nbsp;                                try {
+<b class="nc">&nbsp;                                    announceCurrentPlayer();</b>
+<b class="nc">&nbsp;                                } catch (RemoteException e) {</b>
+<b class="nc">&nbsp;                                    throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;                                }</b>
+&nbsp;                            });
+&nbsp;
+<b class="nc">&nbsp;                            setGameBoardRefresh(false);</b>
+<b class="nc">&nbsp;                            System.out.println(&quot;Reload Game Board&quot;);</b>
+&nbsp;                        }
+<b class="nc">&nbsp;                        Thread.sleep(200);</b>
+<b class="nc">&nbsp;                    } catch (RemoteException | InterruptedException e) {</b>
+<b class="nc">&nbsp;                        throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                }
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;                while (MATCH_END &amp;&amp; GO_TO_MENU &amp;&amp; !GAME_ON) {</b>
+<b class="nc">&nbsp;                    askEndRoom();</b>
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;                if (gameResultsInterface != null) {</b>
+<b class="nc">&nbsp;                    gameResultsInterface = null;</b>
+&nbsp;                }
+&nbsp;
+&nbsp;            }
+&nbsp;
+&nbsp;        }
+&nbsp;    };
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;    public Thread guiMinionChat = new Thread() {</b>
+&nbsp;        @Override
+&nbsp;        public void run() {
+<b class="nc">&nbsp;            super.run();</b>
+&nbsp;            while (true) {
+<b class="nc">&nbsp;                while (askChat) {</b>
+<b class="nc">&nbsp;                    askChat();</b>
+&nbsp;                }
+&nbsp;                try {
+<b class="nc">&nbsp;                    Thread.sleep(200);</b>
+<b class="nc">&nbsp;                } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;                    throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;            }
+&nbsp;
+&nbsp;
+&nbsp;        }
+&nbsp;    };
+<b class="nc">&nbsp;    public final Object chatLock = new Object();</b>
+<b class="nc">&nbsp;    public ChatRunnable chatRun = new ChatRunnable(this);</b>
+<b class="nc">&nbsp;    public Thread guiDialogMinion = new Thread(chatRun);</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;    public Thread guiChatListenerMinion = new Thread() {</b>
+&nbsp;        @Override
+&nbsp;        public void run() {
+<b class="nc">&nbsp;            super.run();</b>
+<b class="nc">&nbsp;            synchronized (chatLock) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;ChatListener start&quot;);</b>
+<b class="nc">&nbsp;                new ChatListener(chatRun.gui);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    };
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     *
+&nbsp;     * @throws Exception
+&nbsp;     */
+<b class="nc">&nbsp;    public Gui() throws Exception {</b>
+<b class="nc">&nbsp;        this.clientCallBack = new ClientCallBack();</b>
+<b class="nc">&nbsp;        this.clientCallBack.gui = this;</b>
+<b class="nc">&nbsp;        frame.setIconImage(ImageIO.read(new File(PathUtil.getPath(&quot;Publisher material/Icon 50x50px.png&quot;))));</b>
+<b class="nc">&nbsp;        frame.setUndecorated(true);</b>
+<b class="nc">&nbsp;        frame.setResizable(false);</b>
+<b class="nc">&nbsp;        frame.setVisible(true);</b>
+<b class="nc">&nbsp;        frame.setLocationRelativeTo(null);</b>
+<b class="nc">&nbsp;        new RuleListener(this);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Init the gui
+&nbsp;     */
+&nbsp;    public void init() throws Exception {
+<b class="nc">&nbsp;        commCtrl = new ClientCommunicationController();</b>
+<b class="nc">&nbsp;        commCtrl.gui = this;</b>
+<b class="nc">&nbsp;        communicationInterface = new CommunicationInterface(frame);</b>
+<b class="nc">&nbsp;        new CommunicationListener(this);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask for a server info RMI
+&nbsp;     */
+&nbsp;    public void askServerInfoRMI() {
+<b class="nc">&nbsp;        serverInfoInterface = new ServerInfoInterface(frame);</b>
+<b class="nc">&nbsp;        new ServerInfoListener(this);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask for a server info socket
+&nbsp;     */
+&nbsp;    public void askServerInfoSocket() {
+<b class="nc">&nbsp;        serverInfoInterface = new ServerInfoInterface(frame);</b>
+<b class="nc">&nbsp;        new ServerInfoListener(this);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask for a login
+&nbsp;     */
+&nbsp;    public void askLogin() throws RemoteException {
+<b class="nc">&nbsp;        loginInterface = new LoginInterface(frame);</b>
+<b class="nc">&nbsp;        new LoginListener(this);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask for menu action
+&nbsp;     */
+&nbsp;    public void askMenuAction() throws RemoteException {
+<b class="nc">&nbsp;        if (menuActionInterface == null) {</b>
+<b class="nc">&nbsp;            menuActionInterface = new MenuActionInterface(frame, username);</b>
+<b class="nc">&nbsp;            new MenuActionListener(this);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;MenuActionInterface done&quot;);</b>
+<b class="nc">&nbsp;        } else if (menuActionInterface != null &amp;&amp; needNewFrame) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;New MenuAction Interface&quot;);</b>
+<b class="nc">&nbsp;            menuActionInterface = new MenuActionInterface(frame, username);</b>
+<b class="nc">&nbsp;            new MenuActionListener(this);</b>
+<b class="nc">&nbsp;            menuActionInterface.setVisible(true);</b>
+<b class="nc">&nbsp;            setNeedNewFrame(false);</b>
+<b class="nc">&nbsp;        } else if (menuRefresh &amp;&amp; menuActionInterface != null) {</b>
+<b class="nc">&nbsp;            SwingUtilities.invokeLater(() -&gt; {</b>
+<b class="nc">&nbsp;                menuActionInterface.reloadMenu();</b>
+<b class="nc">&nbsp;                menuActionInterface.revalidate();</b>
+<b class="nc">&nbsp;                menuActionInterface.repaint();</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Menu repainted&quot;);</b>
+&nbsp;            });
+<b class="nc">&nbsp;            setMenuRefresh(false);</b>
+&nbsp;
+&nbsp;        }
+&nbsp;
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask for a match setup
+&nbsp;     */
+&nbsp;    public int askMaxSeats() {
+<b class="nc">&nbsp;        menuActionInterface.maxSeatsDialog.setVisible(true);</b>
+<b class="nc">&nbsp;        return 0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask for change seats
+&nbsp;     */
+&nbsp;    public int askChangeSeats() {
+<b class="nc">&nbsp;        waitingRoomInterface.maxSeatsDialog.setVisible(true);</b>
+<b class="nc">&nbsp;        return 0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask for waiting action
+&nbsp;     */
+&nbsp;    public void askWaitingAction() throws RemoteException {
+<b class="nc">&nbsp;        for (int i = 0; i &lt; ClientView.matchList.length; i++) {</b>
+<b class="nc">&nbsp;            if (Integer.parseInt(ClientView.matchList[i][0]) == ClientView.matchID) {</b>
+<b class="nc">&nbsp;                matchIndex = Integer.parseInt(ClientView.matchList[i][0]) ;</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        String numMiss = ClientView.matchList[matchIndex][2], numMax = ClientView.matchList[matchIndex][3];</b>
+&nbsp;
+<b class="nc">&nbsp;        int matchID = ClientView.matchID;</b>
+<b class="nc">&nbsp;        if (waitingRoomInterface == null || !waitingRoomInterface.isVisible()) {</b>
+<b class="nc">&nbsp;            waitingRoomInterface = new WaitingRoomInterface(frame, numMiss, numMax, matchID);</b>
+<b class="nc">&nbsp;            new WaitingRoomListener(this);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (waitRoomRefresh) {</b>
+<b class="nc">&nbsp;            SwingUtilities.invokeLater(() -&gt; {</b>
+<b class="nc">&nbsp;                waitingRoomInterface.reloadPlayerNumber(numMiss, numMax, matchID);</b>
+<b class="nc">&nbsp;                waitingRoomInterface.revalidate();</b>
+<b class="nc">&nbsp;                waitingRoomInterface.repaint();</b>
+&nbsp;            });
+<b class="nc">&nbsp;            setWaitRoomRefresh(false);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask for join a match
+&nbsp;     */
+&nbsp;    public boolean askJoinMatch() {
+<b class="nc">&nbsp;        DefaultListModel&lt;String&gt; matchModel = new DefaultListModel&lt;&gt;();</b>
+<b class="nc">&nbsp;        if (ClientView.matchList != null) {</b>
+<b class="nc">&nbsp;            String[] match = new String[ClientView.matchList.length];</b>
+<b class="nc">&nbsp;            for (int i = 0; i &lt; ClientView.matchList.length; i++) {</b>
+<b class="nc">&nbsp;                match[i] = &quot;ID: &quot; + ClientView.matchList[i][0] + &quot;  |  &quot; + ClientView.matchList[i][1]</b>
+&nbsp;                        + &quot; | Players: (&quot; + ClientView.matchList[i][2] + &quot;/&quot; + ClientView.matchList[i][3] + &quot;)&quot;;
+&nbsp;            }
+<b class="nc">&nbsp;            for (String m : match) {</b>
+<b class="nc">&nbsp;                matchModel.addElement(m);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        matchListInterface = new MatchListInterface(frame, matchModel);</b>
+<b class="nc">&nbsp;        new MatchListListener(this);</b>
+&nbsp;
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask for leave a match
+&nbsp;     */
+&nbsp;    public boolean askLeaveMatch() throws RemoteException {
+&nbsp;
+<b class="nc">&nbsp;        return commCtrl.leaveMatch();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask for exit the game
+&nbsp;     */
+&nbsp;    public boolean askExitGame() throws RemoteException {
+&nbsp;
+<b class="nc">&nbsp;        if (commCtrl.exitGame()) {</b>
+<b class="nc">&nbsp;            System.exit(0);</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask for show the common goals
+&nbsp;     */
+&nbsp;    public void showCommonGoals() {
+&nbsp;        //refreshing CommonGoal Token
+<b class="nc">&nbsp;        commonGoalPanel.refreshScoringTokens(commonGoalScore.get(0), commonGoalScore.get(1));</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask for show the personal goals
+&nbsp;     */
+&nbsp;    public void showPersonalGoal() throws RemoteException {
+<b class="nc">&nbsp;        personalGoalPanel = new PersonalGoalPanel(personalGoal);</b>
+<b class="nc">&nbsp;        livingRoomInterface.livingRoomPane.add(personalGoalPanel, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask for announce the current player
+&nbsp;     */
+&nbsp;    public void announceCurrentPlayer() throws RemoteException {
+<b class="nc">&nbsp;        SwingUtilities.invokeLater(() -&gt; {</b>
+<b class="nc">&nbsp;            myShelfPanel.refreshShelf(shelves.get(getPlayerIndex(username))); //refresh my shelf</b>
+&nbsp;        });
+&nbsp;
+<b class="nc">&nbsp;        SwingUtilities.invokeLater(() -&gt; {</b>
+<b class="nc">&nbsp;            myHandBoardPanel.refreshItem(currentPlayerHand); //refresh hand panel</b>
+&nbsp;        });
+&nbsp;
+&nbsp;        //refresh board
+<b class="nc">&nbsp;        SwingUtilities.invokeLater(this::showBoard);</b>
+&nbsp;        //refresh enemy&#39;s shelf
+<b class="nc">&nbsp;        SwingUtilities.invokeLater(this::showEveryShelf);</b>
+&nbsp;        // refresh shelf
+<b class="nc">&nbsp;        SwingUtilities.invokeLater(this::showPlayersStats);</b>
+&nbsp;        //change player color
+<b class="nc">&nbsp;        SwingUtilities.invokeLater(this::showWhoIsPlaying);</b>
+&nbsp;        //Update common goal token
+<b class="nc">&nbsp;        SwingUtilities.invokeLater(this::showCommonGoals);</b>
+&nbsp;        //Update endgame token
+<b class="nc">&nbsp;        SwingUtilities.invokeLater(this::showEndGameToken);</b>
+&nbsp;
+<b class="nc">&nbsp;        SwingUtilities.invokeLater(() -&gt; {</b>
+<b class="nc">&nbsp;            livingRoomInterface.revalidate();</b>
+<b class="nc">&nbsp;            livingRoomInterface.repaint();</b>
+&nbsp;        });
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask for game results
+&nbsp;     */
+&nbsp;    public void askEndRoom() {
+&nbsp;
+<b class="nc">&nbsp;        if (gameResultsInterface == null) {</b>
+<b class="nc">&nbsp;            gameResultsInterface = new GameResultsInterface(this, gameResults);</b>
+<b class="nc">&nbsp;            new Thread(() -&gt; {</b>
+<b class="nc">&nbsp;                gameResultsInterface.setVisible(true);</b>
+<b class="nc">&nbsp;            }).start();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (waitingRoomInterface != null &amp;&amp; waitingRoomInterface.isActive()) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;WaitingRoomInterface Disposed&quot;);</b>
+<b class="nc">&nbsp;            waitingRoomInterface.dispose();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (menuActionInterface != null &amp;&amp; menuActionInterface.isActive()) {</b>
+<b class="nc">&nbsp;            menuActionInterface.dispose();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * view the current player
+&nbsp;     */
+&nbsp;    public void showWhoIsPlaying() {
+<b class="nc">&nbsp;        if (currentPlayer.equals(username)) {</b>
+&nbsp;            // it&#39;s my turn
+<b class="nc">&nbsp;            if (livingRoomInterface.livingRoomPanel.flashingTimer != null)</b>
+<b class="nc">&nbsp;                livingRoomInterface.livingRoomPanel.flashingTimer.start();</b>
+&nbsp;
+<b class="nc">&nbsp;            for (EnemyPanel enemyPanel : livingRoomInterface.enemiesPanel.values()) {</b>
+<b class="nc">&nbsp;                if (enemyPanel.flashingTimer != null) {</b>
+<b class="nc">&nbsp;                    enemyPanel.flashingTimer.stop();</b>
+<b class="nc">&nbsp;                    enemyPanel.setStatusBorder();</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;        } else {
+&nbsp;            // enemies turn
+<b class="nc">&nbsp;            if (livingRoomInterface.livingRoomPanel.flashingTimer != null)</b>
+<b class="nc">&nbsp;                livingRoomInterface.livingRoomPanel.flashingTimer.stop();</b>
+<b class="nc">&nbsp;            livingRoomInterface.livingRoomPanel.setBorderColor();</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;            for (EnemyPanel enemyPanel : livingRoomInterface.enemiesPanel.values()) {</b>
+<b class="nc">&nbsp;                if (enemyPanel.flashingTimer != null) {</b>
+<b class="nc">&nbsp;                    if (enemyPanel.enemyName.getText().equals(currentPlayer))</b>
+<b class="nc">&nbsp;                        enemyPanel.flashingTimer.start();</b>
+&nbsp;                    else {
+<b class="nc">&nbsp;                        enemyPanel.flashingTimer.stop();</b>
+<b class="nc">&nbsp;                        enemyPanel.setStatusBorder();</b>
+&nbsp;                    }
+&nbsp;
+&nbsp;                }
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+<b class="nc">&nbsp;            gameBoardPanel.refreshEnemyView(virtualBoard, this); //refresh enemy action on the game board</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        //if my turn
+<b class="nc">&nbsp;        SwingUtilities.invokeLater(() -&gt; {</b>
+<b class="nc">&nbsp;            livingRoomInterface.revalidate();</b>
+<b class="nc">&nbsp;            livingRoomInterface.repaint();</b>
+&nbsp;        });
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * view every shelf
+&nbsp;     */
+&nbsp;    public void showEveryShelf() {
+&nbsp;        //refresh enemies shelf
+<b class="nc">&nbsp;        livingRoomInterface.refreshEnemiesShelves(shelves);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * ask for show the game board
+&nbsp;     */
+&nbsp;    public void showBoard() {
+&nbsp;        //refresh game Board
+<b class="nc">&nbsp;        gameBoardPanel.refreshBoard(virtualBoard, this);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * ask for show the players stats
+&nbsp;     */
+&nbsp;    public void showPlayersStats() {
+&nbsp;        //refresh my score
+<b class="nc">&nbsp;        livingRoomInterface.livingRoomPanel.refreshMyScore(scores.get(getPlayerIndex(username)), hiddenPoints.get(getPlayerIndex(username)));</b>
+&nbsp;        //refresh enemies score
+<b class="nc">&nbsp;        livingRoomInterface.refreshEnemiesScores(scores);</b>
+&nbsp;
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    public void askSelection() throws ServerNotActiveException, RemoteException {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * ask for insertion
+&nbsp;     */
+&nbsp;    public void askInsertion() throws ServerNotActiveException, RemoteException {
+<b class="nc">&nbsp;        myHandInterface = new MyHandInterface(this);</b>
+<b class="nc">&nbsp;        myHandInterface.refreshHand(currentPlayerHand);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask for show the end game token
+&nbsp;     */
+&nbsp;    public void showEndGameToken() {
+<b class="nc">&nbsp;        if (!endGameToken)</b>
+<b class="nc">&nbsp;            gameBoardPanel.pickScoreTokenEndGame();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask for show the match setup
+&nbsp;     */
+&nbsp;    public void showMatchSetup() throws RemoteException {
+&nbsp;
+<b class="nc">&nbsp;        livingRoomInterface = new LivingRoomInterface(frame, this);</b>
+<b class="nc">&nbsp;        showPersonalGoal();</b>
+&nbsp;
+&nbsp;        //set common goal
+<b class="nc">&nbsp;        commonGoalPanel = new CommonGoalPanel(commonGoal.get(0), commonGoal.get(1));</b>
+<b class="nc">&nbsp;        livingRoomInterface.livingRoomPane.add(commonGoalPanel, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;
+&nbsp;        //set CommonGoal Token
+<b class="nc">&nbsp;        commonGoalPanel.setScoreToken(commonGoalScore.get(0), commonGoalScore.get(1));</b>
+&nbsp;
+&nbsp;        //if me is chairMan
+<b class="nc">&nbsp;        if (username.equals(currentPlayer)) {</b>
+<b class="nc">&nbsp;            chairManLabel = new ChairManLabel(true);</b>
+<b class="nc">&nbsp;            livingRoomInterface.livingRoomPane.add(chairManLabel, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        //set my Hand
+<b class="nc">&nbsp;        myHandBoardPanel = new MyHandBoardPanel();</b>
+<b class="nc">&nbsp;        livingRoomInterface.livingRoomPane.add(myHandBoardPanel, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;
+&nbsp;
+&nbsp;        //set initial game board
+<b class="nc">&nbsp;        gameBoardPanel = new GameBoardPanel(maxSeats);</b>
+<b class="nc">&nbsp;        livingRoomInterface.livingRoomPane.add(gameBoardPanel, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;
+&nbsp;        //set the game board
+<b class="nc">&nbsp;        gameBoardPanel.fillingBoard(ClientView.virtualBoard, this);</b>
+&nbsp;
+&nbsp;        //set EndGameToken
+<b class="nc">&nbsp;        gameBoardPanel.setScoreTokenEndGame();</b>
+&nbsp;
+&nbsp;        //refresh every one score
+<b class="nc">&nbsp;        showPlayersStats();</b>
+&nbsp;
+&nbsp;        //show the color of current player
+<b class="nc">&nbsp;        showWhoIsPlaying();</b>
+&nbsp;
+&nbsp;        //set my shelf
+<b class="nc">&nbsp;        myShelfPanel = new ShelfPanel(PixelUtil.myGridX, PixelUtil.myGridY, PixelUtil.myCellW, PixelUtil.myCellH, PixelUtil.myItemW, PixelUtil.myItemH);</b>
+<b class="nc">&nbsp;        livingRoomInterface.livingRoomPane.add(myShelfPanel, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;
+&nbsp;        //set Timer
+<b class="nc">&nbsp;        if (currentPlayer.equals(username))</b>
+<b class="nc">&nbsp;            livingRoomInterface.livingRoomPanel.flashingTimer.start();</b>
+&nbsp;        else
+<b class="nc">&nbsp;            livingRoomInterface.enemiesPanel.get(currentPlayer).flashingTimer.start();</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask for send the message
+&nbsp;     */
+&nbsp;    public void print(String message) {
+<b class="nc">&nbsp;        JOptionPane.showMessageDialog(frame, message);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void timeLimitedNotification(String message, int time) {
+<b class="nc">&nbsp;        if (chatDialog != null &amp;&amp; chatDialog.isVisible()) {</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="nc">&nbsp;        SwingUtilities.invokeLater(() -&gt; {</b>
+<b class="nc">&nbsp;            JDialog dialog = new JDialog(frame);</b>
+<b class="nc">&nbsp;            dialog.setUndecorated(true);</b>
+&nbsp;
+<b class="nc">&nbsp;            FontMetrics fontMetrics = dialog.getFontMetrics(dialog.getFont());</b>
+<b class="nc">&nbsp;            int messageWidth = fontMetrics.stringWidth(message);</b>
+<b class="nc">&nbsp;            int dialogWidth = Math.max(messageWidth + 50, 300);</b>
+&nbsp;
+<b class="nc">&nbsp;            dialog.setSize(dialogWidth, 50);</b>
+<b class="nc">&nbsp;            dialog.setLocationByPlatform(true);</b>
+<b class="nc">&nbsp;            dialog.setLocationRelativeTo(null);</b>
+<b class="nc">&nbsp;            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;            int x = (screenSize.width / 2 - dialog.getWidth() / 2);</b>
+<b class="nc">&nbsp;            int y = 0;</b>
+&nbsp;
+<b class="nc">&nbsp;            dialog.setLocation(x, y);</b>
+&nbsp;
+<b class="nc">&nbsp;            JPanel panel = new JPanel(new BorderLayout());</b>
+&nbsp;
+<b class="nc">&nbsp;            JLabel label = new JLabel(message);</b>
+<b class="nc">&nbsp;            label.setHorizontalAlignment(SwingConstants.CENTER);</b>
+&nbsp;
+<b class="nc">&nbsp;            panel.add(label, BorderLayout.CENTER);</b>
+&nbsp;
+<b class="nc">&nbsp;            panel.setBackground(Color.LIGHT_GRAY);</b>
+<b class="nc">&nbsp;            panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));</b>
+&nbsp;
+<b class="nc">&nbsp;            dialog.getContentPane().add(panel);</b>
+&nbsp;
+<b class="nc">&nbsp;            Timer timer = new Timer(time, new ActionListener() {</b>
+&nbsp;                @Override
+&nbsp;                public void actionPerformed(ActionEvent e) {
+<b class="nc">&nbsp;                    dialog.dispose();</b>
+&nbsp;                }
+&nbsp;            });
+<b class="nc">&nbsp;            timer.setRepeats(false);</b>
+<b class="nc">&nbsp;            timer.start();</b>
+&nbsp;
+<b class="nc">&nbsp;            dialog.setVisible(true);</b>
+&nbsp;        });
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask for chat
+&nbsp;     */
+&nbsp;    public void askChat() {
+<b class="nc">&nbsp;        convertPrivateChatsForGUI();</b>
+<b class="nc">&nbsp;        convertPublicChatForGUI();</b>
+<b class="nc">&nbsp;        if (chatDialog == null &amp;&amp; !newChatWindow) {</b>
+<b class="nc">&nbsp;            setAskChat(false);</b>
+<b class="nc">&nbsp;            guiDialogMinion.start();</b>
+<b class="nc">&nbsp;            guiChatListenerMinion.start();</b>
+<b class="nc">&nbsp;        } else if (chatDialog == null &amp;&amp; newChatWindow) {</b>
+<b class="nc">&nbsp;            setAskChat(false);</b>
+<b class="nc">&nbsp;            guiDialogMinion.start();</b>
+<b class="nc">&nbsp;            guiChatListenerMinion.start();</b>
+<b class="nc">&nbsp;        } else if (chatDialog != null &amp;&amp; newChatWindow) {</b>
+<b class="nc">&nbsp;            setAskChat(false);</b>
+<b class="nc">&nbsp;            SwingUtilities.invokeLater(() -&gt; {</b>
+<b class="nc">&nbsp;                chatDialog.reloadChat();</b>
+<b class="nc">&nbsp;                if (livingRoomInterface != null &amp;&amp; chatDialog != null &amp;&amp; onlineListDialog != null) {</b>
+<b class="nc">&nbsp;                    chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);</b>
+<b class="nc">&nbsp;                    chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);</b>
+<b class="nc">&nbsp;                    onlineListDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cPlayerWindowY);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                chatDialog.getContentPane().revalidate();</b>
+<b class="nc">&nbsp;                chatDialog.getContentPane().repaint();</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Repaint success(Visible)&quot;);</b>
+<b class="nc">&nbsp;                chatDialog.setVisible(true);</b>
+&nbsp;
+&nbsp;            });
+<b class="nc">&nbsp;            setNewChatWindow(false);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            setAskChat(false);</b>
+&nbsp;            // Normal chat update
+<b class="nc">&nbsp;            SwingUtilities.invokeLater(() -&gt; {</b>
+<b class="nc">&nbsp;                chatDialog.reloadChat();</b>
+<b class="nc">&nbsp;                if (livingRoomInterface != null &amp;&amp; chatDialog != null &amp;&amp; onlineListDialog != null) {</b>
+<b class="nc">&nbsp;                    chatDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cWindowY);</b>
+<b class="nc">&nbsp;                    chatDialog.setSize(PixelUtil.cWindowW, PixelUtil.cWindowH);</b>
+<b class="nc">&nbsp;                    onlineListDialog.setLocation(PixelUtil.commonX_1, PixelUtil.cPlayerWindowY);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                chatDialog.getContentPane().revalidate();</b>
+<b class="nc">&nbsp;                chatDialog.getContentPane().repaint();</b>
+&nbsp;            });
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask for show online player
+&nbsp;     */
+&nbsp;    public void showOnlinePlayer() throws RemoteException {
+<b class="nc">&nbsp;        DefaultListModel&lt;String&gt; userModel = new DefaultListModel&lt;&gt;();</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; ClientView.onlinePlayers.length; i++) {</b>
+<b class="nc">&nbsp;            if (ClientView.onlinePlayers[i][0] != null) {</b>
+<b class="nc">&nbsp;                if (ClientView.onlinePlayers[i][0].equals(username)) {</b>
+<b class="nc">&nbsp;                    userModel.addElement(ClientView.onlinePlayers[i][0] + &quot;  |  &quot; + ClientView.onlinePlayers[i][1] + &quot; (You) &quot;);</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                    userModel.addElement(ClientView.onlinePlayers[i][0] + &quot;  |  &quot; + ClientView.onlinePlayers[i][1]);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (onlineListDialog == null || !onlineListDialog.isVisible()) {</b>
+<b class="nc">&nbsp;            onlineListDialog = new OnlineListDialog(frame, userModel);</b>
+<b class="nc">&nbsp;            new OnlineListListener(this);</b>
+<b class="nc">&nbsp;        } else if (onlineListDialog != null &amp;&amp; !onlineListDialog.isVisible()) {</b>
+<b class="nc">&nbsp;            SwingUtilities.invokeLater(() -&gt; {</b>
+<b class="nc">&nbsp;                onlineListDialog.setVisible(true);</b>
+<b class="nc">&nbsp;                onlineListDialog.revalidate();</b>
+<b class="nc">&nbsp;                onlineListDialog.repaint();</b>
+&nbsp;            });
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void replyDEBUG(String message) {
+<b class="nc">&nbsp;        System.out.println(message);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask for show game rules
+&nbsp;     */
+&nbsp;    public void showGameRules() {
+<b class="nc">&nbsp;        ruleDialog.setVisible(true);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * convert private chat for GUI
+&nbsp;     */
+&nbsp;    public void convertPrivateChatsForGUI() {
+&nbsp;
+<b class="nc">&nbsp;        java.util.List&lt;JTextArea&gt; visualChats = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Convert Private Chats&quot;);</b>
+<b class="nc">&nbsp;        if (ClientView.privateChats != null &amp;&amp; !ClientView.privateChats.isEmpty()) {</b>
+<b class="nc">&nbsp;            java.util.List&lt;java.util.List&lt;String&gt;&gt; privateChatsList = ClientView.privateChats;</b>
+<b class="nc">&nbsp;            for (java.util.List&lt;String&gt; chat : privateChatsList) {</b>
+<b class="nc">&nbsp;                JTextArea historyTMP = new JTextArea(ImageUtil.resizeX(10), ImageUtil.resizeY(20));</b>
+<b class="nc">&nbsp;                historyTMP.setEditable(false);</b>
+<b class="nc">&nbsp;                historyTMP.setForeground(new Color(106, 2, 1));</b>
+<b class="nc">&nbsp;                historyTMP.setFont(new Font(&quot;Serif&quot;, Font.BOLD, ImageUtil.resizeY(14)));</b>
+<b class="nc">&nbsp;                historyTMP.setLineWrap(true);</b>
+<b class="nc">&nbsp;                historyTMP.setWrapStyleWord(true);</b>
+<b class="nc">&nbsp;                historyTMP.setCaretPosition(historyTMP.getDocument().getLength());</b>
+<b class="nc">&nbsp;                for (String line : chat) {</b>
+<b class="nc">&nbsp;                    historyTMP.append(line + &quot;\n&quot;);</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                historyTMP.setCaretPosition(historyTMP.getDocument().getLength());</b>
+&nbsp;
+<b class="nc">&nbsp;                visualChats.add(historyTMP);</b>
+&nbsp;
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+&nbsp;            // ChatMap (Keys)
+<b class="nc">&nbsp;            if (ClientView.chatMap != null &amp;&amp; !ClientView.chatMap.isEmpty()) {</b>
+<b class="nc">&nbsp;                for (Map.Entry&lt;String, Integer&gt; entry : ClientView.chatMap.entrySet()) {</b>
+<b class="nc">&nbsp;                    String key = entry.getKey();</b>
+<b class="nc">&nbsp;                    if (key.startsWith(Gui.username) || key.endsWith(Gui.username)) {</b>
+<b class="nc">&nbsp;                        String[] newKey = key.split(&quot;@&quot;);</b>
+<b class="nc">&nbsp;                        String receiver = &quot;&quot;;</b>
+<b class="nc">&nbsp;                        if (newKey[0].equals(Gui.username)) {</b>
+<b class="nc">&nbsp;                            receiver = newKey[1];</b>
+<b class="nc">&nbsp;                        } else if (newKey[1].equals(Gui.username)) {</b>
+<b class="nc">&nbsp;                            receiver = newKey[0];</b>
+&nbsp;                        }
+&nbsp;
+<b class="nc">&nbsp;                        int value = entry.getValue();</b>
+&nbsp;                        //Insert key(receiver) and JTextArea of the Private Chat
+&nbsp;                        // Direct Update
+<b class="nc">&nbsp;                        Gui.privateChatHistoryMap.put(receiver, visualChats.get(value));</b>
+&nbsp;
+&nbsp;                        //chatMap.put(receiver, visualChats.get(value));
+<b class="nc">&nbsp;                        if (Gui.myChatMap != null &amp;&amp; !Gui.myChatMap.containsKey(receiver)) {</b>
+<b class="nc">&nbsp;                            Gui.myChatMap.put(receiver, new JButton(receiver));</b>
+&nbsp;                        }
+&nbsp;                    }
+<b class="nc">&nbsp;                }</b>
+&nbsp;
+&nbsp;            }
+&nbsp;
+&nbsp;        }
+&nbsp;
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * convert public chat for GUI
+&nbsp;     */
+&nbsp;    public void convertPublicChatForGUI() {
+<b class="nc">&nbsp;        JTextArea historyTMP = new JTextArea(ImageUtil.resizeX(10), ImageUtil.resizeY(20));</b>
+<b class="nc">&nbsp;        historyTMP.setEditable(false);</b>
+<b class="nc">&nbsp;        historyTMP.setForeground(new Color(106, 2, 1));</b>
+<b class="nc">&nbsp;        historyTMP.setFont(new Font(&quot;Serif&quot;, Font.BOLD, ImageUtil.resizeY(14)));</b>
+<b class="nc">&nbsp;        historyTMP.setLineWrap(true);</b>
+<b class="nc">&nbsp;        historyTMP.setWrapStyleWord(true);</b>
+<b class="nc">&nbsp;        historyTMP.setCaretPosition(historyTMP.getDocument().getLength());</b>
+<b class="nc">&nbsp;        if (ClientView.publicChat != null &amp;&amp; !ClientView.publicChat.isEmpty()) {</b>
+<b class="nc">&nbsp;            java.util.List&lt;String&gt; tmpChat = ClientView.publicChat;</b>
+<b class="nc">&nbsp;            for (String line : tmpChat) {</b>
+<b class="nc">&nbsp;                historyTMP.append(line + &quot;\n&quot;);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            historyTMP.setCaretPosition(historyTMP.getDocument().getLength());</b>
+&nbsp;
+&nbsp;            //DEBUG print chat
+<b class="nc">&nbsp;            System.out.println(historyTMP.getText());</b>
+<b class="nc">&nbsp;        } else {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;No Public chat&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        Gui.publicChatHistory = historyTMP;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setAskChat(boolean value) {
+<b class="nc">&nbsp;        synchronized (askChatLock) {</b>
+<b class="nc">&nbsp;            askChat = value;</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setNewChatWindow(boolean value) {
+<b class="nc">&nbsp;        synchronized (chatWindowObject) {</b>
+<b class="nc">&nbsp;            newChatWindow = value;</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setGameBoardRefresh(boolean value) {
+<b class="nc">&nbsp;        synchronized (refreshLock) {</b>
+<b class="nc">&nbsp;            gameBoardRefresh = value;</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setMenuRefresh(boolean value) {
+<b class="nc">&nbsp;        synchronized (refreshLock) {</b>
+<b class="nc">&nbsp;            menuRefresh = value;</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setNeedNewFrame(boolean value) {
+<b class="nc">&nbsp;        synchronized (windowObject) {</b>
+<b class="nc">&nbsp;            needNewFrame = value;</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setWaitRoomRefresh(boolean value) {
+<b class="nc">&nbsp;        synchronized (refreshLock) {</b>
+<b class="nc">&nbsp;            waitRoomRefresh = value;</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-30 11:48</div>
+</div>
+</body>
+</html>

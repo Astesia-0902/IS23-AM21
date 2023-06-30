@@ -1,0 +1,337 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ServerInfoInterface</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client.view.GUI.Interface</a>
+</div>
+
+<h1>Coverage Summary for Class: ServerInfoInterface (org.am21.client.view.GUI.Interface)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ServerInfoInterface</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/80)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ServerInfoInterface$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">ServerInfoInterface$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">ServerInfoInterface$3</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/89)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client.view.GUI.Interface;
+&nbsp;
+&nbsp;import org.am21.client.ClientCommunicationController;
+&nbsp;import org.am21.client.SocketClient;
+&nbsp;import org.am21.client.view.GUI.component.BackGroundPanel;
+&nbsp;import org.am21.client.view.GUI.utils.ButtonUtil;
+&nbsp;import org.am21.client.view.GUI.utils.IconUtil;
+&nbsp;import org.am21.client.view.GUI.utils.ImageUtil;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import javax.swing.border.BevelBorder;
+&nbsp;import javax.swing.border.CompoundBorder;
+&nbsp;import javax.swing.border.EmptyBorder;
+&nbsp;import javax.swing.border.MatteBorder;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.image.BufferedImage;
+&nbsp;import java.util.HashMap;
+&nbsp;
+&nbsp;public class ServerInfoInterface extends JDialog {
+&nbsp;    public static final int WIDTH = 300;
+<b class="nc">&nbsp;    public static int HEIGHT = 250;</b>
+&nbsp;
+&nbsp;    public JTextField addressField;
+&nbsp;    public JTextField portField;
+&nbsp;    public JTextField ipField;
+&nbsp;    public JButton confirmButton;
+&nbsp;    public JLabel minusLabel;
+&nbsp;    public JLabel closeLabel;
+&nbsp;    public JLabel returnLabel;
+&nbsp;
+&nbsp;    public ImageIcon returnIcon;
+&nbsp;    public ImageIcon returnIconColor;
+&nbsp;
+&nbsp;    private int addressY;
+&nbsp;    private int portY;
+&nbsp;    private int confirmY;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     *
+&nbsp;     * @param frame
+&nbsp;     */
+&nbsp;    public ServerInfoInterface(JFrame frame) {
+<b class="nc">&nbsp;        super(frame);</b>
+&nbsp;        String defaultAddress;
+&nbsp;        String defaultPort;
+<b class="nc">&nbsp;        if (ClientCommunicationController.isRMI) {</b>
+<b class="nc">&nbsp;            defaultAddress = &quot;localhost&quot;;</b>
+<b class="nc">&nbsp;            defaultPort = &quot;1234&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;            HEIGHT = 320;</b>
+<b class="nc">&nbsp;            addressY = 40;</b>
+<b class="nc">&nbsp;            portY = 170;</b>
+<b class="nc">&nbsp;            confirmY = 235;</b>
+&nbsp;
+&nbsp;            // IP Field
+<b class="nc">&nbsp;            ImageIcon ipIcon = IconUtil.getIcon(&quot;ip&quot;);</b>
+<b class="nc">&nbsp;            ipField = new JTextField(15) {</b>
+&nbsp;                @Override
+&nbsp;                protected void paintComponent(Graphics g) {
+<b class="nc">&nbsp;                    super.paintComponent(g);</b>
+<b class="nc">&nbsp;                    ipIcon.paintIcon(ipField, g, ImageUtil.resizeX(5), ImageUtil.resizeY(5));</b>
+&nbsp;                }
+&nbsp;            };
+<b class="nc">&nbsp;            ipField.setText(defaultAddress);</b>
+<b class="nc">&nbsp;            ipField.setForeground(new Color(255, 255, 240));</b>
+<b class="nc">&nbsp;            ipField.setFont(new Font(&quot;Serif&quot;, Font.BOLD, ImageUtil.resizeY(23)));</b>
+<b class="nc">&nbsp;            ipField.setBackground(new Color(222, 184, 135));</b>
+<b class="nc">&nbsp;            ipField.setBorder(new CompoundBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 250, 205),</b>
+&nbsp;                    new Color(255, 250, 205), new Color(139, 69, 19), new Color(139, 69, 19)),
+<b class="nc">&nbsp;                    new EmptyBorder(0, ImageUtil.resizeX(50), 0, 0)));</b>
+<b class="nc">&nbsp;            ipField.setBounds(ImageUtil.resizeX(25), ImageUtil.resizeY(105),</b>
+<b class="nc">&nbsp;                    ImageUtil.resizeX(250), ImageUtil.resizeY(46));</b>
+<b class="nc">&nbsp;            getContentPane().add(ipField);</b>
+&nbsp;
+<b class="nc">&nbsp;        } else {</b>
+<b class="nc">&nbsp;            defaultAddress = SocketClient.defaultServerName;</b>
+<b class="nc">&nbsp;            defaultPort = String.valueOf(SocketClient.defaultServerPort);</b>
+&nbsp;
+<b class="nc">&nbsp;            HEIGHT = 250;</b>
+<b class="nc">&nbsp;            addressY = 40;</b>
+<b class="nc">&nbsp;            portY = 105;</b>
+<b class="nc">&nbsp;            confirmY = 170;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        frame.setTitle(&quot;MyShelfie - Server Info&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        HashMap&lt;BufferedImage, int[]&gt; background = new HashMap&lt;&gt;();</b>
+&nbsp;        // Background
+<b class="nc">&nbsp;        background.put(IconUtil.getBufferedImage(&quot;serverInfoBG&quot;),</b>
+<b class="nc">&nbsp;                new int[]{0, 0, ImageUtil.resizeX(WIDTH), ImageUtil.resizeY(HEIGHT)});</b>
+&nbsp;        // Icon
+<b class="nc">&nbsp;        minusLabel = new JLabel(IconUtil.getIcon(&quot;minus&quot;));</b>
+<b class="nc">&nbsp;        minusLabel.setBounds(ImageUtil.resizeX(241), ImageUtil.resizeY(6),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(25), ImageUtil.resizeY(25));</b>
+<b class="nc">&nbsp;        getContentPane().add(minusLabel);</b>
+&nbsp;
+<b class="nc">&nbsp;        closeLabel = new JLabel(IconUtil.getIcon(&quot;close&quot;));</b>
+<b class="nc">&nbsp;        closeLabel.setBounds(ImageUtil.resizeX(271), ImageUtil.resizeY(6),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(25), ImageUtil.resizeY(25));</b>
+<b class="nc">&nbsp;        getContentPane().add(closeLabel);</b>
+&nbsp;
+<b class="nc">&nbsp;        returnIcon = IconUtil.getIcon(&quot;return&quot;);</b>
+<b class="nc">&nbsp;        returnIconColor = IconUtil.getIcon(&quot;returnSelected&quot;);</b>
+<b class="nc">&nbsp;        returnLabel = new JLabel(returnIconColor);</b>
+<b class="nc">&nbsp;        returnLabel.setBounds(ImageUtil.resizeX(15), ImageUtil.resizeY(7),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(25), ImageUtil.resizeY(25));</b>
+<b class="nc">&nbsp;        getContentPane().add(returnLabel);</b>
+&nbsp;
+<b class="nc">&nbsp;        BackGroundPanel backGroundPanel = new BackGroundPanel(background);</b>
+&nbsp;
+&nbsp;        // Login Button
+<b class="nc">&nbsp;        confirmButton = ButtonUtil.getButton(&quot;Confirm&quot;);</b>
+<b class="nc">&nbsp;        confirmButton.setBounds(ImageUtil.resizeX(25), ImageUtil.resizeY(confirmY),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(250), ImageUtil.resizeY(46));</b>
+<b class="nc">&nbsp;        getContentPane().add(confirmButton);</b>
+&nbsp;
+&nbsp;        // Address Field
+<b class="nc">&nbsp;        ImageIcon addressIcon = IconUtil.getIcon(&quot;address&quot;);</b>
+<b class="nc">&nbsp;        addressField = new JTextField(15) {</b>
+&nbsp;            @Override
+&nbsp;            protected void paintComponent(Graphics g) {
+<b class="nc">&nbsp;                super.paintComponent(g);</b>
+<b class="nc">&nbsp;                addressIcon.paintIcon(addressField, g, ImageUtil.resizeX(5), ImageUtil.resizeY(5));</b>
+&nbsp;            }
+&nbsp;        };
+<b class="nc">&nbsp;        addressField.setText(defaultAddress);</b>
+<b class="nc">&nbsp;        addressField.setForeground(new Color(255, 255, 240));</b>
+<b class="nc">&nbsp;        addressField.setFont(new Font(&quot;Serif&quot;, Font.BOLD, ImageUtil.resizeY(23)));</b>
+<b class="nc">&nbsp;        addressField.setBackground(new Color(222, 184, 135));</b>
+<b class="nc">&nbsp;        addressField.setBorder(new CompoundBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 250, 205),</b>
+&nbsp;                new Color(255, 250, 205), new Color(139, 69, 19), new Color(139, 69, 19)),
+<b class="nc">&nbsp;                new EmptyBorder(0, ImageUtil.resizeX(50), 0, 0)));</b>
+<b class="nc">&nbsp;        addressField.setBounds(ImageUtil.resizeX(25), ImageUtil.resizeY(addressY),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(250), ImageUtil.resizeY(46));</b>
+<b class="nc">&nbsp;        getContentPane().add(addressField);</b>
+&nbsp;
+&nbsp;        // PortField
+<b class="nc">&nbsp;        ImageIcon portIcon = IconUtil.getIcon(&quot;port&quot;);</b>
+<b class="nc">&nbsp;        portField = new JTextField(15) {</b>
+&nbsp;            @Override
+&nbsp;            protected void paintComponent(Graphics g) {
+<b class="nc">&nbsp;                super.paintComponent(g);</b>
+<b class="nc">&nbsp;                portIcon.paintIcon(portField, g, ImageUtil.resizeX(5), ImageUtil.resizeY(5));</b>
+&nbsp;            }
+&nbsp;        };
+&nbsp;        //portField.setText(&quot;8807&quot;);
+<b class="nc">&nbsp;        portField.setText(defaultPort);</b>
+&nbsp;
+<b class="nc">&nbsp;        portField.setForeground(new Color(255, 255, 240));</b>
+<b class="nc">&nbsp;        portField.setFont(new Font(&quot;Serif&quot;, Font.BOLD, ImageUtil.resizeY(23)));</b>
+<b class="nc">&nbsp;        portField.setBorder(new CompoundBorder(new BevelBorder(BevelBorder.RAISED, new Color(255, 250, 205),</b>
+&nbsp;                new Color(255, 250, 205), new Color(139, 69, 19), new Color(139, 69, 19)),
+<b class="nc">&nbsp;                new EmptyBorder(0, ImageUtil.resizeX(50), 0, 0)));</b>
+<b class="nc">&nbsp;        portField.setBackground(new Color(222, 184, 135));</b>
+<b class="nc">&nbsp;        portField.setBounds(ImageUtil.resizeX(25), ImageUtil.resizeY(portY),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(250), ImageUtil.resizeY(46));</b>
+<b class="nc">&nbsp;        getContentPane().add(portField);</b>
+&nbsp;
+<b class="nc">&nbsp;        backGroundPanel.setBorder(new MatteBorder(ImageUtil.resizeY(5), ImageUtil.resizeX(5),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeY(5), ImageUtil.resizeX(5), new Color(139, 69, 19)));</b>
+<b class="nc">&nbsp;        add(backGroundPanel);</b>
+&nbsp;
+<b class="nc">&nbsp;        setBounds(0, 0, ImageUtil.resizeX(WIDTH), ImageUtil.resizeY(HEIGHT));</b>
+<b class="nc">&nbsp;        setUndecorated(true);</b>
+<b class="nc">&nbsp;        setResizable(false);</b>
+<b class="nc">&nbsp;        setLocationRelativeTo(null);</b>
+<b class="nc">&nbsp;        setVisible(true);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-30 11:49</div>
+</div>
+</body>
+</html>

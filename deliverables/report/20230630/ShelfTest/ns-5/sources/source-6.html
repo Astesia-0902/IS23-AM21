@@ -1,0 +1,408 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GameBoardPanel</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client.view.GUI.component</a>
+</div>
+
+<h1>Coverage Summary for Class: GameBoardPanel (org.am21.client.view.GUI.component)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameBoardPanel</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/85)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GameBoardPanel$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/15)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/100)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client.view.GUI.component;
+&nbsp;
+&nbsp;import org.am21.client.view.ClientView;
+&nbsp;import org.am21.client.view.GUI.Gui;
+&nbsp;import org.am21.client.view.GUI.utils.ImageUtil;
+&nbsp;import org.am21.client.view.GUI.utils.PixelUtil;
+&nbsp;import org.am21.utilities.BoardUtil;
+&nbsp;import org.am21.utilities.Coordinates;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import javax.swing.border.Border;
+&nbsp;import javax.swing.border.LineBorder;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.event.MouseAdapter;
+&nbsp;import java.awt.event.MouseEvent;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.rmi.server.ServerNotActiveException;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;
+&nbsp;public class GameBoardPanel extends JPanel {
+<b class="nc">&nbsp;    private final int GridRowsMax = 9;</b>
+<b class="nc">&nbsp;    private final int GridColumnsMax = 9;</b>
+&nbsp;
+&nbsp;    public List&lt;Coordinates&gt; boundaries;
+&nbsp;    public JLayeredPane gameBoardPane;
+<b class="nc">&nbsp;    public JLayeredPane[][] grids = new JLayeredPane[GridRowsMax][GridColumnsMax];</b>
+&nbsp;
+&nbsp;    public JLabel[][] cells;
+&nbsp;    public ScoringTokenLabel scoreTokenEndGame;
+&nbsp;
+<b class="nc">&nbsp;    public GameBoardPanel(int maxSeat) {</b>
+&nbsp;
+<b class="nc">&nbsp;        setGameBoardPane();</b>
+&nbsp;
+<b class="nc">&nbsp;        drawGameBoardGrids(maxSeat);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * base set
+&nbsp;     */
+&nbsp;    public void setGameBoardPane() {
+<b class="nc">&nbsp;        setBounds(PixelUtil.gameBoardGridX, PixelUtil.gameBoardGridY, GridRowsMax * PixelUtil.gameBoardCellW, GridColumnsMax * PixelUtil.gameBoardCellH);</b>
+<b class="nc">&nbsp;        setLayout(null);</b>
+<b class="nc">&nbsp;        setOpaque(false);</b>
+&nbsp;
+<b class="nc">&nbsp;        gameBoardPane = new JLayeredPane();</b>
+<b class="nc">&nbsp;        gameBoardPane.setBounds(0, 0, GridRowsMax * PixelUtil.gameBoardCellW, GridColumnsMax * PixelUtil.gameBoardCellH);</b>
+<b class="nc">&nbsp;        gameBoardPane.setLayout(null);</b>
+<b class="nc">&nbsp;        add(gameBoardPane);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * draw a game board grids container
+&nbsp;     *
+&nbsp;     * @param maxSeat num of player
+&nbsp;     */
+&nbsp;    public void drawGameBoardGrids(int maxSeat) {
+<b class="nc">&nbsp;        boundaries = BoardUtil.boardBounder(maxSeat);</b>
+&nbsp;
+<b class="nc">&nbsp;        int k = 0;</b>
+<b class="nc">&nbsp;        if (maxSeat == 2) {</b>
+<b class="nc">&nbsp;            k = 1;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        for (int i = k; i &lt; GridRowsMax - k; i++) {</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; GridColumnsMax; j++) {</b>
+<b class="nc">&nbsp;                if (boundaries.get(i).x &lt;= j &amp;&amp; j &lt;= boundaries.get(i).y) {</b>
+<b class="nc">&nbsp;                    grids[i][j] = new JLayeredPane();</b>
+<b class="nc">&nbsp;                    grids[i][j].setBounds(j * PixelUtil.gameBoardCellW, i * PixelUtil.gameBoardCellH, PixelUtil.gameBoardCellW, PixelUtil.gameBoardCellH);</b>
+<b class="nc">&nbsp;                    grids[i][j].setLayout(null);</b>
+<b class="nc">&nbsp;                    gameBoardPane.add(grids[i][j], JLayeredPane.DEFAULT_LAYER);</b>
+&nbsp;
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * refreshing the game board
+&nbsp;     *
+&nbsp;     * @param gameBoard virtual board
+&nbsp;     * @param gui       Gui
+&nbsp;     */
+&nbsp;
+&nbsp;    public void refreshBoard(String[][] gameBoard, Gui gui) {
+<b class="nc">&nbsp;        clearBoard();</b>
+<b class="nc">&nbsp;        fillingBoard(gameBoard, gui);</b>
+<b class="nc">&nbsp;        SwingUtilities.invokeLater(() -&gt; {</b>
+<b class="nc">&nbsp;            revalidate();</b>
+<b class="nc">&nbsp;            repaint();</b>
+&nbsp;        });
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * clear board
+&nbsp;     */
+&nbsp;    public void clearBoard() {
+<b class="nc">&nbsp;        for (JLayeredPane[] pane : grids) {</b>
+<b class="nc">&nbsp;            for (int i = 0; i &lt; pane.length; i++) {</b>
+<b class="nc">&nbsp;                if (pane[i] != null)</b>
+<b class="nc">&nbsp;                    pane[i].removeAll();</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        SwingUtilities.invokeLater(() -&gt; {</b>
+<b class="nc">&nbsp;            revalidate();</b>
+<b class="nc">&nbsp;            repaint();</b>
+&nbsp;        });
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * filling the game board
+&nbsp;     *
+&nbsp;     * @param gameBoard virtualView board
+&nbsp;     * @param gui       Gui
+&nbsp;     */
+&nbsp;    public void fillingBoard(String[][] gameBoard, Gui gui) {
+&nbsp;
+<b class="nc">&nbsp;        cells = new JLabel[GridRowsMax][GridColumnsMax];</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; gameBoard.length; i++) {</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; gameBoard[0].length; j++) {</b>
+&nbsp;
+<b class="nc">&nbsp;                if (gameBoard[i][j] != null) {</b>
+<b class="nc">&nbsp;                    cells[i][j] = new JLabel();</b>
+<b class="nc">&nbsp;                    cells[i][j].setBounds(0, 0, PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH);</b>
+<b class="nc">&nbsp;                    cells[i][j].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));</b>
+<b class="nc">&nbsp;                    if (gameBoard[i][j].startsWith(&quot;&gt;&quot;)) {</b>
+&nbsp;
+<b class="nc">&nbsp;                        cells[i][j].setIcon(ImageUtil.getItemImage(gameBoard[i][j].substring(1), PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH));</b>
+&nbsp;
+&nbsp;                    } else {
+&nbsp;
+<b class="nc">&nbsp;                        cells[i][j].setIcon(ImageUtil.getItemImage(gameBoard[i][j], PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH));</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    actionItem(i, j, gui);</b>
+<b class="nc">&nbsp;                    grids[i][j].add(cells[i][j], JLayeredPane.MODAL_LAYER);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        SwingUtilities.invokeLater(() -&gt; {</b>
+<b class="nc">&nbsp;            revalidate();</b>
+<b class="nc">&nbsp;            repaint();</b>
+&nbsp;        });
+&nbsp;
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * add mouse listener for every item on the game board
+&nbsp;     *
+&nbsp;     * @param row    index row
+&nbsp;     * @param column index column
+&nbsp;     * @param gui    Gui
+&nbsp;     */
+&nbsp;    public void actionItem(int row, int column, Gui gui) {
+<b class="nc">&nbsp;        cells[row][column].addMouseListener(new MouseAdapter() {</b>
+&nbsp;            @Override
+&nbsp;            public void mouseClicked(MouseEvent e) {
+&nbsp;
+&nbsp;                try {
+<b class="nc">&nbsp;                    gui.askSelection();</b>
+<b class="nc">&nbsp;                } catch (ServerNotActiveException | RemoteException ex) {</b>
+<b class="nc">&nbsp;                    throw new RuntimeException(ex);</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;
+&nbsp;                //catch the border color
+<b class="nc">&nbsp;                Border border = cells[row][column].getBorder();</b>
+<b class="nc">&nbsp;                if (border instanceof LineBorder) {</b>
+<b class="nc">&nbsp;                    Color edgeColor = ((LineBorder) border).getLineColor(); //get item border color</b>
+&nbsp;                    //do select
+<b class="nc">&nbsp;                    if (edgeColor.equals(new Color(0, 0, 0, 255)) &amp;&amp; gui.commCtrl.selectCell(row, column)) {</b>
+<b class="nc">&nbsp;                        cells[row][column].setBorder(BorderFactory.createLineBorder(new Color(4, 134, 10, 230), 4));</b>
+&nbsp;
+<b class="nc">&nbsp;                    } else if (edgeColor.equals(new Color(4, 134, 10, 230)) &amp;&amp; !gui.commCtrl.selectCell(row, column)) {</b>
+&nbsp;                        //do deselect
+<b class="nc">&nbsp;                        cells[row][column].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    gui.myHandBoardPanel.refreshItem(ClientView.currentPlayerHand);</b>
+&nbsp;
+&nbsp;                }
+<b class="nc">&nbsp;                revalidate();</b>
+<b class="nc">&nbsp;                repaint();</b>
+&nbsp;
+&nbsp;            }
+&nbsp;
+&nbsp;
+&nbsp;        });
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * set initially endToken
+&nbsp;     */
+&nbsp;    public void setScoreTokenEndGame() {
+<b class="nc">&nbsp;        scoreTokenEndGame = new ScoringTokenLabel(ImageUtil.getScoreTokenImage(1), PixelUtil.endGameTokenW, PixelUtil.endGameTokenH, PixelUtil.endGameTokenOriented, PixelUtil.endGameTokenRotateX, PixelUtil.endGameTokenRotateY);</b>
+<b class="nc">&nbsp;        scoreTokenEndGame.setBounds(PixelUtil.endGameTokenX, PixelUtil.endGameTokenY, PixelUtil.endGameTokenBoundsW, PixelUtil.endGameTokenBoundsH);</b>
+<b class="nc">&nbsp;        scoreTokenEndGame.setOpaque(false);</b>
+<b class="nc">&nbsp;        gameBoardPane.add(scoreTokenEndGame, JLayeredPane.PALETTE_LAYER);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * used for clear button only
+&nbsp;     */
+&nbsp;    public void clearSelectColor() {
+<b class="nc">&nbsp;        for (int i = 0; i &lt; GridRowsMax; i++) {</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; GridColumnsMax; j++) {</b>
+<b class="nc">&nbsp;                if (cells[i][j] != null) {</b>
+<b class="nc">&nbsp;                    cells[i][j].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * enemy action game board view
+&nbsp;     *
+&nbsp;     * @param gameBoard virtualBoard
+&nbsp;     * @param gui       GUI
+&nbsp;     */
+&nbsp;    public void enemyViewBoard(String[][] gameBoard, Gui gui) {
+<b class="nc">&nbsp;        cells = new JLabel[GridRowsMax][GridColumnsMax];</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; gameBoard.length; i++) {</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; gameBoard[0].length; j++) {</b>
+&nbsp;
+<b class="nc">&nbsp;                if (gameBoard[i][j] != null) {</b>
+<b class="nc">&nbsp;                    cells[i][j] = new JLabel();</b>
+<b class="nc">&nbsp;                    cells[i][j].setBounds(0, 0, PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH);</b>
+<b class="nc">&nbsp;                    if (gameBoard[i][j].startsWith(&quot;&gt;&quot;)) {</b>
+<b class="nc">&nbsp;                        cells[i][j].setIcon(ImageUtil.getItemImage(gameBoard[i][j].substring(1), PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH));</b>
+<b class="nc">&nbsp;                        cells[i][j].setBorder(BorderFactory.createLineBorder(new Color(245, 76, 4, 230), 2));</b>
+&nbsp;
+&nbsp;                    } else {
+<b class="nc">&nbsp;                        cells[i][j].setIcon(ImageUtil.getItemImage(gameBoard[i][j], PixelUtil.gameBoardItemW, PixelUtil.gameBoardItemH));</b>
+<b class="nc">&nbsp;                        cells[i][j].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));</b>
+&nbsp;
+&nbsp;                    }
+<b class="nc">&nbsp;                    actionItem(i, j, gui);</b>
+<b class="nc">&nbsp;                    grids[i][j].add(cells[i][j], JLayeredPane.MODAL_LAYER);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        SwingUtilities.invokeLater(() -&gt; {</b>
+<b class="nc">&nbsp;            revalidate();</b>
+<b class="nc">&nbsp;            repaint();</b>
+&nbsp;        });
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * refresh enemy action on game board
+&nbsp;     *
+&nbsp;     * @param gameBoard virtualBoard
+&nbsp;     * @param gui       GUI
+&nbsp;     */
+&nbsp;    public void refreshEnemyView(String[][] gameBoard, Gui gui) {
+<b class="nc">&nbsp;        clearBoard();</b>
+<b class="nc">&nbsp;        enemyViewBoard(gameBoard, gui);</b>
+<b class="nc">&nbsp;        SwingUtilities.invokeLater(() -&gt; {</b>
+<b class="nc">&nbsp;            revalidate();</b>
+<b class="nc">&nbsp;            repaint();</b>
+&nbsp;        });
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * refresh board end score token
+&nbsp;     */
+&nbsp;    public void pickScoreTokenEndGame() {
+<b class="nc">&nbsp;        gameBoardPane.remove(scoreTokenEndGame);</b>
+&nbsp;
+<b class="nc">&nbsp;        SwingUtilities.invokeLater(() -&gt; {</b>
+<b class="nc">&nbsp;            revalidate();</b>
+<b class="nc">&nbsp;            repaint();</b>
+&nbsp;        });
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-30 11:48</div>
+</div>
+</body>
+</html>

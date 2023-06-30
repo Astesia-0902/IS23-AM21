@@ -1,0 +1,213 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ServerChatManager</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.model.chat</a>
+</div>
+
+<h1>Coverage Summary for Class: ServerChatManager (org.am21.model.chat)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ServerChatManager</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/41)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.model.chat;
+&nbsp;
+&nbsp;import org.am21.model.GameManager;
+&nbsp;import org.am21.model.Player;
+&nbsp;import org.am21.model.enumer.UserStatus;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;
+<b class="nc">&nbsp;public class ServerChatManager {</b>
+&nbsp;
+<b class="nc">&nbsp;    private static List&lt;List&lt;String&gt;&gt; privateChats = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;    private static HashMap&lt;String, Integer&gt; chatMap = new HashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;    public static List&lt;List&lt;String&gt;&gt; getPrivateChats() {
+<b class="nc">&nbsp;        return privateChats;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static HashMap&lt;String, Integer&gt; getChatMap() {
+<b class="nc">&nbsp;        return chatMap;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Manage the private message
+&nbsp;     *
+&nbsp;     * @param sender   sender&#39;s Player instance
+&nbsp;     * @param receiver receiver name
+&nbsp;     * @param message  message
+&nbsp;     * @return false if the operation fails, otherwise true
+&nbsp;     */
+&nbsp;    public static boolean handlePrivateChatMessage(Player sender, String receiver, String message) {
+&nbsp;        //Check sender and receiver
+<b class="nc">&nbsp;        Player p_receiver = isOnline(receiver);</b>
+&nbsp;        //Check if private chat exists
+<b class="nc">&nbsp;        String key = getChatKey(sender.getNickname(), receiver);</b>
+<b class="nc">&nbsp;        String messageLine = sender.getNickname() + &quot; &gt; &quot; + message;</b>
+&nbsp;
+<b class="nc">&nbsp;        if (p_receiver == null || (!chatMap.containsKey(key)&amp;&amp;!createNewPrivateChat(sender, p_receiver))) {</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;        int chatNum;
+<b class="nc">&nbsp;        synchronized (chatMap) {</b>
+<b class="nc">&nbsp;            chatNum = chatMap.get(key);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        synchronized (privateChats) {</b>
+<b class="nc">&nbsp;            privateChats.get(chatNum).add(messageLine);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Find the player receiver by name
+&nbsp;     *
+&nbsp;     * @param receiverName receiver name (String)
+&nbsp;     * @return receiver&#39;s Player instance if exist and is online, otherwise null
+&nbsp;     */
+&nbsp;    public static Player isOnline(String receiverName) {
+<b class="nc">&nbsp;        synchronized (GameManager.players) {</b>
+<b class="nc">&nbsp;            for (Player p : GameManager.players) {</b>
+<b class="nc">&nbsp;                if (p.getNickname().equals(receiverName) &amp;&amp; !p.getStatus().equals(UserStatus.Offline))</b>
+<b class="nc">&nbsp;                    return p;</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Find the Key to use in ChatMap by two player name
+&nbsp;     *
+&nbsp;     * @param name1 player 1 name
+&nbsp;     * @param name2 player 2 name
+&nbsp;     * @return (String) key
+&nbsp;     */
+&nbsp;    public static String getChatKey(String name1, String name2) {
+<b class="nc">&nbsp;        return (name1.compareTo(name2)) &lt; 0 ? (name1 + &quot;@&quot; + name2) : (name2 + &quot;@&quot; + name1);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create a new private for 2 players
+&nbsp;     *
+&nbsp;     * @param p1 player 1
+&nbsp;     * @param p2 player 2
+&nbsp;     * @return false if the nicknames are the same or if the chat already exists, otherwise true
+&nbsp;     */
+&nbsp;    public static boolean createNewPrivateChat(Player p1, Player p2) {
+&nbsp;        //If the player are not in the same match or have the same name
+<b class="nc">&nbsp;        if (p1.getNickname().equals(p2.getNickname())) {</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String name1 = p1.getNickname();</b>
+<b class="nc">&nbsp;        String name2 = p2.getNickname();</b>
+<b class="nc">&nbsp;        String key = (name1.compareTo(name2)) &lt; 0 ? (name1 + &quot;@&quot; + name2) : (name2 + &quot;@&quot; + name1);</b>
+<b class="nc">&nbsp;        synchronized (chatMap) {</b>
+<b class="nc">&nbsp;            if (chatMap.containsKey(key)) {</b>
+<b class="nc">&nbsp;                return false;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        synchronized (privateChats) {</b>
+<b class="nc">&nbsp;            privateChats.add(new ArrayList&lt;&gt;());</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        synchronized (chatMap) {</b>
+<b class="nc">&nbsp;            chatMap.put(key, privateChats.size() - 1);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-30 11:48</div>
+</div>
+</body>
+</html>

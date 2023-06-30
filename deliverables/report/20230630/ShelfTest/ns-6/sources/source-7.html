@@ -1,0 +1,187 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > RuleListener</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client.view.GUI.listener</a>
+</div>
+
+<h1>Coverage Summary for Class: RuleListener (org.am21.client.view.GUI.listener)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RuleListener</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/28)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client.view.GUI.listener;
+&nbsp;
+&nbsp;import org.am21.client.view.GUI.Gui;
+&nbsp;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.event.*;
+&nbsp;
+&nbsp;public class RuleListener implements MouseListener, MouseMotionListener, ActionListener {
+&nbsp;    Gui gui;
+<b class="nc">&nbsp;    Point p = new Point();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     *
+&nbsp;     * @param gui
+&nbsp;     */
+<b class="nc">&nbsp;    public RuleListener(Gui gui) {</b>
+<b class="nc">&nbsp;        this.gui = gui;</b>
+<b class="nc">&nbsp;        gui.ruleDialog.addMouseListener(this);</b>
+<b class="nc">&nbsp;        gui.ruleDialog.addMouseMotionListener(this);</b>
+<b class="nc">&nbsp;        gui.ruleDialog.leftButton.addActionListener(this);</b>
+<b class="nc">&nbsp;        gui.ruleDialog.rightButton.addActionListener(this);</b>
+<b class="nc">&nbsp;        gui.ruleDialog.closeLabel.addMouseListener(this);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void actionPerformed(ActionEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.ruleDialog.rightButton) {</b>
+<b class="nc">&nbsp;            if (gui.ruleDialog.countPage != 5) {</b>
+<b class="nc">&nbsp;                gui.ruleDialog.rules.next(gui.ruleDialog.rulesPanel);</b>
+<b class="nc">&nbsp;                gui.ruleDialog.countPage++;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        if (e.getSource() == gui.ruleDialog.leftButton) {</b>
+<b class="nc">&nbsp;            if (gui.ruleDialog.countPage != 0) {</b>
+<b class="nc">&nbsp;                gui.ruleDialog.rules.previous(gui.ruleDialog.rulesPanel);</b>
+<b class="nc">&nbsp;                gui.ruleDialog.countPage--;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseClicked(MouseEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.ruleDialog.closeLabel) {</b>
+<b class="nc">&nbsp;            gui.ruleDialog.setVisible(false);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mousePressed(MouseEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.ruleDialog) {</b>
+<b class="nc">&nbsp;            p.x = e.getX();</b>
+<b class="nc">&nbsp;            p.y = e.getY();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseReleased(MouseEvent e) {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseEntered(MouseEvent e) {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseExited(MouseEvent e) {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseDragged(MouseEvent e) {
+<b class="nc">&nbsp;        if (e.getSource() == gui.ruleDialog) {</b>
+<b class="nc">&nbsp;            Point panelPoint = gui.ruleDialog.getLocation();</b>
+<b class="nc">&nbsp;            gui.ruleDialog.setLocation(panelPoint.x + e.getX() - p.x, panelPoint.y + e.getY() - p.y);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void mouseMoved(MouseEvent e) {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-30 11:48</div>
+</div>
+</body>
+</html>

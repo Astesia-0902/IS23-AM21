@@ -4,8 +4,6 @@ import java.awt.*;
 public abstract class Card extends Component {
     /**
      * nameCard is the name of the card
-     * @param nameCard
-     * @return
      * */
     private String nameCard;
     public Card(String nameCard) {

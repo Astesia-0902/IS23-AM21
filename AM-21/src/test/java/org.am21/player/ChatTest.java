@@ -18,7 +18,7 @@ public class ChatTest {
     Match m;
 
     /**
-     * Setup:2 Player in a match
+     * Setup:2 Player
      */
     @Before
     public void setUpMatchChat() {
@@ -41,6 +41,7 @@ public class ChatTest {
     /**
      * Test Match Chat:
      * Player send a message in the group chat
+     * Verifies the message is saved in chatManager.publicChatMessage
      */
     @Test
     void testPublicChat() {
@@ -49,13 +50,15 @@ public class ChatTest {
         GameController.joinGame(0, "B", c2);
         m= c1.getPlayer().getMatch();
         String message = "Test";
+        // Player send message in the group chat
         assertTrue(GameController.forwardPublicMessage(message,c1));
-        assertEquals(c1.getPlayer().getNickname()+": "+message,m.chatManager.publicChatMessages.get(0));
+        assertEquals(c1.getPlayer().getNickname()+": "+message,m.chatManager.getPublicChatMessages().get(0));
 
     }
 
     /**
      * If a player is not in a match should not be able to send a public message
+     * ForwardPublicMessage return false
      */
     @Test
     void testFailPublicChat(){
@@ -85,11 +88,13 @@ public class ChatTest {
     /**
      * Test Private chat:
      * 2 player chatting
+     * Expect ServerChatMessage.getPrivateChats() to contains
      */
     @Test
     void testPrivateChat(){
         setUpDefault();
         String message = "Hello B";
+        // A sends message to B
         assertTrue(GameController.forwardPrivateMessage(message,"B",c1));
         String key = (ServerChatManager.getChatKey("A","B"));
         int chatIndex = ServerChatManager.getChatMap().get(key);
@@ -98,6 +103,7 @@ public class ChatTest {
 
     /**
      * A player tries to send a text a player which does not exist
+     * Expect forwardPrivateMessage to return false
      */
     @Test
     void testFailPrivateChat(){
@@ -109,6 +115,7 @@ public class ChatTest {
 
     /**
      * A player tries to send a text a player which is Offline
+     * Expect forwardPrivate Message to return false
      */
     @Test
     void testSuspendedPrivateChat(){

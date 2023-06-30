@@ -1,0 +1,146 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SC</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.model.enumer</a>
+</div>
+
+<h1>Coverage Summary for Class: SC (org.am21.model.enumer)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SC</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/28)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.model.enumer;
+&nbsp;
+<b class="nc">&nbsp;public enum SC {</b>
+&nbsp;    //Color end string, color reset
+<b class="nc">&nbsp;    RST(&quot;\033[0m&quot;),</b>
+&nbsp;
+&nbsp;    // Regular Colors. Normal color, no bold, background color etc.
+<b class="nc">&nbsp;    RED(&quot;\033[0;31m&quot;),      // RED</b>
+<b class="nc">&nbsp;    GREEN(&quot;\033[0;32m&quot;),    // GREEN</b>
+<b class="nc">&nbsp;    YELLOW(&quot;\033[0;33m&quot;),   // YELLOW</b>
+<b class="nc">&nbsp;    BLUE(&quot;\033[0;34m&quot;),     // BLUE</b>
+<b class="nc">&nbsp;    MAGENTA(&quot;\033[0;35m&quot;),  // MAGENTA</b>
+<b class="nc">&nbsp;    CYAN(&quot;\033[0;36m&quot;),     // CYAN</b>
+<b class="nc">&nbsp;    WHITE(&quot;\033[0;37m&quot;),    // WHITE</b>
+&nbsp;
+<b class="nc">&nbsp;    BLACK_B(&quot;\033[1;30m&quot;),   // BLACK</b>
+<b class="nc">&nbsp;    RED_B(&quot;\033[1;31m&quot;),     // RED</b>
+<b class="nc">&nbsp;    GREEN_B(&quot;\033[1;32m&quot;),   // GREEN</b>
+<b class="nc">&nbsp;    YELLOW_BOLD(&quot;\033[1;33m&quot;),  // YELLOW</b>
+<b class="nc">&nbsp;    BLUE_BOLD(&quot;\033[1;34m&quot;),    // BLUE</b>
+<b class="nc">&nbsp;    MAGENTA_BOLD(&quot;\033[1;35m&quot;), // MAGENTA</b>
+<b class="nc">&nbsp;    CYAN_BOLD(&quot;\033[1;36m&quot;),    // CYAN</b>
+<b class="nc">&nbsp;    WHITE_B(&quot;\033[1;37m&quot;),   // WHITE</b>
+<b class="nc">&nbsp;    WHITE_BB(&quot;\033[1;97m&quot;),</b>
+<b class="nc">&nbsp;    YELLOW_BB(&quot;\033[1;93m&quot;),   // YELLOW</b>
+&nbsp;
+<b class="nc">&nbsp;    CATS(&quot;\033[1;32mCats\033[0m&quot;),</b>
+<b class="nc">&nbsp;    BOOKS(&quot;\033[1;37mBooks\033[0m&quot;),</b>
+<b class="nc">&nbsp;    GAMES(&quot;\033[1;33mGames\033[0m&quot;),</b>
+<b class="nc">&nbsp;    FRAMES(&quot;\033[1;34mFrames\033[0m&quot;),</b>
+<b class="nc">&nbsp;    TROPHIES(&quot;\033[1;36mTrophies\033[0m&quot;),</b>
+<b class="nc">&nbsp;    PLANTS(&quot;\033[1;35mPlants\033[0m&quot;);</b>
+&nbsp;    private final String code;
+&nbsp;
+<b class="nc">&nbsp;    SC(String code) {</b>
+<b class="nc">&nbsp;        this.code = code;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="nc">&nbsp;        return code;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-30 11:49</div>
+</div>
+</body>
+</html>

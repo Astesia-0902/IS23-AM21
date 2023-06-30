@@ -11,7 +11,7 @@ import java.util.List;
  * Every match has a chat manager
  */
 public class ChatManager{
-    public List<String> publicChatMessages = new ArrayList<>();
+    private List<String> publicChatMessages = new ArrayList<>();
     /**
      * This method is used to add a line of message into the match group chat
      * @param sender player who sent the message
@@ -24,19 +24,7 @@ public class ChatManager{
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public List<String> getPublicChatMessages() {
+        return publicChatMessages;
+    }
 }

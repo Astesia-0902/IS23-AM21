@@ -1,0 +1,137 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > View</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client.view</a>
+</div>
+
+<h1>Coverage Summary for Class: View (org.am21.client.view)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">View</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client.view;
+&nbsp;
+&nbsp;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.rmi.server.ServerNotActiveException;
+&nbsp;
+&nbsp;/**
+&nbsp; * View is an interface that is used to show the game to the player
+&nbsp; * and to ask him what he wants to do
+&nbsp; */
+&nbsp;public interface View {
+&nbsp;    //String chooseView();
+&nbsp;
+&nbsp;    void askLogin() throws Exception;
+&nbsp;
+&nbsp;    void askMenuAction() throws Exception;
+&nbsp;
+&nbsp;    boolean askCreateMatch() throws Exception;
+&nbsp;
+&nbsp;    int askMaxSeats() throws Exception;
+&nbsp;
+&nbsp;    boolean askJoinMatch() throws Exception;
+&nbsp;
+&nbsp;    boolean askLeaveMatch() throws RemoteException;
+&nbsp;
+&nbsp;    boolean askExitGame() throws RemoteException;
+&nbsp;
+&nbsp;    void showCommonGoals();
+&nbsp;
+&nbsp;    void showPersonalGoal() throws RemoteException;
+&nbsp;
+&nbsp;    void announceCurrentPlayer() throws RemoteException;
+&nbsp;
+&nbsp;    void showWhoIsPlaying();
+&nbsp;
+&nbsp;    void showPlayerShelf() throws RemoteException;
+&nbsp;
+&nbsp;    void showEveryShelf() throws RemoteException;
+&nbsp;
+&nbsp;    void showBoard() throws RemoteException;
+&nbsp;
+&nbsp;    void showPlayersStats() throws RemoteException;
+&nbsp;
+&nbsp;    void askPlayerMove() throws RemoteException, ServerNotActiveException;
+&nbsp;
+&nbsp;    void askSelection() throws ServerNotActiveException, RemoteException;
+&nbsp;
+&nbsp;    void askDeselection() throws ServerNotActiveException, RemoteException;
+&nbsp;
+&nbsp;    void askInsertion() throws ServerNotActiveException, RemoteException;
+&nbsp;
+&nbsp;    void showEndGameToken();
+&nbsp;
+&nbsp;    void showTimer();
+&nbsp;
+&nbsp;    void showMatchList() throws RemoteException;
+&nbsp;
+&nbsp;    void showMatchSetup() throws RemoteException;
+&nbsp;
+&nbsp;    void askShowObject() throws RemoteException;
+&nbsp;
+&nbsp;    void showOnlinePlayer() throws RemoteException;
+&nbsp;
+&nbsp;
+&nbsp;    void showGoalDescription(String CommonGoalCard);
+&nbsp;
+&nbsp;    void showGameRules();
+&nbsp;
+&nbsp;    void handleChatMessage(String command, boolean live);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-30 11:48</div>
+</div>
+</body>
+</html>

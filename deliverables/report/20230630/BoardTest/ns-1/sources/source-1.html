@@ -1,0 +1,312 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Board</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.model.items</a>
+</div>
+
+<h1>Coverage Summary for Class: Board (org.am21.model.items)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Board</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90,6%
+  </span>
+  <span class="absValue">
+    (48/53)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.model.items;
+&nbsp;
+&nbsp;import org.am21.model.Cards.ItemCard;
+&nbsp;import org.am21.model.GameManager;
+&nbsp;import org.am21.model.Match;
+&nbsp;import org.am21.model.enumer.ServerMessage;
+&nbsp;import org.am21.utilities.BoardUtil;
+&nbsp;import org.am21.utilities.CardPointer;
+&nbsp;import org.am21.utilities.Coordinates;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;
+&nbsp;public class Board extends Grid {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The number of required cards depends on the number of players
+&nbsp;     */
+&nbsp;    public final int maxSeats;
+&nbsp;
+&nbsp;    public Match match;
+&nbsp;    public Bag bag;
+&nbsp;    /**
+&nbsp;     * List that indicates the boundaries of the board
+&nbsp;     */
+&nbsp;    public List&lt;Coordinates&gt; boundaries;
+&nbsp;
+&nbsp;    public static final int BOARD_ROW = 9;
+&nbsp;    public static final int BOARD_COLUMN = 9;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Construction of the LivingRoom:
+&nbsp;     * - initialize cells of the grid
+&nbsp;     * - set number of Players
+&nbsp;     * - building the Board with all the item
+&nbsp;     *
+&nbsp;     * @param match is where the board belongs
+&nbsp;     */
+&nbsp;    public Board(Match match) {
+<b class="fc">&nbsp;        super(BOARD_ROW, BOARD_COLUMN);</b>
+<b class="fc">&nbsp;        this.maxSeats = match.maxSeats;</b>
+<b class="fc">&nbsp;        this.match = match;</b>
+<b class="fc">&nbsp;        this.bag = new Bag(this);</b>
+<b class="fc">&nbsp;        boundaries = BoardUtil.boardBounder(maxSeats);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to refill the board ONLY for the first time
+&nbsp;     * @return true if the refill is successful
+&nbsp;     */
+&nbsp;    public boolean firstSetup() {
+&nbsp;
+<b class="fc">&nbsp;        if (bag.refillBoard()) {</b>
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Setting the size of the grid according to the number of player
+&nbsp;     * @return number of cell available to play
+&nbsp;     **/
+&nbsp;    public int getSize() {
+<b class="fc">&nbsp;        switch (maxSeats){</b>
+<b class="fc">&nbsp;            case 2: return 29;</b>
+<b class="nc">&nbsp;            case 3:return 37;</b>
+<b class="nc">&nbsp;            case 4:return 45;</b>
+<b class="nc">&nbsp;            default: return 0;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Condition 1:
+&nbsp;     * Verify if the celle exists
+&nbsp;     * Verify if the Item(r,c) is available to the player to pick.
+&nbsp;     * To be available, it needs to have at least one side free and also,
+&nbsp;     * if the player pick more items, they need to form a straight line
+&nbsp;     * Index (0-rowNum-1,0-colNum-1)
+&nbsp;     * Checking four side of the item(r,c) if they are free
+&nbsp;     * &lt;p&gt;
+&nbsp;     * Could be improved, maybe need to be more efficient
+&nbsp;     * &lt;p&gt;
+&nbsp;     * It is different from isSingle
+&nbsp;     *
+&nbsp;     * @param r row
+&nbsp;     * @param c column
+&nbsp;     * @return true if the item has free side, otherwise false
+&nbsp;     */
+&nbsp;    public boolean hasFreeSide(int r, int c) {
+&nbsp;
+<b class="fc">&nbsp;        if (getMatrix()[r][c] == null) {</b>
+<b class="fc">&nbsp;            GameManager.sendReply(match.currentPlayer.getController(),ServerMessage.Cell_Illegal.value());</b>
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if ((r + 1 &lt; BOARD_ROW) &amp;&amp; !isOccupied(r + 1, c)) {</b>
+&nbsp;
+<b class="fc">&nbsp;            return true;</b>
+<b class="fc">&nbsp;        } else if (r - 1 &gt;= 0 &amp;&amp; !isOccupied(r - 1, c)) {</b>
+&nbsp;
+<b class="fc">&nbsp;            return true;</b>
+<b class="fc">&nbsp;        } else if ((c + 1 &lt; BOARD_COLUMN) &amp;&amp; !isOccupied(r, c + 1)) {</b>
+&nbsp;
+<b class="fc">&nbsp;            return true;</b>
+<b class="fc">&nbsp;        } else if (c - 1 &gt;= 0 &amp;&amp; !isOccupied(r, c - 1)) {</b>
+&nbsp;
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            GameManager.sendReply(match.currentPlayer.getController(),ServerMessage.No_Free.value());</b>
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Condition 2: depends on the others selected card
+&nbsp;     * The selected tiles need to be on a Straight Line
+&nbsp;     * And the new card needs to be adjacent to one of the old cards
+&nbsp;     * &lt;p&gt;
+&nbsp;     *
+&nbsp;     * @param r row
+&nbsp;     * @param c column
+&nbsp;     * @param selItems selected items list
+&nbsp;     * @return true if the conditions are respected, otherwise false
+&nbsp;     */
+&nbsp;    public boolean isOrthogonal(int r, int c, List&lt;CardPointer&gt; selItems) {
+&nbsp;        int a;
+&nbsp;        int b;
+<b class="fc">&nbsp;        boolean one_adjacent=false;</b>
+<b class="fc">&nbsp;        boolean inline = true;</b>
+&nbsp;
+<b class="fc">&nbsp;        for (CardPointer card : selItems) {</b>
+<b class="fc">&nbsp;            a = Math.abs(r - card.x);</b>
+<b class="fc">&nbsp;            b = Math.abs(c - card.y);</b>
+&nbsp;            /*System.out.print(&quot;Board &gt; Coordinates difference: &quot;);
+&nbsp;            System.out.print(&quot;[&quot;+a+&quot;]&quot;);
+&nbsp;            System.out.println(&quot;[&quot;+b+&quot;]&quot;);*/
+&nbsp;            //Check if the new item is adjacent at least to one item in the hand
+&nbsp;            //Check if the new item is in line
+<b class="fc">&nbsp;            if (a == 0 &amp;&amp; (b &gt; 0 &amp;&amp; b &lt;= (Shelf.STD_LIMIT-1))) {</b>
+<b class="fc">&nbsp;                if(b==1)one_adjacent=true;</b>
+<b class="fc">&nbsp;            } else if (b == 0 &amp;&amp; (a &gt; 0 &amp;&amp; a &lt;= (Shelf.STD_LIMIT-1))) {</b>
+<b class="fc">&nbsp;                if(a==1)one_adjacent=true;</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                inline = false;</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+&nbsp;        //System.out.println(inline);
+&nbsp;        //System.out.println(one_adjacent);
+<b class="fc">&nbsp;        return inline &amp;&amp; one_adjacent;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Check if the item is isolated in the board
+&nbsp;     * It means that there isn&#39;t any item adjacent.
+&nbsp;     * @param r row
+&nbsp;     * @param c column
+&nbsp;     * @return true if the item is isolated, otherwise false
+&nbsp;     */
+&nbsp;    public boolean isAlone(int r, int c) {
+&nbsp;
+<b class="fc">&nbsp;        if ((r + 1 &lt; BOARD_ROW &amp;&amp; isOccupied(r + 1, c))</b>
+<b class="fc">&nbsp;                || (r - 1 &gt;= 0 &amp;&amp; isOccupied(r - 1, c))</b>
+<b class="fc">&nbsp;                || (c + 1 &lt; BOARD_COLUMN &amp;&amp; isOccupied(r, c + 1))</b>
+<b class="fc">&nbsp;                || (c - 1 &gt;= 0 &amp;&amp; isOccupied(r, c - 1))) {</b>
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Scan each cell of the board and verify if EVERY item is isolated
+&nbsp;     *
+&nbsp;     * @return true if ALL item are isolated
+&nbsp;     * false: if at least one item is not isolated
+&nbsp;     */
+&nbsp;    public boolean checkBoard() {
+&nbsp;        ItemCard tmp;
+<b class="fc">&nbsp;        for (int i = 0; i &lt; BOARD_ROW; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; BOARD_COLUMN; j++) {</b>
+<b class="fc">&nbsp;                tmp = this.getMatrix()[i][j];</b>
+<b class="fc">&nbsp;                if (tmp != null &amp;&amp; !isAlone(i, j)) {</b>
+<b class="fc">&nbsp;                    return false;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method verifies if the cell is within the boundaries of this match
+&nbsp;     * @param r row
+&nbsp;     * @param c column
+&nbsp;     * @return true if the cell is playable
+&nbsp;     */
+&nbsp;    public boolean isPlayable(int r,int c){
+<b class="fc">&nbsp;        if(boundaries.get(r)!=null &amp;&amp; boundaries.get(r).x&lt;=c &amp;&amp; c&lt;=boundaries.get(r).y){</b>
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;}
+&nbsp;
+&nbsp;
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-30 11:44</div>
+</div>
+</body>
+</html>

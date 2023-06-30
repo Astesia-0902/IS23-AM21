@@ -1,0 +1,1829 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Cli</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client.view.TUI</a>
+</div>
+
+<h1>Coverage Summary for Class: Cli (org.am21.client.view.TUI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Cli</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/83)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/873)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client.view.TUI;
+&nbsp;
+&nbsp;import org.am21.client.ClientCommunicationController;
+&nbsp;import org.am21.client.SocketClient;
+&nbsp;import org.am21.client.view.ClientView;
+&nbsp;import org.am21.client.view.View;
+&nbsp;import org.am21.networkRMI.ClientCallBack;
+&nbsp;import org.am21.networkRMI.IClientCallBack;
+&nbsp;import org.am21.networkRMI.IClientInput;
+&nbsp;import org.am21.networkRMI.Lobby;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.MalformedURLException;
+&nbsp;import java.net.ServerSocket;
+&nbsp;import java.rmi.AlreadyBoundException;
+&nbsp;import java.rmi.Naming;
+&nbsp;import java.rmi.NotBoundException;
+&nbsp;import java.rmi.RemoteException;
+&nbsp;import java.rmi.registry.LocateRegistry;
+&nbsp;import java.rmi.registry.Registry;
+&nbsp;import java.rmi.server.ServerNotActiveException;
+&nbsp;import java.rmi.server.UnicastRemoteObject;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.concurrent.ExecutionException;
+&nbsp;import java.util.concurrent.FutureTask;
+&nbsp;
+&nbsp;import static org.am21.client.view.ClientView.*;
+&nbsp;import static org.am21.client.view.TUI.Storage.*;
+&nbsp;
+&nbsp;public class Cli implements View {
+&nbsp;    private String username;
+&nbsp;    private final ClientCommunicationController commCtrl;
+&nbsp;    private final ClientCallBack clientCallBack;
+<b class="nc">&nbsp;    private boolean BABY_PROTOCOL = true;</b>
+<b class="nc">&nbsp;    private boolean SEL_MODE = true;</b>
+<b class="nc">&nbsp;    private boolean NOT_SEL_YET = true;</b>
+<b class="nc">&nbsp;    private Boolean busy = false;</b>
+<b class="nc">&nbsp;    private boolean SHOW = false;</b>
+&nbsp;    public Integer waitingThreads;
+<b class="nc">&nbsp;    public final Object chatModeLock=new Object();</b>
+<b class="nc">&nbsp;    public Boolean chatMode = false;</b>
+&nbsp;
+<b class="nc">&nbsp;    public final Object waiterLock=new Object();</b>
+&nbsp;    /**
+&nbsp;     * Cli constructor
+&nbsp;     * @throws RemoteException when construction of ClientCallBack is failed
+&nbsp;     */
+<b class="nc">&nbsp;    public Cli() throws RemoteException {</b>
+<b class="nc">&nbsp;        this.clientCallBack = new ClientCallBack();</b>
+<b class="nc">&nbsp;        this.clientCallBack.cli = this;</b>
+<b class="nc">&nbsp;        waitingThreads = 0;</b>
+<b class="nc">&nbsp;        commCtrl = new ClientCommunicationController();</b>
+<b class="nc">&nbsp;        commCtrl.cli = this;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used to ask the user to insert the server&#39;s IP address
+&nbsp;     *
+&nbsp;     * @throws RemoteException
+&nbsp;     * @throws NotBoundException
+&nbsp;     * @throws MalformedURLException
+&nbsp;     * @throws ServerNotActiveException
+&nbsp;     */
+&nbsp;    public void init() throws MalformedURLException, NotBoundException, RemoteException, ServerNotActiveException {
+<b class="nc">&nbsp;        System.out.println(Storage.MYSHELFIE4);</b>
+<b class="nc">&nbsp;        askToContinue();</b>
+<b class="nc">&nbsp;        askConnectionType();</b>
+<b class="nc">&nbsp;        if (ClientCommunicationController.isRMI) {</b>
+<b class="nc">&nbsp;            askServerInfoRMI();</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            askServerInfoSocket();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        askLogin();</b>
+<b class="nc">&nbsp;        while (true) redirect();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This interface ask the user to choose a type of connection between RMI or SOCKET
+&nbsp;     */
+&nbsp;    public void askConnectionType() {
+<b class="nc">&nbsp;        int option = 0;</b>
+&nbsp;        do {
+<b class="nc">&nbsp;            System.out.print(&quot;&quot;&quot;</b>
+&nbsp;                    What would you like to use to contact the server? RMI or Socket?
+&nbsp;                        1  --&gt; RMI
+&nbsp;                        2  --&gt; Socket
+&nbsp;                    Enter your choice.
+&nbsp;                    &gt;\040&quot;&quot;&quot;);
+&nbsp;            try {
+<b class="nc">&nbsp;                option = Integer.parseInt(readLine());</b>
+<b class="nc">&nbsp;            } catch (NumberFormatException e) {</b>
+<b class="nc">&nbsp;                System.out.println(Color.RED + &quot;Invalid input. Try again. (1 or 2)&quot; + Color.RESET);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+<b class="nc">&nbsp;            if (option == 1) {</b>
+<b class="nc">&nbsp;                ClientCommunicationController.isRMI = true;</b>
+&nbsp;
+<b class="nc">&nbsp;            } else if (option == 2) {</b>
+<b class="nc">&nbsp;                ClientCommunicationController.isRMI = false;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        } while (option != 1 &amp;&amp; option != 2);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;    //-------------------RMI----------------------------------------------------------------------------
+&nbsp;
+&nbsp;    /**
+&nbsp;     * RMI : TUI allows the user to insert the Server Address and Port to Connect with The Server
+&nbsp;     */
+&nbsp;    public void askServerInfoRMI() {
+&nbsp;        // Determine my address
+&nbsp;        String clientBind;
+&nbsp;        String clientAddress;
+<b class="nc">&nbsp;        clientAddress = askInfo(&quot;client address&quot;, &quot;localhost&quot;);</b>
+&nbsp;
+&nbsp;        // Create and set the custom socket factory
+<b class="nc">&nbsp;        System.setProperty(&quot;java.rmi.server.hostname&quot;, clientAddress);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Your ip address is : &quot; + clientAddress);</b>
+&nbsp;        int freePort;
+&nbsp;        while (true) {
+<b class="nc">&nbsp;            freePort = findFreePort();</b>
+<b class="nc">&nbsp;            if (freePort != -1) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Free port found: &quot; + freePort);</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                System.out.println(&quot;Free port not found&quot;);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;        try {
+<b class="nc">&nbsp;            Registry registry = LocateRegistry.createRegistry(freePort);</b>
+<b class="nc">&nbsp;            UnicastRemoteObject.unexportObject(clientCallBack, true);</b>
+<b class="nc">&nbsp;            IClientCallBack callbackStub = (IClientCallBack) UnicastRemoteObject.exportObject(clientCallBack, freePort);</b>
+<b class="nc">&nbsp;            registry.bind(&quot;Callback&quot;, callbackStub);</b>
+<b class="nc">&nbsp;            clientBind = &quot;rmi://&quot; + clientAddress + &quot;:&quot; + freePort + &quot;/Callback&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        } catch (IOException | AlreadyBoundException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        // First connection to the server --&gt; Obtain the path for RMI
+<b class="nc">&nbsp;        String defaultAddress = &quot;localhost&quot;;</b>
+<b class="nc">&nbsp;        String defaultPort = &quot;1234&quot;;</b>
+&nbsp;        HashMap&lt;String, String&gt; serverInfo;
+&nbsp;        do {
+<b class="nc">&nbsp;            serverInfo = connectToServerLobby(askInfo(&quot;server address&quot;, defaultAddress), askInfo(&quot;port&quot;, defaultPort));</b>
+<b class="nc">&nbsp;            if (serverInfo != null) {</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            System.out.println(&quot;Server not found&quot;);</b>
+<b class="nc">&nbsp;        } while (true);</b>
+<b class="nc">&nbsp;        ClientCommunicationController.iClientInputHandler = getControllerStub(serverInfo);</b>
+<b class="nc">&nbsp;        commCtrl.registerCallBack(clientBind);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Controller registered from &quot; + serverInfo.get(&quot;address&quot;)</b>
+<b class="nc">&nbsp;                           + &quot;:&quot; + serverInfo.get(&quot;port&quot;));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public int findFreePort() {
+<b class="nc">&nbsp;        ServerSocket socket = null;</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            socket = new ServerSocket(0);</b>
+<b class="nc">&nbsp;            return socket.getLocalPort();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            return -1;</b>
+&nbsp;        } finally {
+&nbsp;
+<b class="nc">&nbsp;            if (socket != null) {</b>
+&nbsp;                try {
+<b class="nc">&nbsp;                    socket.close();</b>
+<b class="nc">&nbsp;                } catch (IOException e) {</b>
+<b class="nc">&nbsp;                    System.out.println(Color.RED + &quot;Socket not closed&quot; + Color.RESET);</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public HashMap&lt;String, String&gt; connectToServerLobby(String address, String port) {
+&nbsp;        HashMap&lt;String, String&gt; infoMap;
+&nbsp;        try {
+<b class="nc">&nbsp;            Registry registry = LocateRegistry.getRegistry(address, Integer.parseInt(port));</b>
+<b class="nc">&nbsp;            Lobby lobby = (Lobby) registry.lookup(&quot;Welcome&quot;);</b>
+<b class="nc">&nbsp;            infoMap = lobby.connect();</b>
+<b class="nc">&nbsp;        } catch (AlreadyBoundException | NotBoundException | RemoteException | MalformedURLException e) {</b>
+<b class="nc">&nbsp;            return null;</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return infoMap;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public IClientInput getControllerStub(HashMap&lt;String, String&gt; serverInfo) {
+&nbsp;        try {
+<b class="nc">&nbsp;            System.out.println(&quot;Server path to stub: &quot; + &quot;rmi://&quot; + serverInfo.get(&quot;address&quot;) + &quot;:&quot;</b>
+<b class="nc">&nbsp;                               + serverInfo.get(&quot;port&quot;) + &quot;/&quot; + serverInfo.get(&quot;root&quot;));</b>
+<b class="nc">&nbsp;            return (IClientInput) Naming.lookup(&quot;rmi://&quot; + serverInfo.get(&quot;address&quot;) + &quot;:&quot;</b>
+<b class="nc">&nbsp;                                                + serverInfo.get(&quot;port&quot;) + &quot;/&quot; + serverInfo.get(&quot;root&quot;));</b>
+&nbsp;
+<b class="nc">&nbsp;        } catch (NotBoundException | MalformedURLException | RemoteException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    //--------------------SOCKET----------------------------------------------------------------------------
+&nbsp;    public void askServerInfoSocket() {
+&nbsp;        SocketClient socket;
+&nbsp;        do {
+<b class="nc">&nbsp;            String defaultAddress = SocketClient.defaultServerName;</b>
+<b class="nc">&nbsp;            String defaultPort = String.valueOf(SocketClient.defaultServerPort);</b>
+<b class="nc">&nbsp;            socket = new SocketClient();</b>
+<b class="nc">&nbsp;            SocketClient.serverName = askInfo(&quot;server address&quot;, defaultAddress);</b>
+<b class="nc">&nbsp;            SocketClient.serverPort = Integer.parseInt(askInfo(&quot;server port&quot;, defaultPort));</b>
+<b class="nc">&nbsp;            SocketClient.cli = this;</b>
+<b class="nc">&nbsp;        } while (!SocketClient.connectToServer());</b>
+<b class="nc">&nbsp;        socket.start();</b>
+<b class="nc">&nbsp;        delayer(500);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    //-------------------------------------------------------------
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Registration of the User in the Game Server and association to CallBack
+&nbsp;     *
+&nbsp;     * @throws ServerNotActiveException when Server is not Active
+&nbsp;     * @throws RemoteException          when Remote Invocation fails
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void askLogin() throws ServerNotActiveException, RemoteException {
+&nbsp;        while (true) {
+<b class="nc">&nbsp;            System.out.print(&quot;Enter the username: &quot;);</b>
+<b class="nc">&nbsp;            String username = readLine();</b>
+<b class="nc">&nbsp;            if (username.equals(&quot;&quot;)) {</b>
+<b class="nc">&nbsp;                System.out.println(Color.RED + &quot;You didn&#39;t choose a username. Try again&quot; + Color.RESET);</b>
+<b class="nc">&nbsp;                continue;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            waitingThreads++;</b>
+<b class="nc">&nbsp;            if (commCtrl.logIn(username, clientCallBack)) {</b>
+<b class="nc">&nbsp;                this.username = username;</b>
+&nbsp;                return;
+&nbsp;            } else {
+<b class="nc">&nbsp;                System.out.println(Color.RED + &quot;This nickname is already taken. Choose another one.&quot; + Color.RESET);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;    //------------------------GAME MENUS ----------------------------------------
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A switcher used to move through the 3 MAIN STATE of the CLI:
+&nbsp;     * MENU, WAITING ROOM, GAMEPLAY
+&nbsp;     */
+&nbsp;    public void redirect() throws ServerNotActiveException, RemoteException {
+<b class="nc">&nbsp;        if (ClientView.MATCH_END) {</b>
+<b class="nc">&nbsp;            goToEndRoom();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (ClientView.MATCH_START) {</b>
+<b class="nc">&nbsp;            showMatchSetup();</b>
+<b class="nc">&nbsp;            ClientView.setMatchStart(false);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (GO_TO_MENU)</b>
+<b class="nc">&nbsp;            askMenuAction();</b>
+<b class="nc">&nbsp;        else if (!GAME_ON)</b>
+<b class="nc">&nbsp;            askWaitingAction();</b>
+<b class="nc">&nbsp;        else askPlayerMove();</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method used to show the Menu of the Game
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void askMenuAction() throws ServerNotActiveException, RemoteException {
+<b class="nc">&nbsp;        waitingThreads = 0;</b>
+<b class="nc">&nbsp;        showLostMessages();</b>
+<b class="nc">&nbsp;        System.out.println(Storage.menuOption);</b>
+<b class="nc">&nbsp;        showRandomTip();</b>
+<b class="nc">&nbsp;        System.out.print(&quot;-----------------------------------------------------------\n&quot; +</b>
+&nbsp;                         &quot;Enter the Command you wish to use: &quot;);
+<b class="nc">&nbsp;        String option = readLine();</b>
+<b class="nc">&nbsp;        if (option.startsWith(&quot;/chat&quot;)) {</b>
+<b class="nc">&nbsp;            handleChatMessage(option, false);</b>
+<b class="nc">&nbsp;        } else if (option.startsWith(&quot;/open&quot;)) {</b>
+<b class="nc">&nbsp;            askChat(option);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            switch (option) {</b>
+&nbsp;                case &quot;&quot; -&gt; {
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                case &quot;create&quot;, &quot;c&quot;, &quot;cr&quot; -&gt; askCreateMatch();</b>
+<b class="nc">&nbsp;                case &quot;join&quot;, &quot;j&quot;, &quot;jo&quot; -&gt; askJoinMatch();</b>
+<b class="nc">&nbsp;                case &quot;online&quot;, &quot;on&quot;, &quot;open&quot;, &quot;op&quot; -&gt; showOnlinePlayer();</b>
+&nbsp;                case &quot;exit&quot;, &quot;ex&quot; -&gt; {
+<b class="nc">&nbsp;                    if (askExitGame()) return;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                case &quot;help&quot;, &quot;h&quot;, &quot;he&quot; -&gt; askHelp();</b>
+&nbsp;
+&nbsp;                default -&gt;
+<b class="nc">&nbsp;                        System.out.println(Color.RED + &quot;The [&quot; + option + &quot;] command cannot be found! Please try again.&quot;</b>
+&nbsp;                                           + Color.RESET);
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        setNeedToRefresh(false);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Showcase the Commands available during Waiting Players
+&nbsp;     */
+&nbsp;    public void askWaitingAction() {
+<b class="nc">&nbsp;        showLostMessages();</b>
+<b class="nc">&nbsp;        System.out.print(&quot;-----------------------------------------------------------\n&quot; +</b>
+&nbsp;                         Color.WHITE_BRIGHT + &quot; {| Room &quot; + matchID + &quot; |}&quot; + Color.RESET);
+<b class="nc">&nbsp;        System.out.println(Color.WHITE_BOLD + &quot;   [ Admin: &quot; + admin + &quot; ]&quot; + Color.RESET);</b>
+<b class="nc">&nbsp;        System.out.println(Storage.waitingAction);</b>
+<b class="nc">&nbsp;        showRandomTip();</b>
+<b class="nc">&nbsp;        System.out.print(&quot;-----------------------------------------------------------\n&quot;</b>
+&nbsp;                         + &quot;Enter the Command you wish to use: &quot;);
+<b class="nc">&nbsp;        String option = readLine();</b>
+<b class="nc">&nbsp;        setBusy(true);</b>
+<b class="nc">&nbsp;        if (option.startsWith(&quot;/chat&quot;)) {</b>
+<b class="nc">&nbsp;            handleChatMessage(option, false);</b>
+<b class="nc">&nbsp;        } else if (option.startsWith(&quot;/open&quot;)) {</b>
+<b class="nc">&nbsp;            askChat(option);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            switch (option) {</b>
+&nbsp;                case &quot;&quot; -&gt; {
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                case &quot;rules&quot;, &quot;ru&quot; -&gt; showGameRules();</b>
+<b class="nc">&nbsp;                case &quot;online&quot;, &quot;on&quot;, &quot;open&quot;, &quot;op&quot; -&gt; showOnlinePlayer();</b>
+<b class="nc">&nbsp;                case &quot;settings&quot;, &quot;se&quot; -&gt; askSettings();</b>
+<b class="nc">&nbsp;                case &quot;more&quot;, &quot;mo&quot; -&gt; askMoreOptions();</b>
+<b class="nc">&nbsp;                default -&gt; System.out.println(Color.RED + &quot;The [&quot; + option + &quot;] cannot be found! Please try again.&quot;</b>
+&nbsp;                                              + Color.RESET);
+&nbsp;            }
+&nbsp;
+&nbsp;        }
+<b class="nc">&nbsp;        setNeedToRefresh(false);</b>
+<b class="nc">&nbsp;        setBusy(false);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Show a different Menu based on the C
+&nbsp;     */
+&nbsp;    private void showCommandMenu() {
+<b class="nc">&nbsp;        if (SHOW) {</b>
+<b class="nc">&nbsp;            System.out.println(listObjects);</b>
+<b class="nc">&nbsp;            SHOW = false;</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="nc">&nbsp;        if (BABY_PROTOCOL) {</b>
+<b class="nc">&nbsp;            if (!SEL_MODE) {</b>
+<b class="nc">&nbsp;                System.out.println(Storage.commandMenu0);</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                if (NOT_SEL_YET) System.out.println(Storage.commandMenu1);</b>
+<b class="nc">&nbsp;                else System.out.println(Storage.commandMenu2);</b>
+&nbsp;            }
+&nbsp;        } else {
+<b class="nc">&nbsp;            System.out.println(Storage.commandMenuExtra);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void askPlayerMove() {
+<b class="nc">&nbsp;        showLostMessages();</b>
+<b class="nc">&nbsp;        showDisplay();</b>
+<b class="nc">&nbsp;        showWhoIsPlaying();</b>
+<b class="nc">&nbsp;        showCommandMenu();</b>
+<b class="nc">&nbsp;        showRandomTip();</b>
+<b class="nc">&nbsp;        System.out.print(&quot;&quot;&quot;</b>
+&nbsp;                -----------------------------------------------------------
+&nbsp;                Enter the command you wish to use:\040&quot;&quot;&quot;);
+<b class="nc">&nbsp;        String option = readLine();</b>
+&nbsp;        //System.out.print(&quot;\033[1A&quot;);
+&nbsp;        //System.out.print(&quot;\033[2K&quot;);
+<b class="nc">&nbsp;        setBusy(true);</b>
+<b class="nc">&nbsp;        if (option.startsWith(&quot;/chat&quot;)) {</b>
+<b class="nc">&nbsp;            handleChatMessage(option, false);</b>
+<b class="nc">&nbsp;        } else if (option.startsWith(&quot;/open&quot;)) {</b>
+<b class="nc">&nbsp;            askChat(option);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            switch (option) {</b>
+&nbsp;                case &quot;&quot; -&gt; {
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                case &quot;select&quot;, &quot;se&quot; -&gt; askSelection();</b>
+<b class="nc">&nbsp;                case &quot;clear&quot;, &quot;cl&quot; -&gt; askDeselection();</b>
+<b class="nc">&nbsp;                case &quot;insert&quot;, &quot;in&quot; -&gt; askInsertion();</b>
+&nbsp;                case &quot;show&quot;, &quot;sh&quot; -&gt; {
+<b class="nc">&nbsp;                    SHOW = true;</b>
+&nbsp;                    //askShowObject();
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                case &quot;more&quot;, &quot;mo&quot; -&gt; askMoreOptions();</b>
+<b class="nc">&nbsp;                case &quot;open&quot;, &quot;op&quot; -&gt; askPrivateChat();</b>
+&nbsp;                case &quot;hand&quot;, &quot;ha&quot; -&gt; {
+<b class="nc">&nbsp;                    showHand();</b>
+<b class="nc">&nbsp;                    askToContinue();</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;                case &quot;pgoal&quot;, &quot;pg&quot; -&gt; {
+<b class="nc">&nbsp;                    showPersonalGoal();</b>
+<b class="nc">&nbsp;                    askToContinue();</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                case &quot;cgoal&quot;, &quot;cg&quot; -&gt; showCommonGoals();</b>
+&nbsp;                case &quot;shelf&quot;, &quot;sf&quot; -&gt; {
+<b class="nc">&nbsp;                    showPlayerShelf();</b>
+<b class="nc">&nbsp;                    askToContinue();</b>
+<b class="nc">&nbsp;                    showGroupPointsTable();</b>
+<b class="nc">&nbsp;                    askToContinue();</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                case &quot;board&quot;, &quot;bo&quot; -&gt; showBoard();</b>
+&nbsp;                case &quot;stats&quot;, &quot;st&quot; -&gt; {
+<b class="nc">&nbsp;                    showPlayersStats();</b>
+<b class="nc">&nbsp;                    askToContinue();</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                case &quot;rules&quot;, &quot;ru&quot; -&gt; showGameRules();</b>
+<b class="nc">&nbsp;                case &quot;end&quot;, &quot;en&quot; -&gt; showEndGameToken();</b>
+<b class="nc">&nbsp;                case &quot;online&quot;, &quot;on&quot; -&gt; showOnlinePlayer();</b>
+<b class="nc">&nbsp;                case &quot;timer&quot;, &quot;ti&quot; -&gt; showTimer();</b>
+<b class="nc">&nbsp;                default -&gt; System.out.println(Color.RED + &quot;The [&quot; + option + &quot;] cannot be found! Please try again.&quot;</b>
+&nbsp;                                              + Color.RESET);
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        setNeedToRefresh(false);</b>
+<b class="nc">&nbsp;        setBusy(false);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public void goToEndRoom() {
+<b class="nc">&nbsp;        System.out.println(Color.WHITE_BOLD_BRIGHT + &quot;The match ended. Press &#39;Enter&#39; to see the results&quot; + Color.RESET);</b>
+<b class="nc">&nbsp;        readLine();</b>
+<b class="nc">&nbsp;        showGameResults();</b>
+<b class="nc">&nbsp;        setMatchEnd(false);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //----------------------------------------------------------------------------------------------
+&nbsp;    public void askHelp() {
+<b class="nc">&nbsp;        busy = true;</b>
+<b class="nc">&nbsp;        System.out.println();</b>
+<b class="nc">&nbsp;        System.out.print(&quot;&quot;&quot;</b>
+&nbsp;                [Commands] Choose an option:
+&nbsp;                    1      --&gt; Chat Commands Help
+&nbsp;                    2      --&gt; General Commands
+&nbsp;                    3      --&gt; Assist Mode
+&nbsp;                Type the number you wish to select.
+&nbsp;                -------------------------------------------
+&nbsp;                &gt;\040&quot;&quot;&quot;);
+<b class="nc">&nbsp;        String num = readLine();</b>
+<b class="nc">&nbsp;        switch (num) {</b>
+&nbsp;            case &quot;1&quot; -&gt; {
+<b class="nc">&nbsp;                System.out.println(chatHelp);</b>
+<b class="nc">&nbsp;                askToContinue();</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case &quot;2&quot; -&gt; {
+<b class="nc">&nbsp;                System.out.println(commandHelp);</b>
+<b class="nc">&nbsp;                askToContinue();</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            case &quot;3&quot; -&gt; askAssistMode();</b>
+&nbsp;            default -&gt; {
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask the user if he wants to activate or deactivate the Assist Mode
+&nbsp;     */
+&nbsp;    public void askAssistMode() {
+<b class="nc">&nbsp;        System.out.print(&quot;&quot;&quot;</b>
+&nbsp;                -----------------------------------------------------------
+&nbsp;                Would you like to activate or deactivate ASSIST MODE? (Default: Active)
+&nbsp;                Tip: Keep Assist Mode active for an easier experience of the game
+&nbsp;                &gt; Press &#39;Enter&#39; to activate it
+&nbsp;                &gt; Type &#39;off&#39; to deactivate it
+&nbsp;                -----------------------------------------------------------
+&nbsp;                Enter the option you wish to select:\040&quot;&quot;&quot;);
+<b class="nc">&nbsp;        String input = readLine();</b>
+<b class="nc">&nbsp;        switch (input) {</b>
+&nbsp;            case &quot;&quot; -&gt; {
+<b class="nc">&nbsp;                BABY_PROTOCOL = true;</b>
+<b class="nc">&nbsp;                System.out.println(Color.CYAN + &quot;ASSIST MODE ON!\n&quot; + Color.RESET);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case &quot;off&quot; -&gt; {
+<b class="nc">&nbsp;                BABY_PROTOCOL = false;</b>
+<b class="nc">&nbsp;                System.out.println(Color.RED + &quot;ASSIST MODE OFF!\n&quot; + Color.RESET);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            default -&gt; askAssistMode();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void askSettings() {
+<b class="nc">&nbsp;        System.out.print(&quot;&quot;&quot;</b>
+&nbsp;                [Commands] Commands available to change settings:
+&nbsp;                  size     --&gt; Change the number of players who can play in this match
+&nbsp;                Enter the command you wish to use: \040&quot;&quot;&quot;);
+<b class="nc">&nbsp;        String setting = readLine();</b>
+<b class="nc">&nbsp;        switch (setting) {</b>
+&nbsp;            case &quot;size&quot;, &quot;si&quot; -&gt; {
+<b class="nc">&nbsp;                if (commCtrl.changeMatchSeats(askTheIndex(&quot;MAX number of players&quot;, 2, 4))) {</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;Number of Seats available changed&quot;);</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                    System.out.println(&quot;Operation failed: Only the admin are allowed to change settings&quot;);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                delayer(1000);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+&nbsp;            default -&gt; {
+&nbsp;            }
+&nbsp;
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    //---------------------------------------------------------------------------------------------------
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean askCreateMatch() {
+<b class="nc">&nbsp;        int playerNumber = askMaxSeats();</b>
+<b class="nc">&nbsp;        if (commCtrl.createMatch(playerNumber)) {</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask the user to select the number of players for the match
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public int askMaxSeats() {
+<b class="nc">&nbsp;        int playerNumber = 0;</b>
+&nbsp;        do {
+&nbsp;            try {
+<b class="nc">&nbsp;                System.out.print(&quot;Please select the number of players for this match [2 to 4]: &quot;);</b>
+<b class="nc">&nbsp;                playerNumber = Integer.parseInt(readLine());</b>
+<b class="nc">&nbsp;                if (playerNumber &lt; 2 || playerNumber &gt; 4) {</b>
+<b class="nc">&nbsp;                    System.out.println(Color.RED + &quot;Invalid number! Please try again.&quot; + Color.RESET);</b>
+&nbsp;                }
+<b class="nc">&nbsp;            } catch (NumberFormatException e) {</b>
+<b class="nc">&nbsp;                System.out.println(Color.RED + &quot;Invalid input! Please try again.&quot; + Color.RESET);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        } while (playerNumber &lt; 2 || playerNumber &gt; 4);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Selected &quot; + playerNumber + &quot; players.&quot;);</b>
+<b class="nc">&nbsp;        return playerNumber;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean askJoinMatch() {
+<b class="nc">&nbsp;        if (matchList == null || matchList.length == 0) {</b>
+<b class="nc">&nbsp;            System.out.println(Color.RED + &quot;No Match available. Create a new one.&quot; + Color.RESET);</b>
+<b class="nc">&nbsp;            delayer(1000);</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            boolean noGame = false;</b>
+<b class="nc">&nbsp;            for (int i = 0; i &lt; matchList.length; i++) {</b>
+<b class="nc">&nbsp;                if (!matchList[i][1].equals(&quot;Closed&quot;)) {</b>
+<b class="nc">&nbsp;                    noGame = true;</b>
+&nbsp;                }
+&nbsp;
+&nbsp;            }
+<b class="nc">&nbsp;            if (!noGame) {</b>
+<b class="nc">&nbsp;                return false;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;        int matchID;
+&nbsp;
+&nbsp;        try {
+&nbsp;            String value;
+&nbsp;            do {
+<b class="nc">&nbsp;                System.out.println();</b>
+<b class="nc">&nbsp;                System.out.println(&quot;---------------------------------------------&quot;);</b>
+<b class="nc">&nbsp;                showMatchList();</b>
+<b class="nc">&nbsp;                System.out.print(&quot;Please enter the room number: &quot;);</b>
+<b class="nc">&nbsp;                value = readLine();</b>
+<b class="nc">&nbsp;            } while (value.equals(&quot;&quot;));</b>
+<b class="nc">&nbsp;            matchID = Integer.parseInt(value);</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;            System.out.println(&quot;Selected Room [&quot; + matchID + &quot;].&quot;);</b>
+<b class="nc">&nbsp;            waitingThreads++;</b>
+<b class="nc">&nbsp;            if (commCtrl.joinGame(matchID)) {</b>
+<b class="nc">&nbsp;                return true;</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                System.out.println(Color.RED + &quot;Invalid number! Please try again.&quot; + Color.RESET);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        } catch (NumberFormatException e) {</b>
+<b class="nc">&nbsp;            System.out.println(Color.RED + &quot;Invalid input! Please try again.&quot; + Color.RESET);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean askLeaveMatch() {
+<b class="nc">&nbsp;        return commCtrl.leaveMatch();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean askExitGame() {
+<b class="nc">&nbsp;        if (commCtrl.exitGame()) {</b>
+<b class="nc">&nbsp;            System.exit(0);</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void askMoreOptions() {
+&nbsp;        String command;
+<b class="nc">&nbsp;        System.out.print(Storage.MoreOptions);</b>
+<b class="nc">&nbsp;        command = readLine();</b>
+<b class="nc">&nbsp;        switch (command) {</b>
+<b class="nc">&nbsp;            case &quot;leave&quot;, &quot;le&quot; -&gt; askLeaveMatch();</b>
+<b class="nc">&nbsp;            case &quot;exit&quot;, &quot;ex&quot; -&gt; askExitGame();</b>
+<b class="nc">&nbsp;            case &quot;help&quot;, &quot;h&quot;, &quot;he&quot; -&gt; askHelp();</b>
+&nbsp;            case &quot;&quot; -&gt; {
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            default -&gt; System.out.println(Color.RED + &quot;The [&quot; + command + &quot;] cannot be found! Please try again.&quot;</b>
+&nbsp;                                          + Color.RESET);
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    //------------SHOW---------------------------------------------------------------------------------
+&nbsp;    @Override
+&nbsp;    public void showMatchList() {
+<b class="nc">&nbsp;        System.out.println(&quot;Match List:&quot;);</b>
+<b class="nc">&nbsp;        if (matchList == null || matchList.length == 0) System.out.println(&quot;No Match Found&quot;);</b>
+&nbsp;        else {
+<b class="nc">&nbsp;            for (int i = 0; i &lt; matchList.length; i++) {</b>
+<b class="nc">&nbsp;                if (matchList[i][0] == null) {</b>
+<b class="nc">&nbsp;                    continue;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                System.out.println(&quot;[ID: &quot; + matchList[i][0] + &quot; | &quot; + matchList[i][1] + &quot; | Players: (&quot; + matchList[i][2] + &quot;/&quot; + matchList[i][3] + &quot;)]&quot;);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Called by CALLBACK
+&nbsp;     * Displays the initial setup:
+&nbsp;     * - Filled Board
+&nbsp;     * - 2 commonGoals
+&nbsp;     * - Player&#39;s personal goal
+&nbsp;     * - and current player
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void showMatchSetup() {
+<b class="nc">&nbsp;        showBoard();</b>
+<b class="nc">&nbsp;        delayer(1000);</b>
+<b class="nc">&nbsp;        showCommonGoals();</b>
+<b class="nc">&nbsp;        showPersonalGoal();</b>
+<b class="nc">&nbsp;        delayer(1000);</b>
+<b class="nc">&nbsp;        System.out.println(Color.BLUE_BOLD + &quot;The match has started!&quot; + Color.RESET);</b>
+<b class="nc">&nbsp;        announceCurrentPlayer();</b>
+<b class="nc">&nbsp;        delayer(1000);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void showCommonGoals() {
+<b class="nc">&nbsp;        System.out.println(&quot;Common Goals:&quot;);</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; ClientView.commonGoal.size(); i++) {</b>
+<b class="nc">&nbsp;            showGoalDescription(ClientView.commonGoal.get(i));</b>
+<b class="nc">&nbsp;            System.out.println(Color.YELLOW + &quot;&gt; Top score of this Common Goal: &quot; + Color.RESET +</b>
+<b class="nc">&nbsp;                               ClientView.commonGoalScore.get(i) + &quot; points.&quot;);</b>
+<b class="nc">&nbsp;            System.out.println();</b>
+&nbsp;            //askToContinue();
+<b class="nc">&nbsp;            delayer(1000);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void showPersonalGoal() {
+<b class="nc">&nbsp;        System.out.println(username + &quot;&#39;s PersonalGoal:&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(Storage.goalPersonalMap.get(ClientView.personalGoal));</b>
+<b class="nc">&nbsp;        System.out.println(Storage.PGTable);</b>
+<b class="nc">&nbsp;        showPersonalPoints();</b>
+<b class="nc">&nbsp;        System.out.println();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void announceCurrentPlayer() {
+<b class="nc">&nbsp;        if (currentPlayer.equals(username)) {</b>
+<b class="nc">&nbsp;            System.out.print(Color.RED + &quot;[!] &gt; Hey &quot; + username + &quot;!!! It&#39;s your turn!!!&quot; + Color.RESET);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            System.out.print(Color.CYAN + &quot;It&#39;s &quot; + currentPlayer + &quot;&#39;s turn.&quot; + Color.RESET);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        System.out.println();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void showWhoIsPlaying() {
+&nbsp;        String tmp;
+<b class="nc">&nbsp;        System.out.print(&quot;&gt; Player&#39;s Turn: &quot;);</b>
+<b class="nc">&nbsp;        for (String name : ClientView.playersList) {</b>
+<b class="nc">&nbsp;            tmp = name;</b>
+<b class="nc">&nbsp;            if (name.equals(username)) {</b>
+<b class="nc">&nbsp;                tmp = &quot;You&quot;;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (name.equals(currentPlayer)) {</b>
+<b class="nc">&nbsp;                System.out.print(Color.YELLOW_BRIGHT + &quot; [  &quot; + tmp + &quot;  ] &quot; + Color.RESET);</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                System.out.print(&quot; [  &quot; + tmp + &quot;  ] &quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        System.out.println();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void showPlayerShelf() {
+&nbsp;
+<b class="nc">&nbsp;        String[][] shelf = ClientView.shelves.get(ClientView.playersList.indexOf(username));</b>
+<b class="nc">&nbsp;        System.out.println(&quot;----------------------------------------------------&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Your Shelf:&quot;);</b>
+<b class="nc">&nbsp;        System.out.println();</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; Storage.SHELF_ROW; i++) {</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; Storage.SHELF_COLUMN; j++) {</b>
+<b class="nc">&nbsp;                String item = shelf[i][j] == null ? &quot;_________._&quot; : checkColorItem(shelf[i][j]);</b>
+<b class="nc">&nbsp;                System.out.print(&quot;[&quot; + item + &quot;]&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            System.out.println();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        for (int j = 1; j &lt;= Storage.SHELF_COLUMN; j++) {</b>
+<b class="nc">&nbsp;            System.out.print(&quot;      &quot; + j + &quot;      &quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        System.out.println();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void showGroupPointsTable() {
+<b class="nc">&nbsp;        System.out.println(&quot;Group Points Table: &quot;);</b>
+<b class="nc">&nbsp;        System.out.print(Storage.GROUP_POINTS);</b>
+<b class="nc">&nbsp;        System.out.println(Color.YELLOW + &quot;--Tip: See Game Rules for more info&quot; + Color.RESET);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void showEveryShelf() {
+<b class="nc">&nbsp;        for (int k = 0; k &lt; ClientView.shelves.size(); k++) {</b>
+<b class="nc">&nbsp;            String[][] userShelf = ClientView.shelves.get(k);</b>
+<b class="nc">&nbsp;            System.out.println(ClientView.playersList.get(k) + &quot;&#39;s Shelf:&quot;);</b>
+<b class="nc">&nbsp;            System.out.println();</b>
+<b class="nc">&nbsp;            for (int i = 0; i &lt; Storage.SHELF_ROW; i++) {</b>
+<b class="nc">&nbsp;                for (int j = 0; j &lt; SHELF_COLUMN; j++) {</b>
+<b class="nc">&nbsp;                    String item = userShelf[i][j] == null ? &quot;_________._&quot; : checkColorItem(userShelf[i][j]);</b>
+<b class="nc">&nbsp;                    System.out.print(&quot;[&quot; + item + &quot;]&quot;);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                System.out.println();</b>
+&nbsp;            }
+<b class="nc">&nbsp;            for (int j = 1; j &lt;= SHELF_COLUMN; j++) {</b>
+<b class="nc">&nbsp;                System.out.print(&quot;      &quot; + j + &quot;      &quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            System.out.println();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void showBoard() {
+<b class="nc">&nbsp;        String[][] board = ClientView.virtualBoard;</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Board:&quot;);</b>
+<b class="nc">&nbsp;        System.out.print(&quot;    &quot;);</b>
+<b class="nc">&nbsp;        for (int j = 1; j &lt;= Storage.BOARD_COLUMN; j++) {</b>
+<b class="nc">&nbsp;            System.out.print(&quot;      &quot; + j + &quot;       &quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        System.out.println();</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; Storage.BOARD_ROW; i++) {</b>
+<b class="nc">&nbsp;            System.out.print(Color.WHITE_BOLD_BRIGHT + &quot; &quot; + (i + 1) + &quot;  &quot; + Color.RESET);</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; Storage.BOARD_COLUMN; j++) {</b>
+<b class="nc">&nbsp;                if (board[i][j] != null &amp;&amp; board[i][j].startsWith(&quot;&gt;&quot;)) {</b>
+&nbsp;                    //If the cell is temporarily selected by the player
+<b class="nc">&nbsp;                    String item = checkColorItem(board[i][j].substring(1));</b>
+<b class="nc">&nbsp;                    System.out.print(Color.WHITE_BG + &quot;[&quot; + &quot;&quot; + item.replace</b>
+<b class="nc">&nbsp;                            (&quot;_&quot;, Color.WHITE_BG + &quot;_&quot;) + Color.WHITE_BG + &quot;]&quot; + Color.RESET + &quot; &quot;);</b>
+<b class="nc">&nbsp;                } else {</b>
+<b class="nc">&nbsp;                    String item = board[i][j] == null ? &quot;_________._&quot; : checkColorItem(board[i][j]);</b>
+<b class="nc">&nbsp;                    System.out.print(&quot;[&quot; + item + &quot;] &quot;);</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            System.out.print(&quot; &quot;);</b>
+<b class="nc">&nbsp;            System.out.println(Color.WHITE_BOLD_BRIGHT + String.valueOf(i + 1) + Color.RESET);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        System.out.print(&quot;    &quot;);</b>
+<b class="nc">&nbsp;        for (int j = 1; j &lt;= Storage.BOARD_COLUMN; j++) {</b>
+<b class="nc">&nbsp;            System.out.print(&quot;      &quot; + j + &quot;       &quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        System.out.println();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String checkColorItem(String item) {
+<b class="nc">&nbsp;        int index1, index2 = item.length() - 3;</b>
+&nbsp;
+<b class="nc">&nbsp;        String itemType = item;</b>
+<b class="nc">&nbsp;        switch (item.substring(0, item.length() - 3)) {</b>
+&nbsp;            case &quot;__Cats__&quot; -&gt; {
+<b class="nc">&nbsp;                index1 = item.indexOf(&quot;Cats&quot;);</b>
+<b class="nc">&nbsp;                itemType = item.substring(0, index1) + Color.CATS + item.substring(index1 + &quot;Cats&quot;.length(), index2) +</b>
+<b class="nc">&nbsp;                           Color.GREEN_BOLD_BRIGHT + item.substring(index2) + Color.RESET;</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case &quot;_Books__&quot; -&gt; {
+<b class="nc">&nbsp;                index1 = item.indexOf(&quot;Books&quot;);</b>
+<b class="nc">&nbsp;                itemType = item.substring(0, index1) + Color.BOOKS + item.substring(index1 + &quot;Books&quot;.length(), index2) +</b>
+<b class="nc">&nbsp;                           Color.WHITE_BOLD_BRIGHT + item.substring(index2) + Color.RESET;</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case &quot;_Games__&quot; -&gt; {
+<b class="nc">&nbsp;                index1 = item.indexOf(&quot;Games&quot;);</b>
+<b class="nc">&nbsp;                itemType = item.substring(0, index1) + Color.GAMES + item.substring(index1 + &quot;Games&quot;.length(), index2) +</b>
+<b class="nc">&nbsp;                           Color.YELLOW_BOLD_BRIGHT + item.substring(index2) + Color.RESET;</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case &quot;_Frames_&quot; -&gt; {
+<b class="nc">&nbsp;                index1 = item.indexOf(&quot;Frames&quot;);</b>
+<b class="nc">&nbsp;                itemType = item.substring(0, index1) + Color.FRAMES + item.substring(index1 + &quot;Frames&quot;.length(), index2) +</b>
+<b class="nc">&nbsp;                           Color.BLUE_BOLD_BRIGHT + item.substring(index2) + Color.RESET;</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case &quot;Trophies&quot; -&gt; {
+<b class="nc">&nbsp;                itemType = Color.CYAN_BOLD_BRIGHT + item + Color.RESET;</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case &quot;_Plants_&quot; -&gt; {
+<b class="nc">&nbsp;                index1 = item.indexOf(&quot;Plants&quot;);</b>
+<b class="nc">&nbsp;                itemType = item.substring(0, index1) + Color.PLANTS + item.substring(index1 + &quot;Plants&quot;.length(), index2) +</b>
+<b class="nc">&nbsp;                           Color.MAGENTA_BOLD_BRIGHT + item.substring(index2) + Color.RESET;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return itemType;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void showPlayersStats() {
+<b class="nc">&nbsp;        List&lt;String&gt; playerList = playersList;</b>
+<b class="nc">&nbsp;        List&lt;Integer&gt; scoreList = ClientView.scores;</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; playerList.size(); i++) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;&gt; &quot; + playerList.get(i) + &quot;&#39;s stats: &quot;);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;  &quot; + &quot;SCORE:\t&quot; + scoreList.get(i));</b>
+<b class="nc">&nbsp;            System.out.println(&quot;  &quot; + &quot;STATUS:\t&quot;);     //Needed if the Connection resilience is implemented</b>
+&nbsp;        }
+<b class="nc">&nbsp;        askToContinue();</b>
+<b class="nc">&nbsp;        System.out.println();</b>
+<b class="nc">&nbsp;        showEveryShelf();</b>
+<b class="nc">&nbsp;        announceCurrentPlayer();</b>
+<b class="nc">&nbsp;        showHand();</b>
+<b class="nc">&nbsp;        System.out.println();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method forward a request directly to the Server
+&nbsp;     * --&gt; It&#39;s going to display a list of online Players
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void showOnlinePlayer() {
+&nbsp;        do {
+<b class="nc">&nbsp;            System.out.println(&quot;------------------------------------------&quot;);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;List of online players:&quot;);</b>
+<b class="nc">&nbsp;            if (onlinePlayers == null) System.out.println(&quot;No player online&quot;);</b>
+&nbsp;            else {
+<b class="nc">&nbsp;                for (int i = 0; i &lt; onlinePlayers.length; i++) {</b>
+<b class="nc">&nbsp;                    if (onlinePlayers[i][0] == null || onlinePlayers[i][1] == null) {</b>
+<b class="nc">&nbsp;                        continue;</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    System.out.println(&quot;[&quot; + onlinePlayers[i][0] + &quot; | &quot; + onlinePlayers[i][1] + &quot; ]&quot;);</b>
+&nbsp;
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            System.out.println();</b>
+&nbsp;            //setBusyFalse();
+<b class="nc">&nbsp;        } while (askPrivateChat());</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void showGoalDescription(String commonGoalCard) {
+<b class="nc">&nbsp;        System.out.println(Storage.goalCommonMap.get(commonGoalCard));</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method allows the user to read the GAME RULES
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void showGameRules() {
+<b class="nc">&nbsp;        System.out.println(Storage.goalOfTheGame);</b>
+<b class="nc">&nbsp;        askToContinue();</b>
+<b class="nc">&nbsp;        System.out.println(Storage.gamePlay);</b>
+<b class="nc">&nbsp;        askToContinue();</b>
+<b class="nc">&nbsp;        System.out.println(Storage.refillingLivingRoom);</b>
+<b class="nc">&nbsp;        askToContinue();</b>
+<b class="nc">&nbsp;        System.out.println(Storage.fulfillingCommonGoal);</b>
+<b class="nc">&nbsp;        askToContinue();</b>
+<b class="nc">&nbsp;        System.out.println(Storage.gameEnd);</b>
+&nbsp;
+<b class="nc">&nbsp;        System.out.println(Color.YELLOW_BOLD + &quot;Common Goals:&quot;);</b>
+<b class="nc">&nbsp;        for (String s : commonGoalList) {</b>
+<b class="nc">&nbsp;            showGoalDescription(s);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        System.out.println();</b>
+<b class="nc">&nbsp;        askToContinue();</b>
+&nbsp;    }
+&nbsp;    //-----------------------------------------------------------------------------------------------------------------
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method shows the Selection menu, one of the MAIN PHASES of the game
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void askSelection() {
+<b class="nc">&nbsp;        System.out.println(&quot;Select a cell on the board&quot;);</b>
+&nbsp;        boolean selectionConfirm;
+&nbsp;        do {
+<b class="nc">&nbsp;            List&lt;Integer&gt; coordinates = askCoordinates();</b>
+<b class="nc">&nbsp;            int row = coordinates.get(0) - 1;</b>
+<b class="nc">&nbsp;            int column = coordinates.get(1) - 1;</b>
+<b class="nc">&nbsp;            if (commCtrl.selectCell(row, column)) {</b>
+<b class="nc">&nbsp;                NOT_SEL_YET = false;</b>
+<b class="nc">&nbsp;                System.out.println(Color.YELLOW + &quot;Item selected: &quot; +</b>
+<b class="nc">&nbsp;                                   showItemInCell(row, column).replace(&quot;&gt;&quot;, &quot;&quot;).</b>
+<b class="nc">&nbsp;                                           replace(&quot;_&quot;, &quot;&quot;) + Color.RESET);</b>
+<b class="nc">&nbsp;                showHand();</b>
+&nbsp;            }
+&nbsp;            //askToContinue();
+<b class="nc">&nbsp;            delayer(750);</b>
+<b class="nc">&nbsp;            showDisplay();</b>
+<b class="nc">&nbsp;            System.out.print(Storage.anotherCard);</b>
+<b class="nc">&nbsp;            selectionConfirm = &quot;&quot;.equals(readLine());</b>
+<b class="nc">&nbsp;        } while (selectionConfirm);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method shows a sub menu of the Selection menu
+&nbsp;     * Ask the player to insert the coordinates on the board for the selection
+&nbsp;     *
+&nbsp;     * @return a list that represents the Coordinates (row,column)
+&nbsp;     */
+&nbsp;    public List&lt;Integer&gt; askCoordinates() {
+<b class="nc">&nbsp;        showBoard();</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Type the coordinates you wish to select ONE AT THE TIME (first ROW, then COLUMN).&quot;);</b>
+<b class="nc">&nbsp;        List&lt;Integer&gt; coordinates = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        coordinates.add(askTheIndex(&quot;ROW&quot;, 1, Storage.BOARD_ROW));</b>
+<b class="nc">&nbsp;        coordinates.add(askTheIndex(&quot;COLUMN&quot;, 1, Storage.BOARD_COLUMN));</b>
+<b class="nc">&nbsp;        return coordinates;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void askDeselection() {
+<b class="nc">&nbsp;        if (BABY_PROTOCOL &amp;&amp; !showHand()) {</b>
+<b class="nc">&nbsp;            System.out.println(Color.RED + &quot;You have not selected any card yet.&quot; + Color.RESET);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            System.out.print(Storage.deselectConfirm);</b>
+&nbsp;
+<b class="nc">&nbsp;            boolean deselectConfirm = &quot;y&quot;.equals(readLine());</b>
+<b class="nc">&nbsp;            if (deselectConfirm) {</b>
+<b class="nc">&nbsp;                if (commCtrl.deselectCards()) {</b>
+<b class="nc">&nbsp;                    NOT_SEL_YET = true;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method shows the Insertion menu, one of the MAIN PHASES of the game
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void askInsertion() {
+<b class="nc">&nbsp;        if (showHand()) {</b>
+<b class="nc">&nbsp;            System.out.print(Storage.insertionConfirm);</b>
+<b class="nc">&nbsp;            boolean confirm = &quot;y&quot;.equals(readLine());</b>
+<b class="nc">&nbsp;            if (confirm) {</b>
+<b class="nc">&nbsp;                if (commCtrl.confirmSelection()) {</b>
+<b class="nc">&nbsp;                    String option = &quot;&quot;;</b>
+<b class="nc">&nbsp;                    while (!option.equals(&quot;more&quot;) &amp;&amp; !option.equals(&quot;mo&quot;)) {</b>
+<b class="nc">&nbsp;                        showHand();</b>
+<b class="nc">&nbsp;                        System.out.print(Storage.commandInsert);</b>
+<b class="nc">&nbsp;                        option = readLine();</b>
+<b class="nc">&nbsp;                        switch (option) {</b>
+<b class="nc">&nbsp;                            case &quot;sort&quot;, &quot;so&quot; -&gt; askSort();</b>
+<b class="nc">&nbsp;                            case &quot;show&quot;, &quot;sh&quot; -&gt; askShowObject();</b>
+&nbsp;                            case &quot;&quot; -&gt; {
+<b class="nc">&nbsp;                                showPlayerShelf();</b>
+&nbsp;                                int column;
+&nbsp;                                do {
+<b class="nc">&nbsp;                                    column = askColumn();</b>
+<b class="nc">&nbsp;                                } while (column == -2);</b>
+<b class="nc">&nbsp;                                if (column != -1) {</b>
+<b class="nc">&nbsp;                                    if (commCtrl.insertInColumn(column - 1)) {</b>
+<b class="nc">&nbsp;                                        showPlayerShelf();</b>
+<b class="nc">&nbsp;                                        System.out.println(Color.YELLOW + &quot;Inserted in the column: &quot; + column + Color.RESET);</b>
+<b class="nc">&nbsp;                                        NOT_SEL_YET = true;</b>
+<b class="nc">&nbsp;                                        SEL_MODE = false;</b>
+<b class="nc">&nbsp;                                        if (commCtrl.endTurn()) {</b>
+<b class="nc">&nbsp;                                            System.out.println(Color.YELLOW + &quot;- End Turn -&quot; + Color.RESET);</b>
+&nbsp;                                        }
+<b class="nc">&nbsp;                                        delayer(1000);</b>
+&nbsp;                                        return;
+&nbsp;                                    }
+&nbsp;                                }
+<b class="nc">&nbsp;                            }</b>
+<b class="nc">&nbsp;                            case &quot;more&quot;, &quot;mo&quot; -&gt; askMoreOptions();</b>
+&nbsp;                            default -&gt;
+<b class="nc">&nbsp;                                    System.out.println(Color.RED + &quot;The [&quot; + option + &quot;] cannot be found! Please try again.&quot;</b>
+&nbsp;                                                       + Color.RESET);
+<b class="nc">&nbsp;                        }</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                } else {</b>
+<b class="nc">&nbsp;                    System.out.println(Color.RED + &quot;Selection Confirm failed&quot; + Color.RESET);</b>
+&nbsp;                }
+&nbsp;            } else {
+<b class="nc">&nbsp;                System.out.println(Color.RED + &quot;Insertion canceled.&quot; + Color.RESET);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        } else {</b>
+<b class="nc">&nbsp;            System.out.println(Color.RED + &quot;You can’t insert cards if you did not select any cards!&quot; + Color.RESET);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        delayer(1000);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void askSort() {
+<b class="nc">&nbsp;        System.out.println(&quot;There are the cards you have selected:&quot;);</b>
+<b class="nc">&nbsp;        if (showHand()) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Which position do you wish to swap?&quot;);</b>
+<b class="nc">&nbsp;            List&lt;Integer&gt; itemSwapped = askIndex();</b>
+<b class="nc">&nbsp;            if (itemSwapped == null) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Selection canceled.&quot;);</b>
+<b class="nc">&nbsp;            } else if (!itemSwapped.get(0).equals(itemSwapped.get(1))) {</b>
+<b class="nc">&nbsp;                if (commCtrl.sortHand(itemSwapped.get(0), itemSwapped.get(1))) {</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;Card order changed.&quot;);</b>
+&nbsp;                }
+&nbsp;            } else {
+<b class="nc">&nbsp;                System.out.println(&quot;Same position. Swap failed.&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        } else {</b>
+<b class="nc">&nbsp;            System.out.println(Color.RED + &quot;You can’t sort cards if you did not select any cards!&quot; + Color.RESET);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Integer&gt; askIndex() {
+&nbsp;        String sortConfirm;
+&nbsp;        int position1, position2;
+<b class="nc">&nbsp;        position1 = askTheIndex(&quot;Position1&quot;, 1, ClientView.currentPlayerHand.size());</b>
+<b class="nc">&nbsp;        position2 = askTheIndex(&quot;Position2&quot;, 1, ClientView.currentPlayerHand.size());</b>
+<b class="nc">&nbsp;        System.out.println(&quot;You have chosen to swap &quot; +</b>
+<b class="nc">&nbsp;                           ClientView.currentPlayerHand.get(position1 - 1).replace(&quot;_&quot;, &quot;&quot;) +</b>
+&nbsp;                           &quot; and &quot; +
+<b class="nc">&nbsp;                           ClientView.currentPlayerHand.get(position2 - 1).replace(&quot;_&quot;, &quot;&quot;));</b>
+<b class="nc">&nbsp;        System.out.print(Storage.indexConfirm);</b>
+<b class="nc">&nbsp;        sortConfirm = readLine();</b>
+<b class="nc">&nbsp;        switch (sortConfirm) {</b>
+&nbsp;            case &quot;y&quot;:
+<b class="nc">&nbsp;                List&lt;Integer&gt; index = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;                index.add(position1 - 1);</b>
+<b class="nc">&nbsp;                index.add(position2 - 1);</b>
+&nbsp;
+<b class="nc">&nbsp;                return index;</b>
+&nbsp;            case &quot;r&quot;:
+<b class="nc">&nbsp;                askIndex();</b>
+<b class="nc">&nbsp;                break;</b>
+&nbsp;            case &quot;n&quot;:
+<b class="nc">&nbsp;                return null;</b>
+&nbsp;            default:
+<b class="nc">&nbsp;                System.out.println(Color.RED + &quot;Invalid command! Please try again.&quot; + Color.RESET);</b>
+&nbsp;                break;
+&nbsp;        }
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method shows a sub menu of the Insertion menu.
+&nbsp;     * Its task it to get the number of the column in which the player wish to insert the items
+&nbsp;     *
+&nbsp;     * @return number of the column designated
+&nbsp;     */
+&nbsp;    public int askColumn() {
+<b class="nc">&nbsp;        System.out.println(&quot;In which column would you like to insert the cards?&quot;);</b>
+&nbsp;        String columnConfirm;
+&nbsp;        int column;
+<b class="nc">&nbsp;        column = askTheIndex(&quot;COLUMN&quot;, 1, SHELF_COLUMN);</b>
+&nbsp;        do {
+&nbsp;
+<b class="nc">&nbsp;            System.out.print(&quot;&quot;&quot;</b>
+&nbsp;                                     -----------------------------------------------------------
+&nbsp;                                     You have chosen Column:\040&quot;&quot;&quot; + column + &quot;\n&quot; + Storage.columnConfirm);
+&nbsp;
+<b class="nc">&nbsp;            columnConfirm = readLine();</b>
+<b class="nc">&nbsp;            switch (columnConfirm) {</b>
+&nbsp;                case &quot;y&quot;:
+<b class="nc">&nbsp;                    return (column);</b>
+&nbsp;                case &quot;r&quot;:
+<b class="nc">&nbsp;                    return -2;</b>
+&nbsp;                case &quot;n&quot;:
+<b class="nc">&nbsp;                    return -1;</b>
+&nbsp;                default:
+<b class="nc">&nbsp;                    System.out.println(Color.RED + &quot;Invalid command! Please try again.&quot; + Color.RESET);</b>
+&nbsp;                    break;
+&nbsp;            }
+<b class="nc">&nbsp;        } while (true);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method allows the view of the Items selected by the player
+&nbsp;     * Improper use of the name Hand, It should be: temporarily list of item selected on the board
+&nbsp;     *
+&nbsp;     * @return true if the &quot;hand&quot; is not empty, otherwise false
+&nbsp;     */
+&nbsp;    public boolean showHand() {
+<b class="nc">&nbsp;        System.out.print(ClientView.currentPlayer + &quot; has selected: &quot;);</b>
+<b class="nc">&nbsp;        if (ClientView.currentPlayerHand.isEmpty()) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Nothing&quot;);</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        for (int i = 0; i &lt; ClientView.currentPlayerHand.size(); i++) {</b>
+<b class="nc">&nbsp;            System.out.print((i + 1) + &quot;.[&quot; +</b>
+<b class="nc">&nbsp;                             checkColorItem(ClientView.currentPlayerHand.get(i)).replace(&quot;_&quot;, &quot;&quot;) + &quot;]  &quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        System.out.println();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String showItemInCell(int row, int column) {
+<b class="nc">&nbsp;        return ClientView.virtualBoard[row][column];</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void showEndGameToken() {
+<b class="nc">&nbsp;        if (ClientView.endGameToken) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;The EndGame Token is still available. Good Luck!&quot;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            System.out.println(&quot;The EndGame Token is taken, it&#39;s the last round!&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        System.out.println();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void showPersonalPoints() {
+<b class="nc">&nbsp;        int index = ClientView.getPlayerIndex(username);</b>
+<b class="nc">&nbsp;        int points = ClientView.hiddenPoints.get(index);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Personal Goal&#39;s points (Private): &quot; + points);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method convert the gameResults in the TUI view format
+&nbsp;     */
+&nbsp;    public void showGameResults() {
+<b class="nc">&nbsp;        if (ClientView.gameResults == null || ClientView.gameResults.length == 1) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;No Results&quot;);</b>
+<b class="nc">&nbsp;            askToContinue();</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            List&lt;String&gt; gameResultsTmp = new ArrayList&lt;&gt;(ClientView.gameResults.length);</b>
+&nbsp;
+<b class="nc">&nbsp;            for (int i = 0; i &lt; ClientView.gameResults.length - 1; i++) {</b>
+<b class="nc">&nbsp;                String line =</b>
+&nbsp;                        &quot;* &quot; + ClientView.gameResults[i][0] + &quot; Score:\n&quot; +
+&nbsp;                        &quot;+ &quot; + ClientView.gameResults[i][1] + &quot; Common points\n&quot; +
+&nbsp;                        &quot;+ &quot; + ClientView.gameResults[i][2] + &quot; Personal points\n&quot; +
+&nbsp;                        &quot;+ &quot; + ClientView.gameResults[i][3] + &quot; Group points\n&quot;;
+<b class="nc">&nbsp;                if (ClientView.gameResults[i][4] != null) {</b>
+<b class="nc">&nbsp;                    line += &quot;+ 1 Endgame Token\n&quot;;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                line += &quot;Total: &quot; + ClientView.gameResults[i][5] + &quot;\n&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;                gameResultsTmp.add(i, line);</b>
+&nbsp;
+&nbsp;            }
+<b class="nc">&nbsp;            String winner = &quot;\n No winner for this match!\n&quot;;</b>
+<b class="nc">&nbsp;            if (ClientView.gameResults[ClientView.gameResults.length - 1][0] != null) {</b>
+<b class="nc">&nbsp;                winner = &quot;\n The winner is &quot; + ClientView.gameResults[ClientView.gameResults.length - 1][0] + &quot;!!\n&quot;;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            gameResultsTmp.add(ClientView.gameResults.length - 1, winner);</b>
+&nbsp;
+<b class="nc">&nbsp;            for (String r : gameResultsTmp) {</b>
+<b class="nc">&nbsp;                System.out.println(r);</b>
+<b class="nc">&nbsp;                askToContinue();</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void showTimer() {
+&nbsp;
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This is a sub Menu used for showcase the objects of the game,
+&nbsp;     * like Board, Shelf, Goals....
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void askShowObject() {
+<b class="nc">&nbsp;        String object = &quot;new_command&quot;;</b>
+<b class="nc">&nbsp;        while (!object.equals(&quot;&quot;)) {</b>
+<b class="nc">&nbsp;            System.out.print(Storage.listObjects);</b>
+<b class="nc">&nbsp;            object = readLine();</b>
+<b class="nc">&nbsp;            setBusy(true);</b>
+<b class="nc">&nbsp;            switch (object) {</b>
+<b class="nc">&nbsp;                case &quot;open&quot;, &quot;op&quot; -&gt; askPrivateChat();</b>
+<b class="nc">&nbsp;                case &quot;hand&quot;, &quot;ha&quot; -&gt; showHand();</b>
+&nbsp;                case &quot;pgoal&quot;, &quot;pg&quot; -&gt; {
+<b class="nc">&nbsp;                    showPersonalGoal();</b>
+<b class="nc">&nbsp;                    askToContinue();</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                case &quot;cgoal&quot;, &quot;cg&quot; -&gt; showCommonGoals();</b>
+&nbsp;                case &quot;shelf&quot;, &quot;sh&quot; -&gt; {
+<b class="nc">&nbsp;                    showPlayerShelf();</b>
+<b class="nc">&nbsp;                    askToContinue();</b>
+<b class="nc">&nbsp;                    showGroupPointsTable();</b>
+<b class="nc">&nbsp;                    askToContinue();</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                case &quot;board&quot;, &quot;bo&quot; -&gt; showBoard();</b>
+<b class="nc">&nbsp;                case &quot;stats&quot;, &quot;st&quot; -&gt; showPlayersStats();</b>
+<b class="nc">&nbsp;                case &quot;rules&quot;, &quot;ru&quot; -&gt; showGameRules();</b>
+<b class="nc">&nbsp;                case &quot;end&quot;, &quot;en&quot; -&gt; showEndGameToken();</b>
+<b class="nc">&nbsp;                case &quot;online&quot;, &quot;on&quot; -&gt; showOnlinePlayer();</b>
+<b class="nc">&nbsp;                case &quot;timer&quot;, &quot;ti&quot; -&gt; showTimer();</b>
+&nbsp;                case &quot;&quot; -&gt; {
+<b class="nc">&nbsp;                    setBusy(false);</b>
+&nbsp;                    return;
+&nbsp;                }
+<b class="nc">&nbsp;                default -&gt; System.out.println(Color.RED + &quot;The [&quot; + object + &quot;] cannot be found! Please try again.&quot;</b>
+&nbsp;                                              + Color.RESET);
+&nbsp;            }
+<b class="nc">&nbsp;            delayer(750);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        setBusy(false);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This Method is used for DECORATION of TUI.
+&nbsp;     * Shows a Random Tip for the user
+&nbsp;     */
+&nbsp;    public void showRandomTip() {
+<b class="nc">&nbsp;        int max, min = 0;</b>
+<b class="nc">&nbsp;        if (GO_TO_MENU) max = Storage.MENU_TIPS;</b>
+<b class="nc">&nbsp;        else if (!GAME_ON) {</b>
+<b class="nc">&nbsp;            max = Storage.WAIT_TIPS;</b>
+<b class="nc">&nbsp;            min = MENU_TIPS;</b>
+<b class="nc">&nbsp;        } else if (GAME_ON &amp;&amp; NOT_SEL_YET) {</b>
+<b class="nc">&nbsp;            max = Storage.SEL_TIPS;</b>
+<b class="nc">&nbsp;            min = WAIT_TIPS;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            max = Storage.tips.size();</b>
+<b class="nc">&nbsp;            min = WAIT_TIPS;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String tip = Storage.tips.get((int) (Math.random() * max - min) + min);</b>
+<b class="nc">&nbsp;        System.out.println(tip);</b>
+&nbsp;    }
+&nbsp;    //------------------------DISPLAY----------------------------------
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The first idea was to display in real time the progression of the Game
+&nbsp;     * to ONLY the player that were not playing, so while they were waiting they could watch at something more lively
+&nbsp;     * But then it was extended to the Current Player display too
+&nbsp;     */
+&nbsp;    public void showDisplay() {
+<b class="nc">&nbsp;        System.out.println();</b>
+<b class="nc">&nbsp;        Storage.reset_display();</b>
+<b class="nc">&nbsp;        displayMiniBoard();</b>
+<b class="nc">&nbsp;        displayMiniShelf();</b>
+<b class="nc">&nbsp;        if (SEL_MODE) displayMiniHand();</b>
+<b class="nc">&nbsp;        displayMiniPGoal(ClientView.personalGoal);</b>
+<b class="nc">&nbsp;        displayMiniCGoal();</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; Storage.current_display.size(); i++) {</b>
+<b class="nc">&nbsp;            System.out.println(Storage.current_display.get(i));</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used for decoration of the TUI
+&nbsp;     */
+&nbsp;    public void displayMiniBoard() {
+<b class="nc">&nbsp;        List&lt;String&gt; display = Storage.current_display;</b>
+<b class="nc">&nbsp;        String[][] board = ClientView.virtualBoard;</b>
+&nbsp;
+<b class="nc">&nbsp;        display.set(0, display.get(0) + &quot;\t\t\t{Board}\t\t\t\t\t\t\t&quot;);</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; Storage.BOARD_ROW; i++) {</b>
+<b class="nc">&nbsp;            display.set(i + 1, display.get(i + 1) + (i + 1));</b>
+&nbsp;
+<b class="nc">&nbsp;            for (int j = 0; j &lt; Storage.BOARD_COLUMN; j++) {</b>
+<b class="nc">&nbsp;                if (board[i][j] != null &amp;&amp; board[i][j].startsWith(&quot;&gt;&quot;)) {</b>
+&nbsp;                    //If the cell is temporarily selected by the player
+<b class="nc">&nbsp;                    String item = giveMeColor(board[i][j].substring(1));</b>
+<b class="nc">&nbsp;                    display.set(i + 1, display.get(i + 1) + &quot; &quot; + Color.WHITE_BG + &quot;[&quot; + &quot;&quot; + item + Color.WHITE_BG + &quot;]&quot; + Color.RESET);</b>
+<b class="nc">&nbsp;                } else {</b>
+<b class="nc">&nbsp;                    String item = board[i][j] == null ? &quot; &quot; : giveMeColor(board[i][j]);</b>
+<b class="nc">&nbsp;                    display.set(i + 1, display.get(i + 1) + &quot; [&quot; + item + &quot;]&quot;);</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            display.set(i + 1, display.get(i + 1) + &quot; &quot;);</b>
+<b class="nc">&nbsp;            display.set(i + 1, display.get(i + 1) + (i + 1) + &quot;|\t&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        display.set(10, display.get(10) + &quot;  &quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int j = 1; j &lt;= Storage.BOARD_COLUMN; j++) {</b>
+<b class="nc">&nbsp;            display.set(10, display.get(10) + &quot; &quot; + j + &quot;  &quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        display.set(10, display.get(10) + &quot;   &quot;);</b>
+<b class="nc">&nbsp;        Storage.current_display = display;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String giveMeColor(String item) {
+<b class="nc">&nbsp;        String itemType = item;</b>
+<b class="nc">&nbsp;        switch (item.substring(0, item.length() - 3)) {</b>
+<b class="nc">&nbsp;            case &quot;__Cats__&quot; -&gt; itemType = &quot;\033[1;92m*\033[0m&quot;;</b>
+<b class="nc">&nbsp;            case &quot;_Books__&quot; -&gt; itemType = &quot;\033[1;97m*\033[0m&quot;;</b>
+<b class="nc">&nbsp;            case &quot;_Games__&quot; -&gt; itemType = &quot;\033[1;93m*\033[0m&quot;;</b>
+<b class="nc">&nbsp;            case &quot;_Frames_&quot; -&gt; itemType = &quot;\033[1;94m*\033[0m&quot;;</b>
+<b class="nc">&nbsp;            case &quot;Trophies&quot; -&gt; itemType = &quot;\033[1;96m*\033[0m&quot;;</b>
+<b class="nc">&nbsp;            case &quot;_Plants_&quot; -&gt; itemType = &quot;\033[1;95m*\033[0m&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return itemType;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used for decoration of the TUI
+&nbsp;     */
+&nbsp;    public void displayMiniShelf() {
+<b class="nc">&nbsp;        String[][] shelf = ClientView.shelves.get(playersList.indexOf(username));</b>
+<b class="nc">&nbsp;        List&lt;String&gt; display = Storage.current_display;</b>
+<b class="nc">&nbsp;        display.set(3, display.get(3) + &quot;  {Your Shelf}\t &quot;);</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; Storage.SHELF_ROW; i++) {</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; SHELF_COLUMN; j++) {</b>
+<b class="nc">&nbsp;                String item = shelf[i][j] == null ? &quot; &quot; : giveMeColor(shelf[i][j]);</b>
+<b class="nc">&nbsp;                display.set(4 + i, display.get(4 + i) + &quot;[&quot; + item + &quot;]&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            display.set(4 + i, display.get(4 + i) + &quot;  \t&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        display.set(10, display.get(10) + &quot; \t&quot;);</b>
+<b class="nc">&nbsp;        for (int j = 1; j &lt;= SHELF_COLUMN; j++) {</b>
+<b class="nc">&nbsp;            display.set(10, display.get(10) + &quot; &quot; + j + &quot; &quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        display.set(10, display.get(10) + &quot;  \t&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used for decoration of the TUI
+&nbsp;     */
+&nbsp;    public void displayMiniHand() {
+<b class="nc">&nbsp;        List&lt;String&gt; display = Storage.current_display;</b>
+<b class="nc">&nbsp;        display.set(0, display.get(0) + &quot;{Selected cards}\t&quot;);</b>
+<b class="nc">&nbsp;        display.set(1, display.get(1) + &quot;   &quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; 3; i++) {</b>
+<b class="nc">&nbsp;            if (i &lt; ClientView.currentPlayerHand.size()) {</b>
+<b class="nc">&nbsp;                String item = giveMeColor(ClientView.currentPlayerHand.get(i));</b>
+<b class="nc">&nbsp;                display.set(1, display.get(1) + &quot;[&quot; + item + &quot;]&quot;);</b>
+<b class="nc">&nbsp;            } else {</b>
+<b class="nc">&nbsp;                display.set(1, display.get(1) + &quot;[ ]&quot;);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        display.set(1, display.get(1) + &quot;\t\t&quot;);</b>
+<b class="nc">&nbsp;        display.set(2, display.get(2) + &quot;\t\t\t\t\t&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used for decoration of the TUI
+&nbsp;     */
+&nbsp;    public void displayMiniPGoal(int pID) {
+<b class="nc">&nbsp;        List&lt;String&gt; display = Storage.current_display;</b>
+<b class="nc">&nbsp;        String[] tmp = Storage.PGoals.get(pID);</b>
+<b class="nc">&nbsp;        display.set(3, display.get(3) + &quot;\t{PersonalGoal} \t&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 4; i &lt; Storage.current_display.size() - 1; i++) {</b>
+<b class="nc">&nbsp;            display.set(i, display.get(i) + tmp[i - 4] + &quot; \t&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        for (int j = 1; j &lt;= SHELF_COLUMN; j++) {</b>
+<b class="nc">&nbsp;            display.set(10, display.get(10) + &quot; &quot; + j + &quot; &quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        display.set(10, display.get(10) + &quot;  \t&quot;);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is used for decoration of the TUI
+&nbsp;     */
+&nbsp;    public void displayMiniCGoal() {
+<b class="nc">&nbsp;        List&lt;String&gt; display = Storage.current_display;</b>
+<b class="nc">&nbsp;        List&lt;String&gt; cGoal = ClientView.commonGoal;</b>
+<b class="nc">&nbsp;        List&lt;Integer&gt; scores = ClientView.commonGoalScore;</b>
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; cGoal.size(); i++) {</b>
+<b class="nc">&nbsp;            display.set(i, display.get(i) + &quot;{&quot; + cGoal.get(i) + &quot;}&quot; + &quot;: \t[&quot; + scores.get(i) + &quot;]&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;//--------------------------CHAT--------------------------------------------------
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Show the list of chat with players who is available
+&nbsp;     *
+&nbsp;     * @return true to refresh, false to exit
+&nbsp;     */
+&nbsp;    public boolean askPrivateChat() {
+<b class="nc">&nbsp;        List&lt;String&gt; playersList = convertPlayersNames(onlinePlayers);</b>
+<b class="nc">&nbsp;        int num = 1;</b>
+<b class="nc">&nbsp;        System.out.println(&quot;[ N ] Private Chats List:&quot;);</b>
+<b class="nc">&nbsp;        for (String x : playersList) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;  &quot; + num + &quot;  --&gt; &quot; + x);</b>
+<b class="nc">&nbsp;            num++;</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        System.out.println(&quot;  0  --&gt; Exit&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Enter the number of the player you wish to chat with:&quot;);</b>
+<b class="nc">&nbsp;        int value = playersList.size() + 1;</b>
+&nbsp;        do {
+&nbsp;            try {
+<b class="nc">&nbsp;                System.out.print(&quot;&gt; &quot;);</b>
+<b class="nc">&nbsp;                String tmp = readLine();</b>
+<b class="nc">&nbsp;                if (tmp.equals(&quot;&quot;)) {</b>
+<b class="nc">&nbsp;                    return true;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                value = Integer.parseInt(tmp);</b>
+&nbsp;
+<b class="nc">&nbsp;            } catch (NumberFormatException nE) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Wrong input. Try with a valid number&quot;);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            if (value == 0) {</b>
+<b class="nc">&nbsp;                return false;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        } while (value &gt; playersList.size());</b>
+&nbsp;
+&nbsp;        //Valid value
+<b class="nc">&nbsp;        askChat(&quot;/open[&quot; + playersList.get(value - 1) + &quot;]&quot;);</b>
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * convert players list from virtual view format to Java List format
+&nbsp;     *
+&nbsp;     * @param playersMap client virtual view
+&nbsp;     * @return list of players name
+&nbsp;     */
+&nbsp;    private List&lt;String&gt; convertPlayersNames(String[][] playersMap) {
+<b class="nc">&nbsp;        List&lt;String&gt; list = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; playersMap.length; i++) {</b>
+<b class="nc">&nbsp;            if (playersMap[i][0].equals(username)) {</b>
+<b class="nc">&nbsp;                continue;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            list.add(playersMap[i][0]);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return list;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sending a message in a specific chat (public or private)
+&nbsp;     *
+&nbsp;     * @param command command includes message and, in case, receiver
+&nbsp;     * @param live    true if the message is sent in live chat
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void handleChatMessage(String command, boolean live) {
+<b class="nc">&nbsp;        String message = command.substring(command.indexOf(&quot; &quot;) + 1);</b>
+<b class="nc">&nbsp;        String usernameString = command.substring(5);</b>
+<b class="nc">&nbsp;        String regex = &quot;\\[|\\]&quot;;</b>
+<b class="nc">&nbsp;        String[] matches = usernameString.split(regex);</b>
+<b class="nc">&nbsp;        if (matches.length &gt; 1) {</b>
+<b class="nc">&nbsp;            String playerName = matches[1];</b>
+&nbsp;
+<b class="nc">&nbsp;            if (commCtrl.sendPrivateMessage(message, playerName, live)) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Message sent to: &quot; + playerName);</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                System.out.println(&quot;Message not sent&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        } else {</b>
+&nbsp;
+<b class="nc">&nbsp;            if (!commCtrl.sendPublicMessage(message, live)) {</b>
+<b class="nc">&nbsp;                System.out.println(Color.RED + &quot;The message was not sent&quot; + Color.RESET);</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                System.out.println(&quot;Message sent&quot;);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        delayer(500);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Print match group chat from ClientView
+&nbsp;     */
+&nbsp;    public void printPublicChat() {
+<b class="nc">&nbsp;        System.out.println();</b>
+<b class="nc">&nbsp;        if (publicChat == null) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;\&quot;No records\&quot;&quot;);</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="nc">&nbsp;        for (String line : publicChat) {</b>
+<b class="nc">&nbsp;            System.out.println(line);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Print the private Chat
+&nbsp;     *
+&nbsp;     * @param index index of the private chat in ClientView.privateChats
+&nbsp;     */
+&nbsp;    public void printPrivateChat(int index) {
+<b class="nc">&nbsp;        System.out.println();</b>
+<b class="nc">&nbsp;        if (privateChats == null || privateChats.size() &lt;= index || index == -1) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;\&quot;No records\&quot;&quot;);</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="nc">&nbsp;        for (String line : privateChats.get(index)) {</b>
+<b class="nc">&nbsp;            System.out.println(line);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Open chat (public or private)
+&nbsp;     * OpenChat Command: /open[name]
+&nbsp;     *
+&nbsp;     * @param command the message and, in case, receiver name
+&nbsp;     */
+&nbsp;    public void askChat(String command) {
+&nbsp;        //String message = command.substring(command.indexOf(&quot; &quot;) + 1);
+<b class="nc">&nbsp;        String usernameString = command.substring(5);</b>
+<b class="nc">&nbsp;        String regex = &quot;\\[|\\]&quot;;</b>
+<b class="nc">&nbsp;        String[] matches = usernameString.split(regex);</b>
+<b class="nc">&nbsp;        if (matches.length &gt; 1) {</b>
+<b class="nc">&nbsp;            String playerName = matches[1];</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Opening Chat with &quot; + playerName);</b>
+<b class="nc">&nbsp;            delayer(500);</b>
+<b class="nc">&nbsp;            setChatMode(true);</b>
+<b class="nc">&nbsp;            while (chatMode) {</b>
+<b class="nc">&nbsp;                printPrivateChat(chatMap.getOrDefault(getChatKey(username, playerName), -1));</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Type /exit to close this chat&quot;);</b>
+<b class="nc">&nbsp;                System.out.print(&quot;&gt; &quot;);</b>
+<b class="nc">&nbsp;                String live_message = readLine();</b>
+<b class="nc">&nbsp;                if (live_message.equals(&quot;/exit&quot;)) {</b>
+<b class="nc">&nbsp;                    setChatMode(false);</b>
+&nbsp;
+<b class="nc">&nbsp;                } else if (!live_message.equals(&quot;&quot;)) {</b>
+<b class="nc">&nbsp;                    commCtrl.sendPrivateMessage(live_message, playerName, true);</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+<b class="nc">&nbsp;        } else {</b>
+<b class="nc">&nbsp;            if (GO_TO_MENU &amp;&amp; !MATCH_END) {</b>
+&nbsp;                //If the user is not in a match
+<b class="nc">&nbsp;                System.out.println(Color.RED + &quot;The group chat is not available. Try to create or join a match.&quot; + Color.RESET);</b>
+<b class="nc">&nbsp;                delayer(1000);</b>
+&nbsp;                return;
+&nbsp;            }
+&nbsp;
+&nbsp;            //Enter chat mode
+<b class="nc">&nbsp;            setChatMode(true);</b>
+<b class="nc">&nbsp;            while (chatMode) {</b>
+<b class="nc">&nbsp;                printPublicChat();</b>
+<b class="nc">&nbsp;                System.out.println(&quot;--Type /exit to close this chat&quot;);</b>
+<b class="nc">&nbsp;                System.out.print(&quot;&gt; &quot;);</b>
+<b class="nc">&nbsp;                String live_message = readLine();</b>
+<b class="nc">&nbsp;                if (live_message.equals(&quot;/exit&quot;)) {</b>
+&nbsp;                    //EXIT chat mode
+<b class="nc">&nbsp;                    setChatMode(false);</b>
+&nbsp;
+<b class="nc">&nbsp;                } else if (!live_message.equals(&quot;&quot;)) {</b>
+<b class="nc">&nbsp;                    commCtrl.sendPublicMessage(live_message, true);</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method to get the Chat Key
+&nbsp;     *
+&nbsp;     * @param name1 player 1 name
+&nbsp;     * @param name2 player 2 name
+&nbsp;     * @return key for ClientView.chatMap
+&nbsp;     */
+&nbsp;    private String getChatKey(String name1, String name2) {
+<b class="nc">&nbsp;        return (name1.compareTo(name2)) &lt; 0 ? (name1 + &quot;@&quot; + name2) : (name2 + &quot;@&quot; + name1);</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    public List&lt;String&gt; lostMessages = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;    public void addMessageInLine(String message) {
+<b class="nc">&nbsp;        synchronized (lostMessages) {</b>
+<b class="nc">&nbsp;            lostMessages.add(message);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void showLostMessages() {
+<b class="nc">&nbsp;        System.out.println();</b>
+&nbsp;
+<b class="nc">&nbsp;        synchronized (lostMessages) {</b>
+<b class="nc">&nbsp;            if (lostMessages.size() &lt; 1)</b>
+<b class="nc">&nbsp;                return;</b>
+<b class="nc">&nbsp;            System.out.print(Color.RED + &quot;Received Messages :&quot; + Color.RESET);</b>
+<b class="nc">&nbsp;            for (String line : lostMessages) {</b>
+<b class="nc">&nbsp;                System.out.print(line);</b>
+<b class="nc">&nbsp;                delayer(500);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            System.out.println();</b>
+<b class="nc">&nbsp;            delayer(1000);</b>
+<b class="nc">&nbsp;            lostMessages.clear();</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;    //------------------------------CLI tools-------------------------------------------
+<b class="nc">&nbsp;    public final Object busyLock=new Object();</b>
+&nbsp;
+&nbsp;    public void setBusy(Boolean value) {
+<b class="nc">&nbsp;        synchronized (busyLock) {</b>
+<b class="nc">&nbsp;            busy = value;</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public void askToContinue() {
+<b class="nc">&nbsp;        System.out.print(&quot;Press &#39;Enter&#39; to continue&quot;);</b>
+<b class="nc">&nbsp;        readLine();</b>
+<b class="nc">&nbsp;        System.out.println(&quot;-----------------------------------------------------------&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void printer(String message) {
+<b class="nc">&nbsp;        System.out.println(message);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void delayer(int milliseconds) {
+&nbsp;        try {
+<b class="nc">&nbsp;            Thread.sleep(milliseconds);</b>
+<b class="nc">&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void checkTurn() {
+<b class="nc">&nbsp;        SEL_MODE = ClientView.currentPlayer.equals(username);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String askInfo(String type, String defaultValue) {
+&nbsp;
+&nbsp;        do {
+<b class="nc">&nbsp;            System.out.print(&quot;Enter the &quot; + type + &quot; [Press &#39;Enter&#39; for &quot; + defaultValue + &quot;]: &quot;);</b>
+<b class="nc">&nbsp;            String value = readLine();</b>
+<b class="nc">&nbsp;            String[] fragments = value.split(&quot;\\.&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;            if (value.equals(&quot;&quot;)) {</b>
+<b class="nc">&nbsp;                return defaultValue;</b>
+<b class="nc">&nbsp;            } else if (type.endsWith(&quot;address&quot;) &amp;&amp; fragments.length == 4) {</b>
+<b class="nc">&nbsp;                return value;</b>
+<b class="nc">&nbsp;            } else if (type.equals(&quot;port&quot;)) {</b>
+<b class="nc">&nbsp;                return value;</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                System.out.println(Color.RED + &quot;Invalid &quot; + type + &quot;!&quot; + Color.RESET);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        } while (true);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ask a single index
+&nbsp;     * Used for:{@link #askCoordinates()} or {@link #askIndex()} or {@link #askColumn()}
+&nbsp;     *
+&nbsp;     * @param type        &quot;ROW&quot; or &quot;COLUMN&quot; or &quot;Position1&quot; or &quot;Position2&quot;
+&nbsp;     * @param lower_limit the minimum value of index
+&nbsp;     * @param upper_limit the maximum value of index
+&nbsp;     * @return Index(ROW, COLUMN, Position according to type)
+&nbsp;     */
+&nbsp;    public int askTheIndex(String type, int lower_limit, int upper_limit) {
+<b class="nc">&nbsp;        int select = -1;</b>
+&nbsp;        do {
+&nbsp;            try {
+<b class="nc">&nbsp;                System.out.print(type + &quot; (&quot; + lower_limit + &quot; to &quot; + (upper_limit) + &quot;): &quot;);</b>
+<b class="nc">&nbsp;                select = Integer.parseInt(readLine());</b>
+<b class="nc">&nbsp;                if (select &lt; lower_limit || select &gt; upper_limit) {</b>
+<b class="nc">&nbsp;                    System.out.println(Color.RED + &quot;Invalid number! Please try again.&quot; + Color.RESET);</b>
+&nbsp;                }
+<b class="nc">&nbsp;            } catch (NumberFormatException e) {</b>
+<b class="nc">&nbsp;                System.out.println(Color.RED + &quot;Invalid input! Please try again.&quot; + Color.RESET);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        } while (select &lt; lower_limit || select &gt; upper_limit);</b>
+<b class="nc">&nbsp;        return select;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method refresh the TUI only when chatMode is true
+&nbsp;     */
+&nbsp;    public void refreshChat() {
+<b class="nc">&nbsp;        synchronized (chatModeLock) {</b>
+<b class="nc">&nbsp;            if (chatMode) {</b>
+<b class="nc">&nbsp;                new Thread(() -&gt; {</b>
+<b class="nc">&nbsp;                    setNeedToRefresh(true);</b>
+<b class="nc">&nbsp;                }).start();</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void updateCLI(int milliseconds) {
+<b class="nc">&nbsp;        Thread refreshMinion = new Thread(() -&gt; {</b>
+<b class="nc">&nbsp;            synchronized (waiterLock) {</b>
+<b class="nc">&nbsp;                waitingThreads++;</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            synchronized (busyLock) {</b>
+<b class="nc">&nbsp;                if (!busy || chatMode) {</b>
+&nbsp;                    // Client is not using any important command
+<b class="nc">&nbsp;                    delayer(milliseconds);</b>
+&nbsp;
+<b class="nc">&nbsp;                    setNeedToRefresh(true);</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            synchronized (waiterLock) {</b>
+<b class="nc">&nbsp;                waitingThreads = 0;</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        });
+<b class="nc">&nbsp;        synchronized (waiterLock) {</b>
+&nbsp;            //If there are some thread waiting then there is no need to add another one
+<b class="nc">&nbsp;            if (waitingThreads &gt; 0) {</b>
+<b class="nc">&nbsp;                return;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        refreshMinion.start();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Read a line from the standard input
+&nbsp;     *
+&nbsp;     * @return the string read from the input
+&nbsp;     */
+&nbsp;    public String readLine() {
+<b class="nc">&nbsp;        FutureTask&lt;String&gt; futureTask = new FutureTask&lt;&gt;(new InputReadTask());</b>
+<b class="nc">&nbsp;        Thread inputThread = new Thread(futureTask);</b>
+<b class="nc">&nbsp;        inputThread.start();</b>
+&nbsp;
+<b class="nc">&nbsp;        String input = null;</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            input = futureTask.get();</b>
+<b class="nc">&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;            futureTask.cancel(true);</b>
+<b class="nc">&nbsp;            Thread.currentThread().interrupt();</b>
+<b class="nc">&nbsp;        } catch (ExecutionException e) {</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return input;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setChatMode(Boolean value) {
+<b class="nc">&nbsp;        synchronized (chatModeLock) {</b>
+<b class="nc">&nbsp;            chatMode = value;</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-30 11:48</div>
+</div>
+</body>
+</html>

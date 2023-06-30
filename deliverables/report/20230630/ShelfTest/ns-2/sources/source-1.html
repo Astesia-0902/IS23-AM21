@@ -1,0 +1,299 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ClientView</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client.view</a>
+</div>
+
+<h1>Coverage Summary for Class: ClientView (org.am21.client.view)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientView</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/67)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client.view;
+&nbsp;
+&nbsp;import com.alibaba.fastjson.JSONArray;
+&nbsp;import com.alibaba.fastjson.JSONObject;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;
+<b class="nc">&nbsp;public class ClientView {</b>
+&nbsp;
+&nbsp;    //---------------------------------------------------------------------
+&nbsp;    //Virtual View
+&nbsp;    public static int matchID; //Match id
+&nbsp;    public static int maxSeats; //Match max players number
+&nbsp;    public static String admin; //Match admin Nickname
+&nbsp;    /**
+&nbsp;     * VirtualBoard Legend:
+&nbsp;     * null : cell empty
+&nbsp;     * &quot;item name&quot; : cell occupied by an item
+&nbsp;     * &quot;&gt;item name&quot; : selected cell (related to &quot;&gt;&quot; presence)
+&nbsp;     */
+&nbsp;    public static String[][] virtualBoard; //Match Virtual board
+&nbsp;    public static List&lt;String&gt; playersList; //Match Players List Nickname
+&nbsp;    public static String currentPlayer; //Match currentPlayer
+&nbsp;    public static List&lt;Integer&gt; scores; //Match players scores
+&nbsp;    public static List&lt;Integer&gt; hiddenPoints;   //Match players Personal Goal Points (private)
+&nbsp;    public static List&lt;String&gt; commonGoal; //Match Common Goals List (x2)
+&nbsp;    public static List&lt;Integer&gt; commonGoalScore; //Match Common Goals Top Score Token (x2)
+&nbsp;    public static int personalGoal; //This Client match&#39;s personal Goal
+&nbsp;    public static List&lt;String[][]&gt; shelves; //Match List of Shelves
+&nbsp;    public static List&lt;String&gt; currentPlayerHand; //Match Current player hand
+&nbsp;    public static boolean endGameToken; // Match EndgameToken
+&nbsp;    /**
+&nbsp;     * gameResults legend :
+&nbsp;     * for i in players.size() :  i as player index
+&nbsp;     * [i][0] - Player name
+&nbsp;     * [i][1] - Common Goal points
+&nbsp;     * [i][2] - Personal Goal Points
+&nbsp;     * [i][3] - Shelf Group Points
+&nbsp;     * [i][4] - Eventual Endgame token or null (if no token for the player)
+&nbsp;     * [i][5] - Total Score;
+&nbsp;     * [players.size()][0] - Winner name or null (if no winner)
+&nbsp;     */
+&nbsp;    public static String[][] gameResults; //Match Game Results
+&nbsp;    //------------------------------------------
+&nbsp;    public static List&lt;String&gt; publicChat; //Match group Chat
+&nbsp;    public static List&lt;List&lt;String&gt;&gt; privateChats; // Server Private Chats
+<b class="nc">&nbsp;    public static HashMap&lt;String, Integer&gt; chatMap = new HashMap&lt;&gt;(); //Server ChatMap</b>
+&nbsp;    //------------------------------------------
+&nbsp;    public static String[][] matchList; //Server Match List
+&nbsp;    public static String[][] onlinePlayers; //Server Online Players List
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Once the JSON is received, it is parsed and the data is stored in the corresponding variables
+&nbsp;     * the key strings of get methods are generated automatically,
+&nbsp;     * check them first when you get a wrong answer
+&nbsp;     *
+&nbsp;     * @param json        the JSON string received from the server
+&nbsp;     * @param playerIndex
+&nbsp;     */
+&nbsp;    public static void setFullViewVariables(String json, int playerIndex) {
+<b class="nc">&nbsp;        JSONObject jsonObject = JSONObject.parseObject(json);</b>
+<b class="nc">&nbsp;        virtualBoard = jsonObject.getObject(&quot;board&quot;, String[][].class);</b>
+<b class="nc">&nbsp;        playersList = jsonObject.getJSONArray(&quot;players&quot;).toJavaList(String.class);</b>
+<b class="nc">&nbsp;        currentPlayer = jsonObject.getString(&quot;currentPlayer&quot;);</b>
+<b class="nc">&nbsp;        scores = jsonObject.getJSONArray(&quot;scores&quot;).toJavaList(Integer.class);</b>
+<b class="nc">&nbsp;        hiddenPoints = jsonObject.getJSONArray(&quot;hiddenPoints&quot;).toJavaList(Integer.class);</b>
+<b class="nc">&nbsp;        commonGoal = jsonObject.getJSONArray(&quot;commonGoals&quot;).toJavaList(String.class);</b>
+<b class="nc">&nbsp;        commonGoalScore = jsonObject.getJSONArray(&quot;commonGoalScores&quot;).toJavaList(Integer.class);</b>
+<b class="nc">&nbsp;        List&lt;Integer&gt; pTmp = jsonObject.getJSONArray(&quot;personalGoals&quot;).toJavaList(Integer.class);</b>
+<b class="nc">&nbsp;        if (pTmp.size() &gt; playerIndex) {</b>
+<b class="nc">&nbsp;            personalGoal = jsonObject.getJSONArray(&quot;personalGoals&quot;).toJavaList(Integer.class).get(playerIndex);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        JSONArray temp = jsonObject.getJSONArray(&quot;shelves&quot;);</b>
+<b class="nc">&nbsp;        shelves = new java.util.ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; temp.size(); i++) {</b>
+<b class="nc">&nbsp;            shelves.add(temp.getObject(i, String[][].class));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        currentPlayerHand = jsonObject.getJSONArray(&quot;currentPlayerHand&quot;).toJavaList(String.class);</b>
+<b class="nc">&nbsp;        matchID = jsonObject.getInteger(&quot;matchID&quot;);</b>
+<b class="nc">&nbsp;        admin = jsonObject.getString(&quot;admin&quot;);</b>
+<b class="nc">&nbsp;        endGameToken = jsonObject.getBoolean(&quot;endGameToken&quot;);</b>
+<b class="nc">&nbsp;        maxSeats = jsonObject.getInteger(&quot;maxSeats&quot;);</b>
+<b class="nc">&nbsp;        gameResults = jsonObject.getObject(&quot;gameResults&quot;,String[][].class);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * get the index of the player in the list
+&nbsp;     * use this index to map other player data in other lists
+&nbsp;     *
+&nbsp;     * @param player the name of the player
+&nbsp;     * @return the index of the player in the list
+&nbsp;     */
+&nbsp;    public static int getPlayerIndex(String player) {
+<b class="nc">&nbsp;        if (playersList != null) {</b>
+<b class="nc">&nbsp;            return playersList.indexOf(player);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return 0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void convertBackHand(String jsonHand) {
+<b class="nc">&nbsp;        JSONArray jsonArray = JSONObject.parseArray(jsonHand);</b>
+<b class="nc">&nbsp;        currentPlayerHand = jsonArray.toJavaList(String.class);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void convertBackMatchInfo(String jsonInfo) {
+<b class="nc">&nbsp;        JSONArray jsonArray = JSONObject.parseArray(jsonInfo);</b>
+<b class="nc">&nbsp;        List&lt;String&gt; tmp = jsonArray.toJavaList(String.class);</b>
+<b class="nc">&nbsp;        matchID = Integer.parseInt(tmp.get(0));</b>
+<b class="nc">&nbsp;        maxSeats = Integer.parseInt(tmp.get(1));</b>
+<b class="nc">&nbsp;        admin = tmp.get(2);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void convertBackPublicChat(String jsonPublic) {
+<b class="nc">&nbsp;        JSONArray jsonChat = JSONObject.parseArray(jsonPublic);</b>
+<b class="nc">&nbsp;        publicChat = jsonChat.toJavaList(String.class);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void updateServerView(String jsonServer) {
+<b class="nc">&nbsp;        JSONObject jsonObject = JSONObject.parseObject(jsonServer);</b>
+&nbsp;
+<b class="nc">&nbsp;        matchList = jsonObject.getObject(&quot;virtualMatchList&quot;, String[][].class);</b>
+<b class="nc">&nbsp;        onlinePlayers = jsonObject.getObject(&quot;virtualOnlinePlayers&quot;, String[][].class);</b>
+<b class="nc">&nbsp;        String[][] tmpChats = jsonObject.getObject(&quot;virtualPrivateChats&quot;, String[][].class);</b>
+<b class="nc">&nbsp;        String[][] tmpMap = jsonObject.getObject(&quot;virtualChatMap&quot;, String[][].class);</b>
+<b class="nc">&nbsp;        List&lt;List&lt;String&gt;&gt; tmpPrivateChats = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        if (tmpChats != null) {</b>
+<b class="nc">&nbsp;            for (int i = 0; i &lt; tmpChats.length; i++) {</b>
+<b class="nc">&nbsp;                tmpPrivateChats.add(new ArrayList&lt;&gt;());</b>
+<b class="nc">&nbsp;                for (int l = 0; l &lt; tmpChats[i].length; l++) {</b>
+<b class="nc">&nbsp;                    tmpPrivateChats.get(i).add(tmpChats[i][l]);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        privateChats = tmpPrivateChats;</b>
+<b class="nc">&nbsp;        HashMap&lt;String, Integer&gt; tmpHashMap = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        if (tmpMap != null) {</b>
+<b class="nc">&nbsp;            for (int i = 0; i &lt; tmpMap.length; i++) {</b>
+<b class="nc">&nbsp;                tmpHashMap.put(tmpMap[i][0], Integer.valueOf(tmpMap[i][1]));</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        chatMap = tmpHashMap;</b>
+&nbsp;        /*for (Map.Entry&lt;String, Integer&gt; entry : chatMap.entrySet()) {
+&nbsp;            System.out.println(entry.getKey() + &quot; : &quot; + entry.getValue());
+&nbsp;        }*/
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    //-------------------------------------------
+<b class="nc">&nbsp;    public static boolean GO_TO_MENU = true;</b>
+&nbsp;    //If true GameplayRoom, if false WaitingRoom
+<b class="nc">&nbsp;    public static boolean GAME_ON = false;</b>
+<b class="nc">&nbsp;    public static boolean MATCH_START = false;</b>
+<b class="nc">&nbsp;    public static boolean MATCH_END = false;</b>
+&nbsp;
+<b class="nc">&nbsp;    public static Object refreshLock=new Object();</b>
+&nbsp;
+<b class="nc">&nbsp;    public static Boolean needToRefresh = false;</b>
+&nbsp;
+<b class="nc">&nbsp;    public static boolean WAIT_SOCKET = false;</b>
+&nbsp;
+&nbsp;
+&nbsp;    //-----------------------------------------------
+&nbsp;
+&nbsp;    public static void setGoToMenu(boolean goToMenu) {
+<b class="nc">&nbsp;        GO_TO_MENU = goToMenu;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void setGameOn(boolean gameOn) {
+<b class="nc">&nbsp;        GAME_ON = gameOn;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void setMatchStart(boolean start) {
+<b class="nc">&nbsp;        MATCH_START = start;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void setMatchEnd(boolean end) {
+<b class="nc">&nbsp;        MATCH_END = end;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void setNeedToRefresh(boolean value) {
+<b class="nc">&nbsp;        synchronized (refreshLock) {</b>
+<b class="nc">&nbsp;            needToRefresh = value;</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void setWaitSocket(boolean waitSocket) {
+<b class="nc">&nbsp;        WAIT_SOCKET = waitSocket;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-30 11:48</div>
+</div>
+</body>
+</html>

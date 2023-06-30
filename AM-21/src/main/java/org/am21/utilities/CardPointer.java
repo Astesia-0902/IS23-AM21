@@ -2,17 +2,14 @@ package org.am21.utilities;
 
 import org.am21.model.Cards.ItemCard;
 
-/**
- * @version 1.0
- */
 public class CardPointer extends Coordinates{
 
     public ItemCard item;
 
     /**
-     * Constructor
-     * @param r
-     * @param c
+     * Card Pointer Constructor: save row,column and ItemCard
+     * @param r row
+     * @param c column
      */
     public CardPointer(int r, int c){
         super(r,c);

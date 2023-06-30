@@ -223,7 +223,7 @@ public class PlayerController {
      *
      * @return true if the items has been removed all from the board
      */
-    public boolean moveAllToHand() {
+    private boolean moveAllToHand() {
         if (!isMyTurn(player)) {
             return false;
         }

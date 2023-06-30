@@ -1,0 +1,249 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > WaitingRoomInterface</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client.view.GUI.Interface</a>
+</div>
+
+<h1>Coverage Summary for Class: WaitingRoomInterface (org.am21.client.view.GUI.Interface)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WaitingRoomInterface</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/73)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client.view.GUI.Interface;
+&nbsp;
+&nbsp;import org.am21.client.view.GUI.component.BackGroundPanel;
+&nbsp;import org.am21.client.view.GUI.utils.ButtonUtil;
+&nbsp;import org.am21.client.view.GUI.utils.FontUtil;
+&nbsp;import org.am21.client.view.GUI.utils.IconUtil;
+&nbsp;import org.am21.client.view.GUI.utils.ImageUtil;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import javax.swing.border.MatteBorder;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.image.BufferedImage;
+&nbsp;import java.util.HashMap;
+&nbsp;
+&nbsp;public class WaitingRoomInterface extends JDialog {
+&nbsp;    public static final int WIDTH = 600;
+&nbsp;    public static final int HEIGHT = 400;
+&nbsp;    public final JLabel roomID;
+&nbsp;    public final JButton leaveButton;
+&nbsp;    public final JButton ruleButton;
+&nbsp;    public final JButton settingButton;
+&nbsp;    public final ImageIcon chatIcon;
+&nbsp;    public final JButton chatButton;
+&nbsp;    public final ImageIcon chatIconColor;
+&nbsp;    public final ImageIcon onlineIcon;
+&nbsp;    public final JButton onlineButton;
+&nbsp;    public final ImageIcon onlineIconColor;
+&nbsp;
+&nbsp;    public final MaxSeatsDialog maxSeatsDialog;
+&nbsp;    public String minNum;
+&nbsp;    public String maxNum;
+&nbsp;    public int ID;
+&nbsp;    public Timer timer;
+&nbsp;
+&nbsp;    public JLabel numPlayer;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor
+&nbsp;     *
+&nbsp;     * @param frame
+&nbsp;     * @param numMiss
+&nbsp;     * @param numMax
+&nbsp;     * @param matchID
+&nbsp;     */
+&nbsp;    public WaitingRoomInterface(JFrame frame, String numMiss, String numMax, int matchID) {
+<b class="nc">&nbsp;        super(frame);</b>
+<b class="nc">&nbsp;        frame.setTitle(&quot;MyShelfie - Waiting Room&quot;);</b>
+&nbsp;
+&nbsp;        //background
+<b class="nc">&nbsp;        HashMap&lt;BufferedImage, int[]&gt; background = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        background.put(IconUtil.getBufferedImage(&quot;waitingRoomBG&quot;), new int[]{ImageUtil.resizeX(-210),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeY(-315), ImageUtil.resizeX(980), ImageUtil.resizeY(1050)});</b>
+<b class="nc">&nbsp;        BackGroundPanel backGroundPanel = new BackGroundPanel(background);</b>
+&nbsp;
+<b class="nc">&nbsp;        ID = matchID;</b>
+<b class="nc">&nbsp;        roomID = new JLabel(&quot;ID: &quot; + ID);</b>
+<b class="nc">&nbsp;        roomID.setBorder(null);</b>
+<b class="nc">&nbsp;        roomID.setBounds(ImageUtil.resizeX(275), ImageUtil.resizeY(90),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(356), ImageUtil.resizeY(108));</b>
+<b class="nc">&nbsp;        roomID.setForeground(new Color(237, 179, 137));</b>
+<b class="nc">&nbsp;        roomID.setFont(FontUtil.getFontByName(&quot;KaushanScript-Regular-1&quot;)</b>
+<b class="nc">&nbsp;                .deriveFont(Font.BOLD, ImageUtil.resizeY(20)));</b>
+<b class="nc">&nbsp;        roomID.setOpaque(false);</b>
+&nbsp;
+&nbsp;        // Waiting Players... (x/y)
+<b class="nc">&nbsp;        JLabel waitingMessage = new JLabel(&quot;Waiting Players...&quot;);</b>
+<b class="nc">&nbsp;        waitingMessage.setBorder(null);</b>
+<b class="nc">&nbsp;        waitingMessage.setBounds(ImageUtil.resizeX(181), ImageUtil.resizeY(140),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(356), ImageUtil.resizeY(108));</b>
+<b class="nc">&nbsp;        waitingMessage.setForeground(new Color(237, 179, 137));</b>
+<b class="nc">&nbsp;        waitingMessage.setFont(FontUtil.getFontByName(&quot;KaushanScript-Regular-1&quot;)</b>
+<b class="nc">&nbsp;                .deriveFont(Font.PLAIN, ImageUtil.resizeY(35)));</b>
+<b class="nc">&nbsp;        waitingMessage.setOpaque(false);</b>
+&nbsp;
+<b class="nc">&nbsp;        minNum = numMiss;</b>
+<b class="nc">&nbsp;        maxNum = numMax;</b>
+<b class="nc">&nbsp;        numPlayer = new JLabel(&quot;(&quot; + minNum + &quot;/&quot; + maxNum + &quot;)&quot;);</b>
+<b class="nc">&nbsp;        numPlayer.setBorder(null);</b>
+<b class="nc">&nbsp;        numPlayer.setBounds(ImageUtil.resizeX(420), ImageUtil.resizeY(145),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(356), ImageUtil.resizeY(108));</b>
+<b class="nc">&nbsp;        numPlayer.setForeground(new Color(237, 179, 137));</b>
+<b class="nc">&nbsp;        numPlayer.setFont(FontUtil.getFontByName(&quot;KaushanScript-Regular-1&quot;)</b>
+<b class="nc">&nbsp;                .deriveFont(Font.PLAIN, ImageUtil.resizeY(20)));</b>
+<b class="nc">&nbsp;        numPlayer.setOpaque(false);</b>
+&nbsp;
+<b class="nc">&nbsp;        getContentPane().add(roomID);</b>
+<b class="nc">&nbsp;        getContentPane().add(waitingMessage);</b>
+<b class="nc">&nbsp;        getContentPane().add(numPlayer);</b>
+&nbsp;
+&nbsp;        // Leave Button
+<b class="nc">&nbsp;        leaveButton = ButtonUtil.getButton(&quot;Leave&quot;);</b>
+<b class="nc">&nbsp;        leaveButton.setBounds(ImageUtil.resizeX(254), ImageUtil.resizeY(280),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(82), ImageUtil.resizeY(33));</b>
+<b class="nc">&nbsp;        getContentPane().add(leaveButton);</b>
+&nbsp;
+&nbsp;        // Rules Button
+<b class="nc">&nbsp;        ruleButton = ButtonUtil.getCommandButton(&quot;Rule&quot;);</b>
+<b class="nc">&nbsp;        ruleButton.setBounds(ImageUtil.resizeX(130), ImageUtil.resizeY(95),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(50), ImageUtil.resizeY(20));</b>
+<b class="nc">&nbsp;        getContentPane().add(ruleButton);</b>
+&nbsp;
+&nbsp;        // Setting Button
+<b class="nc">&nbsp;        settingButton = ButtonUtil.getCommandButton(&quot;Settings&quot;);</b>
+<b class="nc">&nbsp;        settingButton.setBounds(ImageUtil.resizeX(390), ImageUtil.resizeY(95),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(80), ImageUtil.resizeY(20));</b>
+<b class="nc">&nbsp;        getContentPane().add(settingButton);</b>
+&nbsp;
+<b class="nc">&nbsp;        chatIcon = IconUtil.getIcon(&quot;chat&quot;);</b>
+<b class="nc">&nbsp;        chatIconColor = IconUtil.getIcon(&quot;chatSelected&quot;);</b>
+<b class="nc">&nbsp;        chatButton = ButtonUtil.getCommandButton();</b>
+<b class="nc">&nbsp;        chatButton.setIcon(chatIcon);</b>
+<b class="nc">&nbsp;        chatButton.setBounds(ImageUtil.resizeX(220), ImageUtil.resizeY(85),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(35), ImageUtil.resizeY(35));</b>
+<b class="nc">&nbsp;        getContentPane().add(chatButton);</b>
+&nbsp;
+<b class="nc">&nbsp;        onlineIcon = IconUtil.getIcon(&quot;online&quot;);</b>
+<b class="nc">&nbsp;        onlineIconColor = IconUtil.getIcon(&quot;onlineSelected&quot;);</b>
+<b class="nc">&nbsp;        onlineButton = ButtonUtil.getCommandButton();</b>
+<b class="nc">&nbsp;        onlineButton.setIcon(onlineIcon);</b>
+<b class="nc">&nbsp;        onlineButton.setBounds(ImageUtil.resizeX(340), ImageUtil.resizeY(85),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeX(35), ImageUtil.resizeY(35));</b>
+<b class="nc">&nbsp;        getContentPane().add(onlineButton);</b>
+&nbsp;
+<b class="nc">&nbsp;        backGroundPanel.setBorder(new MatteBorder(ImageUtil.resizeY(5), ImageUtil.resizeX(5),</b>
+<b class="nc">&nbsp;                ImageUtil.resizeY(5), ImageUtil.resizeX(5), new Color(139, 69, 19)));</b>
+<b class="nc">&nbsp;        add(backGroundPanel);</b>
+&nbsp;
+<b class="nc">&nbsp;        maxSeatsDialog = new MaxSeatsDialog();</b>
+<b class="nc">&nbsp;        setBounds(0, 0, ImageUtil.resizeX(WIDTH), ImageUtil.resizeY(HEIGHT));</b>
+<b class="nc">&nbsp;        setUndecorated(true);</b>
+<b class="nc">&nbsp;        setResizable(false);</b>
+<b class="nc">&nbsp;        setLocationRelativeTo(null);</b>
+<b class="nc">&nbsp;        setVisible(true);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method allow to reload numPlayers data
+&nbsp;     *
+&nbsp;     * @param minNum players in room
+&nbsp;     * @param maxNum max number of players for the room
+&nbsp;     */
+&nbsp;    public void reloadPlayerNumber(String minNum, String maxNum, int matchID) {
+<b class="nc">&nbsp;        this.numPlayer.setText(&quot;(&quot; + minNum + &quot;/&quot; + maxNum + &quot;)&quot;);</b>
+<b class="nc">&nbsp;        this.roomID.setText(&quot;ID: &quot; + ID);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-30 11:49</div>
+</div>
+</body>
+</html>

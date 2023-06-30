@@ -1,0 +1,394 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ImageUtil</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.client.view.GUI.utils</a>
+</div>
+
+<h1>Coverage Summary for Class: ImageUtil (org.am21.client.view.GUI.utils)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ImageUtil</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/101)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.client.view.GUI.utils;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import java.awt.*;
+&nbsp;
+<b class="nc">&nbsp;public class ImageUtil {</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * shelf image util
+&nbsp;     *
+&nbsp;     * @param widthShelfImage  width of shelf
+&nbsp;     * @param heightShelfImage height of shelf
+&nbsp;     * @return ImageIcon for insert in shelf
+&nbsp;     */
+&nbsp;    public static ImageIcon getShelfImage(int widthShelfImage, int heightShelfImage) {
+&nbsp;
+<b class="nc">&nbsp;        return new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;boards/bookshelf_orth.png&quot;)).getImage().getScaledInstance(widthShelfImage, heightShelfImage, Image.SCALE_SMOOTH));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * board image util
+&nbsp;     *
+&nbsp;     * @param name name of image
+&nbsp;     * @return ImageIcon of image
+&nbsp;     */
+&nbsp;    public static ImageIcon getBoardImage(String name) {
+<b class="nc">&nbsp;        return switch (name) {</b>
+&nbsp;            case &quot;backGround&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;misc/sfondo parquet.jpg&quot;)).getImage().getScaledInstance(PixelUtil.pcWidth, PixelUtil.pcHeight, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;gameBoard&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;boards/livingroom.png&quot;)).getImage().getScaledInstance(PixelUtil.gameBoardW, PixelUtil.gameBoardH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;personalGoalEmpty&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;personal goal cards/front_EMPTY.jpg&quot;)).getImage().getScaledInstance(PixelUtil.personalGoalCardW, PixelUtil.personalGoalCardH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;commonGoalEmpty&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;common goal cards/back.jpg&quot;)).getImage().getScaledInstance(PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;handBoard&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;misc/base_pagina2.jpg&quot;)).getImage().getScaledInstance(PixelUtil.handBoardW, PixelUtil.handBoardH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;bagClose&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;misc/Sacchetto Chiuso.png&quot;)).getImage().getScaledInstance(PixelUtil.bagW, PixelUtil.bagH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;iconMenu&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;icon tool/menu.png&quot;)).getImage().getScaledInstance(PixelUtil.livingRoomMenuW, PixelUtil.livingRoomMenuH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;iconMe&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;icon tool/pro1.png&quot;)).getImage().getScaledInstance(PixelUtil.userMeW, PixelUtil.userMeH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;enemyA&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;icon tool/pro2.png&quot;)).getImage().getScaledInstance(PixelUtil.enemyW, PixelUtil.enemyH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;enemyB&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;icon tool/pro3.png&quot;)).getImage().getScaledInstance(PixelUtil.enemyW, PixelUtil.enemyH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;enemyC&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;icon tool/pro4.png&quot;)).getImage().getScaledInstance(PixelUtil.enemyW, PixelUtil.enemyH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;endGameTokenEmpty&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;scoring tokens/scoring_back_EMPTY.jpg&quot;)).getImage().getScaledInstance(PixelUtil.endGameTokenW, PixelUtil.endGameTokenH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;commonGoalTokenEmpty&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;scoring tokens/scoring_back_EMPTY.jpg&quot;)).getImage().getScaledInstance(PixelUtil.commonGoalTokenW, PixelUtil.commonGoalTokenH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;myHandBack&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;background/myHandBack.jpg&quot;)).getImage().getScaledInstance(PixelUtil.myHandBackGroundW, PixelUtil.myHandBackGroundH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;myHandHand&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;misc/base_pagina2_reverse.jpg&quot;)).getImage().getScaledInstance(PixelUtil.myHandHandW, PixelUtil.myHandHandH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;iconSort&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;icon tool/sort.png&quot;)).getImage().getScaledInstance(PixelUtil.myHandSortW, PixelUtil.myHandSortH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;menuLRBack&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;background/MenuLRback.jpg&quot;)).getImage().getScaledInstance(PixelUtil.menuLRW, PixelUtil.menuLRH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;logoTitle&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;Publisher material/Title 2000x2000px.png&quot;)).getImage().getScaledInstance(PixelUtil.labelRITitleW, PixelUtil.labelRITitleH, Image.SCALE_SMOOTH));</b>
+&nbsp;
+<b class="nc">&nbsp;            default -&gt; null;</b>
+&nbsp;        };
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * common goal image util
+&nbsp;     *
+&nbsp;     * @param nameCard name of commonGoal
+&nbsp;     * @return ImageIcon of card
+&nbsp;     */
+&nbsp;    public static ImageIcon getCommonGoalCardImage(String nameCard) {
+<b class="nc">&nbsp;        return switch (nameCard) {</b>
+&nbsp;            case &quot;CommonGoal2Columns&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;common goal cards/2.jpg&quot;)).getImage().getScaledInstance(PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;CommonGoal2Lines&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;common goal cards/6.jpg&quot;)).getImage().getScaledInstance(PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;CommonGoal3Column&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;common goal cards/5.jpg&quot;)).getImage().getScaledInstance(PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;CommonGoal4Lines&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;common goal cards/7.jpg&quot;)).getImage().getScaledInstance(PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;CommonGoal8Tiles&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;common goal cards/9.jpg&quot;)).getImage().getScaledInstance(PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;CommonGoalCorner&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;common goal cards/8.jpg&quot;)).getImage().getScaledInstance(PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;CommonGoalDiagonal&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;common goal cards/11.jpg&quot;)).getImage().getScaledInstance(PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;CommonGoal4Group&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;common goal cards/3.jpg&quot;)).getImage().getScaledInstance(PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;CommonGoal6Group&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;common goal cards/4.jpg&quot;)).getImage().getScaledInstance(PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;CommonGoalSquare&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;common goal cards/1.jpg&quot;)).getImage().getScaledInstance(PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;CommonGoalStairs&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;common goal cards/12.jpg&quot;)).getImage().getScaledInstance(PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;CommonGoalXShape&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;common goal cards/10.jpg&quot;)).getImage().getScaledInstance(PixelUtil.commonGoalCardW, PixelUtil.commonGoalCardH, Image.SCALE_SMOOTH));</b>
+<b class="nc">&nbsp;            default -&gt; null;</b>
+&nbsp;        };
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * personal goal image util
+&nbsp;     *
+&nbsp;     * @param numCard id of personalGoal
+&nbsp;     * @return ImageIcon of card
+&nbsp;     */
+&nbsp;    public static ImageIcon getPersonalGoalCardImage(int numCard) {
+<b class="nc">&nbsp;        return switch (numCard) {</b>
+&nbsp;            case 1 -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;personal goal cards/Personal_Goals1.png&quot;)).getImage().getScaledInstance(PixelUtil.personalGoalCardW, PixelUtil.personalGoalCardH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case 2 -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;personal goal cards/Personal_Goals2.png&quot;)).getImage().getScaledInstance(PixelUtil.personalGoalCardW, PixelUtil.personalGoalCardH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case 3 -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;personal goal cards/Personal_Goals3.png&quot;)).getImage().getScaledInstance(PixelUtil.personalGoalCardW, PixelUtil.personalGoalCardH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case 4 -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;personal goal cards/Personal_Goals4.png&quot;)).getImage().getScaledInstance(PixelUtil.personalGoalCardW, PixelUtil.personalGoalCardH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case 5 -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;personal goal cards/Personal_Goals5.png&quot;)).getImage().getScaledInstance(PixelUtil.personalGoalCardW, PixelUtil.personalGoalCardH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case 6 -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;personal goal cards/Personal_Goals6.png&quot;)).getImage().getScaledInstance(PixelUtil.personalGoalCardW, PixelUtil.personalGoalCardH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case 7 -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;personal goal cards/Personal_Goals7.png&quot;)).getImage().getScaledInstance(PixelUtil.personalGoalCardW, PixelUtil.personalGoalCardH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case 8 -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;personal goal cards/Personal_Goals8.png&quot;)).getImage().getScaledInstance(PixelUtil.personalGoalCardW, PixelUtil.personalGoalCardH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case 9 -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;personal goal cards/Personal_Goals9.png&quot;)).getImage().getScaledInstance(PixelUtil.personalGoalCardW, PixelUtil.personalGoalCardH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case 10 -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;personal goal cards/Personal_Goals10.png&quot;)).getImage().getScaledInstance(PixelUtil.personalGoalCardW, PixelUtil.personalGoalCardH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case 11 -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;personal goal cards/Personal_Goals11.png&quot;)).getImage().getScaledInstance(PixelUtil.personalGoalCardW, PixelUtil.personalGoalCardH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case 12 -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;personal goal cards/Personal_Goals12.png&quot;)).getImage().getScaledInstance(PixelUtil.personalGoalCardW, PixelUtil.personalGoalCardH, Image.SCALE_SMOOTH));</b>
+<b class="nc">&nbsp;            default -&gt; null;</b>
+&nbsp;        };
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * item image resize util
+&nbsp;     *
+&nbsp;     * @param image      name of item
+&nbsp;     * @param widthItem  width of item
+&nbsp;     * @param heightItem height of item
+&nbsp;     * @return ImageIcon of item
+&nbsp;     */
+&nbsp;    public static ImageIcon getItemImage(String image, int widthItem, int heightItem) {
+<b class="nc">&nbsp;        return switch (image) {</b>
+&nbsp;            case &quot;_Books__1.1&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;item tiles/Books1.1.png&quot;)).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;_Books__1.2&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;item tiles/Books1.2.png&quot;)).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;_Books__1.3&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;item tiles/Books1.3.png&quot;)).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;__Cats__1.1&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;item tiles/Cats1.1.png&quot;)).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;__Cats__1.2&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;item tiles/Cats1.2.png&quot;)).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;__Cats__1.3&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;item tiles/Cats1.3.png&quot;)).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;_Frames_1.1&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;item tiles/Frames1.1.png&quot;)).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;_Frames_1.2&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;item tiles/Frames1.2.png&quot;)).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;_Frames_1.3&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;item tiles/Frames1.3.png&quot;)).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;_Games__1.1&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;item tiles/Games1.1.png&quot;)).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;_Games__1.2&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;item tiles/Games1.2.png&quot;)).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;_Games__1.3&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;item tiles/Games1.3.png&quot;)).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;_Plants_1.1&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;item tiles/Plants1.1.png&quot;)).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;_Plants_1.2&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;item tiles/Plants1.2.png&quot;)).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;_Plants_1.3&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;item tiles/Plants1.3.png&quot;)).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;Trophies1.1&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;item tiles/Trophies1.1.png&quot;)).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;Trophies1.2&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;item tiles/Trophies1.2.png&quot;)).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;Trophies1.3&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;item tiles/Trophies1.3.png&quot;)).getImage().getScaledInstance(widthItem, heightItem, Image.SCALE_SMOOTH));</b>
+<b class="nc">&nbsp;            default -&gt; null;</b>
+&nbsp;        };
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * score image util
+&nbsp;     *
+&nbsp;     * @param value value of score
+&nbsp;     * @return ImageIcon of score
+&nbsp;     */
+&nbsp;    public static ImageIcon getScoreTokenImage(int value) {
+<b class="nc">&nbsp;        return switch (value) {</b>
+&nbsp;            case 1 -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;scoring tokens/end game.jpg&quot;)).getImage().getScaledInstance(PixelUtil.endGameTokenW, PixelUtil.endGameTokenH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case 2 -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;scoring tokens/scoring_2.jpg&quot;)).getImage().getScaledInstance(PixelUtil.commonGoalTokenW, PixelUtil.commonGoalTokenH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case 4 -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;scoring tokens/scoring_4.jpg&quot;)).getImage().getScaledInstance(PixelUtil.commonGoalTokenW, PixelUtil.commonGoalTokenH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case 6 -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;scoring tokens/scoring_6.jpg&quot;)).getImage().getScaledInstance(PixelUtil.commonGoalTokenW, PixelUtil.commonGoalTokenH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case 8 -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;scoring tokens/scoring_8.jpg&quot;)).getImage().getScaledInstance(PixelUtil.commonGoalTokenW, PixelUtil.commonGoalTokenH, Image.SCALE_SMOOTH));</b>
+<b class="nc">&nbsp;            default -&gt; null;</b>
+&nbsp;        };
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * chairMan image position util
+&nbsp;     *
+&nbsp;     * @return ImageIcon of chairMan
+&nbsp;     */
+&nbsp;    public static ImageIcon getChairManImage() {
+<b class="nc">&nbsp;        return new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;misc/firstplayertoken.png&quot;)).getImage().getScaledInstance(PixelUtil.chairW, PixelUtil.chairH, Image.SCALE_SMOOTH));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * number on handInterface util
+&nbsp;     *
+&nbsp;     * @param numColor name and color of number
+&nbsp;     * @return ImageIcon of number
+&nbsp;     */
+&nbsp;    public static ImageIcon getNumberImage(String numColor) {
+<b class="nc">&nbsp;        return switch (numColor) {</b>
+&nbsp;            case &quot;1black&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;number/shuzi1-3.png&quot;)).getImage().getScaledInstance(PixelUtil.handNumW, PixelUtil.handNumH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;1gray&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;number/shuzi1.png&quot;)).getImage().getScaledInstance(PixelUtil.handNumW, PixelUtil.handNumH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;1green&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;number/shuzi1-2.png&quot;)).getImage().getScaledInstance(PixelUtil.handNumW, PixelUtil.handNumH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;2black&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;number/shuzi2-3.png&quot;)).getImage().getScaledInstance(PixelUtil.handNumW, PixelUtil.handNumH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;2gray&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;number/shuzi2.png&quot;)).getImage().getScaledInstance(PixelUtil.handNumW, PixelUtil.handNumH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;2green&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;number/shuzi2-2.png&quot;)).getImage().getScaledInstance(PixelUtil.handNumW, PixelUtil.handNumH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;3black&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;number/shuzi3-3.png&quot;)).getImage().getScaledInstance(PixelUtil.handNumW, PixelUtil.handNumH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;3gray&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;number/shuzi3-2.png&quot;)).getImage().getScaledInstance(PixelUtil.handNumW, PixelUtil.handNumH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;3green&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;number/shuzi3.png&quot;)).getImage().getScaledInstance(PixelUtil.handNumW, PixelUtil.handNumH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;4black&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;number/shuzi4-2.png&quot;)).getImage().getScaledInstance(PixelUtil.handNumW, PixelUtil.handNumH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;4gray&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;number/shuzi4.png&quot;)).getImage().getScaledInstance(PixelUtil.handNumW, PixelUtil.handNumH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;4green&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;number/shuzi4-3.png&quot;)).getImage().getScaledInstance(PixelUtil.handNumW, PixelUtil.handNumH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;5black&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;number/shuzi5-3.png&quot;)).getImage().getScaledInstance(PixelUtil.handNumW, PixelUtil.handNumH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;5gray&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;number/shuzi5.png&quot;)).getImage().getScaledInstance(PixelUtil.handNumW, PixelUtil.handNumH, Image.SCALE_SMOOTH));</b>
+&nbsp;            case &quot;5green&quot; -&gt;
+<b class="nc">&nbsp;                    new ImageIcon(new ImageIcon(PathUtil.getPath(&quot;number/shuzi5-2.png&quot;)).getImage().getScaledInstance(PixelUtil.handNumW, PixelUtil.handNumH, Image.SCALE_SMOOTH));</b>
+&nbsp;
+<b class="nc">&nbsp;            default -&gt; null;</b>
+&nbsp;        };
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * util of resizing Width or X coordinate
+&nbsp;     *
+&nbsp;     * @param element Width or X position
+&nbsp;     * @return int of X
+&nbsp;     */
+&nbsp;    public static int resizeX(int element) {
+<b class="nc">&nbsp;        double size = (double) element / 1800;</b>
+<b class="nc">&nbsp;        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();</b>
+<b class="nc">&nbsp;        return (int) (screenSize.width * size);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * util of resizing Height or Y coordinate
+&nbsp;     *
+&nbsp;     * @param element Height or Y position
+&nbsp;     * @return int of Y
+&nbsp;     */
+&nbsp;    public static int resizeY(int element) {
+<b class="nc">&nbsp;        double size = (double) element / 1065;</b>
+<b class="nc">&nbsp;        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();</b>
+<b class="nc">&nbsp;        return (int) (screenSize.height * size);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-30 11:48</div>
+</div>
+</body>
+</html>

@@ -179,7 +179,7 @@ public class CommunicationController implements ICommunication {
      *
      * @param method the name of the method that needs a feedback
      * @param value  true if the method return true, otherwise false
-     * @param pCtrl
+     * @param pCtrl player controller
      */
     @Override
     public void returnBool(String method, boolean value, PlayerController pCtrl) {

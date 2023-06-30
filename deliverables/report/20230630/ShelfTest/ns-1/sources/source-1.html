@@ -1,0 +1,276 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Shelf</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.am21.model.items</a>
+</div>
+
+<h1>Coverage Summary for Class: Shelf (org.am21.model.items)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Shelf</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96,2%
+  </span>
+  <span class="absValue">
+    (51/53)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.am21.model.items;
+&nbsp;
+&nbsp;import org.am21.model.Cards.ItemCard;
+&nbsp;import org.am21.model.Player;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;
+&nbsp;public class Shelf extends Grid {
+&nbsp;
+&nbsp;    public Player player;
+&nbsp;    /**
+&nbsp;     * Each element show how many slots are still available in correspondent column
+&nbsp;     */
+&nbsp;    public List&lt;Integer&gt; slotCol;
+&nbsp;    /**
+&nbsp;     * Numbers of items insertable in the shelves each turn. Starting limit: 3. It&#39;s diminishable.
+&nbsp;     */
+<b class="fc">&nbsp;    public int insertLimit = STD_LIMIT;</b>
+<b class="fc">&nbsp;    public static int STD_LIMIT = 3;</b>
+&nbsp;    public final static int SHELF_ROW = 6;
+&nbsp;    public final static int SHELF_COLUMN = 5;
+&nbsp;
+<b class="fc">&nbsp;    private final static HashMap&lt;Integer, Integer&gt; pointsMap = new HashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;    static {
+<b class="fc">&nbsp;        pointsMap.put(0, 0);</b>
+<b class="fc">&nbsp;        pointsMap.put(3, 2);</b>
+<b class="fc">&nbsp;        pointsMap.put(4, 3);</b>
+<b class="fc">&nbsp;        pointsMap.put(5, 5);</b>
+<b class="fc">&nbsp;        pointsMap.put(6, 8);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Construction of an empty shelves:
+&nbsp;     * Initialize the grid with superclass
+&nbsp;     * Create array, each elem count slot available for each column
+&nbsp;     * Row-Index-0 is on the top of the shelves
+&nbsp;     *
+&nbsp;     * @param player player instance
+&nbsp;     */
+&nbsp;    public Shelf(Player player) {
+<b class="fc">&nbsp;        super(SHELF_ROW, SHELF_COLUMN);</b>
+<b class="fc">&nbsp;        this.player = player;</b>
+<b class="fc">&nbsp;        this.slotCol = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; SHELF_COLUMN; i++) {</b>
+<b class="fc">&nbsp;            slotCol.add(SHELF_ROW);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Calculate the min Limit for hand Capacity
+&nbsp;     * Example: If there are only column with 2 slots available,
+&nbsp;     * then &#39;handLimit&#39; = 2
+&nbsp;     */
+&nbsp;    public void checkLimit() {
+<b class="fc">&nbsp;        int max = 0;</b>
+&nbsp;
+<b class="fc">&nbsp;        for (int j = 0; j &lt; SHELF_COLUMN; j++) {</b>
+<b class="fc">&nbsp;            if (this.slotCol.get(j) &gt; max) {</b>
+<b class="fc">&nbsp;                max = this.slotCol.get(j);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        if (max &gt;= STD_LIMIT) {</b>
+<b class="nc">&nbsp;            this.insertLimit = STD_LIMIT;</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            this.insertLimit = max;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * number of slot available in total
+&nbsp;     *
+&nbsp;     * @return Number of Total space available in this shelves
+&nbsp;     */
+&nbsp;    public int getTotSlotAvail() {
+<b class="fc">&nbsp;        int sum = 0;</b>
+<b class="fc">&nbsp;        for (int x : this.slotCol)</b>
+<b class="fc">&nbsp;            sum = sum + x;</b>
+<b class="fc">&nbsp;        return sum;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Insert an itemCard in the column, then decrease the count
+&nbsp;     * in column (col)
+&nbsp;     * Check limit after insertion
+&nbsp;     * @param item ItemCard reference
+&nbsp;     * @param col column for insertion
+&nbsp;     * @return true if insertion has been successful
+&nbsp;     */
+&nbsp;    public boolean insertInColumn(ItemCard item, int col) {
+&nbsp;
+<b class="fc">&nbsp;        if (slotCol.get(col) &gt; 0 &amp;&amp; this.getMatrix()[slotCol.get(col) - 1][col] == null) {</b>
+<b class="fc">&nbsp;            this.getMatrix()[slotCol.get(col) - 1][col] = item;</b>
+<b class="fc">&nbsp;            this.slotCol.set(col, slotCol.get(col) - 1);</b>
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method is called at the end of the Game
+&nbsp;     * It will calculate the points according to a table.
+&nbsp;     * Having multiple item of the same type adjacent
+&nbsp;     * give different amount of points.
+&nbsp;     */
+&nbsp;    public int getGroupPoints() {
+<b class="fc">&nbsp;        boolean[][] visited = new boolean[SHELF_ROW][SHELF_COLUMN];</b>
+<b class="fc">&nbsp;        int points = 0;</b>
+&nbsp;
+<b class="fc">&nbsp;        for (int r = 0; r &lt; SHELF_ROW; r++) {</b>
+<b class="fc">&nbsp;            for (int c = 0; c &lt; SHELF_COLUMN; c++) {</b>
+<b class="fc">&nbsp;                if (!isOccupied(r, c) || visited[r][c]) {</b>
+<b class="fc">&nbsp;                    continue;</b>
+&nbsp;                }
+<b class="fc">&nbsp;                points += pointsTable(colorCounter(r, c, visited, 1, getItemType(r, c)));</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return points;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Calculate the total points from shelf group points
+&nbsp;     * @param r root row of the backtracking
+&nbsp;     * @param c root column of the backtracking
+&nbsp;     * @param visited matrix of visited cells
+&nbsp;     * @param depth depth of the backtracking
+&nbsp;     * @param type type of item
+&nbsp;     * @return number of item of the same type adjacent to each other
+&nbsp;     */
+&nbsp;    public int colorCounter(int r, int c, boolean[][] visited, int depth, String type) {
+<b class="fc">&nbsp;        int newDepth = depth;</b>
+<b class="fc">&nbsp;        visited[r][c] = true;</b>
+&nbsp;
+<b class="fc">&nbsp;        if (r &gt; 0 &amp;&amp; !visited[r - 1][c] &amp;&amp; isOccupied(r - 1, c) &amp;&amp; getItemType(r - 1, c).equals(type)) {</b>
+<b class="fc">&nbsp;            newDepth = colorCounter(r - 1, c, visited, newDepth + 1, type);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (r + 1 &lt; SHELF_ROW &amp;&amp; !visited[r + 1][c] &amp;&amp; isOccupied(r + 1, c) &amp;&amp; getItemType(r + 1, c).equals(type)) {</b>
+<b class="fc">&nbsp;            newDepth = colorCounter(r + 1, c, visited, newDepth + 1, type);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (c &gt; 0 &amp;&amp; !visited[r][c - 1] &amp;&amp; isOccupied(r, c - 1) &amp;&amp; getItemType(r, c - 1).equals(type)) {</b>
+<b class="fc">&nbsp;            newDepth = colorCounter(r, c - 1, visited, newDepth + 1, type);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (c + 1 &lt; SHELF_COLUMN &amp;&amp; !visited[r][c + 1] &amp;&amp; isOccupied(r, c + 1) &amp;&amp; getItemType(r, c + 1).equals(type)) {</b>
+<b class="fc">&nbsp;            newDepth = colorCounter(r, c + 1, visited, newDepth + 1, type);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return newDepth;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method return the number of points gained due to a number of item adjacent to each other
+&nbsp;     * @param nItem number of item
+&nbsp;     * @return points
+&nbsp;     */
+&nbsp;    public int pointsTable(int nItem) {
+<b class="fc">&nbsp;        if (nItem &lt; 3) {</b>
+<b class="fc">&nbsp;            nItem = 0;</b>
+<b class="fc">&nbsp;        } else if (nItem &gt; 6) {</b>
+<b class="fc">&nbsp;            nItem = 6;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return pointsMap.get(nItem);</b>
+&nbsp;    }
+&nbsp;}
+&nbsp;
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-30 11:49</div>
+</div>
+</body>
+</html>
