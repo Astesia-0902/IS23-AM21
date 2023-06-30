@@ -97,7 +97,6 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
             e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_4) {
             playerNum = 0;
 
-            //TODO: MAX SEATS = 2/3/4...Create a new match with 2/3/4 players...Go to waiting room
             if (e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_2) {
                 playerNum = 2;
             } else if (e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_3) {
