@@ -285,7 +285,7 @@ public class Gui {
     public void askWaitingAction() throws RemoteException {
         for (int i = 0; i < ClientView.matchList.length; i++) {
             if (Integer.parseInt(ClientView.matchList[i][0]) == ClientView.matchID) {
-                matchIndex = Integer.parseInt(ClientView.matchList[i][0]) ;
+                matchIndex = i;
                 break;
             }
         }
