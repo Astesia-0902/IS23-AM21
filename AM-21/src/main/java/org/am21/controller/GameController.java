@@ -106,7 +106,7 @@ public class GameController {
     }
 
     /**
-     * TODO
+     * check if the player is the current player in the correspondent match
      * @param matchID match id
      * @param userName player nickname
      * @param playerController player's controller
@@ -147,7 +147,7 @@ public class GameController {
     }
 
     /**
-     * TODO
+     * Create a new match.
      * @param userName player's nickname
      * @param createMatchRequestCount number of match creation request
      * @param playerNum max number of players for the match
@@ -172,7 +172,7 @@ public class GameController {
 
 
     /**
-     * TODO
+     * Check if the player is already in a match
      * @param userName player's nickname
      * @param createMatchRequestCount number of match creation request
      * @param playerNum max number of players for the match
@@ -180,7 +180,6 @@ public class GameController {
      */
     private static boolean createMatchHelper(String userName, Integer createMatchRequestCount, int playerNum, PlayerController playerController) {
         if (GameManager.playerMatchMap.containsKey(userName) && createMatchRequestCount == 0) {
-            //TODO: Enter menu when already in match. Not happening anymore with reconnection
             createMatchRequestCount = 1;
         } else if (GameManager.playerMatchMap.containsKey(userName) && createMatchRequestCount == 1) {
             createMatchRequestCount = 0;
