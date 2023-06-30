@@ -28,11 +28,10 @@ public abstract class CommonGoal extends Card {
     }
 
     /**
-     * Durante la fase del turno CheckingGoal, viene controllato la Shelf del Player
-     * per verificare se l'obiettivo è stato completato
+     * During the CheckingGoal phase of the turn, the Player's Shelf is checked to see if the goal has been completed
      *
      * @param shelf Shelf del Player
-     * @return true se l'obiettivo è stato completato, false altrimenti
+     * @return true if match
      */
     public abstract boolean checkGoal(Shelf shelf);
 

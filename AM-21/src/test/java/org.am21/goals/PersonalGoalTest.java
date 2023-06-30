@@ -26,28 +26,28 @@ public class PersonalGoalTest {
     private Shelf s;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         m = new Match(2);
         listCards = CardUtil.buildPersonalGoalCard(2);
-        c=new PlayerController("Ade");
-        p= c.getPlayer();
-        s=new Shelf(p);
+        c = new PlayerController("Ade");
+        p = c.getPlayer();
+        s = new Shelf(p);
         p.setShelf(s);
     }
 
     @AfterEach
-    void tearDown(){
-        m=null;
-        listCards=null;
-        c=null;
-        p=null;
+    void tearDown() {
+        m = null;
+        listCards = null;
+        c = null;
+        p = null;
     }
 
     /**
      * Test if the 2 cards generated are different
      */
     @Test
-    void testRandomGeneration(){
+    void testRandomGeneration() {
         assertNotEquals(listCards.get(0), listCards.get(1));
     }
 
@@ -55,12 +55,12 @@ public class PersonalGoalTest {
      * Test if the Goal shelf is generated
      */
     @Test
-    void testGoalShelf(){
-        card = new PersonalGoalCard("PERSONAL_GOAL0"+2);
+    void testGoalShelf() {
+        card = new PersonalGoalCard("PERSONAL_GOAL0" + 2);
         card.setupGoalShelf(p);
 
-        assertEquals("_Plants_",card.getPersonalGoalShelf().getItemName(1,1));
-        assertEquals("__Cats__",card.getPersonalGoalShelf().getItemName(2,0));
+        assertEquals("_Plants_", card.getPersonalGoalShelf().getItemName(1, 1));
+        assertEquals("__Cats__", card.getPersonalGoalShelf().getItemName(2, 0));
 
     }
 
@@ -68,24 +68,22 @@ public class PersonalGoalTest {
      * Test if the points is correctly calculated
      */
     @Test
-    void testCheckGoal(){
-        card = new PersonalGoalCard("PERSONAL_GOAL0"+2);
-        card.player=p;
+    void testCheckGoal() {
+        card = new PersonalGoalCard("PERSONAL_GOAL0" + 2);
+        card.player = p;
         p.setMyPersonalGoal(card);
         p.setShelf(s);
-        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),1);
-        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),1);
-        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),1);
-        s.insertInColumn(new ItemCard(ItemType.__Cats__+"1.1"),1);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__ + "1.1"), 1);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__ + "1.1"), 1);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__ + "1.1"), 1);
+        s.insertInColumn(new ItemCard(ItemType.__Cats__ + "1.1"), 1);
 
-        s.insertInColumn(new ItemCard(ItemType._Plants_+"1.1"),1);
-        String type = s.getItemType(1,1);
-        assertEquals("_Plants_",type);
-        assertEquals(1,p.getMyPersonalGoal().calculatePoints());
+        s.insertInColumn(new ItemCard(ItemType._Plants_ + "1.1"), 1);
+        String type = s.getItemType(1, 1);
+        assertEquals("_Plants_", type);
+        assertEquals(1, p.getMyPersonalGoal().calculatePoints());
 
     }
-
-
 
 
 }

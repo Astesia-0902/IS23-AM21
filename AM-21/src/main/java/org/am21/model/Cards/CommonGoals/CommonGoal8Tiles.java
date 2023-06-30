@@ -15,8 +15,6 @@ public class CommonGoal8Tiles extends CommonGoal {
     private static final int colNumShelf = 5;
     private static final int numSame = 8;
 
-    public boolean state = false;
-
     /**
      * Constructor
      *
@@ -42,7 +40,6 @@ public class CommonGoal8Tiles extends CommonGoal {
             for (int col = 0; col < colNumShelf; col++) {
                 if (shelf.isOccupied(row, col)) {
                     String tile = shelf.getItemName(row, col).substring(0, shelf.getItemName(row, col).length() - 3);
-                    ;
 
                     // If the counter for tileType already exists in countTiles, the current value
                     // of the counter is incremented by 1, otherwise its value is set to 1

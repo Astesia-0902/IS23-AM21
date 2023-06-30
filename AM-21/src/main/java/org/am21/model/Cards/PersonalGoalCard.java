@@ -17,6 +17,7 @@ public class PersonalGoalCard extends Card {
     private final static HashMap<String, int[][]> personalGoal = new HashMap<>();
     private final static List<ItemCard> tileNames = new ArrayList<>();
     private final static HashMap<Integer, Integer> currentScore = new HashMap<>();
+
     static {
         /*
          * {row of shelves, column of shelves, index of tileNames}
@@ -41,16 +42,17 @@ public class PersonalGoalCard extends Card {
                 new ItemCard(ItemType._Games__.name()), new ItemCard(ItemType._Frames_.name()),
                 new ItemCard(ItemType.Trophies.name()), new ItemCard(ItemType._Plants_.name()));
 
-        currentScore.put(1,1);
-        currentScore.put(2,2);
-        currentScore.put(3,4);
-        currentScore.put(4,6);
-        currentScore.put(5,9);
-        currentScore.put(6,12);
+        currentScore.put(1, 1);
+        currentScore.put(2, 2);
+        currentScore.put(3, 4);
+        currentScore.put(4, 6);
+        currentScore.put(5, 9);
+        currentScore.put(6, 12);
     }
 
     /**
      * Constructor
+     *
      * @param nameCard the name of the card
      */
     public PersonalGoalCard(String nameCard) {
@@ -60,23 +62,22 @@ public class PersonalGoalCard extends Card {
 
     /**
      * Function to check the goal if matched
+     *
      * @return the number of goal completed
      */
     public int checkGoal() {
-        //System.out.println("Match > Checking PersonalGoal achievement: ");
+
         int[][] values = personalGoal.get(player.getMyPersonalGoal().getNameCard());
         int count = 0;
-        for (int i = 0; i < values.length; i++) {
-            int row = values[i][0];
-            int col = values[i][1];
-            int val = values[i][2];
+        for (int[] value : values) {
+            int row = value[0];
+            int col = value[1];
+            int val = value[2];
 
             // Compare the items on the player's bookshelf(row, col) with the items required by Personal Goal
             if (player.getShelf().getItemName(row, col) != null &&
-                    player.getShelf().getItemType(row,col)
-                            .equals(tileNames.get(val).getNameCard()))
-            {
-                //System.out.println("Match > +1 item matched!");
+                    player.getShelf().getItemType(row, col)
+                            .equals(tileNames.get(val).getNameCard())) {
                 count++;
             }
         }
@@ -85,41 +86,38 @@ public class PersonalGoalCard extends Card {
 
     /**
      * Function to calculate the scores of player to get
+     *
      * @return current score of player
      */
-    public int calculatePoints(){
+    public int calculatePoints() {
         int count = checkGoal();
         return currentScore.getOrDefault(count, 0);
     }
 
-
-
     /**
      * Function to get recent goal position matched in the shelves of the player
      * Used for CLI
-     * @return goal shelves with color matches
      */
-    public Shelf setupGoalShelf(Player player) {
+    public void setupGoalShelf(Player player) {
         this.PersonalGoalShelf = new Shelf(player);
         int[][] values = personalGoal.get(this.getNameCard());
 
-        for (int i = 0; i < values.length; i++) {
-            int row = values[i][0];
-            int col = values[i][1];
-            int val = values[i][2];
+        for (int[] value : values) {
+            int row = value[0];
+            int col = value[1];
+            int val = value[2];
             this.PersonalGoalShelf.setCell(row, col, tileNames.get(val));
         }
-        return PersonalGoalShelf;
     }
 
     /**
      * Function to get recent goal position matched in the shelves of the player
      * Used for Test
+     *
      * @return goal shelves with color matches
      */
-    public Shelf getPersonalGoalShelf(){
+    public Shelf getPersonalGoalShelf() {
         return this.PersonalGoalShelf;
     }
-
 
 }
