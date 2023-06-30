@@ -8,7 +8,6 @@ import org.am21.client.view.GUI.listener.*;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PathUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
-import org.am21.client.view.TUI.Storage;
 import org.am21.networkRMI.ClientCallBack;
 import org.am21.networkRMI.IClientInput;
 
@@ -104,7 +103,7 @@ public class Gui {
 
 
                 if (waitingRoomInterface != null) {
-                    System.out.println("WaitingRoomInterface Disposed");
+
                     waitingRoomInterface.setVisible(false);
                 }
 
@@ -129,7 +128,7 @@ public class Gui {
                             });
 
                             setGameBoardRefresh(false);
-                            System.out.println("Reload Game Board");
+
                         }
                         Thread.sleep(200);
                     } catch (RemoteException | InterruptedException e) {
@@ -188,8 +187,6 @@ public class Gui {
 
     /**
      * Constructor
-     *
-     * @throws Exception
      */
     public Gui() throws Exception {
         this.clientCallBack = new ClientCallBack();
@@ -245,9 +242,9 @@ public class Gui {
         if (menuActionInterface == null) {
             menuActionInterface = new MenuActionInterface(frame, username);
             new MenuActionListener(this);
-            System.out.println("MenuActionInterface done");
+
         } else if (menuActionInterface != null && needNewFrame) {
-            System.out.println("New MenuAction Interface");
+
             menuActionInterface = new MenuActionInterface(frame, username);
             new MenuActionListener(this);
             menuActionInterface.setVisible(true);
@@ -257,7 +254,7 @@ public class Gui {
                 menuActionInterface.reloadMenu();
                 menuActionInterface.revalidate();
                 menuActionInterface.repaint();
-                System.out.println("Menu repainted");
+
             });
             setMenuRefresh(false);
 
