@@ -16,7 +16,7 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
     /**
      * Constructor
      *
-     * @param gui
+     * @param gui is the GUI
      */
     public MenuActionListener(Gui gui) {
         this.gui = gui;
@@ -43,6 +43,10 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
     }
 
 
+    /**
+     * Action performed method
+     * @param e is the mouse event
+     * */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == gui.menuActionInterface.createButton) {
@@ -117,6 +121,10 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
 
     }
 
+    /**
+     * Mouse clicked method
+     * @param e is the mouse event
+     * */
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == gui.menuActionInterface.maxSeatsDialog.playerButton_2) {
@@ -141,6 +149,10 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
 
     }
 
+    /**
+     * Mouse pressed method
+     * @param e is the mouse event
+     * */
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getSource() == gui.menuActionInterface) {
@@ -149,11 +161,19 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
         }
     }
 
+    /**
+     * Mouse released method
+     * @param e is the mouse event
+     * */
     @Override
     public void mouseReleased(MouseEvent e) {
 
     }
 
+    /**
+     * Mouse exited method
+     * @param e is the mouse event
+     * */
     @Override
     public void mouseEntered(MouseEvent e) {
         if (e.getSource() == gui.menuActionInterface.createButton) {
@@ -176,6 +196,10 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
 
     }
 
+    /**
+     * Mouse exited method
+     * @param e is the mouse event
+     * */
     @Override
     public void mouseExited(MouseEvent e) {
         if (e.getSource() == gui.menuActionInterface.createButton) {
@@ -197,6 +221,10 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
 
     }
 
+    /**
+     * Mouse dragged method
+     * @param e is the mouse event
+     * */
     @Override
     public void mouseDragged(MouseEvent e) {
         if (e.getSource() == gui.menuActionInterface) {
@@ -206,6 +234,10 @@ public class MenuActionListener implements MouseListener, MouseMotionListener, A
 
     }
 
+    /**
+     * Mouse moved method
+     * @param e is the mouse event
+     * */
     @Override
     public void mouseMoved(MouseEvent e) {
 

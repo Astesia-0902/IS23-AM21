@@ -133,7 +133,7 @@ public class Storage {
                                       "[______._][______._][______._][______._][_" + Color.GAMES + "__]\n" +
                                       "[__" + Color.CATS + "__][______._][______._][______._][______._]";
 
-    public static final String PGTable= """
+    public static final String PGTable = """
             \t\t__________________________
             \t\t[V] 1 | 2 | 3 | 4 | 5 | 6 
             \t\t v ---+---+---+---+---+---
@@ -251,41 +251,45 @@ public class Storage {
             ¯¯¯¯¯     ¯¯¯¯¯""" + Color.RESET;
 
     public static final List<String> commonGoalList = new ArrayList<>();
+
     static {
         Collections.addAll(commonGoalList, "CommonGoal2Lines", "CommonGoal2Columns", "CommonGoal3Column",
                 "CommonGoal4Lines", "CommonGoal8Tiles", "CommonGoalCorner", "CommonGoalDiagonal", "CommonGoalSquare",
                 "CommonGoalStairs", "CommonGoal4Group", "CommonGoal6Group", "CommonGoalXShape");
     }
-    public static HashMap<String,String> goalCommonMap = new HashMap<>();
+
+    public static HashMap<String, String> goalCommonMap = new HashMap<>();
+
     static {
-        goalCommonMap.put("CommonGoal2Columns",CG2Columns);
-        goalCommonMap.put("CommonGoal2Lines",CG2Lines);
-        goalCommonMap.put("CommonGoal3Column",CG3Column);
-        goalCommonMap.put("CommonGoal4Lines",CG4Lines);
-        goalCommonMap.put("CommonGoal8Tiles",CG8Tiles);
-        goalCommonMap.put("CommonGoalCorner",CGCorner);
-        goalCommonMap.put("CommonGoalDiagonal",CGDiagonal);
-        goalCommonMap.put("CommonGoalSquare",CGSquare);
-        goalCommonMap.put("CommonGoalStairs",CGStairs);
-        goalCommonMap.put("CommonGoal4Group",CG4Group);
-        goalCommonMap.put("CommonGoal6Group",CG6Group);
-        goalCommonMap.put("CommonGoalXShape",CGXShape);
+        goalCommonMap.put("CommonGoal2Columns", CG2Columns);
+        goalCommonMap.put("CommonGoal2Lines", CG2Lines);
+        goalCommonMap.put("CommonGoal3Column", CG3Column);
+        goalCommonMap.put("CommonGoal4Lines", CG4Lines);
+        goalCommonMap.put("CommonGoal8Tiles", CG8Tiles);
+        goalCommonMap.put("CommonGoalCorner", CGCorner);
+        goalCommonMap.put("CommonGoalDiagonal", CGDiagonal);
+        goalCommonMap.put("CommonGoalSquare", CGSquare);
+        goalCommonMap.put("CommonGoalStairs", CGStairs);
+        goalCommonMap.put("CommonGoal4Group", CG4Group);
+        goalCommonMap.put("CommonGoal6Group", CG6Group);
+        goalCommonMap.put("CommonGoalXShape", CGXShape);
     }
 
-    public static HashMap<Integer,String> goalPersonalMap = new HashMap<>();
+    public static HashMap<Integer, String> goalPersonalMap = new HashMap<>();
+
     static {
-        goalPersonalMap.put(1,PG1);
-        goalPersonalMap.put(2,PG2);
-        goalPersonalMap.put(3,PG3);
-        goalPersonalMap.put(4,PG4);
-        goalPersonalMap.put(5,PG5);
-        goalPersonalMap.put(6,PG6);
-        goalPersonalMap.put(7,PG7);
-        goalPersonalMap.put(8,PG8);
-        goalPersonalMap.put(9,PG9);
-        goalPersonalMap.put(10,PG10);
-        goalPersonalMap.put(11,PG11);
-        goalPersonalMap.put(12,PG12);
+        goalPersonalMap.put(1, PG1);
+        goalPersonalMap.put(2, PG2);
+        goalPersonalMap.put(3, PG3);
+        goalPersonalMap.put(4, PG4);
+        goalPersonalMap.put(5, PG5);
+        goalPersonalMap.put(6, PG6);
+        goalPersonalMap.put(7, PG7);
+        goalPersonalMap.put(8, PG8);
+        goalPersonalMap.put(9, PG9);
+        goalPersonalMap.put(10, PG10);
+        goalPersonalMap.put(11, PG11);
+        goalPersonalMap.put(12, PG12);
     }
 
 
@@ -517,7 +521,7 @@ public class Storage {
                                                       when the chat is opened you can type directly the text you wish to sent.
             """;
 
-    public static final String commandHelp= """
+    public static final String commandHelp = """
             [Commands] --> [Abbreviation]
               create            c
                join             j
@@ -533,7 +537,6 @@ public class Storage {
                exit             ex
               ...               ...
             """;
-
 
 
     public static List<String> tips = new ArrayList<>();
@@ -577,12 +580,16 @@ public class Storage {
 
         );
     }
-    public static final int MENU_TIPS=3;
-    public static final int WAIT_TIPS=6;
-    public static final int SEL_TIPS=tips.size()-5;
+
+    public static final int MENU_TIPS = 3;
+    public static final int WAIT_TIPS = 6;
+    public static final int SEL_TIPS = tips.size() - 5;
 
     public static List<String> current_display;
 
+    /**
+     * This method is used to reset the display
+     */
     public static void reset_display() {
         List<String> empty_display = new ArrayList<>(12);
         Collections.addAll(empty_display,
@@ -715,7 +722,7 @@ public class Storage {
     }
 
 
-    public static final String GROUP_POINTS= """
+    public static final String GROUP_POINTS = """
             Points given based on the numbers of item of the same type near each other 
             \t\t-----------------------------
             \t\t¦ 3 [=] > (2) ¦ 5 [=] > (5) ¦  
@@ -723,10 +730,4 @@ public class Storage {
             \t\t¦ 4 [=] > (3) ¦ 6+[=] > (8) ¦
             \t\t-----------------------------
             """;
-
-
-
-
-
-
 }

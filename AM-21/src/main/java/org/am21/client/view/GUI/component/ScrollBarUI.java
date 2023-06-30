@@ -8,17 +8,36 @@ import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 
+/**
+ * ScrollBarUI is a class that extends BasicScrollBarUI
+ * and is used to change the color of the scroll bar
+ */
 public class ScrollBarUI extends BasicScrollBarUI {
+    /**
+     * configureScrollBarColors is a method that is used to change the color of the scroll bar
+     * */
     @Override
     protected void configureScrollBarColors() {
         trackColor = Color.WHITE;
     }
 
+    /**
+     * paintTrack is a method that is used to paint the track of the scroll bar
+     * @param g is the graphics
+     * @param c is the component
+     * @param trackBounds is the bounds of the track
+     * */
     @Override
     protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds) {
         super.paintTrack(g, c, trackBounds);
     }
 
+    /**
+     * paintThumb is a method that is used to paint the thumb of the scroll bar
+     * @param g is the graphics
+     * @param c is the component
+     * @param thumbBounds is the bounds of the thumb
+     * */
     @Override
     protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
         g.translate(thumbBounds.x, thumbBounds.y);
@@ -33,6 +52,10 @@ public class ScrollBarUI extends BasicScrollBarUI {
 
     }
 
+    /**
+     * createIncreaseButton is a method that is used to create the increase button of the scroll bar
+     * @param orientation is the orientation of the button
+     * */
     @Override
     protected JButton createIncreaseButton(int orientation) {
         JButton button = ButtonUtil.getCommandButton();
@@ -40,6 +63,10 @@ public class ScrollBarUI extends BasicScrollBarUI {
         return button;
     }
 
+    /**
+     * createDecreaseButton is a method that is used to create the decrease button of the scroll bar
+     * @param orientation is the orientation of the button
+     * */
     @Override
     protected JButton createDecreaseButton(int orientation) {
         JButton button = ButtonUtil.getCommandButton();

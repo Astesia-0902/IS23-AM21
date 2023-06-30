@@ -19,6 +19,12 @@ public class InputReadTask implements Callable<String> {
         bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     }
 
+    /**
+     * This method is used to read input from the user
+     *
+     * @return the input
+     * @throws Exception if the operation fails
+     */
     @Override
     public String call() throws Exception {
         String input;

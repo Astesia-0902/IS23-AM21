@@ -14,6 +14,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
+/**
+ * Login interface
+ */
 public class LoginInterface extends JDialog {
     public static final int WIDTH = 600;
     public static final int HEIGHT = 400;
@@ -25,7 +28,7 @@ public class LoginInterface extends JDialog {
     /**
      * Constructor
      *
-     * @param frame
+     * @param frame is the frame
      */
     public LoginInterface(JFrame frame) {
         super(frame);

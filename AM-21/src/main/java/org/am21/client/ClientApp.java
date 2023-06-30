@@ -10,6 +10,9 @@ import java.rmi.server.ServerNotActiveException;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * This class is used to start the client
+ */
 public class ClientApp {
     public static void main(String[] args) throws Exception {
 
@@ -25,6 +28,11 @@ public class ClientApp {
 
     }
 
+    /**
+     * This method is used to start the client
+     *
+     * @param cli the client
+     */
     private static void run(Cli cli) {
         try {
             cli.init();

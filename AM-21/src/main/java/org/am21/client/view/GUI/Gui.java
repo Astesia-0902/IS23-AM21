@@ -25,6 +25,10 @@ import java.util.Map;
 
 import static org.am21.client.view.ClientView.*;
 
+/**
+ * Gui is a class that is used to show the game to the player
+ * and to ask him what he wants to do
+ */
 public class Gui {
     public JFrame frame = new JFrame("MyShelfie");
     public ClientCommunicationController commCtrl;
@@ -229,6 +233,8 @@ public class Gui {
 
     /**
      * Ask for a login
+     *
+     * @throws RemoteException remote exception
      */
     public void askLogin() throws RemoteException {
         loginInterface = new LoginInterface(frame);
@@ -237,6 +243,8 @@ public class Gui {
 
     /**
      * Ask for menu action
+     *
+     * @throws RemoteException remote exception
      */
     public void askMenuAction() throws RemoteException {
         if (menuActionInterface == null) {
@@ -281,11 +289,16 @@ public class Gui {
 
     /**
      * Ask for waiting action
+     *
+     * @throws RemoteException remote exception
      */
     public void askWaitingAction() throws RemoteException {
         for (int i = 0; i < ClientView.matchList.length; i++) {
             if (Integer.parseInt(ClientView.matchList[i][0]) == ClientView.matchID) {
                 matchIndex = i;
+
+                matchIndex = Integer.parseInt(ClientView.matchList[i][0]);
+
                 break;
             }
         }
@@ -317,7 +330,7 @@ public class Gui {
             String[] match = new String[ClientView.matchList.length];
             for (int i = 0; i < ClientView.matchList.length; i++) {
                 match[i] = "ID: " + ClientView.matchList[i][0] + "  |  " + ClientView.matchList[i][1]
-                        + " | Players: (" + ClientView.matchList[i][2] + "/" + ClientView.matchList[i][3] + ")";
+                           + " | Players: (" + ClientView.matchList[i][2] + "/" + ClientView.matchList[i][3] + ")";
             }
             for (String m : match) {
                 matchModel.addElement(m);
@@ -332,6 +345,8 @@ public class Gui {
 
     /**
      * Ask for leave a match
+     *
+     * @throws RemoteException remote exception
      */
     public boolean askLeaveMatch() throws RemoteException {
 
@@ -341,6 +356,8 @@ public class Gui {
 
     /**
      * Ask for exit the game
+     *
+     * @throws RemoteException remote exception
      */
     public boolean askExitGame() throws RemoteException {
 
@@ -371,6 +388,8 @@ public class Gui {
 
     /**
      * Ask for announce the current player
+     *
+     * @throws RemoteException remote exception
      */
     public void announceCurrentPlayer() throws RemoteException {
         SwingUtilities.invokeLater(() -> {
@@ -568,11 +587,19 @@ public class Gui {
 
     /**
      * Ask for send the message
+     *
+     * @param message the message to send
      */
     public void print(String message) {
         JOptionPane.showMessageDialog(frame, message);
     }
 
+    /**
+     * Time limited notification
+     *
+     * @param message the message to show
+     * @param time    the time to show the message
+     */
     public void timeLimitedNotification(String message, int time) {
         if (chatDialog != null && chatDialog.isVisible()) {
             return;
@@ -671,6 +698,8 @@ public class Gui {
 
     /**
      * Ask for show online player
+     *
+     * @throws RemoteException if the reference could not be accessed
      */
     public void showOnlinePlayer() throws RemoteException {
         DefaultListModel<String> userModel = new DefaultListModel<>();
@@ -697,6 +726,11 @@ public class Gui {
         }
     }
 
+    /**
+     * reply DEBUG message
+     *
+     * @param message the message to reply
+     */
     public void replyDEBUG(String message) {
         System.out.println(message);
     }
@@ -793,36 +827,66 @@ public class Gui {
         Gui.publicChatHistory = historyTMP;
     }
 
+    /**
+     * set Chat mode
+     *
+     * @param value the value to set
+     */
     public void setAskChat(boolean value) {
         synchronized (askChatLock) {
             askChat = value;
         }
     }
 
+    /**
+     * set new chat window
+     *
+     * @param value the value to set
+     */
     public void setNewChatWindow(boolean value) {
         synchronized (chatWindowObject) {
             newChatWindow = value;
         }
     }
 
+    /**
+     * Game board to refresh
+     *
+     * @param value the value to set
+     */
     public void setGameBoardRefresh(boolean value) {
         synchronized (refreshLock) {
             gameBoardRefresh = value;
         }
     }
 
+    /**
+     * set menu to refresh
+     *
+     * @param value the value to set
+     */
     public void setMenuRefresh(boolean value) {
         synchronized (refreshLock) {
             menuRefresh = value;
         }
     }
 
+    /**
+     * set new frame
+     *
+     * @param value the value to set
+     */
     public void setNeedNewFrame(boolean value) {
         synchronized (windowObject) {
             needNewFrame = value;
         }
     }
 
+    /**
+     * set wait room to refresh
+     *
+     * @param value the value to set
+     */
     public void setWaitRoomRefresh(boolean value) {
         synchronized (refreshLock) {
             waitRoomRefresh = value;

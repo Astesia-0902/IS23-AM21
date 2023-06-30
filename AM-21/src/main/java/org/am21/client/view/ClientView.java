@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * This class is used to store the client view of the match
+ */
 public class ClientView {
 
     //---------------------------------------------------------------------
@@ -57,7 +60,7 @@ public class ClientView {
      * check them first when you get a wrong answer
      *
      * @param json        the JSON string received from the server
-     * @param playerIndex
+     * @param playerIndex the index of the player who receives the JSON
      */
     public static void setFullViewVariables(String json, int playerIndex) {
         JSONObject jsonObject = JSONObject.parseObject(json);
@@ -82,7 +85,7 @@ public class ClientView {
         admin = jsonObject.getString("admin");
         endGameToken = jsonObject.getBoolean("endGameToken");
         maxSeats = jsonObject.getInteger("maxSeats");
-        gameResults = jsonObject.getObject("gameResults",String[][].class);
+        gameResults = jsonObject.getObject("gameResults", String[][].class);
     }
 
     /**
@@ -99,11 +102,21 @@ public class ClientView {
         return 0;
     }
 
+    /**
+     * This method is used to convert the JSON string received from the server
+     *
+     * @param jsonHand the JSON string received from the server
+     */
     public static void convertBackHand(String jsonHand) {
         JSONArray jsonArray = JSONObject.parseArray(jsonHand);
         currentPlayerHand = jsonArray.toJavaList(String.class);
     }
 
+    /**
+     * This method is used to convert the JSON string received from the server
+     *
+     * @param jsonInfo the JSON string received from the server
+     */
     public static void convertBackMatchInfo(String jsonInfo) {
         JSONArray jsonArray = JSONObject.parseArray(jsonInfo);
         List<String> tmp = jsonArray.toJavaList(String.class);
@@ -113,11 +126,21 @@ public class ClientView {
 
     }
 
+    /**
+     * This method is used to convert public chat the JSON string received from the server
+     *
+     * @param jsonPublic the JSON string received from the server
+     */
     public static void convertBackPublicChat(String jsonPublic) {
         JSONArray jsonChat = JSONObject.parseArray(jsonPublic);
         publicChat = jsonChat.toJavaList(String.class);
     }
 
+    /**
+     * This method is used to convert server view the JSON string received from the server
+     *
+     * @param jsonServer the JSON string received from the server
+     */
     public static void updateServerView(String jsonServer) {
         JSONObject jsonObject = JSONObject.parseObject(jsonServer);
 
@@ -137,8 +160,8 @@ public class ClientView {
         privateChats = tmpPrivateChats;
         HashMap<String, Integer> tmpHashMap = new HashMap<>();
         if (tmpMap != null) {
-            for (int i = 0; i < tmpMap.length; i++) {
-                tmpHashMap.put(tmpMap[i][0], Integer.valueOf(tmpMap[i][1]));
+            for (String[] strings : tmpMap) {
+                tmpHashMap.put(strings[0], Integer.valueOf(strings[1]));
             }
         }
         chatMap = tmpHashMap;
@@ -155,7 +178,7 @@ public class ClientView {
     public static boolean MATCH_START = false;
     public static boolean MATCH_END = false;
 
-    public static Object refreshLock=new Object();
+    public static Object refreshLock = new Object();
 
     public static Boolean needToRefresh = false;
 
@@ -164,33 +187,61 @@ public class ClientView {
 
     //-----------------------------------------------
 
+    /**
+     * This method is used to set go to menu
+     *
+     * @param goToMenu the value of the variable
+     * */
     public static void setGoToMenu(boolean goToMenu) {
         GO_TO_MENU = goToMenu;
     }
 
+    /**
+     * This method is used to set game on
+     *
+     * @param gameOn the value of the variable
+     * */
     public static void setGameOn(boolean gameOn) {
         GAME_ON = gameOn;
     }
 
+    /**
+     * This method is used to set match start
+     *
+     * @param start the value of the variable
+     * */
     public static void setMatchStart(boolean start) {
         MATCH_START = start;
     }
 
+    /**
+     * This method is used to set match end
+     *
+     * @param end the value of the variable
+     * */
     public static void setMatchEnd(boolean end) {
         MATCH_END = end;
     }
 
+    /**
+     * This method is used to set need to refresh
+     *
+     * @param value the value of the variable
+     * */
     public static void setNeedToRefresh(boolean value) {
         synchronized (refreshLock) {
             needToRefresh = value;
         }
     }
 
+    /**
+     * This method is used to set wait socket
+     *
+     * @param waitSocket the value of the variable
+     * */
     public static void setWaitSocket(boolean waitSocket) {
         WAIT_SOCKET = waitSocket;
     }
-
-
 
 
 }

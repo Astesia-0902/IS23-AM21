@@ -18,7 +18,7 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
     /**
      * Constructor
      *
-     * @param gui
+     * @param gui is the GUI
      */
     public WaitingRoomListener(Gui gui) {
         this.gui = gui;
@@ -44,6 +44,10 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
         gui.waitingRoomInterface.maxSeatsDialog.closeLabel.addMouseListener(this);
     }
 
+    /**
+     * Action performed method
+     * @param e is the mouse event
+     * */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == gui.waitingRoomInterface.leaveButton) {
@@ -97,7 +101,6 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
             e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_4) {
             playerNum = 0;
 
-            //TODO: MAX SEATS = 2/3/4...Create a new match with 2/3/4 players...Go to waiting room
             if (e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_2) {
                 playerNum = 2;
             } else if (e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_3) {
@@ -129,6 +132,10 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
         }
     }
 
+    /**
+     * Mouse clicked method
+     * @param e is the mouse event
+     * */
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == gui.waitingRoomInterface.maxSeatsDialog.playerButton_2) {
@@ -151,6 +158,10 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
         }
     }
 
+    /**
+     * Mouse pressed method
+     * @param e is the mouse event
+     * */
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getSource() == gui.waitingRoomInterface) {
@@ -159,11 +170,19 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
         }
     }
 
+    /**
+     * Mouse released method
+     * @param e is the mouse event
+     * */
     @Override
     public void mouseReleased(MouseEvent e) {
 
     }
 
+    /**
+     * Mouse entered method
+     * @param e is the mouse event
+     * */
     @Override
     public void mouseEntered(MouseEvent e) {
         if (e.getSource() == gui.waitingRoomInterface.leaveButton) {
@@ -185,6 +204,10 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
         }
     }
 
+    /**
+     * Mouse exited method
+     * @param e is the mouse event
+     * */
     @Override
     public void mouseExited(MouseEvent e) {
         if (e.getSource() == gui.waitingRoomInterface.leaveButton) {
@@ -205,6 +228,10 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
         }
     }
 
+    /**
+     * Mouse dragged method
+     * @param e is the mouse event
+     * */
     @Override
     public void mouseDragged(MouseEvent e) {
         if (e.getSource() == gui.waitingRoomInterface) {
@@ -213,6 +240,10 @@ public class WaitingRoomListener implements MouseListener, MouseMotionListener, 
         }
     }
 
+    /**
+     * Mouse moved method
+     * @param e is the mouse event
+     * */
     @Override
     public void mouseMoved(MouseEvent e) {
 

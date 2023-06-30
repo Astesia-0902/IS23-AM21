@@ -1101,6 +1101,9 @@ public class Cli implements View {
         delayer(1000);
     }
 
+    /**
+     * This method is used to ask the player to sort the cards in his hand
+     */
     public void askSort() {
         System.out.println("There are the cards you have selected:");
         if (showHand()) {
@@ -1120,6 +1123,9 @@ public class Cli implements View {
         }
     }
 
+    /**
+     * This method is used to ask the card index to swap
+     */
     public List<Integer> askIndex() {
         String sortConfirm;
         int position1, position2;
@@ -1202,10 +1208,20 @@ public class Cli implements View {
         return true;
     }
 
+    /**
+     * This method is used to show the items in the player's shelf
+     *
+     * @param row    the row of the shelf
+     * @param column the column of the shelf
+     * @return the item in the shelf
+     */
     public String showItemInCell(int row, int column) {
         return ClientView.virtualBoard[row][column];
     }
 
+    /**
+     * This method is used to show the end game token
+     */
     @Override
     public void showEndGameToken() {
         if (ClientView.endGameToken) {
@@ -1216,6 +1232,9 @@ public class Cli implements View {
         System.out.println();
     }
 
+    /**
+     * This method is used to show the player's personal points
+     */
     public void showPersonalPoints() {
         int index = ClientView.getPlayerIndex(username);
         int points = ClientView.hiddenPoints.get(index);
@@ -1261,6 +1280,9 @@ public class Cli implements View {
         }
     }
 
+    /**
+     * This method is used to show the timer (not implemented)
+     */
     @Override
     public void showTimer() {
 
@@ -1383,6 +1405,12 @@ public class Cli implements View {
         Storage.current_display = display;
     }
 
+    /**
+     * This method is used to give a color to the item
+     *
+     * @param item is the item to be colored
+     * @return the colored item
+     */
     public String giveMeColor(String item) {
         String itemType = item;
         switch (item.substring(0, item.length() - 3)) {
@@ -1659,12 +1687,20 @@ public class Cli implements View {
 
     public List<String> lostMessages = new ArrayList<>();
 
+    /**
+     * This method is used to add a message in the lostMessages list
+     *
+     * @param message message to add
+     */
     public void addMessageInLine(String message) {
         synchronized (lostMessages) {
             lostMessages.add(message);
         }
     }
 
+    /**
+     * This method is used to show the lost messages
+     */
     public void showLostMessages() {
         System.out.println();
 
@@ -1685,23 +1721,40 @@ public class Cli implements View {
     //------------------------------CLI tools-------------------------------------------
     public final Object busyLock = new Object();
 
+    /**
+     * This method is used to set the busy status
+     *
+     * @param value the value to set
+     */
     public void setBusy(Boolean value) {
         synchronized (busyLock) {
             busy = value;
         }
     }
 
-
+    /**
+     * This method is used to ask the user to press enter to continue
+     */
     public void askToContinue() {
         System.out.print("Press 'Enter' to continue");
         readLine();
         System.out.println("-----------------------------------------------------------");
     }
 
+    /**
+     * This method is used to print a message
+     *
+     * @param message the message to print
+     */
     public void printer(String message) {
         System.out.println(message);
     }
 
+    /**
+     * This method is used to delayer the execution
+     *
+     * @param milliseconds the milliseconds to wait
+     */
     public void delayer(int milliseconds) {
         try {
             Thread.sleep(milliseconds);
@@ -1710,10 +1763,29 @@ public class Cli implements View {
         }
     }
 
+    /**
+     * This method is used to check if it's the user's turn
+     * If it's not, it will wait until it's his turn
+     */
     public void checkTurn() {
         SEL_MODE = ClientView.currentPlayer.equals(username);
     }
 
+    /**
+     * This method is used to ask the communication info
+     *
+     * @param type         the type of info to ask
+     *                     "IP" or "PORT"
+     *                     "IP" is the IP address of the server
+     *                     "PORT" is the port of the server
+     *                     <p>
+     *                     If the user press enter, the default value will be used
+     *                     If the user insert an invalid value, he will be asked again
+     * @param defaultValue the default value to use
+     *                     If the user press enter, this value will be used
+     *                     If the user insert an invalid value, he will be asked again
+     * @return the value inserted by the user
+     */
     public String askInfo(String type, String defaultValue) {
 
         do {
@@ -1771,6 +1843,11 @@ public class Cli implements View {
         }
     }
 
+    /**
+     * This method is used to update the CLI
+     *
+     * @param milliseconds the milliseconds to wait
+     */
     public void updateCLI(int milliseconds) {
         Thread refreshMinion = new Thread(() -> {
             synchronized (waiterLock) {
@@ -1819,6 +1896,12 @@ public class Cli implements View {
         return input;
     }
 
+    /**
+     * This method is used to set the chat mode
+     * If the chat mode is true, the CLI will not be refreshed
+     *
+     * @param value the value to set
+     */
     public void setChatMode(Boolean value) {
         synchronized (chatModeLock) {
             chatMode = value;

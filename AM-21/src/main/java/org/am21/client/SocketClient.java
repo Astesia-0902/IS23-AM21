@@ -21,6 +21,9 @@ public class SocketClient extends Thread {
     public static Cli cli;
     public static Gui gui;
 
+    /**
+     * Thread run method
+     */
     @Override
     public void run() {
         try {
