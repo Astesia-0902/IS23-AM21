@@ -78,12 +78,6 @@ public class ShelfPanel extends JPanel {
             }
         }
 
-        SwingUtilities.invokeLater(() -> {
-            revalidate();
-            repaint();
-        });
-
-
     }
 
     /**

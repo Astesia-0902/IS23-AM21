@@ -128,7 +128,6 @@ public class CommonGoalPanel extends JPanel {
 
         setScoreToken(topValue, bottomValue);
 
-
     }
 
     /**

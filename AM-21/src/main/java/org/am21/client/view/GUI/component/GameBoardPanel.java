@@ -182,6 +182,7 @@ public class GameBoardPanel extends JPanel {
      * set initially endToken
      */
     public void setScoreTokenEndGame() {
+
         scoreTokenEndGame = new ScoringTokenLabel(ImageUtil.getScoreTokenImage(1), PixelUtil.endGameTokenW, PixelUtil.endGameTokenH, PixelUtil.endGameTokenOriented, PixelUtil.endGameTokenRotateX, PixelUtil.endGameTokenRotateY);
         scoreTokenEndGame.setBounds(PixelUtil.endGameTokenX, PixelUtil.endGameTokenY, PixelUtil.endGameTokenBoundsW, PixelUtil.endGameTokenBoundsH);
         scoreTokenEndGame.setOpaque(false);
@@ -243,10 +244,7 @@ public class GameBoardPanel extends JPanel {
     public void refreshEnemyView(String[][] gameBoard, Gui gui) {
         clearBoard();
         enemyViewBoard(gameBoard, gui);
-        SwingUtilities.invokeLater(() -> {
-            revalidate();
-            repaint();
-        });
+
     }
 
     /**
@@ -254,11 +252,6 @@ public class GameBoardPanel extends JPanel {
      */
     public void pickScoreTokenEndGame() {
         gameBoardPane.remove(scoreTokenEndGame);
-
-        SwingUtilities.invokeLater(() -> {
-            revalidate();
-            repaint();
-        });
 
     }
 

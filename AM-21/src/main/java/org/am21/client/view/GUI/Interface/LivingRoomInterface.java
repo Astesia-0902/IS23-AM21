@@ -97,11 +97,6 @@ public class LivingRoomInterface extends JDialog {
             enemiesPanel.get(name).refreshEnemyScores(scores.get(ClientView.getPlayerIndex(name)));
         }
 
-        SwingUtilities.invokeLater(() -> {
-            revalidate();
-            repaint();
-        });
-
     }
 
     /**
@@ -114,8 +109,6 @@ public class LivingRoomInterface extends JDialog {
         for (String name : enemyList) {
             enemiesPanel.get(name).refreshEnemyShelf(shelves.get(ClientView.getPlayerIndex(name)));
         }
-
-
 
     }
 

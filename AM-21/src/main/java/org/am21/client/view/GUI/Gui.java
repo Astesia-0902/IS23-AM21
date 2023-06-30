@@ -106,7 +106,6 @@ public class Gui {
                 if (waitingRoomInterface != null) {
                     System.out.println("WaitingRoomInterface Disposed");
                     waitingRoomInterface.setVisible(false);
-                    //waitingRoomInterface = null;
                 }
 
                 if (chatDialog != null) {
@@ -181,7 +180,6 @@ public class Gui {
         public void run() {
             super.run();
             synchronized (chatLock) {
-                System.out.println("ChatListener start");
                 new ChatListener(chatRun.gui);
             }
         }
@@ -207,7 +205,7 @@ public class Gui {
     /**
      * Init the gui
      */
-    public void init() throws Exception {
+    public void init() {
         commCtrl = new ClientCommunicationController();
         commCtrl.gui = this;
         communicationInterface = new CommunicationInterface(frame);
@@ -465,11 +463,6 @@ public class Gui {
             gameBoardPanel.refreshEnemyView(virtualBoard, this); //refresh enemy action on the game board
         }
 
-        //if my turn
-        SwingUtilities.invokeLater(() -> {
-            livingRoomInterface.revalidate();
-            livingRoomInterface.repaint();
-        });
     }
 
     /**
