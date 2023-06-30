@@ -22,7 +22,7 @@ public class Hand {
     public Player player;
     private final ArrayList<CardPointer> selectedItems;
 
-    public Hand(Player player){
+    public Hand(Player player) {
         this.player = player;
         this.selectedItems = new ArrayList<>();
     }
@@ -34,13 +34,14 @@ public class Hand {
     /**
      * Create a temporary Coordinates object for data setting.
      * Then add it to the selectedItems list.
+     *
      * @param item ItemCard
-     * @param r row
-     * @param c column
+     * @param r    row
+     * @param c    column
      */
-    public void memCard(ItemCard item, int r, int c){
+    public void memCard(ItemCard item, int r, int c) {
 
-        CardPointer tmp = new CardPointer(r,c);
+        CardPointer tmp = new CardPointer(r, c);
         tmp.item = item;
         this.selectedItems.add(tmp);
     }
@@ -48,7 +49,7 @@ public class Hand {
     /**
      * Clearing all items in selectedItems list when the player trigger 'Deselection'
      */
-    public void clearHand(){
+    public void clearHand() {
         this.selectedItems.clear();
     }
 
@@ -56,21 +57,22 @@ public class Hand {
     /**
      * function for order changing between 2 element in selectedItems
      * Used during Insertion Phase
+     *
      * @param i is position 1
      * @param j is position 2
      */
-    public boolean changeOrder(int i, int j){
+    public boolean changeOrder(int i, int j) {
         int limit = getSelectedItems().size();
-        if(limit<=1){
+        if (limit <= 1) {
 
-            GameManager.sendReply(player.getController(),ServerMessage.Sort_No.value());
+            GameManager.sendReply(player.getController(), ServerMessage.Sort_No.value());
             return false;
         }
-        if(i>=0 && i<limit && j>=0 && j<limit && limit>1){
+        if (i >= 0 && i < limit && j >= 0 && j < limit) {
             Collections.swap(selectedItems, i, j);
             return true;
         }
-        GameManager.sendReply(player.getController(),ServerMessage.Sort_Index_NO.value());
+        GameManager.sendReply(player.getController(), ServerMessage.Sort_Index_NO.value());
 
         return false;
     }

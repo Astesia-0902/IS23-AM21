@@ -8,12 +8,12 @@ import org.am21.model.items.Shelf;
 
 /**
  * This class represent the player model with all its data
+ *
  * @version 1.0
  */
 public class Player {
     private String nickname;
     private UserStatus status;
-    private String host;
     private Shelf shelf;
     private PersonalGoalCard myPersonalGoal;
     private Hand hand;
@@ -34,7 +34,8 @@ public class Player {
      * At the beginning, ClientGameController are going to create Player with just basic info, without game items
      * Status: Online when accessing the game, not in a match though.
      * Creating a PlayerController for each player account.
-     * @param nickname Nickname of the player
+     *
+     * @param nickname   Nickname of the player
      * @param controller Player's Controller
      */
     public Player(String nickname, PlayerController controller) {
@@ -42,7 +43,7 @@ public class Player {
         this.controller = controller;
         this.status = UserStatus.Online;
         this.playerScore = 0;
-        this.hiddenPoints=0;
+        this.hiddenPoints = 0;
         this.myPersonalGoal = null;
         this.shelf = null;
         this.match = null;
@@ -50,6 +51,7 @@ public class Player {
 
     /**
      * Get the player's score
+     *
      * @return score
      */
     public int getPlayerScore() {
@@ -59,6 +61,7 @@ public class Player {
 
     /**
      * Set the player's score
+     *
      * @param playerScore score
      */
     public void setPlayerScore(int playerScore) {
@@ -68,6 +71,7 @@ public class Player {
 
     /**
      * Get the player's status
+     *
      * @return UserStatus
      */
     public UserStatus getStatus() {
@@ -77,6 +81,7 @@ public class Player {
 
     /**
      * Set the player's status
+     *
      * @param status UserStatus
      */
     public void setStatus(UserStatus status) {
@@ -86,6 +91,7 @@ public class Player {
 
     /**
      * Get the player's current match
+     *
      * @return Match
      */
     public Match getMatch() {
@@ -95,6 +101,7 @@ public class Player {
 
     /**
      * Set the player's current match
+     *
      * @param match Match
      */
     public void setMatch(Match match) {
@@ -104,6 +111,7 @@ public class Player {
 
     /**
      * Get the player's nickname
+     *
      * @return nickname
      */
     public String getNickname() {
@@ -113,15 +121,17 @@ public class Player {
 
     /**
      * set the player's nickname
+     *
      * @param name nickname
      */
-    public void setNickname(String name){
+    public void setNickname(String name) {
 
         this.nickname = name;
     }
 
     /**
      * Get the player's personal goal
+     *
      * @return PersonalGoalCard
      */
     public PersonalGoalCard getMyPersonalGoal() {
@@ -131,24 +141,27 @@ public class Player {
 
     /**
      * Set the player's personal goal
+     *
      * @param goal PersonalGoalCard
      */
-    public void setMyPersonalGoal(PersonalGoalCard goal){
+    public void setMyPersonalGoal(PersonalGoalCard goal) {
 
         this.myPersonalGoal = goal;
     }
 
     /**
      * Get the player's shelf
+     *
      * @return Shelf
      */
-    public Shelf getShelf(){
+    public Shelf getShelf() {
 
         return shelf;
     }
 
     /**
      * Set the player's shelf
+     *
      * @param shelf Shelf
      */
     public void setShelf(Shelf shelf) {
@@ -158,6 +171,7 @@ public class Player {
 
     /**
      * Get the player's hand
+     *
      * @return Hand
      */
     public Hand getHand() {
@@ -167,15 +181,17 @@ public class Player {
 
     /**
      * Set the player's hand
+     *
      * @param hand Hand
      */
-    public void setHand(Hand hand){
+    public void setHand(Hand hand) {
 
         this.hand = hand;
     }
 
     /**
      * Get the player's controller
+     *
      * @return PlayerController
      */
     public PlayerController getController() {
@@ -185,6 +201,7 @@ public class Player {
 
     /**
      * Set the player's controller
+     *
      * @param controller PlayerController
      */
     public void setController(PlayerController controller) {
@@ -194,6 +211,7 @@ public class Player {
 
     /**
      * get the player's hidden points
+     *
      * @return hiddenPoints
      */
     public int getHiddenPoints() {
@@ -202,6 +220,7 @@ public class Player {
 
     /**
      * set the player's hidden points
+     *
      * @param hiddenPoints hiddenPoints
      */
     public void setHiddenPoints(int hiddenPoints) {

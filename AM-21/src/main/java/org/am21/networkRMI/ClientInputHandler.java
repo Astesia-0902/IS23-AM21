@@ -87,10 +87,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
      */
     @Override
     public boolean joinGame(int matchID) throws RemoteException, ServerNotActiveException {
-        if (GameController.joinGame(matchID, userName, playerController)) {
-            return true;
-        }
-        return false;
+        return GameController.joinGame(matchID, userName, playerController);
     }
 
 

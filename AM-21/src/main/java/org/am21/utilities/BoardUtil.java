@@ -55,42 +55,36 @@ public class BoardUtil {
         List<Coordinates> boundaries = new ArrayList<>();
 
         switch (maxSeats) {
-            case 2:
-                Collections.addAll(boundaries,
-                        null,  //!!!!
-                        new Coordinates(3, 4),
-                        new Coordinates(3, 5),
-                        new Coordinates(2, 7),
-                        new Coordinates(1, 7),
-                        new Coordinates(1, 6),
-                        new Coordinates(3, 5),
-                        new Coordinates(4, 5),
-                        null);
-                break;
-            case 3:
-                Collections.addAll(boundaries,
-                        new Coordinates(3, 3),
-                        new Coordinates(3, 4),
-                        new Coordinates(2, 6),
-                        new Coordinates(2, 8),
-                        new Coordinates(1, 7),
-                        new Coordinates(0, 6),
-                        new Coordinates(2, 6),
-                        new Coordinates(4, 5),
-                        new Coordinates(5, 5));
-                break;
-            case 4:
-                Collections.addAll(boundaries,
-                        new Coordinates(3, 4),
-                        new Coordinates(3, 5),
-                        new Coordinates(2, 6),
-                        new Coordinates(1, 8),
-                        new Coordinates(0, 8),
-                        new Coordinates(0, 7),
-                        new Coordinates(2, 6),
-                        new Coordinates(3, 5),
-                        new Coordinates(4, 5));
-                break;
+            case 2 -> Collections.addAll(boundaries,
+                    null,  //!!!!
+                    new Coordinates(3, 4),
+                    new Coordinates(3, 5),
+                    new Coordinates(2, 7),
+                    new Coordinates(1, 7),
+                    new Coordinates(1, 6),
+                    new Coordinates(3, 5),
+                    new Coordinates(4, 5),
+                    null);
+            case 3 -> Collections.addAll(boundaries,
+                    new Coordinates(3, 3),
+                    new Coordinates(3, 4),
+                    new Coordinates(2, 6),
+                    new Coordinates(2, 8),
+                    new Coordinates(1, 7),
+                    new Coordinates(0, 6),
+                    new Coordinates(2, 6),
+                    new Coordinates(4, 5),
+                    new Coordinates(5, 5));
+            case 4 -> Collections.addAll(boundaries,
+                    new Coordinates(3, 4),
+                    new Coordinates(3, 5),
+                    new Coordinates(2, 6),
+                    new Coordinates(1, 8),
+                    new Coordinates(0, 8),
+                    new Coordinates(0, 7),
+                    new Coordinates(2, 6),
+                    new Coordinates(3, 5),
+                    new Coordinates(4, 5));
         }
         return boundaries;
     }

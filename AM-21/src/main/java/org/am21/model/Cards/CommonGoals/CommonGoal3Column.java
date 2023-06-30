@@ -22,17 +22,6 @@ public class CommonGoal3Column extends CommonGoal {
     }
 
     /**
-     * Durante la fase del turno CheckingGoal, viene controllato la Shelf del Player
-     * per verificare se l'obiettivo è stato completato
-     * <p>
-     * <p>
-     * Uso un int per contare il numero di colonne che soddisfano la condizione
-     * Itero ogni colonna. Per ogni colonna controlliamo tutte le celle e creiamo una variabile int
-     * che conterà ItemType diversi che incontriamo nella colonna.
-     * Quando int supera 3 allora non soddisfa la condizione e passiamo alla prossima colonna
-     * <p>
-     * Infine se la variabile che conta le colonne che soddisfano la condizione è 3 allora goal è completato
-     *
      * @param shelf the shelf to be scanned
      * @return true if the goal is achieved, false otherwise
      */
@@ -44,9 +33,9 @@ public class CommonGoal3Column extends CommonGoal {
         for (int j = 0; j < 5; j++) {
             reg = new HashSet<>();
             if (shelf.slotCol.get(j) == 0) {
-                //Colonna piena
+                //column full
                 for (int i = 0; i < 6; i++) {
-                    //scansiono colonna
+                    //scan column
                     if (shelf.isOccupied(i, j)) {
                         reg.add(shelf.getItemName(i, j).substring(0, shelf.getItemName(i, j).length() - 3));
                     }
@@ -59,10 +48,7 @@ public class CommonGoal3Column extends CommonGoal {
 
         }
 
-        if (numColMatch < 3)
-            return false;
-        else
-            return true;
+        return numColMatch >= 3;
 
     }
 }

@@ -17,26 +17,11 @@ public class CommonGoalCorner extends CommonGoal {
         super("CommonGoalCorner", numPlayer);
     }
 
-    /*
-        public CommonGoalCorner(){
-           /**
-            * check 2 or more the sequence condition:
-            * 1. remember the first row and first column cell;
-            * 2. remember the last row and first column cell;
-            * 3. remember the first row and last column cell ;
-            * 4. remember the last row and last column cell;
-            * if fall the 2 or more condition, then return false for this player
-            * if success the all 4 condition, then return true and distribuite the actually points
-            *
-        }
-
-     */
-
     /**
      * Scan the shelves to find four tiles of the same type in the four corners of the bookshelf.
      *
      * @param shelf the shelf to be scanned
-     * @return
+     * @return true if match
      */
     @Override
     public boolean checkGoal(Shelf shelf) {
