@@ -297,10 +297,7 @@ public class PlayerController {
      * @return false if is not player's turn
      */
     public boolean isMyTurn(Player player) {
-        if (player.getMatch().currentPlayer != player) {
-            return false;
-        }
-        return true;
+        return player.getMatch().currentPlayer == player;
     }
 
     /**
