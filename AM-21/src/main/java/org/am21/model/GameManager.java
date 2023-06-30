@@ -21,22 +21,21 @@ public class GameManager {
     /**
      * Key: player name, Value: match id
      */
-    public static final HashMap<String, Integer> playerMatchMap = new HashMap<String, Integer>();
-    //public static final List<Match> matchList = new ArrayList<Match>();
+    public static final HashMap<String, Integer> playerMatchMap = new HashMap<>();
     public static Integer matchIndex = 0;
-    public static final HashMap<Integer, Match> matchMap = new HashMap<Integer, Match>();
+    public static final HashMap<Integer, Match> matchMap = new HashMap<>();
     public static final List<Player> players = new ArrayList<>();
     public static int client_connected = 0;
 
     /**
      * Constructor
-     * @param controller game controller
      */
-    public GameManager(GameController controller) {
+    public GameManager() {
     }
 
     /**
      * Add a new match to the matchMap
+     *
      * @param match match instance
      * @return the match index in the match map
      */
@@ -50,7 +49,8 @@ public class GameManager {
 
     /**
      * Create match
-     * @param playerNum number of this match
+     *
+     * @param playerNum        number of this match
      * @param playerController player controller of the creator
      * @return true if succeed false otherwise
      */
@@ -61,8 +61,7 @@ public class GameManager {
             }
 
             Match match = new Match(playerNum);
-            int matchID = pushNewMatch(match);
-            match.matchID = matchID;
+            match.matchID = pushNewMatch(match);
             match.admin = playerController.getPlayer();
             match.virtualView.setAdmin(playerController.getPlayer().getNickname());
             match.virtualView.setMatchID(match.matchID);
@@ -92,6 +91,7 @@ public class GameManager {
 
     /**
      * Check the player with the same id is reconnecting
+     *
      * @param name player name
      * @return true if the player is reconnecting, false otherwise
      */
@@ -107,26 +107,8 @@ public class GameManager {
     }
 
     /**
-     * Check each player from the game, if their status are Offline, they will be removed from the players list
-     */
-    public static void playerCleaner() {
-        synchronized (players) {
-            List<Player> copy = new ArrayList<>(players);
-            for (Player p : copy) {
-                if (p.getStatus().equals(UserStatus.Offline)) {
-                    players.remove(p);
-                }
-            }
-
-            VirtualViewHelper.virtualizeOnlinePlayers();
-            GameController.updatePlayersGlobalView();
-            GameController.notifyAllPlayers();
-            System.out.println("Player cleaned");
-        }
-    }
-
-    /**
      * remove offline player
+     *
      * @param p player instance
      */
     public static void removeOfflinePlayer(Player p) {
@@ -242,6 +224,7 @@ public class GameManager {
 
     /**
      * everytime a player leave the match, check if the game need to pause
+     *
      * @param matchID match index
      */
     public static void checkMatchPause(int matchID) {
@@ -264,6 +247,7 @@ public class GameManager {
 
     /**
      * if there were only one player, the match will pause
+     *
      * @param matchID match index
      */
     private static void pauseMatch(int matchID) {
@@ -276,8 +260,9 @@ public class GameManager {
 
     /**
      * When the game paused, start timer
+     *
      * @param matchID match index
-     * @param m match instance
+     * @param m       match instance
      */
     private static void startPauseTimer(int matchID, Match m) {
         m.pauseTimer = new Timer();
@@ -302,10 +287,11 @@ public class GameManager {
 
     /**
      * If game pause timer expired, end the match
+     *
      * @param matchID match index
      */
     private static void handleMatchPauseTimeout(int matchID) {
-        if (matchMap.get(matchID)==null || matchMap.get(matchID).gameState.equals(GameState.Closed)) {
+        if (matchMap.get(matchID) == null || matchMap.get(matchID).gameState.equals(GameState.Closed)) {
             return;
         }
         cancelMatchPauseTimer(matchID);
@@ -316,6 +302,7 @@ public class GameManager {
 
     /**
      * cancel the match pause timer
+     *
      * @param matchID match index
      */
     private static void cancelMatchPauseTimer(int matchID) {
@@ -359,8 +346,9 @@ public class GameManager {
 
     /**
      * Whenever the server has to notify a player with a pre-defined message
+     *
      * @param pc PlayerController
-     * @param m ServerMessage
+     * @param m  ServerMessage
      */
     public static void sendChatNotification(PlayerController pc, String m) {
         if (pc.getPlayer().getStatus().equals(UserStatus.Suspended) || pc.getPlayer().getStatus().equals(UserStatus.Offline)) {
@@ -373,7 +361,8 @@ public class GameManager {
 
     /**
      * notify client to update the view
-     * @param ctrl PlayerController
+     *
+     * @param ctrl         PlayerController
      * @param milliseconds milliseconds to wait before update
      */
     public static void notifyUpdate(PlayerController ctrl, int milliseconds) {
@@ -385,10 +374,11 @@ public class GameManager {
 
     /**
      * This method print the message in server console if ServerComm are active
+     *
      * @param message message
      */
-    public static void serverLog(String message){
-        if(serverComm){
+    public static void serverLog(String message) {
+        if (serverComm) {
             System.out.println(message);
         }
     }

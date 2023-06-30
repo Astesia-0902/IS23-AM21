@@ -313,7 +313,6 @@ public class VirtualViewHelper {
      * Convert private chat to JSON string
      *
      * @param chats virtual view instance
-     * @return json string
      */
     public static void virtualizePrivateChats(List<List<String>> chats) {
         String[][] virtualChats = new String[chats.size()][];

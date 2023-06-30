@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * This class is the board of the game
- * */
+ */
 public class Board extends Grid {
 
     /**
@@ -48,29 +48,27 @@ public class Board extends Grid {
 
     /**
      * This method is used to refill the board ONLY for the first time
+     *
      * @return true if the refill is successful
      */
     public boolean firstSetup() {
 
-        if (bag.refillBoard()) {
-            return true;
-        }
-        return false;
+        return bag.refillBoard();
     }
 
     /**
      * Setting the size of the grid according to the number of player
+     *
      * @return number of cell available to play
      **/
     public int getSize() {
-        switch (maxSeats){
-            case 2: return 29;
-            case 3:return 37;
-            case 4:return 45;
-            default: return 0;
-        }
+        return switch (maxSeats) {
+            case 2 -> 29;
+            case 3 -> 37;
+            case 4 -> 45;
+            default -> 0;
+        };
     }
-
 
 
     /**
@@ -93,7 +91,7 @@ public class Board extends Grid {
     public boolean hasFreeSide(int r, int c) {
 
         if (getMatrix()[r][c] == null) {
-            GameManager.sendReply(match.currentPlayer.getController(),ServerMessage.Cell_Illegal.value());
+            GameManager.sendReply(match.currentPlayer.getController(), ServerMessage.Cell_Illegal.value());
             return false;
         }
 
@@ -110,7 +108,7 @@ public class Board extends Grid {
 
             return true;
         } else {
-            GameManager.sendReply(match.currentPlayer.getController(),ServerMessage.No_Free.value());
+            GameManager.sendReply(match.currentPlayer.getController(), ServerMessage.No_Free.value());
             return false;
         }
     }
@@ -122,54 +120,49 @@ public class Board extends Grid {
      * And the new card needs to be adjacent to one of the old cards
      * <p>
      *
-     * @param r row
-     * @param c column
+     * @param r        row
+     * @param c        column
      * @param selItems selected items list
      * @return true if the conditions are respected, otherwise false
      */
     public boolean isOrthogonal(int r, int c, List<CardPointer> selItems) {
         int a;
         int b;
-        boolean one_adjacent=false;
+        boolean one_adjacent = false;
         boolean inline = true;
 
         for (CardPointer card : selItems) {
             a = Math.abs(r - card.x);
             b = Math.abs(c - card.y);
-            /*System.out.print("Board > Coordinates difference: ");
-            System.out.print("["+a+"]");
-            System.out.println("["+b+"]");*/
+
             //Check if the new item is adjacent at least to one item in the hand
             //Check if the new item is in line
-            if (a == 0 && (b > 0 && b <= (Shelf.STD_LIMIT-1))) {
-                if(b==1)one_adjacent=true;
-            } else if (b == 0 && (a > 0 && a <= (Shelf.STD_LIMIT-1))) {
-                if(a==1)one_adjacent=true;
+            if (a == 0 && (b > 0 && b <= (Shelf.STD_LIMIT - 1))) {
+                if (b == 1) one_adjacent = true;
+            } else if (b == 0 && (a > 0 && a <= (Shelf.STD_LIMIT - 1))) {
+                if (a == 1) one_adjacent = true;
             } else {
                 inline = false;
             }
         }
-        //System.out.println(inline);
-        //System.out.println(one_adjacent);
+
         return inline && one_adjacent;
     }
 
     /**
      * Check if the item is isolated in the board
      * It means that there isn't any item adjacent.
+     *
      * @param r row
      * @param c column
      * @return true if the item is isolated, otherwise false
      */
     public boolean isAlone(int r, int c) {
 
-        if ((r + 1 < BOARD_ROW && isOccupied(r + 1, c))
-                || (r - 1 >= 0 && isOccupied(r - 1, c))
-                || (c + 1 < BOARD_COLUMN && isOccupied(r, c + 1))
-                || (c - 1 >= 0 && isOccupied(r, c - 1))) {
-            return false;
-        }
-        return true;
+        return (r + 1 >= BOARD_ROW || !isOccupied(r + 1, c))
+                && (r - 1 < 0 || !isOccupied(r - 1, c))
+                && (c + 1 >= BOARD_COLUMN || !isOccupied(r, c + 1))
+                && (c - 1 < 0 || !isOccupied(r, c - 1));
     }
 
     /**
@@ -193,15 +186,13 @@ public class Board extends Grid {
 
     /**
      * This method verifies if the cell is within the boundaries of this match
+     *
      * @param r row
      * @param c column
      * @return true if the cell is playable
      */
-    public boolean isPlayable(int r,int c){
-        if(boundaries.get(r)!=null && boundaries.get(r).x<=c && c<=boundaries.get(r).y){
-            return true;
-        }
-        return false;
+    public boolean isPlayable(int r, int c) {
+        return boundaries.get(r) != null && boundaries.get(r).x <= c && c <= boundaries.get(r).y;
 
     }
 
