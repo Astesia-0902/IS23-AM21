@@ -47,7 +47,7 @@ I diagrammi UML  sono disponibili al seguente link: [UML](https://github.com/Ast
 ### Javadoc
 La documentazione Javadoc è disponibile al seguente link: [javaDoc](https://github.com/Astesia-0902/IS23-AM21/tree/main/deliverables/javadoc)
 ### Jars
-I jar eseguibili sono disponibili al seguente link: [Jars]()
+I jar eseguibili sono disponibili al seguente link: [Jars](https://polimi365-my.sharepoint.com/:f:/g/personal/10699404_polimi_it/EneFfyTCf6JNllp0owLGmegB_xFKl3W9J9oxApHMLnnz1A?e=d664sO)
 ### TUI
 Per avviare il gioco in modalità TUI è necessario eseguire il seguente comando da terminale:
 ```tui```
