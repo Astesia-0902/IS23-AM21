@@ -106,26 +106,26 @@ public class GameController {
     }
 
     /**
-     * check if the player is the current player in the correspondent match
+     * This method controls if the player can join the match
      * @param matchID match id
      * @param userName player nickname
      * @param playerController player's controller
      */
     private static boolean joinGameHelper(int matchID, String userName, PlayerController playerController) {
         if (!GameManager.matchMap.containsKey(matchID)) {
-            //System.out.println("Server >  The specified match does not exist.");
+            //The specified match does not exist
             GameManager.sendReply(playerController, ServerMessage.FindM_No.value());
             return false;
         }
 
         if (GameManager.matchMap.get(matchID).gameState == GameState.GameGoing) {
             if (!GameManager.playerMatchMap.containsKey(userName)) {
-                //System.out.println("Message from the server: the player not exists in any match.");
+                // the player not exists in any match
                 GameManager.sendReply(playerController, ServerMessage.PExists_No.value());
                 return false;
             } else {
                 if (!GameManager.matchMap.get(matchID).addPlayer(playerController.getPlayer())) {
-                    //System.out.println("Message from the server: the match is full.");
+                    //the match is full
                     GameManager.sendReply(playerController, ServerMessage.FullM.value());
                     return false;
                 }
@@ -134,7 +134,7 @@ public class GameController {
         } else if (GameManager.matchMap.get(matchID).gameState == GameState.WaitingPlayers) {
             GameManager.sendReply(playerController, ServerMessage.FindM_Ok.value());
             if (!GameManager.matchMap.get(matchID).addPlayer(playerController.getPlayer())) {
-                //System.out.println("Message from the server: the match is full.");
+                //the match is full
                 GameManager.sendReply(playerController, ServerMessage.FullM.value());
                 return false;
             }
@@ -147,7 +147,7 @@ public class GameController {
     }
 
     /**
-     * Create a new match.
+     * This method call gameCleaner to eliminate the closed Match and calls createMatchHelper
      * @param userName player's nickname
      * @param createMatchRequestCount number of match creation request
      * @param playerNum max number of players for the match
@@ -172,16 +172,19 @@ public class GameController {
 
 
     /**
-     * Check if the player is already in a match
+     * Control if the conditions to create match are respected
      * @param userName player's nickname
      * @param createMatchRequestCount number of match creation request
      * @param playerNum max number of players for the match
      * @param playerController player's controller
      */
     private static boolean createMatchHelper(String userName, Integer createMatchRequestCount, int playerNum, PlayerController playerController) {
+        // Player already in a match
         if (GameManager.playerMatchMap.containsKey(userName) && createMatchRequestCount == 0) {
             createMatchRequestCount = 1;
+
         } else if (GameManager.playerMatchMap.containsKey(userName) && createMatchRequestCount == 1) {
+            //Player already in a match and has already a request
             createMatchRequestCount = 0;
             if (GameManager.createMatch(playerNum, playerController)) {
                 VirtualViewHelper.virtualizeMatchMap();
@@ -189,23 +192,22 @@ public class GameController {
                 notifyAllPlayers();
                 return true;
             } else {
-                //System.out.println("Exceeded players number limit. Try again.");
+                //Exceeded players number limit
                 GameManager.sendReply(playerController, ServerMessage.PExceed.value());
 
             }
 
         } else if (!GameManager.playerMatchMap.containsKey(userName)) {
+            //Player not in a match
             if (GameManager.createMatch(playerNum, playerController)) {
                 VirtualViewHelper.virtualizeMatchMap();
                 updatePlayersGlobalView();
                 notifyAllPlayers();
                 return true;
             } else {
-                //System.out.println("Exceeded players number limit. Try again.");
+                // Number of seats not allowed
                 GameManager.sendReply(playerController, ServerMessage.PExceed.value());
             }
-
-
         }
         return false;
     }
@@ -226,7 +228,6 @@ public class GameController {
                 }
                 updatePlayersGlobalView();
             }
-
             return true;
         }
         return false;
@@ -242,7 +243,7 @@ public class GameController {
      */
     public static boolean cancelPlayer(PlayerController ctrl) {
         if (GameManager.players.contains(ctrl.getPlayer())) {
-            GameManager.sendReply(ctrl, SC.WHITE_BB + "\nServer > Game Closed" + SC.RST);
+            GameManager.sendReply(ctrl, SC.WHITE_BB + "Game Closed" + SC.RST);
             GameManager.players.remove(GameManager.players.indexOf(ctrl.getPlayer()));
             return true;
         }
