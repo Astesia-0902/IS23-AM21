@@ -13,7 +13,9 @@ import java.rmi.server.RemoteServer;
 import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
 
-//TODO: we need reference of this class in every player instance, so we can send message to the client
+/**
+ * This class is the client input handler
+ */
 public class ClientInputHandler extends UnicastRemoteObject implements IClientInput {
     public String userName;
     public String userHost;
@@ -34,21 +36,22 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     }
 
     /**
+     * Check the player is the current player
      * @return the result of the operation
      */
-    //TODO:When the command is not from the current player, the command should be ignored.
     public boolean checkPlayerActionPhase() {
         synchronized (GameManager.playerMatchMap) {
             synchronized (GameManager.matchMap) {
                 return GameManager.playerMatchMap.containsKey(userName) &&
-                        userName.equals(GameManager.matchMap.
-                                get(GameManager.playerMatchMap.get(userName)).currentPlayer.getNickname());
+                       userName.equals(GameManager.matchMap.
+                               get(GameManager.playerMatchMap.get(userName)).currentPlayer.getNickname());
             }
         }
     }
 
     /**
      * log in
+     *
      * @param username username
      * @return true if login successfully, false if the username already exists.
      * @throws RemoteException          if failed to export object
@@ -65,9 +68,10 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
 
     /**
      * create a match
+     *
      * @param playerNum number of players
      * @return true if the operation is successful, false if the match is full
-     * @throws RemoteException if failed to export object
+     * @throws RemoteException          if failed to export object
      * @throws ServerNotActiveException if the client is not active
      */
     @Override
@@ -92,6 +96,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
 
     /**
      * select a cell
+     *
      * @param row row
      * @param col column
      * @return true if the operation is successful, false if the cell is not selectable
@@ -103,8 +108,9 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
 
     /**
      * confirm the selection
+     *
      * @return true if the operation is successful, false if the selection is not valid
-     * @throws RemoteException         if failed to export object
+     * @throws RemoteException          if failed to export object
      * @throws ServerNotActiveException if the client is not active
      */
     @Override
@@ -114,6 +120,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
 
     /**
      * insert cards in the column
+     *
      * @param colNum column number
      * @return true if the operation is successful, false if the column is full
      * @throws ServerNotActiveException if the client is not active
@@ -124,8 +131,9 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
 
     /**
      * end the turn
+     *
      * @return true if the operation is successful, false if the selection is not valid
-     * @throws RemoteException        if failed to export object
+     * @throws RemoteException          if failed to export object
      * @throws ServerNotActiveException if the client is not active
      */
     @Override
@@ -135,8 +143,9 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
 
     /**
      * deselect the selected cards
+     *
      * @return true if the operation is successful, false if the selection is not valid
-     * @throws RemoteException        if failed to export object
+     * @throws RemoteException          if failed to export object
      * @throws ServerNotActiveException if the client is not active
      */
     @Override
@@ -145,9 +154,9 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
     }
 
     /**
-     * @param pos1
-     * @param pos2
-     * @throws ServerNotActiveException
+     * @param pos1 position 1
+     * @param pos2 position 2
+     * @throws ServerNotActiveException if the client is not active
      */
     @Override
     public boolean sortHand(int pos1, int pos2) throws RemoteException, ServerNotActiveException {
@@ -166,6 +175,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
 
     /**
      * THis method allows the player to exit from the game
+     *
      * @return true if the method is successful, otherwise false
      * @throws RemoteException when remote is not connected
      */
@@ -197,6 +207,7 @@ public class ClientInputHandler extends UnicastRemoteObject implements IClientIn
 
     /**
      * change the max player number of the match
+     *
      * @param newMaxSeats new max player number
      * @return true if the operation is successful, false if the new max player number is not valid
      * @throws RemoteException if failed to export object

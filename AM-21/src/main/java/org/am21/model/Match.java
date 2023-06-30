@@ -22,6 +22,9 @@ import java.util.Timer;
 
 import static org.am21.model.enumer.ServerMessage.*;
 
+/**
+ * This class is the match
+ */
 public class Match {
     public int matchID;
     public Player admin;
@@ -31,7 +34,7 @@ public class Match {
     public GameState gameState;
     public GamePhase gamePhase;
     public Player currentPlayer;
-    public List<Player> playerList;
+    public final List<Player> playerList;
     public int maxSeats;
     private Player firstToComplete;
     public VirtualView virtualView;
@@ -51,16 +54,28 @@ public class Match {
     }
 
     /**
+     * This method is used to set the end game token
+     *
      * @param endGameToken true if the match is ended, otherwise false
      */
     public void setEndGameToken(boolean endGameToken) {
         this.endGameToken = endGameToken;
     }
 
+    /**
+     * This method is used to check if the match is ended
+     *
+     * @return true if the match is ended, otherwise false
+     */
     public boolean isEndGameToken() {
         return endGameToken;
     }
 
+    /**
+     * This method is used to get the user id that is the first to complete the match
+     *
+     * @return the user id that is the first to complete the match
+     */
     public Player getFirstToComplete() {
 
         return firstToComplete;
@@ -77,6 +92,7 @@ public class Match {
 
     /**
      * set the game state of the match
+     *
      * @param gameState new game state
      */
     public void setGameState(GameState gameState) {
@@ -85,7 +101,8 @@ public class Match {
 
     /**
      * change the max player of the match
-     * @param p player that want to change the max player
+     *
+     * @param p        player that want to change the max player
      * @param maxSeats new max player
      * @return true if the change is successful, otherwise false
      */
@@ -214,8 +231,8 @@ public class Match {
         VirtualViewHelper.updateCommonGoalScore(this);
 
         //Check if last round is completed
-        if (gameState.equals(GameState.LastRound)  &&
-                playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats).equals(firstToComplete)) {
+        if (gameState.equals(GameState.LastRound) &&
+            playerList.get((playerList.indexOf(currentPlayer) + 1) % maxSeats).equals(firstToComplete)) {
 
             endMatch();
         } else {
@@ -261,7 +278,7 @@ public class Match {
                 CommunicationController.instance.sendMessageToClient(mex, player.getController());
                 CommunicationController.instance.notifyUpdate(player.getController(), 1000);
                 goal.commonGoalAchieved(player);
-                sendTextToAll(SC.YELLOW_BB + player.getNickname() + " achieved a Common Goal!"+ SC.RST, true);
+                sendTextToAll(SC.YELLOW_BB + player.getNickname() + " achieved a Common Goal!" + SC.RST, true);
                 sendNotificationToAll(true);
             }
         }
@@ -300,7 +317,7 @@ public class Match {
 
                 if (p.equals(firstToComplete) && p.getStatus().equals(UserStatus.GameMember)) {
                     resultsMatrix[i][4] = "1";
-                    resultsMatrix[i][1] = ""+(Integer.parseInt(resultsMatrix[i][1])-1);
+                    resultsMatrix[i][1] = "" + (Integer.parseInt(resultsMatrix[i][1]) - 1);
                 }
                 // Adding score
                 p.getController().addScore(personal + group);
@@ -317,6 +334,8 @@ public class Match {
      * - Calculate the game results<br>
      * - Reset players score<br>
      * - Remove all the players from the match
+     *
+     * @return true if the match ends correctly
      */
     public boolean endMatch() {
         String[][] gameResults = checkGamePoints();
@@ -455,7 +474,7 @@ public class Match {
         } while (currentPlayer.getStatus().equals(UserStatus.Suspended));
         setGamePhase(GamePhase.Selection);
 
-        String message = SC.RED_B+ currentPlayer.getNickname() + "! It's your turn." + SC.RST;
+        String message = SC.RED_B + currentPlayer.getNickname() + "! It's your turn." + SC.RST;
         CommunicationController.instance.sendMessageToClient(message, currentPlayer.getController());
         GameManager.notifyUpdate(currentPlayer.getController(), 0);
     }
@@ -602,6 +621,7 @@ public class Match {
 
     /**
      * Send an interface update notification to all game members
+     *
      * @param includeCurrentPlayer true if the current player should receive the notification
      */
     public void sendNotificationToAll(boolean includeCurrentPlayer) {

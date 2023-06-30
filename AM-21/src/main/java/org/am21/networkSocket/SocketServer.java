@@ -4,10 +4,16 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * This class is the socket server
+ */
 public class SocketServer extends Thread {
     public static int clientCountSocket = 0;
     public static final int port = 8080;
 
+    /**
+     * Thread run
+     */
     @Override
     public void run() {
         try {

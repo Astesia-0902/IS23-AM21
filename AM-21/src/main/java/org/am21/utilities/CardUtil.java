@@ -6,6 +6,9 @@ import org.am21.model.Cards.PersonalGoalCard;
 
 import java.util.*;
 
+/**
+ * This class is used to create the cards
+ */
 public class CardUtil {
     // ----------------------------------- ITEM TILE --------------------------------------------------------
 
@@ -63,7 +66,7 @@ public class CardUtil {
     /**
      * Function to generate the PersonalGoalCard for all players
      *
-     * @param numPlayer
+     * @param numPlayer number of player
      * @return PersonalGoalCard List
      */
     public static List<PersonalGoalCard> buildPersonalGoalCard(int numPlayer) {
@@ -86,7 +89,7 @@ public class CardUtil {
     // ----------------------------------- SCORING TOKENS --------------------------------------------------------
     private final static HashMap<Integer, Integer[]> scoringTokens = new HashMap<>();
 
-    /**
+    /*
      * a set of scoring tokens in base of number of player
      */
     static {
@@ -98,7 +101,7 @@ public class CardUtil {
     /**
      * Function to distribute a set of scoring tokens
      *
-     * @param numPlayer
+     * @param numPlayer number of player
      * @return list of a set of scoring token card
      */
     public static List<Integer> buildScoringTokenCards(int numPlayer) {

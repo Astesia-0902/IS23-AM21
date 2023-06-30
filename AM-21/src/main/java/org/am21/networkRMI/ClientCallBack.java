@@ -20,25 +20,27 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
 
     /**
      * This method send a message to client from server
+     *
      * @param message server message
      * @throws RemoteException when Remote is not connected
      */
     @Override
     public void sendMessageToClient(String message) throws RemoteException {
         if (cli != null) {
-            String updateMessage = "\nServer > "+ message;
+            String updateMessage = "\nServer > " + message;
             cli.printer(updateMessage);
         } else if (gui != null) {
-            new Thread(()->{
+            new Thread(() -> {
                 gui.replyDEBUG(message);
-                gui.timeLimitedNotification(message,5000);
+                gui.timeLimitedNotification(message, 5000);
             }).start();
 
         }
     }
 
     /**
-     *  This method call client method to send a chat message
+     * This method call client method to send a chat message
+     *
      * @param message chat message
      * @throws RemoteException when remote not connected
      */
@@ -52,7 +54,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
                 cli.updateCLI(0);
             }
         } else if (gui != null) {
-            gui.timeLimitedNotification(message.substring(0,message.indexOf(" ")) +" sent you a new message",1000 );
+            gui.timeLimitedNotification(message.substring(0, message.indexOf(" ")) + " sent you a new message", 1000);
             gui.setAskChat(true);
         }
     }
@@ -71,7 +73,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
             cli.checkTurn();
             cli.updateCLI(500);
         } else if (gui != null) {
-            if(ClientView.GAME_ON && !ClientView.GO_TO_MENU){
+            if (ClientView.GAME_ON && !ClientView.GO_TO_MENU) {
                 //Gameplay
                 gui.setGameBoardRefresh(true);
 
@@ -100,8 +102,8 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     /**
      * This method change the state in Client to Waiting Room
      *
-     * @param jsonInfo
-     * @throws RemoteException
+     * @param jsonInfo JSON file of the match info
+     * @throws RemoteException when remote not connected
      */
     @Override
     public void notifyToWait(String jsonInfo) throws RemoteException {
@@ -118,7 +120,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     /**
      * This method set the state of the Client to Main Menu
      *
-     * @throws RemoteException
+     * @throws RemoteException when remote not connected
      */
     @Override
     public void notifyGoToMenu() throws RemoteException {
@@ -134,7 +136,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
     /**
      * This method set the state of the Client to Endgame Room
      *
-     * @throws RemoteException
+     * @throws RemoteException when remote not connected
      */
     @Override
     public void notifyEndMatch() throws RemoteException {
@@ -151,6 +153,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
 
     /**
      * send the virtual hand to the client
+     *
      * @param JSONHand JSON file of the hand
      * @throws RemoteException when remote not connected
      */
@@ -161,6 +164,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
 
     /**
      * send chat message virtual view to the client
+     *
      * @param virtualPublicChat JSON file of the chat message
      * @throws RemoteException when remote not connected
      */
@@ -171,6 +175,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
 
     /**
      * send chat message virtual view to the client
+     *
      * @param serverVV JSON file of the server virtual view
      * @throws RemoteException when remote not connected
      */
@@ -181,6 +186,7 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
 
     /**
      * This method update the CLI or GUI
+     *
      * @param milliseconds time to wait before update
      * @throws RemoteException when remote not connected
      */
@@ -190,13 +196,13 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
             //System.out.println("Update...");
             cli.updateCLI(milliseconds);
         } else if (gui != null) {
-            if(ClientView.GO_TO_MENU){
+            if (ClientView.GO_TO_MENU) {
                 //Menu
                 gui.setMenuRefresh(true);
-            }else if(!ClientView.GAME_ON && !ClientView.GO_TO_MENU){
+            } else if (!ClientView.GAME_ON && !ClientView.GO_TO_MENU) {
                 //Waiting room
                 gui.setWaitRoomRefresh(true);
-            }else if(ClientView.GAME_ON && !ClientView.GO_TO_MENU){
+            } else if (ClientView.GAME_ON && !ClientView.GO_TO_MENU) {
                 //Gameplay
                 gui.setGameBoardRefresh(true);
 
@@ -207,10 +213,11 @@ public class ClientCallBack extends UnicastRemoteObject implements IClientCallBa
 
     /**
      * test if the connection is still alive
+     *
      * @throws RemoteException
      */
     @Override
-    public void ping() throws RemoteException{
+    public void ping() throws RemoteException {
         //Nothing to do
     }
 }

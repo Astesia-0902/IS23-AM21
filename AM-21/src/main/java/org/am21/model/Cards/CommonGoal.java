@@ -7,16 +7,20 @@ import org.am21.utilities.CardUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * This class is the abstract class of the Common Goals
+ */
 public abstract class CommonGoal extends Card {
     public List<Integer> tokenStack;
     public List<Player> achievedPlayers;
     public int index;
 
     /**
-     * @param nameCard
-     * */
-    public CommonGoal(String nameCard,int numPlayer){
+     * Constructor
+     *
+     * @param nameCard the name of the card
+     */
+    public CommonGoal(String nameCard, int numPlayer) {
         super(nameCard);
         this.tokenStack = CardUtil.buildScoringTokenCards(numPlayer);
         this.index = 0;
@@ -27,21 +31,21 @@ public abstract class CommonGoal extends Card {
      * Durante la fase del turno CheckingGoal, viene controllato la Shelf del Player
      * per verificare se l'obiettivo è stato completato
      *
-     * @param shelf
-     * @return
+     * @param shelf Shelf del Player
+     * @return true se l'obiettivo è stato completato, false altrimenti
      */
     public abstract boolean checkGoal(Shelf shelf);
-
 
 
     /**
      * When a CommonGoal is achieved,
      * the player is going to be added to the AchievedPlayers List
      * A player can achieve the goal just one time, so if, for any reasons, it's achieved again, nothing happens
+     *
      * @param player player who has achieved Common Goal
      */
     public void commonGoalAchieved(Player player) {
-        if(!achievedPlayers.contains(player) && tokenStack.size()>0) {
+        if (!achievedPlayers.contains(player) && tokenStack.size() > 0) {
             achievedPlayers.add(player);
 
             player.getController().addScore(tokenStack.get(0));

@@ -29,6 +29,9 @@ import java.util.concurrent.FutureTask;
 import static org.am21.client.view.ClientView.*;
 import static org.am21.client.view.TUI.Storage.*;
 
+/**
+ * This class is the Cli
+ */
 public class Cli implements View {
     private String username;
     private final ClientCommunicationController commCtrl;
@@ -39,12 +42,14 @@ public class Cli implements View {
     private Boolean busy = false;
     private boolean SHOW = false;
     public Integer waitingThreads;
-    public final Object chatModeLock=new Object();
+    public final Object chatModeLock = new Object();
     public Boolean chatMode = false;
 
-    public final Object waiterLock=new Object();
+    public final Object waiterLock = new Object();
+
     /**
      * Cli constructor
+     *
      * @throws RemoteException when construction of ClientCallBack is failed
      */
     public Cli() throws RemoteException {
@@ -58,10 +63,10 @@ public class Cli implements View {
     /**
      * This method is used to ask the user to insert the server's IP address
      *
-     * @throws RemoteException
-     * @throws NotBoundException
-     * @throws MalformedURLException
-     * @throws ServerNotActiveException
+     * @throws RemoteException          when the connection to the server is failed
+     * @throws NotBoundException        when the connection to the server is failed
+     * @throws MalformedURLException    when the connection to the server is failed
+     * @throws ServerNotActiveException when the connection to the server is failed
      */
     public void init() throws MalformedURLException, NotBoundException, RemoteException, ServerNotActiveException {
         System.out.println(Storage.MYSHELFIE4);
@@ -156,6 +161,11 @@ public class Cli implements View {
     }
 
 
+    /**
+     * This method is used to find a free port
+     *
+     * @return the free port
+     */
     public int findFreePort() {
         ServerSocket socket = null;
         try {
@@ -175,6 +185,13 @@ public class Cli implements View {
         }
     }
 
+    /**
+     * This method is used to connect to the server
+     *
+     * @param address the server's IP address
+     * @param port    the server's port
+     * @return the server's info
+     */
     public HashMap<String, String> connectToServerLobby(String address, String port) {
         HashMap<String, String> infoMap;
         try {
@@ -187,6 +204,12 @@ public class Cli implements View {
         return infoMap;
     }
 
+    /**
+     * This method is used to get the controller's stub
+     *
+     * @param serverInfo the server's info
+     * @return the controller's stub
+     */
     public IClientInput getControllerStub(HashMap<String, String> serverInfo) {
         try {
             System.out.println("Server path to stub: " + "rmi://" + serverInfo.get("address") + ":"
@@ -201,6 +224,10 @@ public class Cli implements View {
 
 
     //--------------------SOCKET----------------------------------------------------------------------------
+
+    /**
+     * This method is used to connect to the server with socket
+     */
     public void askServerInfoSocket() {
         SocketClient socket;
         do {
@@ -247,6 +274,9 @@ public class Cli implements View {
     /**
      * A switcher used to move through the 3 MAIN STATE of the CLI:
      * MENU, WAITING ROOM, GAMEPLAY
+     *
+     * @throws ServerNotActiveException when Server is not Active
+     * @throws RemoteException          when Remote Invocation fails
      */
     public void redirect() throws ServerNotActiveException, RemoteException {
         if (ClientView.MATCH_END) {
@@ -266,6 +296,9 @@ public class Cli implements View {
 
     /**
      * Method used to show the Menu of the Game
+     *
+     * @throws ServerNotActiveException when Server is not Active
+     * @throws RemoteException          when Remote Invocation fails
      */
     @Override
     public void askMenuAction() throws ServerNotActiveException, RemoteException {
@@ -356,6 +389,9 @@ public class Cli implements View {
         }
     }
 
+    /**
+     * This method is used to ask the Player to choose the Action he wants to do
+     */
     @Override
     public void askPlayerMove() {
         showLostMessages();
@@ -419,7 +455,9 @@ public class Cli implements View {
         setBusy(false);
     }
 
-
+    /**
+     * This method is used to mark the end of the match
+     */
     public void goToEndRoom() {
         System.out.println(Color.WHITE_BOLD_BRIGHT + "The match ended. Press 'Enter' to see the results" + Color.RESET);
         readLine();
@@ -428,6 +466,10 @@ public class Cli implements View {
     }
 
     //----------------------------------------------------------------------------------------------
+
+    /**
+     * This method is used to Help to the Player
+     */
     public void askHelp() {
         busy = true;
         System.out.println();
@@ -481,6 +523,9 @@ public class Cli implements View {
         }
     }
 
+    /**
+     * This Method is used to setting the number of players who can play in this match
+     */
     public void askSettings() {
         System.out.print("""
                 [Commands] Commands available to change settings:
@@ -506,6 +551,9 @@ public class Cli implements View {
 
     //---------------------------------------------------------------------------------------------------
 
+    /**
+     * This method is used to create a new match
+     */
     @Override
     public boolean askCreateMatch() {
         int playerNumber = askMaxSeats();
@@ -536,6 +584,9 @@ public class Cli implements View {
         return playerNumber;
     }
 
+    /**
+     * This method is used to join a match
+     */
     @Override
     public boolean askJoinMatch() {
         if (matchList == null || matchList.length == 0) {
@@ -544,8 +595,8 @@ public class Cli implements View {
             return false;
         } else {
             boolean noGame = false;
-            for (int i = 0; i < matchList.length; i++) {
-                if (!matchList[i][1].equals("Closed")) {
+            for (String[] strings : matchList) {
+                if (!strings[1].equals("Closed")) {
                     noGame = true;
                 }
 
@@ -582,11 +633,17 @@ public class Cli implements View {
         return false;
     }
 
+    /**
+     * This method is used to leave a match
+     */
     @Override
     public boolean askLeaveMatch() {
         return commCtrl.leaveMatch();
     }
 
+    /**
+     * This method is used to exit the game
+     */
     @Override
     public boolean askExitGame() {
         if (commCtrl.exitGame()) {
@@ -596,6 +653,9 @@ public class Cli implements View {
         return false;
     }
 
+    /**
+     * This method is used to ask the user to get more options
+     */
     public void askMoreOptions() {
         String command;
         System.out.print(Storage.MoreOptions);
@@ -612,6 +672,10 @@ public class Cli implements View {
     }
 
     //------------SHOW---------------------------------------------------------------------------------
+
+    /**
+     * This method is used to show the match list
+     */
     @Override
     public void showMatchList() {
         System.out.println("Match List:");
@@ -647,6 +711,9 @@ public class Cli implements View {
         delayer(1000);
     }
 
+    /**
+     * This method is used to show the common goals
+     */
     @Override
     public void showCommonGoals() {
         System.out.println("Common Goals:");
@@ -660,6 +727,9 @@ public class Cli implements View {
         }
     }
 
+    /**
+     * This method is used to show the personal goals
+     */
     @Override
     public void showPersonalGoal() {
         System.out.println(username + "'s PersonalGoal:");
@@ -669,6 +739,9 @@ public class Cli implements View {
         System.out.println();
     }
 
+    /**
+     * This method is used to announce the current player
+     */
     @Override
     public void announceCurrentPlayer() {
         if (currentPlayer.equals(username)) {
@@ -679,6 +752,9 @@ public class Cli implements View {
         System.out.println();
     }
 
+    /**
+     * This method is used to show the current player
+     */
     @Override
     public void showWhoIsPlaying() {
         String tmp;
@@ -697,6 +773,9 @@ public class Cli implements View {
         System.out.println();
     }
 
+    /**
+     * This method is used to show the player's shelf
+     */
     @Override
     public void showPlayerShelf() {
 
@@ -717,12 +796,18 @@ public class Cli implements View {
         System.out.println();
     }
 
+    /**
+     * This method is used to show the player's group points
+     */
     public void showGroupPointsTable() {
         System.out.println("Group Points Table: ");
         System.out.print(Storage.GROUP_POINTS);
         System.out.println(Color.YELLOW + "--Tip: See Game Rules for more info" + Color.RESET);
     }
 
+    /**
+     * This method is used to show the every player's shelf
+     */
     @Override
     public void showEveryShelf() {
         for (int k = 0; k < ClientView.shelves.size(); k++) {
@@ -743,6 +828,9 @@ public class Cli implements View {
         }
     }
 
+    /**
+     * This method is used to show the board
+     */
     @Override
     public void showBoard() {
         String[][] board = ClientView.virtualBoard;
@@ -775,6 +863,12 @@ public class Cli implements View {
         System.out.println();
     }
 
+    /**
+     * This method is used to check the color of the item
+     *
+     * @param item is the item to check
+     * @return the item with the right color
+     */
     public String checkColorItem(String item) {
         int index1, index2 = item.length() - 3;
 
@@ -812,6 +906,9 @@ public class Cli implements View {
         return itemType;
     }
 
+    /**
+     * This method is used to show the player's stats
+     */
     @Override
     public void showPlayersStats() {
         List<String> playerList = playersList;
@@ -854,7 +951,9 @@ public class Cli implements View {
 
     }
 
-
+    /**
+     * This method is used to show the goal description
+     */
     @Override
     public void showGoalDescription(String commonGoalCard) {
         System.out.println(Storage.goalCommonMap.get(commonGoalCard));
@@ -926,6 +1025,9 @@ public class Cli implements View {
         return coordinates;
     }
 
+    /**
+     * This method shows a sub menu of the Deselection menu
+     */
     @Override
     public void askDeselection() {
         if (BABY_PROTOCOL && !showHand()) {
@@ -1579,8 +1681,9 @@ public class Cli implements View {
             lostMessages.clear();
         }
     }
+
     //------------------------------CLI tools-------------------------------------------
-    public final Object busyLock=new Object();
+    public final Object busyLock = new Object();
 
     public void setBusy(Boolean value) {
         synchronized (busyLock) {

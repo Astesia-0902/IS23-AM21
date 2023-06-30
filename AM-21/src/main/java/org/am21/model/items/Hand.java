@@ -20,7 +20,7 @@ import java.util.Collections;
  */
 public class Hand {
     public Player player;
-    private ArrayList<CardPointer> selectedItems;
+    private final ArrayList<CardPointer> selectedItems;
 
     public Hand(Player player){
         this.player = player;

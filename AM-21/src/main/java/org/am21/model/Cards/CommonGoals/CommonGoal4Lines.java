@@ -6,10 +6,14 @@ import org.am21.model.items.Shelf;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Four lines each formed by 5 tiles of maximum three different types.
+ * One line can show the same or a different combination of another line.
+ */
 public class CommonGoal4Lines extends CommonGoal {
     /**
-     *
-     * @param numPlayer
+     * Constructor
+     * @param numPlayer the number of players
      */
     public CommonGoal4Lines(int numPlayer) {
 
@@ -17,9 +21,9 @@ public class CommonGoal4Lines extends CommonGoal {
     }
 
     /**
-     *
-     * @param shelf
-     * @return
+     * Scan the shelves to find four rows each formed by 5 different types of tiles.
+     * @param shelf the shelf to be scanned
+     * @return true if the goal is achieved, false otherwise
      */
     public boolean checkGoal(Shelf shelf) {
         Set<String> reg;

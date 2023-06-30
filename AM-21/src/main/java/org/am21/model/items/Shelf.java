@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
+/**
+ * This class is used to manage the shelves of the player
+ */
 public class Shelf extends Grid {
 
     public Player player;
@@ -89,8 +91,9 @@ public class Shelf extends Grid {
      * Insert an itemCard in the column, then decrease the count
      * in column (col)
      * Check limit after insertion
+     *
      * @param item ItemCard reference
-     * @param col column for insertion
+     * @param col  column for insertion
      * @return true if insertion has been successful
      */
     public boolean insertInColumn(ItemCard item, int col) {
@@ -128,11 +131,12 @@ public class Shelf extends Grid {
 
     /**
      * Calculate the total points from shelf group points
-     * @param r root row of the backtracking
-     * @param c root column of the backtracking
+     *
+     * @param r       root row of the backtracking
+     * @param c       root column of the backtracking
      * @param visited matrix of visited cells
-     * @param depth depth of the backtracking
-     * @param type type of item
+     * @param depth   depth of the backtracking
+     * @param type    type of item
      * @return number of item of the same type adjacent to each other
      */
     public int colorCounter(int r, int c, boolean[][] visited, int depth, String type) {
@@ -156,6 +160,7 @@ public class Shelf extends Grid {
 
     /**
      * This method return the number of points gained due to a number of item adjacent to each other
+     *
      * @param nItem number of item
      * @return points
      */

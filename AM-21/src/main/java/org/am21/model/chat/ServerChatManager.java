@@ -8,10 +8,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * This class is used to manage the chat messages
+ * Every match has a chat manager
+ */
 public class ServerChatManager {
-
-    private static List<List<String>> privateChats = new ArrayList<>();
-    private static HashMap<String, Integer> chatMap = new HashMap<>();
+    private static final List<List<String>> privateChats = new ArrayList<>();
+    private static final HashMap<String, Integer> chatMap = new HashMap<>();
 
     public static List<List<String>> getPrivateChats() {
         return privateChats;
@@ -36,7 +39,7 @@ public class ServerChatManager {
         String key = getChatKey(sender.getNickname(), receiver);
         String messageLine = sender.getNickname() + " > " + message;
 
-        if (p_receiver == null || (!chatMap.containsKey(key)&&!createNewPrivateChat(sender, p_receiver))) {
+        if (p_receiver == null || (!chatMap.containsKey(key) && !createNewPrivateChat(sender, p_receiver))) {
             return false;
         }
         int chatNum;
@@ -105,6 +108,4 @@ public class ServerChatManager {
         }
         return true;
     }
-
-
 }

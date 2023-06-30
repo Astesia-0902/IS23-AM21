@@ -196,10 +196,20 @@ public class VirtualViewHelper {
         match.virtualView.setCommonGoalScores(commonGoalScore);
     }
 
+    /**
+     * This method will set the end game token to the virtual view
+     *
+     * @param match the match
+     */
     public static void virtualizeEndGame(Match match) {
         match.virtualView.setEndGameToken(match.isEndGameToken());
     }
 
+    /**
+     * This method will set the match ID to the virtual view
+     *
+     * @param match the match
+     */
     public static void virtualizeMatchID(Match match) {
         match.virtualView.setMatchID(match.matchID);
     }
@@ -216,7 +226,12 @@ public class VirtualViewHelper {
     }
 
 
-
+    /**
+     * Get the virtual view in JSON format
+     *
+     * @param virtualView the virtual view
+     * @return the virtual view in JSON format
+     */
     public static String convertVirtualHandToJSON(VirtualView virtualView) {
         return JSON.toJSONString(virtualView.getCurrentPlayerHand());
     }
@@ -249,7 +264,8 @@ public class VirtualViewHelper {
 
     /**
      * Copy gR in match virtual view
-     * @param m match instance
+     *
+     * @param m  match instance
      * @param gR game result matrix
      */
     public static void virtualizeGameResults(Match m, String[][] gR) {
@@ -259,6 +275,7 @@ public class VirtualViewHelper {
 
     /**
      * Convert match info in a JSON string
+     *
      * @param m match instance
      * @return json string
      */
@@ -274,7 +291,7 @@ public class VirtualViewHelper {
     /**
      * Use chatManager openChat method
      *
-     * @param m match instance
+     * @param m    match instance
      * @param chat chat history to be virtualized
      */
     public static void virtualizePublicChat(Match m, List<String> chat) {
@@ -282,10 +299,22 @@ public class VirtualViewHelper {
         m.virtualView.setPublicChat(tmpChat);
     }
 
+    /**
+     * Convert public chat to JSON string
+     *
+     * @param v virtual view instance
+     * @return json string
+     */
     public static String convertPublicChatToJSON(VirtualView v) {
         return JSON.toJSONString(v.getPublicChat());
     }
 
+    /**
+     * Convert private chat to JSON string
+     *
+     * @param chats virtual view instance
+     * @return json string
+     */
     public static void virtualizePrivateChats(List<List<String>> chats) {
         String[][] virtualChats = new String[chats.size()][];
         for (int i = 0; i < virtualChats.length; i++) {
@@ -299,6 +328,7 @@ public class VirtualViewHelper {
 
     /**
      * Virtualize the chat map in server virtual view
+     *
      * @param map chat map to be virtualized
      */
     public static void virtualizeChatMap(HashMap<String, Integer> map) {
@@ -340,6 +370,12 @@ public class VirtualViewHelper {
         }
     }
 
+    /**
+     * Virtualization of List of Online Players
+     * List's elements:
+     * - nickname
+     * - status
+     */
     public static void virtualizeOnlinePlayers() {
 
         synchronized (GameManager.players) {
@@ -360,7 +396,11 @@ public class VirtualViewHelper {
         }
     }
 
-
+    /**
+     * This method is used to convert the server virtual view to JSON
+     *
+     * @return the server virtual view in JSON format
+     */
     public static String convertServerVirtualViewToJSON() {
         return JSON.toJSONString(ServerVirtualView.instance);
     }

@@ -6,7 +6,9 @@ import org.am21.model.items.Shelf;
 import java.util.HashMap;
 
 
-// Check if there are two columns with 6 different types of tiles
+/**
+ * Check if there are two columns with 6 different types of tiles
+ */
 public class CommonGoal2Columns extends CommonGoal {
     private static final int rowNumShelf = 6;
     private static final int colNumShelf = 5;
@@ -14,18 +16,21 @@ public class CommonGoal2Columns extends CommonGoal {
     private static final int numGroup = 2;
 
     /**
+     * Constructor
      *
-     * @param numPlayer
+     * @param numPlayer the number of players
      */
     public CommonGoal2Columns(int numPlayer) {
 
 
-        super("CommonGoal2Columns",numPlayer);
+        super("CommonGoal2Columns", numPlayer);
     }
+
     /**
      * Scan the shelves to find two columns each formed by 6 different types of tiles.
-     * @param shelf
-     * @return
+     *
+     * @param shelf the shelf to be scanned
+     * @return true if the goal is achieved, false otherwise
      */
     @Override
     public boolean checkGoal(Shelf shelf) {
@@ -39,8 +44,8 @@ public class CommonGoal2Columns extends CommonGoal {
             HashMap<String, Integer> countTiles = new HashMap<>();
 
             for (int row = 0; row < rowNumShelf; row++) {
-                if(shelf.isOccupied(row,col)){
-                    if(shelf.getItemName(row, col)!=null) {
+                if (shelf.isOccupied(row, col)) {
+                    if (shelf.getItemName(row, col) != null) {
                         String tileType = shelf.getItemName(row, col).substring(0, shelf.getItemName(row, col).length() - 3);
 
                         // If the counter for tileType already exists in countTiles, the current value
@@ -53,9 +58,9 @@ public class CommonGoal2Columns extends CommonGoal {
 
             // Check if there is a column with 6 different types of tiles
             // If so, increment countGroup
-            if (countTiles.keySet().size() == numDiff){
+            if (countTiles.keySet().size() == numDiff) {
                 countGroup++;
-                if (countGroup >= numGroup){
+                if (countGroup >= numGroup) {
                     return true;
                 }
             }

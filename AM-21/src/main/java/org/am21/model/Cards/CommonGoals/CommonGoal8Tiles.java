@@ -6,16 +6,21 @@ import org.am21.model.items.Shelf;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Eight tiles of the same type.
+ * There’s no restriction about the position of these tiles.
+ */
 public class CommonGoal8Tiles extends CommonGoal {
     private static final int rowNumShelf = 6;
     private static final int colNumShelf = 5;
     private static final int numSame = 8;
 
-    public boolean state=false;
+    public boolean state = false;
 
     /**
+     * Constructor
      *
-     * @param numPlayer
+     * @param numPlayer the number of players
      */
     public CommonGoal8Tiles(int numPlayer) {
 
@@ -25,8 +30,9 @@ public class CommonGoal8Tiles extends CommonGoal {
     /**
      * Scan the shelves to find eight tiles of the same type. There’s no
      * restriction about the position of these tiles.
-     * @param shelf
-     * @return
+     *
+     * @param shelf the shelf to be scanned
+     * @return true if there are eight tiles of the same type
      */
     public boolean checkGoal(Shelf shelf) {
         // Create a counter
@@ -34,7 +40,7 @@ public class CommonGoal8Tiles extends CommonGoal {
 
         for (int row = 0; row < rowNumShelf; row++) {
             for (int col = 0; col < colNumShelf; col++) {
-                if(shelf.isOccupied(row,col)) {
+                if (shelf.isOccupied(row, col)) {
                     String tile = shelf.getItemName(row, col).substring(0, shelf.getItemName(row, col).length() - 3);
                     ;
 
@@ -46,7 +52,6 @@ public class CommonGoal8Tiles extends CommonGoal {
                         return true;
                     }
                     // If one of the Tiles has 8 of the same type, then it returns true
-
 
 
                 }

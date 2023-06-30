@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.net.Socket;
 import java.rmi.server.ServerNotActiveException;
 
+/**
+ * This class is the client handler socket
+ */
 public class ClientHandlerSocket extends Thread {
     public Socket clientSocket;
     public PlayerController myPlayer;
@@ -18,6 +21,11 @@ public class ClientHandlerSocket extends Thread {
     public DataOutputStream out;
     public Integer createMatchRequestCount = 0;
 
+    /**
+     * Constructor
+     *
+     * @param clientSocket client socket
+     */
     public ClientHandlerSocket(Socket clientSocket) {
         this.clientSocket = clientSocket;
         myPlayer = new PlayerController("", this);

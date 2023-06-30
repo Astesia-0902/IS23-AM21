@@ -8,10 +8,12 @@ import org.am21.utilities.Coordinates;
 
 import java.util.List;
 
-
+/**
+ * This class is the bag of the game
+ */
 public class Bag {
     public Board board;
-    private List<ItemCard> itemCollection;
+    private final List<ItemCard> itemCollection;
     public int bagIndex;
 
     /**

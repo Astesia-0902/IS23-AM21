@@ -10,6 +10,11 @@ public class Coordinates {
     public int x;
     public int y;
 
+    /**
+     * Constructor
+     * @param r row
+     * @param c column
+     */
     public Coordinates(int r,int c) {
         this.x = r;
         this.y = c;

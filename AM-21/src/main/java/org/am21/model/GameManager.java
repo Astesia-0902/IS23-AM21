@@ -11,6 +11,9 @@ import org.am21.utilities.VirtualViewHelper;
 
 import java.util.*;
 
+/**
+ * This class is the game manager
+ */
 public class GameManager {
     public static boolean serverComm = true;
 
@@ -23,10 +26,12 @@ public class GameManager {
     public static Integer matchIndex = 0;
     public static final HashMap<Integer, Match> matchMap = new HashMap<Integer, Match>();
     public static final List<Player> players = new ArrayList<>();
-
-    //TODO: for testing
     public static int client_connected = 0;
 
+    /**
+     * Constructor
+     * @param controller game controller
+     */
     public GameManager(GameController controller) {
     }
 
@@ -71,8 +76,8 @@ public class GameManager {
     /**
      * This method check if there is a nickname is already picked by someone else.
      *
-     * @param name
-     * @return
+     * @param name player name
+     * @return true if the name is already picked, false otherwise
      */
     public static boolean checkNameSake(String name) {
         synchronized (players) {
@@ -284,7 +289,7 @@ public class GameManager {
      * Timer class
      */
     private static class MatchPauseTask extends TimerTask {
-        private int matchID;
+        private final int matchID;
 
         public MatchPauseTask(int matchID) {
             this.matchID = matchID;

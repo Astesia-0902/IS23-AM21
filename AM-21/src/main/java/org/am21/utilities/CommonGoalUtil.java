@@ -7,11 +7,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * This class is used to create the common goals
+ */
 public class CommonGoalUtil {
     public static HashMap<Integer, CommonGoal> commonGoalHashMap = new HashMap<>();
 
     /**
      * get common goals
+     *
      * @param numPlayer player number of the game
      * @return list of common goals
      */
@@ -32,7 +36,8 @@ public class CommonGoalUtil {
 
     /**
      * initialize the map of common goals
-     * @param map map of common goals
+     *
+     * @param map       map of common goals
      * @param playerNum player number of the game
      */
     private static void initializeMap(HashMap<Integer, CommonGoal> map, int playerNum) {

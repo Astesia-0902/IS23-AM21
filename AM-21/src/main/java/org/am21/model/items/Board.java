@@ -10,7 +10,9 @@ import org.am21.utilities.Coordinates;
 
 import java.util.List;
 
-
+/**
+ * This class is the board of the game
+ * */
 public class Board extends Grid {
 
     /**

@@ -4,11 +4,15 @@ import org.am21.model.Cards.ItemCard;
 import org.am21.model.GameManager;
 import org.am21.model.enumer.ServerMessage;
 
+
+/**
+ * This class is the abstract class of the grid
+ */
 public abstract class Grid {
     public int gRow;
     public int gColumn;
     public int capacity;
-    private ItemCard[][] matrix;
+    private final ItemCard[][] matrix;
 
     public Grid(int gRow, int gColumn) {
         this.gRow = gRow;

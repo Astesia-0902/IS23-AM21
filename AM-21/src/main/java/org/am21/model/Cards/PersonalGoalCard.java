@@ -8,6 +8,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * This class is the abstract class of the cards
+ */
 public class PersonalGoalCard extends Card {
     private Shelf PersonalGoalShelf;
     public Player player;
@@ -15,7 +18,9 @@ public class PersonalGoalCard extends Card {
     private final static List<ItemCard> tileNames = new ArrayList<>();
     private final static HashMap<Integer, Integer> currentScore = new HashMap<>();
     static {
-        /** {row of shelves, column of shelves, index of tileNames}*/
+        /*
+         * {row of shelves, column of shelves, index of tileNames}
+         * */
         //  index of tileNames: Cats(0), Books(1), Games(2), Frames(3), Trophies(4), Plants(5)
 
         personalGoal.put("PERSONAL_GOAL01", new int[][]{{0, 0, 5}, {0, 2, 3}, {1, 4, 0}, {2, 3, 1}, {3, 1, 2}, {5, 2, 4}});
@@ -107,6 +112,11 @@ public class PersonalGoalCard extends Card {
         return PersonalGoalShelf;
     }
 
+    /**
+     * Function to get recent goal position matched in the shelves of the player
+     * Used for Test
+     * @return goal shelves with color matches
+     */
     public Shelf getPersonalGoalShelf(){
         return this.PersonalGoalShelf;
     }
