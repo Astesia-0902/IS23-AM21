@@ -128,10 +128,6 @@ public class CommonGoalPanel extends JPanel {
 
         setScoreToken(topValue, bottomValue);
 
-        SwingUtilities.invokeLater(() -> {
-            revalidate();
-            repaint();
-        });
     }
 
     /**

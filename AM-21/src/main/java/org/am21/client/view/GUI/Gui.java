@@ -8,7 +8,6 @@ import org.am21.client.view.GUI.listener.*;
 import org.am21.client.view.GUI.utils.ImageUtil;
 import org.am21.client.view.GUI.utils.PathUtil;
 import org.am21.client.view.GUI.utils.PixelUtil;
-import org.am21.client.view.TUI.Storage;
 import org.am21.networkRMI.ClientCallBack;
 import org.am21.networkRMI.IClientInput;
 
@@ -104,9 +103,8 @@ public class Gui {
 
 
                 if (waitingRoomInterface != null) {
-                    System.out.println("WaitingRoomInterface Disposed");
+
                     waitingRoomInterface.setVisible(false);
-                    //waitingRoomInterface = null;
                 }
 
                 if (chatDialog != null) {
@@ -130,7 +128,7 @@ public class Gui {
                             });
 
                             setGameBoardRefresh(false);
-                            System.out.println("Reload Game Board");
+
                         }
                         Thread.sleep(200);
                     } catch (RemoteException | InterruptedException e) {
@@ -181,7 +179,6 @@ public class Gui {
         public void run() {
             super.run();
             synchronized (chatLock) {
-                System.out.println("ChatListener start");
                 new ChatListener(chatRun.gui);
             }
         }
@@ -190,8 +187,6 @@ public class Gui {
 
     /**
      * Constructor
-     *
-     * @throws Exception
      */
     public Gui() throws Exception {
         this.clientCallBack = new ClientCallBack();
@@ -207,7 +202,7 @@ public class Gui {
     /**
      * Init the gui
      */
-    public void init() throws Exception {
+    public void init() {
         commCtrl = new ClientCommunicationController();
         commCtrl.gui = this;
         communicationInterface = new CommunicationInterface(frame);
@@ -247,9 +242,9 @@ public class Gui {
         if (menuActionInterface == null) {
             menuActionInterface = new MenuActionInterface(frame, username);
             new MenuActionListener(this);
-            System.out.println("MenuActionInterface done");
+
         } else if (menuActionInterface != null && needNewFrame) {
-            System.out.println("New MenuAction Interface");
+
             menuActionInterface = new MenuActionInterface(frame, username);
             new MenuActionListener(this);
             menuActionInterface.setVisible(true);
@@ -259,7 +254,7 @@ public class Gui {
                 menuActionInterface.reloadMenu();
                 menuActionInterface.revalidate();
                 menuActionInterface.repaint();
-                System.out.println("Menu repainted");
+
             });
             setMenuRefresh(false);
 
@@ -465,11 +460,6 @@ public class Gui {
             gameBoardPanel.refreshEnemyView(virtualBoard, this); //refresh enemy action on the game board
         }
 
-        //if my turn
-        SwingUtilities.invokeLater(() -> {
-            livingRoomInterface.revalidate();
-            livingRoomInterface.repaint();
-        });
     }
 
     /**

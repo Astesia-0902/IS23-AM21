@@ -60,10 +60,5 @@ public class MyHandBoardPanel extends JPanel {
 
         }
 
-        SwingUtilities.invokeLater(() -> {
-            revalidate();
-            repaint();
-        });
-
     }
 }

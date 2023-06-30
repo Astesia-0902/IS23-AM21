@@ -327,11 +327,6 @@ public class MyHandInterface extends JDialog {
             handGrid[handMax - 1 - i].add(myHandItem[i], JLayeredPane.PALETTE_LAYER);
 
         }
-        SwingUtilities.invokeLater(() -> {
-            revalidate();
-            repaint();
-        });
-
 
     }
 
@@ -358,7 +353,6 @@ public class MyHandInterface extends JDialog {
                         myHandItem[pos].setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 255)));
                         posSort.remove(pos);
                     }
-
 
                 }
             }

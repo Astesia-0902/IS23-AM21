@@ -87,10 +87,7 @@ public class GameBoardPanel extends JPanel {
     public void refreshBoard(String[][] gameBoard, Gui gui) {
         clearBoard();
         fillingBoard(gameBoard, gui);
-        SwingUtilities.invokeLater(() -> {
-            revalidate();
-            repaint();
-        });
+
     }
 
     /**
@@ -103,10 +100,7 @@ public class GameBoardPanel extends JPanel {
                     pane[i].removeAll();
             }
         }
-        SwingUtilities.invokeLater(() -> {
-            revalidate();
-            repaint();
-        });
+
     }
 
     /**
@@ -139,10 +133,7 @@ public class GameBoardPanel extends JPanel {
                 }
             }
         }
-        SwingUtilities.invokeLater(() -> {
-            revalidate();
-            repaint();
-        });
+
 
 
     }
@@ -180,8 +171,6 @@ public class GameBoardPanel extends JPanel {
                     gui.myHandBoardPanel.refreshItem(ClientView.currentPlayerHand);
 
                 }
-                revalidate();
-                repaint();
 
             }
 
@@ -193,6 +182,7 @@ public class GameBoardPanel extends JPanel {
      * set initially endToken
      */
     public void setScoreTokenEndGame() {
+
         scoreTokenEndGame = new ScoringTokenLabel(ImageUtil.getScoreTokenImage(1), PixelUtil.endGameTokenW, PixelUtil.endGameTokenH, PixelUtil.endGameTokenOriented, PixelUtil.endGameTokenRotateX, PixelUtil.endGameTokenRotateY);
         scoreTokenEndGame.setBounds(PixelUtil.endGameTokenX, PixelUtil.endGameTokenY, PixelUtil.endGameTokenBoundsW, PixelUtil.endGameTokenBoundsH);
         scoreTokenEndGame.setOpaque(false);
@@ -242,10 +232,7 @@ public class GameBoardPanel extends JPanel {
                 }
             }
         }
-        SwingUtilities.invokeLater(() -> {
-            revalidate();
-            repaint();
-        });
+
     }
 
     /**
@@ -257,10 +244,7 @@ public class GameBoardPanel extends JPanel {
     public void refreshEnemyView(String[][] gameBoard, Gui gui) {
         clearBoard();
         enemyViewBoard(gameBoard, gui);
-        SwingUtilities.invokeLater(() -> {
-            revalidate();
-            repaint();
-        });
+
     }
 
     /**
@@ -268,11 +252,6 @@ public class GameBoardPanel extends JPanel {
      */
     public void pickScoreTokenEndGame() {
         gameBoardPane.remove(scoreTokenEndGame);
-
-        SwingUtilities.invokeLater(() -> {
-            revalidate();
-            repaint();
-        });
 
     }
 
