@@ -106,7 +106,7 @@ public class IconUtil {
      * This class is used to load all the images and icons used in the application.
      * The images are stored in a HashMap with the name of the image as key and the image as value.
      *
-     * @param iconName
+     * @param iconName The name of the icon.
      */
     public static ImageIcon getIcon(String iconName) {
         return iconMap.get(iconName);
@@ -116,7 +116,7 @@ public class IconUtil {
      * This class is used to load all the images and icons used in the application.
      * The images are stored in a HashMap with the name of the image as key and the image as value.
      *
-     * @param imageName
+     * @param imageName The name of the image.
      */
     public static BufferedImage getBufferedImage(String imageName) {
         return bufferedImageMap.get(imageName);

@@ -12,13 +12,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Living room interface
+ */
 public class LivingRoomInterface extends JDialog {
     public JLayeredPane livingRoomPane;
     public LivingRoomPanel livingRoomPanel;
     public List<String> enemyList;
     public HashMap<String, EnemyPanel> enemiesPanel;
 
-
+    /**
+     * Constructor
+     *
+     * @param frame is the frame
+     * @param gui is the gui
+     */
     public LivingRoomInterface(JFrame frame, Gui gui) {
 
         super(frame);

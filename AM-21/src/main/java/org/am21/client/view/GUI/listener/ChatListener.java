@@ -16,7 +16,7 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
     /**
      * Constructor
      *
-     * @param gui
+     * @param gui is the GUI
      */
     public ChatListener(Gui gui) {
         instance = this;
@@ -36,6 +36,11 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
 
     }
 
+    /**
+     * Action performed method
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == gui.chatDialog.sendButton) {
@@ -74,11 +79,21 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
 
     }
 
+    /**
+     * Key pressed event
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void keyTyped(KeyEvent e) {
 
     }
 
+    /**
+     * Key pressed event
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -86,11 +101,21 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
         }
     }
 
+    /**
+     * Key released event
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void keyReleased(KeyEvent e) {
 
     }
 
+    /**
+     * Mouse clicked event
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == gui.chatDialog.closeLabel) {
@@ -113,6 +138,11 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
         });
     }
 
+    /**
+     * Mouse pressed event
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getSource() == gui.chatDialog) {
@@ -121,11 +151,21 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
         }
     }
 
+    /**
+     * Mouse released event
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
 
     }
 
+    /**
+     * Mouse entered event
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void mouseEntered(MouseEvent e) {
         if (e.getSource() == gui.chatDialog.closeLabel) {
@@ -136,6 +176,11 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
         }
     }
 
+    /**
+     * Mouse exited event
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void mouseExited(MouseEvent e) {
         if (e.getSource() == gui.chatDialog.closeLabel) {
@@ -146,6 +191,11 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
         }
     }
 
+    /**
+     * Mouse dragged event
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void mouseDragged(MouseEvent e) {
         if (e.getSource() == gui.chatDialog) {
@@ -154,6 +204,11 @@ public class ChatListener implements MouseListener, MouseMotionListener, ActionL
         }
     }
 
+    /**
+     * Mouse moved event
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void mouseMoved(MouseEvent e) {
 

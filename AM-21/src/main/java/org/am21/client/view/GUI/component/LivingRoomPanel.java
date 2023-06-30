@@ -20,6 +20,10 @@ import java.rmi.RemoteException;
 import java.rmi.server.ServerNotActiveException;
 
 
+/**
+ * LivingRoomPanel is a class that extends JPanel
+ * and is used to show the living room
+ */
 public class LivingRoomPanel extends JPanel {
 
     public JButton livingRoomMenuButton;
@@ -42,6 +46,11 @@ public class LivingRoomPanel extends JPanel {
     public JLabel myHiddenScore;
     public Timer flashingTimer;
 
+    /**
+     * Constructor
+     *
+     * @param gui gui
+     */
 
     public LivingRoomPanel(Gui gui) {
 
@@ -166,6 +175,7 @@ public class LivingRoomPanel extends JPanel {
 
     /**
      * menu button function
+     * @param gui GUI
      */
     public void setMenuButton(Gui gui) {
 

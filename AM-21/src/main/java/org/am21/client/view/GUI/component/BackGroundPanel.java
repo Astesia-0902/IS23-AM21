@@ -12,10 +12,20 @@ import java.util.HashMap;
 public class BackGroundPanel extends JPanel {
     public final HashMap<BufferedImage, int[]> backIcons;
 
+    /**
+     * Constructor
+     *
+     * @param backIcons is the background icons
+     */
     public BackGroundPanel(HashMap<BufferedImage, int[]> backIcons) {
         this.backIcons = backIcons;
     }
 
+    /**
+     * Paints the background
+     *
+     * @param g is the graphics
+     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

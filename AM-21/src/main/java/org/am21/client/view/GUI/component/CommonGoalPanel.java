@@ -9,6 +9,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 
+/**
+ * CommonGoalPanel is a class that extends JPanel
+ * and is used to show the common goals
+ */
 public class CommonGoalPanel extends JPanel {
     public JLayeredPane commonGoalPane;
     public JLabel commonGoalTopLabel;
@@ -17,6 +21,12 @@ public class CommonGoalPanel extends JPanel {
     public ScoringTokenLabel scoreTokenTop;
     public ScoringTokenLabel scoreTokenBottom;
 
+    /**
+     * Constructor
+     *
+     * @param topCardName    name of first common goal
+     * @param bottomCardName name of second common goal
+     */
     public CommonGoalPanel(String topCardName, String bottomCardName) {
 
         setCommonGoalPane();

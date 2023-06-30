@@ -19,6 +19,9 @@ import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
+/**
+ * Chat dialog
+ */
 public class ChatDialog extends JDialog {
     public JTextArea currentChatHistory;
     public JTextField chatMessageInput;
@@ -51,8 +54,8 @@ public class ChatDialog extends JDialog {
     /**
      * constructor
      *
-     * @param frame
-     * @return
+     * @param frame is the frame
+     * @return the chat dialog
      */
     public ChatDialog(JFrame frame) {
         super(frame);

@@ -14,6 +14,10 @@ import java.util.HashMap;
 
 import static org.am21.client.view.ClientView.matchList;
 
+/**
+ * Menu Action interface
+ */
+
 public class MenuActionInterface extends JDialog {
     public static final int WIDTH = 600;
     public static final int HEIGHT = 400;
@@ -37,8 +41,8 @@ public class MenuActionInterface extends JDialog {
     /**
      * Constructor
      *
-     * @param frame
-     * @param user
+     * @param frame is the frame
+     * @param user is the user
      */
     public MenuActionInterface(JFrame frame, String user) {
         super(frame);

@@ -14,7 +14,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
 
-
+/**
+ * Game results interface
+ * */
 public class GameResultsInterface extends JFrame {
     public JLayeredPane gameResultsPane;
     public JTable tableResults;
@@ -28,8 +30,8 @@ public class GameResultsInterface extends JFrame {
     /**
      * Constructor
      *
-     * @param gui
-     * @param gameResults
+     * @param gui is the gui
+     * @param gameResults is the game results
      */
     public GameResultsInterface(Gui gui, String[][] gameResults) {
 
@@ -136,7 +138,7 @@ public class GameResultsInterface extends JFrame {
     /**
      * set leave game button
      *
-     * @param gui
+     * @param gui is the gui
      */
     public void callLeaveGame(Gui gui) {
 

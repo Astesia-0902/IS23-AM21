@@ -7,6 +7,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * MyHandBoardPanel is a class that extends JPanel
+ * and is used to show the hand of the player
+ */
 public class MyHandBoardPanel extends JPanel {
     public final int handMax = 3;
     public JLayeredPane[] handGrid = new JLayeredPane[handMax];

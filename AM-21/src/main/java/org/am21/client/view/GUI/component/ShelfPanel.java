@@ -5,6 +5,10 @@ import org.am21.client.view.GUI.utils.ImageUtil;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * ShelfPanel is a class that extends JPanel
+ * and is used to display the shelf
+ */
 public class ShelfPanel extends JPanel {
     public int GridRowsMax = 6;
     public int GridColumnsMax = 5;
@@ -16,6 +20,16 @@ public class ShelfPanel extends JPanel {
 
     public JLabel[][] cells;
 
+    /**
+     * Constructor
+     *
+     * @param GridX      position X of shelf
+     * @param GridY      position Y of shelf
+     * @param cellWidth  width of cell
+     * @param cellHeight height of cell
+     * @param itemWidth  width of item
+     * @param itemHeight height of item
+     */
     public ShelfPanel(int GridX, int GridY, int cellWidth, int cellHeight, int itemWidth, int itemHeight) {
 
         this.itemWidth = itemWidth;

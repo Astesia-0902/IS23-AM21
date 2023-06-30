@@ -57,8 +57,8 @@ public class FontUtil {
     /**
      * This method is used to get the font by name
      *
-     * @param fontName
-     * @return
+     * @param fontName the name of the font
+     * @return the font
      */
     public static Font getFontByName(String fontName) {
         Font font = fonterMap.get(fontName);

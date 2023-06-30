@@ -3,6 +3,10 @@ package org.am21.client.view.GUI.component;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * ScoringTokenLabel is a class that extends JPanel
+ * and is used to display the scoring token card
+ */
 public class ScoringTokenLabel extends JPanel {
     private JLabel label;
     private int oriented;

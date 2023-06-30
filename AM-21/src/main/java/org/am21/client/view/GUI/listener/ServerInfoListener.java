@@ -58,6 +58,11 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
         gui.serverInfoInterface.confirmButton.addKeyListener(this);
     }
 
+    /**
+     * Action performed
+     *
+     * @param e mouse event
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         // ASK SERVER INFO
@@ -161,6 +166,11 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
         }
     }
 
+    /**
+     * mouse clicked
+     *
+     * @param e mouse event
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == gui.serverInfoInterface.closeLabel) {
@@ -182,6 +192,11 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
         }
     }
 
+    /**
+     * mouse pressed
+     *
+     * @param e mouse event
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getSource() == gui.serverInfoInterface) {
@@ -190,11 +205,21 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
         }
     }
 
+    /**
+     * mouse released
+     *
+     * @param e mouse event
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
 
     }
 
+    /**
+     * mouse entered
+     *
+     * @param e mouse event
+     */
     @Override
     public void mouseEntered(MouseEvent e) {
         if (e.getSource() == gui.serverInfoInterface.closeLabel) {
@@ -212,6 +237,11 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
 
     }
 
+    /**
+     * mouse exited
+     *
+     * @param e mouse event
+     */
     @Override
     public void mouseExited(MouseEvent e) {
         if (e.getSource() == gui.serverInfoInterface.closeLabel) {
@@ -227,6 +257,11 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
         }
     }
 
+    /**
+     * mouse dragged
+     *
+     * @param e mouse event
+     */
     @Override
     public void mouseDragged(MouseEvent e) {
         if (e.getSource() == gui.serverInfoInterface) {
@@ -235,16 +270,31 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
         }
     }
 
+    /**
+     * mouse moved
+     *
+     * @param e mouse event
+     */
     @Override
     public void mouseMoved(MouseEvent e) {
 
     }
 
+    /**
+     * key typed
+     *
+     * @param e key event
+     */
     @Override
     public void keyTyped(KeyEvent e) {
 
     }
 
+    /**
+     * key pressed
+     *
+     * @param e key event
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -252,26 +302,49 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
         }
     }
 
+    /**
+     * key released
+     *
+     * @param e key event
+     */
     @Override
     public void keyReleased(KeyEvent e) {
 
     }
 
+    /**
+     * insert update
+     *
+     * @param e document event
+     */
     @Override
     public void insertUpdate(DocumentEvent e) {
         updateButtonState();
     }
 
+    /**
+     * remove update
+     *
+     * @param e document event
+     */
     @Override
     public void removeUpdate(DocumentEvent e) {
         updateButtonState();
     }
 
+    /**
+     * changed update
+     *
+     * @param e document event
+     */
     @Override
     public void changedUpdate(DocumentEvent e) {
         updateButtonState();
     }
 
+    /**
+     * update button state
+     */
     private void updateButtonState() {
         gui.serverInfoInterface.confirmButton.setEnabled(
                 !gui.serverInfoInterface.addressField.getText().trim().isEmpty() &&
@@ -281,6 +354,11 @@ public class ServerInfoListener implements MouseListener, MouseMotionListener, A
         }
     }
 
+    /**
+     * find free port
+     *
+     * @return free port
+     */
     public static int findFreePort() {
         ServerSocket socket = null;
         try {

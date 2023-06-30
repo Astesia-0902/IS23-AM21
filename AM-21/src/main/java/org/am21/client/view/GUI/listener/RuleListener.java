@@ -12,7 +12,7 @@ public class RuleListener implements MouseListener, MouseMotionListener, ActionL
     /**
      * Constructor
      *
-     * @param gui
+     * @param gui is the GUI
      */
     public RuleListener(Gui gui) {
         this.gui = gui;
@@ -23,6 +23,11 @@ public class RuleListener implements MouseListener, MouseMotionListener, ActionL
         gui.ruleDialog.closeLabel.addMouseListener(this);
     }
 
+    /**
+     * Action performed method
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == gui.ruleDialog.rightButton) {
@@ -39,6 +44,11 @@ public class RuleListener implements MouseListener, MouseMotionListener, ActionL
         }
     }
 
+    /**
+     * Mouse clicked method
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == gui.ruleDialog.closeLabel) {
@@ -46,6 +56,11 @@ public class RuleListener implements MouseListener, MouseMotionListener, ActionL
         }
     }
 
+    /**
+     * Mouse pressed method
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getSource() == gui.ruleDialog) {
@@ -54,21 +69,41 @@ public class RuleListener implements MouseListener, MouseMotionListener, ActionL
         }
     }
 
+    /**
+     * Mouse released method
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
 
     }
 
+    /**
+     * Mouse entered method
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void mouseEntered(MouseEvent e) {
 
     }
 
+    /**
+     * Mouse exited method
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void mouseExited(MouseEvent e) {
 
     }
 
+    /**
+     * Mouse dragged method
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void mouseDragged(MouseEvent e) {
         if (e.getSource() == gui.ruleDialog) {
@@ -77,6 +112,11 @@ public class RuleListener implements MouseListener, MouseMotionListener, ActionL
         }
     }
 
+    /**
+     * Mouse moved method
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void mouseMoved(MouseEvent e) {
 

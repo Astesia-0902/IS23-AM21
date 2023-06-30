@@ -11,7 +11,9 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.rmi.RemoteException;
 
-
+/**
+ * Living room menu interface
+ * */
 public class LivingRoomMenuInterface extends JFrame {
 
     public JLayeredPane menuLRPane;
@@ -20,6 +22,11 @@ public class LivingRoomMenuInterface extends JFrame {
     public JButton leaveMatch;
     public JButton quitGame;
 
+    /**
+     * Constructor
+     *
+     * @param gui is the gui
+     */
     public LivingRoomMenuInterface(Gui gui) {
 
         setLivingRoomMenuInterfacePane();

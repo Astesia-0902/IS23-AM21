@@ -11,6 +11,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
+/**
+ * Max Seats Dialog
+ */
 public class MaxSeatsDialog extends JDialog {
     public JLabel maxPlayersLabel;
     public JLabel closeLabel;

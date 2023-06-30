@@ -12,6 +12,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
+/**
+ * Waiting room interface
+ */
 public class WaitingRoomInterface extends JDialog {
     public static final int WIDTH = 600;
     public static final int HEIGHT = 400;
@@ -37,10 +40,10 @@ public class WaitingRoomInterface extends JDialog {
     /**
      * Constructor
      *
-     * @param frame
-     * @param numMiss
-     * @param numMax
-     * @param matchID
+     * @param frame is the frame
+     * @param numMiss is the number of missing players
+     * @param numMax is the maximum number of players
+     * @param matchID is the match ID
      */
     public WaitingRoomInterface(JFrame frame, String numMiss, String numMax, int matchID) {
         super(frame);

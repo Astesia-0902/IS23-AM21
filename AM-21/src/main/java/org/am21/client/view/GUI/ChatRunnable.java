@@ -11,11 +11,19 @@ import org.am21.client.view.GUI.utils.PixelUtil;
 public class ChatRunnable implements Runnable {
     public Gui gui;
 
+    /**
+     * Constructor
+     *
+     * @param gui the gui
+     */
     public ChatRunnable(Gui gui) {
         this.gui = gui;
 
     }
 
+    /**
+     * Thread run method
+     */
     @Override
     public void run() {
         if (Gui.newChatWindow) {

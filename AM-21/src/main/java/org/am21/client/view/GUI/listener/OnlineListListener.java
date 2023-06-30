@@ -17,7 +17,7 @@ public class OnlineListListener implements MouseListener, MouseMotionListener, A
     /**
      * Constructor
      *
-     * @param gui
+     * @param gui is the GUI
      */
     public OnlineListListener(Gui gui) {
         this.gui = gui;
@@ -27,11 +27,21 @@ public class OnlineListListener implements MouseListener, MouseMotionListener, A
         gui.onlineListDialog.addMouseMotionListener(this);
     }
 
+    /**
+     * Action performed
+     *
+     * @param e is the action event
+     * */
     @Override
     public void actionPerformed(ActionEvent e) {
 
     }
 
+    /**
+     * Mouse clicked
+     *
+     * @param e is the mouse event
+     * */
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == gui.onlineListDialog.closeLabel) {
@@ -39,6 +49,11 @@ public class OnlineListListener implements MouseListener, MouseMotionListener, A
         }
     }
 
+    /**
+     * Mouse pressed
+     *
+     * @param e is the mouse event
+     * */
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getSource() == gui.onlineListDialog) {
@@ -47,11 +62,21 @@ public class OnlineListListener implements MouseListener, MouseMotionListener, A
         }
     }
 
+    /**
+     * Mouse released
+     *
+     * @param e is the mouse event
+     * */
     @Override
     public void mouseReleased(MouseEvent e) {
 
     }
 
+    /**
+     * Mouse entered
+     *
+     * @param e is the mouse event
+     * */
     @Override
     public void mouseEntered(MouseEvent e) {
         if (e.getSource() == gui.onlineListDialog.closeLabel) {
@@ -59,6 +84,11 @@ public class OnlineListListener implements MouseListener, MouseMotionListener, A
         }
     }
 
+    /**
+     * Mouse exited
+     *
+     * @param e is the mouse event
+     * */
     @Override
     public void mouseExited(MouseEvent e) {
         if (e.getSource() == gui.onlineListDialog.closeLabel) {
@@ -66,6 +96,11 @@ public class OnlineListListener implements MouseListener, MouseMotionListener, A
         }
     }
 
+    /**
+     * Mouse dragged
+     *
+     * @param e is the mouse event
+     * */
     @Override
     public void mouseDragged(MouseEvent e) {
         if (e.getSource() == gui.onlineListDialog) {
@@ -74,11 +109,21 @@ public class OnlineListListener implements MouseListener, MouseMotionListener, A
         }
     }
 
+    /**
+     * Mouse moved
+     *
+     * @param e is the mouse event
+     * */
     @Override
     public void mouseMoved(MouseEvent e) {
 
     }
 
+    /**
+     * Value changed
+     *
+     * @param e is the list selection event
+     * */
     @Override
     public void valueChanged(ListSelectionEvent e) {
         //Online Players List Click Event-> Open Chat Dialog if not user itself

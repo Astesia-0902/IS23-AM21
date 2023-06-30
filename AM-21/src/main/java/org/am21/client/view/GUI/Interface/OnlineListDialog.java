@@ -11,6 +11,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 
+/**
+ * Online list dialog
+ */
 public class OnlineListDialog extends JDialog {
     public final ImageIcon closeIcon;
     public final ImageIcon closeIconSelect;
@@ -22,8 +25,8 @@ public class OnlineListDialog extends JDialog {
     /**
      * Constructor
      *
-     * @param frame
-     * @param userModel
+     * @param frame    is the frame
+     * @param userModel is the user model
      */
     public OnlineListDialog(JFrame frame, DefaultListModel<String> userModel) {
         super(frame);

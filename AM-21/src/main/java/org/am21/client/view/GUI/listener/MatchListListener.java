@@ -7,6 +7,9 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * Match list listener
+ * */
 public class MatchListListener implements MouseListener, MouseMotionListener, ActionListener, ListSelectionListener {
     Gui gui;
     Point p = new Point();
@@ -14,7 +17,7 @@ public class MatchListListener implements MouseListener, MouseMotionListener, Ac
     /**
      * Constructor
      *
-     * @param gui
+     * @param gui is the GUI
      */
     public MatchListListener(Gui gui) {
         this.gui = gui;

@@ -11,6 +11,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * EnemyPanel is a class that extends JPanel
+ * and is used to show the enemy
+ */
 public class EnemyPanel extends JPanel {
     public JLayeredPane enemyPane;
     public JLabel enemyPic;
@@ -21,6 +25,15 @@ public class EnemyPanel extends JPanel {
     public ChairManLabel chairManLabel;
     public Timer flashingTimer;
 
+    /**
+     * Constructor
+     *
+     * @param posY          pane position Y of enemy
+     * @param imgPic        pic of profile
+     * @param nickname      nickname of enemy
+     * @param chairMan      chairMan of enemy
+     * @param virtualShelf  virtual shelf of enemy
+     */
     public EnemyPanel(int posY, ImageIcon imgPic, String nickname, String chairMan, String[][] virtualShelf) {
 
         setEnemyPane(posY);

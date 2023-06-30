@@ -6,6 +6,10 @@ import org.am21.client.view.GUI.utils.PixelUtil;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * PersonalGoalPanel is a class that extends JPanel
+ * and is used to display the personal goal card
+ */
 public class PersonalGoalPanel extends JPanel {
     public JLayeredPane personalGoalPane;
     public JLabel personalGoalLabel;
@@ -16,6 +20,7 @@ public class PersonalGoalPanel extends JPanel {
 
     /**
      * base set
+     * @param cardNum index of personal goal card
      */
     public void setPersonalGoalPanel(int cardNum) {
 

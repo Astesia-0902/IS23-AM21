@@ -13,7 +13,7 @@ public class CommunicationListener implements MouseListener, MouseMotionListener
     /**
      * Constructor
      *
-     * @param gui
+     * @param gui is the GUI
      */
     public CommunicationListener(Gui gui) {
         this.gui = gui;
@@ -28,6 +28,11 @@ public class CommunicationListener implements MouseListener, MouseMotionListener
         gui.communicationInterface.rmiButton.addMouseListener(this);
     }
 
+    /**
+     * Action performed method
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         // Press the Login Button
@@ -54,6 +59,11 @@ public class CommunicationListener implements MouseListener, MouseMotionListener
 
     }
 
+    /**
+     * Mouse clicked method
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == gui.communicationInterface.closeLabel) {
@@ -64,6 +74,11 @@ public class CommunicationListener implements MouseListener, MouseMotionListener
         }
     }
 
+    /**
+     * Mouse pressed method
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getSource() == gui.communicationInterface) {
@@ -73,11 +88,21 @@ public class CommunicationListener implements MouseListener, MouseMotionListener
 
     }
 
+    /**
+     * Mouse released method
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
 
     }
 
+    /**
+     * Mouse entered method
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void mouseEntered(MouseEvent e) {
         if (e.getSource() == gui.communicationInterface.closeLabel) {
@@ -98,6 +123,11 @@ public class CommunicationListener implements MouseListener, MouseMotionListener
         }
     }
 
+    /**
+     * Mouse exited method
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void mouseExited(MouseEvent e) {
         if (e.getSource() == gui.communicationInterface.closeLabel) {
@@ -116,6 +146,11 @@ public class CommunicationListener implements MouseListener, MouseMotionListener
         }
     }
 
+    /**
+     * Mouse dragged method
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void mouseDragged(MouseEvent e) {
         if (e.getSource() == gui.communicationInterface) {
@@ -124,6 +159,11 @@ public class CommunicationListener implements MouseListener, MouseMotionListener
         }
     }
 
+    /**
+     * Mouse moved method
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void mouseMoved(MouseEvent e) {
 

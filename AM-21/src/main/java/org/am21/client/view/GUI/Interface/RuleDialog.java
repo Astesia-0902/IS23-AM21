@@ -7,6 +7,9 @@ import org.am21.client.view.GUI.utils.ImageUtil;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Rule dialog
+ */
 public class RuleDialog extends JDialog {
     public JLabel closeLabel;
     public CardLayout rules;
@@ -23,7 +26,7 @@ public class RuleDialog extends JDialog {
 
     /**
      * Constructor
-     * @param frame
+     * @param frame is the frame
      */
     public RuleDialog(JFrame frame) {
         super(frame, true);

@@ -11,10 +11,21 @@ import java.awt.*;
 public class ButtonColorUI extends BasicButtonUI {
     private Color color;
 
+    /**
+     * Constructor
+     *
+     * @param color is the color of the button
+     */
     public ButtonColorUI(Color color) {
         this.color = color;
     }
 
+    /**
+     * Paints the button when it is pressed
+     *
+     * @param g is the graphics
+     * @param b is the button
+     */
     @Override
     protected void paintButtonPressed(Graphics g, AbstractButton b) {
         // Set the selection color to red

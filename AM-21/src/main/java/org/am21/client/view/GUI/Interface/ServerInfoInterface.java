@@ -16,6 +16,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
+/**
+ * Login interface
+ */
 public class ServerInfoInterface extends JDialog {
     public static final int WIDTH = 300;
     public static int HEIGHT = 250;
@@ -38,7 +41,7 @@ public class ServerInfoInterface extends JDialog {
     /**
      * Constructor
      *
-     * @param frame
+     * @param frame is the frame
      */
     public ServerInfoInterface(JFrame frame) {
         super(frame);

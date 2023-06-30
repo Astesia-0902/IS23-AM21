@@ -11,6 +11,11 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
     Gui gui;
     Point p = new Point();
 
+    /**
+     * Constructor
+     *
+     * @param gui is the GUI
+     */
     public LoginListener(Gui gui) {
         this.gui = gui;
         gui.loginInterface.addMouseMotionListener(this);
@@ -25,6 +30,11 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
         gui.loginInterface.loginButton.addActionListener(this);
     }
 
+    /**
+     * Action performed method
+     *
+     * @param e is the mouse event
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         // Press Login Button
@@ -32,8 +42,8 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
             // Get username
             String username = gui.loginInterface.nicknameField.getText().trim();
 
-                // Login successful and close the login frame
-                if(!username.isEmpty()) {
+            // Login successful and close the login frame
+            if (!username.isEmpty()) {
                 try {
                     if (gui.commCtrl.logIn(username, gui.clientCallBack)) {
                         gui.username = username;
@@ -51,6 +61,11 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
         }
     }
 
+    /**
+     * Key pressed method
+     *
+     * @param e is the key event
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == gui.loginInterface.closeLabel) {
@@ -64,6 +79,12 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
         }
     }
 
+
+    /**
+     * mouse pressed method
+     *
+     * @param e is the key event
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getSource() == gui.loginInterface) {
@@ -72,11 +93,21 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
         }
     }
 
+    /**
+     * mouse released method
+     *
+     * @param e is the key event
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
 
     }
 
+    /**
+     * mouse entered method
+     *
+     * @param e is the key event
+     */
     @Override
     public void mouseEntered(MouseEvent e) {
         if (e.getSource() == gui.loginInterface.closeLabel) {
@@ -93,6 +124,11 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
 
     }
 
+    /**
+     * mouse exited method
+     *
+     * @param e is the key event
+     */
     @Override
     public void mouseExited(MouseEvent e) {
         if (e.getSource() == gui.loginInterface.closeLabel) {
@@ -108,6 +144,11 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
         }
     }
 
+    /**
+     * mouse dragged method
+     *
+     * @param e is the key event
+     */
     @Override
     public void mouseDragged(MouseEvent e) {
         if (e.getSource() == gui.loginInterface) {
@@ -116,16 +157,31 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
         }
     }
 
+    /**
+     * mouse moved method
+     *
+     * @param e is the key event
+     */
     @Override
     public void mouseMoved(MouseEvent e) {
 
     }
 
+    /**
+     * key typed method
+     *
+     * @param e is the key event
+     */
     @Override
     public void keyTyped(KeyEvent e) {
 
     }
 
+    /**
+     * key pressed method
+     *
+     * @param e is the key event
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -133,26 +189,49 @@ public class LoginListener implements MouseListener, MouseMotionListener, Action
         }
     }
 
+    /**
+     * key released method
+     *
+     * @param e is the key event
+     */
     @Override
     public void keyReleased(KeyEvent e) {
 
     }
 
+    /**
+     * insert update method
+     *
+     * @param e is the key event
+     */
     @Override
     public void insertUpdate(DocumentEvent e) {
         updateButtonState();
     }
 
+    /**
+     * remove update method
+     *
+     * @param e is the key event
+     */
     @Override
     public void removeUpdate(DocumentEvent e) {
         updateButtonState();
     }
 
+    /**
+     * changed update method
+     *
+     * @param e is the key event
+     */
     @Override
     public void changedUpdate(DocumentEvent e) {
         updateButtonState();
     }
 
+    /**
+     * update button state method
+     */
     private void updateButtonState() {
         gui.loginInterface.loginButton.setEnabled(!gui.loginInterface.nicknameField.getText().trim().isEmpty());
     }

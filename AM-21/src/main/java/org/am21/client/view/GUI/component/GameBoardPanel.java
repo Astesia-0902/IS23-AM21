@@ -18,6 +18,10 @@ import java.rmi.server.ServerNotActiveException;
 import java.util.List;
 
 
+/**
+ * GameBoardPanel is a class that extends JPanel
+ * and is used to show the game board
+ */
 public class GameBoardPanel extends JPanel {
     private final int GridRowsMax = 9;
     private final int GridColumnsMax = 9;
@@ -29,6 +33,11 @@ public class GameBoardPanel extends JPanel {
     public JLabel[][] cells;
     public ScoringTokenLabel scoreTokenEndGame;
 
+    /**
+     * Constructor
+     *
+     * @param maxSeat num of player
+     */
     public GameBoardPanel(int maxSeat) {
 
         setGameBoardPane();

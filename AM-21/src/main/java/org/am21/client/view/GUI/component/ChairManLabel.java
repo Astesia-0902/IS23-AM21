@@ -9,6 +9,11 @@ public class ChairManLabel extends JPanel {
     public JLayeredPane chairPane;
     public JLabel chairLabel;
 
+    /**
+     * Constructor
+     *
+     * @param isMe is the player me
+     */
     public ChairManLabel(boolean isMe) {
 
         if (isMe)

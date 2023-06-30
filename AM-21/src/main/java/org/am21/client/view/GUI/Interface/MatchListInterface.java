@@ -11,6 +11,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 
+/**
+ * Match list interface
+ */
 public class MatchListInterface extends JDialog {
     public final ImageIcon closeIcon;
     public final ImageIcon closeIconSelect;
@@ -22,8 +25,8 @@ public class MatchListInterface extends JDialog {
     /**
      * Constructor
      *
-     * @param frame
-     * @param matchModel
+     * @param frame     is the frame
+     * @param matchModel is the match model
      */
     public MatchListInterface(JFrame frame, DefaultListModel<String> matchModel) {
         super(frame);

@@ -19,6 +19,9 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * My hand interface
+ */
 public class MyHandInterface extends JDialog {
 
     public int handMax = 3;
@@ -42,6 +45,11 @@ public class MyHandInterface extends JDialog {
     public String[][] previewShelf;
     public int finalColumn = -1;
 
+    /**
+     * Constructor
+     *
+     * @param gui is the gui
+     */
     public MyHandInterface(Gui gui) {
         super(gui.livingRoomInterface, true);
         setMyHandInterfacePane();
