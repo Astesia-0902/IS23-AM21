@@ -297,7 +297,6 @@ public class Gui {
             if (Integer.parseInt(ClientView.matchList[i][0]) == ClientView.matchID) {
                 matchIndex = i;
 
-                matchIndex = Integer.parseInt(ClientView.matchList[i][0]);
 
                 break;
             }

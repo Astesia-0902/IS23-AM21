@@ -33,6 +33,10 @@ public class ServerVirtualView implements Serializable {
 
     private String[][] virtualChatMap;
 
+    public String[][] getVirtualChatMap() {
+        return virtualChatMap;
+    }
+
     /**
      * This method is used to get the instance of the virtual private chats
      */
